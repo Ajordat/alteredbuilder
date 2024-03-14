@@ -14,7 +14,15 @@ from .exceptions import MalformedDeckException
 # Create your views here.
 class DeckListView(ListView):
     model = Deck
+    queryset = Deck.objects.filter(is_public=True).order_by("-created_at")
     paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["own_decks"] = Deck.objects.filter(owner=self.request.user).order_by(
+            "-created_at"
+        )
+        return context
 
 
 class DeckDetailView(DetailView):
@@ -22,16 +30,24 @@ class DeckDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["character_list"] = [card for card in self.object.cards.all() if card.type == Card.Type.CHARACTER]
-        context["spell_list"] = [card for card in self.object.cards.all() if card.type == Card.Type.SPELL]
-        context["landmark_list"] = [card for card in self.object.cards.all() if card.type == Card.Type.LANDMARK]
+        context["character_list"] = [
+            card for card in self.object.cards.all() if card.type == Card.Type.CHARACTER
+        ]
+        context["spell_list"] = [
+            card for card in self.object.cards.all() if card.type == Card.Type.SPELL
+        ]
+        context["landmark_list"] = [
+            card for card in self.object.cards.all() if card.type == Card.Type.LANDMARK
+        ]
         return context
 
 
 @transaction.atomic
-def create_new_deck(deck_form):
+def create_new_deck(user, deck_form):
     decklist = deck_form["decklist"]
-    deck = Deck.objects.create(name=deck_form["name"])
+    deck = Deck.objects.create(
+        name=deck_form["name"], owner=user, is_public=deck_form["is_public"]
+    )
     has_hero = False
     for line in decklist.splitlines():
         try:
@@ -48,19 +64,25 @@ def create_new_deck(deck_form):
 
         if card.type == Card.Type.HERO:
             if not has_hero:
-                deck.hero = Hero.objects.get(reference=reference)
+                try:
+                    deck.hero = Hero.objects.get(reference=reference)
+                except Hero.DoesNotExist:
+                    # This situation would imply a database inconsistency.
+                    raise MalformedDeckException(f"Card '{reference}' does not exist")
                 deck.save()
+                has_hero = True
             else:
                 # Report error
-                pass
+                raise MalformedDeckException("Two heroes present in the decklist")
         else:
             CardInDeck.objects.create(deck=deck, card=card, quantity=count)
 
     if not has_hero:
         # Report error
-        pass
+        raise MalformedDeckException("Missing hero in decklist")
 
     return deck
+
 
 class NewDeckFormView(FormView):
     template_name = "decks/new_deck.html"
@@ -69,15 +91,15 @@ class NewDeckFormView(FormView):
     def form_valid(self, form):
         # Create deck
         try:
-            self.deck = create_new_deck(form.cleaned_data)
+            self.deck = create_new_deck(self.request.user, form.cleaned_data)
         except MalformedDeckException as e:
             form.add_error("decklist", e.detail)
             return render(self.request, self.template_name, {"form": form})
 
         return super().form_valid(form)
-    
+
     def get_success_url(self):
-        return reverse("deck-detail", kwargs={"pk":self.deck.id})
+        return reverse("deck-detail", kwargs={"pk": self.deck.id})
 
 
 def cards(request):

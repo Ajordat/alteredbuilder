@@ -7,40 +7,64 @@
     <table class="table" id="character-table" aria-describedby="Available characters">
         <thead>
             <tr>
-                <th scope="col">ID</th>
+                <th scope="col">Owner</th>
                 <th scope="col">Name</th>
                 <th scope="col">Faction</th>
                 <th scope="col">Hero</th>
             </tr>
         </thead>
         <tbody>
-        {% for deck in deck_list %}
+    {% for deck in deck_list %}
             <tr>
-                <td>{{ deck.id }}</td>
+                <td>{{ deck.owner.username }}</td>
                 <td><a href="{% url 'deck-detail' pk=deck.id %}">{{ deck.name }}</a></td>
                 <td>{{ deck.hero.get_faction_display.title }}</td>
                 <td>{{ deck.hero.name }}</td>
             </tr>
-        {% endfor %}
+    {% endfor %}
         </tbody>
     </table>
 
     <div class="pagination">
         <span class="step-links">
-            {% if page_obj.has_previous %}
+    {% if page_obj.has_previous %}
                 <a href="?page=1">&laquo; first</a>
                 <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-            {% endif %}
+    {% endif %}
     
             <span class="current">
                 Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
             </span>
     
-            {% if page_obj.has_next %}
+    {% if page_obj.has_next %}
                 <a href="?page={{ page_obj.next_page_number }}">next</a>
                 <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
+    {% endif %}
         </span>
     </div>
 
+    {% if own_decks %}
+    <table class="table" id="character-table" aria-describedby="Available characters">
+        <thead>
+            <tr>
+                <th scope="col">Owner</th>
+                <th scope="col">Name</th>
+                <th scope="col">Faction</th>
+                <th scope="col">Hero</th>
+                <th scope="col">Is public?</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for deck in own_decks %}
+            <tr>
+                <td>{{ deck.owner.username }}</td>
+                <td><a href="{% url 'deck-detail' pk=deck.id %}">{{ deck.name }}</a></td>
+                <td>{{ deck.hero.get_faction_display.title }}</td>
+                <td>{{ deck.hero.name }}</td>
+                <td><input class="form-check-input" type="checkbox" value="" disabled {% if deck.is_public %}checked{% endif %}></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
 {% endblock %}

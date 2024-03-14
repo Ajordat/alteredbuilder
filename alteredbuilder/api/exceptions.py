@@ -1,5 +1,6 @@
 from rest_framework.exceptions import APIException
 
+
 class AlteredBuilderException(APIException):
     detail = None
     status_code = None

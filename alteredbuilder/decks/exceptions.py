@@ -9,4 +9,3 @@ class DeckException(AlteredBuilderException):
 class MalformedDeckException(DeckException):
     def __init__(self, detail):
         super().__init__(detail, status.HTTP_400_BAD_REQUEST)
-

@@ -1,115 +1,116 @@
 {% extends "base.html" %}
 
-{% block title %}New Deck{% endblock %}
+{% load static %}
+
+{% block title %}Deck detail{% endblock %}
 
 {% block content %}
 
-    {% if object.hero %}
-    <table class="table" id="hero-table" aria-describedby="Deck hero">
-        <thead>
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Faction</th>
-                <th scope="col">Reserve Count</th>
-                <th scope="col">Landmark Count</th>
-                <th scope="col">Effect</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ object.hero.name }}</td>
-                <td>{{ object.hero.get_faction_display.title }}</td>
-                <td>{{ object.hero.reserve_count }}</td>
-                <td>{{ object.hero.landmark_count }}</td>
-                <td>{{ object.hero.main_effect }}</td>
-            </tr>
-        </tbody>
-    </table>
-    {% else %}
-    <p>Deck has no hero</p>
-    {% endif %}
+<div class="container-fluid">
+    <h3>Decklist</h3>
+    <div class="row">
+        <div class="col-3">
+            <img class="img-fluid rounded-4" id="card-showcase" src="{% if object.hero %}{{ object.hero.image_url }}{% endif %}" alt="selected card">
+        </div>
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <table class="table card-table" id="hero-table" aria-describedby="Deck hero">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Faction</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-image-url="{{ object.hero.image_url }}">
+                                <td>{{ object.hero.name }}</td>
+                                <td>{{ object.hero.get_faction_display.title }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-    {% if character_list %}
-    <table class="table" id="character-table" aria-describedby="Available characters">
-        <thead>
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Faction</th>
-                <th scope="col">Hand Cost</th>
-                <th scope="col">Reserve Cost</th>
-                <th scope="col">Stats</th>
-                <th scope="col">Effect</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for char in character_list %}
-            <tr>
-                <td>{{ char.name }}</td>
-                <td>{{ char.get_rarity_display.title }}</td>
-                <td>{{ char.character.main_cost }}</td>
-                <td>{{ char.character.recall_cost }}</td>
-                <td>{{ char.character.forest_power }}-{{ char.character.mountain_power }}-{{ char.character.ocean_power }}</td>
-                <td>{{ char.character.main_effect }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    <p>No characters available</p>
-    {% endif %}
+                <div class="col">
+                    <table class="table card-table" id="character-table" aria-describedby="Available characters">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Faction</th>
+                                <th scope="col">Mana</th>
+                                <th scope="col">Stats</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+    {% for char in character_list %}
+                            <tr data-image-url="{{ char.image_url }}">
+                                <td>{{ char.name }}</td>
+                                <td>{{ char.get_rarity_display.title }}</td>
+                                <td>{{ char.character.main_cost }}/{{ char.character.recall_cost }}</td>
+                                <td>{{ char.character.forest_power }}-{{ char.character.mountain_power }}-{{ char.character.ocean_power }}</td>
+                            </tr>
+    {% empty %}
+                            <tr><td colspan="4">No spells</td></tr>
+    {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
 
-    {% if spell_list %}
-    <table class="table" id="spell-table" aria-describedby="Available spells">
-        <thead>
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Faction</th>
-                <th scope="col">Hand Cost</th>
-                <th scope="col">Reserve Cost</th>
-                <th scope="col">Effect</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for spell in spell_list %}
-            <tr>
-                <td>{{ spell.name }}</td>
-                <td>{{ spell.get_rarity_display.title }}</td>
-                <td>{{ spell.spell.main_cost }}</td>
-                <td>{{ spell.spell.recall_cost }}</td>
-                <td>{{ spell.spell.main_effect }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    <p>No spells available</p>
-    {% endif %}
+                <div class="col">
 
-    {% if landmark_list %}
-    <table class="table" id="landmark-table" aria-describedby="Available landmarks">
-        <thead>
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Faction</th>
-                <th scope="col">Hand Cost</th>
-                <th scope="col">Reserve Cost</th>
-                <th scope="col">Effect</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for landmark in landmark_list %}
-            <tr>
-                <td>{{ landmark.name }}</td>
-                <td>{{ landmark.get_rarity_display.title }}</td>
-                <td>{{ landmark.landmark.main_cost }}</td>
-                <td>{{ landmark.landmark.recall_cost }}</td>
-                <td>{{ landmark.landmark.main_effect }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    <p>No landmarks available</p>
-    {% endif %}
+                    <table class="table card-table" id="spell-table" aria-describedby="Available spells">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Faction</th>
+                                <th scope="col">Mana</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+    {% for spell in spell_list %}
+                            <tr data-image-url="{{ spell.image_url }}">
+                                <td>{{ spell.name }}</td>
+                                <td>{{ spell.get_rarity_display.title }}</td>
+                                <td>{{ spell.spell.main_cost }}/{{ spell.spell.recall_cost }}</td>
+                            </tr>
+    {% empty %}
+                            <tr><td colspan="3">No spells</td></tr>
+    {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
 
+                <div class="col">
+                    <table class="table card-table" id="landmark-table" aria-describedby="Available landmarks">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Faction</th>
+                                <th scope="col">Mana</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+    {% for landmark in landmark_list %}
+                            <tr data-image-url="{{ landmark.image_url }}">
+                                <td>{{ landmark.name }}</td>
+                                <td>{{ landmark.get_rarity_display.title }}</td>
+                                <td>{{ landmark.landmark.main_cost }}/{{ landmark.landmark.recall_cost }}</td>
+                            </tr>
+    {% empty %}
+                        <tr><td colspan="3">No landmarks</td></tr>
+    {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h3>Stats</h3>
+    </div>
+</div>
+{% endblock %}
+
+{% block bodyscripts %}
+    <script src="{% static 'js/card-showcase.js' %}"></script>
 {% endblock %}
