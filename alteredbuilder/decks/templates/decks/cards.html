@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}New Deck{% endblock %}
+
+{% block content %}
+
+    {% if card_list %}
+        <ul>
+        {% for card in card_list %}
+            <li><a href="/decks/{{ card.reference }}/">{{ card.name }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No polls are available.</p>
+    {% endif %}
+
+{% endblock %}

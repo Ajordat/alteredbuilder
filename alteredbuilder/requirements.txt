@@ -1,0 +1,17 @@
+asgiref==3.7.2
+black==24.2.0
+click==8.1.7
+Django==5.0.3
+django-environ==0.11.2
+django-filter==23.5
+djangorestframework==3.14.0
+Markdown==3.5.2
+mypy-extensions==1.0.0
+packaging==23.2
+pathspec==0.12.1
+platformdirs==4.2.0
+psycopg2-binary==2.9.9
+pytz==2024.1
+sqlparse==0.4.4
+tomli==2.0.1
+typing_extensions==4.10.0

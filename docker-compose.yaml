@@ -1,0 +1,22 @@
+version: '3'
+services:
+  db:
+    image: postgres:15.4-alpine
+    volumes:
+    - ./data/db:/var/lib/postgresql/data
+    environment: &db_credentials
+    - POSTGRES_DB=${POSTGRES_DB}
+    - POSTGRES_USER=${POSTGRES_USER}
+    - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+  web:
+    build: ./alteredbuilder
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+    - ./alteredbuilder:/code
+    ports:
+    - 8000:8000
+    environment: *db_credentials
+    env_file:
+    - .env
+    depends_on:
+    - db

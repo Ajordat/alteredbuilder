@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}New Deck{% endblock %}
+
+{% block content %}
+
+    {% if object.hero %}
+    <table class="table" id="hero-table" aria-describedby="Deck hero">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Faction</th>
+                <th scope="col">Reserve Count</th>
+                <th scope="col">Landmark Count</th>
+                <th scope="col">Effect</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ object.hero.name }}</td>
+                <td>{{ object.hero.get_faction_display.title }}</td>
+                <td>{{ object.hero.reserve_count }}</td>
+                <td>{{ object.hero.landmark_count }}</td>
+                <td>{{ object.hero.main_effect }}</td>
+            </tr>
+        </tbody>
+    </table>
+    {% else %}
+    <p>Deck has no hero</p>
+    {% endif %}
+
+    {% if character_list %}
+    <table class="table" id="character-table" aria-describedby="Available characters">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Faction</th>
+                <th scope="col">Hand Cost</th>
+                <th scope="col">Reserve Cost</th>
+                <th scope="col">Stats</th>
+                <th scope="col">Effect</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for char in character_list %}
+            <tr>
+                <td>{{ char.name }}</td>
+                <td>{{ char.get_rarity_display.title }}</td>
+                <td>{{ char.character.main_cost }}</td>
+                <td>{{ char.character.recall_cost }}</td>
+                <td>{{ char.character.forest_power }}-{{ char.character.mountain_power }}-{{ char.character.ocean_power }}</td>
+                <td>{{ char.character.main_effect }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No characters available</p>
+    {% endif %}
+
+    {% if spell_list %}
+    <table class="table" id="spell-table" aria-describedby="Available spells">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Faction</th>
+                <th scope="col">Hand Cost</th>
+                <th scope="col">Reserve Cost</th>
+                <th scope="col">Effect</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for spell in spell_list %}
+            <tr>
+                <td>{{ spell.name }}</td>
+                <td>{{ spell.get_rarity_display.title }}</td>
+                <td>{{ spell.spell.main_cost }}</td>
+                <td>{{ spell.spell.recall_cost }}</td>
+                <td>{{ spell.spell.main_effect }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No spells available</p>
+    {% endif %}
+
+    {% if landmark_list %}
+    <table class="table" id="landmark-table" aria-describedby="Available landmarks">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Faction</th>
+                <th scope="col">Hand Cost</th>
+                <th scope="col">Reserve Cost</th>
+                <th scope="col">Effect</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for landmark in landmark_list %}
+            <tr>
+                <td>{{ landmark.name }}</td>
+                <td>{{ landmark.get_rarity_display.title }}</td>
+                <td>{{ landmark.landmark.main_cost }}</td>
+                <td>{{ landmark.landmark.recall_cost }}</td>
+                <td>{{ landmark.landmark.main_effect }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No landmarks available</p>
+    {% endif %}
+
+{% endblock %}
