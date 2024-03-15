@@ -30,23 +30,31 @@ class DeckDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["character_list"] = [
-            card for card in self.object.cards.all() if card.type == Card.Type.CHARACTER
-        ]
-        context["spell_list"] = [
-            card for card in self.object.cards.all() if card.type == Card.Type.SPELL
-        ]
-        context["landmark_list"] = [
-            card for card in self.object.cards.all() if card.type == Card.Type.LANDMARK
-        ]
-        context["stats"] = {
-            "distribution": {
-                "characters": len(context["character_list"]),
-                "spells": len(context["spell_list"]),
-                "landmarks": len(context["landmark_list"]),
+        decklist = self.object.cardindeck_set.all()
+
+        character_list = [(cid.quantity, cid.card) for cid in decklist if cid.card.type == Card.Type.CHARACTER]
+        spell_list = [(cid.quantity, cid.card) for cid in decklist if cid.card.type == Card.Type.SPELL]
+        landmark_list = [(cid.quantity, cid.card) for cid in decklist if cid.card.type == Card.Type.LANDMARK]
+
+        character_count = sum(q for q, _ in character_list)
+        spell_count = sum(q for q, _ in spell_list)
+        landmark_count = sum(q for q, _ in landmark_list)
+
+
+        context |= {
+            "character_list": character_list,
+            "spell_list": spell_list,
+            "landmark_list": landmark_list,
+            "stats": {
+                "distribution": {
+                    "characters": character_count,
+                    "spells": spell_count,
+                    "landmarks": landmark_count,
+                },
+                "total_count": character_count + spell_count + landmark_count
             }
         }
-        
+    
         return context
 
 
