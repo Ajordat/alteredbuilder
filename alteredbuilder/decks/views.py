@@ -39,6 +39,14 @@ class DeckDetailView(DetailView):
         context["landmark_list"] = [
             card for card in self.object.cards.all() if card.type == Card.Type.LANDMARK
         ]
+        context["stats"] = {
+            "distribution": {
+                "characters": len(context["character_list"]),
+                "spells": len(context["spell_list"]),
+                "landmarks": len(context["landmark_list"]),
+            }
+        }
+        
         return context
 
 
