@@ -1,12 +1,11 @@
 from django.db import transaction
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 
-from .models import Card, CardInDeck, Character, Deck, Hero, Landmark, Spell
+from .models import Card, CardInDeck, Deck, Hero
 from .forms import DecklistForm
 from .exceptions import MalformedDeckException
 
@@ -19,9 +18,10 @@ class DeckListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["own_decks"] = Deck.objects.filter(owner=self.request.user).order_by(
-            "-created_at"
-        )
+        if self.request.user.is_authenticated:
+            context["own_decks"] = Deck.objects.filter(
+                owner=self.request.user
+            ).order_by("-created_at")
         return context
 
 
@@ -32,14 +32,25 @@ class DeckDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         decklist = self.object.cardindeck_set.all()
 
-        character_list = [(cid.quantity, cid.card) for cid in decklist if cid.card.type == Card.Type.CHARACTER]
-        spell_list = [(cid.quantity, cid.card) for cid in decklist if cid.card.type == Card.Type.SPELL]
-        landmark_list = [(cid.quantity, cid.card) for cid in decklist if cid.card.type == Card.Type.LANDMARK]
+        character_list = [
+            (cid.quantity, cid.card)
+            for cid in decklist
+            if cid.card.type == Card.Type.CHARACTER
+        ]
+        spell_list = [
+            (cid.quantity, cid.card)
+            for cid in decklist
+            if cid.card.type == Card.Type.SPELL
+        ]
+        landmark_list = [
+            (cid.quantity, cid.card)
+            for cid in decklist
+            if cid.card.type == Card.Type.LANDMARK
+        ]
 
         character_count = sum(q for q, _ in character_list)
         spell_count = sum(q for q, _ in spell_list)
         landmark_count = sum(q for q, _ in landmark_list)
-
 
         context |= {
             "character_list": character_list,
@@ -51,10 +62,10 @@ class DeckDetailView(DetailView):
                     "spells": spell_count,
                     "landmarks": landmark_count,
                 },
-                "total_count": character_count + spell_count + landmark_count
-            }
+                "total_count": character_count + spell_count + landmark_count,
+            },
         }
-    
+
         return context
 
 

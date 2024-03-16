@@ -100,6 +100,7 @@ DATABASES = {
         "PASSWORD": env("POSTGRES_PASSWORD"),
         "HOST": "db",
         "PORT": 5432,
+        "TEST": {"MIGRATE": False},
     }
 }
 

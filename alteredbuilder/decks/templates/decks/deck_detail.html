@@ -57,7 +57,7 @@
                                 <td>{{ char.character.forest_power }}-{{ char.character.mountain_power }}-{{ char.character.ocean_power }}</td>
                             </tr>
     {% empty %}
-                            <tr><td colspan="4">No spells</td></tr>
+                            <tr><td colspan="5">No characters</td></tr>
     {% endfor %}
                         </tbody>
                     </table>
@@ -83,7 +83,7 @@
                                 <td>{{ spell.spell.main_cost }}/{{ spell.spell.recall_cost }}</td>
                             </tr>
     {% empty %}
-                            <tr><td colspan="3">No spells</td></tr>
+                            <tr><td colspan="4">No spells</td></tr>
     {% endfor %}
                         </tbody>
                     </table>
@@ -108,7 +108,7 @@
                                 <td>{{ landmark.landmark.main_cost }}/{{ landmark.landmark.recall_cost }}</td>
                             </tr>
     {% empty %}
-                        <tr><td colspan="3">No landmarks</td></tr>
+                        <tr><td colspan="4">No landmarks</td></tr>
     {% endfor %}
                         </tbody>
                     </table>
