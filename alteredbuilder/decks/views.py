@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import render
@@ -36,37 +38,35 @@ class DeckDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         decklist = self.object.cardindeck_set.all()
 
-        character_list = [
-            (cid.quantity, cid.card)
-            for cid in decklist
-            if cid.card.type == Card.Type.CHARACTER
-        ]
-        spell_list = [
-            (cid.quantity, cid.card)
-            for cid in decklist
-            if cid.card.type == Card.Type.SPELL
-        ]
-        landmark_list = [
-            (cid.quantity, cid.card)
-            for cid in decklist
-            if cid.card.type == Card.Type.LANDMARK
-        ]
+        hand_counter = defaultdict(int)
+        recall_counter = defaultdict(int)
 
-        character_count = sum(q for q, _ in character_list)
-        spell_count = sum(q for q, _ in spell_list)
-        landmark_count = sum(q for q, _ in landmark_list)
+        d = {
+            Card.Type.CHARACTER: [[], 0, "character"],
+            Card.Type.SPELL: [[], 0, "spell"],
+            Card.Type.LANDMARK: [[], 0, "landmark"],
+        }
+        for cid in decklist:
+            d[cid.card.type][0].append((cid.quantity, cid.card))
+            d[cid.card.type][1] += cid.quantity
+            hand_counter[getattr(cid.card, d[cid.card.type][2]).main_cost] += 1
+            recall_counter[getattr(cid.card, d[cid.card.type][2]).recall_cost] += 1
 
         context |= {
-            "character_list": character_list,
-            "spell_list": spell_list,
-            "landmark_list": landmark_list,
+            "character_list": d[Card.Type.CHARACTER][0],
+            "spell_list": d[Card.Type.SPELL][0],
+            "landmark_list": d[Card.Type.LANDMARK][0],
             "stats": {
-                "distribution": {
-                    "characters": character_count,
-                    "spells": spell_count,
-                    "landmarks": landmark_count,
+                "type_distribution": {
+                    "characters": d[Card.Type.CHARACTER][1],
+                    "spells": d[Card.Type.SPELL][1],
+                    "landmarks": d[Card.Type.LANDMARK][1],
                 },
-                "total_count": character_count + spell_count + landmark_count,
+                "total_count": d[Card.Type.CHARACTER][1] + d[Card.Type.SPELL][1] + d[Card.Type.LANDMARK][1],
+                "mana_distribution": {
+                    "hand": hand_counter,
+                    "recall": recall_counter,
+                },
             },
         }
 

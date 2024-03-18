@@ -1,13 +1,14 @@
 var deckStats = JSON.parse(document.getElementById('deck-stats').textContent);
 
-google.charts.load('current', {'packages':['corechart']});
+google.charts.load('current', {'packages':['corechart', 'bar']});
 google.charts.setOnLoadCallback(drawChart);
 google.charts.setOnLoadCallback(drawStats);
+google.charts.setOnLoadCallback(drawManaCurve);
 
 function drawChart() {
 
     let data = google.visualization.arrayToDataTable(
-        [['Task', 'Hours per Day']].concat(Object.entries(deckStats["distribution"]))
+        [['Card Type', 'Amount']].concat(Object.entries(deckStats["type_distribution"]))
     );
 
     let options = {
@@ -27,7 +28,7 @@ function drawStats() {
     cardType.forEach(function(cardType){
         let anytimeElement = document.getElementById(cardType + "-anytime-draw");
         let initialElement = document.getElementById(cardType + "-initial-draw");
-        let cardTypeCount = deckStats["distribution"][cardType];
+        let cardTypeCount = deckStats["type_distribution"][cardType];
         
         let individualDraw = cardTypeCount / cardCount;
 
@@ -44,4 +45,26 @@ function drawStats() {
         anytimeElement.innerText = (individualDraw * 100).toFixed(2) + "%";
         initialElement.innerText = (handDraw * 100).toFixed(2) + "%";
     });
+}
+
+function drawManaCurve() {
+
+    let data = [['Cost', 'Hand', 'Reserve']];
+    let handCosts = deckStats["mana_distribution"]["hand"];
+    let recallCosts = deckStats["mana_distribution"]["recall"];
+    for (let cost = 1; cost < 8; cost++) {
+        let costRow = [cost.toString(), handCosts[cost] || 0, recallCosts[cost] || 0];
+        data.push(costRow);
+    }
+    data = google.visualization.arrayToDataTable(data);
+
+    var options = {
+        chart: {
+            title: 'Mana curve',
+        },
+        bars: 'vertical'
+    };
+
+    let chart = new google.charts.Bar(document.getElementById('mana-curve-chart'));
+    chart.draw(data, google.charts.Bar.convertOptions(options));
 }
