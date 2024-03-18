@@ -33,10 +33,15 @@ function drawStats() {
 
         let handNumerator = 1;
         let handDenominator = 1;
-        for(let i = cardCount-cardTypeCount-handSize+1; i < cardCount-handSize+1; i++){handNumerator*=i;};
-        for(let i = cardCount-cardTypeCount+1; i < cardCount+1; i++){handDenominator*=i;};
+        if (cardCount > handSize) {
+            for(let i = cardCount-cardTypeCount-handSize+1; i < cardCount-handSize+1; i++){handNumerator*=i;};
+            for(let i = cardCount-cardTypeCount+1; i < cardCount+1; i++){handDenominator*=i;};
+            handDraw = 1 - handNumerator / handDenominator;
+        } else {
+            handDraw = cardTypeCount > 0;
+        }
 
         anytimeElement.innerText = (individualDraw * 100).toFixed(2) + "%";
-        initialElement.innerText = ((1 - handNumerator / handDenominator) * 100).toFixed(2) + "%";
+        initialElement.innerText = (handDraw * 100).toFixed(2) + "%";
     });
 }

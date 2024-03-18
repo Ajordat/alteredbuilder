@@ -1,4 +1,5 @@
 from django.db import transaction
+from django.db.models import Q
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic.detail import DetailView
@@ -27,6 +28,9 @@ class DeckListView(ListView):
 
 class DeckDetailView(DetailView):
     model = Deck
+    
+    def get_queryset(self):
+        return Deck.objects.filter(Q(is_public=True) | Q(owner=self.request.user))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -130,7 +134,7 @@ class NewDeckFormView(FormView):
 
 
 def cards(request):
-    cards = Card.objects.order_by("faction")[:20]
+    cards = Card.objects.order_by("reference")[:20]
 
     context = {"card_list": cards}
     return render(request, "decks/cards.html", context)
