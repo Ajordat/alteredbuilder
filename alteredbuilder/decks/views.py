@@ -1,5 +1,6 @@
 from collections import defaultdict
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import render
@@ -30,7 +31,7 @@ class DeckListView(ListView):
 
 class DeckDetailView(DetailView):
     model = Deck
-    
+
     def get_queryset(self):
         return Deck.objects.filter(Q(is_public=True) | Q(owner=self.request.user))
 
@@ -62,7 +63,9 @@ class DeckDetailView(DetailView):
                     "spells": d[Card.Type.SPELL][1],
                     "landmarks": d[Card.Type.LANDMARK][1],
                 },
-                "total_count": d[Card.Type.CHARACTER][1] + d[Card.Type.SPELL][1] + d[Card.Type.LANDMARK][1],
+                "total_count": d[Card.Type.CHARACTER][1]
+                + d[Card.Type.SPELL][1]
+                + d[Card.Type.LANDMARK][1],
                 "mana_distribution": {
                     "hand": hand_counter,
                     "recall": recall_counter,
@@ -115,7 +118,7 @@ def create_new_deck(user, deck_form):
     return deck
 
 
-class NewDeckFormView(FormView):
+class NewDeckFormView(LoginRequiredMixin, FormView):
     template_name = "decks/new_deck.html"
     form_class = DecklistForm
 
