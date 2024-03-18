@@ -15,5 +15,8 @@ class DecklistForm(forms.Form):
         max_length=1000,
         required=True,
         validators=[decklist_validator],
+        error_messages={
+            "invalid": "Each line should be a quantity (1, 2 or 3) and a card reference."
+        },
     )
     is_public = forms.BooleanField(required=False)

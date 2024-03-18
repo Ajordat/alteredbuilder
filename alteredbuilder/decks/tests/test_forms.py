@@ -5,6 +5,7 @@ from django.urls import reverse
 
 from decks.forms import DecklistForm
 from decks.models import Card, Character, Deck, Hero
+from decks.views import NewDeckFormView
 
 
 class DecksFormsTestCase(TestCase):
@@ -41,11 +42,26 @@ class DecksFormsTestCase(TestCase):
         form_data = {"name": self.DECK_NAME}
         form = DecklistForm(data=form_data)
         self.assertFalse(form.is_valid())
+        self.assertFormError(form, "decklist", "This field is required.")
 
     def test_invalid_deck_only_decklist(self):
         form_data = {"decklist": f"1 {self.HERO_REFERENCE}"}
         form = DecklistForm(data=form_data)
         self.assertFalse(form.is_valid())
+        self.assertFormError(form, "name", "This field is required.")
+
+    def test_invalid_deck_wrong_quantity(self):
+        form_data = {
+            "name": self.DECK_NAME,
+            "decklist": f"4 {self.CHARACTER_REFERENCE}",
+        }
+        form = DecklistForm(data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertFormError(
+            form,
+            "decklist",
+            "Each line should be a quantity (1, 2 or 3) and a card reference.",
+        )
 
     def test_valid_deck(self):
         form_data = {
@@ -88,3 +104,45 @@ class DecksFormsTestCase(TestCase):
         self.assertEqual(len(deck_cards), 1)
         self.assertEqual(deck_cards[0].quantity, 3)
         self.assertEqual(deck_cards[0].card.character, character)
+
+    def test_invalid_deck_wrong_reference(self):
+        wrong_card_reference = "wrong_card_reference"
+        form_data = {
+            "name": self.DECK_NAME,
+            "decklist": f"1 {self.HERO_REFERENCE}\n3 {wrong_card_reference}",
+        }
+
+        self.client.force_login(self.user)
+        response = self.client.post(reverse("new-deck"), form_data)
+        self.assertInHTML(f"<li>Card '{wrong_card_reference}' does not exist</li>", str(response.content))
+
+    def test_invalid_deck_multiple_heroes(self):
+        form_data = {
+            "name": self.DECK_NAME,
+            "decklist": f"1 {self.HERO_REFERENCE}\n1 {self.HERO_REFERENCE}",
+        }
+
+        self.client.force_login(self.user)
+        response = self.client.post(reverse("new-deck"), form_data)
+        self.assertInHTML("<li>Multiple heroes present in the decklist</li>", str(response.content))
+
+    def test_invalid_deck_wrong_format(self):
+        wrong_format_line = "NOT_THE_RIGHT_FORMAT"
+        form_data = {
+            "name": self.DECK_NAME,
+            "decklist": f"1 {self.HERO_REFERENCE}\n{wrong_format_line}",
+        }
+
+        self.client.force_login(self.user)
+        response = self.client.post(reverse("new-deck"), form_data)
+        self.assertInHTML(f"<li>Failed to unpack '{wrong_format_line}'</li>", str(response.content))
+        
+    def test_invalid_deck_missing_hero(self):
+        form_data = {
+            "name": self.DECK_NAME,
+            "decklist": f"3 {self.CHARACTER_REFERENCE}",
+        }
+
+        self.client.force_login(self.user)
+        response = self.client.post(reverse("new-deck"), form_data)
+        self.assertInHTML("<li>Missing hero in decklist</li>", str(response.content))

@@ -107,7 +107,7 @@ def create_new_deck(user, deck_form):
                 has_hero = True
             else:
                 # Report error
-                raise MalformedDeckException("Two heroes present in the decklist")
+                raise MalformedDeckException("Multiple heroes present in the decklist")
         else:
             CardInDeck.objects.create(deck=deck, card=card, quantity=count)
 
