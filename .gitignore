@@ -2,3 +2,4 @@ venv/
 .env
 data/db
 __pycache__/
+.coverage

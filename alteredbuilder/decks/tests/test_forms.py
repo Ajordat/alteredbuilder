@@ -43,7 +43,7 @@ class DecksFormsTestCase(TestCase):
         self.assertFalse(form.is_valid())
 
     def test_invalid_deck_only_decklist(self):
-        form_data = {"decklist": "1 asdf"}
+        form_data = {"decklist": f"1 {self.HERO_REFERENCE}"}
         form = DecklistForm(data=form_data)
         self.assertFalse(form.is_valid())
 
