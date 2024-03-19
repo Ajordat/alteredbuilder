@@ -33,6 +33,11 @@ DEBUG = env("DEBUG")
 
 if DEBUG:
     ALLOWED_HOSTS = ["*"]
+    INTERNAL_IPS = ["127.0.0.1", "0.0.0.0"]
+    import socket
+
+    ip = socket.gethostbyname(socket.gethostname())
+    INTERNAL_IPS += [ip[:-1] + "1"]
 else:
     ALLOWED_HOSTS = []
 
@@ -47,10 +52,12 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "debug_toolbar",
     "decks.apps.DecksConfig",
 ]
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
