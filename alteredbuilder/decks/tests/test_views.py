@@ -135,7 +135,7 @@ class DecksViewsTestCase(TestCase):
         response = self.client.get(
             reverse("deck-detail", kwargs={"pk": public_deck.id})
         )
-        
+
         self.assert_deck_detail(public_deck, response)
 
     def test_other_public_deck_detail_authenticated(self):
@@ -144,7 +144,7 @@ class DecksViewsTestCase(TestCase):
         response = self.client.get(
             reverse("deck-detail", kwargs={"pk": public_deck.id})
         )
-        
+
         self.assert_deck_detail(public_deck, response)
 
     def test_own_private_deck_detail_authenticated(self):
@@ -153,30 +153,29 @@ class DecksViewsTestCase(TestCase):
         response = self.client.get(
             reverse("deck-detail", kwargs={"pk": public_deck.id})
         )
-        
+
         self.assert_deck_detail(public_deck, response)
 
     def test_other_private_deck_detail_authenticated(self):
         self.client.force_login(self.user)
         private_deck = Deck.objects.filter(is_public=False, owner=self.other_user).get()
-        
+
         response = self.client.get(
             reverse("deck-detail", kwargs={"pk": private_deck.id})
         )
         self.assertTemplateUsed(response, "errors/404.html")
-
 
     def test_public_deck_detail_unauthenticated(self):
         public_deck = Deck.objects.filter(is_public=True, owner=self.other_user).get()
         response = self.client.get(
             reverse("deck-detail", kwargs={"pk": public_deck.id})
         )
-        
+
         self.assert_deck_detail(public_deck, response)
 
     def test_private_deck_detail_unauthenticated(self):
         private_deck = Deck.objects.filter(is_public=False, owner=self.other_user).get()
-        
+
         response = self.client.get(
             reverse("deck-detail", kwargs={"pk": private_deck.id})
         )

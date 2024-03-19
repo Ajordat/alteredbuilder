@@ -14,7 +14,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     queryset = User.objects.all().order_by("-date_joined")
     serializer_class = serial.UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAdminUser]
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -24,14 +24,10 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     queryset = Group.objects.all()
     serializer_class = serial.GroupSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAdminUser]
 
 
 class CardViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-
     queryset = Card.objects.all().order_by("reference")
     serializer_class = serial.CardSerializer
     permission_classes = [permissions.IsAuthenticated]

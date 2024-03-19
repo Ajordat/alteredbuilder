@@ -76,7 +76,7 @@ class DecksViewsTestCase(TestCase):
         Deck.objects.create(
             owner=cls.user, name=cls.DECK_NAME, hero=hero, is_public=True
         )
-    
+
     def test_to_string(self):
         hero = Hero.objects.get(reference=self.HERO_REFERENCE)
         character = Character.objects.get(reference=self.CHARACTER_REFERENCE)
@@ -85,9 +85,16 @@ class DecksViewsTestCase(TestCase):
         deck = Deck.objects.get(name=self.DECK_NAME)
 
         self.assertEqual(str(hero), f"{hero.reference} - {hero.name}")
-        self.assertEqual(str(character), f"[{character.faction}] - {character.name} ({character.rarity})")
-        self.assertEqual(str(spell), f"[{spell.faction}] - {spell.name} ({spell.rarity})")
-        self.assertEqual(str(landmark), f"[{landmark.faction}] - {landmark.name} ({landmark.rarity})")
+        self.assertEqual(
+            str(character),
+            f"[{character.faction}] - {character.name} ({character.rarity})",
+        )
+        self.assertEqual(
+            str(spell), f"[{spell.faction}] - {spell.name} ({spell.rarity})"
+        )
+        self.assertEqual(
+            str(landmark), f"[{landmark.faction}] - {landmark.name} ({landmark.rarity})"
+        )
         self.assertEqual(str(deck), f"{deck.owner.username} - {deck.name}")
 
     def test_hero_promo(self):
