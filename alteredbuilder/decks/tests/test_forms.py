@@ -114,7 +114,10 @@ class DecksFormsTestCase(TestCase):
 
         self.client.force_login(self.user)
         response = self.client.post(reverse("new-deck"), form_data)
-        self.assertInHTML(f"<li>Card '{wrong_card_reference}' does not exist</li>", str(response.content))
+        self.assertInHTML(
+            f"<li>Card '{wrong_card_reference}' does not exist</li>",
+            str(response.content),
+        )
 
     def test_invalid_deck_multiple_heroes(self):
         form_data = {
@@ -124,7 +127,9 @@ class DecksFormsTestCase(TestCase):
 
         self.client.force_login(self.user)
         response = self.client.post(reverse("new-deck"), form_data)
-        self.assertInHTML("<li>Multiple heroes present in the decklist</li>", str(response.content))
+        self.assertInHTML(
+            "<li>Multiple heroes present in the decklist</li>", str(response.content)
+        )
 
     def test_invalid_deck_wrong_format(self):
         wrong_format_line = "NOT_THE_RIGHT_FORMAT"
@@ -135,8 +140,10 @@ class DecksFormsTestCase(TestCase):
 
         self.client.force_login(self.user)
         response = self.client.post(reverse("new-deck"), form_data)
-        self.assertInHTML(f"<li>Failed to unpack '{wrong_format_line}'</li>", str(response.content))
-        
+        self.assertInHTML(
+            f"<li>Failed to unpack '{wrong_format_line}'</li>", str(response.content)
+        )
+
     def test_invalid_deck_missing_hero(self):
         form_data = {
             "name": self.DECK_NAME,
