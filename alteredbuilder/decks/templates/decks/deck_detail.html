@@ -1,12 +1,14 @@
 {% extends "base.html" %}
 
 {% load static %}
+{% load deck_styles %}
 
 {% block title %}Deck detail{% endblock %}
 
 {% block head %}
     {{ block.super }}
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -27,7 +29,7 @@
                                 <th scope="col">Faction</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="table-group-divider">
                             <tr data-image-url="{{ object.hero.image_url }}">
                                 <td>{{ object.hero.name }}</td>
                                 <td>{{ object.hero.get_faction_display.title }}</td>
@@ -37,7 +39,7 @@
                 </div>
 
                 <div class="col">
-                    <table class="table table-striped table-hover card-table" id="character-table" aria-describedby="Available characters">
+                    <table class="table table-hover card-table" id="character-table" aria-describedby="Available characters">
                         <thead>
                             <tr>
                                 <th scope="col">Q</th>
@@ -47,9 +49,9 @@
                                 <th scope="col">Stats</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="table-group-divider">
     {% for quantity, char in character_list %}
-                            <tr data-image-url="{{ char.image_url }}">
+                            <tr class="{% get_row_color_from_rarity char.get_rarity_display %}" data-image-url="{{ char.image_url }}">
                                 <td>{{ quantity }}</td>
                                 <td>{{ char.name }}</td>
                                 <td>{{ char.get_rarity_display.title }}</td>
@@ -65,7 +67,7 @@
 
                 <div class="col">
 
-                    <table class="table table-striped table-hover card-table" id="spell-table" aria-describedby="Available spells">
+                    <table class="table table-hover card-table" id="spell-table" aria-describedby="Available spells">
                         <thead>
                             <tr>
                                 <th scope="col">Q</th>
@@ -74,9 +76,9 @@
                                 <th scope="col">Mana</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="table-group-divider">
     {% for quantity, spell in spell_list %}
-                            <tr data-image-url="{{ spell.image_url }}">
+                            <tr class="{% get_row_color_from_rarity spell.get_rarity_display %}" data-image-url="{{ spell.image_url }}">
                                 <td>{{ quantity }}</td>
                                 <td>{{ spell.name }}</td>
                                 <td>{{ spell.get_rarity_display.title }}</td>
@@ -90,7 +92,7 @@
                 </div>
 
                 <div class="col">
-                    <table class="table table-striped table-hover card-table" id="landmark-table" aria-describedby="Available landmarks">
+                    <table class="table table-hover card-table" id="landmark-table" aria-describedby="Available landmarks">
                         <thead>
                             <tr>
                                 <th scope="col">Q</th>
@@ -99,9 +101,9 @@
                                 <th scope="col">Mana</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="table-group-divider">
     {% for quantity, landmark in landmark_list %}
-                            <tr data-image-url="{{ landmark.image_url }}">
+                            <tr class="{% get_row_color_from_rarity landmark.get_rarity_display %}" data-image-url="{{ landmark.image_url }}">
                                 <td>{{ quantity }}</td>
                                 <td>{{ landmark.name }}</td>
                                 <td>{{ landmark.get_rarity_display.title }}</td>
@@ -119,11 +121,34 @@
     <div class="row">
         <h3>Stats</h3>
         <div class="col">
-            <div id="distribution-pie-chart" style="width: 500px; height: 500px;"></div>
+            <div id="distribution-pie-chart"></div>
         </div>
         <div class="col">
+            <p>Rarity distribution:</p>
+            <table class="table table-striped table-hover table-sm" aria-describedby="Rarity distribution">
+                <thead>
+                    <tr>
+                        <th scope="col">Rarity</th>
+                        <th scope="col">Count</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr>
+                        <td>Common</td>
+                        <td>{{ stats.rarity_distribution.common }}</td>
+                    </tr>
+                    <tr>
+                        <td>Rare</td>
+                        <td>{{ stats.rarity_distribution.rare }}</td>
+                    </tr>
+                    <tr>
+                        <td>Unique</td>
+                        <td>{{ stats.rarity_distribution.unique }}</td>
+                    </tr>
+                </tbody>
+            </table>
             <p>Probability of drawing:</p>
-            <table class="table table-striped table-hover" id="probability-table" aria-describedby="Probability to draw">
+            <table class="table table-striped table-hover table-sm" id="probability-table" aria-describedby="Probability to draw">
                 <thead>
                     <tr>
                         <th scope="col">Type</th>
@@ -131,7 +156,7 @@
                         <th scope="col">Initial hand</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="table-group-divider">
                     <tr>
                         <td>Characters</td>
                         <td id="characters-anytime-draw"></td>
@@ -152,7 +177,7 @@
         </div>
         <div class="col">
             <p>Mana curve:</p>
-            <div id="mana-curve-chart" style="width: 500px; height: 300px;"></div>
+            <div id="mana-curve-chart"></div>
         </div>
     </div>
 </div>

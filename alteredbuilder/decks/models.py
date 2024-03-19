@@ -70,6 +70,9 @@ class Character(PlayableCard):
     mountain_power = models.SmallIntegerField()
     ocean_power = models.SmallIntegerField()
 
+    def is_oof(self):
+        return f"_{self.faction}_" not in self.reference
+
 
 class Spell(PlayableCard):
     pass

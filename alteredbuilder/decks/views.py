@@ -37,10 +37,11 @@ class DeckDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        decklist = self.object.cardindeck_set.all()
+        decklist = self.object.cardindeck_set.order_by("card__reference").all()
 
         hand_counter = defaultdict(int)
         recall_counter = defaultdict(int)
+        rarity_counter = defaultdict(int)
 
         d = {
             Card.Type.CHARACTER: [[], 0, "character"],
@@ -52,6 +53,7 @@ class DeckDetailView(DetailView):
             d[cid.card.type][1] += cid.quantity
             hand_counter[getattr(cid.card, d[cid.card.type][2]).main_cost] += 1
             recall_counter[getattr(cid.card, d[cid.card.type][2]).recall_cost] += 1
+            rarity_counter[cid.card.rarity] += 1
 
         context |= {
             "character_list": d[Card.Type.CHARACTER][0],
@@ -69,6 +71,11 @@ class DeckDetailView(DetailView):
                 "mana_distribution": {
                     "hand": hand_counter,
                     "recall": recall_counter,
+                },
+                "rarity_distribution": {
+                    "common": rarity_counter[Card.Rarity.COMMON],
+                    "rare": rarity_counter[Card.Rarity.RARE],
+                    "unique": rarity_counter[Card.Rarity.UNIQUE],
                 },
             },
         }
