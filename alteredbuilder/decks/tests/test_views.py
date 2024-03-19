@@ -51,9 +51,9 @@ class DecksViewsTestCase(TestCase):
             recall_cost=3,
         )
         cls.user = User.objects.create_user(username=cls.TEST_USER)
-        other_user = User.objects.create_user(username=cls.OTHER_TEST_USER)
+        cls.other_user = User.objects.create_user(username=cls.OTHER_TEST_USER)
         cls.create_decks_for_user(cls.user, hero, [character, spell, landmark])
-        cls.create_decks_for_user(other_user, hero, [character, spell, landmark])
+        cls.create_decks_for_user(cls.other_user, hero, [character, spell, landmark])
 
     @classmethod
     def create_decks_for_user(cls, user, hero, cards):
@@ -97,3 +97,87 @@ class DecksViewsTestCase(TestCase):
         self.assertQuerySetEqual(
             own_decks, response.context["own_decks"], ordered=False
         )
+
+    def get_detail_card_list(self, deck, card_type):
+        return [
+            (c.quantity, c.card)
+            for c in deck.cardindeck_set.all()
+            if c.card.type == card_type
+        ]
+
+    def assert_deck_detail(self, deck, response):
+        self.assertIn("deck", response.context)
+        self.assertEqual(deck, response.context["deck"])
+        self.assertIn("character_list", response.context)
+        self.assertIn("spell_list", response.context)
+        self.assertIn("landmark_list", response.context)
+        self.assertListEqual(
+            self.get_detail_card_list(deck, Card.Type.CHARACTER),
+            response.context["character_list"],
+        )
+        self.assertListEqual(
+            self.get_detail_card_list(deck, Card.Type.SPELL),
+            response.context["spell_list"],
+        )
+        self.assertListEqual(
+            self.get_detail_card_list(deck, Card.Type.LANDMARK),
+            response.context["landmark_list"],
+        )
+        self.assertIn("stats", response.context)
+        self.assertIn("type_distribution", response.context["stats"])
+        self.assertIn("total_count", response.context["stats"])
+        self.assertIn("mana_distribution", response.context["stats"])
+        self.assertIn("rarity_distribution", response.context["stats"])
+
+    def test_own_public_deck_detail_authenticated(self):
+        self.client.force_login(self.user)
+        public_deck = Deck.objects.filter(is_public=True, owner=self.user).get()
+        response = self.client.get(
+            reverse("deck-detail", kwargs={"pk": public_deck.id})
+        )
+        
+        self.assert_deck_detail(public_deck, response)
+
+    def test_other_public_deck_detail_authenticated(self):
+        self.client.force_login(self.user)
+        public_deck = Deck.objects.filter(is_public=True, owner=self.other_user).get()
+        response = self.client.get(
+            reverse("deck-detail", kwargs={"pk": public_deck.id})
+        )
+        
+        self.assert_deck_detail(public_deck, response)
+
+    def test_own_private_deck_detail_authenticated(self):
+        self.client.force_login(self.user)
+        public_deck = Deck.objects.filter(is_public=False, owner=self.user).get()
+        response = self.client.get(
+            reverse("deck-detail", kwargs={"pk": public_deck.id})
+        )
+        
+        self.assert_deck_detail(public_deck, response)
+
+    def test_other_private_deck_detail_authenticated(self):
+        self.client.force_login(self.user)
+        private_deck = Deck.objects.filter(is_public=False, owner=self.other_user).get()
+        
+        response = self.client.get(
+            reverse("deck-detail", kwargs={"pk": private_deck.id})
+        )
+        self.assertTemplateUsed(response, "errors/404.html")
+
+
+    def test_public_deck_detail_unauthenticated(self):
+        public_deck = Deck.objects.filter(is_public=True, owner=self.other_user).get()
+        response = self.client.get(
+            reverse("deck-detail", kwargs={"pk": public_deck.id})
+        )
+        
+        self.assert_deck_detail(public_deck, response)
+
+    def test_private_deck_detail_unauthenticated(self):
+        private_deck = Deck.objects.filter(is_public=False, owner=self.other_user).get()
+        
+        response = self.client.get(
+            reverse("deck-detail", kwargs={"pk": private_deck.id})
+        )
+        self.assertTemplateUsed(response, "errors/404.html")

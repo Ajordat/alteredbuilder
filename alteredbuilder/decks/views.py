@@ -33,7 +33,10 @@ class DeckDetailView(DetailView):
     model = Deck
 
     def get_queryset(self):
-        return Deck.objects.filter(Q(is_public=True) | Q(owner=self.request.user))
+        if self.request.user.is_authenticated:
+            return Deck.objects.filter(Q(is_public=True) | Q(owner=self.request.user))
+        else:
+            return Deck.objects.filter(is_public=True)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
