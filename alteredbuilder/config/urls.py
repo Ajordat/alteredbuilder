@@ -25,6 +25,7 @@ urlpatterns = [
     path("api/", include("api.urls")),
     path("decks/", include("decks.urls")),
     path("__debug__/", include("debug_toolbar.urls")),
+    path("accounts/", include("allauth.urls")),
     path("", RedirectView.as_view(url="decks/", permanent=True), name="index"),
 ]
 

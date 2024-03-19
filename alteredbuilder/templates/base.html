@@ -25,8 +25,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'new-deck' %}">New deck</a>
                     </li>
-{% endif %}
-{% if user.is_authenticated %}
 
     {% if user.is_staff %}
                     <li class="nav-item">
@@ -40,12 +38,12 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">Profile</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item">Logout</a></li>
+                        <li><a class="dropdown-item" href="{% url 'account_logout' %}?next={{ request.path }}">Logout</a></li>
                     </ul>
                     </li>
 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link">Login</a>
+                        <a class="nav-link" href="{% url 'account_login' %}?next={{ request.path }}">Login</a>
                     </li>
 {% endif %}
                 </ul>
