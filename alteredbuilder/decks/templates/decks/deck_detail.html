@@ -8,20 +8,23 @@
 {% block head %}
     {{ block.super }}
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 {% endblock %}
 
 {% block content %}
 
-<div class="container-fluid">
+<div class="container-fluid px-5 mt-3">
     <h3>Decklist</h3>
     <div class="row">
         <div class="col-3">
-            <img class="img-fluid rounded-4" id="card-showcase" src="{% if object.hero %}{{ object.hero.image_url }}{% endif %}" alt="selected card">
+            <img class="img-fluid rounded-4" id="card-showcase" src="{% if object.hero %}{{ object.hero.image_url }}{% endif %}" alt="selected card" style="height: 500px;">
         </div>
         <div class="col">
             <div class="row">
                 <div class="col">
+                    <p><i class="fa-solid fa-person-hiking"></i> Hero</p>
                     <table class="table table-striped table-hover card-table" id="hero-table" aria-describedby="Deck hero">
                         <thead>
                             <tr>
@@ -39,14 +42,15 @@
                 </div>
 
                 <div class="col">
+                    <p><i class="fa-solid fa-people-group"></i> Characters</p>
                     <table class="table table-hover card-table" id="character-table" aria-describedby="Available characters">
                         <thead>
                             <tr>
                                 <th scope="col">Q</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Rarity</th>
+                                <!-- <th scope="col">Rarity</th> -->
                                 <th scope="col">Mana</th>
-                                <th scope="col">Stats</th>
+                                <!-- <th scope="col">Stats</th> -->
                             </tr>
                         </thead>
                         <tbody class="table-group-divider">
@@ -54,25 +58,26 @@
                             <tr class="{% get_row_color_from_rarity char.get_rarity_display %}" data-image-url="{{ char.image_url }}">
                                 <td>{{ quantity }}</td>
                                 <td>{{ char.name }}</td>
-                                <td>{{ char.get_rarity_display.title }}</td>
+                                <!-- <td>{{ char.get_rarity_display.title }}</td> -->
                                 <td>{{ char.character.main_cost }}/{{ char.character.recall_cost }}</td>
-                                <td>{{ char.character.forest_power }}-{{ char.character.mountain_power }}-{{ char.character.ocean_power }}</td>
+                                <!-- <td>{{ char.character.forest_power }}-{{ char.character.mountain_power }}-{{ char.character.ocean_power }}</td> -->
                             </tr>
     {% empty %}
-                            <tr><td colspan="5">No characters</td></tr>
+                            <!-- <tr><td colspan="5">No characters</td></tr> -->
+                            <tr><td colspan="3">No characters</td></tr>
     {% endfor %}
                         </tbody>
                     </table>
                 </div>
 
                 <div class="col">
-
+                    <p><i class="fa-solid fa-hat-wizard"></i> Spells</p>
                     <table class="table table-hover card-table" id="spell-table" aria-describedby="Available spells">
                         <thead>
                             <tr>
                                 <th scope="col">Q</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Rarity</th>
+                                <!-- <th scope="col">Rarity</th> -->
                                 <th scope="col">Mana</th>
                             </tr>
                         </thead>
@@ -81,23 +86,25 @@
                             <tr class="{% get_row_color_from_rarity spell.get_rarity_display %}" data-image-url="{{ spell.image_url }}">
                                 <td>{{ quantity }}</td>
                                 <td>{{ spell.name }}</td>
-                                <td>{{ spell.get_rarity_display.title }}</td>
+                                <!-- <td>{{ spell.get_rarity_display.title }}</td> -->
                                 <td>{{ spell.spell.main_cost }}/{{ spell.spell.recall_cost }}</td>
                             </tr>
     {% empty %}
-                            <tr><td colspan="4">No spells</td></tr>
+                            <!-- <tr><td colspan="4">No spells</td></tr> -->
+                            <tr><td colspan="3">No spells</td></tr>
     {% endfor %}
                         </tbody>
                     </table>
                 </div>
 
                 <div class="col">
+                    <p><i class="fa-solid fa-landmark"></i> Landmarks</p>
                     <table class="table table-hover card-table" id="landmark-table" aria-describedby="Available landmarks">
                         <thead>
                             <tr>
                                 <th scope="col">Q</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Rarity</th>
+                                <!-- <th scope="col">Rarity</th> -->
                                 <th scope="col">Mana</th>
                             </tr>
                         </thead>
@@ -106,11 +113,12 @@
                             <tr class="{% get_row_color_from_rarity landmark.get_rarity_display %}" data-image-url="{{ landmark.image_url }}">
                                 <td>{{ quantity }}</td>
                                 <td>{{ landmark.name }}</td>
-                                <td>{{ landmark.get_rarity_display.title }}</td>
+                                <!-- <td>{{ landmark.get_rarity_display.title }}</td> -->
                                 <td>{{ landmark.landmark.main_cost }}/{{ landmark.landmark.recall_cost }}</td>
                             </tr>
     {% empty %}
-                        <tr><td colspan="4">No landmarks</td></tr>
+                        <!-- <tr><td colspan="4">No landmarks</td></tr> -->
+                        <tr><td colspan="3">No landmarks</td></tr>
     {% endfor %}
                         </tbody>
                     </table>
