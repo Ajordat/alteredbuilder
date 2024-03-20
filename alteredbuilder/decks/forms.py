@@ -8,6 +8,7 @@ decklist_validator = RegexValidator(r"^[123] \w+$", flags=re.MULTILINE)
 
 
 class DecklistForm(forms.Form):
+    template_name = "forms/submit_decklist.html"
     name = forms.CharField(label="deck-name", max_length=50, required=True)
     decklist = forms.CharField(
         label="decklist",

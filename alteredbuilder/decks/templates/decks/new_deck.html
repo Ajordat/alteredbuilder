@@ -4,10 +4,12 @@
 
 {% block content %}
 
-    <form action="/decks/new/" method="post">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Import">
-    </form>
-
+    <div class="container-fluid px-5 mt-3">
+        <div class="col-3">
+            <form action="/decks/new/" method="post">
+                {% csrf_token %}
+                {{ form }}
+            </form>
+        </div>
+    </div>
 {% endblock %}
