@@ -1,8 +1,15 @@
 <p>Use a cool name for your deck:</p>
 <div class="row mb-3">
     <label for="{{ form.name.id_for_label }}" class="col-sm-2 col-form-label">Name</label>
-    <div class="col-auto">
-        <input id="{{ form.name.auto_id }}" type="text" name="{{ form.name.name }}" maxlength="50" required>
+    <div class="col-auto has-validation">
+        <input id="{{ form.name.auto_id }}" type="text" name="{{ form.name.name }}" maxlength="50" class="form-control{% if form.name.errors %} is-invalid{% endif %}" aria-describedby="{{ form.name.name }}-validation" required>
+        <div id="{{ form.name.name }}-validation" class="invalid-feedback">
+{% for error in form.name.errors %}
+            {{error}}<br>
+{% empty %}
+            Please name your deck<br>
+{% endfor %}
+        </div>
     </div>
 </div>
 
@@ -10,17 +17,24 @@
 
 <div class="mb-3">
     <label for="{{ form.decklist.id_for_label }}" class="form-label">Decklist</label>
-    <textarea class="form-control" id="{{ form.decklist.auto_id }}" cols="10" rows="10" maxlength="1000" name="{{ form.decklist.name }}" required></textarea>
+    <textarea class="form-control{% if form.decklist.errors %} is-invalid{% endif %}" id="{{ form.decklist.auto_id }}" cols="10" rows="10" maxlength="1000" name="{{ form.decklist.name }}" aria-describedby="{{ form.decklist.name }}-validation" required></textarea>
+    <div id="{{ form.decklist.name }}-validation" class="invalid-feedback">
+{% for error in form.decklist.errors %}
+        {{error}}<br>
+{% empty %}
+        Please write your decklist<br>
+{% endfor %}
+    </div>
 </div>
 
 
 <p>Do you want your deck to be public?</p>
 <div class="row mb-2">
     <div class="col-sm-10 offset-sm-1">
-    <div class="form-check">
-        <input id="{{ form.is_public.auto_id }}" class="form-check-input" type="checkbox" name="{{ form.is_public.name }}">
-        <label class="form-check-label" for="{{ form.is_public.id_for_label }}">Public</label>
-    </div>
+        <div class="form-check">
+            <input id="{{ form.is_public.auto_id }}" class="form-check-input" type="checkbox" name="{{ form.is_public.name }}">
+            <label class="form-check-label" for="{{ form.is_public.id_for_label }}">Public</label>
+        </div>
     </div>
 </div>
 

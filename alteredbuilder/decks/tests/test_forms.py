@@ -1,3 +1,5 @@
+import html
+
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.test import TestCase
@@ -5,7 +7,6 @@ from django.urls import reverse
 
 from decks.forms import DecklistForm
 from decks.models import Card, Character, Deck, Hero
-from decks.views import NewDeckFormView
 
 
 class DecksFormsTestCase(TestCase):
@@ -114,9 +115,8 @@ class DecksFormsTestCase(TestCase):
 
         self.client.force_login(self.user)
         response = self.client.post(reverse("new-deck"), form_data)
-        self.assertInHTML(
-            f"<li>Card '{wrong_card_reference}' does not exist</li>",
-            str(response.content),
+        self.assertContains(
+            response, html.escape(f"Card '{wrong_card_reference}' does not exist")
         )
 
     def test_invalid_deck_multiple_heroes(self):
@@ -127,9 +127,7 @@ class DecksFormsTestCase(TestCase):
 
         self.client.force_login(self.user)
         response = self.client.post(reverse("new-deck"), form_data)
-        self.assertInHTML(
-            "<li>Multiple heroes present in the decklist</li>", str(response.content)
-        )
+        self.assertContains(response, "Multiple heroes present in the decklist")
 
     def test_invalid_deck_wrong_format(self):
         wrong_format_line = "NOT_THE_RIGHT_FORMAT"
@@ -140,8 +138,8 @@ class DecksFormsTestCase(TestCase):
 
         self.client.force_login(self.user)
         response = self.client.post(reverse("new-deck"), form_data)
-        self.assertInHTML(
-            f"<li>Failed to unpack '{wrong_format_line}'</li>", str(response.content)
+        self.assertContains(
+            response, html.escape(f"Failed to unpack '{wrong_format_line}'")
         )
 
     def test_invalid_deck_missing_hero(self):
@@ -152,4 +150,4 @@ class DecksFormsTestCase(TestCase):
 
         self.client.force_login(self.user)
         response = self.client.post(reverse("new-deck"), form_data)
-        self.assertInHTML("<li>Missing hero in decklist</li>", str(response.content))
+        self.assertContains(response, "Missing hero in decklist")

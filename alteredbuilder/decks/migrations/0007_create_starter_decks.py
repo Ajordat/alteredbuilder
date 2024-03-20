@@ -13,16 +13,12 @@ def import_deck(file):
     with open(file, "r") as deck_file:
         decklist = deck_file.read()
 
-    create_new_deck(user, {
-        "name": file.name,
-        "decklist": decklist,
-        "is_public": True
-    })
+    create_new_deck(user, {"name": file.name, "decklist": decklist, "is_public": True})
 
 
 def create_starter_decks(apps, schema_editor):
     stater_decks_dir = Path(__file__).resolve().parent / "starter-decks"
-    
+
     for file in os.listdir(stater_decks_dir):
         import_deck(stater_decks_dir / file)
 

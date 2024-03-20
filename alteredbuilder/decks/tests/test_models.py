@@ -93,7 +93,8 @@ class DecksViewsTestCase(TestCase):
             str(spell), f"[{spell.faction}] - {spell.name} ({spell.rarity})"
         )
         self.assertEqual(
-            str(permanent), f"[{permanent.faction}] - {permanent.name} ({permanent.rarity})"
+            str(permanent),
+            f"[{permanent.faction}] - {permanent.name} ({permanent.rarity})",
         )
         self.assertEqual(str(deck), f"{deck.owner.username} - {deck.name}")
 

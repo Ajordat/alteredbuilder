@@ -165,9 +165,7 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = None
-STATICFILES_DIRS = [
-    BASE_DIR / "static"
-]
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 
 # Instead of sending emails, show them in the console.
