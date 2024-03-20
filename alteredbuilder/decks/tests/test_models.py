@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 
-from decks.models import Card, Character, Deck, Hero, Landmark, Spell
+from decks.models import Card, Character, Deck, Hero, Permanent, Spell
 
 
 class DecksViewsTestCase(TestCase):
@@ -11,7 +11,7 @@ class DecksViewsTestCase(TestCase):
     CHARACTER_REFERENCE = "ALT_CORE_B_YZ_08_C"
     OOF_CHARACTER_REFERENCE = "ALT_CORE_B_YZ_08_R2"
     SPELL_REFERENCE = "ALT_CORE_B_YZ_26_R2"
-    LANDMARK_REFERENCE = "ALT_CORE_B_LY_30_R2"
+    PERMANENT_REFERENCE = "ALT_CORE_B_LY_30_R2"
     DECK_NAME = "deck name"
 
     @classmethod
@@ -64,11 +64,11 @@ class DecksViewsTestCase(TestCase):
             main_cost=5,
             recall_cost=5,
         )
-        Landmark.objects.create(
-            reference=cls.LANDMARK_REFERENCE,
+        Permanent.objects.create(
+            reference=cls.PERMANENT_REFERENCE,
             name="The Ouroboros, Lyra Bastion",
             faction=Card.Faction.AXIOM,
-            type=Card.Type.LANDMARK,
+            type=Card.Type.PERMANENT,
             rarity=Card.Rarity.RARE,
             main_cost=3,
             recall_cost=3,
@@ -81,7 +81,7 @@ class DecksViewsTestCase(TestCase):
         hero = Hero.objects.get(reference=self.HERO_REFERENCE)
         character = Character.objects.get(reference=self.CHARACTER_REFERENCE)
         spell = Spell.objects.get(reference=self.SPELL_REFERENCE)
-        landmark = Landmark.objects.get(reference=self.LANDMARK_REFERENCE)
+        permanent = Permanent.objects.get(reference=self.PERMANENT_REFERENCE)
         deck = Deck.objects.get(name=self.DECK_NAME)
 
         self.assertEqual(str(hero), f"{hero.reference} - {hero.name}")
@@ -93,7 +93,7 @@ class DecksViewsTestCase(TestCase):
             str(spell), f"[{spell.faction}] - {spell.name} ({spell.rarity})"
         )
         self.assertEqual(
-            str(landmark), f"[{landmark.faction}] - {landmark.name} ({landmark.rarity})"
+            str(permanent), f"[{permanent.faction}] - {permanent.name} ({permanent.rarity})"
         )
         self.assertEqual(str(deck), f"{deck.owner.username} - {deck.name}")
 

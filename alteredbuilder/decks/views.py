@@ -49,7 +49,7 @@ class DeckDetailView(DetailView):
         d = {
             Card.Type.CHARACTER: [[], 0, "character"],
             Card.Type.SPELL: [[], 0, "spell"],
-            Card.Type.LANDMARK: [[], 0, "landmark"],
+            Card.Type.PERMANENT: [[], 0, "permanent"],
         }
         for cid in decklist:
             d[cid.card.type][0].append((cid.quantity, cid.card))
@@ -61,16 +61,16 @@ class DeckDetailView(DetailView):
         context |= {
             "character_list": d[Card.Type.CHARACTER][0],
             "spell_list": d[Card.Type.SPELL][0],
-            "landmark_list": d[Card.Type.LANDMARK][0],
+            "permanent_list": d[Card.Type.PERMANENT][0],
             "stats": {
                 "type_distribution": {
                     "characters": d[Card.Type.CHARACTER][1],
                     "spells": d[Card.Type.SPELL][1],
-                    "landmarks": d[Card.Type.LANDMARK][1],
+                    "permanents": d[Card.Type.PERMANENT][1],
                 },
                 "total_count": d[Card.Type.CHARACTER][1]
                 + d[Card.Type.SPELL][1]
-                + d[Card.Type.LANDMARK][1],
+                + d[Card.Type.PERMANENT][1],
                 "mana_distribution": {
                     "hand": hand_counter,
                     "recall": recall_counter,

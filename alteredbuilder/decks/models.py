@@ -14,7 +14,7 @@ class Card(models.Model):
 
     class Type(models.TextChoices):
         SPELL = "spell"
-        LANDMARK = "landmark"
+        PERMANENT = "permanent"
         TOKEN = "token"
         CHARACTER = "character"
         HERO = "hero"
@@ -41,7 +41,7 @@ class Card(models.Model):
 
 class Hero(Card):
     reserve_count = models.SmallIntegerField(default=2)
-    landmark_count = models.SmallIntegerField(default=2)
+    permanent_count = models.SmallIntegerField(default=2)
     main_effect = models.TextField(blank=True)
 
     def is_promo(self):
@@ -78,7 +78,7 @@ class Spell(PlayableCard):
     pass
 
 
-class Landmark(PlayableCard):
+class Permanent(PlayableCard):
     pass
 
 

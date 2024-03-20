@@ -4,7 +4,7 @@ from rest_framework import permissions, viewsets
 from rest_framework.response import Response
 
 from . import serializers as serial
-from decks.models import Card, Character, Hero, Landmark, Spell
+from decks.models import Card, Character, Hero, Permanent, Spell
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -47,7 +47,7 @@ class CardViewSet(viewsets.ModelViewSet):
             return {
                 Card.Type.CHARACTER: (Character, serial.CharacterSerializer),
                 Card.Type.HERO: (Hero, serial.HeroSerializer),
-                Card.Type.LANDMARK: (Landmark, serial.LandmarkSerializer),
+                Card.Type.PERMANENT: (Permanent, serial.PermanentSerializer),
                 Card.Type.SPELL: (Spell, serial.SpellSerializer),
             }[card_type]
         except KeyError:
@@ -66,9 +66,9 @@ class HeroViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-class LandmarkViewSet(viewsets.ModelViewSet):
-    queryset = Landmark.objects.all().order_by("reference")
-    serializer_class = serial.LandmarkSerializer
+class PermanentViewSet(viewsets.ModelViewSet):
+    queryset = Permanent.objects.all().order_by("reference")
+    serializer_class = serial.PermanentSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 

@@ -98,8 +98,8 @@
                 </div>
 
                 <div class="col">
-                    <p><i class="fa-solid fa-landmark"></i> Landmarks</p>
-                    <table class="table table-hover card-table" id="landmark-table" aria-describedby="Available landmarks">
+                    <p><i class="fa-solid fa-landmark"></i> Permanents</p>
+                    <table class="table table-hover card-table" id="permanent-table" aria-describedby="Available permanents">
                         <thead>
                             <tr>
                                 <th scope="col">Q</th>
@@ -109,16 +109,16 @@
                             </tr>
                         </thead>
                         <tbody class="table-group-divider">
-    {% for quantity, landmark in landmark_list %}
-                            <tr class="{% get_row_color_from_rarity landmark.get_rarity_display %}" data-image-url="{{ landmark.image_url }}">
+    {% for quantity, permanent in permanent_list %}
+                            <tr class="{% get_row_color_from_rarity permanent.get_rarity_display %}" data-image-url="{{ permanent.image_url }}">
                                 <td>{{ quantity }}</td>
-                                <td>{{ landmark.name }}</td>
-                                <!-- <td>{{ landmark.get_rarity_display.title }}</td> -->
-                                <td>{{ landmark.landmark.main_cost }}/{{ landmark.landmark.recall_cost }}</td>
+                                <td>{{ permanent.name }}</td>
+                                <!-- <td>{{ permanent.get_rarity_display.title }}</td> -->
+                                <td>{{ permanent.permanent.main_cost }}/{{ permanent.permanent.recall_cost }}</td>
                             </tr>
     {% empty %}
-                        <!-- <tr><td colspan="4">No landmarks</td></tr> -->
-                        <tr><td colspan="3">No landmarks</td></tr>
+                        <!-- <tr><td colspan="4">No permanents</td></tr> -->
+                        <tr><td colspan="3">No permanents</td></tr>
     {% endfor %}
                         </tbody>
                     </table>
@@ -176,9 +176,9 @@
                         <td id="spells-initial-draw"></td>
                     </tr>
                     <tr>
-                        <td>Landmarks</td>
-                        <td id="landmarks-anytime-draw"></td>
-                        <td id="landmarks-initial-draw"></td>
+                        <td>Permanents</td>
+                        <td id="permanents-anytime-draw"></td>
+                        <td id="permanents-initial-draw"></td>
                     </tr>
                 </tbody>
             </table>

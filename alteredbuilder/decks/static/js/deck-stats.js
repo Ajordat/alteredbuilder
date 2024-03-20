@@ -21,7 +21,7 @@ function drawChart() {
 }
 
 function drawStats() {
-    let cardType = ["characters", "spells", "landmarks"];
+    let cardType = ["characters", "spells", "permanents"];
     let cardCount = deckStats["total_count"];
     let handSize = 6;
 

@@ -1,7 +1,7 @@
 from django.contrib.auth.models import Group, User
 from rest_framework import serializers
 
-from decks.models import Card, Character, Hero, Landmark, Spell
+from decks.models import Card, Character, Hero, Permanent, Spell
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -34,9 +34,9 @@ class HeroSerializer(serializers.HyperlinkedModelSerializer):
         fields = "__all__"
 
 
-class LandmarkSerializer(serializers.HyperlinkedModelSerializer):
+class PermanentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Landmark
+        model = Permanent
         fields = "__all__"
 
 

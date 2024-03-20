@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
                     models.CharField(
                         choices=[
                             ("spell", "Spell"),
-                            ("landmark", "Landmark"),
+                            ("permanent", "Permanent"),
                             ("token", "Token"),
                             ("character", "Character"),
                             ("hero", "Hero"),
@@ -102,13 +102,13 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ("reserve_count", models.SmallIntegerField(default=2)),
-                ("landmark_count", models.SmallIntegerField(default=2)),
+                ("permanent_count", models.SmallIntegerField(default=2)),
                 ("main_effect", models.TextField(blank=True)),
             ],
             bases=("decks.card",),
         ),
         migrations.CreateModel(
-            name="Landmark",
+            name="Permanent",
             fields=[
                 (
                     "card_ptr",

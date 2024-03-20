@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
 
-from decks.models import Card, CardInDeck, Character, Deck, Hero, Landmark, Spell
+from decks.models import Card, CardInDeck, Character, Deck, Hero, Permanent, Spell
 
 
 class DecksViewsTestCase(TestCase):
@@ -41,19 +41,19 @@ class DecksViewsTestCase(TestCase):
             main_cost=5,
             recall_cost=5,
         )
-        landmark = Landmark.objects.create(
+        permanent = Permanent.objects.create(
             reference="ALT_CORE_B_LY_30_R2",
             name="The Ouroboros, Lyra Bastion",
             faction=Card.Faction.AXIOM,
-            type=Card.Type.LANDMARK,
+            type=Card.Type.PERMANENT,
             rarity=Card.Rarity.RARE,
             main_cost=3,
             recall_cost=3,
         )
         cls.user = User.objects.create_user(username=cls.TEST_USER)
         cls.other_user = User.objects.create_user(username=cls.OTHER_TEST_USER)
-        cls.create_decks_for_user(cls.user, hero, [character, spell, landmark])
-        cls.create_decks_for_user(cls.other_user, hero, [character, spell, landmark])
+        cls.create_decks_for_user(cls.user, hero, [character, spell, permanent])
+        cls.create_decks_for_user(cls.other_user, hero, [character, spell, permanent])
 
     @classmethod
     def create_decks_for_user(cls, user, hero, cards):
@@ -110,7 +110,7 @@ class DecksViewsTestCase(TestCase):
         self.assertEqual(deck, response.context["deck"])
         self.assertIn("character_list", response.context)
         self.assertIn("spell_list", response.context)
-        self.assertIn("landmark_list", response.context)
+        self.assertIn("permanent_list", response.context)
         self.assertListEqual(
             self.get_detail_card_list(deck, Card.Type.CHARACTER),
             response.context["character_list"],
@@ -120,8 +120,8 @@ class DecksViewsTestCase(TestCase):
             response.context["spell_list"],
         )
         self.assertListEqual(
-            self.get_detail_card_list(deck, Card.Type.LANDMARK),
-            response.context["landmark_list"],
+            self.get_detail_card_list(deck, Card.Type.PERMANENT),
+            response.context["permanent_list"],
         )
         self.assertIn("stats", response.context)
         self.assertIn("type_distribution", response.context["stats"])

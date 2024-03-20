@@ -27,19 +27,16 @@ def extract_card(card):
     if "MAIN_EFFECT" in card["elements"]:
         card_object["main_effect"] = card["elements"]["MAIN_EFFECT"]
 
-    if card_object["type"] == "PERMANENT":
-        card_object["type"] = "LANDMARK"
-
     if card_object["type"] == "HERO":
         try:
             card_object.update(
                 {
                     "reserve_count": card["elements"]["RESERVE"],
-                    "landmark_count": card["elements"]["PERMANENT"],
+                    "permanent_count": card["elements"]["PERMANENT"],
                 }
             )
         except KeyError:
-            card_object.update({"reserve_count": 2, "landmark_count": 2})
+            card_object.update({"reserve_count": 2, "permanent_count": 2})
 
     else:
         if card_object["type"] == "TOKEN":
@@ -75,7 +72,7 @@ def import_cards(apps, schema_editor):
     Hero = apps.get_model("decks", "Hero")
     Character = apps.get_model("decks", "Character")
     Spell = apps.get_model("decks", "Spell")
-    Landmark = apps.get_model("decks", "Landmark")
+    Permanent = apps.get_model("decks", "Permanent")
 
     page_index = 1
     page_count = math.inf
@@ -107,8 +104,8 @@ def import_cards(apps, schema_editor):
                     Character.objects.create(**card_object)
                 case Card.Type.SPELL:
                     Spell.objects.create(**card_object)
-                case Card.Type.LANDMARK:
-                    Landmark.objects.create(**card_object)
+                case Card.Type.PERMANENT:
+                    Permanent.objects.create(**card_object)
                 case Card.Type.TOKEN | Card.Type.MANA:
                     continue
                 case _:
