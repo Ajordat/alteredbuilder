@@ -54,9 +54,9 @@ class DeckDetailView(DetailView):
         for cid in decklist:
             d[cid.card.type][0].append((cid.quantity, cid.card))
             d[cid.card.type][1] += cid.quantity
-            hand_counter[getattr(cid.card, d[cid.card.type][2]).main_cost] += 1
-            recall_counter[getattr(cid.card, d[cid.card.type][2]).recall_cost] += 1
-            rarity_counter[cid.card.rarity] += 1
+            hand_counter[getattr(cid.card, d[cid.card.type][2]).main_cost] += cid.quantity
+            recall_counter[getattr(cid.card, d[cid.card.type][2]).recall_cost] += cid.quantity
+            rarity_counter[cid.card.rarity] += cid.quantity
 
         context |= {
             "character_list": d[Card.Type.CHARACTER][0],
