@@ -14,13 +14,23 @@ docker compose build
 docker compose up
 ```
 
-## Database migrations
+## Database
 
+### Create a Django migration
 
 ```bash
 docker compose run web python manage.py makemigrations
 docker compose run web python manage.py migrate
 ```
+
+### Import and export
+
+```bash
+docker exec <container-name> pg_dump <db-name> -U <db-user> --no-owner > dbexport.sql
+gsutil cp dbexport.sql <cloud-storage-bucket-uri>
+gcloud sql import sql <cloud-sql-instance-name> <cloud-storage-bucket-uri> --database=<db-name>
+```
+
 
 ## Testing
 

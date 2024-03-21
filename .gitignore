@@ -3,3 +3,4 @@ venv/
 data/db
 __pycache__/
 .coverage
+*.sql
