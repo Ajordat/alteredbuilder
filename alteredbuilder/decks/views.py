@@ -142,7 +142,7 @@ class NewDeckFormView(LoginRequiredMixin, FormView):
             self.deck = create_new_deck(self.request.user, form.cleaned_data)
         except MalformedDeckException as e:
             form.add_error("decklist", e.detail)
-            return render(self.request, self.template_name, {"form": form})
+            return self.form_invalid(form)
 
         return super().form_valid(form)
 
