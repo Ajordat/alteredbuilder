@@ -2,6 +2,8 @@ from rest_framework.exceptions import APIException
 
 
 class AlteredBuilderException(APIException):
+    """Custom exception to catch application errors"""
+
     detail = None
     status_code = None
 

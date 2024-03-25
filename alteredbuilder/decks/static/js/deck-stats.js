@@ -1,3 +1,4 @@
+// Retrieve the JSON data left on the template
 var deckStats = JSON.parse(document.getElementById('deck-stats').textContent);
 
 google.charts.load('current', {'packages':['corechart', 'bar']});
@@ -6,14 +7,13 @@ google.charts.setOnLoadCallback(drawStats);
 google.charts.setOnLoadCallback(drawManaCurve);
 
 function drawChart() {
+    // Draw the card type distribution in a pie chart
 
     let data = google.visualization.arrayToDataTable(
         [['Card Type', 'Amount']].concat(Object.entries(deckStats["type_distribution"]))
     );
 
-    let options = {
-        title: 'Card Type Distribution'
-    };
+    let options = {title: 'Card Type Distribution'};
 
     let chart = new google.visualization.PieChart(document.getElementById('distribution-pie-chart'));
 
@@ -21,6 +21,8 @@ function drawChart() {
 }
 
 function drawStats() {
+    // Fill the table with the chances of drawing all card types at any given time and
+    // in the initial hand
     let cardType = ["characters", "spells", "permanents"];
     let cardCount = deckStats["total_count"];
     let handSize = 6;
@@ -35,6 +37,7 @@ function drawStats() {
         let handNumerator = 1;
         let handDenominator = 1;
         if (cardCount > handSize) {
+            // Hypergeometric distribution
             for(let i = cardCount-cardTypeCount-handSize+1; i < cardCount-handSize+1; i++){handNumerator*=i;};
             for(let i = cardCount-cardTypeCount+1; i < cardCount+1; i++){handDenominator*=i;};
             handDraw = 1 - handNumerator / handDenominator;
@@ -48,6 +51,7 @@ function drawStats() {
 }
 
 function drawManaCurve() {
+    // Draw the vertical bars plot that depicts the mana curve
 
     let data = [['Cost', 'Hand', 'Reserve']];
     let handCosts = deckStats["mana_distribution"]["hand"];

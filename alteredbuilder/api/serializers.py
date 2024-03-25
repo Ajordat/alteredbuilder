@@ -4,6 +4,10 @@ from rest_framework import serializers
 from decks.models import Card, Character, Hero, Permanent, Spell
 
 
+# API serializers. They define what fields of the referred model they will return.
+# `__all__` also includes the field `url`, which will be a link to the object's detail
+
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
@@ -42,5 +46,5 @@ class PermanentSerializer(serializers.HyperlinkedModelSerializer):
 
 class SpellSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Hero
+        model = Spell
         fields = "__all__"

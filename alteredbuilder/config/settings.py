@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+
 import io
 import os
 from pathlib import Path
@@ -22,15 +23,14 @@ from google.cloud import secretmanager
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+# Define custom logging.
+# It basically overwrites the default behavior that avoids request and security logs
+# when outside debug mode.
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
-        "verbose": {
-            "format": "[{asctime}][{levelname}] {message}",
-            "style": "{"
-        }
+        "verbose": {"format": "[{asctime}][{levelname}] {message}", "style": "{"}
     },
     "handlers": {
         "console": {
@@ -43,64 +43,63 @@ LOGGING = {
         "django.request": {
             "handlers": ["console"],
             "propagate": False,
-            "level": "DEBUG"
+            "level": "DEBUG",
         },
         "django.security": {
             "handlers": ["console"],
             "propagate": False,
-            "level": "DEBUG"
-        }
-    }
+            "level": "DEBUG",
+        },
+    },
 }
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# Load the environmental variables with default values
 env = environ.Env(
     DEBUG=(bool, False),
     SERVICE_PUBLIC_URL=(str, None),
     USE_GCS_STATICS=(bool, False),
     GCS_BUCKET_STATICS=(str, None),
-    SECRET_KEY=(str, None)
+    SECRET_KEY=(str, None),
 )
 
 try:
+    # Attempt to retrieve GCP credentials from environment
     _, os.environ["GOOGLE_CLOUD_PROJECT"] = google.auth.default()
+
 except google.auth.exceptions.DefaultCredentialsError:
     pass
 
-if (GCP_PROJECT_ID := env("GOOGLE_CLOUD_PROJECT", default=None)):
-    # Pull secrets from Secret Manager
-    client = secretmanager.SecretManagerServiceClient()
-    settings_name = env("SETTINGS_NAME")
-    name = f"projects/{GCP_PROJECT_ID}/secrets/{settings_name}/versions/latest"
-    payload = client.access_secret_version(name=name).payload.data.decode("UTF-8")
-    env.read_env(io.StringIO(payload))
+else:
+    if GCP_PROJECT_ID := env("GOOGLE_CLOUD_PROJECT", default=None):
+        # Pull environment variables from Secret Manager
+        client = secretmanager.SecretManagerServiceClient()
+        settings_name = env("SETTINGS_NAME")
+        name = f"projects/{GCP_PROJECT_ID}/secrets/{settings_name}/versions/latest"
+        payload = client.access_secret_version(name=name).payload.data.decode("UTF-8")
+        env.read_env(io.StringIO(payload))
 
 DEBUG = env("DEBUG")
 SECRET_KEY = env("SECRET_KEY")
 
-if (SERVICE_PUBLIC_URL := env("SERVICE_PUBLIC_URL")):
-    
+if SERVICE_PUBLIC_URL := env("SERVICE_PUBLIC_URL"):
+    # If SERVICE_PUBLIC_URL is set it means we're serving publicly
+
     ALLOWED_HOSTS = [urlparse(SERVICE_PUBLIC_URL).netloc]
     CSRF_TRUSTED_ORIGINS = [SERVICE_PUBLIC_URL]
     SECURE_SSL_REDIRECT = True
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
 
 else:
-    ALLOWED_HOSTS = ["*"]
-    INTERNAL_IPS = ["127.0.0.1", "0.0.0.0"]
-    import socket
-
-    ip = socket.gethostbyname(socket.gethostname())
-    INTERNAL_IPS += [ip[:-1] + "1"]
-
-
+    # If we're in a local environment, we only allow the localhost
+    ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0", "localhost"]
 
 # Application definition
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -160,11 +159,19 @@ REST_FRAMEWORK = {
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {"default": env.db()}
-DATABASES["default"]["TEST"] = {"MIGRATE": False}
+DATABASES["default"].update({"CONN_MAX_AGE": 10, "TEST": {"MIGRATE": False}})
+
 
 if DEBUG:
+    # When in debug mode, enable django-debug-toolbar
+    # https://ranjanmp.medium.com/e79585813bc6
+    import socket
+
     MIDDLEWARE = ["debug_toolbar.middleware.DebugToolbarMiddleware"] + MIDDLEWARE
     INSTALLED_APPS += ["debug_toolbar"]
+
+    ip = socket.gethostbyname(socket.gethostname())
+    INTERNAL_IPS = [ip[:-1] + "1"] + ["127.0.0.1"]
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -222,8 +229,8 @@ if env("USE_GCS_STATICS") and (statics_bucket := env("GCS_BUCKET_STATICS")):
                 "bucket_name": statics_bucket,
                 "default_acl": None,
                 "querystring_auth": False,
-            }
-        }
+            },
+        },
     }
 else:
     STATIC_ROOT = BASE_DIR / "static/"

@@ -4,7 +4,15 @@ register = template.Library()
 
 
 @register.simple_tag
-def get_row_color_from_rarity(rarity):
+def get_row_color_from_rarity(rarity: str) -> str:
+    """Return the desired row color depending on a card's rarity.
+
+    Args:
+        rarity (str): The card's rarity.
+
+    Returns:
+        str: The rarity's row color.
+    """
     match rarity:
         case "common":
             return "table-light"

@@ -2,6 +2,9 @@ from rest_framework import status
 from api.exceptions import AlteredBuilderException
 
 
+# Custom exceptions inheriting from the base exception defined on the API app
+
+
 class DeckException(AlteredBuilderException):
     pass
 

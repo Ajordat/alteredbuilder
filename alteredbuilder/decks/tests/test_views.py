@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.test import TestCase
 from django.urls import reverse
 
@@ -6,6 +7,8 @@ from decks.models import Card, CardInDeck, Character, Deck, Hero, Permanent, Spe
 
 
 class DecksViewsTestCase(TestCase):
+    """Test case focusing on the Views."""
+
     TEST_USER = "test_user"
     OTHER_TEST_USER = "other_test_user"
     PUBLIC_DECK_NAME = "test_public_deck"
@@ -13,6 +16,16 @@ class DecksViewsTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
+        """Create the database data for this test.
+
+        Specifically, it creates:
+        * 2 User
+        * 1 Hero
+        * 1 Character
+        * 1 Spell
+        * 1 Permanent
+        * 4 Deck
+        """
         hero = Hero.objects.create(
             reference="ALT_CORE_B_AX_01_C",
             name="Sierra & Oddball",
@@ -56,7 +69,14 @@ class DecksViewsTestCase(TestCase):
         cls.create_decks_for_user(cls.other_user, hero, [character, spell, permanent])
 
     @classmethod
-    def create_decks_for_user(cls, user, hero, cards):
+    def create_decks_for_user(cls, user: User, hero: Hero, cards: list[Card]):
+        """Create a public and a private deck based on the received parameters.
+
+        Args:
+            user (User): The owner of the decks.
+            hero (Hero): The Deck's Hero.
+            cards (list[Card]): The Deck's cards.
+        """
         public_deck = Deck.objects.create(
             owner=user, name=cls.PUBLIC_DECK_NAME, hero=hero, is_public=True
         )
@@ -68,10 +88,12 @@ class DecksViewsTestCase(TestCase):
             CardInDeck.objects.create(deck=private_deck, card=card, quantity=2)
 
     def test_homepage_redirect(self):
+        """Test that the index page redirects to the entry endpoint."""
         response = self.client.get(reverse("index"))
         self.assertRedirects(response, reverse("deck-list"), status_code=301)
 
     def test_decks_home_unauthenticated(self):
+        """Test the context content for an unauthenticated user."""
         response = self.client.get(reverse("deck-list"))
 
         self.assertIn("deck_list", response.context)
@@ -83,6 +105,7 @@ class DecksViewsTestCase(TestCase):
         self.assertNotIn("own_decks", response.context)
 
     def test_decks_home_authenticated(self):
+        """Test the context content for an authenticated user."""
         self.client.force_login(self.user)
         response = self.client.get(reverse("deck-list"))
 
@@ -98,14 +121,31 @@ class DecksViewsTestCase(TestCase):
             own_decks, response.context["own_decks"], ordered=False
         )
 
-    def get_detail_card_list(self, deck, card_type):
+    def get_detail_card_list(self, deck: Deck, card_type: Card.Type) -> list[int, Card]:
+        """Return the quantity and model of cards of the Deck filtered by their type.
+
+        Args:
+            deck (Deck): The deck containing the cards.
+            card_type (Card.Type): The type of card to filter.
+
+        Returns:
+            list[int, Card]: The list of cards with their amount.
+        """
         return [
             (c.quantity, c.card)
             for c in deck.cardindeck_set.all()
             if c.card.type == card_type
         ]
 
-    def assert_deck_detail(self, deck, response):
+    def assert_deck_detail(self, deck: Deck, response: HttpResponse):
+        """Compare the received Deck object with the context on a response returned by
+        a view.
+
+        Args:
+            deck (Deck): The Deck to compare.
+            response (HttpResponse): The response with the context.
+        """
+
         self.assertIn("deck", response.context)
         self.assertEqual(deck, response.context["deck"])
         self.assertIn("character_list", response.context)
@@ -130,6 +170,7 @@ class DecksViewsTestCase(TestCase):
         self.assertIn("rarity_distribution", response.context["stats"])
 
     def test_own_public_deck_detail_authenticated(self):
+        """Test the deck detail page of an authenticated user to its own public deck."""
         self.client.force_login(self.user)
         public_deck = Deck.objects.filter(is_public=True, owner=self.user).get()
         response = self.client.get(
@@ -139,6 +180,7 @@ class DecksViewsTestCase(TestCase):
         self.assert_deck_detail(public_deck, response)
 
     def test_other_public_deck_detail_authenticated(self):
+        """Test the deck detail page of an unauthenticated user to a public deck."""
         self.client.force_login(self.user)
         public_deck = Deck.objects.filter(is_public=True, owner=self.other_user).get()
         response = self.client.get(
@@ -148,6 +190,7 @@ class DecksViewsTestCase(TestCase):
         self.assert_deck_detail(public_deck, response)
 
     def test_own_private_deck_detail_authenticated(self):
+        """Test the deck detail page of an authenticated user to its own private deck."""
         self.client.force_login(self.user)
         public_deck = Deck.objects.filter(is_public=False, owner=self.user).get()
         response = self.client.get(
@@ -157,6 +200,9 @@ class DecksViewsTestCase(TestCase):
         self.assert_deck_detail(public_deck, response)
 
     def test_other_private_deck_detail_authenticated(self):
+        """Test the deck detail page of an authenticated user to another user's private
+        deck.
+        """
         self.client.force_login(self.user)
         private_deck = Deck.objects.filter(is_public=False, owner=self.other_user).get()
 
@@ -166,6 +212,7 @@ class DecksViewsTestCase(TestCase):
         self.assertTemplateUsed(response, "errors/404.html")
 
     def test_public_deck_detail_unauthenticated(self):
+        """Test the deck detail page of an unauthenticated user to a public deck."""
         public_deck = Deck.objects.filter(is_public=True, owner=self.other_user).get()
         response = self.client.get(
             reverse("deck-detail", kwargs={"pk": public_deck.id})
@@ -174,6 +221,7 @@ class DecksViewsTestCase(TestCase):
         self.assert_deck_detail(public_deck, response)
 
     def test_private_deck_detail_unauthenticated(self):
+        """Test the deck detail page of an unauthenticated user to a private deck."""
         private_deck = Deck.objects.filter(is_public=False, owner=self.other_user).get()
 
         response = self.client.get(

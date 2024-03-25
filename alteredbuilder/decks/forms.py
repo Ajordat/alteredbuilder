@@ -3,11 +3,15 @@ import re
 from django import forms
 from django.core.validators import RegexValidator
 
+# Form definitions
 
+# Regex to validate whether at least one line follows the correct format
 decklist_validator = RegexValidator(r"^[123] \w+$", flags=re.MULTILINE)
 
 
 class DecklistForm(forms.Form):
+    """Form to validate the creation of a Deck."""
+
     template_name = "forms/submit_decklist.html"
     name = forms.CharField(label="deck-name", max_length=50, required=True)
     decklist = forms.CharField(

@@ -5,6 +5,8 @@ from decks.models import Card, Character, Deck, Hero, Permanent, Spell
 
 
 class DecksViewsTestCase(TestCase):
+    """Test case focusing on the Models."""
+
     TEST_USER = "test_user"
     HERO_REFERENCE = "ALT_CORE_B_AX_01_C"
     PROMO_HERO_REFERENCE = "ALT_CORE_P_AX_01_C"
@@ -16,6 +18,16 @@ class DecksViewsTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
+        """Create the database data for this test.
+
+        Specifically, it creates:
+        * 2 User
+        * 2 Hero
+        * 2 Character
+        * 1 Spell
+        * 1 Permanent
+        * 1 Deck
+        """
         cls.user = User.objects.create_user(username=cls.TEST_USER)
         hero = Hero.objects.create(
             reference=cls.HERO_REFERENCE,
@@ -78,6 +90,7 @@ class DecksViewsTestCase(TestCase):
         )
 
     def test_to_string(self):
+        """Test the string representations of all models."""
         hero = Hero.objects.get(reference=self.HERO_REFERENCE)
         character = Character.objects.get(reference=self.CHARACTER_REFERENCE)
         spell = Spell.objects.get(reference=self.SPELL_REFERENCE)
@@ -99,6 +112,7 @@ class DecksViewsTestCase(TestCase):
         self.assertEqual(str(deck), f"{deck.owner.username} - {deck.name}")
 
     def test_hero_promo(self):
+        """Test if the Hero objects correctly identify whether they're a promo card."""
         hero = Hero.objects.get(reference=self.HERO_REFERENCE)
         promo_hero = Hero.objects.get(reference=self.PROMO_HERO_REFERENCE)
 
@@ -106,6 +120,9 @@ class DecksViewsTestCase(TestCase):
         self.assertTrue(promo_hero.is_promo())
 
     def test_character_oof(self):
+        """Test if the Character objects correctly identify whether they're out of
+        their original faction or not.
+        """
         character = Character.objects.get(reference=self.CHARACTER_REFERENCE)
         oof_character = Character.objects.get(reference=self.OOF_CHARACTER_REFERENCE)
 

@@ -10,6 +10,8 @@ from decks.models import Card, Character, Deck, Hero
 
 
 class DecksFormsTestCase(TestCase):
+    """Test case focusing on the Forms."""
+
     USER_NAME = "test_user"
     DECK_NAME = "test deck"
     HERO_REFERENCE = "ALT_CORE_B_AX_01_C"
@@ -17,6 +19,13 @@ class DecksFormsTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
+        """Create the database data for this test.
+
+        Specifically, it creates:
+        * 1 User
+        * 1 Hero
+        * 1 Character
+        """
         cls.user = User.objects.create_user(username=cls.USER_NAME)
 
         Hero.objects.create(
@@ -40,18 +49,21 @@ class DecksFormsTestCase(TestCase):
         )
 
     def test_invalid_deck_only_name(self):
+        """Validate a form creating a Deck only providing the name."""
         form_data = {"name": self.DECK_NAME}
         form = DecklistForm(data=form_data)
         self.assertFalse(form.is_valid())
         self.assertFormError(form, "decklist", "This field is required.")
 
     def test_invalid_deck_only_decklist(self):
+        """Validate a form creating a Deck only providing the decklist."""
         form_data = {"decklist": f"1 {self.HERO_REFERENCE}"}
         form = DecklistForm(data=form_data)
         self.assertFalse(form.is_valid())
         self.assertFormError(form, "name", "This field is required.")
 
     def test_invalid_deck_wrong_quantity(self):
+        """Validate a form creating a Deck with an invalid amount of cards."""
         form_data = {
             "name": self.DECK_NAME,
             "decklist": f"4 {self.CHARACTER_REFERENCE}",
@@ -65,6 +77,7 @@ class DecksFormsTestCase(TestCase):
         )
 
     def test_valid_deck(self):
+        """Validate a valid form creating a Deck."""
         form_data = {
             "name": self.DECK_NAME,
             "decklist": f"1 {self.HERO_REFERENCE}\n3 {self.CHARACTER_REFERENCE}",
@@ -73,6 +86,7 @@ class DecksFormsTestCase(TestCase):
         self.assertTrue(form.is_valid())
 
     def test_valid_deck_unauthenticated(self):
+        """Attempt to submit a form creating a Deck while unauthenticated."""
         form_data = {
             "name": self.DECK_NAME,
             "decklist": f"1 {self.HERO_REFERENCE}\n3 {self.CHARACTER_REFERENCE}",
@@ -84,6 +98,7 @@ class DecksFormsTestCase(TestCase):
         )
 
     def test_valid_deck_authenticated(self):
+        """Attempt to submit a form creating a valid Deck."""
         form_data = {
             "name": self.DECK_NAME,
             "decklist": f"1 {self.HERO_REFERENCE}\n3 {self.CHARACTER_REFERENCE}",
@@ -107,6 +122,9 @@ class DecksFormsTestCase(TestCase):
         self.assertEqual(deck_cards[0].card.character, character)
 
     def test_invalid_deck_wrong_reference(self):
+        """Attempt to submit a form creating a Deck with an invalid reference to a
+        card.
+        """
         wrong_card_reference = "wrong_card_reference"
         form_data = {
             "name": self.DECK_NAME,
@@ -120,6 +138,7 @@ class DecksFormsTestCase(TestCase):
         )
 
     def test_invalid_deck_multiple_heroes(self):
+        """Attempt to submit a form creating a Deck that contains multiple heroes."""
         form_data = {
             "name": self.DECK_NAME,
             "decklist": f"1 {self.HERO_REFERENCE}\n1 {self.HERO_REFERENCE}",
@@ -130,6 +149,10 @@ class DecksFormsTestCase(TestCase):
         self.assertContains(response, "Multiple heroes present in the decklist")
 
     def test_invalid_deck_wrong_format(self):
+        """Attempt to submit a form creating a Deck with an incorrect format.
+        This is useful as the DecklistForm only checks that at least one line respects
+        the format.
+        """
         wrong_format_line = "NOT_THE_RIGHT_FORMAT"
         form_data = {
             "name": self.DECK_NAME,
@@ -143,6 +166,7 @@ class DecksFormsTestCase(TestCase):
         )
 
     def test_invalid_deck_missing_hero(self):
+        """Attempt to submit a form creating a Deck without a hero reference."""
         form_data = {
             "name": self.DECK_NAME,
             "decklist": f"3 {self.CHARACTER_REFERENCE}",
