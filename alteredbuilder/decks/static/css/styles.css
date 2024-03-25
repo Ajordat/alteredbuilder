@@ -7,3 +7,7 @@
     width: 500px;
     height: 500px;
 }
+
+#card-showcase {
+    max-height: 500px;
+}
