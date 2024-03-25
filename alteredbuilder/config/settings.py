@@ -9,37 +9,94 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import io
+import os
 from pathlib import Path
+from urllib.parse import urlparse
 
 import environ
+import google.auth
+from google.cloud import secretmanager
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "[{asctime}][{levelname}] {message}",
+            "style": "{"
+        }
+    },
+    "handlers": {
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        }
+    },
+    "loggers": {
+        "django.request": {
+            "handlers": ["console"],
+            "propagate": False,
+            "level": "DEBUG"
+        },
+        "django.security": {
+            "handlers": ["console"],
+            "propagate": False,
+            "level": "DEBUG"
+        }
+    }
+}
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-8prc5ukmve_49phy&h)510ae(@&iem)e7)#*weqzuh@8_u^l#c"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 env = environ.Env(
     DEBUG=(bool, False),
+    SERVICE_PUBLIC_URL=(str, None),
+    USE_GCS_STATICS=(bool, False),
+    GCS_BUCKET_STATICS=(str, None),
+    SECRET_KEY=(str, None)
 )
-DEBUG = env("DEBUG")
 
-if DEBUG:
+try:
+    _, os.environ["GOOGLE_CLOUD_PROJECT"] = google.auth.default()
+except google.auth.exceptions.DefaultCredentialsError:
+    pass
+
+if (GCP_PROJECT_ID := env("GOOGLE_CLOUD_PROJECT", default=None)):
+    # Pull secrets from Secret Manager
+    client = secretmanager.SecretManagerServiceClient()
+    settings_name = env("SETTINGS_NAME")
+    name = f"projects/{GCP_PROJECT_ID}/secrets/{settings_name}/versions/latest"
+    payload = client.access_secret_version(name=name).payload.data.decode("UTF-8")
+    env.read_env(io.StringIO(payload))
+
+DEBUG = env("DEBUG")
+SECRET_KEY = env("SECRET_KEY")
+
+if (SERVICE_PUBLIC_URL := env("SERVICE_PUBLIC_URL")):
+    
+    ALLOWED_HOSTS = [urlparse(SERVICE_PUBLIC_URL).netloc]
+    CSRF_TRUSTED_ORIGINS = [SERVICE_PUBLIC_URL]
+    SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+else:
     ALLOWED_HOSTS = ["*"]
     INTERNAL_IPS = ["127.0.0.1", "0.0.0.0"]
     import socket
 
     ip = socket.gethostbyname(socket.gethostname())
     INTERNAL_IPS += [ip[:-1] + "1"]
-else:
-    ALLOWED_HOSTS = []
+
 
 
 # Application definition
@@ -57,12 +114,10 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.github",
-    "debug_toolbar",
     "decks.apps.DecksConfig",
 ]
 
 MIDDLEWARE = [
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -104,19 +159,12 @@ REST_FRAMEWORK = {
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+DATABASES = {"default": env.db()}
+DATABASES["default"]["TEST"] = {"MIGRATE": False}
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": env("POSTGRES_DB"),
-        "USER": env("POSTGRES_USER"),
-        "PASSWORD": env("POSTGRES_PASSWORD"),
-        "HOST": "db",
-        "PORT": 5432,
-        "TEST": {"MIGRATE": False},
-    }
-}
-
+if DEBUG:
+    MIDDLEWARE = ["debug_toolbar.middleware.DebugToolbarMiddleware"] + MIDDLEWARE
+    INSTALLED_APPS += ["debug_toolbar"]
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -163,9 +211,25 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
+if env("USE_GCS_STATICS") and (statics_bucket := env("GCS_BUCKET_STATICS")):
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
+            "OPTIONS": {
+                "bucket_name": statics_bucket,
+                "default_acl": None,
+                "querystring_auth": False,
+            }
+        }
+    }
+else:
+    STATIC_ROOT = BASE_DIR / "static/"
+
 STATIC_URL = "static/"
-STATIC_ROOT = None
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [BASE_DIR / "statics"]
 
 
 # Instead of sending emails, show them in the console.

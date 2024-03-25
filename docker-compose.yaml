@@ -14,7 +14,6 @@ services:
     - ./alteredbuilder:/code
     ports:
     - 8000:8000
-    environment: *db_credentials
     env_file:
     - .env
     depends_on:
