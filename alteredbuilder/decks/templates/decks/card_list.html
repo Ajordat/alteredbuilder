@@ -1,15 +1,18 @@
 {% extends "base.html" %}
 
-{% block title %}New Deck{% endblock %}
+{% block title %}Cards{% endblock %}
 
 {% block content %}
 
     {% if card_list %}
-        <ul>
         {% for card in card_list %}
-            <li><a href="/decks/{{ card.reference }}/">{{ card.name }}</a></li>
+            <div class="card" style="width: 18rem;">
+                <img src="{{ card.image_url }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <a href="#" class="btn btn-primary">Start a deck</a>
+                </div>
+            </div>
         {% endfor %}
-        </ul>
     {% else %}
         <p>No polls are available.</p>
     {% endif %}

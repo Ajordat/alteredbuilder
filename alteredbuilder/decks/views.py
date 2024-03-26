@@ -245,3 +245,7 @@ def cards(request):
 
     context = {"card_list": cards}
     return render(request, "decks/card_list.html", context)
+
+class CardListView(ListView):
+    model = Card
+    paginate_by = 24
