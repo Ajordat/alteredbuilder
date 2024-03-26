@@ -27,7 +27,11 @@ class DeckListView(ListView):
     """
 
     model = Deck
-    queryset = Deck.objects.filter(is_public=True).order_by("-created_at")
+    queryset = (
+        Deck.objects.filter(is_public=True)
+        .select_related("owner", "hero")
+        .order_by("-created_at")
+    )
     paginate_by = 10
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
@@ -38,9 +42,11 @@ class DeckListView(ListView):
         """
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            context["own_decks"] = Deck.objects.filter(
-                owner=self.request.user
-            ).order_by("-created_at")
+            context["own_decks"] = (
+                Deck.objects.filter(owner=self.request.user)
+                .select_related("hero")
+                .order_by("-created_at")
+            )
         return context
 
 
@@ -56,10 +62,10 @@ class DeckDetailView(DetailView):
         Returns:
             Manager[Deck]: The view's queryset.
         """
+        filter = Q(is_public=True)
         if self.request.user.is_authenticated:
-            return Deck.objects.filter(Q(is_public=True) | Q(owner=self.request.user))
-        else:
-            return Deck.objects.filter(is_public=True)
+            filter |= Q(owner=self.request.user)
+        return Deck.objects.filter(filter).select_related("hero")
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         """Add metadata of the Deck to the context.
@@ -69,7 +75,13 @@ class DeckDetailView(DetailView):
         """
 
         context = super().get_context_data(**kwargs)
-        decklist = self.object.cardindeck_set.order_by("card__reference").all()
+        decklist = (
+            self.object.cardindeck_set.select_related(
+                "card__character", "card__spell", "card__permanent"
+            )
+            .order_by("card__reference")
+            .all()
+        )
 
         hand_counter = defaultdict(int)
         recall_counter = defaultdict(int)

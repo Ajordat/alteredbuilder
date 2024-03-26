@@ -4,6 +4,7 @@
 
 {% block content %}
 
+    <div>
     <table class="table" id="character-table" aria-describedby="Available characters">
         <thead>
             <tr>
@@ -44,7 +45,7 @@
     </div>
 
     {% if own_decks %}
-    <table class="table" id="character-table" aria-describedby="Available characters">
+    <table class="table" id="character-table" aria-describedby="Own decks">
         <thead>
             <tr>
                 <th scope="col">Owner</th>
@@ -57,7 +58,7 @@
         <tbody>
         {% for deck in own_decks %}
             <tr>
-                <td>{{ deck.owner.username }}</td>
+                <td>{{ user.username }}</td>
                 <td><a href="{% url 'deck-detail' pk=deck.id %}">{{ deck.name }}</a></td>
                 <td>{{ deck.hero.get_faction_display.title }}</td>
                 <td>{{ deck.hero.name }}</td>
@@ -67,4 +68,5 @@
         </tbody>
     </table>
     {% endif %}
+    </div>
 {% endblock %}
