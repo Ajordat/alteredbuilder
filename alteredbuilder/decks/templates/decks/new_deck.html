@@ -10,13 +10,10 @@
 {% endblock %}
 
 {% block content %}
-
-    <div class="container-fluid px-5 mt-3">
-        <div class="col-3">
-            <form action="/decks/new/" method="post" class="needs-validation" novalidate>
-                {% csrf_token %}
-                {{ form }}
-            </form>
-        </div>
+    <div class="col-3">
+        <form action="/decks/new/" method="post" class="needs-validation" novalidate>
+            {% csrf_token %}
+            {{ form }}
+        </form>
     </div>
 {% endblock %}

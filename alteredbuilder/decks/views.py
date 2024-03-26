@@ -244,4 +244,4 @@ def cards(request):
     cards = Card.objects.order_by("reference")[:20]
 
     context = {"card_list": cards}
-    return render(request, "decks/cards.html", context)
+    return render(request, "decks/card_list.html", context)
