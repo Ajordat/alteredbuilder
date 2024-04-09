@@ -110,7 +110,10 @@ class DeckDetailView(DetailView):
             # Count the amount of cards with the same rarity
             rarity_counter[cid.card.rarity] += cid.quantity
 
+        decklist_text = f"1 {self.object.hero.reference}\n"
+        decklist_text += "\n".join([f"{cid.quantity} {cid.card.reference}" for cid in decklist])
         context |= {
+            "decklist": decklist_text,
             "character_list": d[Card.Type.CHARACTER][0],
             "spell_list": d[Card.Type.SPELL][0],
             "permanent_list": d[Card.Type.PERMANENT][0],

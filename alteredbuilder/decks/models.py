@@ -85,6 +85,7 @@ class Permanent(PlayableCard):
 class Deck(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
+    description = models.TextField(blank=True)
     cards = models.ManyToManyField(Card, through="CardInDeck", related_name="decks")
     hero = models.ForeignKey(Hero, blank=True, null=True, on_delete=models.SET_NULL)
     is_public = models.BooleanField(default=False)

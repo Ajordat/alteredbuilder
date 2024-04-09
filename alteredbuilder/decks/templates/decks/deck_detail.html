@@ -2,6 +2,7 @@
 
 {% load static %}
 {% load deck_styles %}
+{% load markdown_extras %}
 
 {% block title %}Deck detail{% endblock %}
 
@@ -12,7 +13,31 @@
 {% endblock %}
 
 {% block content %}
-
+    <h2>{{ object.name }}</h2>
+    <div class="row">
+        <div class="col">{{ object.description | markdown | safe }}</div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p>Created: {{ object.created_at|date:"DATE_FORMAT" }}</p>
+            <p>Last modified: {{ object.modified_at|date:"DATE_FORMAT" }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-share-nodes"></i> Share
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li id="copy-self-link"><a class="dropdown-item" href="#">Link to builder</a></li>
+                        <li id="copy-decklist"><a class="dropdown-item" href="#">Decklist</a></li>
+                    </ul>
+                </div>
+            </p>
+        </div>
+    </div>
     <h3>Decklist</h3>
     <div class="row">
         <div class="col-3">
@@ -45,9 +70,7 @@
                             <tr>
                                 <th scope="col">Q</th>
                                 <th scope="col">Name</th>
-                                <!-- <th scope="col">Rarity</th> -->
                                 <th scope="col">Mana</th>
-                                <!-- <th scope="col">Stats</th> -->
                             </tr>
                         </thead>
                         <tbody class="table-group-divider">
@@ -55,12 +78,9 @@
                             <tr class="{% get_row_color_from_rarity char.get_rarity_display %}" data-image-url="{{ char.image_url }}">
                                 <td>{{ quantity }}</td>
                                 <td>{{ char.name }}</td>
-                                <!-- <td>{{ char.get_rarity_display.title }}</td> -->
                                 <td>{{ char.character.main_cost }}/{{ char.character.recall_cost }}</td>
-                                <!-- <td>{{ char.character.forest_power }}-{{ char.character.mountain_power }}-{{ char.character.ocean_power }}</td> -->
                             </tr>
     {% empty %}
-                            <!-- <tr><td colspan="5">No characters</td></tr> -->
                             <tr><td colspan="3">No characters</td></tr>
     {% endfor %}
                         </tbody>
@@ -74,7 +94,6 @@
                             <tr>
                                 <th scope="col">Q</th>
                                 <th scope="col">Name</th>
-                                <!-- <th scope="col">Rarity</th> -->
                                 <th scope="col">Mana</th>
                             </tr>
                         </thead>
@@ -83,11 +102,9 @@
                             <tr class="{% get_row_color_from_rarity spell.get_rarity_display %}" data-image-url="{{ spell.image_url }}">
                                 <td>{{ quantity }}</td>
                                 <td>{{ spell.name }}</td>
-                                <!-- <td>{{ spell.get_rarity_display.title }}</td> -->
                                 <td>{{ spell.spell.main_cost }}/{{ spell.spell.recall_cost }}</td>
                             </tr>
     {% empty %}
-                            <!-- <tr><td colspan="4">No spells</td></tr> -->
                             <tr><td colspan="3">No spells</td></tr>
     {% endfor %}
                         </tbody>
@@ -101,7 +118,6 @@
                             <tr>
                                 <th scope="col">Q</th>
                                 <th scope="col">Name</th>
-                                <!-- <th scope="col">Rarity</th> -->
                                 <th scope="col">Mana</th>
                             </tr>
                         </thead>
@@ -110,11 +126,9 @@
                             <tr class="{% get_row_color_from_rarity permanent.get_rarity_display %}" data-image-url="{{ permanent.image_url }}">
                                 <td>{{ quantity }}</td>
                                 <td>{{ permanent.name }}</td>
-                                <!-- <td>{{ permanent.get_rarity_display.title }}</td> -->
                                 <td>{{ permanent.permanent.main_cost }}/{{ permanent.permanent.recall_cost }}</td>
                             </tr>
     {% empty %}
-                        <!-- <tr><td colspan="4">No permanents</td></tr> -->
                         <tr><td colspan="3">No permanents</td></tr>
     {% endfor %}
                         </tbody>
@@ -185,7 +199,16 @@
             <div id="mana-curve-chart"></div>
         </div>
     </div>
-{{ stats|json_script:"deck-stats" }}
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="simple-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-body d-flex">
+                <span id="toast-text"></span>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    <article id="decklist-text" data-decklist="{{ decklist }}"></article>
+    {{ stats|json_script:"deck-stats" }}
 {% endblock %}
 
 {% block bodyscripts %}
