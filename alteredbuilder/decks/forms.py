@@ -14,6 +14,9 @@ class DecklistForm(forms.Form):
 
     template_name = "forms/submit_decklist.html"
     name = forms.CharField(label="deck-name", max_length=50, required=True)
+    description = forms.CharField(
+        label="description", widget=forms.Textarea, max_length=1000, required=False
+    )
     decklist = forms.CharField(
         label="decklist",
         widget=forms.Textarea,

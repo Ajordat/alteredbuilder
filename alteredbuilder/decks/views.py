@@ -111,7 +111,9 @@ class DeckDetailView(DetailView):
             rarity_counter[cid.card.rarity] += cid.quantity
 
         decklist_text = f"1 {self.object.hero.reference}\n"
-        decklist_text += "\n".join([f"{cid.quantity} {cid.card.reference}" for cid in decklist])
+        decklist_text += "\n".join(
+            [f"{cid.quantity} {cid.card.reference}" for cid in decklist]
+        )
         context |= {
             "decklist": decklist_text,
             "character_list": d[Card.Type.CHARACTER][0],
@@ -158,7 +160,10 @@ def create_new_deck(user: User, deck_form: dict) -> Deck:
     """
     decklist = deck_form["decklist"]
     deck = Deck.objects.create(
-        name=deck_form["name"], owner=user, is_public=deck_form["is_public"]
+        name=deck_form["name"],
+        owner=user,
+        is_public=deck_form["is_public"],
+        description=deck_form["description"],
     )
     has_hero = False
     for line in decklist.splitlines():
@@ -248,6 +253,7 @@ def cards(request):
 
     context = {"card_list": cards}
     return render(request, "decks/card_list.html", context)
+
 
 class CardListView(ListView):
     model = Card
