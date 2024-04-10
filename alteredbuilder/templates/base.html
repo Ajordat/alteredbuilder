@@ -23,7 +23,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Home</a>
                         </li>
@@ -34,6 +34,8 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'new-deck' %}">New deck</a>
                         </li>
+                    </ul>
+                    <ul class="navbar-nav">
     {% if user.is_staff %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'admin:index' %}"><i class="fa-solid fa-gears"></i> Django Admin</a>
@@ -48,6 +50,8 @@
                         </ul>
                         </li>
 {% else %}
+                    </ul>
+                    <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'account_login' %}?next={{ request.path }}">Login</a>
                         </li>
