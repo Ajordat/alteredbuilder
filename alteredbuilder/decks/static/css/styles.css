@@ -11,3 +11,7 @@
 #card-showcase {
     max-height: 500px;
 }
+
+.card-display {
+    max-width: 280px;
+}

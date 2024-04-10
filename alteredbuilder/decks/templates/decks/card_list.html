@@ -1,20 +1,33 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block title %}Cards{% endblock %}
 
-{% block content %}
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{% endblock %}
 
-    {% if card_list %}
-        {% for card in card_list %}
-            <div class="card" style="width: 18rem;">
+{% block content %}
+    <div class="row gy-5">
+
+    {% for card in card_list %}
+        <div class="col-xxl-2 col-xl-3 col-md-4 col-sm-6">
+            <div class="card card-display">
                 <img src="{{ card.image_url }}" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <a href="#" class="btn btn-primary">Start a deck</a>
+        {% if card.type == "hero" %}
+                    <a href="{% url 'new-deck' %}?hero={{ card.reference }}" class="btn btn-primary">Start a deck</a>
+        {% else %}
+                    <a href="#" class="btn btn-primary">Add to a deck</a>
+        {% endif %}
                 </div>
             </div>
-        {% endfor %}
-    {% else %}
-        <p>No polls are available.</p>
-    {% endif %}
+        </div>
+    {% empty %}
+        <p>No cards are available.</p>
+    {% endfor %}
+    </div>
 
 {% endblock %}

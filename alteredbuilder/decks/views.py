@@ -7,7 +7,6 @@ from django.db import transaction
 from django.db.models import Q
 from django.db.models.manager import Manager
 from django.http import HttpResponse
-from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
@@ -65,7 +64,7 @@ class DeckDetailView(DetailView):
         filter = Q(is_public=True)
         if self.request.user.is_authenticated:
             filter |= Q(owner=self.request.user)
-        return Deck.objects.filter(filter).select_related("hero")
+        return Deck.objects.filter(filter).select_related("hero", "owner")
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         """Add metadata of the Deck to the context.
@@ -216,6 +215,14 @@ class NewDeckFormView(LoginRequiredMixin, FormView):
     template_name = "decks/new_deck.html"
     form_class = DecklistForm
 
+    def get_initial(self) -> dict[str, Any]:
+        initial = super().get_initial()
+        try:
+            initial["decklist"] = f"1 {self.request.GET['hero']}"
+        except KeyError:
+            pass
+        return initial
+
     def form_valid(self, form: DecklistForm) -> HttpResponse:
         """Function called once a submitted DecklistForm has been validated.
         Convert the submitted input into a Deck object. If there's any errors on the
@@ -246,13 +253,6 @@ class NewDeckFormView(LoginRequiredMixin, FormView):
             str: The Deck's detail endpoint.
         """
         return reverse("deck-detail", kwargs={"pk": self.deck.id})
-
-
-def cards(request):
-    cards = Card.objects.order_by("reference")[:20]
-
-    context = {"card_list": cards}
-    return render(request, "decks/card_list.html", context)
 
 
 class CardListView(ListView):
