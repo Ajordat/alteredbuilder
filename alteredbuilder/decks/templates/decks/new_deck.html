@@ -11,7 +11,7 @@
 
 {% block content %}
     <div class="col-3">
-        <form action="/decks/new/" method="post" class="needs-validation" novalidate>
+        <form action="{% url 'new-deck' %}" method="post" class="needs-validation" novalidate>
             {% csrf_token %}
             {{ form }}
         </form>

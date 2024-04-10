@@ -7,13 +7,13 @@ from django.db import transaction
 from django.db.models import Q
 from django.db.models.manager import Manager
 from django.http import HttpResponse
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 
 from .models import Card, CardInDeck, Deck, Hero
-from .forms import DecklistForm
+from .forms import DecklistForm, UpdateDeckForm
 from .exceptions import MalformedDeckException
 
 
@@ -29,7 +29,7 @@ class DeckListView(ListView):
     queryset = (
         Deck.objects.filter(is_public=True)
         .select_related("owner", "hero")
-        .order_by("-created_at")
+        .order_by("-modified_at")
     )
     paginate_by = 10
 
@@ -44,7 +44,7 @@ class DeckListView(ListView):
             context["own_decks"] = (
                 Deck.objects.filter(owner=self.request.user)
                 .select_related("hero")
-                .order_by("-created_at")
+                .order_by("-modified_at")
             )
         return context
 
@@ -216,8 +216,15 @@ class NewDeckFormView(LoginRequiredMixin, FormView):
     form_class = DecklistForm
 
     def get_initial(self) -> dict[str, Any]:
+        """Function to modify the initial values of the form.
+
+        Returns:
+            dict[str, Any]: Initial values
+        """
         initial = super().get_initial()
         try:
+            # If the initial GET request contains the `hero` parameter, insert it into
+            # the decklist
             initial["decklist"] = f"1 {self.request.GET['hero']}"
         except KeyError:
             pass
@@ -255,6 +262,32 @@ class NewDeckFormView(LoginRequiredMixin, FormView):
         return reverse("deck-detail", kwargs={"pk": self.deck.id})
 
 
+class UpdateDeckFormView(LoginRequiredMixin, FormView):
+    template_name = "decks/card_list.html"
+    form_class = UpdateDeckForm
+    success_url = reverse_lazy("cards")
+
+    def form_valid(self, form: UpdateDeckForm) -> HttpResponse:
+        deck = Deck.objects.get(pk=form.cleaned_data["deck_id"])
+        card = Card.objects.get(reference=form.cleaned_data["card_reference"])
+        CardInDeck.objects.create(deck=deck, card=card, quantity=form.cleaned_data["quantity"])
+        
+        # Force the update of the `modified_at` field
+        deck.save()
+
+        return super().form_valid(form)
+
+
 class CardListView(ListView):
     model = Card
     paginate_by = 24
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            context["own_decks"] = (
+                Deck.objects.filter(owner=self.request.user)
+                .order_by("-modified_at")
+            )
+            context["form"] = UpdateDeckForm()
+        return context

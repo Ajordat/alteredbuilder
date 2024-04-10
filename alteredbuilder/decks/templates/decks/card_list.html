@@ -20,7 +20,7 @@
         {% if card.type == "hero" %}
                     <a href="{% url 'new-deck' %}?hero={{ card.reference }}" class="btn btn-primary">Start a deck</a>
         {% else %}
-                    <a href="#" class="btn btn-primary">Add to a deck</a>
+                    <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-card-modal" data-bs-whatever="@mdo" data-bs-name="{{ card.name }}" data-bs-reference="{{ card.reference }}">Add to a deck</a>
         {% endif %}
                 </div>
             </div>
@@ -29,5 +29,55 @@
         <p>No cards are available.</p>
     {% endfor %}
     </div>
+    <div class="modal fade" id="add-card-modal" tabindex="-1" aria-labelledby="add-card-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="add-card-modalLabel">Add card to deck</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'update-deck' %}" method="post" id="update-deck-form">
+                        {% csrf_token %}
 
+                        <label for="{{ form.quantity.id_for_label }}" class="col-form-label">Card:</label>
+
+                        <div class="input-group">
+                            <select class="form-select d-inline-flex" id="{{ form.quantity.auto_id }}" name="{{ form.quantity.name }}">
+                                <option value="1" selected>1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                            <input id="modal-card-name" name="card-reference" class="form-control" type="text" aria-label="Cardname" disabled readonly>
+                            <input id="modal-card-reference" name="{{ form.card_reference.name }}" type="hidden">
+                        </div>
+                        
+                        <div>
+                            <label for="{{ form.deck_id.id_for_label }}" class="col-form-label">Deck:</label>
+                        {% if own_decks %}
+                            <select class="form-select d-inline-flex" id="{{ form.deck_id.auto_id }}" name="{{ form.deck_id.name }}">
+                            {% for deck in own_decks %}
+                                <option value="{{ deck.id }}" {% if forloop.first %}selected{% endif %}>{{ deck.name }}</option>
+                            {% endfor %}
+                            </select>
+                        {% else %}
+                            <select class="form-select d-inline-flex" id="{{ form.deck_id.auto_id }}" disabled>
+                                <option selected>No decks found</option>
+                            </select>
+                        {% endif %}
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" form="update-deck-form">Add to deck</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block bodyscripts %}
+    <script src="{% static 'js/card-list.js' %}"></script>
 {% endblock %}
