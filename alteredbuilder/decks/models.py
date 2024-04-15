@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.db import models
 
+ALTERED_TCG_URL = "https://www.altered.gg"
+
 
 # Create your models here.
 class Card(models.Model):
@@ -34,6 +36,9 @@ class Card(models.Model):
 
     def __str__(self):
         return f"[{self.faction}] - {self.name} ({self.rarity})"
+
+    def get_official_link(self):
+        return f"{ALTERED_TCG_URL}/cards/{self.reference}"
 
     class Meta:
         ordering = ["reference"]

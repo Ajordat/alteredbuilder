@@ -29,6 +29,7 @@ class DecklistForm(forms.Form):
     )
     is_public = forms.BooleanField(required=False)
 
+
 class UpdateDeckForm(forms.Form):
     template_name = ""
     card_reference = forms.CharField(max_length=24)

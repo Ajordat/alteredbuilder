@@ -9,6 +9,7 @@
 {% block head %}
     {{ block.super }}
     <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="{% static 'js/utils.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 {% endblock %}
 
@@ -72,11 +73,22 @@
                             </tr>
                         </thead>
                         <tbody class="table-group-divider">
-    {% for quantity, char in character_list %}
-                            <tr class="{% get_row_color_from_rarity char.get_rarity_display %}" data-image-url="{{ char.image_url }}">
+    {% for quantity, card in character_list %}
+                            <tr class="{% get_row_color_from_rarity card.get_rarity_display %}" data-image-url="{{ card.image_url }}">
                                 <td>{{ quantity }}</td>
-                                <td>{{ char.name }}</td>
-                                <td>{{ char.character.main_cost }}/{{ char.character.recall_cost }}</td>
+                                <td>{{ card.name }}</td>
+                                <td>{{ card.character.main_cost }}/{{ card.character.recall_cost }}</td>
+        {% if object.owner == user %}
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ card.reference }}">Remove card</a></li>
+                                            <li><a class="dropdown-item" href="{{ card.get_official_link }}" target="_blank" rel="noopener noreferrer">Go to details <i class="fa-solid fa-arrow-up-right-from-square"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+        {% endif %}
                             </tr>
     {% empty %}
                             <tr><td colspan="3">No characters</td></tr>
@@ -96,11 +108,22 @@
                             </tr>
                         </thead>
                         <tbody class="table-group-divider">
-    {% for quantity, spell in spell_list %}
-                            <tr class="{% get_row_color_from_rarity spell.get_rarity_display %}" data-image-url="{{ spell.image_url }}">
+    {% for quantity, card in spell_list %}
+                            <tr class="{% get_row_color_from_rarity card.get_rarity_display %}" data-image-url="{{ card.image_url }}">
                                 <td>{{ quantity }}</td>
-                                <td>{{ spell.name }}</td>
-                                <td>{{ spell.spell.main_cost }}/{{ spell.spell.recall_cost }}</td>
+                                <td>{{ card.name }}</td>
+                                <td>{{ card.spell.main_cost }}/{{ card.spell.recall_cost }}</td>
+        {% if object.owner == user %}
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ card.reference }}">Remove card</a></li>
+                                            <li><a class="dropdown-item" href="{{ card.get_official_link }}" target="_blank" rel="noopener noreferrer">Go to details <i class="fa-solid fa-arrow-up-right-from-square"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+        {% endif %}
                             </tr>
     {% empty %}
                             <tr><td colspan="3">No spells</td></tr>
@@ -120,11 +143,22 @@
                             </tr>
                         </thead>
                         <tbody class="table-group-divider">
-    {% for quantity, permanent in permanent_list %}
-                            <tr class="{% get_row_color_from_rarity permanent.get_rarity_display %}" data-image-url="{{ permanent.image_url }}">
+    {% for quantity, card in permanent_list %}
+                            <tr class="{% get_row_color_from_rarity card.get_rarity_display %}" data-image-url="{{ card.image_url }}">
                                 <td>{{ quantity }}</td>
-                                <td>{{ permanent.name }}</td>
-                                <td>{{ permanent.permanent.main_cost }}/{{ permanent.permanent.recall_cost }}</td>
+                                <td>{{ card.name }}</td>
+                                <td>{{ card.permanent.main_cost }}/{{ card.permanent.recall_cost }}</td>
+        {% if object.owner == user %}
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ card.reference }}">Remove card</a></li>
+                                            <li><a class="dropdown-item" href="{{ card.get_official_link }}" target="_blank" rel="noopener noreferrer">Go to details <i class="fa-solid fa-arrow-up-right-from-square"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+        {% endif %}
                             </tr>
     {% empty %}
                         <tr><td colspan="3">No permanents</td></tr>
@@ -210,6 +244,6 @@
 {% endblock %}
 
 {% block bodyscripts %}
-    <script src="{% static 'js/card-showcase.js' %}"></script>
+    <script src="{% static 'js/deck-detail.js' %}"></script>
     <script src="{% static 'js/deck-stats.js' %}"></script>
 {% endblock %}

@@ -1,12 +1,14 @@
 from collections import defaultdict
 from typing import Any
+import json
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.db import transaction
 from django.db.models import Q
 from django.db.models.manager import Manager
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.urls import reverse, reverse_lazy
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
@@ -262,6 +264,60 @@ class NewDeckFormView(LoginRequiredMixin, FormView):
         return reverse("deck-detail", kwargs={"pk": self.deck.id})
 
 
+@login_required
+def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
+    """Function to update a deck with AJAX.
+    I'm not proud of this implementation, as this code is kinda duplicated in
+    `UpdateDeckFormView`. Ideally it should be moved to the API app.
+
+    Args:
+        request (HttpRequest): Received request
+        pk (int): Id of the target deck
+
+    Returns:
+        HttpResponse: A JSON response indicating whether the request succeeded or not.
+    """
+    is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    if is_ajax:
+        if request.method == "POST":
+            data = json.load(request)
+            try:
+                deck = Deck.objects.get(pk=pk, owner=request.user)
+                card = Card.objects.get(reference=data["card_reference"])
+                action = data["action"]
+
+                if action == "add":
+                    quantity = data["quantity"]
+                    CardInDeck.objects.create(deck=deck, card=card, quantity=quantity)
+
+                elif action == "delete":
+                    cid = CardInDeck.objects.get(deck=deck, card=card)
+                    cid.delete()
+
+                deck.save()
+
+            except Deck.DoesNotExist:
+                return JsonResponse(
+                    {"error": {"code": 404, "message": "Deck not found"}}, status=404
+                )
+            except Card.DoesNotExist:
+                return JsonResponse(
+                    {"error": {"code": 404, "message": "Card not found"}}, status=404
+                )
+            except KeyError:
+                return JsonResponse(
+                    {"error": {"code": 400, "message": "Invalid payload"}}, status=400
+                )
+
+            return JsonResponse({"data": {"deleted": True}}, status=201)
+        else:
+            return JsonResponse(
+                {"error": {"code": 400, "message": "Invalid request"}}, status=400
+            )
+    else:
+        return HttpResponse("Invalid request", status=400)
+
+
 class UpdateDeckFormView(LoginRequiredMixin, FormView):
     template_name = "decks/card_list.html"
     form_class = UpdateDeckForm
@@ -270,8 +326,10 @@ class UpdateDeckFormView(LoginRequiredMixin, FormView):
     def form_valid(self, form: UpdateDeckForm) -> HttpResponse:
         deck = Deck.objects.get(pk=form.cleaned_data["deck_id"])
         card = Card.objects.get(reference=form.cleaned_data["card_reference"])
-        CardInDeck.objects.create(deck=deck, card=card, quantity=form.cleaned_data["quantity"])
-        
+        CardInDeck.objects.create(
+            deck=deck, card=card, quantity=form.cleaned_data["quantity"]
+        )
+
         # Force the update of the `modified_at` field
         deck.save()
 
@@ -285,9 +343,8 @@ class CardListView(ListView):
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            context["own_decks"] = (
-                Deck.objects.filter(owner=self.request.user)
-                .order_by("-modified_at")
-            )
+            context["own_decks"] = Deck.objects.filter(
+                owner=self.request.user
+            ).order_by("-modified_at")
             context["form"] = UpdateDeckForm()
         return context
