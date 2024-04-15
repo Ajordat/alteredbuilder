@@ -29,6 +29,9 @@
         <p>No cards are available.</p>
     {% endfor %}
     </div>
+    
+    {% include "./snippets/pagination.html" %}
+
     <div class="modal fade" id="add-card-modal" tabindex="-1" aria-labelledby="add-card-modalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
