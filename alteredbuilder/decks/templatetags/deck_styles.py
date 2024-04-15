@@ -23,9 +23,11 @@ def get_row_color_from_rarity(rarity: str) -> str:
         case _:
             return ""
 
+
 @register.simple_tag
 def get_main_cost(card):
     return getattr(card, card.type).main_cost
+
 
 @register.simple_tag
 def get_recall_cost(card):

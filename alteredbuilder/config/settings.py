@@ -229,6 +229,10 @@ if env("USE_GCS_STATICS") and (statics_bucket := env("GCS_BUCKET_STATICS")):
                 "bucket_name": statics_bucket,
                 "default_acl": None,
                 "querystring_auth": False,
+                "gzip": True,
+                "object_parameters": {
+                    "cache_control": "public, max-age=86400"
+                }
             },
         },
     }

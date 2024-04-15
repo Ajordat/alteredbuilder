@@ -10,5 +10,5 @@ urlpatterns = [
     path("cards/", views.CardListView.as_view(), name="cards"),
     path("new/", views.NewDeckFormView.as_view(), name="new-deck"),
     path("<int:pk>/update/", views.update_deck, name="update-deck-id"),
-    path("/update/", views.UpdateDeckFormView.as_view(), name="update-deck"),
+    path("update/", views.UpdateDeckFormView.as_view(), name="update-deck"),
 ]
