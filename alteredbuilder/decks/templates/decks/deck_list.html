@@ -12,6 +12,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">Faction</th>
                 <th scope="col">Hero</th>
+                <th scope="col">Last updated</th>
             </tr>
         </thead>
         <tbody>
@@ -21,6 +22,7 @@
                 <td><a href="{% url 'deck-detail' pk=deck.id %}">{{ deck.name }}</a></td>
                 <td>{{ deck.hero.get_faction_display.title }}</td>
                 <td>{{ deck.hero.name }}</td>
+                <td>{{ deck.modified_at|timesince }} ago</td>
             </tr>
     {% endfor %}
         </tbody>
