@@ -64,107 +64,17 @@
 
                 <div class="col">
                     <p><i class="fa-solid fa-people-group"></i> Characters</p>
-                    <table class="table table-hover card-table" id="character-table" aria-describedby="Available characters">
-                        <thead>
-                            <tr>
-                                <th scope="col">Q</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Mana</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-group-divider">
-    {% for quantity, card in character_list %}
-                            <tr class="{% get_row_color_from_rarity card.get_rarity_display %}" data-image-url="{{ card.image_url }}">
-                                <td>{{ quantity }}</td>
-                                <td>{{ card.name }}</td>
-                                <td>{{ card.character.main_cost }}/{{ card.character.recall_cost }}</td>
-        {% if object.owner == user %}
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ card.reference }}">Remove card</a></li>
-                                            <li><a class="dropdown-item" href="{{ card.get_official_link }}" target="_blank" rel="noopener noreferrer">Go to details <i class="fa-solid fa-arrow-up-right-from-square"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-        {% endif %}
-                            </tr>
-    {% empty %}
-                            <tr><td colspan="3">No characters</td></tr>
-    {% endfor %}
-                        </tbody>
-                    </table>
+                    {% include "./snippets/card_table.html" with type="character" card_list=character_list %}
                 </div>
 
                 <div class="col">
                     <p><i class="fa-solid fa-hat-wizard"></i> Spells</p>
-                    <table class="table table-hover card-table" id="spell-table" aria-describedby="Available spells">
-                        <thead>
-                            <tr>
-                                <th scope="col">Q</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Mana</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-group-divider">
-    {% for quantity, card in spell_list %}
-                            <tr class="{% get_row_color_from_rarity card.get_rarity_display %}" data-image-url="{{ card.image_url }}">
-                                <td>{{ quantity }}</td>
-                                <td>{{ card.name }}</td>
-                                <td>{{ card.spell.main_cost }}/{{ card.spell.recall_cost }}</td>
-        {% if object.owner == user %}
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ card.reference }}">Remove card</a></li>
-                                            <li><a class="dropdown-item" href="{{ card.get_official_link }}" target="_blank" rel="noopener noreferrer">Go to details <i class="fa-solid fa-arrow-up-right-from-square"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-        {% endif %}
-                            </tr>
-    {% empty %}
-                            <tr><td colspan="3">No spells</td></tr>
-    {% endfor %}
-                        </tbody>
-                    </table>
+                    {% include "./snippets/card_table.html" with type="spell" card_list=spell_list %}
                 </div>
 
                 <div class="col">
                     <p><i class="fa-solid fa-landmark"></i> Permanents</p>
-                    <table class="table table-hover card-table" id="permanent-table" aria-describedby="Available permanents">
-                        <thead>
-                            <tr>
-                                <th scope="col">Q</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Mana</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-group-divider">
-    {% for quantity, card in permanent_list %}
-                            <tr class="{% get_row_color_from_rarity card.get_rarity_display %}" data-image-url="{{ card.image_url }}">
-                                <td>{{ quantity }}</td>
-                                <td>{{ card.name }}</td>
-                                <td>{{ card.permanent.main_cost }}/{{ card.permanent.recall_cost }}</td>
-        {% if object.owner == user %}
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ card.reference }}">Remove card</a></li>
-                                            <li><a class="dropdown-item" href="{{ card.get_official_link }}" target="_blank" rel="noopener noreferrer">Go to details <i class="fa-solid fa-arrow-up-right-from-square"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-        {% endif %}
-                            </tr>
-    {% empty %}
-                        <tr><td colspan="3">No permanents</td></tr>
-    {% endfor %}
-                        </tbody>
-                    </table>
+                    {% include "./snippets/card_table.html" with type="permanent" card_list=permanent_list %}
                 </div>
             </div>
         </div>
