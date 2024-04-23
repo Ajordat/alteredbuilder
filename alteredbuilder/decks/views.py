@@ -300,15 +300,13 @@ class NewDeckFormView(LoginRequiredMixin, FormView):
 
 
 def validate_deck_legality(deck: Deck, game_mode: GameMode):
-    
+
     total_count = 0
     rare_count = 0
     unique_count = 0
     factions = [deck.hero.faction]
 
-    decklist = (
-        deck.cardindeck_set.order_by("card__reference").all()
-    )
+    decklist = deck.cardindeck_set.order_by("card__reference").all()
 
     for cid in decklist:
         total_count += cid.quantity
@@ -319,7 +317,6 @@ def validate_deck_legality(deck: Deck, game_mode: GameMode):
         if cid.card.faction not in factions:
             factions.append(cid.card.faction)
 
-    print(factions)
     error_list = game_mode.validate(
         **{
             "faction_count": len(factions),
@@ -329,7 +326,7 @@ def validate_deck_legality(deck: Deck, game_mode: GameMode):
         }
     )
     return error_list
-    
+
 
 @login_required
 def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
@@ -392,7 +389,6 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
 class UpdateDeckFormView(LoginRequiredMixin, FormView):
     template_name = "decks/card_list.html"
     form_class = UpdateDeckForm
-    success_url = reverse_lazy("cards")
 
     def form_valid(self, form: UpdateDeckForm) -> HttpResponse:
         deck = Deck.objects.get(pk=form.cleaned_data["deck_id"])
@@ -414,6 +410,9 @@ class UpdateDeckFormView(LoginRequiredMixin, FormView):
         deck.save()
 
         return super().form_valid(form)
+
+    def get_success_url(self) -> str:
+        return f"{reverse_lazy('cards')}?{self.request.META['QUERY_STRING']}"
 
 
 class CardListView(ListView):

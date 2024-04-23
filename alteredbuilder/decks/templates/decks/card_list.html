@@ -46,7 +46,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{% url 'update-deck' %}" method="post" id="update-deck-form">
+                    <form action="{% url 'update-deck' %}?page={{ page_obj.number }}" method="post" id="update-deck-form">
                         {% csrf_token %}
 
                         <label for="{{ form.quantity.id_for_label }}" class="col-form-label">Card:</label>
