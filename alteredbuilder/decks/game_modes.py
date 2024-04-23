@@ -28,32 +28,22 @@ class GameMode(ABC):
 
         def to_user(self, gm):
             match self.value:
-                case GameMode.ErrorCode.ERR_EXCEED_FACTION_COUNT.value:
+                case GameMode.ErrorCode.ERR_EXCEED_FACTION_COUNT:
                     return f"Exceeds maximum faction count (={gm.MAX_FACTION_COUNT})"
-                case "ERR_NOT_ENOUGH_CARD_COUNT":
+                case GameMode.ErrorCode.ERR_NOT_ENOUGH_CARD_COUNT:
                     return f"Does not have enough cards (>={gm.MIN_TOTAL_COUNT})"
-                case "ERR_EXCEED_RARE_COUNT":
+                case GameMode.ErrorCode.ERR_EXCEED_RARE_COUNT:
                     return (
                         f"Exceeds the maximum RARE card count (<={gm.MAX_RARE_COUNT})"
                     )
-                case "ERR_EXCEED_UNIQUE_COUNT":
+                case GameMode.ErrorCode.ERR_EXCEED_UNIQUE_COUNT:
                     return f"Exceeds the maximum UNIQUE card count (<={gm.MAX_UNIQUE_COUNT})"
-                case "ERR_EXCEED_SAME_FAMILY_COUNT":
+                case GameMode.ErrorCode.ERR_EXCEED_SAME_FAMILY_COUNT:
                     return f"Exceeds the maximum card count for any given family (<={gm.MAX_SAME_FAMILY_CARD})"
 
         @classmethod
         def from_list_to_user(cls, error_list, game_mode):
             return [cls(error).to_user(game_mode) for error in error_list]
-
-    @classmethod
-    @abstractmethod
-    def validate_on_add_if_exists(cls):
-        pass
-
-    @classmethod
-    @abstractmethod
-    def validate_on_delete_if_exists(cls):
-        pass
 
 
 class StandardGameMode(GameMode):
@@ -77,15 +67,3 @@ class StandardGameMode(GameMode):
             error_list.append(cls.ErrorCode.ERR_EXCEED_UNIQUE_COUNT)
 
         return error_list
-
-    @classmethod
-    def validate_on_add_if_exists(cls):
-        return [cls.ErrorCode.ERR_NOT_ENOUGH_CARD_COUNT]
-
-    @classmethod
-    def validate_on_delete_if_exists(cls):
-        return [
-            cls.ErrorCode.ERR_EXCEED_FACTION_COUNT,
-            cls.ErrorCode.ERR_EXCEED_RARE_COUNT,
-            cls.ErrorCode.ERR_EXCEED_UNIQUE_COUNT,
-        ]

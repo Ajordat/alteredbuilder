@@ -299,6 +299,38 @@ class NewDeckFormView(LoginRequiredMixin, FormView):
         return reverse("deck-detail", kwargs={"pk": self.deck.id})
 
 
+def validate_deck_legality(deck: Deck, game_mode: GameMode):
+    
+    total_count = 0
+    rare_count = 0
+    unique_count = 0
+    factions = [deck.hero.faction]
+
+    decklist = (
+        deck.cardindeck_set.order_by("card__reference").all()
+    )
+
+    for cid in decklist:
+        total_count += cid.quantity
+        if cid.card.type == Card.Rarity.RARE:
+            rare_count += cid.quantity
+        elif cid.card.type == Card.Rarity.UNIQUE:
+            unique_count += cid.quantity
+        if cid.card.faction not in factions:
+            factions.append(cid.card.faction)
+
+    print(factions)
+    error_list = game_mode.validate(
+        **{
+            "faction_count": len(factions),
+            "total_count": total_count,
+            "rare_count": rare_count,
+            "unique_count": unique_count,
+        }
+    )
+    return error_list
+    
+
 @login_required
 def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
     """Function to update a deck with AJAX.
@@ -329,6 +361,10 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
                     cid = CardInDeck.objects.get(deck=deck, card=card)
                     cid.delete()
 
+                error_list = validate_deck_legality(deck, StandardGameMode)
+
+                deck.is_standard_legal = not bool(error_list)
+                deck.standard_legality_errors = error_list
                 deck.save()
 
             except Deck.DoesNotExist:
@@ -371,7 +407,10 @@ class UpdateDeckFormView(LoginRequiredMixin, FormView):
                 deck=deck, card=card, quantity=form.cleaned_data["quantity"]
             )
 
-        # Force the update of the `modified_at` field
+        error_list = validate_deck_legality(deck, StandardGameMode)
+
+        deck.is_standard_legal = not bool(error_list)
+        deck.standard_legality_errors = error_list
         deck.save()
 
         return super().form_valid(form)
