@@ -6,7 +6,7 @@ from django.core.validators import RegexValidator
 # Form definitions
 
 # Regex to validate whether at least one line follows the correct format
-decklist_validator = RegexValidator(r"^[123] \w+$", flags=re.MULTILINE)
+decklist_validator = RegexValidator(r"^\d+ \w+$", flags=re.MULTILINE)
 
 
 class DecklistForm(forms.Form):

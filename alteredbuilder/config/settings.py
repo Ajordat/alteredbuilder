@@ -230,9 +230,7 @@ if env("USE_GCS_STATICS") and (statics_bucket := env("GCS_BUCKET_STATICS")):
                 "default_acl": None,
                 "querystring_auth": False,
                 "gzip": True,
-                "object_parameters": {
-                    "cache_control": "public, max-age=86400"
-                }
+                "object_parameters": {"cache_control": "public, max-age=86400"},
             },
         },
     }

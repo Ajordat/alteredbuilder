@@ -14,6 +14,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 
+from .game_modes import GameMode, StandardGameMode
 from .models import Card, CardInDeck, Deck, Hero
 from .forms import DecklistForm, UpdateDeckForm
 from .exceptions import MalformedDeckException
@@ -139,6 +140,14 @@ class DeckDetailView(DetailView):
                     "unique": rarity_counter[Card.Rarity.UNIQUE],
                 },
             },
+            "legality": {
+                "standard": {
+                    "is_legal": self.object.is_standard_legal,
+                    "errors": GameMode.ErrorCode.from_list_to_user(
+                        self.object.standard_legality_errors, StandardGameMode
+                    ),
+                }
+            },
         }
 
         return context
@@ -167,6 +176,12 @@ def create_new_deck(user: User, deck_form: dict) -> Deck:
         description=deck_form["description"],
     )
     has_hero = False
+
+    total_count = 0
+    rare_count = 0
+    unique_count = 0
+    factions = []
+
     for line in decklist.splitlines():
         # For each line it is needed to:
         # * Validate its format
@@ -175,6 +190,7 @@ def create_new_deck(user: User, deck_form: dict) -> Deck:
         #   - Otherwise append it to the list of cards
         try:
             count, reference = line.split()
+            count = int(count)
         except ValueError:
             # The form validator only checks if there's at least one
             # line with the correct format
@@ -182,6 +198,8 @@ def create_new_deck(user: User, deck_form: dict) -> Deck:
 
         try:
             card = Card.objects.get(reference=reference)
+            if card.faction not in factions:
+                factions.append(card.faction)
         except Card.DoesNotExist:
             # The Card's reference needs to exist on the database
             raise MalformedDeckException(f"Card '{reference}' does not exist")
@@ -193,7 +211,6 @@ def create_new_deck(user: User, deck_form: dict) -> Deck:
                 except Hero.DoesNotExist:
                     # This situation would imply a database inconsistency
                     raise MalformedDeckException(f"Card '{reference}' does not exist")
-                deck.save()
                 has_hero = True
             else:
                 # The Deck model requires to have exactly one Hero per Deck
@@ -201,6 +218,24 @@ def create_new_deck(user: User, deck_form: dict) -> Deck:
         else:
             # Link the Card with the Deck
             CardInDeck.objects.create(deck=deck, card=card, quantity=count)
+
+            total_count += count
+            if card.rarity == Card.Rarity.RARE:
+                rare_count += count
+            elif card.rarity == Card.Rarity.UNIQUE:
+                unique_count += count
+
+    error_list = StandardGameMode.validate(
+        **{
+            "faction_count": len(factions),
+            "total_count": total_count,
+            "rare_count": rare_count,
+            "unique_count": unique_count,
+        }
+    )
+    deck.is_standard_legal = not bool(error_list)
+    deck.standard_legality_errors = error_list
+    deck.save()
 
     if not has_hero:
         # The Deck model requires to have exactly one Hero per Deck
@@ -326,9 +361,15 @@ class UpdateDeckFormView(LoginRequiredMixin, FormView):
     def form_valid(self, form: UpdateDeckForm) -> HttpResponse:
         deck = Deck.objects.get(pk=form.cleaned_data["deck_id"])
         card = Card.objects.get(reference=form.cleaned_data["card_reference"])
-        CardInDeck.objects.create(
-            deck=deck, card=card, quantity=form.cleaned_data["quantity"]
-        )
+        try:
+            cid = CardInDeck.objects.get(deck=deck, card=card)
+            cid.quantity += form.cleaned_data["quantity"]
+            cid.save()
+        except CardInDeck.DoesNotExist:
+            # The card is not in the deck, so we add it
+            CardInDeck.objects.create(
+                deck=deck, card=card, quantity=form.cleaned_data["quantity"]
+            )
 
         # Force the update of the `modified_at` field
         deck.save()

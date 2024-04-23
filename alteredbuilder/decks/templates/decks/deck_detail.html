@@ -135,6 +135,32 @@
                     </tr>
                 </tbody>
             </table>
+            <p>Legality:</p>
+            <table class="table table-striped table-hover table-sm" id="probability-table" aria-describedby="Probability to draw">
+                <thead>
+                    <tr>
+                        <th scope="col">Format</th>
+                        <th scope="col">Is it legal?</th>
+                        <th scope="col">Notes</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr>
+                        <td>Standard</td>
+    {% if object.is_standard_legal %}
+                        <td>Yes</td>
+                        <td></td>
+    {% else %}
+                        <td>No</td>
+                        <td rowspan="{{ legality.standard.errors|length }}">
+        {% for error in legality.standard.errors %}
+                            {{ error }}</br>
+        {% endfor %}
+                        </td>
+    {% endif %}
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <div class="col">
             <p>Mana curve:</p>

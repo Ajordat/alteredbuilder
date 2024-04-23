@@ -17,11 +17,17 @@
             <div class="card card-display">
                 <img src="{{ card.image_url }}" class="card-img-top" alt="...">
                 <div class="card-body">
+                    <div class="dropdown">
+                        <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">Options</button>
+                        <ul class="dropdown-menu">
         {% if card.type == "hero" %}
-                    <a href="{% url 'new-deck' %}?hero={{ card.reference }}" class="btn btn-primary">Start a deck</a>
+                            <li><a class="dropdown-item remove-card-trigger" href="{% url 'new-deck' %}?hero={{ card.reference }}">Start a deck</a></li>
         {% else %}
-                    <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-card-modal" data-bs-name="{{ card.name }}" data-bs-reference="{{ card.reference }}">Add to a deck</a>
+                            <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ card.reference }}" data-bs-toggle="modal" data-bs-target="#add-card-modal" data-bs-name="{{ card.name }}" data-bs-reference="{{ card.reference }}">Add to a deck</a></li>
         {% endif %}
+                            <li><a class="dropdown-item" href="{{ card.get_official_link }}" target="_blank" rel="noopener noreferrer">Go to details <i class="fa-solid fa-arrow-up-right-from-square"></i></a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
