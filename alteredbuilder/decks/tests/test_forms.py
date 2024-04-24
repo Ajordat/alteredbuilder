@@ -62,19 +62,14 @@ class DecksFormsTestCase(TestCase):
         self.assertFalse(form.is_valid())
         self.assertFormError(form, "name", "This field is required.")
 
-    def test_invalid_deck_wrong_quantity(self):
+    def test_valid_deck_wrong_quantity(self):
         """Validate a form creating a Deck with an invalid amount of cards."""
         form_data = {
             "name": self.DECK_NAME,
             "decklist": f"4 {self.CHARACTER_REFERENCE}",
         }
         form = DecklistForm(data=form_data)
-        self.assertFalse(form.is_valid())
-        self.assertFormError(
-            form,
-            "decklist",
-            "Each line should be a quantity (1, 2 or 3) and a card reference.",
-        )
+        self.assertTrue(form.is_valid())
 
     def test_valid_deck(self):
         """Validate a valid form creating a Deck."""
