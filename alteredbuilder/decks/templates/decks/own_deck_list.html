@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Own decks{% endblock %}
+
+{% block content %}
+    <div>
+        <table class="table" id="character-table" aria-describedby="Own decks">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Faction</th>
+                    <th scope="col">Hero</th>
+                    <th scope="col">Is it public?</th>
+                    <th scope="col">Last updated</th>
+                </tr>
+            </thead>
+            <tbody>
+    {% for deck in deck_list %}
+                <tr>
+                    <td><a href="{% url 'deck-detail' pk=deck.id %}">{{ deck.name }}</a></td>
+                    <td>{{ deck.hero.get_faction_display.title }}</td>
+                    <td>{{ deck.hero.name }}</td>
+                    <td><input class="form-check-input" type="checkbox" value="" disabled {% if deck.is_public %}checked{% endif %}></td>
+                    <td>{{ deck.modified_at|timesince }} ago</td>
+                </tr>
+    {% endfor %}
+            </tbody>
+        </table>
+    {% include "./snippets/pagination.html" %}
+    </div>
+{% endblock %}

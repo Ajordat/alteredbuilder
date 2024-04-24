@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.db import transaction
 from django.db.models import Q
 from django.db.models.manager import Manager
+from django.db.models.query import QuerySet
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.urls import reverse, reverse_lazy
 from django.views.generic.detail import DetailView
@@ -50,6 +51,18 @@ class DeckListView(ListView):
                 .order_by("-modified_at")
             )
         return context
+
+
+class OwnDeckListView(LoginRequiredMixin, ListView):
+    """ListView to display the own decks.
+    """
+    model = Deck
+    paginate_by = 10
+    template_name = "decks/own_deck_list.html"
+
+    def get_queryset(self) -> QuerySet[Any]:
+        qs = super().get_queryset()
+        return qs.filter(owner=self.request.user).select_related("hero").order_by("-modified_at")
 
 
 class DeckDetailView(DetailView):

@@ -1,58 +1,57 @@
 {% extends "base.html" %}
 
-{% block title %}New Deck{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block content %}
-
     <div>
-    <table class="table" id="character-table" aria-describedby="Available characters">
-        <thead>
-            <tr>
-                <th scope="col">Owner</th>
-                <th scope="col">Name</th>
-                <th scope="col">Faction</th>
-                <th scope="col">Hero</th>
-                <th scope="col">Last updated</th>
-            </tr>
-        </thead>
-        <tbody>
+        <table class="table" id="character-table" aria-describedby="Available characters">
+            <thead>
+                <tr>
+                    <th scope="col">Owner</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Faction</th>
+                    <th scope="col">Hero</th>
+                    <th scope="col">Last updated</th>
+                </tr>
+            </thead>
+            <tbody>
     {% for deck in deck_list %}
-            <tr>
-                <td>{{ deck.owner.username }}</td>
-                <td><a href="{% url 'deck-detail' pk=deck.id %}">{{ deck.name }}</a></td>
-                <td>{{ deck.hero.get_faction_display.title }}</td>
-                <td>{{ deck.hero.name }}</td>
-                <td>{{ deck.modified_at|timesince }} ago</td>
-            </tr>
+                <tr>
+                    <td>{{ deck.owner.username }}</td>
+                    <td><a href="{% url 'deck-detail' pk=deck.id %}">{{ deck.name }}</a></td>
+                    <td>{{ deck.hero.get_faction_display.title }}</td>
+                    <td>{{ deck.hero.name }}</td>
+                    <td>{{ deck.modified_at|timesince }} ago</td>
+                </tr>
     {% endfor %}
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 
     {% include "./snippets/pagination.html" %}
 
     {% if own_decks %}
-    <table class="table" id="character-table" aria-describedby="Own decks">
-        <thead>
-            <tr>
-                <th scope="col">Owner</th>
-                <th scope="col">Name</th>
-                <th scope="col">Faction</th>
-                <th scope="col">Hero</th>
-                <th scope="col">Is it public?</th>
-            </tr>
-        </thead>
-        <tbody>
+        <table class="table" id="character-table" aria-describedby="Own decks">
+            <thead>
+                <tr>
+                    <th scope="col">Owner</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Faction</th>
+                    <th scope="col">Hero</th>
+                    <th scope="col">Is it public?</th>
+                </tr>
+            </thead>
+            <tbody>
         {% for deck in own_decks %}
-            <tr>
-                <td>{{ user.username }}</td>
-                <td><a href="{% url 'deck-detail' pk=deck.id %}">{{ deck.name }}</a></td>
-                <td>{{ deck.hero.get_faction_display.title }}</td>
-                <td>{{ deck.hero.name }}</td>
-                <td><input class="form-check-input" type="checkbox" value="" disabled {% if deck.is_public %}checked{% endif %}></td>
-            </tr>
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td><a href="{% url 'deck-detail' pk=deck.id %}">{{ deck.name }}</a></td>
+                    <td>{{ deck.hero.get_faction_display.title }}</td>
+                    <td>{{ deck.hero.name }}</td>
+                    <td><input class="form-check-input" type="checkbox" value="" disabled {% if deck.is_public %}checked{% endif %}></td>
+                </tr>
         {% endfor %}
-        </tbody>
-    </table>
+            </tbody>
+        </table>
     {% endif %}
     </div>
 {% endblock %}
