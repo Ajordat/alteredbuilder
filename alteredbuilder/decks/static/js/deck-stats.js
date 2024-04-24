@@ -45,8 +45,8 @@ function drawStats() {
             handDraw = cardTypeCount > 0;
         }
 
-        anytimeElement.innerText = (individualDraw * 100).toFixed(2) + "%";
-        initialElement.innerText = (handDraw * 100).toFixed(2) + "%";
+        anytimeElement.innerText = Math.trunc(individualDraw * 10000) / 100 + "%";
+        initialElement.innerText = Math.trunc(handDraw * 10000) / 100 + "%";
     });
 }
 

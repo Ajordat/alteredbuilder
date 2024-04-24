@@ -22,7 +22,7 @@
         <div class="col">
             <i class="fa-solid fa-user"></i> {{ object.owner.username }}
         </div>
-        <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Created: {{ object.created_at|date:'DATE_FORMAT' }}<br>Last modified: {{ object.modified_at|date:'DATE_FORMAT' }}" data-bs-html="true">
+        <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Created: {{ object.created_at|date:'DATE_FORMAT' }}</br>Last modified: {{ object.modified_at|date:'DATE_FORMAT' }}" data-bs-html="true">
             <i class="fa-regular fa-calendar"></i> <small>{{ object.modified_at|date:"SHORT_DATE_FORMAT" }}</small>
         </div>
         <div class="col">
@@ -85,7 +85,7 @@
             <div id="distribution-pie-chart"></div>
         </div>
         <div class="col">
-            <p>Rarity distribution:</p>
+            <h5>Rarity distribution</h5>
             <table class="table table-striped table-hover table-sm" aria-describedby="Rarity distribution">
                 <thead>
                     <tr>
@@ -108,7 +108,7 @@
                     </tr>
                 </tbody>
             </table>
-            <p>Probability of drawing:</p>
+            <h5>Probability of drawing</h5>
             <table class="table table-striped table-hover table-sm" id="probability-table" aria-describedby="Probability to draw">
                 <thead>
                     <tr>
@@ -135,7 +135,7 @@
                     </tr>
                 </tbody>
             </table>
-            <p>Legality:</p>
+            <h5>Format legality</h5>
             <table class="table table-striped table-hover table-sm" id="probability-table" aria-describedby="Probability to draw">
                 <thead>
                     <tr>

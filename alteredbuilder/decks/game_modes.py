@@ -89,7 +89,8 @@ class DraftGameMode(GameMode):
 
 def update_deck_legality(deck: Deck):
 
-    total_count = 0
+    # Start at 1 to account for the hero
+    total_count = 1
     rare_count = 0
     unique_count = 0
     factions = [deck.hero.faction]
