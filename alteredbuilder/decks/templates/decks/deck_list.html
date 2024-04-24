@@ -4,6 +4,7 @@
 
 {% block content %}
     <div>
+        <h3>Public decks</h3>
         <table class="table" id="character-table" aria-describedby="Available characters">
             <thead>
                 <tr>
@@ -30,6 +31,7 @@
     {% include "./snippets/pagination.html" %}
 
     {% if own_decks %}
+        <h3>Own decks</h3>
         <table class="table" id="character-table" aria-describedby="Own decks">
             <thead>
                 <tr>
@@ -38,6 +40,7 @@
                     <th scope="col">Faction</th>
                     <th scope="col">Hero</th>
                     <th scope="col">Is it public?</th>
+                    <th scope="col">Last updated</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,6 +51,7 @@
                     <td>{{ deck.hero.get_faction_display.title }}</td>
                     <td>{{ deck.hero.name }}</td>
                     <td><input class="form-check-input" type="checkbox" value="" disabled {% if deck.is_public %}checked{% endif %}></td>
+                    <td>{{ deck.modified_at|timesince }} ago</td>
                 </tr>
         {% endfor %}
             </tbody>

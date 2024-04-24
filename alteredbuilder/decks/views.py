@@ -48,21 +48,25 @@ class DeckListView(ListView):
             context["own_decks"] = (
                 Deck.objects.filter(owner=self.request.user)
                 .select_related("hero")
-                .order_by("-modified_at")
+                .order_by("-modified_at")[:10]
             )
         return context
 
 
 class OwnDeckListView(LoginRequiredMixin, ListView):
-    """ListView to display the own decks.
-    """
+    """ListView to display the own decks."""
+
     model = Deck
     paginate_by = 10
     template_name = "decks/own_deck_list.html"
 
     def get_queryset(self) -> QuerySet[Any]:
         qs = super().get_queryset()
-        return qs.filter(owner=self.request.user).select_related("hero").order_by("-modified_at")
+        return (
+            qs.filter(owner=self.request.user)
+            .select_related("hero")
+            .order_by("-modified_at")
+        )
 
 
 class DeckDetailView(DetailView):

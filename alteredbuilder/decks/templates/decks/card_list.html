@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %}Cards{% endblock %}
+{% block title %}Card list{% endblock %}
 
 {% block head %}
     {{ block.super }}
@@ -11,7 +11,6 @@
 
 {% block content %}
     <div class="row gy-5">
-
     {% for card in card_list %}
         <div class="col-xxl-2 col-xl-3 col-md-4 col-sm-6">
             <div class="card card-display">
