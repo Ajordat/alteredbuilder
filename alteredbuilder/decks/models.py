@@ -94,8 +94,11 @@ class Deck(models.Model):
     cards = models.ManyToManyField(Card, through="CardInDeck", related_name="decks")
     hero = models.ForeignKey(Hero, blank=True, null=True, on_delete=models.SET_NULL)
     is_public = models.BooleanField(default=False)
+
     is_standard_legal = models.BooleanField(null=True)
-    standard_legality_errors = models.JSONField(default=list)
+    standard_legality_errors = models.JSONField(default=list, blank=True)
+    is_draft_legal = models.BooleanField(null=True)
+    draft_legality_errors = models.JSONField(default=list, blank=True)
 
     modified_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)

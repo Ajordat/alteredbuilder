@@ -14,7 +14,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 
-from .game_modes import GameMode, StandardGameMode
+from .game_modes import DraftGameMode, GameMode, StandardGameMode, update_deck_legality
 from .models import Card, CardInDeck, Deck, Hero
 from .forms import DecklistForm, UpdateDeckForm
 from .exceptions import MalformedDeckException
@@ -146,7 +146,13 @@ class DeckDetailView(DetailView):
                     "errors": GameMode.ErrorCode.from_list_to_user(
                         self.object.standard_legality_errors, StandardGameMode
                     ),
-                }
+                },
+                "draft": {
+                    "is_legal": self.object.is_draft_legal,
+                    "errors": GameMode.ErrorCode.from_list_to_user(
+                        self.object.draft_legality_errors, DraftGameMode
+                    ),
+                },
             },
         }
 
@@ -177,13 +183,8 @@ def create_new_deck(user: User, deck_form: dict) -> Deck:
     )
     has_hero = False
 
-    total_count = 0
-    rare_count = 0
-    unique_count = 0
-    factions = []
-
     for line in decklist.splitlines():
-        # For each line it is needed to:
+        # For each line, it is needed to:
         # * Validate its format
         # * Search the card reference on the database
         #   - If it's a Hero, assign it to the Deck's Hero
@@ -198,8 +199,6 @@ def create_new_deck(user: User, deck_form: dict) -> Deck:
 
         try:
             card = Card.objects.get(reference=reference)
-            if card.faction not in factions:
-                factions.append(card.faction)
         except Card.DoesNotExist:
             # The Card's reference needs to exist on the database
             raise MalformedDeckException(f"Card '{reference}' does not exist")
@@ -219,27 +218,12 @@ def create_new_deck(user: User, deck_form: dict) -> Deck:
             # Link the Card with the Deck
             CardInDeck.objects.create(deck=deck, card=card, quantity=count)
 
-            total_count += count
-            if card.rarity == Card.Rarity.RARE:
-                rare_count += count
-            elif card.rarity == Card.Rarity.UNIQUE:
-                unique_count += count
-
-    error_list = StandardGameMode.validate(
-        **{
-            "faction_count": len(factions),
-            "total_count": total_count,
-            "rare_count": rare_count,
-            "unique_count": unique_count,
-        }
-    )
-    deck.is_standard_legal = not bool(error_list)
-    deck.standard_legality_errors = error_list
-    deck.save()
-
     if not has_hero:
         # The Deck model requires to have exactly one Hero per Deck
         raise MalformedDeckException("Missing hero in decklist")
+
+    update_deck_legality(deck)
+    deck.save()
 
     return deck
 
@@ -299,35 +283,6 @@ class NewDeckFormView(LoginRequiredMixin, FormView):
         return reverse("deck-detail", kwargs={"pk": self.deck.id})
 
 
-def validate_deck_legality(deck: Deck, game_mode: GameMode):
-
-    total_count = 0
-    rare_count = 0
-    unique_count = 0
-    factions = [deck.hero.faction]
-
-    decklist = deck.cardindeck_set.order_by("card__reference").all()
-
-    for cid in decklist:
-        total_count += cid.quantity
-        if cid.card.type == Card.Rarity.RARE:
-            rare_count += cid.quantity
-        elif cid.card.type == Card.Rarity.UNIQUE:
-            unique_count += cid.quantity
-        if cid.card.faction not in factions:
-            factions.append(cid.card.faction)
-
-    error_list = game_mode.validate(
-        **{
-            "faction_count": len(factions),
-            "total_count": total_count,
-            "rare_count": rare_count,
-            "unique_count": unique_count,
-        }
-    )
-    return error_list
-
-
 @login_required
 def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
     """Function to update a deck with AJAX.
@@ -358,10 +313,7 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
                     cid = CardInDeck.objects.get(deck=deck, card=card)
                     cid.delete()
 
-                error_list = validate_deck_legality(deck, StandardGameMode)
-
-                deck.is_standard_legal = not bool(error_list)
-                deck.standard_legality_errors = error_list
+                update_deck_legality(deck)
                 deck.save()
 
             except Deck.DoesNotExist:
@@ -403,10 +355,7 @@ class UpdateDeckFormView(LoginRequiredMixin, FormView):
                 deck=deck, card=card, quantity=form.cleaned_data["quantity"]
             )
 
-        error_list = validate_deck_legality(deck, StandardGameMode)
-
-        deck.is_standard_legal = not bool(error_list)
-        deck.standard_legality_errors = error_list
+        update_deck_legality(deck)
         deck.save()
 
         return super().form_valid(form)

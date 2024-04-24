@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from enum import StrEnum
 
+from .models import Deck, Card
+
 
 class GameMode(ABC):
     MAX_FACTION_COUNT = None
@@ -29,17 +31,17 @@ class GameMode(ABC):
         def to_user(self, gm):
             match self.value:
                 case GameMode.ErrorCode.ERR_EXCEED_FACTION_COUNT:
-                    return f"Exceeds maximum faction count (={gm.MAX_FACTION_COUNT})"
+                    return f"Exceeds maximum faction count ({gm.MAX_FACTION_COUNT})"
                 case GameMode.ErrorCode.ERR_NOT_ENOUGH_CARD_COUNT:
-                    return f"Does not have enough cards (>={gm.MIN_TOTAL_COUNT})"
+                    return f"Does not have enough cards ({gm.MIN_TOTAL_COUNT})"
                 case GameMode.ErrorCode.ERR_EXCEED_RARE_COUNT:
-                    return (
-                        f"Exceeds the maximum RARE card count (<={gm.MAX_RARE_COUNT})"
-                    )
+                    return f"Exceeds the maximum RARE card count ({gm.MAX_RARE_COUNT})"
                 case GameMode.ErrorCode.ERR_EXCEED_UNIQUE_COUNT:
-                    return f"Exceeds the maximum UNIQUE card count (<={gm.MAX_UNIQUE_COUNT})"
+                    return (
+                        f"Exceeds the maximum UNIQUE card count ({gm.MAX_UNIQUE_COUNT})"
+                    )
                 case GameMode.ErrorCode.ERR_EXCEED_SAME_FAMILY_COUNT:
-                    return f"Exceeds the maximum card count for any given family (<={gm.MAX_SAME_FAMILY_CARD})"
+                    return f"Exceeds the maximum card count for any given family ({gm.MAX_SAME_FAMILY_CARD})"
 
         @classmethod
         def from_list_to_user(cls, error_list, game_mode):
@@ -67,3 +69,53 @@ class StandardGameMode(GameMode):
             error_list.append(cls.ErrorCode.ERR_EXCEED_UNIQUE_COUNT)
 
         return error_list
+
+
+class DraftGameMode(GameMode):
+    MAX_FACTION_COUNT = 3
+    MIN_TOTAL_COUNT = 30
+
+    @classmethod
+    def validate(cls, **kwargs):
+        error_list = []
+
+        if kwargs["faction_count"] > cls.MAX_FACTION_COUNT:
+            error_list.append(cls.ErrorCode.ERR_EXCEED_FACTION_COUNT)
+        if kwargs["total_count"] < cls.MIN_TOTAL_COUNT:
+            error_list.append(cls.ErrorCode.ERR_NOT_ENOUGH_CARD_COUNT)
+
+        return error_list
+
+
+def update_deck_legality(deck: Deck):
+
+    total_count = 0
+    rare_count = 0
+    unique_count = 0
+    factions = [deck.hero.faction]
+
+    decklist = deck.cardindeck_set.order_by("card__reference").all()
+
+    for cid in decklist:
+        total_count += cid.quantity
+        if cid.card.rarity == Card.Rarity.RARE:
+            rare_count += cid.quantity
+        elif cid.card.rarity == Card.Rarity.UNIQUE:
+            unique_count += cid.quantity
+        if cid.card.faction not in factions:
+            factions.append(cid.card.faction)
+
+    data = {
+        "faction_count": len(factions),
+        "total_count": total_count,
+        "rare_count": rare_count,
+        "unique_count": unique_count,
+    }
+
+    error_list = StandardGameMode.validate(**data)
+    deck.is_standard_legal = not bool(error_list)
+    deck.standard_legality_errors = error_list
+
+    error_list = DraftGameMode.validate(**data)
+    deck.is_draft_legal = not bool(error_list)
+    deck.draft_legality_errors = error_list

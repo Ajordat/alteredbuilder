@@ -152,8 +152,22 @@
                         <td></td>
     {% else %}
                         <td>No</td>
-                        <td rowspan="{{ legality.standard.errors|length }}">
+                        <td>
         {% for error in legality.standard.errors %}
+                            {{ error }}</br>
+        {% endfor %}
+                        </td>
+    {% endif %}
+                    </tr>
+                    <tr>
+                        <td>Draft</td>
+    {% if object.is_draft_legal %}
+                        <td>Yes</td>
+                        <td></td>
+    {% else %}
+                        <td>No</td>
+                        <td>
+        {% for error in legality.draft.errors %}
                             {{ error }}</br>
         {% endfor %}
                         </td>
