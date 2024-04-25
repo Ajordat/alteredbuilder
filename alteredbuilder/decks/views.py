@@ -385,6 +385,39 @@ class CardListView(ListView):
     model = Card
     paginate_by = 24
 
+    def get_queryset(self) -> QuerySet[Any]:
+        qs = super().get_queryset()
+        filters = Q()
+
+        factions = self.request.GET.get("faction")
+        if factions:
+            try:
+                factions = [Card.Faction(faction) for faction in factions.split(",")]
+            except ValueError:
+                pass
+            else:
+                filters &= Q(faction__in=factions)
+        
+        rarities = self.request.GET.get("rarity")
+        if rarities:
+            try:
+                rarities = [Card.Rarity(rarity) for rarity in rarities.split(",")]
+            except ValueError:
+                pass
+            else:
+                filters &= Q(rarity__in=rarities)
+        
+        card_types = self.request.GET.get("type")
+        if card_types:
+            try:
+                card_types = [Card.Type(card_type) for card_type in card_types.split(",")]
+            except ValueError:
+                pass
+            else:
+                filters &= Q(type__in=card_types)
+        
+        return qs.filter(filters)
+
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:

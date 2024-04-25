@@ -32,3 +32,10 @@ def get_main_cost(card):
 @register.simple_tag
 def get_recall_cost(card):
     return getattr(card, card.type).recall_cost
+
+
+@register.simple_tag
+def inject_params(get_params, **kwargs):
+    allowed_params = ["faction", "rarity", "type"]
+    args = [f"{key}={value}" for key, value in get_params.items() if key in allowed_params] + [f"{key}={value}" for key, value in kwargs.items()]
+    return "&".join([arg for arg in args if arg])

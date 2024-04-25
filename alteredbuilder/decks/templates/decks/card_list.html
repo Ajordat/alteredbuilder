@@ -10,6 +10,37 @@
 {% endblock %}
 
 {% block content %}
+    <div class="row card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    Factions:
+                    {% include "./snippets/filter_checkbox.html" with label="Axiom" value="AX" %}
+                    {% include "./snippets/filter_checkbox.html" with label="Bravos" value="BR" %}
+                    {% include "./snippets/filter_checkbox.html" with label="Lyra" value="LY" %}
+                    {% include "./snippets/filter_checkbox.html" with label="Muna" value="MU" %}
+                    {% include "./snippets/filter_checkbox.html" with label="Ordis" value="OR" %}
+                    {% include "./snippets/filter_checkbox.html" with label="Yzmir" value="YZ" %}
+                </div>
+                <div class="col">
+                    Rarity:
+                    {% include "./snippets/filter_checkbox.html" with label="Common" value="C" %}
+                    {% include "./snippets/filter_checkbox.html" with label="Rare" value="R" %}
+                    {% include "./snippets/filter_checkbox.html" with label="Unique" value="U" %}
+                </div>
+                <div class="col">
+                    Type:
+                    {% include "./snippets/filter_checkbox.html" with label="Character" value="character" %}
+                    {% include "./snippets/filter_checkbox.html" with label="Hero" value="hero" %}
+                    {% include "./snippets/filter_checkbox.html" with label="Permanent" value="permanent" %}
+                    {% include "./snippets/filter_checkbox.html" with label="Spell" value="spell" %}
+                </div>
+            </div>
+            <div class="row">
+                <button type="submit" class="btn btn-primary" id="filterSearchButton">Search</button>                  
+            </div>
+        </div>
+    </div>
     <div class="row gy-5">
     {% for card in card_list %}
         <div class="col-xxl-2 col-xl-3 col-md-4 col-sm-6">

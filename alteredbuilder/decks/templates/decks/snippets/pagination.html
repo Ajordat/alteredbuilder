@@ -1,27 +1,29 @@
 
+{% load deck_styles %}
+
 <nav>
     <ul class="pagination justify-content-center">
 
         {% if page_obj.has_previous %}
-            <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+            <li class="page-item"><a class="page-link" href="?{% inject_params request.GET page=1 %}">First</a></li>
             {% if page_obj.number == page_obj.paginator.num_pages and page_obj.previous_page_number > 1 %}
-                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number|add:'-1' }}">{{ page_obj.previous_page_number|add:'-1' }}</a></li>
+                <li class="page-item"><a class="page-link" href="?{% inject_params request.GET page=page_obj.previous_page_number|add:'-1' %}">{{ page_obj.previous_page_number|add:'-1' }}</a></li>
             {% endif %}
-            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+            <li class="page-item"><a class="page-link" href="?{% inject_params request.GET page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a></li>
         {% else %}
-            <li class="page-item"><a class="page-link disabled" href="?page=1">First</a></li>
+            <li class="page-item"><a class="page-link disabled" href="?{% inject_params request.GET page=1 %}">First</a></li>
         {% endif %}
 
         <li class="page-item"><a class="page-link active">{{ page_obj.number }}</a></li>
         
         {% if page_obj.has_next %}
-            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+            <li class="page-item"><a class="page-link" href="?{% inject_params request.GET page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a></li>
             {% if page_obj.number == 1 and page_obj.next_page_number < page_obj.paginator.num_pages %}
-                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number|add:'1' }}">{{ page_obj.next_page_number|add:'1' }}</a></li>
+                <li class="page-item"><a class="page-link" href="?{% inject_params request.GET page=page_obj.next_page_number|add:'1' %}">{{ page_obj.next_page_number|add:'1' }}</a></li>
             {% endif %}
-            <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
+            <li class="page-item"><a class="page-link" href="?{% inject_params request.GET page=page_obj.paginator.num_pages %}">Last</a></li>
         {% else %}
-            <li class="page-item"><a class="page-link disabled" href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
+            <li class="page-item"><a class="page-link disabled" href="?{% inject_params request.GET page=page_obj.paginator.num_pages %}">Last</a></li>
         {% endif %}
     </ul>
 </nav>
