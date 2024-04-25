@@ -397,7 +397,7 @@ class CardListView(ListView):
                 pass
             else:
                 filters &= Q(faction__in=factions)
-        
+
         rarities = self.request.GET.get("rarity")
         if rarities:
             try:
@@ -406,16 +406,18 @@ class CardListView(ListView):
                 pass
             else:
                 filters &= Q(rarity__in=rarities)
-        
+
         card_types = self.request.GET.get("type")
         if card_types:
             try:
-                card_types = [Card.Type(card_type) for card_type in card_types.split(",")]
+                card_types = [
+                    Card.Type(card_type) for card_type in card_types.split(",")
+                ]
             except ValueError:
                 pass
             else:
                 filters &= Q(type__in=card_types)
-        
+
         return qs.filter(filters)
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:

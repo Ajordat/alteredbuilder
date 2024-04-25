@@ -24,6 +24,8 @@
                     <td><input class="form-check-input" type="checkbox" value="" disabled {% if deck.is_public %}checked{% endif %}></td>
                     <td>{{ deck.modified_at|timesince }} ago</td>
                 </tr>
+    {% empty %}
+                <tr class="text-center"><td colspan="5">No decks created yet</td></tr>
     {% endfor %}
             </tbody>
         </table>
