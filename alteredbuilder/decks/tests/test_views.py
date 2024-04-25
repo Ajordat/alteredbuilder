@@ -1,9 +1,11 @@
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.test import TestCase
 from django.urls import reverse
 
-from decks.models import Card, CardInDeck, Character, Deck, Hero, Permanent, Spell
+from decks.models import Card, CardInDeck, Deck, Hero
+from .utils import generate_card
 
 
 class DecksViewsTestCase(TestCase):
@@ -26,43 +28,11 @@ class DecksViewsTestCase(TestCase):
         * 1 Permanent
         * 4 Deck
         """
-        hero = Hero.objects.create(
-            reference="ALT_CORE_B_AX_01_C",
-            name="Sierra & Oddball",
-            faction=Card.Faction.AXIOM,
-            type=Card.Type.HERO,
-            rarity=Card.Rarity.COMMON,
-        )
-        character = Character.objects.create(
-            reference="ALT_CORE_B_YZ_08_R2",
-            name="Yzmir Stargazer",
-            faction=Card.Faction.AXIOM,
-            type=Card.Type.CHARACTER,
-            rarity=Card.Rarity.RARE,
-            main_cost=1,
-            recall_cost=1,
-            forest_power=1,
-            mountain_power=2,
-            ocean_power=1,
-        )
-        spell = Spell.objects.create(
-            reference="ALT_CORE_B_YZ_26_R2",
-            name="Kraken's Wrath",
-            faction=Card.Faction.AXIOM,
-            type=Card.Type.SPELL,
-            rarity=Card.Rarity.RARE,
-            main_cost=5,
-            recall_cost=5,
-        )
-        permanent = Permanent.objects.create(
-            reference="ALT_CORE_B_LY_30_R2",
-            name="The Ouroboros, Lyra Bastion",
-            faction=Card.Faction.AXIOM,
-            type=Card.Type.PERMANENT,
-            rarity=Card.Rarity.RARE,
-            main_cost=3,
-            recall_cost=3,
-        )
+        hero = generate_card(Card.Faction.AXIOM, Card.Type.HERO, Card.Rarity.COMMON)
+        character = generate_card(Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.RARE)
+        spell = generate_card(Card.Faction.AXIOM, Card.Type.SPELL, Card.Rarity.RARE)
+        permanent = generate_card(Card.Faction.AXIOM, Card.Type.PERMANENT, Card.Rarity.RARE)
+
         cls.user = User.objects.create_user(username=cls.TEST_USER)
         cls.other_user = User.objects.create_user(username=cls.OTHER_TEST_USER)
         cls.create_decks_for_user(cls.user, hero, [character, spell, permanent])
@@ -228,3 +198,20 @@ class DecksViewsTestCase(TestCase):
             reverse("deck-detail", kwargs={"pk": private_deck.id})
         )
         self.assertTemplateUsed(response, "errors/404.html")
+
+    def test_own_deck_list_unauthenticated(self):
+        """Test the view of a user's own decks when requested by an unauthenticated user.
+        """
+        response = self.client.get(reverse("own-deck"))
+        self.assertRedirects(response, f"{settings.LOGIN_URL}?next={reverse('own-deck')}")
+    
+    def test_own_deck_list(self):
+        """Test the view of a user's own decks.
+        """
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("own-deck"))
+
+        own_decks = Deck.objects.filter(owner=self.user)
+        self.assertQuerySetEqual(
+            own_decks, response.context["deck_list"], ordered=False
+        )

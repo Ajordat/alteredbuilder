@@ -6,7 +6,8 @@ from django.test import TestCase
 from django.urls import reverse
 
 from decks.forms import DecklistForm
-from decks.models import Card, Character, Deck, Hero
+from decks.models import Card, CardInDeck, Character, Deck, Hero
+from .utils import generate_card
 
 
 class DecksFormsTestCase(TestCase):
@@ -170,3 +171,41 @@ class DecksFormsTestCase(TestCase):
         self.client.force_login(self.user)
         response = self.client.post(reverse("new-deck"), form_data)
         self.assertContains(response, "Missing hero in decklist")
+
+    def test_update_deck_add_existing_card(self):
+        hero = Hero.objects.get(reference=self.HERO_REFERENCE)
+        character = Character.objects.get(reference=self.CHARACTER_REFERENCE)
+        deck = Deck.objects.create(owner=self.user, name=self.DECK_NAME, hero=hero)
+        CardInDeck.objects.create(deck=deck, card=character, quantity=1)
+
+        form_data = {
+            "deck_id": deck.id,
+            "card_reference": character.reference,
+            "quantity": 2
+        }
+
+        self.client.force_login(self.user)
+        response = self.client.post(reverse("update-deck"), form_data)
+        cid = CardInDeck.objects.filter(deck=deck, card=character).get()
+
+        self.assertEqual(cid.quantity, 3)
+        self.assertRedirects(response, reverse('cards'))
+
+
+    def test_update_deck_add_nonexisting_card(self):
+        hero = Hero.objects.get(reference=self.HERO_REFERENCE)
+        character = generate_card(Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.RARE)
+        deck = Deck.objects.create(owner=self.user, name=self.DECK_NAME, hero=hero)
+
+        form_data = {
+            "deck_id": deck.id,
+            "card_reference": character.reference,
+            "quantity": 2
+        }
+
+        self.client.force_login(self.user)
+        response = self.client.post(reverse("update-deck"), form_data)
+        cid = CardInDeck.objects.filter(deck=deck, card=character).get()
+
+        self.assertEqual(cid.quantity, 2)
+        self.assertRedirects(response, reverse('cards'))
