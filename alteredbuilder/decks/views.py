@@ -425,4 +425,11 @@ class CardListView(ListView):
                 owner=self.request.user
             ).order_by("-modified_at")
             context["form"] = UpdateDeckForm()
+
+        checked_filters = []
+        for filter in ["faction", "rarity", "type"]:
+            if filter in self.request.GET:
+                checked_filters += self.request.GET[filter].split(",")
+        context["checked_filters"] = checked_filters
+
         return context
