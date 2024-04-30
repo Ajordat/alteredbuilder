@@ -316,8 +316,8 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
     is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if is_ajax:
         if request.method == "POST":
-            data = json.load(request)
             try:
+                data = json.load(request)
                 deck = Deck.objects.get(pk=pk, owner=request.user)
                 card = Card.objects.get(reference=data["card_reference"])
                 action = data["action"]
@@ -325,10 +325,14 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
                 if action == "add":
                     quantity = data["quantity"]
                     CardInDeck.objects.create(deck=deck, card=card, quantity=quantity)
+                    status = {"added": True}
 
                 elif action == "delete":
                     cid = CardInDeck.objects.get(deck=deck, card=card)
                     cid.delete()
+                    status = {"deleted": True}
+                else:
+                    raise KeyError("Invalid action")
 
                 update_deck_legality(deck)
                 deck.save()
@@ -337,16 +341,16 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
                 return JsonResponse(
                     {"error": {"code": 404, "message": "Deck not found"}}, status=404
                 )
-            except Card.DoesNotExist:
+            except (Card.DoesNotExist, CardInDeck.DoesNotExist):
                 return JsonResponse(
                     {"error": {"code": 404, "message": "Card not found"}}, status=404
                 )
-            except KeyError:
+            except (json.decoder.JSONDecodeError, KeyError):
                 return JsonResponse(
                     {"error": {"code": 400, "message": "Invalid payload"}}, status=400
                 )
 
-            return JsonResponse({"data": {"deleted": True}}, status=201)
+            return JsonResponse({"data": status}, status=201)
         else:
             return JsonResponse(
                 {"error": {"code": 400, "message": "Invalid request"}}, status=400

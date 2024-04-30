@@ -1,6 +1,8 @@
 from random import randint
 
+from django.conf import settings
 from decks.models import Card, Character, Hero, Permanent, Spell
+from django.urls import reverse
 
 
 def get_id():
@@ -43,3 +45,7 @@ def generate_card(faction, card_type, rarity):
             card = Permanent.objects.create(**data, **cost)
 
     return card
+
+
+def get_login_url(template, **kwargs):
+    return f"{settings.LOGIN_URL}?next={reverse(template, kwargs=kwargs)}"

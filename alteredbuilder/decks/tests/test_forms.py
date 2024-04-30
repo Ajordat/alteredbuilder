@@ -7,7 +7,7 @@ from django.urls import reverse
 
 from decks.forms import DecklistForm
 from decks.models import Card, CardInDeck, Character, Deck, Hero
-from .utils import generate_card
+from .utils import generate_card, get_login_url
 
 
 class DecksFormsTestCase(TestCase):
@@ -89,9 +89,7 @@ class DecksFormsTestCase(TestCase):
         }
 
         response = self.client.post(reverse("new-deck"), form_data)
-        self.assertRedirects(
-            response, f"{settings.LOGIN_URL}?next={reverse('new-deck')}"
-        )
+        self.assertRedirects(response, get_login_url("new-deck"), status_code=302)
 
     def test_valid_deck_authenticated(self):
         """Attempt to submit a form creating a valid Deck."""
@@ -181,7 +179,7 @@ class DecksFormsTestCase(TestCase):
         form_data = {
             "deck_id": deck.id,
             "card_reference": character.reference,
-            "quantity": 2
+            "quantity": 2,
         }
 
         self.client.force_login(self.user)
@@ -189,18 +187,19 @@ class DecksFormsTestCase(TestCase):
         cid = CardInDeck.objects.filter(deck=deck, card=character).get()
 
         self.assertEqual(cid.quantity, 3)
-        self.assertRedirects(response, reverse('cards'))
-
+        self.assertRedirects(response, reverse("cards"))
 
     def test_update_deck_add_nonexisting_card(self):
         hero = Hero.objects.get(reference=self.HERO_REFERENCE)
-        character = generate_card(Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.RARE)
+        character = generate_card(
+            Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.RARE
+        )
         deck = Deck.objects.create(owner=self.user, name=self.DECK_NAME, hero=hero)
 
         form_data = {
             "deck_id": deck.id,
             "card_reference": character.reference,
-            "quantity": 2
+            "quantity": 2,
         }
 
         self.client.force_login(self.user)
@@ -208,4 +207,4 @@ class DecksFormsTestCase(TestCase):
         cid = CardInDeck.objects.filter(deck=deck, card=character).get()
 
         self.assertEqual(cid.quantity, 2)
-        self.assertRedirects(response, reverse('cards'))
+        self.assertRedirects(response, reverse("cards"))

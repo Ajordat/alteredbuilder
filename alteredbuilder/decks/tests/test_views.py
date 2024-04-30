@@ -5,7 +5,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from decks.models import Card, CardInDeck, Deck, Hero
-from .utils import generate_card
+from .utils import generate_card, get_login_url
 
 
 class DecksViewsTestCase(TestCase):
@@ -29,9 +29,13 @@ class DecksViewsTestCase(TestCase):
         * 4 Deck
         """
         hero = generate_card(Card.Faction.AXIOM, Card.Type.HERO, Card.Rarity.COMMON)
-        character = generate_card(Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.RARE)
+        character = generate_card(
+            Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.RARE
+        )
         spell = generate_card(Card.Faction.AXIOM, Card.Type.SPELL, Card.Rarity.RARE)
-        permanent = generate_card(Card.Faction.AXIOM, Card.Type.PERMANENT, Card.Rarity.RARE)
+        permanent = generate_card(
+            Card.Faction.AXIOM, Card.Type.PERMANENT, Card.Rarity.RARE
+        )
 
         cls.user = User.objects.create_user(username=cls.TEST_USER)
         cls.other_user = User.objects.create_user(username=cls.OTHER_TEST_USER)
@@ -200,14 +204,12 @@ class DecksViewsTestCase(TestCase):
         self.assertTemplateUsed(response, "errors/404.html")
 
     def test_own_deck_list_unauthenticated(self):
-        """Test the view of a user's own decks when requested by an unauthenticated user.
-        """
+        """Test the view of a user's own decks when requested by an unauthenticated user."""
         response = self.client.get(reverse("own-deck"))
-        self.assertRedirects(response, f"{settings.LOGIN_URL}?next={reverse('own-deck')}")
-    
+        self.assertRedirects(response, get_login_url("own-deck"), status_code=302)
+
     def test_own_deck_list(self):
-        """Test the view of a user's own decks.
-        """
+        """Test the view of a user's own decks."""
         self.client.force_login(self.user)
         response = self.client.get(reverse("own-deck"))
 
@@ -215,3 +217,61 @@ class DecksViewsTestCase(TestCase):
         self.assertQuerySetEqual(
             own_decks, response.context["deck_list"], ordered=False
         )
+
+    def assert_ajax_error(self, response, status_code, error_message):
+        self.assertEqual(response.status_code, status_code)
+        self.assertIn("error", response.json())
+        self.assertEqual(response.json()["error"]["code"], status_code)
+        self.assertEqual(response.json()["error"]["message"], error_message)
+
+    def test_delete_card_view(self):
+        deck = Deck.objects.get(owner=self.user, name=self.PRIVATE_DECK_NAME)
+        card = CardInDeck.objects.filter(deck=deck)[0].card
+        test_url = reverse("update-deck-id", kwargs={"pk": deck.id})
+        headers = {
+            "HTTP_X_REQUESTED_WITH": "XMLHttpRequest",
+            "content_type": "application/json",
+        }
+        data = {"card_reference": card.reference, "action": "delete"}
+
+        response = self.client.post(test_url)
+        self.assertRedirects(
+            response, get_login_url("update-deck-id", pk=deck.id), status_code=302
+        )
+
+        self.client.force_login(self.user)
+        response = self.client.post(test_url)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.content, b"Invalid request")
+
+        response = self.client.get(test_url, **headers)
+        self.assert_ajax_error(response, 400, "Invalid request")
+
+        response = self.client.post(test_url, **headers)
+        self.assert_ajax_error(response, 400, "Invalid payload")
+
+        response = self.client.post(
+            reverse("update-deck-id", kwargs={"pk": 100_000}), **headers, data=data
+        )
+        self.assert_ajax_error(response, 404, "Deck not found")
+
+        wrong_data = dict(data)
+        wrong_data["action"] = "test"
+        response = self.client.post(test_url, **headers, data=wrong_data)
+        self.assert_ajax_error(response, 400, "Invalid payload")
+
+        response = self.client.post(test_url, **headers, data=data)
+        self.assertEqual(response.status_code, 201)
+        self.assertIn("data", response.json())
+        self.assertEqual(response.json()["data"]["deleted"], True)
+
+        response = self.client.post(test_url, **headers, data=data)
+        self.assert_ajax_error(response, 404, "Card not found")
+
+    def test_card_list_view(self):
+        response = self.client.get(reverse("cards"))
+
+        self.assertIn("card_list", response.context)
+        cards = Card.objects.filter()
+        self.assertQuerySetEqual(cards, response.context["card_list"], ordered=False)
+        self.assertNotIn("own_decks", response.context)
