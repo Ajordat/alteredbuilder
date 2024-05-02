@@ -1,23 +1,22 @@
-from collections import defaultdict
 from typing import Any
 import json
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
-from django.db import transaction
 from django.db.models import Q
 from django.db.models.manager import Manager
 from django.db.models.query import QuerySet
 from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 
-from .game_modes import DraftGameMode, GameMode, StandardGameMode, update_deck_legality
-from .models import Card, CardInDeck, Deck, Hero
-from .forms import DecklistForm, UpdateDeckForm
+from .deck_utils import create_new_deck, get_deck_details
+from .game_modes import update_deck_legality
+from .models import Card, CardInDeck, Deck
+from .forms import DecklistForm, DeckMetadataForm, UpdateDeckForm
 from .exceptions import MalformedDeckException
 
 
@@ -94,155 +93,14 @@ class DeckDetailView(DetailView):
         """
 
         context = super().get_context_data(**kwargs)
-        decklist = (
-            self.object.cardindeck_set.select_related(
-                "card__character", "card__spell", "card__permanent"
-            )
-            .order_by("card__reference")
-            .all()
-        )
-
-        hand_counter = defaultdict(int)
-        recall_counter = defaultdict(int)
-        rarity_counter = defaultdict(int)
-
-        # This dictionary will hold all metadata based on the card's type by using the
-        # type as a key
-        d = {
-            Card.Type.CHARACTER: [[], 0, "character"],
-            Card.Type.SPELL: [[], 0, "spell"],
-            Card.Type.PERMANENT: [[], 0, "permanent"],
-        }
-        for cid in decklist:
-            # Append the card to its own type card list
-            d[cid.card.type][0].append((cid.quantity, cid.card))
-            # Count the card count of the card's type
-            d[cid.card.type][1] += cid.quantity
-            # Count the amount of cards with the same hand cost
-            hand_counter[
-                getattr(cid.card, d[cid.card.type][2]).main_cost
-            ] += cid.quantity
-            # Count the amount of cards with the same recall cost
-            recall_counter[
-                getattr(cid.card, d[cid.card.type][2]).recall_cost
-            ] += cid.quantity
-            # Count the amount of cards with the same rarity
-            rarity_counter[cid.card.rarity] += cid.quantity
-
-        decklist_text = f"1 {self.object.hero.reference}\n"
-        decklist_text += "\n".join(
-            [f"{cid.quantity} {cid.card.reference}" for cid in decklist]
-        )
-        context |= {
-            "decklist": decklist_text,
-            "character_list": d[Card.Type.CHARACTER][0],
-            "spell_list": d[Card.Type.SPELL][0],
-            "permanent_list": d[Card.Type.PERMANENT][0],
-            "stats": {
-                "type_distribution": {
-                    "characters": d[Card.Type.CHARACTER][1],
-                    "spells": d[Card.Type.SPELL][1],
-                    "permanents": d[Card.Type.PERMANENT][1],
-                },
-                "total_count": d[Card.Type.CHARACTER][1]
-                + d[Card.Type.SPELL][1]
-                + d[Card.Type.PERMANENT][1],
-                "mana_distribution": {
-                    "hand": hand_counter,
-                    "recall": recall_counter,
-                },
-                "rarity_distribution": {
-                    "common": rarity_counter[Card.Rarity.COMMON],
-                    "rare": rarity_counter[Card.Rarity.RARE],
-                    "unique": rarity_counter[Card.Rarity.UNIQUE],
-                },
-            },
-            "legality": {
-                "standard": {
-                    "is_legal": self.object.is_standard_legal,
-                    "errors": GameMode.ErrorCode.from_list_to_user(
-                        self.object.standard_legality_errors, StandardGameMode
-                    ),
-                },
-                "draft": {
-                    "is_legal": self.object.is_draft_legal,
-                    "errors": GameMode.ErrorCode.from_list_to_user(
-                        self.object.draft_legality_errors, DraftGameMode
-                    ),
-                },
-            },
-        }
+        context |= get_deck_details(self.object)
+        context["form"] = DeckMetadataForm(initial={
+            "name": self.object.name,
+            "description": self.object.description,
+            "is_public": self.object.is_public
+        })
 
         return context
-
-
-@transaction.atomic
-def create_new_deck(user: User, deck_form: dict) -> Deck:
-    """Method to validate the clean data from a DecklistForm and create it if all input
-    is valid.
-
-    Args:
-        user (User): The Deck's owner.
-        deck_form (dict): Clean data from a DecklistForm.
-
-    Raises:
-        MalformedDeckException: If the decklist is invalid.
-
-    Returns:
-        Deck: The resulting object.
-    """
-    decklist = deck_form["decklist"]
-    deck = Deck.objects.create(
-        name=deck_form["name"],
-        owner=user,
-        is_public=deck_form["is_public"],
-        description=deck_form["description"],
-    )
-    has_hero = False
-
-    for line in decklist.splitlines():
-        # For each line, it is needed to:
-        # * Validate its format
-        # * Search the card reference on the database
-        #   - If it's a Hero, assign it to the Deck's Hero
-        #   - Otherwise append it to the list of cards
-        try:
-            count, reference = line.split()
-            count = int(count)
-        except ValueError:
-            # The form validator only checks if there's at least one
-            # line with the correct format
-            raise MalformedDeckException(f"Failed to unpack '{line}'")
-
-        try:
-            card = Card.objects.get(reference=reference)
-        except Card.DoesNotExist:
-            # The Card's reference needs to exist on the database
-            raise MalformedDeckException(f"Card '{reference}' does not exist")
-
-        if card.type == Card.Type.HERO:
-            if not has_hero:
-                try:
-                    deck.hero = Hero.objects.get(reference=reference)
-                except Hero.DoesNotExist:
-                    # This situation would imply a database inconsistency
-                    raise MalformedDeckException(f"Card '{reference}' does not exist")
-                has_hero = True
-            else:
-                # The Deck model requires to have exactly one Hero per Deck
-                raise MalformedDeckException("Multiple heroes present in the decklist")
-        else:
-            # Link the Card with the Deck
-            CardInDeck.objects.create(deck=deck, card=card, quantity=count)
-
-    if not has_hero:
-        # The Deck model requires to have exactly one Hero per Deck
-        raise MalformedDeckException("Missing hero in decklist")
-
-    update_deck_legality(deck)
-    deck.save()
-
-    return deck
 
 
 class NewDeckFormView(LoginRequiredMixin, FormView):
@@ -364,12 +222,18 @@ class UpdateDeckFormView(LoginRequiredMixin, FormView):
     form_class = UpdateDeckForm
 
     def form_valid(self, form: UpdateDeckForm) -> HttpResponse:
-        deck = Deck.objects.get(pk=form.cleaned_data["deck_id"])
-        card = Card.objects.get(reference=form.cleaned_data["card_reference"])
         try:
+            deck = Deck.objects.get(pk=form.cleaned_data["deck_id"])
+            card = Card.objects.get(reference=form.cleaned_data["card_reference"])
             cid = CardInDeck.objects.get(deck=deck, card=card)
             cid.quantity += form.cleaned_data["quantity"]
             cid.save()
+        except Deck.DoesNotExist:
+            form.add_error("deck_id", "Deck not found")
+            return self.form_invalid(form)
+        except Card.DoesNotExist:
+            form.add_error("card_reference", "Card not found")
+            return self.form_invalid(form)
         except CardInDeck.DoesNotExist:
             # The card is not in the deck, so we add it
             CardInDeck.objects.create(
@@ -383,6 +247,40 @@ class UpdateDeckFormView(LoginRequiredMixin, FormView):
 
     def get_success_url(self) -> str:
         return f"{reverse_lazy('cards')}?{self.request.META['QUERY_STRING']}"
+
+
+class UpdateDeckMetadataFormView(LoginRequiredMixin, FormView):
+    template_name = "decks/deck_detail.html"
+    form_class = DeckMetadataForm
+
+    def form_valid(self, form: DeckMetadataForm) -> HttpResponse:
+        try:
+            deck = Deck.objects.get(pk=50, owner=self.request.user)
+            # deck = Deck.objects.get(pk=self.kwargs["pk"], owner=self.request.user)
+            deck.name = form.cleaned_data["name"]
+            deck.description = form.cleaned_data["description"]
+            deck.is_public = form.cleaned_data["is_public"]
+            deck.save()
+        except Deck.DoesNotExist:
+            # form.add_error(None, "Invalid permissions")
+            # return self.form_invalid(form)
+            pass
+
+        return super().form_valid(form)
+
+    def form_invalid(self, form: Any) -> HttpResponse:
+        # UpdateDeckMetadataFormView.kwargs["pk"] = self.kwargs["pk"]
+        # return redirect(self.get_success_url(), kwargs=self.get_context_data(form=form))
+        return super().form_invalid(form)
+
+    def get_success_url(self) -> str:
+        """Return the redirect URL for a successful Deck submission.
+        Redirect to the Deck's detail view.
+
+        Returns:
+            str: The Deck's detail endpoint.
+        """
+        return reverse("deck-detail", kwargs={"pk": self.kwargs["pk"]})
 
 
 class CardListView(ListView):

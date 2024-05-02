@@ -31,8 +31,11 @@
                     <i class="fa-solid fa-share-nodes"></i> Share
                 </button>
                 <ul class="dropdown-menu">
-                    <li id="copy-self-link"><a class="dropdown-item" href="#">Link to builder</a></li>
-                    <li id="copy-decklist"><a class="dropdown-item" href="#">Decklist</a></li>
+                    <li id="copy-self-link"><a class="dropdown-item" href="#"><i class="fa-regular fa-copy"></i> Link to builder</a></li>
+                    <li id="copy-decklist"><a class="dropdown-item" href="#"><i class="fa-regular fa-copy"></i> Decklist</a></li>
+    {% if object.owner == user %}
+                    <li id="edit-deck-metadata"><a class="dropdown-item edit-deck-metadata-trigger" href="#" data-bs-toggle="modal" data-bs-target="#add-card-modal"><i class="fa-solid fa-pen"></i> Edit deck fields</a></li>
+    {% endif %}
                 </ul>
             </div>
         </div>
@@ -187,6 +190,28 @@
             <div class="toast-body d-flex">
                 <span id="toast-text"></span>
                 <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="add-card-modal" tabindex="-1" aria-labelledby="add-card-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="add-card-modalLabel">Edit deck</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'update-deck-metadata' pk=object.id %}" method="post" id="update-deck-metadata-form">
+                        {% csrf_token %}
+                        
+                        {{ form }}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" form="update-deck-metadata-form">Apply</button>
+                </div>
             </div>
         </div>
     </div>

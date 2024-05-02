@@ -1,7 +1,7 @@
-let exampleModal = document.getElementById('add-card-modal');
+let cardModal = document.getElementById('add-card-modal');
 
-if (exampleModal) {
-    exampleModal.addEventListener('show.bs.modal', event => {
+if (cardModal) {
+    cardModal.addEventListener('show.bs.modal', event => {
         // Button that triggered the modal
         let button = event.relatedTarget;
         let cardNameElement = document.getElementById("modal-card-name");

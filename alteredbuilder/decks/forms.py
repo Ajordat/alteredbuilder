@@ -30,6 +30,17 @@ class DecklistForm(forms.Form):
     is_public = forms.BooleanField(required=False)
 
 
+class DeckMetadataForm(forms.Form):
+    """Form to validate the update of a Deck's metadata."""
+
+    template_name = "forms/submit_deck_metadata.html"
+    name = forms.CharField(label="deck-name", max_length=50, required=True)
+    description = forms.CharField(
+        label="description", widget=forms.Textarea, max_length=1000, required=False
+    )
+    is_public = forms.BooleanField(required=False)
+
+
 class UpdateDeckForm(forms.Form):
     template_name = ""
     card_reference = forms.CharField(max_length=24)
