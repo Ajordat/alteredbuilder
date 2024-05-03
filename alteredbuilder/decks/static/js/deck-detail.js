@@ -35,11 +35,6 @@ copyDecklistElement.onclick = function() {
     return false;
 }
 
-let tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-let tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-
-
-
 let removeCardEls = document.getElementsByClassName("remove-card-trigger");
 
 for (let element of removeCardEls) {
