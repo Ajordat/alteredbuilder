@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from collections import defaultdict
 from enum import StrEnum
 
 from .models import Deck, Card
@@ -67,6 +68,8 @@ class StandardGameMode(GameMode):
             error_list.append(cls.ErrorCode.ERR_EXCEED_RARE_COUNT)
         if kwargs["unique_count"] > cls.MAX_UNIQUE_COUNT:
             error_list.append(cls.ErrorCode.ERR_EXCEED_UNIQUE_COUNT)
+        if max(kwargs["family_count"].values(), default=0) > cls.MAX_SAME_FAMILY_CARD:
+            error_list.append(cls.ErrorCode.ERR_EXCEED_SAME_FAMILY_COUNT)
 
         return error_list
 
@@ -94,6 +97,7 @@ def update_deck_legality(deck: Deck):
     rare_count = 0
     unique_count = 0
     factions = [deck.hero.faction]
+    family_count = defaultdict(int)
 
     decklist = deck.cardindeck_set.order_by("card__reference").all()
 
@@ -105,12 +109,16 @@ def update_deck_legality(deck: Deck):
             unique_count += cid.quantity
         if cid.card.faction not in factions:
             factions.append(cid.card.faction)
+        family_key = "_".join(cid.card.reference.split("_")[:-1])
+        family_count[family_key] += cid.quantity
+
 
     data = {
         "faction_count": len(factions),
         "total_count": total_count,
         "rare_count": rare_count,
         "unique_count": unique_count,
+        "family_count": family_count
     }
 
     error_list = StandardGameMode.validate(**data)
