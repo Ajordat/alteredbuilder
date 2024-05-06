@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load static %}
+{% load deck_styles %}
 
 {% block title %}Card list{% endblock %}
 
@@ -10,42 +11,62 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col">
-                    Factions:
-                    {% include "./snippets/filter_checkbox.html" with label="Axiom" value="AX" %}
-                    {% include "./snippets/filter_checkbox.html" with label="Bravos" value="BR" %}
-                    {% include "./snippets/filter_checkbox.html" with label="Lyra" value="LY" %}
-                    {% include "./snippets/filter_checkbox.html" with label="Muna" value="MU" %}
-                    {% include "./snippets/filter_checkbox.html" with label="Ordis" value="OR" %}
-                    {% include "./snippets/filter_checkbox.html" with label="Yzmir" value="YZ" %}
+    <h3>Card list</h3>
+    <div class="row row-cols-auto mb-3">
+        <div class="accordion" id="filterAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+    {% if request.GET|length > 1 or request.GET|length == 1 and "page" not in request.GET.keys %}
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter"><i class="fa-solid fa-filter"></i>&nbsp; Filters&nbsp;</button>
+                </h2>
+                <div id="collapseFilter" class="accordion-collapse collapse show" data-bs-parent="#filterAccordion">
+    {% else %}
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter"><i class="fa-solid fa-filter"></i>&nbsp; Filters&nbsp;</button>
+                </h2>
+                <div id="collapseFilter" class="accordion-collapse collapse" data-bs-parent="#filterAccordion">
+    {% endif %}
+                    <div class="accordion-body">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col">
+                                    <b>Factions</b>
+                                    {% include "./snippets/filter_checkbox.html" with label="Axiom" value="AX" %}
+                                    {% include "./snippets/filter_checkbox.html" with label="Bravos" value="BR" %}
+                                    {% include "./snippets/filter_checkbox.html" with label="Lyra" value="LY" %}
+                                    {% include "./snippets/filter_checkbox.html" with label="Muna" value="MU" %}
+                                    {% include "./snippets/filter_checkbox.html" with label="Ordis" value="OR" %}
+                                    {% include "./snippets/filter_checkbox.html" with label="Yzmir" value="YZ" %}
+                                </div>
+                                <div class="col">
+                                    <b>Rarity</b>
+                                    {% include "./snippets/filter_checkbox.html" with label="Common" value="C" %}
+                                    {% include "./snippets/filter_checkbox.html" with label="Rare" value="R" %}
+                                    {% include "./snippets/filter_checkbox.html" with label="Unique" value="U" %}
+                                </div>
+                                <div class="col">
+                                    <b>Type</b>
+                                    {% include "./snippets/filter_checkbox.html" with label="Character" value="character" %}
+                                    {% include "./snippets/filter_checkbox.html" with label="Hero" value="hero" %}
+                                    {% include "./snippets/filter_checkbox.html" with label="Permanent" value="permanent" %}
+                                    {% include "./snippets/filter_checkbox.html" with label="Spell" value="spell" %}
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col">
+                                    <button type="submit" class="btn btn-primary" id="filterSearchButton">Search</button>                  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col">
-                    Rarity:
-                    {% include "./snippets/filter_checkbox.html" with label="Common" value="C" %}
-                    {% include "./snippets/filter_checkbox.html" with label="Rare" value="R" %}
-                    {% include "./snippets/filter_checkbox.html" with label="Unique" value="U" %}
-                </div>
-                <div class="col">
-                    Type:
-                    {% include "./snippets/filter_checkbox.html" with label="Character" value="character" %}
-                    {% include "./snippets/filter_checkbox.html" with label="Hero" value="hero" %}
-                    {% include "./snippets/filter_checkbox.html" with label="Permanent" value="permanent" %}
-                    {% include "./snippets/filter_checkbox.html" with label="Spell" value="spell" %}
-                </div>
-            </div>
-            <div class="row">
-                <button type="submit" class="btn btn-primary" id="filterSearchButton">Search</button>                  
             </div>
         </div>
     </div>
-    <div class="row gy-5">
+    <div class="row gy-3">
     {% for card in card_list %}
         <div class="col-xxl-2 col-xl-3 col-md-4 col-sm-6">
             <div class="card card-display">
-                <img src="{{ card.image_url }}" class="card-img-top" alt="...">
+                <img src="{{ card.image_url }}" class="card-img-top" alt="{{ card.name }}">
                 <div class="card-body">
                     <div class="dropdown">
                         <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">Options</button>
@@ -62,12 +83,14 @@
             </div>
         </div>
     {% empty %}
-        <p>No cards are available.</p>
+        <p>No cards found with the current filter.</p>
     {% endfor %}
     </div>
     
-    {% include "./snippets/pagination.html" %}
-
+    <div class="mt-3">
+        {% include "./snippets/pagination.html" %}
+    </div>
+    
     <div class="modal fade" id="add-card-modal" tabindex="-1" aria-labelledby="add-card-modalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -76,7 +99,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{% url 'update-deck' %}?page={{ page_obj.number }}" method="post" id="update-deck-form">
+                    <form action="{% url 'update-deck' %}?{% inject_params request.GET page=page_obj.number %}" method="post" id="update-deck-form">
                         {% csrf_token %}
 
                         <label for="{{ form.quantity.id_for_label }}" class="col-form-label">Card:</label>
