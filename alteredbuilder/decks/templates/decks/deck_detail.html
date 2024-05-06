@@ -33,17 +33,26 @@
                 <ul class="dropdown-menu">
                     <li id="copy-self-link"><a class="dropdown-item" href="#"><i class="fa-regular fa-copy"></i> Copy link</a></li>
                     <li id="copy-decklist"><a class="dropdown-item" href="#"><i class="fa-regular fa-copy"></i> Copy decklist</a></li>
-    {% if object.owner == user %}
-                    <li id="edit-deck-metadata"><a class="dropdown-item edit-deck-metadata-trigger" href="#" data-bs-toggle="modal" data-bs-target="#add-card-modal"><i class="fa-solid fa-pen"></i> Edit deck fields</a></li>
-                    <li id="delete-deck"><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete-deck-modal"><i class="fa-solid fa-trash"></i> Delete deck</a></li>
-    {% endif %}
                 </ul>
             </div>
         </div>
+    {% if object.owner == user %}
+        <div class="col">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-gears"></i> Options
+                </button>
+                <ul class="dropdown-menu">
+                    <li id="edit-deck-metadata"><a class="dropdown-item edit-deck-metadata-trigger" href="#" data-bs-toggle="modal" data-bs-target="#add-card-modal"><i class="fa-solid fa-pen"></i> Edit deck fields</a></li>
+                    <li id="delete-deck"><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete-deck-modal"><i class="fa-solid fa-trash"></i> Delete deck</a></li>
+                </ul>
+            </div>
+        </div>
+    {% endif %}
     </div>
     <h3>Decklist</h3>
     <div class="row">
-        <div class="col-3">
+        <div class="col-3 mb-5">
             <img class="img-fluid rounded-4" id="card-showcase" src="{% if object.hero %}{{ object.hero.image_url }}{% endif %}" alt="selected card">
         </div>
         <div class="col">
@@ -61,6 +70,14 @@
                             <tr data-image-url="{{ object.hero.image_url }}">
                                 <td>{{ object.hero.name }}</td>
                                 <td>{{ object.hero.get_faction_display.title }}</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="{{ object.hero.get_official_link }}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> Go to details</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

@@ -16,17 +16,17 @@
             <td>{{ quantity }}</td>
             <td>{{ card.name }}</td>
             <td>{% get_main_cost card %}/{% get_recall_cost card %}</td>
-    {% if object.owner == user %}
             <td>
                 <div class="dropdown">
                     <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ card.reference }}">Remove card</a></li>
-                        <li><a class="dropdown-item" href="{{ card.get_official_link }}" target="_blank" rel="noopener noreferrer">Go to details <i class="fa-solid fa-arrow-up-right-from-square"></i></a></li>
+                        <li><a class="dropdown-item" href="{{ card.get_official_link }}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> Go to details</a></li>
+    {% if object.owner == user %}
+                        <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ card.reference }}"><i class="fa-solid fa-trash"></i> Remove card</a></li>
+    {% endif %}
                     </ul>
                 </div>
             </td>
-    {% endif %}
         </tr>
 {% empty %}
         <tr><td colspan="3">No {{ type }}s</td></tr>
