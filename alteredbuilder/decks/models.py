@@ -22,6 +22,15 @@ class Card(models.Model):
         HERO = "hero"
         MANA = "mana"
 
+        @staticmethod
+        def to_class(type):
+            return {
+                Card.Type.HERO: Hero,
+                Card.Type.CHARACTER: Character,
+                Card.Type.SPELL: Spell,
+                Card.Type.PERMANENT: Permanent
+            }[type]
+
     class Rarity(models.TextChoices):
         COMMON = "C", "common"
         RARE = "R", "rare"
