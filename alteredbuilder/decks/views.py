@@ -255,8 +255,7 @@ class UpdateDeckMetadataFormView(LoginRequiredMixin, FormView):
 
     def form_valid(self, form: DeckMetadataForm) -> HttpResponse:
         try:
-            deck = Deck.objects.get(pk=50, owner=self.request.user)
-            # deck = Deck.objects.get(pk=self.kwargs["pk"], owner=self.request.user)
+            deck = Deck.objects.get(pk=self.kwargs["pk"], owner=self.request.user)
             deck.name = form.cleaned_data["name"]
             deck.description = form.cleaned_data["description"]
             deck.is_public = form.cleaned_data["is_public"]
