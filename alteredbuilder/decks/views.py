@@ -291,6 +291,10 @@ class CardListView(ListView):
         qs = super().get_queryset()
         filters = Q()
 
+        query = self.request.GET.get("query")
+        if query:
+            filters &= Q(name__search=query)
+
         factions = self.request.GET.get("faction")
         if factions:
             try:
@@ -335,5 +339,7 @@ class CardListView(ListView):
             if filter in self.request.GET:
                 checked_filters += self.request.GET[filter].split(",")
         context["checked_filters"] = checked_filters
+        if "query" in self.request.GET:
+            context["query"] = self.request.GET.get("query")
 
         return context

@@ -13,11 +13,17 @@
 {% block content %}
     <h3>Card list</h3>
     <div class="row row-cols-auto mb-3">
+        <div class="col">
+            <form class="d-flex" role="search" id="querySearchForm">
+                <input class="form-control me-2" type="search" aria-label="Search" id="querySearch" value="{{ query }}">
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </form>
+        </div>
         <div class="accordion" id="filterAccordion">
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button {% if not checked_filters %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="{% if checked_filters %}true{% else %}false{% endif %}" aria-controls="collapseFilter">
-                        <i class="fa-solid fa-filter"></i>&nbsp; Filters&nbsp;
+                        <i class="fa-solid fa-filter"></i>&nbsp; Filters&nbsp; <span class="badge text-bg-secondary">{{ checked_filters|length }}</span>&nbsp; 
                     </button>
                 </h2>
                 <div id="collapseFilter" class="accordion-collapse collapse {% if checked_filters %}show{% endif %}" data-bs-parent="#filterAccordion">

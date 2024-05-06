@@ -15,6 +15,11 @@
 .card-display {
     max-width: 280px;
 }
+
+.accordion-button {
+    padding: 9px 9px;
+}
+
 /* 
 span.AX {
     background-color: darksalmon;

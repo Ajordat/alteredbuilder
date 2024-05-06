@@ -12,8 +12,6 @@ if (cardModal) {
     });
 }
 
-let filterSearchButton = document.getElementById("filterSearchButton");
-
 function parseFilter(labels) {
     let filter = [];
 
@@ -26,7 +24,8 @@ function parseFilter(labels) {
     return filter;
 }
 
-filterSearchButton.onclick = function() {
+function searchCards(e) {
+    e.preventDefault();
     let filters = [];
 
     let factions = parseFilter(["Axiom", "Bravos", "Lyra", "Muna", "Ordis", "Yzmir"]);
@@ -44,6 +43,15 @@ filterSearchButton.onclick = function() {
         filters.push("type=" + types.join(","));
     }
 
+    let queryElement = document.getElementById("querySearch");
+    if (queryElement.value != "") {
+        filters.push("query=" + queryElement.value);
+    }
+
     let url = window.location.pathname + "?" + filters.join("&");
     window.location.href = url;
+    return false;
 }
+
+document.getElementById("filterSearchButton").addEventListener("click", searchCards);
+document.getElementById("querySearchForm").addEventListener("submit", searchCards);
