@@ -94,11 +94,13 @@ class DeckDetailView(DetailView):
 
         context = super().get_context_data(**kwargs)
         context |= get_deck_details(self.object)
-        context["form"] = DeckMetadataForm(initial={
-            "name": self.object.name,
-            "description": self.object.description,
-            "is_public": self.object.is_public
-        })
+        context["form"] = DeckMetadataForm(
+            initial={
+                "name": self.object.name,
+                "description": self.object.description,
+                "is_public": self.object.is_public,
+            }
+        )
 
         return context
 

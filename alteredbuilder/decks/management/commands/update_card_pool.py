@@ -98,12 +98,10 @@ class Command(BaseCommand):
                 )
         return card_object
 
-
     def convert_choices(self, card_object):
         card_object["faction"] = Card.Faction(card_object["faction"])
         card_object["type"] = getattr(Card.Type, card_object["type"])
         card_object["rarity"] = getattr(Card.Rarity, card_object["rarity"])
-
 
     def create_card(self, card_dict):
         try:
@@ -112,12 +110,11 @@ class Command(BaseCommand):
         except KeyError:
             pass
 
-
     def update_card(self, card_dict: dict, card_obj: Card):
         if card_dict["image_url"] == card_obj.image_url:
             # If the image hasn't changed, we assume the other attributes haven't changed
             return
-        
+
         shared_fields = ["name", "faction", "image_url"]
         specific_fields = ["main_effect"]
         type_name = str(card_obj.type)
@@ -128,7 +125,7 @@ class Command(BaseCommand):
             specific_fields += ["main_cost", "recall_cost", "echo_effect"]
             if card_obj.type == Card.Type.CHARACTER:
                 specific_fields += ["forest_power", "mountain_power", "ocean_power"]
-        
+
         for field in shared_fields:
             setattr(card_obj, field, card_dict[field])
 

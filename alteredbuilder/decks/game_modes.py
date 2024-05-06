@@ -112,13 +112,12 @@ def update_deck_legality(deck: Deck):
         family_key = "_".join(cid.card.reference.split("_")[:-1])
         family_count[family_key] += cid.quantity
 
-
     data = {
         "faction_count": len(factions),
         "total_count": total_count,
         "rare_count": rare_count,
         "unique_count": unique_count,
-        "family_count": family_count
+        "family_count": family_count,
     }
 
     error_list = StandardGameMode.validate(**data)

@@ -76,7 +76,7 @@ def create_new_deck(user: User, deck_form: dict) -> Deck:
 
 
 def get_deck_details(deck):
-    
+
     decklist = (
         deck.cardindeck_set.select_related(
             "card__character", "card__spell", "card__permanent"
@@ -102,9 +102,7 @@ def get_deck_details(deck):
         # Count the card count of the card's type
         d[cid.card.type][1] += cid.quantity
         # Count the amount of cards with the same hand cost
-        hand_counter[
-            getattr(cid.card, d[cid.card.type][2]).main_cost
-        ] += cid.quantity
+        hand_counter[getattr(cid.card, d[cid.card.type][2]).main_cost] += cid.quantity
         # Count the amount of cards with the same recall cost
         recall_counter[
             getattr(cid.card, d[cid.card.type][2]).recall_cost

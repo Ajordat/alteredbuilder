@@ -28,7 +28,7 @@ class Card(models.Model):
                 Card.Type.HERO: Hero,
                 Card.Type.CHARACTER: Character,
                 Card.Type.SPELL: Spell,
-                Card.Type.PERMANENT: Permanent
+                Card.Type.PERMANENT: Permanent,
             }[type]
 
     class Rarity(models.TextChoices):
