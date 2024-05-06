@@ -12,7 +12,7 @@ if (cardModal) {
     });
 }
 
-let searchButton = document.getElementById("filterSearchButton");
+let filterSearchButton = document.getElementById("filterSearchButton");
 
 function parseFilter(labels) {
     let filter = [];
@@ -26,7 +26,7 @@ function parseFilter(labels) {
     return filter;
 }
 
-searchButton.onclick = function() {
+filterSearchButton.onclick = function() {
     let filters = [];
 
     let factions = parseFilter(["Axiom", "Bravos", "Lyra", "Muna", "Ordis", "Yzmir"]);

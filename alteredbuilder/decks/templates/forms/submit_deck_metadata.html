@@ -16,7 +16,7 @@
 </div>
 
 <div class="mb-3">
-    <label for="{{ form.description.id_for_label }}" class="col-sm-2 col-form-label">Description</label>
+    <label for="{{ form.description.id_for_label }}" class="col-form-label">Description (<a href="https://www.markdownguide.org/cheat-sheet/">markdown</a>)</label>
     <textarea class="form-control{% if form.description.errors %} is-invalid{% endif %}" id="{{ form.description.auto_id }}" cols="10" rows="5" maxlength="1000" name="{{ form.description.name }}" aria-describedby="{{ form.description.name }}-validation">{{ form.description.initial }}</textarea>
     <div id="{{ form.description.name }}-validation" class="invalid-feedback">
 {% for error in form.description.errors %}

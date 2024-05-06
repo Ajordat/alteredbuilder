@@ -16,15 +16,11 @@
         <div class="accordion" id="filterAccordion">
             <div class="accordion-item">
                 <h2 class="accordion-header">
-    {% if request.GET|length > 1 or request.GET|length == 1 and "page" not in request.GET.keys %}
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter"><i class="fa-solid fa-filter"></i>&nbsp; Filters&nbsp;</button>
+                    <button class="accordion-button {% if not checked_filters %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="{% if checked_filters %}true{% else %}false{% endif %}" aria-controls="collapseFilter">
+                        <i class="fa-solid fa-filter"></i>&nbsp; Filters&nbsp;
+                    </button>
                 </h2>
-                <div id="collapseFilter" class="accordion-collapse collapse show" data-bs-parent="#filterAccordion">
-    {% else %}
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter"><i class="fa-solid fa-filter"></i>&nbsp; Filters&nbsp;</button>
-                </h2>
-                <div id="collapseFilter" class="accordion-collapse collapse" data-bs-parent="#filterAccordion">
-    {% endif %}
+                <div id="collapseFilter" class="accordion-collapse collapse {% if checked_filters %}show{% endif %}" data-bs-parent="#filterAccordion">
                     <div class="accordion-body">
                         <div class="col">
                             <div class="row">
@@ -52,7 +48,7 @@
                                 </div>
                             </div>
                             <div class="row mt-2">
-                                <div class="col">
+                                <div class="col text-end">
                                     <button type="submit" class="btn btn-primary" id="filterSearchButton">Search</button>                  
                                 </div>
                             </div>
