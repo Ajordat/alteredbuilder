@@ -161,6 +161,17 @@ class NewDeckFormView(LoginRequiredMixin, FormView):
 
 
 @login_required
+def delete_deck(request: HttpRequest, pk: int) -> HttpResponse:
+    try:
+        deck = Deck.objects.get(pk=pk)
+        if deck.owner == request.user:
+            deck.delete()
+    except Deck.DoesNotExist:
+        pass
+    return redirect("own-deck")
+
+
+@login_required
 def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
     """Function to update a deck with AJAX.
     I'm not proud of this implementation, as this code is kinda duplicated in

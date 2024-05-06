@@ -22,7 +22,7 @@
         <div class="col">
             <i class="fa-solid fa-user"></i> {{ object.owner.username }}
         </div>
-        <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Created: {{ object.created_at|date:'DATE_FORMAT' }}</br>Last modified: {{ object.modified_at|date:'DATE_FORMAT' }}" data-bs-html="true">
+        <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Created: {{ object.created_at|date:'DATE_FORMAT' }}<br>Last modified: {{ object.modified_at|date:'DATE_FORMAT' }}" data-bs-html="true">
             <i class="fa-regular fa-calendar"></i> <small>{{ object.modified_at|date:"SHORT_DATE_FORMAT" }}</small>
         </div>
         <div class="col">
@@ -31,10 +31,11 @@
                     <i class="fa-solid fa-share-nodes"></i> Share
                 </button>
                 <ul class="dropdown-menu">
-                    <li id="copy-self-link"><a class="dropdown-item" href="#"><i class="fa-regular fa-copy"></i> Link to builder</a></li>
-                    <li id="copy-decklist"><a class="dropdown-item" href="#"><i class="fa-regular fa-copy"></i> Decklist</a></li>
+                    <li id="copy-self-link"><a class="dropdown-item" href="#"><i class="fa-regular fa-copy"></i> Copy link</a></li>
+                    <li id="copy-decklist"><a class="dropdown-item" href="#"><i class="fa-regular fa-copy"></i> Copy decklist</a></li>
     {% if object.owner == user %}
                     <li id="edit-deck-metadata"><a class="dropdown-item edit-deck-metadata-trigger" href="#" data-bs-toggle="modal" data-bs-target="#add-card-modal"><i class="fa-solid fa-pen"></i> Edit deck fields</a></li>
+                    <li id="delete-deck"><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete-deck-modal"><i class="fa-solid fa-trash"></i> Delete deck</a></li>
     {% endif %}
                 </ul>
             </div>
@@ -158,7 +159,7 @@
                         <td>No</td>
                         <td>
         {% for error in legality.standard.errors %}
-                            {{ error }}</br>
+                            {{ error }}<br>
         {% endfor %}
                         </td>
     {% endif %}
@@ -172,7 +173,7 @@
                         <td>No</td>
                         <td>
         {% for error in legality.draft.errors %}
-                            {{ error }}</br>
+                            {{ error }}<br>
         {% endfor %}
                         </td>
     {% endif %}
@@ -215,6 +216,24 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="delete-deck-modal" tabindex="-1" aria-labelledby="delete-deck-modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="delete-deck-modalLabel">Delete deck</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                Are you sure you want to delete this deck?<br>It won't be possible to recover it later.
+                </div>
+                <div class="modal-footer">
+                    <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</a>
+                    <a type="button" class="btn btn-danger" href="{% url 'delete-deck-id' pk=object.id %}">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <article id="decklist-text" data-decklist="{{ decklist }}"></article>
     {{ stats|json_script:"deck-stats" }}
 {% endblock %}

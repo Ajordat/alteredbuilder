@@ -17,4 +17,5 @@ urlpatterns = [
         name="update-deck-metadata",
     ),
     path("update/", views.UpdateDeckFormView.as_view(), name="update-deck"),
+    path("<int:pk>/delete/", views.delete_deck, name="delete-deck-id"),
 ]
