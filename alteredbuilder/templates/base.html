@@ -16,36 +16,36 @@
 {% endblock %}
     </head>
     <body>
-        <nav class="navbar navbar-expand-md bg-body-tertiary sticky-top" style="background-color: #e3f2fd;">
+        <nav class="navbar navbar-expand-md bg-info-subtle sticky-top">
             <div class="container-fluid">
-                <a class="navbar-brand" href="{% url 'index' %}">Altered TCG Builder</a>
+                <a class="navbar-brand text-info-emphasis" href="{% url 'index' %}">Altered TCG Builder</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{% url 'index' %}"><i class="fa-solid fa-house"></i> Home</a>
+                            <a class="nav-link active text-info-emphasis" aria-current="page" href="{% url 'index' %}"><i class="fa-solid fa-house"></i> Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{% url 'cards' %}"><i class="fa-solid fa-puzzle-piece"></i> Cards</a>
+                            <a class="nav-link active text-info-emphasis" aria-current="page" href="{% url 'cards' %}"><i class="fa-solid fa-puzzle-piece"></i> Cards</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="{% url 'own-deck' %}"><i class="fa-solid fa-inbox"></i> Own decks</a>
+                            <a class="nav-link active text-info-emphasis" href="{% url 'own-deck' %}"><i class="fa-solid fa-inbox"></i> Own decks</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="{% url 'new-deck' %}"><i class="fa-solid fa-cart-plus"></i> New deck</a>
+                            <a class="nav-link active text-info-emphasis" href="{% url 'new-deck' %}"><i class="fa-solid fa-cart-plus"></i> New deck</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
 {% if user.is_authenticated %}
     {% if user.is_staff %}
                         <li class="nav-item">
-                            <a class="nav-link active" href="{% url 'admin:index' %}"><i class="fa-solid fa-gears"></i> Django Admin</a>
+                            <a class="nav-link active text-info-emphasis" href="{% url 'admin:index' %}"><i class="fa-solid fa-gears"></i> Django Admin</a>
                         </li>
     {% endif %}
                         <li class="nav-item dropdown">
-                            <a class="nav-link active dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user"></i> {{ user.username }}</a>
+                            <a class="nav-link active dropdown-toggle text-info-emphasis" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user"></i> {{ user.username }}</a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item disabled" href="#">Profile</a></li>
                             <li><hr class="dropdown-divider"></li>
@@ -54,7 +54,7 @@
                         </li>
 {% else %}
                         <li class="nav-item">
-                            <a class="nav-link active" href="{% url 'account_login' %}?next={{ request.path }}"><i class="fa-solid fa-user"></i> Login</a>
+                            <a class="nav-link active text-info-emphasis" href="{% url 'account_login' %}?next={{ request.path }}"><i class="fa-solid fa-user"></i> Login</a>
                         </li>
 {% endif %}
                     </ul>
