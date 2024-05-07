@@ -36,8 +36,19 @@ def get_recall_cost(card):
 
 @register.simple_tag
 def inject_params(get_params, **kwargs):
-    allowed_params = ["faction", "rarity", "type"]
+    allowed_params = ["faction", "rarity", "type", "query"]
     args = [
         f"{key}={value}" for key, value in get_params.items() if key in allowed_params
     ] + [f"{key}={value}" for key, value in kwargs.items()]
     return "&".join([arg for arg in args if arg])
+
+@register.filter
+def params_to_filter_tag(get_params):
+    allowed_params = ["faction", "rarity", "type", "query"]
+    tags = []
+    for param in get_params:
+        if param in allowed_params:
+            tags += [(param, value) for value in get_params[param].split(",")]
+
+    return tags
+    

@@ -305,7 +305,7 @@ class CardListView(ListView):
 
         query = self.request.GET.get("query")
         if query:
-            filters &= Q(name__search=query)
+            filters &= Q(name__icontains=query)
 
         factions = self.request.GET.get("faction")
         if factions:
