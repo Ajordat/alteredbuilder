@@ -4,10 +4,15 @@
 
 {% block title %}Home{% endblock %}
 
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{% endblock %}
+
 {% block content %}
     <div>
         <h3>Public decks</h3>
-        <table class="table" id="character-table" aria-describedby="Available characters">
+        <table class="table table-hover table-clickable" id="publicDecksTable" aria-describedby="Public decks">
             <thead>
                 <tr>
                     <th scope="col">Owner</th>
@@ -22,13 +27,13 @@
                     <th scope="col">Last updated</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="table-group-divider">
     {% for deck in deck_list %}
-                <tr>
+                <tr data-href="{% url 'deck-detail' pk=deck.id %}">
                     <td>{{ deck.owner.username }}</td>
                     <td><a href="{% url 'deck-detail' pk=deck.id %}">{{ deck.name }}</a></td>
                     <td>{{ deck.hero.get_faction_display.title }}</td>
-                    <td>{{ deck.hero.name }}</td>
+                    <td data-bs-toggle="tooltip" data-bs-title="<img src='{{ deck.hero.image_url }}'/>" data-bs-html="true" data-bs-placement="right">{{ deck.hero.name }}</td>
                     <td>{% if deck.is_standard_legal %}<i class="fa-solid fa-check"></i>{% else %}<i class="fa-solid fa-xmark"></i>{% endif %} | {% if deck.is_draft_legal %}<i class="fa-solid fa-check"></i>{% else %}<i class="fa-solid fa-xmark"></i>{% endif %}</td>
                     <td>{{ deck.modified_at|timesince }} ago</td>
                 </tr>
@@ -40,7 +45,7 @@
 
     {% if own_decks %}
         <h3>Own decks</h3>
-        <table class="table" id="character-table" aria-describedby="Own decks">
+        <table class="table table-hover table-clickable" id="ownDecksTable" aria-describedby="Own decks">
             <thead>
                 <tr>
                     <th scope="col">Owner</th>
@@ -56,15 +61,15 @@
                     <th scope="col">Last updated</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="table-group-divider">
         {% for deck in own_decks %}
-                <tr>
+                <tr data-href="{% url 'deck-detail' pk=deck.id %}">
                     <td>{{ user.username }}</td>
-                    <td><a href="{% url 'deck-detail' pk=deck.id %}">{{ deck.name }}</a></td>
+                    <td>{{ deck.name }}</td>
                     <td>{{ deck.hero.get_faction_display.title }}</td>
-                    <td>{{ deck.hero.name }}</td>
+                    <td data-bs-toggle="tooltip" data-bs-title="<img src='{{ deck.hero.image_url }}'/>" data-bs-html="true" data-bs-placement="right">{{ deck.hero.name }}</td>
                     <td>{% if deck.is_standard_legal %}<i class="fa-solid fa-check"></i>{% else %}<i class="fa-solid fa-xmark"></i>{% endif %} | {% if deck.is_draft_legal %}<i class="fa-solid fa-check"></i>{% else %}<i class="fa-solid fa-xmark"></i>{% endif %}</td>
-                    <td><input class="form-check-input" type="checkbox" value="" disabled {% if deck.is_public %}checked{% endif %}></td>
+                    <td>{% if deck.is_public %}<i class="fa-solid fa-check"></i>{% endif %}</td>
                     <td>{{ deck.modified_at|timesince }} ago</td>
                 </tr>
         {% endfor %}
@@ -76,5 +81,6 @@
 
 
 {% block bodyscripts %}
+    <script src="{% static 'js/deck-list.js' %}"></script>
     <script src="{% static 'js/tooltip-enable.js' %}"></script>
 {% endblock %}

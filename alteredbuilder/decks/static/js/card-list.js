@@ -49,7 +49,7 @@ function searchCards(e) {
     }
 
     let url = window.location.pathname + "?" + filters.join("&");
-    window.location.href = url;
+    window.open(url, "_self");
     return false;
 }
 

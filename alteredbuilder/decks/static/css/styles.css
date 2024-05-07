@@ -20,6 +20,18 @@
     padding: 9px 9px;
 }
 
+.table-clickable tbody tr {
+    cursor: pointer;
+}
+
+.tooltip img {
+    max-height: 400px;
+}
+
+.tooltip-inner {
+    max-width: 300px;
+}
+
 /* 
 span.AX {
     background-color: darksalmon;
