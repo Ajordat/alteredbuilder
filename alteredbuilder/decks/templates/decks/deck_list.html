@@ -31,7 +31,7 @@
     {% for deck in deck_list %}
                 <tr data-href="{% url 'deck-detail' pk=deck.id %}">
                     <td>{{ deck.owner.username }}</td>
-                    <td><a href="{% url 'deck-detail' pk=deck.id %}">{{ deck.name }}</a></td>
+                    <td>{{ deck.name }}</td>
                     <td>{{ deck.hero.get_faction_display.title }}</td>
                     <td data-bs-toggle="tooltip" data-bs-title="<img src='{{ deck.hero.image_url }}'/>" data-bs-html="true" data-bs-placement="right">{{ deck.hero.name }}</td>
                     <td>{% if deck.is_standard_legal %}<i class="fa-solid fa-check"></i>{% else %}<i class="fa-solid fa-xmark"></i>{% endif %} | {% if deck.is_draft_legal %}<i class="fa-solid fa-check"></i>{% else %}<i class="fa-solid fa-xmark"></i>{% endif %}</td>

@@ -34,7 +34,7 @@ class DeckListView(ListView):
         .select_related("owner", "hero")
         .order_by("-modified_at")
     )
-    paginate_by = 12
+    paginate_by = 24
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         """If the user is authenticated, add their decks to the context.
@@ -56,7 +56,7 @@ class OwnDeckListView(LoginRequiredMixin, ListView):
     """ListView to display the own decks."""
 
     model = Deck
-    paginate_by = 10
+    paginate_by = 24
     template_name = "decks/own_deck_list.html"
 
     def get_queryset(self) -> QuerySet[Any]:
