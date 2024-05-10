@@ -29,14 +29,22 @@ class GroupViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAdminUser]
 
 
-class CardViewSet(viewsets.ModelViewSet):
+class AdminWriteOrAuthenticatedGetViewSet(viewsets.ModelViewSet):
+
+    def get_permissions(self):
+        if self.request.method in permissions.SAFE_METHODS:
+            self.permission_classes = [permissions.IsAuthenticated]
+        else:
+            self.permission_classes = [permissions.IsAdminUser]
+        return super().get_permissions()
+    
+
+class CardViewSet(AdminWriteOrAuthenticatedGetViewSet):
     """API endpoint that allows to view all the cards.
-    It's a bit tricky because of the model hierarchy defined.
     """
 
     queryset = Card.objects.all().order_by("reference")
     serializer_class = serial.CardSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
     def retrieve(self, request: Request, pk=None) -> Response:
         """Retrieve the information of a card.
@@ -84,25 +92,21 @@ class CardViewSet(viewsets.ModelViewSet):
                 return Card, serial.CardSerializer
 
 
-class CharacterViewSet(viewsets.ModelViewSet):
+class CharacterViewSet(AdminWriteOrAuthenticatedGetViewSet):
     queryset = Character.objects.all().order_by("reference")
     serializer_class = serial.CharacterSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
 
-class HeroViewSet(viewsets.ModelViewSet):
+class HeroViewSet(AdminWriteOrAuthenticatedGetViewSet):
     queryset = Hero.objects.all().order_by("reference")
     serializer_class = serial.HeroSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
 
-class PermanentViewSet(viewsets.ModelViewSet):
+class PermanentViewSet(AdminWriteOrAuthenticatedGetViewSet):
     queryset = Permanent.objects.all().order_by("reference")
     serializer_class = serial.PermanentSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
 
-class SpellViewSet(viewsets.ModelViewSet):
+class SpellViewSet(AdminWriteOrAuthenticatedGetViewSet):
     queryset = Spell.objects.all().order_by("reference")
     serializer_class = serial.SpellSerializer
-    permission_classes = [permissions.IsAuthenticated]
