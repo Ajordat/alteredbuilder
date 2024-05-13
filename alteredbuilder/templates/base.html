@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
 {% endblock %}
     </head>
-    <body>
+    <body class="d-flex flex-column min-vh-100">
         <nav class="navbar navbar-expand-md bg-info-subtle sticky-top">
             <div class="container-fluid">
                 <a class="navbar-brand text-info-emphasis" href="{% url 'index' %}">Altered TCG Builder</a>
@@ -80,7 +80,7 @@
                     <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
                 </ul>
             </footer> -->
-        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top mt-auto">
             <div class="container p-4">
                 <div class="row">
                     <div class="col-lg-6 col-md-12 mb-4">
