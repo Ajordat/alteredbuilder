@@ -18,12 +18,12 @@
                     <th scope="col">Name</th>
                     <th scope="col">Faction</th>
                     <th scope="col">Hero</th>
-                    <th scope="col">
+                    <th scope="col" class="text-center">
                         <a data-bs-toggle="tooltip" data-bs-title="Standard | Draft">
                             Legality <i class="fa-regular fa-circle-question"></i>
                         </a>
                     </th>
-                    <th scope="col">Is it public?</th>
+                    <th scope="col" class="text-center">Is it public?</th>
                     <th scope="col">Last updated</th>
                 </tr>
             </thead>
@@ -33,8 +33,8 @@
                     <td>{{ deck.name }}</td>
                     <td>{{ deck.hero.get_faction_display.title }}</td>
                     <td data-bs-toggle="tooltip" data-bs-title="<img src='{{ deck.hero.image_url }}'/>" data-bs-html="true" data-bs-placement="right">{{ deck.hero.name }}</td>
-                    <td>{% if deck.is_standard_legal %}<i class="fa-solid fa-check"></i>{% else %}<i class="fa-solid fa-xmark"></i>{% endif %} | {% if deck.is_draft_legal %}<i class="fa-solid fa-check"></i>{% else %}<i class="fa-solid fa-xmark"></i>{% endif %}</td>
-                    <td>{% if deck.is_public %}<i class="fa-solid fa-check"></i>{% endif %}</td>
+                    <td class="text-center">{% if deck.is_standard_legal %}<i class="fa-solid fa-check"></i>{% else %}<i class="fa-solid fa-xmark"></i>{% endif %} | {% if deck.is_draft_legal %}<i class="fa-solid fa-check"></i>{% else %}<i class="fa-solid fa-xmark"></i>{% endif %}</td>
+                    <td class="text-center">{% if deck.is_public %}<i class="fa-solid fa-check"></i>{% endif %}</td>
                     <td>{{ deck.modified_at|timesince }} ago</td>
                 </tr>
     {% empty %}
