@@ -31,6 +31,8 @@ urlpatterns = [
     path("api/", include("api.urls")),
     path("decks/", include("decks.urls")),
     path("accounts/", include("allauth.urls")),
+    path("about/", TemplateView.as_view(template_name="about.html"), name="about"),
+    path("privacy-policy/", TemplateView.as_view(template_name="privacy_policy.html"), name="about"),
     path("", RedirectView.as_view(url="decks/", permanent=True), name="index"),
 ]
 
