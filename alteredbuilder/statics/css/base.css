@@ -2,3 +2,16 @@
 body {
     font-family: Verdana, Tahoma, Geneva, sans-serif;
 }
+
+footer h5 {
+    letter-spacing: 2px;
+    color: #818963;
+}
+
+footer a {
+    color: #4f4f4f;
+}
+
+footer a.no-underline {
+    text-decoration: none;
+}
