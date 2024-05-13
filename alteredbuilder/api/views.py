@@ -37,11 +37,10 @@ class AdminWriteOrAuthenticatedGetViewSet(viewsets.ModelViewSet):
         else:
             self.permission_classes = [permissions.IsAdminUser]
         return super().get_permissions()
-    
+
 
 class CardViewSet(AdminWriteOrAuthenticatedGetViewSet):
-    """API endpoint that allows to view all the cards.
-    """
+    """API endpoint that allows to view all the cards."""
 
     queryset = Card.objects.all().order_by("reference")
     serializer_class = serial.CardSerializer

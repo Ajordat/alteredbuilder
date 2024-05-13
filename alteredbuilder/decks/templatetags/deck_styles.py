@@ -42,6 +42,7 @@ def inject_params(get_params, **kwargs):
     ] + [f"{key}={value}" for key, value in kwargs.items()]
     return "&".join([arg for arg in args if arg])
 
+
 @register.filter
 def params_to_filter_tag(get_params):
     allowed_params = ["faction", "rarity", "type", "query"]
@@ -51,4 +52,3 @@ def params_to_filter_tag(get_params):
             tags += [(param, value) for value in get_params[param].split(",")]
 
     return tags
-    

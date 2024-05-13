@@ -32,7 +32,16 @@ urlpatterns = [
     path("decks/", include("decks.urls")),
     path("accounts/", include("allauth.urls")),
     path("about/", TemplateView.as_view(template_name="about.html"), name="about"),
-    path("privacy-policy/", TemplateView.as_view(template_name="privacy_policy.html"), name="about"),
+    path(
+        "privacy-policy/",
+        TemplateView.as_view(template_name="privacy_policy.html"),
+        name="privacy-policy",
+    ),
+    path(
+        "terms-and-conditions/",
+        TemplateView.as_view(template_name="terms_and_conditions.html"),
+        name="terms-and-conditions",
+    ),
     path("", RedirectView.as_view(url="decks/", permanent=True), name="index"),
 ]
 
