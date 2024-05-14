@@ -47,8 +47,10 @@
     {% endif %}
                         <li class="nav-item dropdown">
                             <a class="nav-link active dropdown-toggle text-info-emphasis" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user"></i> {{ user.username }}</a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item disabled" href="#">Profile</a></li>
+                                <li><a class="dropdown-item" href="{% url 'account_email' %}?next={{ request.path }}">Update email</a></li>
+                                <li><a class="dropdown-item" href="{% url 'account_change_password' %}?next={{ request.path }}">Change password</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="{% url 'account_logout' %}?next={{ request.path }}">Logout</a></li>
                             </ul>
