@@ -114,6 +114,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.github",
+    "allauth.socialaccount.providers.discord",
     "decks.apps.DecksConfig",
 ]
 
@@ -201,12 +202,18 @@ SITE_ID = 1
 
 LOGIN_REDIRECT_URL = "/"
 
+SOCIALACCOUNT_PROVIDERS  = {
+    "github": {
+        "EMAIL_AUTHENTICATION": True
+    }
+}
+SOCIALACCOUNT_EMAIL_VERIFICATION = "optional"
 
-# Email settings
 ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_EMAIL_NOTIFICATIONS  = True
 ACCOUNT_MAX_EMAIL_ADDRESSES = 3
 
+# Email settings
 if SENDGRID_API_KEY := env('SENDGRID_API_KEY', default=None) and not DEBUG:
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
