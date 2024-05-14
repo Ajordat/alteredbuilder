@@ -199,9 +199,25 @@ AUTHENTICATION_BACKENDS = [
 
 SITE_ID = 1
 
-ACCOUNT_EMAIL_VERIFICATION = "none"
-
 LOGIN_REDIRECT_URL = "/"
+
+
+# Email settings
+ACCOUNT_EMAIL_VERIFICATION = "optional"
+ACCOUNT_EMAIL_NOTIFICATIONS  = True
+ACCOUNT_MAX_EMAIL_ADDRESSES = 3
+
+if SENDGRID_API_KEY := env('SENDGRID_API_KEY', default=None) and not DEBUG:
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+    EMAIL_HOST = 'smtp.sendgrid.net'
+    EMAIL_HOST_USER = 'apikey'
+    EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    DEFAULT_FROM_EMAIL = env('SENDGRID_FROM_EMAIL')
+else:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
 # Internationalization
@@ -241,9 +257,6 @@ else:
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "statics"]
 
-
-# Instead of sending emails, show them in the console.
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
