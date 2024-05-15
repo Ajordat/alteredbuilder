@@ -24,18 +24,22 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active text-info-emphasis" aria-current="page" href="{% url 'index' %}"><i class="fa-solid fa-house"></i> Home</a>
+                    <ul id="navbar-traversal" class="navbar-nav me-auto">
+                        {% url 'deck-list' as item_url %}
+                        <li class="nav-item {% if request.path == item_url %}border border-bottom-0 border-2 rounded-top{% endif %}">
+                            <a class="nav-link active text-info-emphasis" aria-current="page" href="{{ item_url }}"><i class="fa-solid fa-house"></i> Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link active text-info-emphasis" aria-current="page" href="{% url 'cards' %}"><i class="fa-solid fa-puzzle-piece"></i> Cards</a>
+                        {% url 'cards' as item_url %}
+                        <li class="nav-item {% if request.path == item_url %}border border-bottom-0 border-2 rounded-top{% endif %}">
+                            <a class="nav-link active text-info-emphasis" aria-current="page" href="{{ item_url }}"><i class="fa-solid fa-puzzle-piece"></i> Cards</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link active text-info-emphasis" href="{% url 'own-deck' %}"><i class="fa-solid fa-inbox"></i> Own decks</a>
+                        {% url 'own-deck' as item_url %}
+                        <li class="nav-item {% if request.path == item_url %}border border-bottom-0 border-2 rounded-top{% endif %}">
+                            <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-inbox"></i> Own decks</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link active text-info-emphasis" href="{% url 'new-deck' %}"><i class="fa-solid fa-cart-plus"></i> New deck</a>
+                        {% url 'new-deck' as item_url %}
+                        <li class="nav-item {% if request.path == item_url %}border border-bottom-0 border-2 rounded-top{% endif %}">
+                            <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-cart-plus"></i> New deck</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
@@ -68,20 +72,6 @@
         <div class="container-fluid px-5 mt-3 mb-5">
 {% block content %}{% endblock %}
         </div>
-        <!-- <div class="container"> -->
-            <!-- <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-                <div class="col-md-4 d-flex align-items-center">
-                    <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
-                        <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
-                    </a>
-                    <span class="mb-3 mb-md-0 text-body-secondary">© 2024 Company, Inc</span>
-                </div>
-                <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-                    <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
-                    <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
-                    <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
-                </ul>
-            </footer> -->
         <footer class="d-flex flex-wrap justify-content-between align-items-center pt-3 border-top mt-auto">
             <div class="container">
                 <div class="row">
@@ -89,7 +79,7 @@
                         <h5 class="mb-3">Links</h5>
                         <ul class="list-unstyled mb-0">
                             <li class="mb-1">
-                                <a href="{% url 'about'%}#about_the_project">About the project</a>
+                                <a href="{% url 'about'%}">About the project</a>
                             </li>
                             <li class="mb-1">
                                 <a href="{% url 'about' %}#about_the_author">About the author</a>
@@ -114,7 +104,7 @@
                 <div class="row mb-4 mt-3">
                     <div class="col">
                         <small>Equinox, Altered, and their logos are trademarks of Equinox. © 2023-2024 Equinox. All Rights Reserved.<br>
-                        Altered TCG Builder is developed by <a href="https://github.com/Ajordat" target="_blank">Ajordat</a>. This project is fanwork.
+                        Altered TCG Builder is developed and maintained by <a href="https://github.com/Ajordat" target="_blank">Ajordat</a>. This project is fanwork.
                         Altered TCG Builder is not affiliated with, endorsed, sponsored, or specifically approved by Equinox.</small>
                     </div>
                 </div>

@@ -15,3 +15,7 @@ footer a {
 footer a.no-underline {
     text-decoration: none;
 }
+
+#navbar-traversal li.nav-item {
+    border-color: #058196 !important;
+}
