@@ -241,9 +241,17 @@ class UpdateDeckFormView(LoginRequiredMixin, FormView):
         try:
             deck = Deck.objects.get(pk=form.cleaned_data["deck_id"])
             card = Card.objects.get(reference=form.cleaned_data["card_reference"])
-            cid = CardInDeck.objects.get(deck=deck, card=card)
-            cid.quantity += form.cleaned_data["quantity"]
-            cid.save()
+            if card.type == Card.Type.HERO:
+                if not deck.hero:
+                    deck.hero = card.hero
+                else:
+                    # Silently fail
+                    form.add_error("deck_id", "Deck already has a hero")
+                    return super().form_valid(form)
+            else:
+                cid = CardInDeck.objects.get(deck=deck, card=card)
+                cid.quantity += form.cleaned_data["quantity"]
+                cid.save()
         except Deck.DoesNotExist:
             form.add_error("deck_id", "Deck not found")
             return self.form_invalid(form)

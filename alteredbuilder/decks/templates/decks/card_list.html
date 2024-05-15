@@ -82,9 +82,8 @@
                         <ul class="dropdown-menu">
         {% if card.type == "hero" %}
                             <li><a class="dropdown-item remove-card-trigger" href="{% url 'new-deck' %}?hero={{ card.reference }}">Start a deck</a></li>
-        {% else %}
-                            <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ card.reference }}" data-bs-toggle="modal" data-bs-target="#add-card-modal" data-bs-name="{{ card.name }}" data-bs-reference="{{ card.reference }}">Add to a deck</a></li>
         {% endif %}
+                            <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ card.reference }}" data-bs-toggle="modal" data-bs-target="#add-card-modal" data-bs-name="{{ card.name }}" data-bs-reference="{{ card.reference }}">Add to a deck</a></li>
                             <li><a class="dropdown-item" href="{{ card.get_official_link }}" target="_blank" rel="noopener noreferrer">Go to details <i class="fa-solid fa-arrow-up-right-from-square"></i></a></li>
                         </ul>
                     </div>
