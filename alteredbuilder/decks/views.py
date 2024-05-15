@@ -199,8 +199,11 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
                     status = {"added": True}
 
                 elif action == "delete":
-                    cid = CardInDeck.objects.get(deck=deck, card=card)
-                    cid.delete()
+                    if card.type == Card.Type.HERO and deck.hero.reference == card.reference:
+                        deck.hero = None
+                    else:
+                        cid = CardInDeck.objects.get(deck=deck, card=card)
+                        cid.delete()
                     status = {"deleted": True}
                 else:
                     raise KeyError("Invalid action")
