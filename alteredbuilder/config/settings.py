@@ -202,27 +202,23 @@ SITE_ID = 1
 
 LOGIN_REDIRECT_URL = "/"
 
-SOCIALACCOUNT_PROVIDERS  = {
-    "github": {
-        "EMAIL_AUTHENTICATION": True
-    }
-}
+SOCIALACCOUNT_PROVIDERS = {"github": {"EMAIL_AUTHENTICATION": True}}
 SOCIALACCOUNT_EMAIL_VERIFICATION = "optional"
 
 ACCOUNT_EMAIL_VERIFICATION = "optional"
-ACCOUNT_EMAIL_NOTIFICATIONS  = True
+ACCOUNT_EMAIL_NOTIFICATIONS = True
 ACCOUNT_MAX_EMAIL_ADDRESSES = 3
 
 # Email settings
-if SENDGRID_API_KEY := env('SENDGRID_API_KEY', default=None) and not DEBUG:
+if SENDGRID_API_KEY := env("SENDGRID_API_KEY", default=None) and not DEBUG:
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-    EMAIL_HOST = 'smtp.sendgrid.net'
-    EMAIL_HOST_USER = 'apikey'
+    EMAIL_HOST = "smtp.sendgrid.net"
+    EMAIL_HOST_USER = "apikey"
     EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
-    DEFAULT_FROM_EMAIL = env('SENDGRID_FROM_EMAIL')
+    DEFAULT_FROM_EMAIL = env("SENDGRID_FROM_EMAIL")
 else:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 

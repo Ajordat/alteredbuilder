@@ -65,9 +65,9 @@ def create_new_deck(user: User, deck_form: dict) -> Deck:
             # Link the Card with the Deck
             CardInDeck.objects.create(deck=deck, card=card, quantity=count)
 
-    if not has_hero:
-        # The Deck model requires to have exactly one Hero per Deck
-        raise MalformedDeckException("Missing hero in decklist")
+    # if not has_hero:
+    #     # The Deck model requires to have exactly one Hero per Deck
+    #     raise MalformedDeckException("Missing hero in decklist")
 
     update_deck_legality(deck)
     deck.save()
@@ -110,7 +110,7 @@ def get_deck_details(deck):
         # Count the amount of cards with the same rarity
         rarity_counter[cid.card.rarity] += cid.quantity
 
-    decklist_text = f"1 {deck.hero.reference}\n"
+    decklist_text = f"1 {deck.hero.reference}\n" if deck.hero else ""
     decklist_text += "\n".join(
         [f"{cid.quantity} {cid.card.reference}" for cid in decklist]
     )

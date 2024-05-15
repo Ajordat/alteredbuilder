@@ -159,8 +159,8 @@ class DecksFormsTestCase(TestCase):
             response, html.escape(f"Failed to unpack '{wrong_format_line}'")
         )
 
-    def test_invalid_deck_missing_hero(self):
-        """Attempt to submit a form creating a Deck without a hero reference."""
+    def test_valid_deck_missing_hero(self):
+        """Submit a form creating a Deck without a hero reference."""
         form_data = {
             "name": self.DECK_NAME,
             "decklist": f"3 {self.CHARACTER_REFERENCE}",
@@ -168,7 +168,19 @@ class DecksFormsTestCase(TestCase):
 
         self.client.force_login(self.user)
         response = self.client.post(reverse("new-deck"), form_data)
-        self.assertContains(response, "Missing hero in decklist")
+
+        new_deck = Deck.objects.filter(owner=self.user).get()
+        character = Character.objects.get(reference=self.CHARACTER_REFERENCE)
+        deck_cards = new_deck.cardindeck_set.all()
+
+        self.assertRedirects(
+            response, reverse("deck-detail", kwargs={"pk": new_deck.id})
+        )
+        self.assertFalse(new_deck.is_public)
+        self.assertEqual(new_deck.hero, None)
+        self.assertEqual(len(deck_cards), 1)
+        self.assertEqual(deck_cards[0].quantity, 3)
+        self.assertEqual(deck_cards[0].card.character, character)
 
     def test_update_deck_add_existing_card(self):
         hero = Hero.objects.get(reference=self.HERO_REFERENCE)
