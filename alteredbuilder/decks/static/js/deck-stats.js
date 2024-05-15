@@ -13,7 +13,16 @@ function drawChart() {
         [['Card Type', 'Amount']].concat(Object.entries(deckStats["type_distribution"]))
     );
 
-    let options = {title: 'Card Type Distribution'};
+    let options = {
+        // title: 'Card Type Distribution',
+        slices: [
+            {color: "#3F9B0B"},
+            // {color: "#8B8000"},
+            {color: "#CD853F"},
+            {color: "#D4A017"},
+        ]
+    
+    };
 
     let chart = new google.visualization.PieChart(document.getElementById('distribution-pie-chart'));
 
@@ -64,7 +73,7 @@ function drawManaCurve() {
 
     var options = {
         chart: {
-            title: 'Mana curve',
+            // title: 'Mana curve',
         },
         bars: 'vertical'
     };
