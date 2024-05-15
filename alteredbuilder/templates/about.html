@@ -5,13 +5,13 @@
 
 {% block content %}
     <h3 id="about_the_project">About the project</h3>
-    <p>
-        Application to build, analyze and share Altered TCG decks.
-    </p>
+    <p>Application to build, analyze and share Altered TCG decks. Made by a fan, for fans.</p>
+    <p>This project is entirely fanwork and in no way intends to claim ownership of the copyrighted assets of the Altered TCG game property of Equinox.<br>
+        This project's purpose is to grant the ability of deck building to players eager to start playing while we wait for the official release.</p>
     <p>
         This platform uses the following technologies:
         <ul>
-            <li><b>Python 3.12</b> to implement the backend technology. Remarkable tools used are:
+            <li class="mb-2"><b>Python 3.12</b> to implement the backend technology. Remarkable tools used are:
                 <ul>
                     <li><a href="https://pypi.org/project/black/">Black</a> as the code formatter</li>
                     <li><a href="https://coverage.readthedocs.io/en/latest/">Coverage.py</a> as tool to measure the code coverage of the written tests</li>
@@ -26,7 +26,7 @@
                     <li><a href="https://docs.python.org/3.12/library/unittest.html">Unittest</a> to construct and run unit tests</li>
                 </ul>
             </li>
-            <li><b>Google Cloud Platform (GCP)</b> as the public cloud provider. Specifically, the products used are:
+            <li class="mb-2"><b>Google Cloud Platform (GCP)</b> as the public cloud provider. Specifically, the products used are:
                 <ul>
                     <li><a href="https://cloud.google.com/artifact-registry/docs/overview?hl=en">Artifact Registry</a>: Storage for the service's docker images</li>
                     <li><a href="https://cloud.google.com/build/docs/overview">Cloud Build</a>: Implement the CI/CD pipeline. It builds the base image, pushes it into the registry, applies the database migrations, collects the static files and deploys the service.</li>
@@ -38,7 +38,7 @@
                     <li><a href="https://cloud.google.com/secret-manager/docs/overview">Secret Manager</a>: Store and access for the application's secrets, such as the database credentials.</li>
                 </ul>
             </li>
-            <li><b>Docker</b> as the containerization solution. In particular:
+            <li class="mb-2"><b>Docker</b> as the containerization solution. In particular:
                 <ul>
                     <li><a href="https://docs.docker.com/compose/">Docker Compose</a> as the tool to spin up the multiple containers required while developing locally</li>
                     <li><a href="https://docs.docker.com/reference/dockerfile/">Dockerfile</a> to define the layers of the app's base image</li>
@@ -55,8 +55,70 @@
         </ul>
     </p>
 
-    <h3 id="about_the_author">About me</h3>
+    <h3 id="about_the_author" style="scroll-margin-top: 60px;">About me</h3>
     <p>
-        Hi! I'm a Computer Engineer from Spain living in France.
+        Hi! My name is <b>Àlex Jordà</b> and I'm a <b>Computer Engineer</b> from Spain living in France since 2024.<br>
+        I love to spend afternoons playing board games and videogames with friends, reading comics and books and hiking.
     </p>
+    <p>
+        In my professional experience I have worked as a <b>PHP developer</b>, as a <b>Python developer</b> and I've been part of the <b>official support team for GCP</b> for Storage and Serverless products.<br>
+        Even though my last job positions were in a management position, I'm currently seeking to get back into the technical side of development or operations.<br>
+        Feel free to contact me for any suggestions or comments related to the project; or for any other professional interest.
+    </p>
+
+    <h5>Skills</h5>
+    <ul>
+        <li><b>Serverless GCP</b>: Cloud Run, Cloud Functions, Cloud Build, Pub/Sub, Artifact Registry, Cloud CLI, Google App Engine, Cloud Scheduler.</li>
+        <li><b>Storage GCP</b>: Cloud Storage, Cloud SQL, Cloud Firestore, Cloud Spanner, Bigtable. Firebase databases.</li>
+        <li><b>Programming</b>: Python, SQL, Bash, JavaScript, C, Java</li>
+        <li><b>Technologies</b>: Django, Docker, Kubernetes, Git, Unix, MySQL, PostgreSQL, Flask, FastAPI</li>
+        <li><b>Languages</b>: Native Spanish, native Catalan, advanced English, and can read French</li>
+    </ul>
+
+    <h5>Projects</h5>
+    <ul>
+        <li><b>Altered TCG Builder</b>: Django project to build, analyze and share decks for the Altered TCG. <a href="{{ request.scheme}}://{{ request.get_host }}">Website</a></li>
+        <li><b>Finder Sidebar Editor</b>: PyPi package to edit the Favorites entries of the Finder sidebar on macOS systems. Average of 500 downloads per month. <a href="https://github.com/Ajordat/finder-sidebar-editor">GitHub</a>. <a href="https://pypi.org/project/finder-sidebar-editor/">PyPi</a></li>
+        <li><b>Schedule Manager</b>: Private Django project to allow employee's to report the office days and update it automatically on the official schedule. Included an admin panel for team managers to approve/reject requests and monitor metrics.</li>
+    </ul>
+
+    <h5>Professional experience</h5>
+
+    <ul>
+        <li class="mb-2"><b>Team Manager for GCP</b> Webhelp (September 2022 - December 2023)
+            <ul>
+                <li>Manage a group of ≈30 people (formed of TSRs and SMEs) providing support to Serverless, Storage and Firebase products.</li>
+                <li>Responsible of our group and represent it in conversations within our project and with our client.</li>
+                <li>Responsible for the team's staffing and technical aptitude of all TSRs and SMEs.</li>
+            </ul>
+        </li>
+        <li class="mb-2"><b>Team Leader for GCP</b> Webhelp (January 2022 - September 2022)
+            <ul>
+                <li>Lead a group of ≈30 people (formed of TSRs and SMEs) providing support to Serverless, Storage and Firebase products.</li>
+                <li>Design and implement processes to improve the overall metrics and individual performance of each group member.</li>
+                <li>Spot and address improvement opportunities on internal processes.</li>
+            </ul>
+        </li>
+        <li class="mb-2"><b>Subject Matter Expert (SME) for GCP</b> Webhelp (March 2021 - January 2022)
+            <ul>
+                <li>Act as first point of contact for technical questions from TSRs of all tenured levels.</li>
+                <li>Responsible for reporting the technical aptitude of all TSRs, as well as owning improvement plans for outliers.</li>
+            </ul>
+        </li>
+        <li class="mb-2"><b>Technical Solutions Representative (TSR) for GCP</b> Webhelp (January 2020 - March 2021)
+            <ul>
+                <li>Offer technical support on Storage, Serverless and Firebase products to customers of GCP.</li>
+                <li>Handle the issues with the highest priority as part of a dedicated team.</li>
+            </ul>
+        </li>
+        <li><b>Junior Backend Developer</b> Blackdata SL (July 2018 - January 2020)
+            <ul>
+                <li>Backend development in PHP and Python.</li>
+                <li>Design and implementation of the payment workflow of the company's applications with Stripe API.</li>
+                <li>Development of a desktop application to synchronize the user's file system with their files in the remote Databank.</li>
+            </ul>
+        </li>
+    </ul>
+
+    
 {% endblock %}
