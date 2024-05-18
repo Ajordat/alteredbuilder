@@ -26,7 +26,7 @@ class Command(BaseCommand):
         total_items = math.inf
 
         while page_index <= page_count:
-            params = f"?page={page_index}&itemsPerPage={ITEMS_PER_PAGE}&rarity[]=UNIQUE"
+            params = f"?page={page_index}&itemsPerPage={ITEMS_PER_PAGE}"
             req = request.Request(API_URL + params, headers=headers)
             with request.urlopen(req) as response:
                 page = response.read()
