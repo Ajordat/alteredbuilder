@@ -26,7 +26,7 @@ class Command(BaseCommand):
         total_items = math.inf
 
         while page_index <= page_count:
-            params = f"?page={page_index}&itemsPerPage={ITEMS_PER_PAGE}"
+            params = f"?page={page_index}&itemsPerPage={ITEMS_PER_PAGE}&rarity[]=UNIQUE"
             req = request.Request(API_URL + params, headers=headers)
             with request.urlopen(req) as response:
                 page = response.read()
@@ -105,6 +105,7 @@ class Command(BaseCommand):
 
     def create_card(self, card_dict):
         try:
+            print(card_dict)
             card = Card.Type.to_class(card_dict["type"]).objects.create(**card_dict)
             self.stdout.write(f"card created: {card}")
         except KeyError:
