@@ -18,7 +18,7 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, reverse_lazy
 from django.views.generic import RedirectView, TemplateView
 
 # Error files definitions
@@ -42,7 +42,7 @@ urlpatterns = [
         TemplateView.as_view(template_name="terms_and_conditions.html"),
         name="terms-and-conditions",
     ),
-    path("", RedirectView.as_view(url="decks/", permanent=True), name="index"),
+    path("", RedirectView.as_view(url=reverse_lazy("deck-list"), permanent=True), name="index"),
 ]
 
 urlpatterns += i18n_patterns(
