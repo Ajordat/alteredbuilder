@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-22 16:57+0200\n"
+"POT-Creation-Date: 2024-05-22 17:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -342,7 +342,7 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:6 templates/base.html:31
+#: decks/templates/decks/deck_list.html:6 templates/base.html:32
 msgid "Home"
 msgstr ""
 
@@ -376,7 +376,7 @@ msgstr ""
 
 #: decks/templates/decks/deck_list.html:52
 #: decks/templates/decks/own_deck_list.html:6
-#: decks/templates/decks/own_deck_list.html:15 templates/base.html:39
+#: decks/templates/decks/own_deck_list.html:15 templates/base.html:40
 msgid "Own decks"
 msgstr ""
 
@@ -481,55 +481,55 @@ msgstr ""
 msgid "Deck already has a hero"
 msgstr ""
 
-#: templates/base.html:35
+#: templates/base.html:36
 msgid "Cards"
 msgstr ""
 
-#: templates/base.html:43
+#: templates/base.html:44
 msgid "New deck"
 msgstr ""
 
-#: templates/base.html:70
+#: templates/base.html:71
 msgid "Profile"
 msgstr ""
 
-#: templates/base.html:71
+#: templates/base.html:72
 msgid "Update email"
 msgstr ""
 
-#: templates/base.html:72
+#: templates/base.html:73
 msgid "Update password"
 msgstr ""
 
-#: templates/base.html:74
+#: templates/base.html:75
 msgid "Logout"
 msgstr ""
 
-#: templates/base.html:79
+#: templates/base.html:80
 msgid "Login"
 msgstr ""
 
-#: templates/base.html:94
+#: templates/base.html:95
 msgid "Links"
 msgstr ""
 
-#: templates/base.html:97
+#: templates/base.html:98
 msgid "About the project"
 msgstr ""
 
-#: templates/base.html:100
+#: templates/base.html:101
 msgid "About the author"
 msgstr ""
 
-#: templates/base.html:103
+#: templates/base.html:104
 msgid "Privacy policy"
 msgstr ""
 
-#: templates/base.html:106
+#: templates/base.html:107
 msgid "Terms and conditions"
 msgstr ""
 
-#: templates/base.html:111
+#: templates/base.html:112
 msgid "Get in touch"
 msgstr ""
 

@@ -26,11 +26,10 @@ handler403 = TemplateView.as_view(template_name="errors/403.html")
 handler404 = TemplateView.as_view(template_name="errors/404.html")
 handler500 = TemplateView.as_view(template_name="errors/500.html")
 
-urlpatterns = i18n_patterns(
+urlpatterns = [
     path("admin/", admin.site.urls),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
     path("api/", include("api.urls")),
-    path("decks/", include("decks.urls")),
     path("accounts/", include("allauth.urls")),
     path("about/", TemplateView.as_view(template_name="about.html"), name="about"),
     path(
@@ -44,6 +43,10 @@ urlpatterns = i18n_patterns(
         name="terms-and-conditions",
     ),
     path("", RedirectView.as_view(url="decks/", permanent=True), name="index"),
+]
+
+urlpatterns += i18n_patterns(
+    path("decks/", include("decks.urls")),
 )
 
 if settings.DEBUG:
