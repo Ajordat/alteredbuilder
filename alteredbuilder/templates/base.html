@@ -34,11 +34,11 @@
                             <a class="nav-link active text-info-emphasis" aria-current="page" href="{{ item_url }}"><i class="fa-solid fa-puzzle-piece"></i> Cards</a>
                         </li>
                         {% url 'own-deck' as item_url %}
-                        <li class="nav-item {% if request.path == item_url %}border border-bottom-0 border-2 rounded-top{% endif %}">
+                        <li class="nav-item {% if request.path == item_url or request.GET.next == item_url %}border border-bottom-0 border-2 rounded-top{% endif %}">
                             <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-inbox"></i> Own decks</a>
                         </li>
                         {% url 'new-deck' as item_url %}
-                        <li class="nav-item {% if request.path == item_url %}border border-bottom-0 border-2 rounded-top{% endif %}">
+                        <li class="nav-item {% if request.path == item_url or request.GET.next == item_url %}border border-bottom-0 border-2 rounded-top{% endif %}">
                             <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-cart-plus"></i> New deck</a>
                         </li>
                     </ul>
