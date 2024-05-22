@@ -46,14 +46,10 @@ msgid "Multiple heroes present in the decklist"
 msgstr "Hay múltiples héroes en la decklist"
 
 #: decks/forms.py:19 decks/forms.py:42
-#, fuzzy
-#| msgid "Description"
 msgid "description"
 msgstr "descripción"
 
 #: decks/forms.py:22
-#, fuzzy
-#| msgid "Decklist"
 msgid "decklist"
 msgstr "decklist"
 
@@ -93,14 +89,10 @@ msgstr "Falta un héroe"
 
 #: decks/templates/decks/card_list.html:7
 #: decks/templates/decks/card_list.html:15
-#, fuzzy
-#| msgid "Cards"
 msgid "Card list"
 msgstr "Cartas"
 
 #: decks/templates/decks/card_list.html:19
-#, fuzzy
-#| msgid "Search"
 msgid "Search by name"
 msgstr "Buscar con el nombre"
 
@@ -155,8 +147,6 @@ msgid "Add card to deck"
 msgstr "Añadir carta a un mazo"
 
 #: decks/templates/decks/card_list.html:114
-#, fuzzy
-#| msgid "Cards"
 msgid "Card"
 msgstr "Cartas"
 
@@ -204,8 +194,6 @@ msgstr "Editar campos"
 
 #: decks/templates/decks/deck_detail.html:52
 #: decks/templates/decks/deck_detail.html:262
-#, fuzzy
-#| msgid "New deck"
 msgid "Delete deck"
 msgstr "Eliminar mazo"
 
@@ -404,8 +392,6 @@ msgid "See full list"
 msgstr "Ver la lista entera"
 
 #: decks/templates/decks/new_deck.html:6
-#, fuzzy
-#| msgid "New deck"
 msgid "New Deck"
 msgstr "Mazo nuevo"
 
@@ -480,10 +466,8 @@ msgid "Import"
 msgstr "Importar"
 
 #: decks/views.py:220 decks/views.py:261
-#, fuzzy
-#| msgid "No decks found"
 msgid "Deck not found"
-msgstr "No se han encontrado mazos"
+msgstr "No se ha encontrado el mazo"
 
 #: decks/views.py:224 decks/views.py:264
 msgid "Card not found"
