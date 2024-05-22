@@ -10,7 +10,8 @@ class GameMode(ABC):
     MIN_TOTAL_COUNT = None
     MAX_RARE_COUNT = None
     MAX_UNIQUE_COUNT = None
-    MAX_SAME_FAMILY_CARD = None
+    MAX_SAME_FAMILY_CARD_COUNT = None
+    IS_HERO_MANDATORY = None
 
     @classmethod
     @abstractmethod
@@ -28,6 +29,8 @@ class GameMode(ABC):
         ERR_EXCEED_UNIQUE_COUNT = "ERR_EXCEED_UNIQUE_COUNT"
         # Exceeds maximum card count of same family
         ERR_EXCEED_SAME_FAMILY_COUNT = "ERR_EXCEED_SAME_FAMILY_COUNT"
+        # No hero present in deck
+        ERR_MISSING_HERO = "ERR_MISSING_HERO"
 
         def to_user(self, gm):
             match self.value:
@@ -42,7 +45,9 @@ class GameMode(ABC):
                         f"Exceeds the maximum UNIQUE card count ({gm.MAX_UNIQUE_COUNT})"
                     )
                 case GameMode.ErrorCode.ERR_EXCEED_SAME_FAMILY_COUNT:
-                    return f"Exceeds the maximum card count for any given family ({gm.MAX_SAME_FAMILY_CARD})"
+                    return f"Exceeds the maximum card count for any given family ({gm.MAX_SAME_FAMILY_CARD_COUNT})"
+                case GameMode.ErrorCode.ERR_MISSING_HERO:
+                    return "Missing hero"
 
         @classmethod
         def from_list_to_user(cls, error_list, game_mode):
@@ -54,7 +59,8 @@ class StandardGameMode(GameMode):
     MIN_TOTAL_COUNT = 39
     MAX_RARE_COUNT = 15
     MAX_UNIQUE_COUNT = 3
-    MAX_SAME_FAMILY_CARD = 3
+    MAX_SAME_FAMILY_CARD_COUNT = 3
+    IS_HERO_MANDATORY = True
 
     @classmethod
     def validate(cls, **kwargs):
@@ -68,8 +74,13 @@ class StandardGameMode(GameMode):
             error_list.append(cls.ErrorCode.ERR_EXCEED_RARE_COUNT)
         if kwargs["unique_count"] > cls.MAX_UNIQUE_COUNT:
             error_list.append(cls.ErrorCode.ERR_EXCEED_UNIQUE_COUNT)
-        if max(kwargs["family_count"].values(), default=0) > cls.MAX_SAME_FAMILY_CARD:
+        if (
+            max(kwargs["family_count"].values(), default=0)
+            > cls.MAX_SAME_FAMILY_CARD_COUNT
+        ):
             error_list.append(cls.ErrorCode.ERR_EXCEED_SAME_FAMILY_COUNT)
+        if not kwargs["has_hero"] and cls.IS_HERO_MANDATORY:
+            error_list.append(cls.ErrorCode.ERR_MISSING_HERO)
 
         return error_list
 
@@ -92,8 +103,8 @@ class DraftGameMode(GameMode):
 
 def update_deck_legality(deck: Deck):
 
-    # Start at 1 to account for the hero
-    total_count = 1
+    # Include the hero in the total count
+    total_count = int(bool(deck.hero))
     rare_count = 0
     unique_count = 0
     factions = [deck.hero.faction] if deck.hero else []
@@ -118,6 +129,7 @@ def update_deck_legality(deck: Deck):
         "rare_count": rare_count,
         "unique_count": unique_count,
         "family_count": family_count,
+        "has_hero": bool(deck.hero),
     }
 
     error_list = StandardGameMode.validate(**data)
