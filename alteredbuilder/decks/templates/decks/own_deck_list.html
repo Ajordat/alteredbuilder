@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
 {% load static %}
+{% load i18n %}
 
-{% block title %}Own decks{% endblock %}
+{% block title %}{% translate "Own decks" %}{% endblock %}
 
 {% block head %}
     {{ block.super }}
@@ -11,20 +12,20 @@
 
 {% block content %}
     <div>
-        <h3>Own decks</h3>
+        <h3>{% translate "Own decks" %}</h3>
         <table class="table table-hover table-clickable" id="ownDecksTable" aria-describedby="Own decks">
             <thead>
                 <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Faction</th>
-                    <th scope="col">Hero</th>
+                    <th scope="col">{% translate "Name" %}</th>
+                    <th scope="col">{% translate "Faction" %}</th>
+                    <th scope="col">{% translate "Hero" %}</th>
                     <th scope="col" class="text-center">
                         <a data-bs-toggle="tooltip" data-bs-title="Standard | Draft">
-                            Legality <i class="fa-regular fa-circle-question"></i>
+                            {% translate "Legality" %} <i class="fa-regular fa-circle-question"></i>
                         </a>
                     </th>
-                    <th scope="col" class="text-center">Is it public?</th>
-                    <th scope="col">Last updated</th>
+                    <th scope="col" class="text-center">{% translate "Is it public?" %}</th>
+                    <th scope="col">{% translate "Last updated" %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,10 +40,10 @@
         {% endif %}
                     <td class="text-center">{% if deck.is_standard_legal %}<i class="fa-solid fa-check"></i>{% else %}<i class="fa-solid fa-xmark"></i>{% endif %} | {% if deck.is_draft_legal %}<i class="fa-solid fa-check"></i>{% else %}<i class="fa-solid fa-xmark"></i>{% endif %}</td>
                     <td class="text-center">{% if deck.is_public %}<i class="fa-solid fa-check"></i>{% endif %}</td>
-                    <td>{{ deck.modified_at|timesince }} ago</td>
+                    <td>{% blocktranslate with time_since=deck.modified_at|timesince %}{{ time_since }} ago{% endblocktranslate %}</td>
                 </tr>
     {% empty %}
-                <tr class="text-center"><td colspan="6">No decks created yet</td></tr>
+                <tr class="text-center"><td colspan="6">{% translate "No decks created yet" %}</td></tr>
     {% endfor %}
             </tbody>
         </table>

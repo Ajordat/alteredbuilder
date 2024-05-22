@@ -16,6 +16,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 import environ
+from django.utils.translation import gettext_lazy as _
 import google.auth
 from google.cloud import secretmanager
 
@@ -68,7 +69,7 @@ env = environ.Env(
 
 try:
     # Attempt to retrieve GCP credentials from environment
-    _, os.environ["GOOGLE_CLOUD_PROJECT"] = google.auth.default()
+    __, os.environ["GOOGLE_CLOUD_PROJECT"] = google.auth.default()
 
 except google.auth.exceptions.DefaultCredentialsError:
     pass
@@ -121,6 +122,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -226,7 +228,12 @@ else:
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "en"
+LANGUAGES = (
+    ("en", _("English")),
+    ("es", _("Spanish")),
+)
+LOCALE_PATHS = [BASE_DIR / "locale"]
 
 TIME_ZONE = "Europe/Paris"
 

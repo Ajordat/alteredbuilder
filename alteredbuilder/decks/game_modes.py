@@ -2,6 +2,8 @@ from abc import ABC, abstractmethod
 from collections import defaultdict
 from enum import StrEnum
 
+from django.utils.translation import gettext_lazy as _
+
 from .models import Deck, Card
 
 
@@ -35,19 +37,27 @@ class GameMode(ABC):
         def to_user(self, gm):
             match self.value:
                 case GameMode.ErrorCode.ERR_EXCEED_FACTION_COUNT:
-                    return f"Exceeds maximum faction count ({gm.MAX_FACTION_COUNT})"
+                    return _("Exceeds maximum faction count (%(count)s)") % {
+                        "count": gm.MAX_FACTION_COUNT
+                    }
                 case GameMode.ErrorCode.ERR_NOT_ENOUGH_CARD_COUNT:
-                    return f"Does not have enough cards ({gm.MIN_TOTAL_COUNT})"
+                    return _("Does not have enough cards (%(count)s)") % {
+                        "count": gm.MIN_TOTAL_COUNT
+                    }
                 case GameMode.ErrorCode.ERR_EXCEED_RARE_COUNT:
-                    return f"Exceeds the maximum RARE card count ({gm.MAX_RARE_COUNT})"
+                    return _("Exceeds the maximum RARE card count (%(count)s)") % {
+                        "count": gm.MAX_RARE_COUNT
+                    }
                 case GameMode.ErrorCode.ERR_EXCEED_UNIQUE_COUNT:
-                    return (
-                        f"Exceeds the maximum UNIQUE card count ({gm.MAX_UNIQUE_COUNT})"
-                    )
+                    return _("Exceeds the maximum UNIQUE card count (%(count)s)") % {
+                        "count": gm.MAX_UNIQUE_COUNT
+                    }
                 case GameMode.ErrorCode.ERR_EXCEED_SAME_FAMILY_COUNT:
-                    return f"Exceeds the maximum card count for any given family ({gm.MAX_SAME_FAMILY_CARD_COUNT})"
+                    return _(
+                        "Exceeds the maximum card count for any given family (%(count)s)"
+                    ) % {"count": gm.MAX_SAME_FAMILY_CARD_COUNT}
                 case GameMode.ErrorCode.ERR_MISSING_HERO:
-                    return "Missing hero"
+                    return _("Missing hero")
 
         @classmethod
         def from_list_to_user(cls, error_list, game_mode):

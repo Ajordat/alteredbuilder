@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
+{% load i18n %}
+
 {% block content %}
   <h1>404</h1>
-  <p>The resource you're looking for either doesn't exist or you don't have permission to access it.</p>
+  <p>{% translate "The resource you're looking for either doesn't exist or you don't have permission to access it." %}</p>
 {% endblock %}

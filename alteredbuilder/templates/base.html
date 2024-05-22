@@ -1,5 +1,6 @@
 
 {% load static %}
+{% load i18n %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -27,19 +28,19 @@
                     <ul id="navbar-traversal" class="navbar-nav me-auto">
                         {% url 'deck-list' as item_url %}
                         <li class="nav-item {% if request.path == item_url %}border border-bottom-0 border-2 rounded-top{% endif %}">
-                            <a class="nav-link active text-info-emphasis" aria-current="page" href="{{ item_url }}"><i class="fa-solid fa-house"></i> Home</a>
+                            <a class="nav-link active text-info-emphasis" aria-current="page" href="{{ item_url }}"><i class="fa-solid fa-house"></i> {% translate "Home" %}</a>
                         </li>
                         {% url 'cards' as item_url %}
                         <li class="nav-item {% if request.path == item_url %}border border-bottom-0 border-2 rounded-top{% endif %}">
-                            <a class="nav-link active text-info-emphasis" aria-current="page" href="{{ item_url }}"><i class="fa-solid fa-puzzle-piece"></i> Cards</a>
+                            <a class="nav-link active text-info-emphasis" aria-current="page" href="{{ item_url }}"><i class="fa-solid fa-puzzle-piece"></i> {% translate "Cards" %}</a>
                         </li>
                         {% url 'own-deck' as item_url %}
                         <li class="nav-item {% if request.path == item_url or request.GET.next == item_url %}border border-bottom-0 border-2 rounded-top{% endif %}">
-                            <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-inbox"></i> Own decks</a>
+                            <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-inbox"></i> {% translate "Own decks" %}</a>
                         </li>
                         {% url 'new-deck' as item_url %}
                         <li class="nav-item {% if request.path == item_url or request.GET.next == item_url %}border border-bottom-0 border-2 rounded-top{% endif %}">
-                            <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-cart-plus"></i> New deck</a>
+                            <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-cart-plus"></i> {% translate "New deck" %}</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
@@ -52,16 +53,16 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link active dropdown-toggle text-info-emphasis" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user"></i> {{ user.username }}</a>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item disabled" href="#">Profile</a></li>
-                                <li><a class="dropdown-item" href="{% url 'account_email' %}?next={{ request.path }}">Update email</a></li>
-                                <li><a class="dropdown-item" href="{% url 'account_change_password' %}?next={{ request.path }}">Update password</a></li>
+                                <li><a class="dropdown-item disabled" href="#">{% translate "Profile" %}</a></li>
+                                <li><a class="dropdown-item" href="{% url 'account_email' %}?next={{ request.path }}">{% translate "Update email" %}</a></li>
+                                <li><a class="dropdown-item" href="{% url 'account_change_password' %}?next={{ request.path }}">{% translate "Update password" %}</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{% url 'account_logout' %}?next={{ request.path }}">Logout</a></li>
+                                <li><a class="dropdown-item" href="{% url 'account_logout' %}?next={{ request.path }}">{% translate "Logout" %}</a></li>
                             </ul>
                         </li>
 {% else %}
                         <li class="nav-item">
-                            <a class="nav-link active text-info-emphasis" href="{% url 'account_login' %}?next={{ request.path }}"><i class="fa-solid fa-user"></i> Login</a>
+                            <a class="nav-link active text-info-emphasis" href="{% url 'account_login' %}?next={{ request.path }}"><i class="fa-solid fa-user"></i> {% translate "Login" %}</a>
                         </li>
 {% endif %}
                     </ul>
@@ -76,24 +77,24 @@
             <div class="container">
                 <div class="row">
                     <div class="col">
-                        <h5 class="mb-3">Links</h5>
+                        <h5 class="mb-3">{% translate "Links" %}</h5>
                         <ul class="list-unstyled mb-0">
                             <li class="mb-1">
-                                <a href="{% url 'about'%}">About the project</a>
+                                <a href="{% url 'about'%}">{% translate "About the project" %}</a>
                             </li>
                             <li class="mb-1">
-                                <a href="{% url 'about' %}#about_the_author">About the author</a>
+                                <a href="{% url 'about' %}#about_the_author">{% translate "About the author" %}</a>
                             </li>
                             <li class="mb-1">
-                                <a href="{% url 'privacy-policy' %}">Privacy policy</a>
+                                <a href="{% url 'privacy-policy' %}">{% translate "Privacy policy" %}</a>
                             </li>
                             <li class="mb-1">
-                                <a href="{% url 'terms-and-conditions' %}">Terms and conditions</a>
+                                <a href="{% url 'terms-and-conditions' %}">{% translate "Terms and conditions" %}</a>
                             </li>
                         </ul>
                     </div>
                     <div class="col">
-                        <h5 class="mb-3">Get in touch</h5>
+                        <h5 class="mb-3">{% translate "Get in touch" %}</h5>
                         <ul class="list-unstyled mb-0">
                             <li class="mb-1"><a href="https://github.com/Ajordat" target="_blank" class="no-underline"><i class="fa-brands fa-github"></i> <u>GitHub</u></a></li>
                             <li class="mb-1"><a href="https://www.linkedin.com/in/alex-jorda-triginer/" target="_blank" class="no-underline"><i class="fa-brands fa-linkedin"></i> <u>LinkedIn</u></a></li>

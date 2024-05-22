@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
 {% load static %}
+{% load i18n %}
 
-{% block title %}Home{% endblock %}
+{% block title %}{% translate "Home" %}{% endblock %}
 
 {% block head %}
     {{ block.super }}
@@ -11,20 +12,20 @@
 
 {% block content %}
     <div>
-        <h3>Public decks</h3>
+        <h3>{% translate "Public decks" %}</h3>
         <table class="table table-hover table-clickable" id="publicDecksTable" aria-describedby="Public decks">
             <thead>
                 <tr>
-                    <th scope="col">Owner</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Faction</th>
-                    <th scope="col">Hero</th>
+                    <th scope="col">{% translate "Owner" %}</th>
+                    <th scope="col">{% translate "Name" %}</th>
+                    <th scope="col">{% translate "Faction" %}</th>
+                    <th scope="col">{% translate "Hero" %}</th>
                     <th scope="col" class="text-center">
                         <a data-bs-toggle="tooltip" data-bs-title="Standard | Draft">
-                            Legality <i class="fa-regular fa-circle-question"></i>
+                            {% translate "Legality" %} <i class="fa-regular fa-circle-question"></i>
                         </a>
                     </th>
-                    <th scope="col">Last updated</th>
+                    <th scope="col">{% translate "Last updated" %}</th>
                 </tr>
             </thead>
             <tbody class="table-group-divider">
@@ -39,7 +40,7 @@
                     <td>-</td><td>-</td>
         {% endif %}
                     <td class="text-center">{% if deck.is_standard_legal %}<i class="fa-solid fa-check"></i>{% else %}<i class="fa-solid fa-xmark"></i>{% endif %} | {% if deck.is_draft_legal %}<i class="fa-solid fa-check"></i>{% else %}<i class="fa-solid fa-xmark"></i>{% endif %}</td>
-                    <td>{{ deck.modified_at|timesince }} ago</td>
+                    <td>{% blocktranslate with time_since=deck.modified_at|timesince %}{{ time_since }} ago{% endblocktranslate %}</td>
                 </tr>
     {% endfor %}
             </tbody>
@@ -48,21 +49,21 @@
     {% include "./snippets/pagination.html" %}
 
     {% if own_decks %}
-        <h3>Own decks</h3>
+        <h3>{% translate "Own decks" %}</h3>
         <table class="table table-hover table-clickable" id="ownDecksTable" aria-describedby="Own decks">
             <thead>
                 <tr>
-                    <th scope="col">Owner</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Faction</th>
-                    <th scope="col">Hero</th>
+                    <th scope="col">{% translate "Owner" %}</th>
+                    <th scope="col">{% translate "Name" %}</th>
+                    <th scope="col">{% translate "Faction" %}</th>
+                    <th scope="col">{% translate "Hero" %}</th>
                     <th scope="col" class="text-center">
                         <a data-bs-toggle="tooltip" data-bs-title="Standard | Draft">
-                            Legality <i class="fa-regular fa-circle-question"></i>
+                            {% translate "Legality" %} <i class="fa-regular fa-circle-question"></i>
                         </a>
                     </th>
-                    <th scope="col" class="text-center">Is it public?</th>
-                    <th scope="col">Last updated</th>
+                    <th scope="col" class="text-center">{% translate "Is it public?" %}</th>
+                    <th scope="col">{% translate "Last updated" %}</th>
                 </tr>
             </thead>
             <tbody class="table-group-divider">
@@ -78,13 +79,13 @@
             {% endif %}
                     <td class="text-center">{% if deck.is_standard_legal %}<i class="fa-solid fa-check"></i>{% else %}<i class="fa-solid fa-xmark"></i>{% endif %} | {% if deck.is_draft_legal %}<i class="fa-solid fa-check"></i>{% else %}<i class="fa-solid fa-xmark"></i>{% endif %}</td>
                     <td class="text-center">{% if deck.is_public %}<i class="fa-solid fa-check"></i>{% endif %}</td>
-                    <td>{{ deck.modified_at|timesince }} ago</td>
+                    <td>{% blocktranslate with time_since=deck.modified_at|timesince %}{{ time_since }} ago{% endblocktranslate %}</td>
                 </tr>
         {% endfor %}
             </tbody>
         </table>
         <div class="d-flex justify-content-center">
-            <a type="button" class="btn btn-primary" href="{% url 'own-deck' %}">See full list</a>
+            <a type="button" class="btn btn-primary" href="{% url 'own-deck' %}">{% translate "See full list" %}</a>
         </div>
     {% endif %}
     </div>

@@ -1,12 +1,13 @@
 
+{% load i18n %}
 {% load deck_styles %}
 
 <table class="table table-hover card-table" id="{{ type }}-table" aria-describedby="Available {{ type }}s">
     <thead>
         <tr>
             <th scope="col">Q</th>
-            <th scope="col">Name</th>
-            <th scope="col">Mana</th>
+            <th scope="col">{% translate "Name" %}</th>
+            <th scope="col">{% translate "Mana" %}</th>
             <th></th>
         </tr>
     </thead>
@@ -20,16 +21,16 @@
                 <div class="dropdown">
                     <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ card.get_official_link }}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> Go to details</a></li>
+                        <li><a class="dropdown-item" href="{{ card.get_official_link }}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> {% translate "Go to details" %}</a></li>
     {% if object.owner == user %}
-                        <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ card.reference }}"><i class="fa-solid fa-trash"></i> Remove card</a></li>
+                        <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ card.reference }}"><i class="fa-solid fa-trash"></i> {% translate "Remove card" %}</a></li>
     {% endif %}
                     </ul>
                 </div>
             </td>
         </tr>
 {% empty %}
-        <tr><td colspan="3" class="text-center">No {{ type }}s</td></tr>
+        <tr><td colspan="3" class="text-center">{% blocktranslate %}No {{ type }}s{% endblocktranslate %}</td></tr>
 {% endfor %}
     </tbody>
 </table>

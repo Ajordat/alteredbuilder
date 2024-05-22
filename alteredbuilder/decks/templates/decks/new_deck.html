@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
 {% load static %}
+{% load i18n %}
 
-{% block title %}New Deck{% endblock %}
+{% block title %}{% translate "New Deck" %}{% endblock %}
 
 {% block head %}
     {{ block.super }}

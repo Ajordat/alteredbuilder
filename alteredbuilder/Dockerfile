@@ -3,6 +3,8 @@ FROM python:3.12-alpine
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
+RUN apk add gettext
+
 WORKDIR /code
 
 COPY requirements.txt .

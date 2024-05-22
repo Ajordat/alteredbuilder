@@ -1,6 +1,9 @@
 from collections import defaultdict
+
 from django.contrib.auth.models import User
 from django.db import transaction
+from django.utils.translation import gettext_lazy as _
+
 from .game_modes import DraftGameMode, GameMode, StandardGameMode, update_deck_legality
 from .models import Card, CardInDeck, Deck, Hero
 from .exceptions import MalformedDeckException
@@ -42,13 +45,17 @@ def create_new_deck(user: User, deck_form: dict) -> Deck:
         except ValueError:
             # The form validator only checks if there's at least one
             # line with the correct format
-            raise MalformedDeckException(f"Failed to unpack '{line}'")
+            raise MalformedDeckException(
+                _("Failed to unpack '%(line)s'") % {"line": line}
+            )
 
         try:
             card = Card.objects.get(reference=reference)
         except Card.DoesNotExist:
             # The Card's reference needs to exist on the database
-            raise MalformedDeckException(f"Card '{reference}' does not exist")
+            raise MalformedDeckException(
+                _("Card '%(reference)s' does not exist") % {"reference": reference}
+            )
 
         if card.type == Card.Type.HERO:
             if not has_hero:
@@ -56,18 +63,19 @@ def create_new_deck(user: User, deck_form: dict) -> Deck:
                     deck.hero = Hero.objects.get(reference=reference)
                 except Hero.DoesNotExist:
                     # This situation would imply a database inconsistency
-                    raise MalformedDeckException(f"Card '{reference}' does not exist")
+                    raise MalformedDeckException(
+                        _("Card '%(reference)s' does not exist")
+                        % {"reference": reference}
+                    )
                 has_hero = True
             else:
                 # The Deck model requires to have exactly one Hero per Deck
-                raise MalformedDeckException("Multiple heroes present in the decklist")
+                raise MalformedDeckException(
+                    _("Multiple heroes present in the decklist")
+                )
         else:
             # Link the Card with the Deck
             CardInDeck.objects.create(deck=deck, card=card, quantity=count)
-
-    # if not has_hero:
-    #     # The Deck model requires to have exactly one Hero per Deck
-    #     raise MalformedDeckException("Missing hero in decklist")
 
     update_deck_legality(deck)
     deck.save()

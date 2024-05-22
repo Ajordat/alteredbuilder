@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 
 {% load static %}
+{% load i18n %}
 {% load deck_styles %}
 
-{% block title %}Card list{% endblock %}
+{% block title %}{% translate "Card list" %}{% endblock %}
 
 {% block head %}
     {{ block.super }}
@@ -11,19 +12,19 @@
 {% endblock %}
 
 {% block content %}
-    <h3>Card list</h3>
+    <h3>{% translate "Card list" %}</h3>
     <div class="row row-cols-auto mb-3">
         <div class="col col-3">
             <form class="d-flex" role="search" id="querySearchForm">
-                <input class="form-control me-2" type="search" aria-label="Search" id="querySearch" value="{{ query }}" placeholder="Search by name">
-                <button class="btn btn-outline-secondary" type="submit">Search</button>
+                <input class="form-control me-2" type="search" aria-label="Search" id="querySearch" value="{{ query }}" placeholder="{% translate 'Search by name' %}">
+                <button class="btn btn-outline-secondary" type="submit">{% translate "Search" %}</button>
             </form>
         </div>
         <div class="accordion" id="filterAccordion">
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-                        <i class="fa-solid fa-filter"></i>&nbsp; Filters&nbsp; <span class="badge text-bg-secondary">{{ checked_filters|length }}</span>&nbsp; 
+                        <i class="fa-solid fa-filter"></i>&nbsp; {% translate "Filters" %}&nbsp; <span class="badge text-bg-secondary">{{ checked_filters|length }}</span>&nbsp; 
                     </button>
                 </h2>
                 <div id="collapseFilter" class="accordion-collapse collapse" data-bs-parent="#filterAccordion">
@@ -31,7 +32,7 @@
                         <div class="col">
                             <div class="row">
                                 <div class="col">
-                                    <b>Factions</b>
+                                    <b>{% translate "Factions" %}</b>
                                     {% include "./snippets/filter_checkbox.html" with label="Axiom" value="AX" %}
                                     {% include "./snippets/filter_checkbox.html" with label="Bravos" value="BR" %}
                                     {% include "./snippets/filter_checkbox.html" with label="Lyra" value="LY" %}
@@ -40,13 +41,13 @@
                                     {% include "./snippets/filter_checkbox.html" with label="Yzmir" value="YZ" %}
                                 </div>
                                 <div class="col">
-                                    <b>Rarity</b>
+                                    <b>{% translate "Rarity" %}</b>
                                     {% include "./snippets/filter_checkbox.html" with label="Common" value="C" %}
                                     {% include "./snippets/filter_checkbox.html" with label="Rare" value="R" %}
                                     {% include "./snippets/filter_checkbox.html" with label="Unique" value="U" %}
                                 </div>
                                 <div class="col">
-                                    <b>Type</b>
+                                    <b>{% translate "Type" %}</b>
                                     {% include "./snippets/filter_checkbox.html" with label="Character" value="character" %}
                                     {% include "./snippets/filter_checkbox.html" with label="Hero" value="hero" %}
                                     {% include "./snippets/filter_checkbox.html" with label="Permanent" value="permanent" %}
@@ -55,7 +56,7 @@
                             </div>
                             <div class="row mt-2">
                                 <div class="col text-end">
-                                    <button type="submit" class="btn btn-primary" id="filterSearchButton">Search</button>                  
+                                    <button type="submit" class="btn btn-primary" id="filterSearchButton">{% translate "Search" %}</button>                  
                                 </div>
                             </div>
                         </div>
@@ -78,20 +79,20 @@
                 <img src="{{ card.image_url }}" class="card-img-top" alt="{{ card.name }}">
                 <div class="card-body">
                     <div class="dropdown">
-                        <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">Options</button>
+                        <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">{% translate "Options" %}</button>
                         <ul class="dropdown-menu">
         {% if card.type == "hero" %}
-                            <li><a class="dropdown-item remove-card-trigger" href="{% url 'new-deck' %}?hero={{ card.reference }}">Start a deck</a></li>
+                            <li><a class="dropdown-item remove-card-trigger" href="{% url 'new-deck' %}?hero={{ card.reference }}">{% translate "Start a deck" %}</a></li>
         {% endif %}
-                            <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ card.reference }}" data-bs-toggle="modal" data-bs-target="#add-card-modal" data-bs-name="{{ card.name }}" data-bs-reference="{{ card.reference }}">Add to a deck</a></li>
-                            <li><a class="dropdown-item" href="{{ card.get_official_link }}" target="_blank" rel="noopener noreferrer">Go to details <i class="fa-solid fa-arrow-up-right-from-square"></i></a></li>
+                            <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ card.reference }}" data-bs-toggle="modal" data-bs-target="#add-card-modal" data-bs-name="{{ card.name }}" data-bs-reference="{{ card.reference }}">{% translate "Add to a deck" %}</a></li>
+                            <li><a class="dropdown-item" href="{{ card.get_official_link }}" target="_blank" rel="noopener noreferrer">{% translate "Go to details" %} <i class="fa-solid fa-arrow-up-right-from-square"></i></a></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
     {% empty %}
-        <p>No cards found with the current filter.</p>
+        <p>{% translate "No cards found with the current filter." %}</p>
     {% endfor %}
     </div>
     
@@ -103,14 +104,14 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="add-card-modalLabel">Add card to deck</h1>
+                    <h1 class="modal-title fs-5" id="add-card-modalLabel">{% translate "Add card to deck" %}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form action="{% url 'update-deck' %}?{% inject_params request.GET page=page_obj.number %}" method="post" id="update-deck-form">
                         {% csrf_token %}
 
-                        <label for="{{ form.quantity.id_for_label }}" class="col-form-label">Card:</label>
+                        <label for="{{ form.quantity.id_for_label }}" class="col-form-label">{% translate "Card" %}:</label>
 
                         <div class="input-group">
                             <select class="form-select d-inline-flex" id="{{ form.quantity.auto_id }}" name="{{ form.quantity.name }}">
@@ -118,7 +119,7 @@
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                             </select>
-                            <input id="modal-card-name" name="card-reference" class="form-control{% if form.card_reference.errors %} is-invalid{% endif %}" type="text" aria-label="Cardname" aria-describedby="{{ form.card_reference.name }}-validation" disabled readonly>
+                            <input id="modal-card-name" name="card-reference" class="form-control {% if form.card_reference.errors %}is-invalid{% endif %}" type="text" aria-label="Cardname" aria-describedby="{{ form.card_reference.name }}-validation" disabled readonly>
                             <input id="modal-card-reference" name="{{ form.card_reference.name }}" type="hidden">
                         </div>
                         <div id="{{ form.card_reference.name }}-validation" class="invalid-feedback">
@@ -127,7 +128,7 @@
     {% endfor %}
                         </div>                        
                         <div>
-                            <label for="{{ form.deck_id.id_for_label }}" class="col-form-label">Deck:</label>
+                            <label for="{{ form.deck_id.id_for_label }}" class="col-form-label">{% translate "Deck" %}:</label>
     {% if own_decks %}
                             <select class="form-select d-inline-flex" id="{{ form.deck_id.auto_id }}" name="{{ form.deck_id.name }}">
         {% for deck in own_decks %}
@@ -136,20 +137,19 @@
                             </select>
     {% else %}
                             <select class="form-select d-inline-flex" id="{{ form.deck_id.auto_id }}" disabled>
-                                <option selected>No decks found</option>
+                                <option selected>{% translate "No decks found" %}</option>
                             </select>
     {% endif %}
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary" form="update-deck-form" {% if not own_decks%}disabled{% endif %}>Add to deck</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
+                    <button type="submit" class="btn btn-primary" form="update-deck-form" {% if not own_decks%}disabled{% endif %}>{% translate "Add" %}</button>
                 </div>
             </div>
         </div>
     </div>
-
 {% endblock %}
 
 {% block bodyscripts %}

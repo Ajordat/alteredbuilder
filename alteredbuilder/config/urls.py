@@ -16,6 +16,7 @@ Including another URLconf
 """
 
 from django.conf import settings
+from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import RedirectView, TemplateView
@@ -25,7 +26,7 @@ handler403 = TemplateView.as_view(template_name="errors/403.html")
 handler404 = TemplateView.as_view(template_name="errors/404.html")
 handler500 = TemplateView.as_view(template_name="errors/500.html")
 
-urlpatterns = [
+urlpatterns = i18n_patterns(
     path("admin/", admin.site.urls),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
     path("api/", include("api.urls")),
@@ -43,7 +44,7 @@ urlpatterns = [
         name="terms-and-conditions",
     ),
     path("", RedirectView.as_view(url="decks/", permanent=True), name="index"),
-]
+)
 
 if settings.DEBUG:
     # Only include django-debug-toolbar in debug mode

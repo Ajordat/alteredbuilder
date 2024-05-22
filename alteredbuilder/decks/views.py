@@ -9,6 +9,7 @@ from django.db.models.query import QuerySet
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
+from django.utils.translation import gettext_lazy as _
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
@@ -216,24 +217,25 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
 
             except Deck.DoesNotExist:
                 return JsonResponse(
-                    {"error": {"code": 404, "message": "Deck not found"}}, status=404
+                    {"error": {"code": 404, "message": _("Deck not found")}}, status=404
                 )
             except (Card.DoesNotExist, CardInDeck.DoesNotExist):
                 return JsonResponse(
-                    {"error": {"code": 404, "message": "Card not found"}}, status=404
+                    {"error": {"code": 404, "message": _("Card not found")}}, status=404
                 )
             except (json.decoder.JSONDecodeError, KeyError):
                 return JsonResponse(
-                    {"error": {"code": 400, "message": "Invalid payload"}}, status=400
+                    {"error": {"code": 400, "message": _("Invalid payload")}},
+                    status=400,
                 )
 
             return JsonResponse({"data": status}, status=201)
         else:
             return JsonResponse(
-                {"error": {"code": 400, "message": "Invalid request"}}, status=400
+                {"error": {"code": 400, "message": _("Invalid request")}}, status=400
             )
     else:
-        return HttpResponse("Invalid request", status=400)
+        return HttpResponse(_("Invalid request"), status=400)
 
 
 class UpdateDeckFormView(LoginRequiredMixin, FormView):
@@ -249,17 +251,17 @@ class UpdateDeckFormView(LoginRequiredMixin, FormView):
                     deck.hero = card.hero
                 else:
                     # Silently fail
-                    form.add_error("deck_id", "Deck already has a hero")
+                    form.add_error("deck_id", _("Deck already has a hero"))
                     return super().form_valid(form)
             else:
                 cid = CardInDeck.objects.get(deck=deck, card=card)
                 cid.quantity += form.cleaned_data["quantity"]
                 cid.save()
         except Deck.DoesNotExist:
-            form.add_error("deck_id", "Deck not found")
+            form.add_error("deck_id", _("Deck not found"))
             return self.form_invalid(form)
         except Card.DoesNotExist:
-            form.add_error("card_reference", "Card not found")
+            form.add_error("card_reference", _("Card not found"))
             return self.form_invalid(form)
         except CardInDeck.DoesNotExist:
             # The card is not in the deck, so we add it
@@ -293,11 +295,6 @@ class UpdateDeckMetadataFormView(LoginRequiredMixin, FormView):
             pass
 
         return super().form_valid(form)
-
-    def form_invalid(self, form: Any) -> HttpResponse:
-        # UpdateDeckMetadataFormView.kwargs["pk"] = self.kwargs["pk"]
-        # return redirect(self.get_success_url(), kwargs=self.get_context_data(form=form))
-        return super().form_invalid(form)
 
     def get_success_url(self) -> str:
         """Return the redirect URL for a successful Deck submission.
