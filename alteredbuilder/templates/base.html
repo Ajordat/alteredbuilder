@@ -1,6 +1,7 @@
 
 {% load static %}
 {% load i18n %}
+{% load i18n_urls %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -44,6 +45,20 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav">
+    
+{% get_current_language as CURRENT_LANGUAGE %}
+{% get_available_languages as AVAILABLE_LANGUAGES %}
+{% get_language_info_list for AVAILABLE_LANGUAGES as languages %}
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link active dropdown-toggle text-info-emphasis" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="{% get_static_prefix %}img/{{ CURRENT_LANGUAGE }}.png"></a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+{% for lang in languages %}
+                                <li><a class="dropdown-item" href="{% change_lang lang.code %}"><img src="{% get_static_prefix %}img/{{ lang.code }}.png"> {{ lang.name_local|title }}</a></li>
+{% endfor %}
+                            </ul>
+                        </li>
+
 {% if user.is_authenticated %}
     {% if user.is_staff %}
                         <li class="nav-item">
