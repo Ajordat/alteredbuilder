@@ -31,6 +31,11 @@ urlpatterns = [
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
     path("api/", include("api.urls")),
     path("accounts/", include("allauth.urls")),
+    path("", RedirectView.as_view(url=reverse_lazy("deck-list"), permanent=True), name="index"),
+]
+
+urlpatterns += i18n_patterns(
+    path("decks/", include("decks.urls")),
     path("about/", TemplateView.as_view(template_name="about.html"), name="about"),
     path(
         "privacy-policy/",
@@ -42,11 +47,6 @@ urlpatterns = [
         TemplateView.as_view(template_name="terms_and_conditions.html"),
         name="terms-and-conditions",
     ),
-    path("", RedirectView.as_view(url=reverse_lazy("deck-list"), permanent=True), name="index"),
-]
-
-urlpatterns += i18n_patterns(
-    path("decks/", include("decks.urls")),
 )
 
 if settings.DEBUG:
