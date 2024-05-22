@@ -232,6 +232,7 @@ LANGUAGE_CODE = "en"
 LANGUAGES = (
     ("en", _("English")),
     ("es", _("Spanish")),
+    # ("fr", _("French")),
 )
 LOCALE_PATHS = [BASE_DIR / "locale"]
 
