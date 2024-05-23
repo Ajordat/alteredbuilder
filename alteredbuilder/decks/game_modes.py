@@ -105,7 +105,7 @@ class DraftGameMode(GameMode):
 
         if kwargs["faction_count"] > cls.MAX_FACTION_COUNT:
             error_list.append(cls.ErrorCode.ERR_EXCEED_FACTION_COUNT)
-        if kwargs["total_count"] < cls.MIN_TOTAL_COUNT:
+        if (kwargs["total_count"] + int(kwargs["has_hero"])) < cls.MIN_TOTAL_COUNT:
             error_list.append(cls.ErrorCode.ERR_NOT_ENOUGH_CARD_COUNT)
 
         return error_list
@@ -113,8 +113,7 @@ class DraftGameMode(GameMode):
 
 def update_deck_legality(deck: Deck):
 
-    # Include the hero in the total count
-    total_count = int(bool(deck.hero))
+    total_count = 0
     rare_count = 0
     unique_count = 0
     factions = [deck.hero.faction] if deck.hero else []
