@@ -21,6 +21,9 @@ from django.contrib import admin
 from django.urls import include, path, reverse_lazy
 from django.views.generic import RedirectView, TemplateView
 
+from allauth.socialaccount.providers.oauth2 import views
+from allauth.urls import provider_urlpatterns, urlpatterns as allauth_urlpatterns
+
 # Error files definitions
 handler403 = TemplateView.as_view(template_name="errors/403.html")
 handler404 = TemplateView.as_view(template_name="errors/404.html")
@@ -30,11 +33,14 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
     path("api/", include("api.urls")),
-    path("accounts/", include("allauth.urls")),
+    path("accounts/", include("allauth.socialaccount.providers.github.urls")),
+    path("accounts/", include("allauth.socialaccount.providers.discord.urls")),
     path("", RedirectView.as_view(url=reverse_lazy("deck-list"), permanent=True), name="index"),
 ]
 
 urlpatterns += i18n_patterns(
+    path("accounts/", include("allauth.account.urls")),
+    path("accounts/", include("allauth.socialaccount.urls")),
     path("decks/", include("decks.urls")),
     path("about/", TemplateView.as_view(template_name="about.html"), name="about"),
     path(
