@@ -9,7 +9,7 @@ coverage==7.4.4
 cryptography==42.0.5
 defusedxml==0.7.1
 Django==5.0.3
-django-allauth==0.61.1
+django-allauth==0.63.2
 django-debug-toolbar==4.3.0
 django-environ==0.11.2
 django-filter==23.5

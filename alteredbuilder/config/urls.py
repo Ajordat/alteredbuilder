@@ -21,8 +21,6 @@ from django.contrib import admin
 from django.urls import include, path, reverse_lazy
 from django.views.generic import RedirectView, TemplateView
 
-from allauth.socialaccount.providers.oauth2 import views
-from allauth.urls import provider_urlpatterns, urlpatterns as allauth_urlpatterns
 
 # Error files definitions
 handler403 = TemplateView.as_view(template_name="errors/403.html")
