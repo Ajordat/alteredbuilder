@@ -5,13 +5,16 @@ from urllib import request
 
 from decks.models import Card
 
+from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
+from django.utils.translation import activate
 
 
+# API_URL = "https://api.altered.gg/cards?rarity[]=UNIQUE"
 API_URL = "https://api.altered.gg/cards"
 ITEMS_PER_PAGE = 36
 headers = {
-    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:123.0) Gecko/20100101 Firefox/123.0",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0",
     "Origin": "https://www.altered.gg",
 }
 
@@ -21,6 +24,13 @@ class Command(BaseCommand):
 
     def handle(self, *args: Any, **options: Any) -> str | None:
 
+        for language, _ in settings.LANGUAGES:
+            activate(language)
+            self.query_page(language)
+    
+    def query_page(self, language_code):
+
+        headers["Accept-Language"] = f"{language_code}-{language_code}"
         page_index = 1
         page_count = math.inf
         total_items = math.inf
@@ -105,7 +115,7 @@ class Command(BaseCommand):
 
     def create_card(self, card_dict):
         try:
-            print(card_dict)
+            self.stdout.write(f"{card_dict}")
             card = Card.Type.to_class(card_dict["type"]).objects.create(**card_dict)
             self.stdout.write(f"card created: {card}")
         except KeyError:
@@ -135,3 +145,4 @@ class Command(BaseCommand):
                 setattr(getattr(card_obj, type_name), field, card_dict[field])
             except KeyError:
                 pass
+        getattr(card_obj, type_name).save()
