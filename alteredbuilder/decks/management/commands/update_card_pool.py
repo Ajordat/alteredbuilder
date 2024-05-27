@@ -126,8 +126,8 @@ class Command(BaseCommand):
         if card_dict["image_url"] == card_obj.image_url:
             # If the image hasn't changed, we assume the other attributes haven't changed
             return
-        self.stdout.write(f"card_obj: {card_obj}")
-        self.stdout.write(f"card_dict: {card_dict}")
+        print(f"card_obj: {card_obj}")
+        print(f"card_dict: {card_dict}")
 
         shared_fields = ["name", "faction", "image_url"]
         specific_fields = ["main_effect"]
