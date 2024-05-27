@@ -34,7 +34,11 @@ urlpatterns = [
     path("api/", include("api.urls")),
     path("accounts/", include("allauth.socialaccount.providers.github.urls")),
     path("accounts/", include("allauth.socialaccount.providers.discord.urls")),
-    path("", RedirectView.as_view(url=reverse_lazy("deck-list"), permanent=True), name="index"),
+    path(
+        "",
+        RedirectView.as_view(url=reverse_lazy("deck-list"), permanent=True),
+        name="index",
+    ),
 ]
 
 urlpatterns += i18n_patterns(

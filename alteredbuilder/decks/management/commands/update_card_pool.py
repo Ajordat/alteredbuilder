@@ -10,9 +10,8 @@ from django.core.management.base import BaseCommand, CommandError
 from django.utils.translation import activate
 
 
-# API_URL = "https://api.altered.gg/cards?rarity[]=UNIQUE"
 API_URL = "https://api.altered.gg/cards"
-ITEMS_PER_PAGE = 36
+ITEMS_PER_PAGE = 1000
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0",
     "Origin": "https://www.altered.gg",
@@ -27,7 +26,7 @@ class Command(BaseCommand):
         for language, _ in settings.LANGUAGES:
             activate(language)
             self.query_page(language)
-    
+
     def query_page(self, language_code):
 
         headers["Accept-Language"] = f"{language_code}-{language_code}"
@@ -126,8 +125,6 @@ class Command(BaseCommand):
         if card_dict["image_url"] == card_obj.image_url:
             # If the image hasn't changed, we assume the other attributes haven't changed
             return
-        print(f"card_obj: {card_obj}")
-        print(f"card_dict: {card_dict}")
 
         shared_fields = ["name", "faction", "image_url"]
         specific_fields = ["main_effect"]
@@ -143,10 +140,12 @@ class Command(BaseCommand):
         for field in shared_fields:
             setattr(card_obj, field, card_dict[field])
 
+        card_obj.save()
+
         for field in specific_fields:
             try:
                 setattr(getattr(card_obj, type_name), field, card_dict[field])
             except KeyError:
                 pass
-        card_obj.save()
+
         getattr(card_obj, type_name).save()

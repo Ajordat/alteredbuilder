@@ -13,9 +13,19 @@ def force_update_legality(apps, schema_editor):
         original_standard_legality = deck.standard_legality_errors
         original_draft_legality = deck.draft_legality_errors
         update_deck_legality(deck)
-        if original_standard_legality != deck.standard_legality_errors or original_draft_legality != deck.draft_legality_errors:
+        if (
+            original_standard_legality != deck.standard_legality_errors
+            or original_draft_legality != deck.draft_legality_errors
+        ):
             print(f"Updated legality of deck: {deck}")
-            deck.save(update_fields=["is_standard_legal", "standard_legality_errors", "is_draft_legal", "draft_legality_errors"])
+            deck.save(
+                update_fields=[
+                    "is_standard_legal",
+                    "standard_legality_errors",
+                    "is_draft_legal",
+                    "draft_legality_errors",
+                ]
+            )
 
 
 class Migration(migrations.Migration):
