@@ -123,9 +123,11 @@ class Command(BaseCommand):
             pass
 
     def update_card(self, card_dict: dict, card_obj: Card):
-        # if card_dict["image_url"] == card_obj.image_url:
-        #     # If the image hasn't changed, we assume the other attributes haven't changed
-        #     return
+        if card_dict["image_url"] == card_obj.image_url:
+            # If the image hasn't changed, we assume the other attributes haven't changed
+            return
+        self.stdout.write(f"card_obj: {card_obj}")
+        self.stdout.write(f"card_dict: {card_dict}")
 
         shared_fields = ["name", "faction", "image_url"]
         specific_fields = ["main_effect"]
