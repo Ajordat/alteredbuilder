@@ -20,6 +20,7 @@ from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.urls import include, path, reverse_lazy
 from django.views.generic import RedirectView, TemplateView
+from django.views.i18n import JavaScriptCatalog
 
 
 # Error files definitions
@@ -37,6 +38,7 @@ urlpatterns = [
 ]
 
 urlpatterns += i18n_patterns(
+    path("jsi18n/", JavaScriptCatalog.as_view(), name="javascript-catalog"),
     path("accounts/", include("allauth.account.urls")),
     path("accounts/", include("allauth.socialaccount.urls")),
     path("decks/", include("decks.urls")),

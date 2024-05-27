@@ -16,7 +16,7 @@ copyLinkElement.onclick = function() {
     navigator.clipboard.writeText(window.location.href);
 
     // Initialize toaster and show it
-    displaySimpleToast("Link copied into clipboard!");
+    displaySimpleToast(gettext("Link copied into clipboard!"));
 
     // Return false to avoid redirection
     return false;
@@ -29,7 +29,7 @@ copyDecklistElement.onclick = function() {
     navigator.clipboard.writeText(decklistElement.dataset.decklist);
 
     // Initialize toaster and show it
-    displaySimpleToast("Decklist copied into clipboard!");
+    displaySimpleToast(gettext("Decklist copied into clipboard!"));
 
     // Return false to avoid redirection
     return false;
@@ -63,7 +63,7 @@ for (let element of removeCardEls) {
                 console.log("Unable to delete card:");
                 console.log(payload);
                 if (payload.error.code == 400) {
-                    displaySimpleToast("Unable to delete card from deck");
+                    displaySimpleToast(gettext("Unable to delete card from deck"));
                 } else {
                     displaySimpleToast(payload.error.message);
                 }

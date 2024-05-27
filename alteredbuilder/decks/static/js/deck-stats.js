@@ -9,8 +9,13 @@ google.charts.setOnLoadCallback(drawManaCurve);
 function drawChart() {
     // Draw the card type distribution in a pie chart
 
+    let deckStatsI18n = {};
+    deckStatsI18n[gettext("characters")] = deckStats["type_distribution"]["characters"];
+    deckStatsI18n[gettext("spells")] = deckStats["type_distribution"]["spells"];
+    deckStatsI18n[gettext("permanents")] = deckStats["type_distribution"]["permanents"];
+
     let data = google.visualization.arrayToDataTable(
-        [['Card Type', 'Amount']].concat(Object.entries(deckStats["type_distribution"]))
+        [['Card Type', 'Amount']].concat(Object.entries(deckStatsI18n))
     );
 
     let options = {
@@ -47,8 +52,8 @@ function drawStats() {
         let handDenominator = 1;
         if (cardCount > handSize) {
             // Hypergeometric distribution
-            for(let i = cardCount-cardTypeCount-handSize+1; i < cardCount-handSize+1; i++){handNumerator*=i;};
-            for(let i = cardCount-cardTypeCount+1; i < cardCount+1; i++){handDenominator*=i;};
+            for(let i = cardCount - cardTypeCount - handSize + 1; i < cardCount-handSize + 1; i++){handNumerator *= i;};
+            for(let i = cardCount - cardTypeCount + 1; i < cardCount + 1; i++){handDenominator *= i;};
             handDraw = 1 - handNumerator / handDenominator;
         } else {
             handDraw = cardTypeCount > 0;
@@ -62,7 +67,7 @@ function drawStats() {
 function drawManaCurve() {
     // Draw the vertical bars plot that depicts the mana curve
 
-    let data = [['Cost', 'Hand', 'Reserve']];
+    let data = [[gettext('Cost'), gettext('Hand'), gettext('Reserve')]];
     let handCosts = deckStats["mana_distribution"]["hand"];
     let recallCosts = deckStats["mana_distribution"]["recall"];
     for (let cost = 1; cost < 8; cost++) {
@@ -72,9 +77,9 @@ function drawManaCurve() {
     data = google.visualization.arrayToDataTable(data);
 
     var options = {
-        chart: {
-            // title: 'Mana curve',
-        },
+        // chart: {
+        //     title: 'Mana curve',
+        // },
         bars: 'vertical'
     };
 

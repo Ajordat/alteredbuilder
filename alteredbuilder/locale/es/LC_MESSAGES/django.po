@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-22 17:49+0200\n"
+"POT-Creation-Date: 2024-05-27 16:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,15 +19,15 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
 "1 : 2;\n"
 
-#: config/settings.py:233
+#: config/settings.py:235
 msgid "English"
 msgstr "Inglés"
 
-#: config/settings.py:234
+#: config/settings.py:236
 msgid "Spanish"
 msgstr "Español"
 
-#: config/settings.py:235
+#: config/settings.py:237
 msgid "French"
 msgstr "Francés"
 
@@ -114,10 +114,47 @@ msgstr "Facciones"
 msgid "Rarity"
 msgstr "Rareza"
 
+#: decks/templates/decks/card_list.html:45
+#: decks/templates/decks/deck_detail.html:142
+msgid "Common"
+msgstr "Común"
+
+#: decks/templates/decks/card_list.html:46
+#: decks/templates/decks/deck_detail.html:146
+msgid "Rare"
+msgstr "Rara"
+
+#: decks/templates/decks/card_list.html:47
+#: decks/templates/decks/deck_detail.html:150
+msgid "Unique"
+msgstr "Única"
+
 #: decks/templates/decks/card_list.html:50
 #: decks/templates/decks/deck_detail.html:159
 msgid "Type"
 msgstr "Tipo"
+
+#: decks/templates/decks/card_list.html:51
+#: decks/templates/decks/deck_detail.html:107
+#: decks/templates/decks/deck_detail.html:166
+msgid "Characters"
+msgstr "Personajes"
+
+#: decks/templates/decks/card_list.html:52
+msgid "Heroes"
+msgstr "Héroes"
+
+#: decks/templates/decks/card_list.html:53
+#: decks/templates/decks/deck_detail.html:117
+#: decks/templates/decks/deck_detail.html:176
+msgid "Permanents"
+msgstr "Permanentes"
+
+#: decks/templates/decks/card_list.html:54
+#: decks/templates/decks/deck_detail.html:112
+#: decks/templates/decks/deck_detail.html:171
+msgid "Spells"
+msgstr "Hechizos"
 
 #: decks/templates/decks/card_list.html:82
 #: decks/templates/decks/deck_detail.html:48
@@ -235,21 +272,6 @@ msgstr "Eliminar carta"
 msgid "No hero"
 msgstr "No hay héroe"
 
-#: decks/templates/decks/deck_detail.html:107
-#: decks/templates/decks/deck_detail.html:166
-msgid "Characters"
-msgstr "Personajes"
-
-#: decks/templates/decks/deck_detail.html:112
-#: decks/templates/decks/deck_detail.html:171
-msgid "Spells"
-msgstr "Hechizos"
-
-#: decks/templates/decks/deck_detail.html:117
-#: decks/templates/decks/deck_detail.html:176
-msgid "Permanents"
-msgstr "Permanentes"
-
 #: decks/templates/decks/deck_detail.html:125
 msgid "Stats"
 msgstr "Estadísticas"
@@ -265,18 +287,6 @@ msgstr "Distribución por rareza"
 #: decks/templates/decks/deck_detail.html:137
 msgid "Count"
 msgstr "Cantidad"
-
-#: decks/templates/decks/deck_detail.html:142
-msgid "Common"
-msgstr "Común"
-
-#: decks/templates/decks/deck_detail.html:146
-msgid "Rare"
-msgstr "Rara"
-
-#: decks/templates/decks/deck_detail.html:150
-msgid "Unique"
-msgstr "Única"
 
 #: decks/templates/decks/deck_detail.html:155
 msgid "Probability of drawing"
@@ -344,7 +354,7 @@ msgstr "Cerrar"
 msgid "Delete"
 msgstr "Eliminar"
 
-#: decks/templates/decks/deck_list.html:6 templates/base.html:32
+#: decks/templates/decks/deck_list.html:6 templates/base.html:33
 msgid "Home"
 msgstr "Inicio"
 
@@ -378,7 +388,7 @@ msgstr "Hace %(time_since)s"
 
 #: decks/templates/decks/deck_list.html:52
 #: decks/templates/decks/own_deck_list.html:6
-#: decks/templates/decks/own_deck_list.html:15 templates/base.html:40
+#: decks/templates/decks/own_deck_list.html:15 templates/base.html:41
 msgid "Own decks"
 msgstr "Mis mazos"
 
@@ -485,55 +495,55 @@ msgstr "Petición inválida"
 msgid "Deck already has a hero"
 msgstr "El mazo ya tiene un héroe"
 
-#: templates/base.html:36
+#: templates/base.html:37
 msgid "Cards"
 msgstr "Cartas"
 
-#: templates/base.html:44
+#: templates/base.html:45
 msgid "New deck"
 msgstr "Nuevo mazo"
 
-#: templates/base.html:71
+#: templates/base.html:76
 msgid "Profile"
 msgstr "Perfil"
 
-#: templates/base.html:72
+#: templates/base.html:77
 msgid "Update email"
 msgstr "Actualizar correo"
 
-#: templates/base.html:73
+#: templates/base.html:78
 msgid "Update password"
 msgstr "Actualizar contraseña"
 
-#: templates/base.html:75
+#: templates/base.html:80
 msgid "Logout"
 msgstr "Desconnectar"
 
-#: templates/base.html:80
+#: templates/base.html:85
 msgid "Login"
 msgstr "Entrar"
 
-#: templates/base.html:95
+#: templates/base.html:100
 msgid "Links"
 msgstr "Enlaces"
 
-#: templates/base.html:98
+#: templates/base.html:103
 msgid "About the project"
 msgstr "Sobre el proyecto"
 
-#: templates/base.html:101
+#: templates/base.html:106
 msgid "About the author"
 msgstr "Sobre el autor"
 
-#: templates/base.html:104
+#: templates/base.html:109
 msgid "Privacy policy"
 msgstr "Política de privacidad"
 
-#: templates/base.html:107
+#: templates/base.html:112
 msgid "Terms and conditions"
 msgstr "Términos y condiciones"
 
-#: templates/base.html:112
+#: templates/base.html:117
 msgid "Get in touch"
 msgstr "Ponte en contacto"
 

@@ -1,5 +1,7 @@
 
+{% load i18n %}
+
 <div class="form-check">
     <input class="form-check-input" type="checkbox" value="{{ value }}" id="filter{{ label }}" {% if value in checked_filters %}checked{% endif %}>
-    <label class="form-check-label" for="filter{{ label }}"><span class="{{value}}">{{ label }}</span></label>
+    <label class="form-check-label" for="filter{{ label }}"><span class="{{value}}">{% translate label %}</span></label>
 </div>

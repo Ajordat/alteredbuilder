@@ -67,6 +67,8 @@ Within the secret:
 DATABASE_URL=postgres://<database_user>:<escaped_database_password>@//cloudsql/<cloud_sql_connection_name>/<database_name>
 GCS_BUCKET_STATICS=<gcs_bucket_for_static_files>
 SECRET_KEY=<django_secret_key>
+SENDGRID_API_KEY=<sendgrid_api_key>
+SENDGRID_FROM_EMAIL=<email_address_used_to_send_emails>
 ```
 
 Within the Cloud Build trigger:
@@ -93,4 +95,29 @@ SECRET_KEY=<django_secret_key>
 
 USE_GCS_STATICS=False
 GCS_BUCKET_STATICS=<gcs_bucket_with_static_files>
+
+SENDGRID_API_KEY=<sendgrid_api_key>
+SENDGRID_FROM_EMAIL=<email_address_used_to_send_emails>
 ```
+
+## Translations
+
+Generate the `.po` files, which have to be delivered to the translators:
+
+```bash
+# Generate the translations for Django (Python + templates)
+docker compose run web python manage.py makemessages --all
+# Generate the translations of JS
+docker compose run web python manage.py makemessages --all -d djangojs
+```
+
+Once the texts are translated, the `.po` files need to be compiled:
+
+```bash
+docker compose run web python manage.py compilemessages
+```
+
+
+
+
+

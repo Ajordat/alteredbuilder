@@ -33,25 +33,25 @@
                             <div class="row">
                                 <div class="col">
                                     <b>{% translate "Factions" %}</b>
-                                    {% include "./snippets/filter_checkbox.html" with label="Axiom" value="AX" %}
-                                    {% include "./snippets/filter_checkbox.html" with label="Bravos" value="BR" %}
-                                    {% include "./snippets/filter_checkbox.html" with label="Lyra" value="LY" %}
-                                    {% include "./snippets/filter_checkbox.html" with label="Muna" value="MU" %}
-                                    {% include "./snippets/filter_checkbox.html" with label="Ordis" value="OR" %}
-                                    {% include "./snippets/filter_checkbox.html" with label="Yzmir" value="YZ" %}
+                                    {% include "./snippets/filter_checkbox.html" with value="AX" label="Axiom" %}
+                                    {% include "./snippets/filter_checkbox.html" with value="BR" label="Bravos" %}
+                                    {% include "./snippets/filter_checkbox.html" with value="LY" label="Lyra" %}
+                                    {% include "./snippets/filter_checkbox.html" with value="MU" label="Muna" %}
+                                    {% include "./snippets/filter_checkbox.html" with value="OR" label="Ordis" %}
+                                    {% include "./snippets/filter_checkbox.html" with value="YZ" label="Yzmir" %}
                                 </div>
                                 <div class="col">
                                     <b>{% translate "Rarity" %}</b>
-                                    {% include "./snippets/filter_checkbox.html" with label="Common" value="C" %}
-                                    {% include "./snippets/filter_checkbox.html" with label="Rare" value="R" %}
-                                    {% include "./snippets/filter_checkbox.html" with label="Unique" value="U" %}
+                                    {% translate "Common" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="C" label="Common" %}
+                                    {% translate "Rare" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="R" label="Rare" %}
+                                    {% translate "Unique" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="U" label="Unique" %}
                                 </div>
                                 <div class="col">
                                     <b>{% translate "Type" %}</b>
-                                    {% include "./snippets/filter_checkbox.html" with label="Character" value="character" %}
-                                    {% include "./snippets/filter_checkbox.html" with label="Hero" value="hero" %}
-                                    {% include "./snippets/filter_checkbox.html" with label="Permanent" value="permanent" %}
-                                    {% include "./snippets/filter_checkbox.html" with label="Spell" value="spell" %}
+                                    {% translate "Characters" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="character" label="Characters" %}
+                                    {% translate "Heroes" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="hero" label="Heroes" %}
+                                    {% translate "Permanents" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="permanent" label="Permanents" %}
+                                    {% translate "Spells" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="spell" label="Spells" %}
                                 </div>
                             </div>
                             <div class="row mt-2">
