@@ -115,16 +115,17 @@ class Command(BaseCommand):
 
     def create_card(self, card_dict):
         try:
-            self.stdout.write(f"{card_dict}")
+            if card_dict["type"] != Card.Type.TOKEN:
+                self.stdout.write(f"{card_dict}")
             card = Card.Type.to_class(card_dict["type"]).objects.create(**card_dict)
             self.stdout.write(f"card created: {card}")
         except KeyError:
             pass
 
     def update_card(self, card_dict: dict, card_obj: Card):
-        if card_dict["image_url"] == card_obj.image_url:
-            # If the image hasn't changed, we assume the other attributes haven't changed
-            return
+        # if card_dict["image_url"] == card_obj.image_url:
+        #     # If the image hasn't changed, we assume the other attributes haven't changed
+        #     return
 
         shared_fields = ["name", "faction", "image_url"]
         specific_fields = ["main_effect"]
@@ -145,4 +146,5 @@ class Command(BaseCommand):
                 setattr(getattr(card_obj, type_name), field, card_dict[field])
             except KeyError:
                 pass
+        card_obj.save()
         getattr(card_obj, type_name).save()
