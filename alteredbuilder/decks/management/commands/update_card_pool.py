@@ -122,9 +122,9 @@ class Command(BaseCommand):
             pass
 
     def update_card(self, card_dict: dict, card_obj: Card):
-        if card_dict["image_url"] == card_obj.image_url:
-            # If the image hasn't changed, we assume the other attributes haven't changed
-            return
+        # if card_dict["image_url"] == card_obj.image_url:
+        #     # If the image hasn't changed, we assume the other attributes haven't changed
+        #     return
 
         shared_fields = ["name", "faction", "image_url"]
         specific_fields = ["main_effect"]
@@ -137,10 +137,14 @@ class Command(BaseCommand):
             if card_obj.type == Card.Type.CHARACTER:
                 specific_fields += ["forest_power", "mountain_power", "ocean_power"]
 
+        self.stdout.write(f"card_obj: {card_obj}")
+        self.stdout.write(f"card_dict: {card_dict}")
         for field in shared_fields:
             setattr(card_obj, field, card_dict[field])
+        setattr(card_obj, "name", card_dict["name"])
 
         card_obj.save()
+        self.stdout.write(f"card_obj: {card_obj}")
 
         for field in specific_fields:
             try:
