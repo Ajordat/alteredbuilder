@@ -1,11 +1,11 @@
 steps:
-  # - id: "build image"
-  #   name: "gcr.io/cloud-builders/docker"
-  #   args: ["build", "-t", "${_ARTIFACT_REGISTRY_REPOSITORY}/${_SERVICE_NAME}", "./alteredbuilder/"]
+  - id: "build image"
+    name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "${_ARTIFACT_REGISTRY_REPOSITORY}/${_SERVICE_NAME}", "./alteredbuilder/"]
 
-  # - id: "push image"
-  #   name: "gcr.io/cloud-builders/docker"
-  #   args: ["push", "${_ARTIFACT_REGISTRY_REPOSITORY}/${_SERVICE_NAME}"]
+  - id: "push image"
+    name: "gcr.io/cloud-builders/docker"
+    args: ["push", "${_ARTIFACT_REGISTRY_REPOSITORY}/${_SERVICE_NAME}"]
 
   # - id: "apply migrations"
   #   name: "gcr.io/google-appengine/exec-wrapper"
@@ -60,25 +60,25 @@ steps:
         "update_card_pool",
       ]
 
-#   - id: "deploy application"
-#     name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-#     entrypoint: gcloud
-#     args: 
-#       [
-#         'run', 'deploy', '${_SERVICE_NAME}',
-#         '--image', '${_ARTIFACT_REGISTRY_REPOSITORY}/${_SERVICE_NAME}',
-#         '--region', '${_REGION}',
-#         '--platform', 'managed',
-#         '--port', '8000',
-#         '--add-cloudsql-instances', '${_CLOUD_SQL_CONNECTION_NAME}',
-#         '--allow-unauthenticated',
-#         '--service-account', '${_CLOUD_RUN_SA}',
-#         '--cpu', '1000m',
-#         '--memory', '256Mi',
-#       ]
+  # - id: "deploy application"
+  #   name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  #   entrypoint: gcloud
+  #   args: 
+  #     [
+  #       'run', 'deploy', '${_SERVICE_NAME}',
+  #       '--image', '${_ARTIFACT_REGISTRY_REPOSITORY}/${_SERVICE_NAME}',
+  #       '--region', '${_REGION}',
+  #       '--platform', 'managed',
+  #       '--port', '8000',
+  #       '--add-cloudsql-instances', '${_CLOUD_SQL_CONNECTION_NAME}',
+  #       '--allow-unauthenticated',
+  #       '--service-account', '${_CLOUD_RUN_SA}',
+  #       '--cpu', '1000m',
+  #       '--memory', '256Mi',
+  #     ]
 
-# images:
-#   - "${_ARTIFACT_REGISTRY_REPOSITORY}/${_SERVICE_NAME}"
+images:
+  - "${_ARTIFACT_REGISTRY_REPOSITORY}/${_SERVICE_NAME}"
 
 options:
   logging: CLOUD_LOGGING_ONLY
