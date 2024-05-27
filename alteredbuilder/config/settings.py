@@ -16,6 +16,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 import environ
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 import google.auth
 from google.cloud import secretmanager
@@ -202,6 +203,7 @@ AUTHENTICATION_BACKENDS = [
 
 SITE_ID = 1
 
+LOGIN_URL = reverse_lazy("account_login")
 LOGIN_REDIRECT_URL = "/"
 
 SOCIALACCOUNT_PROVIDERS = {"github": {"EMAIL_AUTHENTICATION": True}}
