@@ -1,5 +1,8 @@
 from django import template
 
+from decks.models import Card
+
+
 register = template.Library()
 
 
@@ -45,10 +48,24 @@ def inject_params(get_params, **kwargs):
 
 @register.filter
 def params_to_filter_tag(get_params):
-    allowed_params = ["faction", "rarity", "type", "query", "order"]
+    allowed_params = ["faction", "rarity", "type", "query"]
     tags = []
     for param in get_params:
         if param in allowed_params:
-            tags += [(param, value) for value in get_params[param].split(",")]
+            if param == "faction":
+                tags += [
+                    (param.title(), Card.Faction(value).label.title())
+                    for value in get_params[param].split(",")
+                ]
+            elif param == "rarity":
+                tags += [
+                    (param.title(), Card.Rarity(value).label.title())
+                    for value in get_params[param].split(",")
+                ]
+            else:
+                tags += [
+                    (param.title(), value.title())
+                    for value in get_params[param].split(",")
+                ]
 
     return tags

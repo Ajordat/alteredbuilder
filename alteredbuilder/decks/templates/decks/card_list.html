@@ -48,10 +48,10 @@
                                 </div>
                                 <div class="col">
                                     <b>{% translate "Type" %}</b>
-                                    {% translate "Characters" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="character" label="Characters" %}
-                                    {% translate "Heroes" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="hero" label="Heroes" %}
-                                    {% translate "Permanents" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="permanent" label="Permanents" %}
-                                    {% translate "Spells" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="spell" label="Spells" %}
+                                    {% translate "Character" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="character" label="Character" %}
+                                    {% translate "Hero" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="hero" label="Hero" %}
+                                    {% translate "Permanent" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="permanent" label="Permanent" %}
+                                    {% translate "Spell" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="spell" label="Spell" %}
                                 </div>
                             </div>
                             <div class="row mt-2">
@@ -83,9 +83,21 @@
         <div class="col d-flex align-items-center">
     {% with request.GET|params_to_filter_tag as tags %}
         {% for tag, value in tags %}
-            <span class="badge text-bg-secondary">{{tag}}: {{value}}</span>&nbsp;
+            <span class="badge text-bg-secondary">{% translate tag %}: {% translate value %}</span>&nbsp;
         {% endfor %}
     {% endwith %}
+    {% if order %}
+            <span class="badge text-bg-secondary">{% translate "Order" %}: 
+        {% if order == "name" %}{% translate "Name A-Z" %}
+        {% elif order == "-name" %}{% translate "Name Z-A" %}
+        {% elif order == "rarity" %}{% translate "Rarity" %}
+        {% elif order == "mana" %}{% translate "Mana ASC" %}
+        {% elif order == "-mana" %}{% translate "Mana DESC" %}
+        {% elif order == "reserve" %}{% translate "Reserve ASC" %}
+        {% elif order == "-reserve" %}{% translate "Reserve DESC" %}
+        {% endif %}
+            </span>&nbsp;
+    {% endif %}
         </div>
     </div>
     <div class="row gy-3">

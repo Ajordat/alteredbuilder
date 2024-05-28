@@ -38,7 +38,7 @@ function searchCards(e) {
         filters.push("rarity=" + rarities.join(","));
     }
 
-    let types = parseFilter(["Characters", "Heroes", "Permanents", "Spells"]);
+    let types = parseFilter(["Character", "Hero", "Permanent", "Spell"]);
     if (types.length > 0) {
         filters.push("type=" + types.join(","));
     }

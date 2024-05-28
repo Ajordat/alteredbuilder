@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-28 23:57+0200\n"
+"POT-Creation-Date: 2024-05-29 01:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -111,6 +111,7 @@ msgstr "Facciones"
 
 #: decks/templates/decks/card_list.html:44
 #: decks/templates/decks/card_list.html:75
+#: decks/templates/decks/card_list.html:93
 #: decks/templates/decks/deck_detail.html:136
 msgid "Rarity"
 msgstr "Rareza"
@@ -136,26 +137,24 @@ msgid "Type"
 msgstr "Tipo"
 
 #: decks/templates/decks/card_list.html:51
-#: decks/templates/decks/deck_detail.html:107
-#: decks/templates/decks/deck_detail.html:166
-msgid "Characters"
-msgstr "Personajes"
+msgid "Character"
+msgstr "Personaje"
 
 #: decks/templates/decks/card_list.html:52
-msgid "Heroes"
-msgstr "Héroes"
+#: decks/templates/decks/deck_detail.html:74
+#: decks/templates/decks/deck_list.html:22
+#: decks/templates/decks/deck_list.html:59
+#: decks/templates/decks/own_deck_list.html:21
+msgid "Hero"
+msgstr "Héroe"
 
 #: decks/templates/decks/card_list.html:53
-#: decks/templates/decks/deck_detail.html:117
-#: decks/templates/decks/deck_detail.html:176
-msgid "Permanents"
-msgstr "Permanentes"
+msgid "Permanent"
+msgstr "Permanente"
 
 #: decks/templates/decks/card_list.html:54
-#: decks/templates/decks/deck_detail.html:112
-#: decks/templates/decks/deck_detail.html:171
-msgid "Spells"
-msgstr "Hechizos"
+msgid "Spell"
+msgstr "Hechizo"
 
 #: decks/templates/decks/card_list.html:71
 msgid "Sort by"
@@ -166,74 +165,84 @@ msgid "Default"
 msgstr "Por defecto"
 
 #: decks/templates/decks/card_list.html:73
+#: decks/templates/decks/card_list.html:91
 msgid "Name A-Z"
 msgstr "Nombre A-Z"
 
 #: decks/templates/decks/card_list.html:74
+#: decks/templates/decks/card_list.html:92
 msgid "Name Z-A"
 msgstr "Nombre Z-A"
 
 #: decks/templates/decks/card_list.html:76
+#: decks/templates/decks/card_list.html:94
 msgid "Mana ASC"
 msgstr "Maná ASC"
 
 #: decks/templates/decks/card_list.html:77
+#: decks/templates/decks/card_list.html:95
 msgid "Mana DESC"
 msgstr "Maná DESC"
 
 #: decks/templates/decks/card_list.html:78
+#: decks/templates/decks/card_list.html:96
 msgid "Reserve ASC"
 msgstr "Reserva ASC"
 
 #: decks/templates/decks/card_list.html:79
+#: decks/templates/decks/card_list.html:97
 msgid "Reserve DESC"
 msgstr "Reserva DESC"
 
-#: decks/templates/decks/card_list.html:98
+#: decks/templates/decks/card_list.html:90
+msgid "Order"
+msgstr ""
+
+#: decks/templates/decks/card_list.html:110
 #: decks/templates/decks/deck_detail.html:48
 msgid "Options"
 msgstr "Opciones"
 
-#: decks/templates/decks/card_list.html:101
+#: decks/templates/decks/card_list.html:113
 msgid "Start a deck"
 msgstr "Crear un mazo"
 
-#: decks/templates/decks/card_list.html:103
+#: decks/templates/decks/card_list.html:115
 msgid "Add to a deck"
 msgstr "Añadir a un mazo"
 
-#: decks/templates/decks/card_list.html:104
+#: decks/templates/decks/card_list.html:116
 #: decks/templates/decks/deck_detail.html:91
 #: decks/templates/decks/snippets/card_table.html:24
 msgid "Go to details"
 msgstr "Ir a detalles"
 
-#: decks/templates/decks/card_list.html:111
+#: decks/templates/decks/card_list.html:123
 msgid "No cards found with the current filter."
 msgstr "No se han encontrado cartas con el filtro actual."
 
-#: decks/templates/decks/card_list.html:123
+#: decks/templates/decks/card_list.html:135
 msgid "Add card to deck"
 msgstr "Añadir carta a un mazo"
 
-#: decks/templates/decks/card_list.html:130
+#: decks/templates/decks/card_list.html:142
 msgid "Card"
 msgstr "Cartas"
 
-#: decks/templates/decks/card_list.html:147
+#: decks/templates/decks/card_list.html:159
 msgid "Deck"
 msgstr "Mazo"
 
-#: decks/templates/decks/card_list.html:156
+#: decks/templates/decks/card_list.html:168
 msgid "No decks found"
 msgstr "No se han encontrado mazos"
 
-#: decks/templates/decks/card_list.html:163
+#: decks/templates/decks/card_list.html:175
 #: decks/templates/decks/deck_detail.html:252
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: decks/templates/decks/card_list.html:164
+#: decks/templates/decks/card_list.html:176
 msgid "Add"
 msgstr "Añadir"
 
@@ -272,13 +281,6 @@ msgstr "Eliminar mazo"
 msgid "Decklist"
 msgstr "Decklist"
 
-#: decks/templates/decks/deck_detail.html:74
-#: decks/templates/decks/deck_list.html:22
-#: decks/templates/decks/deck_list.html:59
-#: decks/templates/decks/own_deck_list.html:21
-msgid "Hero"
-msgstr "Héroe"
-
 #: decks/templates/decks/deck_detail.html:78
 #: decks/templates/decks/deck_list.html:20
 #: decks/templates/decks/deck_list.html:57
@@ -304,6 +306,21 @@ msgstr "Eliminar carta"
 #: decks/templates/decks/deck_detail.html:100
 msgid "No hero"
 msgstr "No hay héroe"
+
+#: decks/templates/decks/deck_detail.html:107
+#: decks/templates/decks/deck_detail.html:166
+msgid "Characters"
+msgstr "Personajes"
+
+#: decks/templates/decks/deck_detail.html:112
+#: decks/templates/decks/deck_detail.html:171
+msgid "Spells"
+msgstr "Hechizos"
+
+#: decks/templates/decks/deck_detail.html:117
+#: decks/templates/decks/deck_detail.html:176
+msgid "Permanents"
+msgstr "Permanentes"
 
 #: decks/templates/decks/deck_detail.html:125
 msgid "Stats"
@@ -597,3 +614,6 @@ msgid ""
 msgstr ""
 "Parece que ha habido un problema en el servidor al procesar tu petición. "
 "Inténtalo de nuevo más tarde."
+
+#~ msgid "Heroes"
+#~ msgstr "Héroes"
