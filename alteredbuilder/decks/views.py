@@ -4,6 +4,7 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
+from django.db.models.functions import Coalesce
 from django.db.models.manager import Manager
 from django.db.models.query import QuerySet
 from django.http import HttpRequest, HttpResponse, JsonResponse
@@ -347,7 +348,31 @@ class CardListView(ListView):
             else:
                 filters &= Q(type__in=card_types)
 
-        return qs.filter(filters)
+        query_order = []
+        order_param = self.request.GET.get("order")
+
+        if order_param:
+            if desc := "-" in order_param:
+                order_param = order_param[1:]
+
+            if order_param in ["name", "rarity"]:
+                query_order = [order_param]
+            
+            elif order_param in ["mana", "reserve"]:
+                if order_param == "mana":
+                    fields = "character__main_cost", "spell__main_cost", "permanent__main_cost"
+                else:
+                    fields = "character__recall_cost", "spell__recall_cost", "permanent__recall_cost"
+                
+                mana_order = Coalesce(*fields)
+                if desc:
+                    mana_order = mana_order.desc()
+                query_order = [mana_order]
+            query_order += ["-reference" if desc else "reference"]
+        else:
+            query_order = ["reference"]
+
+        return qs.filter(filters).order_by(*query_order)
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -362,6 +387,8 @@ class CardListView(ListView):
             if filter in self.request.GET:
                 checked_filters += self.request.GET[filter].split(",")
         context["checked_filters"] = checked_filters
+        if "order" in self.request.GET:
+            context["order"] = self.request.GET["order"]
         if "query" in self.request.GET:
             context["query"] = self.request.GET.get("query")
 

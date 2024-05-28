@@ -64,10 +64,26 @@
                 </div>
             </div>
         </div>
+        <div class="col">
+            <div class="input-group">
+                <label class="input-group-text" for="filterOrdering"><i class="fa-solid fa-sort"></i></label>
+                <select class="form-select" aria-label="Sort by" id="filterOrdering">
+                    <option {% if not order %}selected{% endif %} disabled hidden>Sort by</option>
+                    <option>Default</option>
+                    <option {% if order == "name" %}selected{% endif %} value="name">Name A-Z</option>
+                    <option {% if order == "-name" %}selected{% endif %} value="-name">Name Z-A</option>
+                    <option {% if order == "rarity" %}selected{% endif %} value="rarity">Rarity</option>
+                    <option {% if order == "mana" %}selected{% endif %} value="mana">Mana ASC</option>
+                    <option {% if order == "-mana" %}selected{% endif %} value="-mana">Mana DESC</option>
+                    <option {% if order == "reserve" %}selected{% endif %} value="reserve">Reserve ASC</option>
+                    <option {% if order == "-reserve" %}selected{% endif %} value="-reserve">Reserve DESC</option>
+                </select>
+            </div>
+        </div>
         <div class="col d-flex align-items-center">
     {% with request.GET|params_to_filter_tag as tags %}
         {% for tag, value in tags %}
-            <span class="badge text-bg-secondary">{{tag}}: {{value}}</span>&nbsp; 
+            <span class="badge text-bg-secondary">{{tag}}: {{value}}</span>&nbsp;
         {% endfor %}
     {% endwith %}
         </div>
@@ -126,7 +142,7 @@
     {% for error in form.card_reference.errors %}
                             {{error}}<br>
     {% endfor %}
-                        </div>                        
+                        </div>
                         <div>
                             <label for="{{ form.deck_id.id_for_label }}" class="col-form-label">{% translate "Deck" %}:</label>
     {% if own_decks %}
@@ -145,7 +161,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
-                    <button type="submit" class="btn btn-primary" form="update-deck-form" {% if not own_decks%}disabled{% endif %}>{% translate "Add" %}</button>
+                    <button type="submit" class="btn btn-primary" form="update-deck-form" {% if not own_decks %}disabled{% endif %}>{% translate "Add" %}</button>
                 </div>
             </div>
         </div>

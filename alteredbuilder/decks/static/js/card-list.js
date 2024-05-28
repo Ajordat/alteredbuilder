@@ -48,6 +48,11 @@ function searchCards(e) {
         filters.push("query=" + queryElement.value);
     }
 
+    let orderingElement = document.getElementById("filterOrdering");
+    if (orderingElement.selectedIndex > 1) {
+        filters.push("order=" + orderingElement.value);
+    }
+
     let url = window.location.pathname + "?" + filters.join("&");
     window.open(url, "_self");
     return false;
@@ -55,3 +60,4 @@ function searchCards(e) {
 
 document.getElementById("filterSearchButton").addEventListener("click", searchCards);
 document.getElementById("querySearchForm").addEventListener("submit", searchCards);
+document.getElementById("filterOrdering").addEventListener("change", searchCards);
