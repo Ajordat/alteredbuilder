@@ -43,10 +43,10 @@ class Card(models.Model):
     rarity = models.CharField(max_length=1, choices=Rarity)
     image_url = models.URLField(null=False, blank=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"[{self.faction}] - {self.name} ({self.rarity})"
 
-    def get_official_link(self):
+    def get_official_link(self) -> str:
         return f"{ALTERED_TCG_URL}/cards/{self.reference}"
 
     class Meta:
@@ -58,10 +58,10 @@ class Hero(Card):
     permanent_count = models.SmallIntegerField(default=2)
     main_effect = models.TextField(blank=True)
 
-    def is_promo(self):
+    def is_promo(self) -> bool:
         return "_P_" in self.reference
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.reference} - {self.name}"
 
     class Meta:
@@ -84,7 +84,7 @@ class Character(PlayableCard):
     mountain_power = models.SmallIntegerField()
     ocean_power = models.SmallIntegerField()
 
-    def is_oof(self):
+    def is_oof(self) -> bool:
         return f"_{self.faction}_" not in self.reference
 
 
@@ -112,7 +112,7 @@ class Deck(models.Model):
     modified_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.owner.username} - {self.name}"
 
 

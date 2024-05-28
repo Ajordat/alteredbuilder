@@ -27,7 +27,7 @@ class Command(BaseCommand):
             activate(language)
             self.query_page(language)
 
-    def query_page(self, language_code):
+    def query_page(self, language_code: str) -> None:
 
         headers["Accept-Language"] = f"{language_code}-{language_code}"
         page_index = 1
@@ -61,8 +61,8 @@ class Command(BaseCommand):
 
             page_index += 1
 
-    def extract_card(self, card):
-        card_object = {
+    def extract_card(self, card: dict) -> dict:
+        card_dict = {
             "reference": card["reference"],
             "name": card["name"],
             "faction": card["mainFaction"]["reference"],
@@ -71,24 +71,24 @@ class Command(BaseCommand):
             "image_url": card["imagePath"],
         }
         if "MAIN_EFFECT" in card["elements"]:
-            card_object["main_effect"] = card["elements"]["MAIN_EFFECT"]
+            card_dict["main_effect"] = card["elements"]["MAIN_EFFECT"]
 
-        if card_object["type"] == "HERO":
+        if card_dict["type"] == "HERO":
             try:
-                card_object.update(
+                card_dict.update(
                     {
                         "reserve_count": card["elements"]["RESERVE"],
                         "permanent_count": card["elements"]["PERMANENT"],
                     }
                 )
             except KeyError:
-                card_object.update({"reserve_count": 2, "permanent_count": 2})
+                card_dict.update({"reserve_count": 2, "permanent_count": 2})
 
         else:
-            if card_object["type"] == "TOKEN":
-                card_object.update({"main_cost": 0, "recall_cost": 0})
+            if card_dict["type"] == "TOKEN":
+                card_dict.update({"main_cost": 0, "recall_cost": 0})
             else:
-                card_object.update(
+                card_dict.update(
                     {
                         "main_cost": card["elements"]["MAIN_COST"],
                         "recall_cost": card["elements"]["RECALL_COST"],
@@ -96,23 +96,23 @@ class Command(BaseCommand):
                 )
 
             if "ECHO_EFFECT" in card["elements"]:
-                card_object["echo_effect"] = card["elements"]["ECHO_EFFECT"]
-            if card_object["type"] == "CHARACTER":
-                card_object.update(
+                card_dict["echo_effect"] = card["elements"]["ECHO_EFFECT"]
+            if card_dict["type"] == "CHARACTER":
+                card_dict.update(
                     {
                         "forest_power": card["elements"]["FOREST_POWER"],
                         "mountain_power": card["elements"]["MOUNTAIN_POWER"],
                         "ocean_power": card["elements"]["OCEAN_POWER"],
                     }
                 )
-        return card_object
+        return card_dict
 
-    def convert_choices(self, card_object):
-        card_object["faction"] = Card.Faction(card_object["faction"])
-        card_object["type"] = getattr(Card.Type, card_object["type"])
-        card_object["rarity"] = getattr(Card.Rarity, card_object["rarity"])
+    def convert_choices(self, card_dict: dict) -> None:
+        card_dict["faction"] = Card.Faction(card_dict["faction"])
+        card_dict["type"] = getattr(Card.Type, card_dict["type"])
+        card_dict["rarity"] = getattr(Card.Rarity, card_dict["rarity"])
 
-    def create_card(self, card_dict):
+    def create_card(self, card_dict: dict) -> None:
         try:
             if card_dict["type"] != Card.Type.TOKEN:
                 self.stdout.write(f"{card_dict}")
@@ -121,7 +121,7 @@ class Command(BaseCommand):
         except KeyError:
             pass
 
-    def update_card(self, card_dict: dict, card_obj: Card):
+    def update_card(self, card_dict: dict, card_obj: Card) -> None:
         if card_dict["image_url"] == card_obj.image_url:
             # If the image hasn't changed, we assume the other attributes haven't changed
             return

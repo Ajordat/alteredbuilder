@@ -28,17 +28,17 @@ def get_row_color_from_rarity(rarity: str) -> str:
 
 
 @register.simple_tag
-def get_main_cost(card):
+def get_main_cost(card: Card) -> int:
     return getattr(card, card.type).main_cost
 
 
 @register.simple_tag
-def get_recall_cost(card):
+def get_recall_cost(card: Card) -> int:
     return getattr(card, card.type).recall_cost
 
 
 @register.simple_tag
-def inject_params(get_params, **kwargs):
+def inject_params(get_params: dict, **kwargs) -> str:
     allowed_params = ["faction", "rarity", "type", "query", "order"]
     args = [
         f"{key}={value}" for key, value in get_params.items() if key in allowed_params
@@ -47,7 +47,7 @@ def inject_params(get_params, **kwargs):
 
 
 @register.filter
-def params_to_filter_tag(get_params):
+def params_to_filter_tag(get_params: dict) -> list[(str, str)]:
     allowed_params = ["faction", "rarity", "type", "query"]
     tags = []
     for param in get_params:

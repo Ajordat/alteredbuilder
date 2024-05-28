@@ -83,7 +83,7 @@ def create_new_deck(user: User, deck_form: dict) -> Deck:
     return deck
 
 
-def get_deck_details(deck):
+def get_deck_details(deck: Deck) -> dict:
 
     decklist = (
         deck.cardindeck_set.select_related(

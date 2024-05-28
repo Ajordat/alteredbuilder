@@ -17,7 +17,7 @@ class GameMode(ABC):
 
     @classmethod
     @abstractmethod
-    def validate(cls, **kwargs):
+    def validate(cls, **kwargs) -> list:
         pass
 
     class ErrorCode(StrEnum):
@@ -60,7 +60,7 @@ class GameMode(ABC):
                     return _("Missing hero")
 
         @classmethod
-        def from_list_to_user(cls, error_list, game_mode):
+        def from_list_to_user(cls, error_list: list[str], game_mode):
             return [cls(error).to_user(game_mode) for error in error_list]
 
 
@@ -73,7 +73,7 @@ class StandardGameMode(GameMode):
     IS_HERO_MANDATORY = True
 
     @classmethod
-    def validate(cls, **kwargs):
+    def validate(cls, **kwargs) -> list[GameMode.ErrorCode]:
         error_list = []
 
         if kwargs["faction_count"] > cls.MAX_FACTION_COUNT:
@@ -100,7 +100,7 @@ class DraftGameMode(GameMode):
     MIN_TOTAL_COUNT = 30
 
     @classmethod
-    def validate(cls, **kwargs):
+    def validate(cls, **kwargs) -> list[GameMode.ErrorCode]:
         error_list = []
 
         if kwargs["faction_count"] > cls.MAX_FACTION_COUNT:
@@ -111,7 +111,7 @@ class DraftGameMode(GameMode):
         return error_list
 
 
-def update_deck_legality(deck: Deck):
+def update_deck_legality(deck: Deck) -> None:
 
     total_count = 0
     rare_count = 0

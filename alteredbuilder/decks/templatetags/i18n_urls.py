@@ -5,7 +5,7 @@ register = template.Library()
 
 
 @register.simple_tag(takes_context=True)
-def change_lang(context, lang: str, *args, **kwargs):
+def change_lang(context: dict, lang: str, *args, **kwargs) -> str:
     path = context["request"].path
 
     return translate_url(path, lang)
