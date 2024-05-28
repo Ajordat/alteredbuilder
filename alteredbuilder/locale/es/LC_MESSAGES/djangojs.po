@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-26 14:12+0200\n"
+"POT-Creation-Date: 2024-05-28 23:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,14 +43,14 @@ msgstr "hechizos"
 msgid "permanents"
 msgstr "permanentes"
 
-#: decks/static/js/deck-stats.js:71
+#: decks/static/js/deck-stats.js:70
 msgid "Cost"
 msgstr "Coste"
 
-#: decks/static/js/deck-stats.js:71
+#: decks/static/js/deck-stats.js:70
 msgid "Hand"
 msgstr "Mano"
 
-#: decks/static/js/deck-stats.js:71
+#: decks/static/js/deck-stats.js:70
 msgid "Reserve"
 msgstr "Reserva"

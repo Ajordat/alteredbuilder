@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-27 16:06+0200\n"
+"POT-Creation-Date: 2024-05-28 23:57+0200\n"
 "PO-Revision-Date: 2024-05-22 18:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,15 +19,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 3.4.4\n"
 
-#: config/settings.py:235
+#: config/settings.py:236
 msgid "English"
 msgstr "Anglais"
 
-#: config/settings.py:236
+#: config/settings.py:237
 msgid "Spanish"
 msgstr "Espagnol"
 
-#: config/settings.py:237
+#: config/settings.py:238
 msgid "French"
 msgstr "Français"
 
@@ -111,6 +111,7 @@ msgid "Factions"
 msgstr "Factions"
 
 #: decks/templates/decks/card_list.html:44
+#: decks/templates/decks/card_list.html:75
 #: decks/templates/decks/deck_detail.html:136
 msgid "Rarity"
 msgstr "Rareté"
@@ -157,51 +158,83 @@ msgstr "Permanents"
 msgid "Spells"
 msgstr "Sorts"
 
-#: decks/templates/decks/card_list.html:82
+#: decks/templates/decks/card_list.html:71
+msgid "Sort by"
+msgstr "Trier par"
+
+#: decks/templates/decks/card_list.html:72
+msgid "Default"
+msgstr "Par défaut"
+
+#: decks/templates/decks/card_list.html:73
+msgid "Name A-Z"
+msgstr "Nom A-Z"
+
+#: decks/templates/decks/card_list.html:74
+msgid "Name Z-A"
+msgstr "Nom Z-A"
+
+#: decks/templates/decks/card_list.html:76
+msgid "Mana ASC"
+msgstr "Mana ASC"
+
+#: decks/templates/decks/card_list.html:77
+msgid "Mana DESC"
+msgstr "Mana DESC"
+
+#: decks/templates/decks/card_list.html:78
+msgid "Reserve ASC"
+msgstr "Réserve ASC"
+
+#: decks/templates/decks/card_list.html:79
+msgid "Reserve DESC"
+msgstr "Réserve DESC"
+
+#: decks/templates/decks/card_list.html:98
 #: decks/templates/decks/deck_detail.html:48
 msgid "Options"
 msgstr "Options"
 
-#: decks/templates/decks/card_list.html:85
+#: decks/templates/decks/card_list.html:101
 msgid "Start a deck"
 msgstr "Commencer un deck"
 
-#: decks/templates/decks/card_list.html:87
+#: decks/templates/decks/card_list.html:103
 msgid "Add to a deck"
 msgstr "Ajouter à un deck"
 
-#: decks/templates/decks/card_list.html:88
+#: decks/templates/decks/card_list.html:104
 #: decks/templates/decks/deck_detail.html:91
 #: decks/templates/decks/snippets/card_table.html:24
 msgid "Go to details"
 msgstr "Voir les détails"
 
-#: decks/templates/decks/card_list.html:95
+#: decks/templates/decks/card_list.html:111
 msgid "No cards found with the current filter."
 msgstr "Aucune carte trouvée avec les filtres choisis."
 
-#: decks/templates/decks/card_list.html:107
+#: decks/templates/decks/card_list.html:123
 msgid "Add card to deck"
 msgstr "Ajouter la carte à un deck"
 
-#: decks/templates/decks/card_list.html:114
+#: decks/templates/decks/card_list.html:130
 msgid "Card"
 msgstr "Carte"
 
-#: decks/templates/decks/card_list.html:131
+#: decks/templates/decks/card_list.html:147
 msgid "Deck"
 msgstr "Deck"
 
-#: decks/templates/decks/card_list.html:140
+#: decks/templates/decks/card_list.html:156
 msgid "No decks found"
 msgstr "Aucun deck trouvé"
 
-#: decks/templates/decks/card_list.html:147
+#: decks/templates/decks/card_list.html:163
 #: decks/templates/decks/deck_detail.html:252
 msgid "Cancel"
 msgstr "Annuler"
 
-#: decks/templates/decks/card_list.html:148
+#: decks/templates/decks/card_list.html:164
 msgid "Add"
 msgstr "Ajouter"
 
@@ -477,23 +510,23 @@ msgstr "Voulez-vous que votre deck soit public ?"
 msgid "Import"
 msgstr "Importer"
 
-#: decks/views.py:220 decks/views.py:261
+#: decks/views.py:221 decks/views.py:262
 msgid "Deck not found"
 msgstr "Deck non trouvé"
 
-#: decks/views.py:224 decks/views.py:264
+#: decks/views.py:225 decks/views.py:265
 msgid "Card not found"
 msgstr "Carte non trouvée"
 
-#: decks/views.py:228
+#: decks/views.py:229
 msgid "Invalid payload"
 msgstr "Contenu invalide"
 
-#: decks/views.py:235 decks/views.py:238
+#: decks/views.py:236 decks/views.py:239
 msgid "Invalid request"
 msgstr "Requête invalide"
 
-#: decks/views.py:254
+#: decks/views.py:255
 msgid "Deck already has a hero"
 msgstr "Le deck a déjà un héros"
 
