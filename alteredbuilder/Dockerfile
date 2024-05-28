@@ -3,13 +3,13 @@ FROM python:3.12-alpine
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-RUN apk add gettext
+RUN apk add --no-cache gettext
 
 WORKDIR /code
 
 COPY requirements.txt .
 
-RUN python3 -m pip install -r requirements.txt
+RUN pip3 install -r requirements.txt --no-cache-dir
 
 COPY . .
 
