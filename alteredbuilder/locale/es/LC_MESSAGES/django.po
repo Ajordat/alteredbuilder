@@ -501,7 +501,7 @@ msgstr "Cartas"
 
 #: templates/base.html:45
 msgid "New deck"
-msgstr "Nuevo mazo"
+msgstr "Crear mazo"
 
 #: templates/base.html:76
 msgid "Profile"
