@@ -353,13 +353,15 @@ class CardListView(ListView):
 
         if order_param:
             if desc := "-" in order_param:
-                order_param = order_param[1:]
+                clean_order_param = order_param[1:]
+            else:
+                clean_order_param = order_param
 
-            if order_param in ["name", "rarity"]:
+            if clean_order_param in ["name", "rarity"]:
                 query_order = [order_param]
             
-            elif order_param in ["mana", "reserve"]:
-                if order_param == "mana":
+            elif clean_order_param in ["mana", "reserve"]:
+                if clean_order_param == "mana":
                     fields = "character__main_cost", "spell__main_cost", "permanent__main_cost"
                 else:
                     fields = "character__recall_cost", "spell__recall_cost", "permanent__recall_cost"
