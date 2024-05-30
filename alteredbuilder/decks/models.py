@@ -109,6 +109,8 @@ class Deck(models.Model):
     is_draft_legal = models.BooleanField(null=True)
     draft_legality_errors = models.JSONField(default=list, blank=True)
 
+    love_count = models.PositiveIntegerField(default=0)
+
     modified_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -119,4 +121,10 @@ class Deck(models.Model):
 class CardInDeck(models.Model):
     deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
-    quantity = models.SmallIntegerField(default=1)
+    quantity = models.PositiveSmallIntegerField(default=1)
+
+
+class LovePoint(models.Model):
+    deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)

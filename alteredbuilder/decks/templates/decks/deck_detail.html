@@ -27,6 +27,19 @@
             <i class="fa-regular fa-calendar"></i> <small>{{ object.modified_at|date:"SHORT_DATE_FORMAT" }}</small>
         </div>
         <div class="col">
+    {% if user.is_authenticated %}
+            <a role="button" href="{% url 'love-deck-id' pk=object.id %}" class="btn btn-sm {% if is_loved %}btn-danger{% else %}btn-outline-danger{% endif %}">
+                <i class="fa-solid fa-heart"></i> {{ object.love_count }}
+            </a>
+    {% else %}
+            <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'Login to share your love!' %}" data-bs-html="true">
+                <a role="button" href="#" class="btn btn-sm btn-outline-danger disabled">
+                    <i class="fa-solid fa-heart"></i> {{ object.love_count }}
+                </a>
+            </div>
+    {% endif %}
+        </div>
+        <div class="col">
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa-solid fa-share-nodes"></i> {% translate "Share" %}
@@ -55,7 +68,9 @@
         </div>
     {% endif %}
     </div>
-    <h3>{% translate "Decklist" %}</h3>
+    <div class="my-3">
+        <h3>{% translate "Decklist" %}</h3>
+    </div>
     <div class="row">
         <div class="col-3 mb-5">
     {% if object.hero %}

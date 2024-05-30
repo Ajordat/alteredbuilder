@@ -3,7 +3,7 @@ import json
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q
+from django.db.models import F, Q
 from django.db.models.functions import Coalesce
 from django.db.models.manager import Manager
 from django.db.models.query import QuerySet
@@ -17,7 +17,7 @@ from django.views.generic.list import ListView
 
 from .deck_utils import create_new_deck, get_deck_details
 from .game_modes import update_deck_legality
-from .models import Card, CardInDeck, Deck
+from .models import Card, CardInDeck, Deck, LovePoint
 from .forms import DecklistForm, DeckMetadataForm, UpdateDeckForm
 from .exceptions import MalformedDeckException
 
@@ -103,6 +103,10 @@ class DeckDetailView(DetailView):
                 "is_public": self.object.is_public,
             }
         )
+        if self.request.user.is_authenticated:
+            context["is_loved"] = LovePoint.objects.filter(deck=self.object, user=self.request.user)
+        else:
+            context["is_loved"] = False
 
         return context
 
@@ -171,6 +175,23 @@ def delete_deck(request: HttpRequest, pk: int) -> HttpResponse:
     except Deck.DoesNotExist:
         pass
     return redirect("own-deck")
+
+
+@login_required
+def love_deck(request: HttpRequest, pk: int) -> HttpResponse:
+    try:
+        deck = Deck.objects.get(pk=pk)
+        love_point = LovePoint.objects.get(deck=deck, user=request.user)
+        love_point.delete()
+        deck.love_count = F("love_count") - 1
+        deck.save(update_fields=["love_count"])
+    except LovePoint.DoesNotExist:
+        LovePoint.objects.create(deck=deck, user=request.user)
+        deck.love_count = F("love_count") + 1
+        deck.save(update_fields=["love_count"])
+    except Deck.DoesNotExist:
+        redirect("deck-list")
+    return redirect(reverse("deck-detail", kwargs={"pk": deck.id}))
 
 
 @login_required
