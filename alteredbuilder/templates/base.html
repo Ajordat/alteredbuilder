@@ -38,7 +38,7 @@
                         </li>
                         {% url 'own-deck' as item_url %}
                         <li class="nav-item {% if request.path == item_url or request.GET.next == item_url %}border border-bottom-0 border-2 rounded-top{% endif %}">
-                            <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-inbox"></i> {% translate "Own decks" %}</a>
+                            <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-inbox"></i> {% translate "My decks" %}</a>
                         </li>
                         {% url 'new-deck' as item_url %}
                         <li class="nav-item {% if request.path == item_url or request.GET.next == item_url %}border border-bottom-0 border-2 rounded-top{% endif %}">
