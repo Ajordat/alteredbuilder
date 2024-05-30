@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-30 15:34+0200\n"
+"POT-Creation-Date: 2024-05-30 16:21+0200\n"
 "PO-Revision-Date: 2024-05-22 18:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -418,24 +418,23 @@ msgid "Public decks"
 msgstr "Decks publics"
 
 #: decks/templates/decks/deck_list.html:20
-#: decks/templates/decks/deck_list.html:62
 msgid "Owner"
 msgstr "Propriétaire"
 
 #: decks/templates/decks/deck_list.html:26
-#: decks/templates/decks/deck_list.html:69
+#: decks/templates/decks/deck_list.html:68
 #: decks/templates/decks/own_deck_list.html:24
 msgid "Legality"
 msgstr "Légalité"
 
 #: decks/templates/decks/deck_list.html:29
-#: decks/templates/decks/deck_list.html:73
+#: decks/templates/decks/deck_list.html:72
 #: decks/templates/decks/own_deck_list.html:28
 msgid "Last updated"
 msgstr "Dernière mise à jour"
 
 #: decks/templates/decks/deck_list.html:49
-#: decks/templates/decks/deck_list.html:94
+#: decks/templates/decks/deck_list.html:92
 #: decks/templates/decks/own_deck_list.html:43
 #, python-format
 msgid "%(time_since)s ago"
@@ -443,16 +442,16 @@ msgstr "Il y a %(time_since)s"
 
 #: decks/templates/decks/deck_list.html:58
 #: decks/templates/decks/own_deck_list.html:6
-#: decks/templates/decks/own_deck_list.html:15
-msgid "Own decks"
+#: decks/templates/decks/own_deck_list.html:15 templates/base.html:41
+msgid "My decks"
 msgstr "Mes decks"
 
-#: decks/templates/decks/deck_list.html:72
+#: decks/templates/decks/deck_list.html:71
 #: decks/templates/decks/own_deck_list.html:27
 msgid "Is it public?"
 msgstr "Est-il public ?"
 
-#: decks/templates/decks/deck_list.html:100
+#: decks/templates/decks/deck_list.html:98
 msgid "See full list"
 msgstr "Voir la liste complète"
 
@@ -555,10 +554,6 @@ msgstr "Le deck a déjà un héros"
 msgid "Cards"
 msgstr "Cartes"
 
-#: templates/base.html:41
-msgid "My decks"
-msgstr "Mes decks"
-
 #: templates/base.html:45
 msgid "New deck"
 msgstr "Nouveau deck"
@@ -626,6 +621,9 @@ msgid ""
 msgstr ""
 "Il semble que le serveur a rencontré un problème en essayant de traiter "
 "votre requête. Réessayez plus tard."
+
+#~ msgid "Own decks"
+#~ msgstr "Mes decks"
 
 #~ msgid "Heroes"
 #~ msgstr "Héros"

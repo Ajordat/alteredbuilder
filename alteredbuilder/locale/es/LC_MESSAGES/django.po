@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-30 15:34+0200\n"
+"POT-Creation-Date: 2024-05-30 16:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -417,24 +417,23 @@ msgid "Public decks"
 msgstr "Mazos públicos"
 
 #: decks/templates/decks/deck_list.html:20
-#: decks/templates/decks/deck_list.html:62
 msgid "Owner"
 msgstr "Creador"
 
 #: decks/templates/decks/deck_list.html:26
-#: decks/templates/decks/deck_list.html:69
+#: decks/templates/decks/deck_list.html:68
 #: decks/templates/decks/own_deck_list.html:24
 msgid "Legality"
 msgstr "Legalidad"
 
 #: decks/templates/decks/deck_list.html:29
-#: decks/templates/decks/deck_list.html:73
+#: decks/templates/decks/deck_list.html:72
 #: decks/templates/decks/own_deck_list.html:28
 msgid "Last updated"
 msgstr "Última actualización"
 
 #: decks/templates/decks/deck_list.html:49
-#: decks/templates/decks/deck_list.html:94
+#: decks/templates/decks/deck_list.html:92
 #: decks/templates/decks/own_deck_list.html:43
 #, python-format
 msgid "%(time_since)s ago"
@@ -442,16 +441,16 @@ msgstr "Hace %(time_since)s"
 
 #: decks/templates/decks/deck_list.html:58
 #: decks/templates/decks/own_deck_list.html:6
-#: decks/templates/decks/own_deck_list.html:15
-msgid "Own decks"
+#: decks/templates/decks/own_deck_list.html:15 templates/base.html:41
+msgid "My decks"
 msgstr "Mis mazos"
 
-#: decks/templates/decks/deck_list.html:72
+#: decks/templates/decks/deck_list.html:71
 #: decks/templates/decks/own_deck_list.html:27
 msgid "Is it public?"
 msgstr "¿Es público?"
 
-#: decks/templates/decks/deck_list.html:100
+#: decks/templates/decks/deck_list.html:98
 msgid "See full list"
 msgstr "Ver la lista entera"
 
@@ -553,10 +552,6 @@ msgstr "El mazo ya tiene un héroe"
 msgid "Cards"
 msgstr "Cartas"
 
-#: templates/base.html:41
-msgid "My decks"
-msgstr "Mis mazos"
-
 #: templates/base.html:45
 msgid "New deck"
 msgstr "Crear mazo"
@@ -622,6 +617,9 @@ msgid ""
 msgstr ""
 "Parece que ha habido un problema en el servidor al procesar tu petición. "
 "Inténtalo de nuevo más tarde."
+
+#~ msgid "Own decks"
+#~ msgstr "Mis mazos"
 
 #~ msgid "Heroes"
 #~ msgstr "Héroes"

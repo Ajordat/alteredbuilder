@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-30 15:34+0200\n"
+"POT-Creation-Date: 2024-05-30 16:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -415,24 +415,23 @@ msgid "Public decks"
 msgstr ""
 
 #: decks/templates/decks/deck_list.html:20
-#: decks/templates/decks/deck_list.html:62
 msgid "Owner"
 msgstr ""
 
 #: decks/templates/decks/deck_list.html:26
-#: decks/templates/decks/deck_list.html:69
+#: decks/templates/decks/deck_list.html:68
 #: decks/templates/decks/own_deck_list.html:24
 msgid "Legality"
 msgstr ""
 
 #: decks/templates/decks/deck_list.html:29
-#: decks/templates/decks/deck_list.html:73
+#: decks/templates/decks/deck_list.html:72
 #: decks/templates/decks/own_deck_list.html:28
 msgid "Last updated"
 msgstr ""
 
 #: decks/templates/decks/deck_list.html:49
-#: decks/templates/decks/deck_list.html:94
+#: decks/templates/decks/deck_list.html:92
 #: decks/templates/decks/own_deck_list.html:43
 #, python-format
 msgid "%(time_since)s ago"
@@ -440,16 +439,16 @@ msgstr ""
 
 #: decks/templates/decks/deck_list.html:58
 #: decks/templates/decks/own_deck_list.html:6
-#: decks/templates/decks/own_deck_list.html:15
-msgid "Own decks"
+#: decks/templates/decks/own_deck_list.html:15 templates/base.html:41
+msgid "My decks"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:72
+#: decks/templates/decks/deck_list.html:71
 #: decks/templates/decks/own_deck_list.html:27
 msgid "Is it public?"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:100
+#: decks/templates/decks/deck_list.html:98
 msgid "See full list"
 msgstr ""
 
@@ -547,10 +546,6 @@ msgstr ""
 
 #: templates/base.html:37
 msgid "Cards"
-msgstr ""
-
-#: templates/base.html:41
-msgid "My decks"
 msgstr ""
 
 #: templates/base.html:45
