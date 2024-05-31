@@ -38,6 +38,33 @@ class DeckListView(ListView):
     )
     paginate_by = 24
 
+    def get_queryset(self) -> QuerySet[Any]:
+        qs = super().get_queryset()
+        filters = Q()
+
+        query = self.request.GET.get("query")
+        if query:
+            filters &= Q(name__icontains=query)
+
+        factions = self.request.GET.get("faction")
+        if factions:
+            try:
+                factions = [Card.Faction(faction) for faction in factions.split(",")]
+            except ValueError:
+                pass
+            else:
+                filters &= Q(hero__faction__in=factions)
+
+        legality = self.request.GET.get("legality")
+        if legality:
+            legality = legality.split(",")
+            if "standard" in legality:
+                filters &= Q(is_standard_legal=True)
+            elif "draft" in legality:
+                filters &= Q(is_draft_legal=True)
+
+        return qs.filter(filters)
+
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         """If the user is authenticated, add their decks to the context.
 
@@ -51,6 +78,15 @@ class DeckListView(ListView):
                 .select_related("hero")
                 .order_by("-modified_at")[:10]
             )
+
+        checked_filters = []
+        for filter in ["faction", "legality"]:
+            if filter in self.request.GET:
+                checked_filters += self.request.GET[filter].split(",")
+        context["checked_filters"] = checked_filters
+        if "query" in self.request.GET:
+            context["query"] = self.request.GET.get("query")
+
         return context
 
 
