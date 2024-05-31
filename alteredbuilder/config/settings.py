@@ -21,6 +21,8 @@ from django.utils.translation import gettext_lazy as _
 import google.auth
 from google.cloud import secretmanager
 
+from config import __version__
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -146,6 +148,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "config.context_processors.add_version",
             ],
         },
     },

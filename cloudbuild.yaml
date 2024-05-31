@@ -75,6 +75,7 @@ steps:
         '--service-account', '${_CLOUD_RUN_SA}',
         '--cpu', '1000m',
         '--memory', '256Mi',
+        '--update-env-vars', 'COMMIT_ID=${SHORT_SHA}'
       ]
 
 images:
