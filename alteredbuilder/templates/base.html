@@ -20,31 +20,33 @@
 {% endblock %}
     </head>
     <body class="d-flex flex-column min-vh-100">
-        <nav class="navbar navbar-expand-md bg-info-subtle sticky-top">
+        <nav class="navbar navbar-expand-md bg-info-subtle sticky-top pb-0">
             <div class="container-fluid">
                 <a class="navbar-brand text-info-emphasis" href="{% url 'index' %}">Altered TCG Builder</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
+{% with tab_selected_class="border border-bottom-0 border-2 rounded-top bg-white" %}
                     <ul id="navbar-traversal" class="navbar-nav me-auto">
                         {% url 'deck-list' as item_url %}
-                        <li class="nav-item {% if request.path == item_url %}border border-bottom-0 border-2 rounded-top{% endif %}">
+                        <li class="nav-item {% if request.path == item_url %}{{ tab_selected_class }}{% endif %}">
                             <a class="nav-link active text-info-emphasis" aria-current="page" href="{{ item_url }}"><i class="fa-solid fa-house"></i> {% translate "Home" %}</a>
                         </li>
                         {% url 'cards' as item_url %}
-                        <li class="nav-item {% if request.path == item_url %}border border-bottom-0 border-2 rounded-top{% endif %}">
+                        <li class="nav-item {% if request.path == item_url %}{{ tab_selected_class }}{% endif %}">
                             <a class="nav-link active text-info-emphasis" aria-current="page" href="{{ item_url }}"><i class="fa-solid fa-puzzle-piece"></i> {% translate "Cards" %}</a>
                         </li>
                         {% url 'own-deck' as item_url %}
-                        <li class="nav-item {% if request.path == item_url or request.GET.next == item_url %}border border-bottom-0 border-2 rounded-top{% endif %}">
+                        <li class="nav-item {% if request.path == item_url or request.GET.next == item_url %}{{ tab_selected_class }}{% endif %}">
                             <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-inbox"></i> {% translate "My decks" %}</a>
                         </li>
                         {% url 'new-deck' as item_url %}
-                        <li class="nav-item {% if request.path == item_url or request.GET.next == item_url %}border border-bottom-0 border-2 rounded-top{% endif %}">
+                        <li class="nav-item {% if request.path == item_url or request.GET.next == item_url %}{{ tab_selected_class }}{% endif %}">
                             <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-cart-plus"></i> {% translate "New deck" %}</a>
                         </li>
                     </ul>
+{% endwith %}
                     <ul class="navbar-nav">
     
 {% get_current_language as CURRENT_LANGUAGE %}
