@@ -31,3 +31,7 @@
 .tooltip-inner {
     max-width: 300px;
 }
+
+.tooltip.show {
+    opacity: 1;
+} 

@@ -83,7 +83,7 @@
                     <td>{{ deck.name }}</td>
             {% if deck.hero %}
                     <td>{{ deck.hero.get_faction_display.title }}</td>
-                    <td data-bs-toggle="tooltip" data-bs-title="<img src='{{ deck.hero.image_url }}'/>" data-bs-html="true" data-bs-placement="right">{{ deck.hero.name }}</td>
+                    <td><span class="d-inline-block" data-bs-toggle="tooltip" data-bs-title="<img src='{{ deck.hero.image_url }}'/>" data-bs-html="true" data-bs-placement="right">{{ deck.hero.name }}</span></td>
             {% else %}
                     <td>-</td><td>-</td>
             {% endif %}
