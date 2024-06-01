@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-30 16:21+0200\n"
+"POT-Creation-Date: 2024-06-02 00:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: config/settings.py:236
+#: config/settings.py:239
 msgid "English"
 msgstr ""
 
-#: config/settings.py:237
+#: config/settings.py:240
 msgid "Spanish"
 msgstr ""
 
-#: config/settings.py:238
+#: config/settings.py:241
 msgid "French"
 msgstr ""
 
@@ -96,14 +96,18 @@ msgstr ""
 
 #: decks/templates/decks/card_list.html:20
 #: decks/templates/decks/card_list.html:59
+#: decks/templates/decks/deck_list.html:19
+#: decks/templates/decks/deck_list.html:57
 msgid "Search"
 msgstr ""
 
 #: decks/templates/decks/card_list.html:27
+#: decks/templates/decks/deck_list.html:26
 msgid "Filters"
 msgstr ""
 
 #: decks/templates/decks/card_list.html:35
+#: decks/templates/decks/deck_list.html:34
 msgid "Factions"
 msgstr ""
 
@@ -140,9 +144,9 @@ msgstr ""
 
 #: decks/templates/decks/card_list.html:52
 #: decks/templates/decks/deck_detail.html:89
-#: decks/templates/decks/deck_list.html:23
-#: decks/templates/decks/deck_list.html:65
-#: decks/templates/decks/own_deck_list.html:21
+#: decks/templates/decks/deck_list.html:73
+#: decks/templates/decks/deck_list.html:117
+#: decks/templates/decks/own_deck_list.html:22
 msgid "Hero"
 msgstr ""
 
@@ -284,9 +288,9 @@ msgid "Decklist"
 msgstr ""
 
 #: decks/templates/decks/deck_detail.html:93
-#: decks/templates/decks/deck_list.html:21
-#: decks/templates/decks/deck_list.html:63
-#: decks/templates/decks/own_deck_list.html:19
+#: decks/templates/decks/deck_list.html:71
+#: decks/templates/decks/deck_list.html:115
+#: decks/templates/decks/own_deck_list.html:20
 #: decks/templates/decks/snippets/card_table.html:9
 #: decks/templates/forms/submit_deck_metadata.html:7
 #: decks/templates/forms/submit_decklist.html:5
@@ -294,9 +298,9 @@ msgid "Name"
 msgstr ""
 
 #: decks/templates/decks/deck_detail.html:94
-#: decks/templates/decks/deck_list.html:22
-#: decks/templates/decks/deck_list.html:64
-#: decks/templates/decks/own_deck_list.html:20
+#: decks/templates/decks/deck_list.html:72
+#: decks/templates/decks/deck_list.html:116
+#: decks/templates/decks/own_deck_list.html:21
 msgid "Faction"
 msgstr ""
 
@@ -406,49 +410,70 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:6 templates/base.html:33
+#: decks/templates/decks/deck_list.html:6 templates/base.html:34
 msgid "Home"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:15
+#: decks/templates/decks/deck_list.html:14
 msgid "Public decks"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:20
-msgid "Owner"
+#: decks/templates/decks/deck_list.html:18
+msgid "Search by deck or hero name"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:26
-#: decks/templates/decks/deck_list.html:68
-#: decks/templates/decks/own_deck_list.html:24
+#: decks/templates/decks/deck_list.html:43
+#: decks/templates/decks/deck_list.html:76
+#: decks/templates/decks/deck_list.html:120
+#: decks/templates/decks/own_deck_list.html:25
 msgid "Legality"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:29
-#: decks/templates/decks/deck_list.html:72
-#: decks/templates/decks/own_deck_list.html:28
+#: decks/templates/decks/deck_list.html:44
+msgid "Standard"
+msgstr ""
+
+#: decks/templates/decks/deck_list.html:45
+msgid "Draft"
+msgstr ""
+
+#: decks/templates/decks/deck_list.html:48
+msgid "Other"
+msgstr ""
+
+#: decks/templates/decks/deck_list.html:70
+msgid "Owner"
+msgstr ""
+
+#: decks/templates/decks/deck_list.html:79
+#: decks/templates/decks/deck_list.html:124
+#: decks/templates/decks/own_deck_list.html:29
 msgid "Last updated"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:49
-#: decks/templates/decks/deck_list.html:92
-#: decks/templates/decks/own_deck_list.html:43
+#: decks/templates/decks/deck_list.html:99
+#: decks/templates/decks/deck_list.html:144
+#: decks/templates/decks/own_deck_list.html:49
 #, python-format
 msgid "%(time_since)s ago"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:58
+#: decks/templates/decks/deck_list.html:102
+msgid "No decks were found with the current filters"
+msgstr ""
+
+#: decks/templates/decks/deck_list.html:110
 #: decks/templates/decks/own_deck_list.html:6
-#: decks/templates/decks/own_deck_list.html:15 templates/base.html:41
+#: decks/templates/decks/own_deck_list.html:15 templates/base.html:42
 msgid "My decks"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:71
-#: decks/templates/decks/own_deck_list.html:27
+#: decks/templates/decks/deck_list.html:123
+#: decks/templates/decks/own_deck_list.html:28
 msgid "Is it public?"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:98
+#: decks/templates/decks/deck_list.html:150
 msgid "See full list"
 msgstr ""
 
@@ -456,7 +481,7 @@ msgstr ""
 msgid "New Deck"
 msgstr ""
 
-#: decks/templates/decks/own_deck_list.html:46
+#: decks/templates/decks/own_deck_list.html:52
 msgid "No decks created yet"
 msgstr ""
 
@@ -524,75 +549,75 @@ msgstr ""
 msgid "Import"
 msgstr ""
 
-#: decks/views.py:242 decks/views.py:283
+#: decks/views.py:284 decks/views.py:325
 msgid "Deck not found"
 msgstr ""
 
-#: decks/views.py:246 decks/views.py:286
+#: decks/views.py:288 decks/views.py:328
 msgid "Card not found"
 msgstr ""
 
-#: decks/views.py:250
+#: decks/views.py:292
 msgid "Invalid payload"
 msgstr ""
 
-#: decks/views.py:257 decks/views.py:260
+#: decks/views.py:299 decks/views.py:302
 msgid "Invalid request"
 msgstr ""
 
-#: decks/views.py:276
+#: decks/views.py:318
 msgid "Deck already has a hero"
 msgstr ""
 
-#: templates/base.html:37
+#: templates/base.html:38
 msgid "Cards"
 msgstr ""
 
-#: templates/base.html:45
+#: templates/base.html:46
 msgid "New deck"
 msgstr ""
 
-#: templates/base.html:76
+#: templates/base.html:78
 msgid "Profile"
 msgstr ""
 
-#: templates/base.html:77
+#: templates/base.html:79
 msgid "Update email"
 msgstr ""
 
-#: templates/base.html:78
+#: templates/base.html:80
 msgid "Update password"
 msgstr ""
 
-#: templates/base.html:80
+#: templates/base.html:82
 msgid "Logout"
 msgstr ""
 
-#: templates/base.html:85
+#: templates/base.html:87
 msgid "Login"
 msgstr ""
 
-#: templates/base.html:100
+#: templates/base.html:102
 msgid "Links"
 msgstr ""
 
-#: templates/base.html:103
+#: templates/base.html:105
 msgid "About the project"
 msgstr ""
 
-#: templates/base.html:106
+#: templates/base.html:108
 msgid "About the author"
 msgstr ""
 
-#: templates/base.html:109
+#: templates/base.html:111
 msgid "Privacy policy"
 msgstr ""
 
-#: templates/base.html:112
+#: templates/base.html:114
 msgid "Terms and conditions"
 msgstr ""
 
-#: templates/base.html:117
+#: templates/base.html:119
 msgid "Get in touch"
 msgstr ""
 

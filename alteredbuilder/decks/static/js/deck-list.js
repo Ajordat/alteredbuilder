@@ -33,6 +33,11 @@ function searchCards(e) {
         filters.push("legality=" + rarities.join(","));
     }
 
+    let other = parseFilter(["Loved"]);
+    if (other.length > 0) {
+        filters.push("other=" + other.join(","));
+    }
+
     let queryElement = document.getElementById("querySearch");
     if (queryElement.value != "") {
         filters.push("query=" + queryElement.value);

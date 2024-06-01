@@ -44,7 +44,7 @@ class DeckListView(ListView):
 
         query = self.request.GET.get("query")
         if query:
-            filters &= Q(name__icontains=query)
+            filters &= Q(name__icontains=query) | Q(hero__name__icontains=query)
 
         factions = self.request.GET.get("faction")
         if factions:
@@ -63,6 +63,12 @@ class DeckListView(ListView):
             elif "draft" in legality:
                 filters &= Q(is_draft_legal=True)
 
+        other = self.request.GET.get("other")
+        if other:
+            if "loved" in other.split(","):
+                lp = LovePoint.objects.filter(user=self.request.user)
+                filters &= Q(id__in=lp.values_list("deck_id", flat=True))
+
         return qs.filter(filters)
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
@@ -80,7 +86,7 @@ class DeckListView(ListView):
             )
 
         checked_filters = []
-        for filter in ["faction", "legality"]:
+        for filter in ["faction", "legality", "other"]:
             if filter in self.request.GET:
                 checked_filters += self.request.GET[filter].split(",")
         context["checked_filters"] = checked_filters

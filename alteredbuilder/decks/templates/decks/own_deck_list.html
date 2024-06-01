@@ -49,7 +49,7 @@
                     <td>{% blocktranslate with time_since=deck.modified_at|timesince %}{{ time_since }} ago{% endblocktranslate %}</td>
                 </tr>
     {% empty %}
-                <tr class="text-center"><td colspan="6">{% translate "No decks created yet" %}</td></tr>
+                <tr class="text-center"><td colspan="7">{% translate "No decks created yet" %}</td></tr>
     {% endfor %}
             </tbody>
         </table>
