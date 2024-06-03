@@ -231,7 +231,7 @@ def delete_deck(request: HttpRequest, pk: int) -> HttpResponse:
 @login_required
 def love_deck(request: HttpRequest, pk: int) -> HttpResponse:
     try:
-        deck = Deck.objects.get(pk=pk)
+        deck = Deck.objects.filter(Q(is_public=True) | Q(owner=request.user)).get(pk=pk)
         love_point = LovePoint.objects.get(deck=deck, user=request.user)
         love_point.delete()
         deck.love_count = F("love_count") - 1
@@ -241,7 +241,7 @@ def love_deck(request: HttpRequest, pk: int) -> HttpResponse:
         deck.love_count = F("love_count") + 1
         deck.save(update_fields=["love_count"])
     except Deck.DoesNotExist:
-        redirect("deck-list")
+        return redirect("deck-list")
     return redirect(reverse("deck-detail", kwargs={"pk": deck.id}))
 
 
