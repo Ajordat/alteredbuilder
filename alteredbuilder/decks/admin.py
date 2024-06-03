@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import CardInDeck, Character, Deck, Hero, Permanent, Spell
+from .models import CardInDeck, Character, Deck, Hero, LovePoint, Permanent, Spell
 
 
 # Register your models here.
@@ -19,3 +19,8 @@ class CardAdmin(admin.ModelAdmin):
 @admin.register(CardInDeck)
 class CardInDeckAdmin(admin.ModelAdmin):
     list_display = ["deck", "card"]
+
+
+@admin.register(LovePoint)
+class LovePointAdmin(admin.ModelAdmin):
+    list_display = ["user", "deck", "created_at"]

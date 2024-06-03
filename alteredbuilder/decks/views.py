@@ -318,7 +318,9 @@ class UpdateDeckFormView(LoginRequiredMixin, FormView):
 
     def form_valid(self, form: UpdateDeckForm) -> HttpResponse:
         try:
-            deck = Deck.objects.get(pk=form.cleaned_data["deck_id"], owner=self.request.user)
+            deck = Deck.objects.get(
+                pk=form.cleaned_data["deck_id"], owner=self.request.user
+            )
             card = Card.objects.get(reference=form.cleaned_data["card_reference"])
             if card.type == Card.Type.HERO:
                 if not deck.hero:
