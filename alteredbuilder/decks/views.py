@@ -3,6 +3,7 @@ import json
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.db.models import F, Q
 from django.db.models.functions import Coalesce
 from django.db.models.manager import Manager
@@ -241,7 +242,7 @@ def love_deck(request: HttpRequest, pk: int) -> HttpResponse:
         deck.love_count = F("love_count") + 1
         deck.save(update_fields=["love_count"])
     except Deck.DoesNotExist:
-        return redirect("deck-list")
+        raise PermissionDenied
     return redirect(reverse("deck-detail", kwargs={"pk": deck.id}))
 
 
@@ -363,9 +364,7 @@ class UpdateDeckMetadataFormView(LoginRequiredMixin, FormView):
             deck.is_public = form.cleaned_data["is_public"]
             deck.save()
         except Deck.DoesNotExist:
-            # form.add_error(None, "Invalid permissions")
-            # return self.form_invalid(form)
-            pass
+            raise PermissionDenied
 
         return super().form_valid(form)
 
