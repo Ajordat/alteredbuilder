@@ -46,6 +46,6 @@ class DeckMetadataForm(forms.Form):
 
 class UpdateDeckForm(forms.Form):
     template_name = ""
-    card_reference = forms.CharField(max_length=24)
+    card_reference = forms.CharField(max_length=32)
     quantity = forms.IntegerField()
     deck_id = forms.IntegerField()
