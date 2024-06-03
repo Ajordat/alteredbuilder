@@ -69,7 +69,7 @@ class DeckListView(ListView):
                 lp = LovePoint.objects.filter(user=self.request.user)
                 filters &= Q(id__in=lp.values_list("deck_id", flat=True))
 
-        return qs.filter(filters)
+        return qs.filter(filters).defer("description", "cards", "standard_legality_errors", "draft_legality_errors")
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         """If the user is authenticated, add their decks to the context.
@@ -82,6 +82,7 @@ class DeckListView(ListView):
             context["own_decks"] = (
                 Deck.objects.filter(owner=self.request.user)
                 .select_related("hero")
+                .defer("description", "cards", "standard_legality_errors", "draft_legality_errors")
                 .order_by("-modified_at")[:10]
             )
 
@@ -108,6 +109,7 @@ class OwnDeckListView(LoginRequiredMixin, ListView):
         return (
             qs.filter(owner=self.request.user)
             .select_related("hero")
+            .defer("description", "cards", "standard_legality_errors", "draft_legality_errors")
             .order_by("-modified_at")
         )
 
@@ -146,9 +148,7 @@ class DeckDetailView(DetailView):
             }
         )
         if self.request.user.is_authenticated:
-            context["is_loved"] = LovePoint.objects.filter(deck=self.object, user=self.request.user)
-        else:
-            context["is_loved"] = False
+            context["is_loved"] = LovePoint.objects.filter(deck=self.object, user=self.request.user).exists()
 
         return context
 
@@ -211,9 +211,8 @@ class NewDeckFormView(LoginRequiredMixin, FormView):
 @login_required
 def delete_deck(request: HttpRequest, pk: int) -> HttpResponse:
     try:
-        deck = Deck.objects.get(pk=pk)
-        if deck.owner == request.user:
-            deck.delete()
+        deck = Deck.objects.get(pk=pk, owner=request.user)
+        deck.delete()
     except Deck.DoesNotExist:
         pass
     return redirect("own-deck")

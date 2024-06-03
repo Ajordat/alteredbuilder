@@ -116,6 +116,12 @@ class Deck(models.Model):
 
     def __str__(self) -> str:
         return f"{self.owner.username} - {self.name}"
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=["-modified_at"]),
+            models.Index(fields=["is_public"])
+        ]
 
 
 class CardInDeck(models.Model):
