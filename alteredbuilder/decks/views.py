@@ -328,7 +328,7 @@ class UpdateDeckFormView(LoginRequiredMixin, FormView):
                     return super().form_valid(form)
             else:
                 cid = CardInDeck.objects.get(deck=deck, card=card)
-                cid.quantity += form.cleaned_data["quantity"]
+                cid.quantity = F("quantity") + form.cleaned_data["quantity"]
                 cid.save()
         except Deck.DoesNotExist:
             form.add_error("deck_id", _("Deck not found"))
