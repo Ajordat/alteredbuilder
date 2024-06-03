@@ -423,7 +423,7 @@ msgstr "Decks publics"
 
 #: decks/templates/decks/deck_list.html:18
 msgid "Search by deck or hero name"
-msgstr "Rechercher par nom de deck ou de héros"
+msgstr "Rechercher par deck ou heros"
 
 #: decks/templates/decks/deck_list.html:43
 #: decks/templates/decks/deck_list.html:76

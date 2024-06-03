@@ -422,7 +422,7 @@ msgstr "Mazos públicos"
 
 #: decks/templates/decks/deck_list.html:18
 msgid "Search by deck or hero name"
-msgstr "Buscar con el nombre del mazo o del héroe"
+msgstr "Buscar por nombre de mazo o héroe"
 
 #: decks/templates/decks/deck_list.html:43
 #: decks/templates/decks/deck_list.html:76
