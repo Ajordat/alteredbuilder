@@ -224,11 +224,7 @@ class NewDeckFormView(LoginRequiredMixin, FormView):
 
 @login_required
 def delete_deck(request: HttpRequest, pk: int) -> HttpResponse:
-    try:
-        deck = Deck.objects.get(pk=pk, owner=request.user)
-        deck.delete()
-    except Deck.DoesNotExist:
-        pass
+    Deck.objects.filter(pk=pk, owner=request.user).delete()
     return redirect("own-deck")
 
 
