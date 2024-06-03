@@ -5,6 +5,7 @@ from .models import CardInDeck, Character, Deck, Hero, Permanent, Spell
 
 # Register your models here.
 
+
 @admin.register(Deck)
 class DeckAdmin(admin.ModelAdmin):
     list_display = ["owner", "name", "is_public", "modified_at"]
