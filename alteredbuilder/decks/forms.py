@@ -4,6 +4,8 @@ from django import forms
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
 
+from .models import Card, Deck
+
 # Form definitions
 
 # Regex to validate whether at least one line follows the correct format
@@ -14,14 +16,14 @@ class DecklistForm(forms.Form):
     """Form to validate the creation of a Deck."""
 
     template_name = "forms/submit_decklist.html"
-    name = forms.CharField(label="deck-name", max_length=50, required=True)
+    name = forms.CharField(label="deck-name", max_length=Deck._meta.get_field("name").max_length, required=True)
     description = forms.CharField(
-        label=_("description"), widget=forms.Textarea, max_length=1000, required=False
+        label=_("description"), widget=forms.Textarea, max_length=Deck._meta.get_field("description").max_length, required=False
     )
     decklist = forms.CharField(
         label=_("decklist"),
         widget=forms.Textarea,
-        max_length=1000,
+        max_length=2000,
         required=True,
         validators=[decklist_validator],
         error_messages={
@@ -37,15 +39,15 @@ class DeckMetadataForm(forms.Form):
     """Form to validate the update of a Deck's metadata."""
 
     template_name = "forms/submit_deck_metadata.html"
-    name = forms.CharField(label="deck-name", max_length=50, required=True)
+    name = forms.CharField(label="deck-name", max_length=Deck._meta.get_field("name").max_length, required=True)
     description = forms.CharField(
-        label=_("description"), widget=forms.Textarea, max_length=1000, required=False
+        label=_("description"), widget=forms.Textarea, max_length=Deck._meta.get_field("description").max_length, required=False
     )
     is_public = forms.BooleanField(required=False)
 
 
 class UpdateDeckForm(forms.Form):
     template_name = ""
-    card_reference = forms.CharField(max_length=32)
+    card_reference = forms.CharField(max_length=Card._meta.get_field("reference").max_length)
     quantity = forms.IntegerField()
     deck_id = forms.IntegerField()
