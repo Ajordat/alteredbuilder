@@ -3,7 +3,7 @@ from django.test import TestCase
 
 from decks.game_modes import GameMode, update_deck_legality
 from decks.models import Card, CardInDeck, Deck
-from .utils import generate_card
+from .utils import create_cid, generate_card
 
 
 class GameModesTestCase(TestCase):
@@ -28,75 +28,14 @@ class GameModesTestCase(TestCase):
             GameMode.ErrorCode.ERR_NOT_ENOUGH_CARD_COUNT, deck.draft_legality_errors
         )
 
-        CardInDeck.objects.create(
-            deck=deck,
-            quantity=3,
-            card=generate_card(
-                Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.RARE
-            ),
+        create_cid(
+            5, deck, 3, Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.RARE
         )
-        CardInDeck.objects.create(
-            deck=deck,
-            quantity=3,
-            card=generate_card(
-                Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.RARE
-            ),
+        create_cid(
+            1, deck, 3, Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.UNIQUE
         )
-        CardInDeck.objects.create(
-            deck=deck,
-            quantity=3,
-            card=generate_card(
-                Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.RARE
-            ),
-        )
-        CardInDeck.objects.create(
-            deck=deck,
-            quantity=3,
-            card=generate_card(
-                Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.RARE
-            ),
-        )
-        CardInDeck.objects.create(
-            deck=deck,
-            quantity=3,
-            card=generate_card(
-                Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.RARE
-            ),
-        )
-        CardInDeck.objects.create(
-            deck=deck,
-            quantity=3,
-            card=generate_card(
-                Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.UNIQUE
-            ),
-        )
-        CardInDeck.objects.create(
-            deck=deck,
-            quantity=3,
-            card=generate_card(
-                Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.COMMON
-            ),
-        )
-        CardInDeck.objects.create(
-            deck=deck,
-            quantity=3,
-            card=generate_card(
-                Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.COMMON
-            ),
-        )
-        CardInDeck.objects.create(
-            deck=deck,
-            quantity=3,
-            card=generate_card(
-                Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.COMMON
-            ),
-        )
-        CardInDeck.objects.create(
-            deck=deck,
-            quantity=3,
-            card=generate_card(
-                Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.COMMON
-            ),
+        create_cid(
+            4, deck, 3, Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.COMMON
         )
 
         update_deck_legality(deck)
@@ -108,26 +47,8 @@ class GameModesTestCase(TestCase):
         self.assertTrue(deck.is_draft_legal)
         self.assertListEqual(deck.draft_legality_errors, [])
 
-        CardInDeck.objects.create(
-            deck=deck,
-            quantity=3,
-            card=generate_card(
-                Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.COMMON
-            ),
-        )
-        CardInDeck.objects.create(
-            deck=deck,
-            quantity=3,
-            card=generate_card(
-                Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.COMMON
-            ),
-        )
-        CardInDeck.objects.create(
-            deck=deck,
-            quantity=3,
-            card=generate_card(
-                Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.COMMON
-            ),
+        create_cid(
+            3, deck, 3, Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.COMMON
         )
 
         update_deck_legality(deck)
@@ -140,12 +61,8 @@ class GameModesTestCase(TestCase):
     def test_deck_faction_count(self):
         hero = generate_card(Card.Faction.AXIOM, Card.Type.HERO, Card.Rarity.COMMON)
         deck = Deck.objects.create(owner=self.user, name="deck_name", hero=hero)
-        CardInDeck.objects.create(
-            deck=deck,
-            quantity=3,
-            card=generate_card(
-                Card.Faction.LYRA, Card.Type.CHARACTER, Card.Rarity.COMMON
-            ),
+        create_cid(
+            1, deck, 3, Card.Faction.LYRA, Card.Type.CHARACTER, Card.Rarity.COMMON
         )
 
         update_deck_legality(deck)
@@ -162,19 +79,11 @@ class GameModesTestCase(TestCase):
             GameMode.ErrorCode.ERR_NOT_ENOUGH_CARD_COUNT, deck.draft_legality_errors
         )
 
-        CardInDeck.objects.create(
-            deck=deck,
-            quantity=3,
-            card=generate_card(
-                Card.Faction.ORDIS, Card.Type.CHARACTER, Card.Rarity.COMMON
-            ),
+        create_cid(
+            1, deck, 3, Card.Faction.ORDIS, Card.Type.CHARACTER, Card.Rarity.COMMON
         )
-        CardInDeck.objects.create(
-            deck=deck,
-            quantity=3,
-            card=generate_card(
-                Card.Faction.MUNA, Card.Type.CHARACTER, Card.Rarity.COMMON
-            ),
+        create_cid(
+            1, deck, 3, Card.Faction.MUNA, Card.Type.CHARACTER, Card.Rarity.COMMON
         )
 
         update_deck_legality(deck)
@@ -187,47 +96,8 @@ class GameModesTestCase(TestCase):
     def test_deck_rare_count(self):
         hero = generate_card(Card.Faction.AXIOM, Card.Type.HERO, Card.Rarity.COMMON)
         deck = Deck.objects.create(owner=self.user, name="deck_name", hero=hero)
-        CardInDeck.objects.create(
-            deck=deck,
-            quantity=3,
-            card=generate_card(
-                Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.RARE
-            ),
-        )
-        CardInDeck.objects.create(
-            deck=deck,
-            quantity=3,
-            card=generate_card(
-                Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.RARE
-            ),
-        )
-        CardInDeck.objects.create(
-            deck=deck,
-            quantity=3,
-            card=generate_card(
-                Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.RARE
-            ),
-        )
-        CardInDeck.objects.create(
-            deck=deck,
-            quantity=3,
-            card=generate_card(
-                Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.RARE
-            ),
-        )
-        CardInDeck.objects.create(
-            deck=deck,
-            quantity=3,
-            card=generate_card(
-                Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.RARE
-            ),
-        )
-        CardInDeck.objects.create(
-            deck=deck,
-            quantity=3,
-            card=generate_card(
-                Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.RARE
-            ),
+        create_cid(
+            6, deck, 3, Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.RARE
         )
 
         update_deck_legality(deck)
@@ -244,19 +114,8 @@ class GameModesTestCase(TestCase):
     def test_deck_unique_count(self):
         hero = generate_card(Card.Faction.AXIOM, Card.Type.HERO, Card.Rarity.COMMON)
         deck = Deck.objects.create(owner=self.user, name="deck_name", hero=hero)
-        CardInDeck.objects.create(
-            deck=deck,
-            quantity=3,
-            card=generate_card(
-                Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.UNIQUE
-            ),
-        )
-        CardInDeck.objects.create(
-            deck=deck,
-            quantity=3,
-            card=generate_card(
-                Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.UNIQUE
-            ),
+        create_cid(
+            2, deck, 3, Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.UNIQUE
         )
 
         update_deck_legality(deck)
@@ -268,4 +127,22 @@ class GameModesTestCase(TestCase):
         self.assertFalse(deck.is_draft_legal)
         self.assertNotIn(
             GameMode.ErrorCode.ERR_EXCEED_UNIQUE_COUNT, deck.draft_legality_errors
+        )
+
+    def test_deck_family_count(self):
+        hero = generate_card(Card.Faction.AXIOM, Card.Type.HERO, Card.Rarity.COMMON)
+        deck = Deck.objects.create(owner=self.user, name="deck_name", hero=hero)
+        create_cid(
+            1, deck, 4, Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.UNIQUE
+        )
+
+        update_deck_legality(deck)
+
+        self.assertFalse(deck.is_standard_legal)
+        self.assertIn(
+            GameMode.ErrorCode.ERR_EXCEED_SAME_FAMILY_COUNT,
+            deck.standard_legality_errors,
+        )
+        self.assertNotIn(
+            GameMode.ErrorCode.ERR_EXCEED_SAME_FAMILY_COUNT, deck.draft_legality_errors
         )
