@@ -1,12 +1,10 @@
-import html
-
-from django.conf import settings
 from django.contrib.auth.models import User
-from django.test import TestCase
+from django.test import RequestFactory, TestCase
 from django.urls import reverse
 
-from decks.forms import DecklistForm
+from decks.forms import DecklistForm, UpdateDeckForm
 from decks.models import Card, CardInDeck, Character, Deck, Hero
+from decks.views import NewDeckFormView, UpdateDeckFormView
 from .utils import generate_card, get_login_url
 
 
@@ -36,6 +34,7 @@ class DecksFormsTestCase(TestCase):
             type=Card.Type.HERO,
             rarity=Card.Rarity.COMMON,
         )
+        generate_card(Card.Faction.AXIOM, Card.Type.HERO, Card.Rarity.COMMON)
         Character.objects.create(
             reference=cls.CHARACTER_REFERENCE,
             name="Yzmir Stargazer",
@@ -125,11 +124,14 @@ class DecksFormsTestCase(TestCase):
             "decklist": f"1 {self.HERO_REFERENCE}\n3 {wrong_card_reference}",
         }
 
-        self.client.force_login(self.user)
-        response = self.client.post(reverse("new-deck"), form_data)
-        self.assertContains(
-            response, html.escape(f"Card '{wrong_card_reference}' does not exist")
-        )
+        request = RequestFactory().post(reverse("new-deck"), form_data)
+        request.user = self.user
+        response = NewDeckFormView.as_view()(request)
+        form: DecklistForm = response.context_data["form"]
+
+        self.assertTrue(form.has_error("decklist"))
+        self.assertIn(f"Card '{wrong_card_reference}' does not exist", form.errors["decklist"])
+        self.assertEqual(response.status_code, 200)
 
     def test_invalid_deck_multiple_heroes(self):
         """Attempt to submit a form creating a Deck that contains multiple heroes."""
@@ -138,9 +140,15 @@ class DecksFormsTestCase(TestCase):
             "decklist": f"1 {self.HERO_REFERENCE}\n1 {self.HERO_REFERENCE}",
         }
 
-        self.client.force_login(self.user)
-        response = self.client.post(reverse("new-deck"), form_data)
-        self.assertContains(response, "Multiple heroes present in the decklist")
+        request = RequestFactory().post(reverse("new-deck"), form_data)
+        request.user = self.user
+        response = NewDeckFormView.as_view()(request)
+        form: DecklistForm = response.context_data["form"]
+
+        self.assertTrue(form.has_error("decklist"))
+        self.assertIn(f"Multiple heroes present in the decklist", form.errors["decklist"])
+        self.assertEqual(response.status_code, 200)
+
 
     def test_invalid_deck_wrong_format(self):
         """Attempt to submit a form creating a Deck with an incorrect format.
@@ -153,11 +161,14 @@ class DecksFormsTestCase(TestCase):
             "decklist": f"1 {self.HERO_REFERENCE}\n{wrong_format_line}",
         }
 
-        self.client.force_login(self.user)
-        response = self.client.post(reverse("new-deck"), form_data)
-        self.assertContains(
-            response, html.escape(f"Failed to unpack '{wrong_format_line}'")
-        )
+        request = RequestFactory().post(reverse("new-deck"), form_data)
+        request.user = self.user
+        response = NewDeckFormView.as_view()(request)
+        form: DecklistForm = response.context_data["form"]
+
+        self.assertTrue(form.has_error("decklist"))
+        self.assertIn(f"Failed to unpack '{wrong_format_line}'", form.errors["decklist"])
+        self.assertEqual(response.status_code, 200)
 
     def test_valid_deck_missing_hero(self):
         """Submit a form creating a Deck without a hero reference."""
@@ -186,7 +197,7 @@ class DecksFormsTestCase(TestCase):
         hero = Hero.objects.get(reference=self.HERO_REFERENCE)
         character = Character.objects.get(reference=self.CHARACTER_REFERENCE)
         deck = Deck.objects.create(owner=self.user, name=self.DECK_NAME, hero=hero)
-        CardInDeck.objects.create(deck=deck, card=character, quantity=1)
+        cid = CardInDeck.objects.create(deck=deck, card=character, quantity=1)
 
         form_data = {
             "deck_id": deck.id,
@@ -196,12 +207,46 @@ class DecksFormsTestCase(TestCase):
 
         self.client.force_login(self.user)
         response = self.client.post(reverse("update-deck"), form_data)
-        cid = CardInDeck.objects.filter(deck=deck, card=character).get()
+        cid.refresh_from_db()
 
         self.assertEqual(cid.quantity, 3)
         self.assertRedirects(response, reverse("cards"))
 
-    def test_update_deck_add_nonexisting_card(self):
+    def test_update_deck_invalid_deck_reference(self):
+        character = Character.objects.get(reference=self.CHARACTER_REFERENCE)
+        form_data = {
+            "deck_id": 100_000,
+            "card_reference": character.reference,
+            "quantity": 2,
+        }
+        request = RequestFactory().post(reverse("update-deck"), form_data)
+        request.user = self.user
+        
+        response = UpdateDeckFormView.as_view()(request)
+        form: UpdateDeckForm = response.context_data["form"]
+
+        self.assertTrue(form.has_error("deck_id"))
+        self.assertIn(f"Deck not found", form.errors["deck_id"])
+        self.assertEqual(response.status_code, 200)
+
+    def test_update_deck_invalid_card_reference(self):
+        deck = Deck.objects.create(owner=self.user, name=self.DECK_NAME)
+        form_data = {
+            "deck_id": deck.id,
+            "card_reference": "XXXX",
+            "quantity": 2,
+        }
+        request = RequestFactory().post(reverse("update-deck"), form_data)
+        request.user = self.user
+        
+        response = UpdateDeckFormView.as_view()(request)
+        form: UpdateDeckForm = response.context_data["form"]
+
+        self.assertTrue(form.has_error("card_reference"))
+        self.assertIn(f"Card not found", form.errors["card_reference"])
+        self.assertEqual(response.status_code, 200)
+
+    def test_update_deck_add_new_card(self):
         hero = Hero.objects.get(reference=self.HERO_REFERENCE)
         character = generate_card(
             Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.RARE
@@ -219,4 +264,29 @@ class DecksFormsTestCase(TestCase):
         cid = CardInDeck.objects.filter(deck=deck, card=character).get()
 
         self.assertEqual(cid.quantity, 2)
+        self.assertRedirects(response, reverse("cards"))
+
+    def test_update_deck_add_hero(self):
+        hero = Hero.objects.get(reference=self.HERO_REFERENCE)
+        deck = Deck.objects.create(owner=self.user, name=self.DECK_NAME)
+        form_data = {
+            "deck_id": deck.id,
+            "card_reference": hero.reference,
+            "quantity": 2,
+        }
+
+        self.client.force_login(self.user)
+        response = self.client.post(reverse("update-deck"), form_data)
+
+        deck.refresh_from_db()
+        self.assertEqual(deck.hero.reference, hero.reference)
+        self.assertRedirects(response, reverse("cards"))
+
+        other_hero = Hero.objects.exclude(reference=self.HERO_REFERENCE).first()
+        form_data["card_reference"] = other_hero.reference
+        response = self.client.post(reverse("update-deck"), form_data)
+
+        deck.refresh_from_db()
+        self.assertEqual(deck.hero.reference, hero.reference)
+        self.assertNotEqual(deck.hero.reference, other_hero.reference)
         self.assertRedirects(response, reverse("cards"))

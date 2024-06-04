@@ -5,8 +5,12 @@ from random import randint
 from typing import Union
 
 from django.conf import settings
+from django.contrib.auth.models import User
 from decks.models import Card, CardInDeck, Character, Deck, Hero, Permanent, Spell
+from django.test import TestCase
 from django.urls import reverse
+
+from decks.models import Card, CardInDeck, Deck, Hero
 
 
 def get_id() -> Generator[int, None, None]:
@@ -109,3 +113,73 @@ def silence_logging():
     logging.disable(logging.CRITICAL)
     yield
     logging.disable(logging.NOTSET)
+
+
+def get_detail_card_list(deck: Deck, card_type: Card.Type) -> list[int, Card]:
+    """Return the quantity and model of cards of the Deck filtered by their type.
+
+    Args:
+        deck (Deck): The deck containing the cards.
+        card_type (Card.Type): The type of card to filter.
+
+    Returns:
+        list[int, Card]: The list of cards with their amount.
+    """
+    return [
+        (c.quantity, c.card)
+        for c in deck.cardindeck_set.all()
+        if c.card.type == card_type
+    ]
+
+
+class BaseViewTestCase(TestCase):
+
+    TEST_USER = "test_user"
+    OTHER_TEST_USER = "other_test_user"
+    PUBLIC_DECK_NAME = "test_public_deck"
+    PRIVATE_DECK_NAME = "test_private_deck"
+
+    @classmethod
+    def setUpTestData(cls):
+        """Create the database data for this test.
+
+        Specifically, it creates:
+        * 2 User
+        * 1 Hero
+        * 1 Character
+        * 1 Spell
+        * 1 Permanent
+        * 4 Deck
+        """
+        hero = generate_card(Card.Faction.AXIOM, Card.Type.HERO, Card.Rarity.COMMON)
+        character = generate_card(
+            Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.RARE
+        )
+        spell = generate_card(Card.Faction.AXIOM, Card.Type.SPELL, Card.Rarity.RARE)
+        permanent = generate_card(
+            Card.Faction.AXIOM, Card.Type.PERMANENT, Card.Rarity.RARE
+        )
+
+        cls.user = User.objects.create_user(username=cls.TEST_USER)
+        cls.other_user = User.objects.create_user(username=cls.OTHER_TEST_USER)
+        cls.create_decks_for_user(cls.user, hero, [character, spell, permanent])
+        cls.create_decks_for_user(cls.other_user, hero, [character, spell, permanent])
+
+    @classmethod
+    def create_decks_for_user(cls, user: User, hero: Hero, cards: list[Card]):
+        """Create a public and a private deck based on the received parameters.
+
+        Args:
+            user (User): The owner of the decks.
+            hero (Hero): The Deck's Hero.
+            cards (list[Card]): The Deck's cards.
+        """
+        public_deck = Deck.objects.create(
+            owner=user, name=cls.PUBLIC_DECK_NAME, hero=hero, is_public=True
+        )
+        private_deck = Deck.objects.create(
+            owner=user, name=cls.PRIVATE_DECK_NAME, hero=hero, is_public=False
+        )
+        for card in cards:
+            CardInDeck.objects.create(deck=public_deck, card=card, quantity=2)
+            CardInDeck.objects.create(deck=private_deck, card=card, quantity=2)

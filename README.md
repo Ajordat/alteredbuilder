@@ -41,6 +41,9 @@ docker compose run web python manage.py test
 
 # Discover and run all tests within an app
 docker compose run web python manage.py test <app>
+
+# Discover and run all tests within a specific file of an app's tests directory
+docker compose run web python manage.py test <app>.tests.<test_file>
 ```
 
 ### Run unittests and view coverage
