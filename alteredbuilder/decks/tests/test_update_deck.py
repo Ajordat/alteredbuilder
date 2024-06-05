@@ -8,7 +8,9 @@ from .utils import BaseViewTestCase, get_login_url, silence_logging
 class DeleteCardViewTestCase(BaseViewTestCase):
     """Test case focusing on the view that removes a Card from a Deck."""
 
-    def assert_ajax_error(self, response: HttpResponse, status_code: int, error_message: str) -> None:
+    def assert_ajax_error(
+        self, response: HttpResponse, status_code: int, error_message: str
+    ) -> None:
         """Method to verify the integrity of an error message to an AJAX request.
 
         Args:
@@ -55,7 +57,7 @@ class DeleteCardViewTestCase(BaseViewTestCase):
         with silence_logging():
             response = self.client.get(test_url, **headers)
         self.assert_ajax_error(response, 400, "Invalid request")
-    
+
         # Test a request without sending any payload
         with silence_logging():
             response = self.client.post(test_url, **headers)
@@ -63,7 +65,9 @@ class DeleteCardViewTestCase(BaseViewTestCase):
 
         # Test a request targeting a non-existent deck id
         with silence_logging():
-            response = self.client.post(reverse("update-deck-id", kwargs={"pk": 100_000}), **headers, data=data)
+            response = self.client.post(
+                reverse("update-deck-id", kwargs={"pk": 100_000}), **headers, data=data
+            )
         self.assert_ajax_error(response, 404, "Deck not found")
 
         # Test a request providing an invalid action (should be "add" or "delete")
@@ -94,12 +98,11 @@ class DeleteCardViewTestCase(BaseViewTestCase):
         self.assertEqual(response.json()["data"]["deleted"], True)
 
 
-class DeleteCardViewTestCase(BaseViewTestCase):
+class DeleteDeckViewTestCase(BaseViewTestCase):
     """Test case focusing on the view that deletes a Deck."""
 
     def test_delete_deck_unauthenticated(self):
-        """Test the view attempting to delete a Deck by an unauthenticated user.
-        """
+        """Test the view attempting to delete a Deck by an unauthenticated user."""
         deck = Deck.objects.first()
         response = self.client.get(reverse("delete-deck-id", kwargs={"pk": deck.id}))
 
@@ -108,8 +111,7 @@ class DeleteCardViewTestCase(BaseViewTestCase):
         )
 
     def test_delete_not_owned_deck(self):
-        """Test the view attempting to delete a Deck that is owned by another user.
-        """
+        """Test the view attempting to delete a Deck that is owned by another user."""
         deck = Deck.objects.filter(owner=self.other_user).first()
         self.client.force_login(self.user)
         response = self.client.get(reverse("delete-deck-id", kwargs={"pk": deck.id}))
@@ -120,8 +122,7 @@ class DeleteCardViewTestCase(BaseViewTestCase):
         self.assertTrue(Deck.objects.filter(pk=deck.id).exists())
 
     def test_delete_owned_deck(self):
-        """Test the view to delete a Deck by its owner.
-        """
+        """Test the view to delete a Deck by its owner."""
         deck = Deck.objects.filter(owner=self.user).first()
         self.client.force_login(self.user)
         response = self.client.get(reverse("delete-deck-id", kwargs={"pk": deck.id}))
@@ -132,12 +133,11 @@ class DeleteCardViewTestCase(BaseViewTestCase):
         self.assertRedirects(response, reverse("own-deck"), status_code=302)
 
 
-class DeleteCardViewTestCase(BaseViewTestCase):
+class LoveDeckViewTestCase(BaseViewTestCase):
     """Test case focusing on the view were a user "loves" a Deck."""
 
     def test_love_deck_unauthenticated(self):
-        """Test the view of an unauthenticated user attempting to love a Deck.
-        """
+        """Test the view of an unauthenticated user attempting to love a Deck."""
         deck = Deck.objects.first()
         response = self.client.get(reverse("love-deck-id", kwargs={"pk": deck.id}))
 
@@ -146,8 +146,7 @@ class DeleteCardViewTestCase(BaseViewTestCase):
         )
 
     def test_love_not_owned_private_deck(self):
-        """Test the view of a user attempting to love a private Deck.
-        """
+        """Test the view of a user attempting to love a private Deck."""
         deck = Deck.objects.filter(owner=self.other_user, is_public=False).first()
         self.client.force_login(self.user)
         with silence_logging():
@@ -156,8 +155,7 @@ class DeleteCardViewTestCase(BaseViewTestCase):
         self.assertTemplateUsed(response, "errors/403.html")
 
     def test_love_not_owned_public_deck(self):
-        """Test the view of a user loving a Deck.
-        """
+        """Test the view of a user loving a Deck."""
         deck = Deck.objects.filter(owner=self.other_user, is_public=True).first()
         old_love_count = deck.love_count
         # Love a Deck
@@ -166,11 +164,15 @@ class DeleteCardViewTestCase(BaseViewTestCase):
 
         new_deck = Deck.objects.get(pk=deck.id)
         self.assertEqual(old_love_count + 1, new_deck.love_count)
-        self.assertRedirects(response, reverse("deck-detail", kwargs={"pk": deck.id}), status_code=302)
+        self.assertRedirects(
+            response, reverse("deck-detail", kwargs={"pk": deck.id}), status_code=302
+        )
 
         # Un-love the same Deck
         response = self.client.get(reverse("love-deck-id", kwargs={"pk": deck.id}))
 
         new_deck = Deck.objects.get(pk=deck.id)
         self.assertEqual(old_love_count, new_deck.love_count)
-        self.assertRedirects(response, reverse("deck-detail", kwargs={"pk": deck.id}), status_code=302)
+        self.assertRedirects(
+            response, reverse("deck-detail", kwargs={"pk": deck.id}), status_code=302
+        )

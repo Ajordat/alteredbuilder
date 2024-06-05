@@ -24,10 +24,13 @@ def get_id() -> Generator[int, None, None]:
         yield _id
         _id += 1
 
+
 get_id = get_id()
 
 
-def generate_card(faction: Card.Faction, card_type: Card.Type, rarity: Card.Rarity) -> Union[Hero, Character, Spell, Permanent]:
+def generate_card(
+    faction: Card.Faction, card_type: Card.Type, rarity: Card.Rarity
+) -> Union[Hero, Character, Spell, Permanent]:
     """Generate a new card from a Faction, Type and Rarity.
 
     Args:
@@ -69,9 +72,16 @@ def generate_card(faction: Card.Faction, card_type: Card.Type, rarity: Card.Rari
     return card
 
 
-def create_cid(times: int, deck: Deck, quantity: int, faction: Card.Faction, type: Card.Type, rarity: Card.Rarity) -> None:
+def create_cid(
+    times: int,
+    deck: Deck,
+    quantity: int,
+    faction: Card.Faction,
+    type: Card.Type,
+    rarity: Card.Rarity,
+) -> None:
     """Function to create a Card and link it to the received Deck.
-    
+
     Note that the `times` parameter indicates how many times this operation is done.
     That means that a single Card will be added `quantity` times to the Deck, and this
     operation will be repeated that many `times`.
@@ -183,3 +193,49 @@ class BaseViewTestCase(TestCase):
         for card in cards:
             CardInDeck.objects.create(deck=public_deck, card=card, quantity=2)
             CardInDeck.objects.create(deck=private_deck, card=card, quantity=2)
+
+
+class BaseFormTestCase(TestCase):
+    """Test case focusing on the Forms."""
+
+    USER_NAME = "test_user"
+    OTHER_USER = "other_test_user"
+    DECK_NAME = "test deck"
+    HERO_REFERENCE = "ALT_CORE_B_AX_01_C"
+    CHARACTER_REFERENCE = "ALT_CORE_B_YZ_08_R2"
+
+    @classmethod
+    def setUpTestData(cls):
+        """Create the database data for this test.
+
+        Specifically, it creates:
+        * 2 User
+        * 1 Hero
+        * 1 Character
+        * 2 Deck
+        """
+        cls.user = User.objects.create_user(username=cls.USER_NAME)
+        other_user = User.objects.create_user(username=cls.OTHER_USER)
+
+        Hero.objects.create(
+            reference=cls.HERO_REFERENCE,
+            name="Sierra & Oddball",
+            faction=Card.Faction.AXIOM,
+            type=Card.Type.HERO,
+            rarity=Card.Rarity.COMMON,
+        )
+        generate_card(Card.Faction.AXIOM, Card.Type.HERO, Card.Rarity.COMMON)
+        Character.objects.create(
+            reference=cls.CHARACTER_REFERENCE,
+            name="Yzmir Stargazer",
+            faction=Card.Faction.AXIOM,
+            type=Card.Type.CHARACTER,
+            rarity=Card.Rarity.RARE,
+            main_cost=1,
+            recall_cost=1,
+            forest_power=1,
+            mountain_power=2,
+            ocean_power=1,
+        )
+        Deck.objects.create(owner=cls.user, name=cls.DECK_NAME)
+        Deck.objects.create(owner=other_user, name=cls.DECK_NAME)

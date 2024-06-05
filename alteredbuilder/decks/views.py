@@ -269,6 +269,7 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
                 action = data["action"]
 
                 if action == "add":
+                    # Not currently used
                     quantity = data["quantity"]
                     CardInDeck.objects.create(deck=deck, card=card, quantity=quantity)
                     status = {"added": True}
@@ -366,6 +367,7 @@ class UpdateDeckMetadataFormView(LoginRequiredMixin, FormView):
             deck.is_public = form.cleaned_data["is_public"]
             deck.save()
         except Deck.DoesNotExist:
+            # For some unknown reason, this is returning 405 instead of 403
             raise PermissionDenied
 
         return super().form_valid(form)

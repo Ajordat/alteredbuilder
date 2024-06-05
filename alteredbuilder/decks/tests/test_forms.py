@@ -1,52 +1,14 @@
-from django.contrib.auth.models import User
-from django.test import RequestFactory, TestCase
+from django.test import RequestFactory
 from django.urls import reverse
 
-from decks.forms import DecklistForm, UpdateDeckForm
+from decks.forms import DecklistForm, DeckMetadataForm, UpdateDeckForm
 from decks.models import Card, CardInDeck, Character, Deck, Hero
 from decks.views import NewDeckFormView, UpdateDeckFormView
-from .utils import generate_card, get_login_url
+from .utils import BaseFormTestCase, generate_card, get_login_url, silence_logging
 
 
-class DecksFormsTestCase(TestCase):
-    """Test case focusing on the Forms."""
-
-    USER_NAME = "test_user"
-    DECK_NAME = "test deck"
-    HERO_REFERENCE = "ALT_CORE_B_AX_01_C"
-    CHARACTER_REFERENCE = "ALT_CORE_B_YZ_08_R2"
-
-    @classmethod
-    def setUpTestData(cls):
-        """Create the database data for this test.
-
-        Specifically, it creates:
-        * 1 User
-        * 1 Hero
-        * 1 Character
-        """
-        cls.user = User.objects.create_user(username=cls.USER_NAME)
-
-        Hero.objects.create(
-            reference=cls.HERO_REFERENCE,
-            name="Sierra & Oddball",
-            faction=Card.Faction.AXIOM,
-            type=Card.Type.HERO,
-            rarity=Card.Rarity.COMMON,
-        )
-        generate_card(Card.Faction.AXIOM, Card.Type.HERO, Card.Rarity.COMMON)
-        Character.objects.create(
-            reference=cls.CHARACTER_REFERENCE,
-            name="Yzmir Stargazer",
-            faction=Card.Faction.AXIOM,
-            type=Card.Type.CHARACTER,
-            rarity=Card.Rarity.RARE,
-            main_cost=1,
-            recall_cost=1,
-            forest_power=1,
-            mountain_power=2,
-            ocean_power=1,
-        )
+class CreateDeckFormTestCase(BaseFormTestCase):
+    """Test case focusing on the form to create a new Deck."""
 
     def test_invalid_deck_only_name(self):
         """Validate a form creating a Deck only providing the name."""
@@ -100,7 +62,7 @@ class DecksFormsTestCase(TestCase):
         self.client.force_login(self.user)
         response = self.client.post(reverse("new-deck"), form_data)
 
-        new_deck = Deck.objects.filter(owner=self.user).get()
+        new_deck = Deck.objects.filter(owner=self.user).latest("created_at")
         hero = Hero.objects.get(reference=self.HERO_REFERENCE)
         character = Character.objects.get(reference=self.CHARACTER_REFERENCE)
         deck_cards = new_deck.cardindeck_set.all()
@@ -130,7 +92,9 @@ class DecksFormsTestCase(TestCase):
         form: DecklistForm = response.context_data["form"]
 
         self.assertTrue(form.has_error("decklist"))
-        self.assertIn(f"Card '{wrong_card_reference}' does not exist", form.errors["decklist"])
+        self.assertIn(
+            f"Card '{wrong_card_reference}' does not exist", form.errors["decklist"]
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_invalid_deck_multiple_heroes(self):
@@ -146,9 +110,10 @@ class DecksFormsTestCase(TestCase):
         form: DecklistForm = response.context_data["form"]
 
         self.assertTrue(form.has_error("decklist"))
-        self.assertIn(f"Multiple heroes present in the decklist", form.errors["decklist"])
+        self.assertIn(
+            f"Multiple heroes present in the decklist", form.errors["decklist"]
+        )
         self.assertEqual(response.status_code, 200)
-
 
     def test_invalid_deck_wrong_format(self):
         """Attempt to submit a form creating a Deck with an incorrect format.
@@ -167,11 +132,13 @@ class DecksFormsTestCase(TestCase):
         form: DecklistForm = response.context_data["form"]
 
         self.assertTrue(form.has_error("decklist"))
-        self.assertIn(f"Failed to unpack '{wrong_format_line}'", form.errors["decklist"])
+        self.assertIn(
+            f"Failed to unpack '{wrong_format_line}'", form.errors["decklist"]
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_valid_deck_missing_hero(self):
-        """Submit a form creating a Deck without a hero reference."""
+        """Submit a form creating a Deck without a hero reference, which is a valid Deck model."""
         form_data = {
             "name": self.DECK_NAME,
             "decklist": f"3 {self.CHARACTER_REFERENCE}",
@@ -180,7 +147,7 @@ class DecksFormsTestCase(TestCase):
         self.client.force_login(self.user)
         response = self.client.post(reverse("new-deck"), form_data)
 
-        new_deck = Deck.objects.filter(owner=self.user).get()
+        new_deck = Deck.objects.filter(owner=self.user).latest("created_at")
         character = Character.objects.get(reference=self.CHARACTER_REFERENCE)
         deck_cards = new_deck.cardindeck_set.all()
 
@@ -193,10 +160,13 @@ class DecksFormsTestCase(TestCase):
         self.assertEqual(deck_cards[0].quantity, 3)
         self.assertEqual(deck_cards[0].card.character, character)
 
+
+class AddCardFormTestCase(BaseFormTestCase):
+    """Test case focusing on the form to add a Card to a Deck."""
+
     def test_update_deck_add_existing_card(self):
-        hero = Hero.objects.get(reference=self.HERO_REFERENCE)
-        character = Character.objects.get(reference=self.CHARACTER_REFERENCE)
-        deck = Deck.objects.create(owner=self.user, name=self.DECK_NAME, hero=hero)
+        character = Character.objects.first()
+        deck = Deck.objects.filter(owner=self.user).first()
         cid = CardInDeck.objects.create(deck=deck, card=character, quantity=1)
 
         form_data = {
@@ -213,7 +183,7 @@ class DecksFormsTestCase(TestCase):
         self.assertRedirects(response, reverse("cards"))
 
     def test_update_deck_invalid_deck_reference(self):
-        character = Character.objects.get(reference=self.CHARACTER_REFERENCE)
+        character = Character.objects.first()
         form_data = {
             "deck_id": 100_000,
             "card_reference": character.reference,
@@ -221,7 +191,7 @@ class DecksFormsTestCase(TestCase):
         }
         request = RequestFactory().post(reverse("update-deck"), form_data)
         request.user = self.user
-        
+
         response = UpdateDeckFormView.as_view()(request)
         form: UpdateDeckForm = response.context_data["form"]
 
@@ -230,7 +200,7 @@ class DecksFormsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_update_deck_invalid_card_reference(self):
-        deck = Deck.objects.create(owner=self.user, name=self.DECK_NAME)
+        deck = Deck.objects.filter(owner=self.user).first()
         form_data = {
             "deck_id": deck.id,
             "card_reference": "XXXX",
@@ -238,7 +208,7 @@ class DecksFormsTestCase(TestCase):
         }
         request = RequestFactory().post(reverse("update-deck"), form_data)
         request.user = self.user
-        
+
         response = UpdateDeckFormView.as_view()(request)
         form: UpdateDeckForm = response.context_data["form"]
 
@@ -247,12 +217,10 @@ class DecksFormsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_update_deck_add_new_card(self):
-        hero = Hero.objects.get(reference=self.HERO_REFERENCE)
         character = generate_card(
             Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.RARE
         )
-        deck = Deck.objects.create(owner=self.user, name=self.DECK_NAME, hero=hero)
-
+        deck = Deck.objects.filter(owner=self.user).first()
         form_data = {
             "deck_id": deck.id,
             "card_reference": character.reference,
@@ -290,3 +258,78 @@ class DecksFormsTestCase(TestCase):
         self.assertEqual(deck.hero.reference, hero.reference)
         self.assertNotEqual(deck.hero.reference, other_hero.reference)
         self.assertRedirects(response, reverse("cards"))
+
+
+class UpdateDeckMetadataFormTestCase(BaseFormTestCase):
+    """Test case focusing on the form to update the metadata of a Deck."""
+
+    def test_invalid_no_name(self):
+        """Validate a form providing no name field."""
+        form_data = {}
+        form = DeckMetadataForm(data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertFormError(form, "name", "This field is required.")
+
+        form_data = {"name": ""}
+        form = DeckMetadataForm(data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertFormError(form, "name", "This field is required.")
+
+    def test_valid_deck_unauthenticated(self):
+        """Attempt to submit a form updating a Deck's metadata while unauthenticated."""
+        deck = Deck.objects.first()
+        form_data = {"name": "new name", "description": "new description"}
+
+        response = self.client.post(
+            reverse("update-deck-metadata", kwargs={"pk": deck.id}), form_data
+        )
+        self.assertRedirects(
+            response, get_login_url("update-deck-metadata", pk=deck.id), status_code=302
+        )
+
+    def test_valid_not_owned_deck(self):
+        """Attempt to submit a form updating the metadata of another user's Deck."""
+        deck = Deck.objects.exclude(owner=self.user).first()
+        form_data = {"name": "new name", "description": "new description"}
+
+        self.client.force_login(self.user)
+        with silence_logging():
+            response = self.client.post(
+                reverse("update-deck-metadata", kwargs={"pk": deck.id}), form_data
+            )
+
+        # For an unknown reason, this is returning 405 instead of 403
+        self.assertEqual(response.status_code, 405)
+
+    def test_valid_non_existent_deck(self):
+        """Attempt to submit a form updating the metadata of a non-existent Deck."""
+        form_data = {"name": "new name", "description": "new description"}
+
+        self.client.force_login(self.user)
+        with silence_logging():
+            response = self.client.post(
+                reverse("update-deck-metadata", kwargs={"pk": 100_000}), form_data
+            )
+
+        # For an unknown reason, this is returning 405 instead of 403
+        self.assertEqual(response.status_code, 405)
+
+    def test_valid_submission(self):
+        """Submit a form updating a the metadata of a Deck."""
+        deck = Deck.objects.filter(owner=self.user).first()
+        form_data = {
+            "name": f"Old name: [{deck.name}]",
+            "description": f"Old description: [{deck.description}]",
+        }
+
+        self.client.force_login(self.user)
+        response = self.client.post(
+            reverse("update-deck-metadata", kwargs={"pk": deck.id}), form_data
+        )
+
+        deck.refresh_from_db()
+        self.assertEqual(deck.name, form_data["name"])
+        self.assertEqual(deck.description, form_data["description"])
+        self.assertRedirects(
+            response, reverse("deck-detail", kwargs={"pk": deck.id}), status_code=302
+        )

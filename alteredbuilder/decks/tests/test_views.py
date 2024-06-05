@@ -1,3 +1,4 @@
+from django.db.models.functions import Coalesce
 from django.http import HttpResponse
 from django.urls import reverse
 
@@ -55,8 +56,7 @@ class DeckListViewTestCase(BaseViewTestCase):
         )
 
     def test_decks_home_filters(self):
-        """Test the view of all the public Decks after applying filters on the query.
-        """
+        """Test the view of all the public Decks after applying filters on the query."""
         # Search all the decks with the given name
         response = self.client.get(
             reverse("deck-list") + f"?query={self.PUBLIC_DECK_NAME}"
@@ -67,49 +67,49 @@ class DeckListViewTestCase(BaseViewTestCase):
         )
 
         # Search all the decks with a string not appearing in any Deck's name
-        response = self.client.get(reverse("deck-list") + "?query=XX")
-        public_decks = Deck.objects.filter(is_public=True, name="XX")
+        response = self.client.get(reverse("deck-list") + "?query=XXXX")
+        query_decks = Deck.objects.none()
         self.assertQuerySetEqual(
-            public_decks, response.context["deck_list"], ordered=False
+            query_decks, response.context["deck_list"], ordered=False
         )
 
         # Search all the decks belonging to the AXIOM faction
         response = self.client.get(reverse("deck-list") + "?faction=AX")
-        axiom_decks = Deck.objects.filter(
+        query_decks = Deck.objects.filter(
             is_public=True, hero__faction=Card.Faction.AXIOM
         )
         self.assertQuerySetEqual(
-            axiom_decks, response.context["deck_list"], ordered=False
+            query_decks, response.context["deck_list"], ordered=False
         )
 
         # Search all the decks belonging to either the AXIOM or MUNA factions
         response = self.client.get(reverse("deck-list") + "?faction=AX,MU")
-        multifaction_decks = Deck.objects.filter(
+        query_decks = Deck.objects.filter(
             is_public=True, hero__faction__in=[Card.Faction.AXIOM, Card.Faction.MUNA]
         )
         self.assertQuerySetEqual(
-            multifaction_decks, response.context["deck_list"], ordered=False
+            query_decks, response.context["deck_list"], ordered=False
         )
 
         # Search all the decks belonging to an invalid faction (parameter ignored)
-        response = self.client.get(reverse("deck-list") + "?faction=XX")
-        public_decks = Deck.objects.filter(is_public=True)
+        response = self.client.get(reverse("deck-list") + "?faction=XXXX")
+        query_decks = Deck.objects.filter(is_public=True)
         self.assertQuerySetEqual(
-            public_decks, response.context["deck_list"], ordered=False
+            query_decks, response.context["deck_list"], ordered=False
         )
 
         # Search all the decks with an invalid legality (parameter ignored)
-        response = self.client.get(reverse("deck-list") + "?legality=XX")
-        public_decks = Deck.objects.filter(is_public=True)
+        response = self.client.get(reverse("deck-list") + "?legality=XXXX")
+        query_decks = Deck.objects.filter(is_public=True)
         self.assertQuerySetEqual(
-            public_decks, response.context["deck_list"], ordered=False
+            query_decks, response.context["deck_list"], ordered=False
         )
 
         # Search all the decks with an invalid "other" filter (parameter ignored)
-        response = self.client.get(reverse("deck-list") + "?other=XX")
-        public_decks = Deck.objects.filter(is_public=True)
+        response = self.client.get(reverse("deck-list") + "?other=XXXX")
+        query_decks = Deck.objects.filter(is_public=True)
         self.assertQuerySetEqual(
-            public_decks, response.context["deck_list"], ordered=False
+            query_decks, response.context["deck_list"], ordered=False
         )
 
 
@@ -129,9 +129,17 @@ class DeckDetailViewTestCase(BaseViewTestCase):
         self.assertIn("character_list", response.context)
         self.assertIn("spell_list", response.context)
         self.assertIn("permanent_list", response.context)
-        self.assertListEqual(get_detail_card_list(deck, Card.Type.CHARACTER), response.context["character_list"])
-        self.assertListEqual(get_detail_card_list(deck, Card.Type.SPELL), response.context["spell_list"])
-        self.assertListEqual(get_detail_card_list(deck, Card.Type.PERMANENT), response.context["permanent_list"])
+        self.assertListEqual(
+            get_detail_card_list(deck, Card.Type.CHARACTER),
+            response.context["character_list"],
+        )
+        self.assertListEqual(
+            get_detail_card_list(deck, Card.Type.SPELL), response.context["spell_list"]
+        )
+        self.assertListEqual(
+            get_detail_card_list(deck, Card.Type.PERMANENT),
+            response.context["permanent_list"],
+        )
         self.assertIn("stats", response.context)
         self.assertIn("type_distribution", response.context["stats"])
         self.assertIn("total_count", response.context["stats"])
@@ -142,7 +150,9 @@ class DeckDetailViewTestCase(BaseViewTestCase):
         """Test the deck detail page of an authenticated user to its own public deck."""
         self.client.force_login(self.user)
         public_deck = Deck.objects.filter(is_public=True, owner=self.user).get()
-        response = self.client.get(reverse("deck-detail", kwargs={"pk": public_deck.id}))
+        response = self.client.get(
+            reverse("deck-detail", kwargs={"pk": public_deck.id})
+        )
 
         self.assert_deck_detail(public_deck, response)
 
@@ -150,7 +160,9 @@ class DeckDetailViewTestCase(BaseViewTestCase):
         """Test the deck detail page of an unauthenticated user to a public deck."""
         self.client.force_login(self.user)
         public_deck = Deck.objects.filter(is_public=True, owner=self.other_user).get()
-        response = self.client.get(reverse("deck-detail", kwargs={"pk": public_deck.id}))
+        response = self.client.get(
+            reverse("deck-detail", kwargs={"pk": public_deck.id})
+        )
 
         self.assert_deck_detail(public_deck, response)
 
@@ -219,11 +231,136 @@ class CardListViewTestCase(BaseViewTestCase):
     """Test case focusing on the Card ListView."""
 
     def test_card_list_view_unauthenticated(self):
-        """Test the view returning all the cards for an unauthenticated user.
-        """
+        """Test the view returning all the cards for an unauthenticated user."""
         response = self.client.get(reverse("cards"))
 
         self.assertIn("card_list", response.context)
-        cards = Card.objects.filter()
+        cards = Card.objects.all()
         self.assertQuerySetEqual(cards, response.context["card_list"], ordered=False)
         self.assertNotIn("own_decks", response.context)
+
+    def test_card_list_filters(self):
+        """Test the view of all the Cards after applying filters on the query."""
+        generate_card(Card.Faction.AXIOM, Card.Type.PERMANENT, Card.Rarity.COMMON)
+        generate_card(Card.Faction.MUNA, Card.Type.CHARACTER, Card.Rarity.RARE)
+
+        card = Card.objects.first()
+        # Search all the decks with the given name
+        response = self.client.get(reverse("cards") + f"?query={card.name}")
+        query_cards = Card.objects.filter(name=card.name)
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+        # Search all the cards with a string not appearing in any Card's name
+        response = self.client.get(reverse("cards") + f"?query=XXXX")
+        query_cards = Card.objects.none()
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+        # Search all the cards belonging to the AXIOM faction
+        response = self.client.get(reverse("cards") + f"?faction=AX")
+        query_cards = Card.objects.filter(faction=Card.Faction.AXIOM)
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+        # Search all the cards belonging to either the AXIOM or MUNA factions
+        response = self.client.get(reverse("cards") + "?faction=AX,MU")
+        query_cards = Card.objects.filter(
+            faction__in=[Card.Faction.AXIOM, Card.Faction.MUNA]
+        )
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+        # Search all the cards belonging to an invalid faction (parameter ignored)
+        response = self.client.get(reverse("cards") + "?faction=XXXX")
+        query_cards = Card.objects.all()
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+        # Search all the cards with the COMMON rarity
+        response = self.client.get(reverse("cards") + f"?rarity=C")
+        query_cards = Card.objects.filter(rarity=Card.Rarity.COMMON)
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+        # Search all the cards with the COMMON or RARE rarities
+        response = self.client.get(reverse("cards") + f"?rarity=C,R")
+        query_cards = Card.objects.filter(
+            rarity__in=[Card.Rarity.COMMON, Card.Rarity.RARE]
+        )
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+        # Search all the cards with an invalid rarity (parameter ignored)
+        response = self.client.get(reverse("cards") + f"?rarity=XXXXX")
+        query_cards = Card.objects.all()
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+        # Search all the cards of type CHARACTER
+        response = self.client.get(reverse("cards") + f"?type=character")
+        query_cards = Card.objects.filter(type=Card.Type.CHARACTER)
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+        # Search all the cards of type CHARACTER or PERMANENT
+        response = self.client.get(reverse("cards") + f"?type=character,permanent")
+        query_cards = Card.objects.filter(
+            type__in=[Card.Type.CHARACTER, Card.Type.PERMANENT]
+        )
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+        # Search all the cards of type CHARACTER
+        response = self.client.get(reverse("cards") + f"?type=XXXX")
+        query_cards = Card.objects.all()
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+        # Search all the cards by RARITY order
+        response = self.client.get(reverse("cards") + f"?order=rarity")
+        query_cards = Card.objects.order_by("rarity", "reference")
+        self.assertQuerySetEqual(query_cards, response.context["card_list"])
+
+        # Search all the cards by RESERVE MANA order
+        response = self.client.get(reverse("cards") + f"?order=reserve")
+        query_cards = Card.objects.order_by(
+            Coalesce(
+                "character__recall_cost", "spell__recall_cost", "permanent__recall_cost"
+            ),
+            "reference",
+        )
+        self.assertQuerySetEqual(query_cards, response.context["card_list"])
+
+        # Search all the cards by inverse MANA order
+        response = self.client.get(reverse("cards") + f"?order=-mana")
+        query_cards = Card.objects.order_by(
+            Coalesce(
+                "character__main_cost", "spell__main_cost", "permanent__main_cost"
+            ).desc(),
+            "-reference",
+        )
+        self.assertQuerySetEqual(query_cards, response.context["card_list"])
+
+        # Search all the COMMON CHARACTERS or PERMANENTS of AXIOM ordered by inverse NAME order
+        response = self.client.get(
+            reverse("cards")
+            + f"?faction=AX&rarity=C&type=character,permanent&order=-name"
+        )
+        query_cards = Card.objects.filter(
+            faction=Card.Faction.AXIOM,
+            rarity=Card.Rarity.COMMON,
+            type__in=[Card.Type.CHARACTER, Card.Type.PERMANENT],
+        ).order_by("-name", "-reference")
+        self.assertQuerySetEqual(query_cards, response.context["card_list"])
