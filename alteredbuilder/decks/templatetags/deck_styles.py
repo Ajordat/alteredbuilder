@@ -52,20 +52,23 @@ def params_to_filter_tag(get_params: dict) -> list[(str, str)]:
     tags = []
     for param in get_params:
         if param in allowed_params:
-            if param == "faction":
-                tags += [
-                    (param.title(), Card.Faction(value).label.title())
-                    for value in get_params[param].split(",")
-                ]
-            elif param == "rarity":
-                tags += [
-                    (param.title(), Card.Rarity(value).label.title())
-                    for value in get_params[param].split(",")
-                ]
-            else:
-                tags += [
-                    (param.title(), value.title())
-                    for value in get_params[param].split(",")
-                ]
+            try:
+                if param == "faction":
+                    tags += [
+                        (param.title(), Card.Faction(value).label.title())
+                        for value in get_params[param].split(",")
+                    ]
+                elif param == "rarity":
+                    tags += [
+                        (param.title(), Card.Rarity(value).label.title())
+                        for value in get_params[param].split(",")
+                    ]
+                else:
+                    tags += [
+                        (param.title(), value.title())
+                        for value in get_params[param].split(",")
+                    ]
+            except ValueError:
+                pass
 
     return tags
