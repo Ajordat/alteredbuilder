@@ -8,6 +8,12 @@ from .models import Deck, Card
 
 
 class GameMode(ABC):
+    """Base class for all the game modes of the game.
+
+    It contains the metrics that can be checked, the possible error codes and enforces
+    a validation method.
+    """
+
     MAX_FACTION_COUNT = None
     MIN_TOTAL_COUNT = None
     MAX_RARE_COUNT = None
@@ -18,6 +24,14 @@ class GameMode(ABC):
     @classmethod
     @abstractmethod
     def validate(cls, **kwargs) -> list:
+        """Validate if the received parameters comply with this game mode's rules and
+        returns a list with the error codes (`GameMode.ErrorCode`) of the noticed
+        failures.
+
+        Returns:
+            list[GameMode.ErrorCode]: List of failed rules to be considered a valid
+                                      deck for the format.
+        """
         pass
 
     class ErrorCode(StrEnum):
@@ -34,7 +48,15 @@ class GameMode(ABC):
         # No hero present in deck
         ERR_MISSING_HERO = "ERR_MISSING_HERO"
 
-        def to_user(self, gm):
+        def to_user(self, gm) -> str:
+            """Build an error message including the GameMode's relevant metrics.
+
+            Args:
+                gm (GameMode): GameMode that failed on the current error.
+
+            Returns:
+                str: User-friendly error message.
+            """
             match self.value:
                 case GameMode.ErrorCode.ERR_EXCEED_FACTION_COUNT:
                     return _("Exceeds maximum faction count (%(count)s)") % {
@@ -60,11 +82,23 @@ class GameMode(ABC):
                     return _("Missing hero")
 
         @classmethod
-        def from_list_to_user(cls, error_list: list[str], game_mode):
+        def from_list_to_user(cls, error_list: list[str], game_mode) -> list[str]:
+            """Receives a list of errors and the relevant GameMode and returns a list
+            with the errors user-friendly messages.
+
+            Args:
+                error_list (list[str]): List of the error codes string value.
+                game_mode (GameMode): GameMode of the errors.
+
+            Returns:
+                list[str]: User-friendly string representation of the error codes.
+            """
             return [cls(error).to_user(game_mode) for error in error_list]
 
 
 class StandardGameMode(GameMode):
+    """Class to represent the Standard game mode."""
+
     MAX_FACTION_COUNT = 1
     MIN_TOTAL_COUNT = 39
     MAX_RARE_COUNT = 15
@@ -96,6 +130,8 @@ class StandardGameMode(GameMode):
 
 
 class DraftGameMode(GameMode):
+    """Class to represent the Draft game mode."""
+
     MAX_FACTION_COUNT = 3
     MIN_TOTAL_COUNT = 30
 
@@ -112,6 +148,12 @@ class DraftGameMode(GameMode):
 
 
 def update_deck_legality(deck: Deck) -> None:
+    """Receives a Deck object, extracts all the relevant metrics, evaluates the Deck's
+    legality on Standard and Draft game modes and updates the model.
+
+    Args:
+        deck (Deck): Deck to evaluate and update
+    """
 
     total_count = 0
     rare_count = 0

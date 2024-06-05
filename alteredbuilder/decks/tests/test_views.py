@@ -55,7 +55,7 @@ class DeckListViewTestCase(BaseViewTestCase):
             own_decks, response.context["own_decks"], ordered=False
         )
 
-    def test_decks_home_filters(self):
+    def test_deck_list_filters(self):
         """Test the view of all the public Decks after applying filters on the query."""
         # Search all the decks with the given name
         response = self.client.get(

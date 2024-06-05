@@ -29,16 +29,42 @@ def get_row_color_from_rarity(rarity: str) -> str:
 
 @register.simple_tag
 def get_main_cost(card: Card) -> int:
+    """Receive a Card object and return its hand cost.
+
+    Args:
+        card (Card): Card to retrieve the hand cost from.
+
+    Returns:
+        int: The Card's hand cost.
+    """
     return getattr(card, card.type).main_cost
 
 
 @register.simple_tag
 def get_recall_cost(card: Card) -> int:
+    """Receive a Card object and return its reserve cost.
+
+    Args:
+        card (Card): Card to retrieve the reserve cost from.
+
+    Returns:
+        int: The Card's reserve cost.
+    """
     return getattr(card, card.type).recall_cost
 
 
 @register.simple_tag
 def inject_params(get_params: dict, **kwargs) -> str:
+    """Receives the parameters of a GET request, filters them and injects the values
+    received as named parameters and returns a string to be used as GET params.
+
+    Args:
+        get_params (dict): GET parameters.
+        kwargs (dict): Key-value parameters to add to the query.
+
+    Returns:
+        str: New GET params query.
+    """
     allowed_params = ["faction", "rarity", "type", "query", "order"]
     args = [
         f"{key}={value}" for key, value in get_params.items() if key in allowed_params
@@ -48,6 +74,13 @@ def inject_params(get_params: dict, **kwargs) -> str:
 
 @register.filter
 def params_to_filter_tag(get_params: dict) -> list[(str, str)]:
+    """Receives the parameters of a GET request and transforms them into a list of
+    tuples of key-values.
+
+    Returns:
+        list[(str, str)]: A list of tuple elements with the key-values of the GET
+        params.
+    """
     allowed_params = ["faction", "rarity", "type", "query"]
     tags = []
     for param in get_params:

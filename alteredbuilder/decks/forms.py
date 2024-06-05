@@ -61,6 +61,8 @@ class DeckMetadataForm(forms.Form):
 
 
 class UpdateDeckForm(forms.Form):
+    """Form to validate the addition of a Card into a Deck."""
+
     template_name = ""
     card_reference = forms.CharField(
         max_length=Card._meta.get_field("reference").max_length

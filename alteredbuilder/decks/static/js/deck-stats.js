@@ -22,7 +22,6 @@ function drawChart() {
         // title: 'Card Type Distribution',
         slices: [
             {color: "#3F9B0B"},
-            // {color: "#8B8000"},
             {color: "#CD853F"},
             {color: "#D4A017"},
         ]
@@ -77,9 +76,6 @@ function drawManaCurve() {
     data = google.visualization.arrayToDataTable(data);
 
     var options = {
-        // chart: {
-        //     title: 'Mana curve',
-        // },
         bars: 'vertical'
     };
 

@@ -39,14 +39,21 @@ class DeckListView(ListView):
     )
     paginate_by = 24
 
-    def get_queryset(self) -> QuerySet[Any]:
+    def get_queryset(self) -> QuerySet[Deck]:
+        """Return a queryset with the Decks that match the filters in the GET params.
+
+        Returns:
+            QuerySet[Deck]: The decks to list.
+        """
         qs = super().get_queryset()
         filters = Q()
 
+        # Retrieve the query and search by deck name or hero name
         query = self.request.GET.get("query")
         if query:
             filters &= Q(name__icontains=query) | Q(hero__name__icontains=query)
 
+        # Extract the faction filter
         factions = self.request.GET.get("faction")
         if factions:
             try:
@@ -56,6 +63,7 @@ class DeckListView(ListView):
             else:
                 filters &= Q(hero__faction__in=factions)
 
+        # Extract the legality filter
         legality = self.request.GET.get("legality")
         if legality:
             legality = legality.split(",")
@@ -64,18 +72,23 @@ class DeckListView(ListView):
             elif "draft" in legality:
                 filters &= Q(is_draft_legal=True)
 
+        # Extract the other filters, which currently it's simply if the deck is loved
         other = self.request.GET.get("other")
         if other:
             if "loved" in other.split(","):
                 lp = LovePoint.objects.filter(user=self.request.user)
                 filters &= Q(id__in=lp.values_list("deck_id", flat=True))
 
+        # In the deck list view there's no need for these fields, which might be
+        # expensive to fill into the model
         return qs.filter(filters).defer(
             "description", "cards", "standard_legality_errors", "draft_legality_errors"
         )
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         """If the user is authenticated, add their decks to the context.
+
+        It also returns the checked filters so that they appear checked on the HTML.
 
         Returns:
             dict[str, Any]: The view's context.
@@ -94,6 +107,8 @@ class DeckListView(ListView):
                 .order_by("-modified_at")[:10]
             )
 
+        # Extract the filters applied from the GET params and add them to the context
+        # to fill them into the template
         checked_filters = []
         for filter in ["faction", "legality", "other"]:
             if filter in self.request.GET:
@@ -112,7 +127,12 @@ class OwnDeckListView(LoginRequiredMixin, ListView):
     paginate_by = 24
     template_name = "decks/own_deck_list.html"
 
-    def get_queryset(self) -> QuerySet[Any]:
+    def get_queryset(self) -> QuerySet[Deck]:
+        """Return a queryset with the Decks created by the user.
+
+        Returns:
+            QuerySet[Deck]: Decks created by the user.
+        """
         qs = super().get_queryset()
         return (
             qs.filter(owner=self.request.user)
@@ -225,24 +245,57 @@ class NewDeckFormView(LoginRequiredMixin, FormView):
 
 @login_required
 def delete_deck(request: HttpRequest, pk: int) -> HttpResponse:
+    """View to delete a Deck.
+
+    Args:
+        request (HttpRequest): The request.
+        pk (int): The ID of the Deck to be deleted.
+
+    Returns:
+        HttpResponse: The response.
+    """
+
+    # The user is part of the filter to ensure ownership.
+    # The delete statement won't fail even if the filter doesn't match any record, which
+    # means that if the Deck is not found (doesn't exist or isn't owned) the view will
+    # fail silently and redirect the user to their Decks regardless of the result.
     Deck.objects.filter(pk=pk, owner=request.user).delete()
     return redirect("own-deck")
 
 
 @login_required
 def love_deck(request: HttpRequest, pk: int) -> HttpResponse:
+    """View to add a LovePoint to a Deck. If the Deck is already loved by the user,
+    it will be undone.
+
+    Args:
+        request (HttpRequest): The request.
+        pk (int): The ID of the Deck to act upon.
+
+    Raises:
+        PermissionDenied: If the user does not have access to the Deck.
+
+    Returns:
+        HttpResponse: The response.
+    """
     try:
+        # The Deck must be either public or owned
         deck = Deck.objects.filter(Q(is_public=True) | Q(owner=request.user)).get(pk=pk)
+        # Retrieve the LovePoint by the user to this Deck
         love_point = LovePoint.objects.get(deck=deck, user=request.user)
-        love_point.delete()
-        deck.love_count = F("love_count") - 1
-        deck.save(update_fields=["love_count"])
     except LovePoint.DoesNotExist:
+        # If the LovePoint does not exist, create it and increase the `love_count`
         LovePoint.objects.create(deck=deck, user=request.user)
         deck.love_count = F("love_count") + 1
         deck.save(update_fields=["love_count"])
     except Deck.DoesNotExist:
+        # If the Deck is not found (private and not owned), raise a permission error
         raise PermissionDenied
+    else:
+        # If the LovePoint exists, delete it and decrease the `love_count`
+        love_point.delete()
+        deck.love_count = F("love_count") - 1
+        deck.save(update_fields=["love_count"])
     return redirect(reverse("deck-detail", kwargs={"pk": deck.id}))
 
 
@@ -259,10 +312,13 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
     Returns:
         HttpResponse: A JSON response indicating whether the request succeeded or not.
     """
+
+    # Ensure it's an AJAX request
     is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if is_ajax:
         if request.method == "POST":
             try:
+                # Retrieve the referenced objects
                 data = json.load(request)
                 deck = Deck.objects.get(pk=pk, owner=request.user)
                 card = Card.objects.get(reference=data["card_reference"])
@@ -270,17 +326,17 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
 
                 if action == "add":
                     # Not currently used
-                    quantity = data["quantity"]
-                    CardInDeck.objects.create(deck=deck, card=card, quantity=quantity)
-                    status = {"added": True}
+                    pass
 
                 elif action == "delete":
                     if (
                         card.type == Card.Type.HERO
                         and deck.hero.reference == card.reference
                     ):
+                        # If it's the Deck's hero, remove the reference
                         deck.hero = None
                     else:
+                        # Retrieve the CiD and delete it
                         cid = CardInDeck.objects.get(deck=deck, card=card)
                         cid.delete()
                     status = {"deleted": True}
@@ -303,7 +359,6 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
                     {"error": {"code": 400, "message": _("Invalid payload")}},
                     status=400,
                 )
-
             return JsonResponse({"data": status}, status=201)
         else:
             return JsonResponse(
@@ -314,16 +369,28 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
 
 
 class UpdateDeckFormView(LoginRequiredMixin, FormView):
+    """View to add a Card to a Deck."""
+
     template_name = "decks/card_list.html"
     form_class = UpdateDeckForm
 
     def form_valid(self, form: UpdateDeckForm) -> HttpResponse:
+        """If the form is valid, add the Card to the Deck
+
+        Args:
+            form (UpdateDeckForm): The request.
+
+        Returns:
+            HttpResponse: The response.
+        """
         try:
+            # Retrieve the referenced Card and Deck
             deck = Deck.objects.get(
                 pk=form.cleaned_data["deck_id"], owner=self.request.user
             )
             card = Card.objects.get(reference=form.cleaned_data["card_reference"])
             if card.type == Card.Type.HERO:
+                # If it's a hero, add it to the Deck unless the Deck has one already
                 if not deck.hero:
                     deck.hero = card.hero
                 else:
@@ -331,6 +398,7 @@ class UpdateDeckFormView(LoginRequiredMixin, FormView):
                     form.add_error("deck_id", _("Deck already has a hero"))
                     return super().form_valid(form)
             else:
+                # If the Card is already in the Deck, add it to the quantity of it
                 cid = CardInDeck.objects.get(deck=deck, card=card)
                 cid.quantity = F("quantity") + form.cleaned_data["quantity"]
                 cid.save()
@@ -346,21 +414,42 @@ class UpdateDeckFormView(LoginRequiredMixin, FormView):
                 deck=deck, card=card, quantity=form.cleaned_data["quantity"]
             )
 
+        # Check the Deck's legality again after adding the Card
         update_deck_legality(deck)
         deck.save()
 
         return super().form_valid(form)
 
     def get_success_url(self) -> str:
+        """Return the redirect URL after successfully adding the Card to the Deck.
+        Redirect to the same page.
+
+        Returns:
+            str: The user's current page.
+        """
         return f"{reverse_lazy('cards')}?{self.request.META['QUERY_STRING']}"
 
 
 class UpdateDeckMetadataFormView(LoginRequiredMixin, FormView):
+    """View to update the metadata fields of a Deck."""
+
     template_name = "decks/deck_detail.html"
     form_class = DeckMetadataForm
 
     def form_valid(self, form: DeckMetadataForm) -> HttpResponse:
+        """If the input data is valid, replace the old data with the received values.
+
+        Args:
+            form (DeckMetadataForm): The form filed by the user.
+
+        Raises:
+            PermissionDenied: If the user is not the owner.
+
+        Returns:
+            HttpResponse: The response.
+        """
         try:
+            # Retrieve the Deck by ID and the user, to ensure ownership
             deck = Deck.objects.get(pk=self.kwargs["pk"], owner=self.request.user)
             deck.name = form.cleaned_data["name"]
             deck.description = form.cleaned_data["description"]
@@ -373,7 +462,7 @@ class UpdateDeckMetadataFormView(LoginRequiredMixin, FormView):
         return super().form_valid(form)
 
     def get_success_url(self) -> str:
-        """Return the redirect URL for a successful Deck submission.
+        """Return the redirect URL for a successful update.
         Redirect to the Deck's detail view.
 
         Returns:
@@ -383,17 +472,27 @@ class UpdateDeckMetadataFormView(LoginRequiredMixin, FormView):
 
 
 class CardListView(ListView):
+    """View to list and filter all the Cards."""
+
     model = Card
     paginate_by = 24
 
-    def get_queryset(self) -> QuerySet[Any]:
+    def get_queryset(self) -> QuerySet[Card]:
+        """Return a queryset matching the filters received via GET parameters.
+
+        Returns:
+            QuerySet[Card]: The list of Cards.
+        """
         qs = super().get_queryset()
         filters = Q()
 
+        # Retrieve the text query and search by name
         query = self.request.GET.get("query")
         if query:
             filters &= Q(name__icontains=query)
 
+        # Retrieve the Faction filters.
+        # If any value is invalid, this filter will not be applied.
         factions = self.request.GET.get("faction")
         if factions:
             try:
@@ -403,6 +502,8 @@ class CardListView(ListView):
             else:
                 filters &= Q(faction__in=factions)
 
+        # Retrieve the Rarity filters.
+        # If any value is invalid, this filter will not be applied.
         rarities = self.request.GET.get("rarity")
         if rarities:
             try:
@@ -412,6 +513,8 @@ class CardListView(ListView):
             else:
                 filters &= Q(rarity__in=rarities)
 
+        # Retrieve the Type filters.
+        # If any value is invalid, this filter will not be applied.
         card_types = self.request.GET.get("type")
         if card_types:
             try:
@@ -427,6 +530,7 @@ class CardListView(ListView):
         order_param = self.request.GET.get("order")
 
         if order_param:
+            # Subtract the "-" simbol pointing that the order will be inversed
             if desc := "-" in order_param:
                 clean_order_param = order_param[1:]
             else:
@@ -436,6 +540,8 @@ class CardListView(ListView):
                 query_order = [order_param]
 
             elif clean_order_param in ["mana", "reserve"]:
+                # Due to the unique 1-to-1 relationship of the Card types, it is needed
+                # to use Coalesce to try and order by different fields
                 if clean_order_param == "mana":
                     fields = (
                         "character__main_cost",
@@ -453,6 +559,8 @@ class CardListView(ListView):
                 if desc:
                     mana_order = mana_order.desc()
                 query_order = [mana_order]
+            # If the order is inversed, the "reference" used as the second clause of
+            # ordering also needs to be reversed
             query_order += ["-reference" if desc else "reference"]
         else:
             query_order = ["reference"]
@@ -460,6 +568,16 @@ class CardListView(ListView):
         return qs.filter(filters).order_by(*query_order)
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
+        """Add extra context to the view.
+
+        If the user is authenticated, include the Decks owned to fill the modal to add
+        a Card to a Deck.
+
+        The filters applied are also returned to display their values on the template.
+
+        Returns:
+            dict[str, Any]: The template's context.
+        """
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
             context["own_decks"] = Deck.objects.filter(
