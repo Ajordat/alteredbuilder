@@ -2,6 +2,7 @@
 
 {% load static %}
 {% load i18n %}
+{% load deck_styles %}
 
 {% block title %}{% translate "Home" %}{% endblock %}
 
@@ -61,6 +62,14 @@
                     </div>
                 </div>
             </div>
+        </div>
+        
+        <div class="col d-flex align-items-center">
+            {% with request.GET|params_to_filter_tag as tags %}
+                {% for tag, value in tags %}
+                    <span class="badge text-bg-secondary">{% translate tag %}: {% translate value %}</span>&nbsp;
+                {% endfor %}
+            {% endwith %}
         </div>
     </div>
     <table class="table table-hover table-clickable" id="publicDecksTable" aria-describedby="Public decks">

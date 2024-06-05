@@ -65,7 +65,7 @@ def inject_params(get_params: dict, **kwargs) -> str:
     Returns:
         str: New GET params query.
     """
-    allowed_params = ["faction", "rarity", "type", "query", "order"]
+    allowed_params = ["faction", "rarity", "type", "query", "order", "legality", "other"]
     args = [
         f"{key}={value}" for key, value in get_params.items() if key in allowed_params
     ] + [f"{key}={value}" for key, value in kwargs.items()]
@@ -81,7 +81,7 @@ def params_to_filter_tag(get_params: dict) -> list[(str, str)]:
         list[(str, str)]: A list of tuple elements with the key-values of the GET
         params.
     """
-    allowed_params = ["faction", "rarity", "type", "query"]
+    allowed_params = ["faction", "rarity", "type", "query", "legality", "other"]
     tags = []
     for param in get_params:
         if param in allowed_params:
