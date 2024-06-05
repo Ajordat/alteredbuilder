@@ -14,49 +14,51 @@
 {% block content %}
     <h3>{% translate "Card list" %}</h3>
     <div class="row row-cols-auto mb-3">
-        <div class="col col-3">
+        <div class="col">
             <form class="d-flex" role="search" id="querySearchForm">
                 <input class="form-control me-2" type="search" aria-label="Search" id="querySearch" value="{{ query }}" placeholder="{% translate 'Search by name' %}">
                 <button class="btn btn-outline-secondary" type="submit">{% translate "Search" %}</button>
             </form>
         </div>
-        <div class="accordion" id="filterAccordion">
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-                        <i class="fa-solid fa-filter"></i>&nbsp; {% translate "Filters" %}&nbsp; <span class="badge text-bg-secondary">{{ checked_filters|length }}</span>&nbsp; 
-                    </button>
-                </h2>
-                <div id="collapseFilter" class="accordion-collapse collapse" data-bs-parent="#filterAccordion">
-                    <div class="accordion-body">
-                        <div class="col">
-                            <div class="row">
-                                <div class="col">
-                                    <b>{% translate "Factions" %}</b>
-                                    {% include "./snippets/filter_checkbox.html" with value="AX" label="Axiom" %}
-                                    {% include "./snippets/filter_checkbox.html" with value="BR" label="Bravos" %}
-                                    {% include "./snippets/filter_checkbox.html" with value="LY" label="Lyra" %}
-                                    {% include "./snippets/filter_checkbox.html" with value="MU" label="Muna" %}
-                                    {% include "./snippets/filter_checkbox.html" with value="OR" label="Ordis" %}
-                                    {% include "./snippets/filter_checkbox.html" with value="YZ" label="Yzmir" %}
+        <div class="col d-flex">
+            <div class="accordion" id="filterAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                            <i class="fa-solid fa-filter"></i>&nbsp; {% translate "Filters" %}&nbsp; <span class="badge text-bg-secondary">{{ checked_filters|length }}</span>&nbsp; 
+                        </button>
+                    </h2>
+                    <div id="collapseFilter" class="accordion-collapse collapse" data-bs-parent="#filterAccordion">
+                        <div class="accordion-body">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col">
+                                        <b>{% translate "Factions" %}</b>
+                                        {% include "./snippets/filter_checkbox.html" with value="AX" label="Axiom" %}
+                                        {% include "./snippets/filter_checkbox.html" with value="BR" label="Bravos" %}
+                                        {% include "./snippets/filter_checkbox.html" with value="LY" label="Lyra" %}
+                                        {% include "./snippets/filter_checkbox.html" with value="MU" label="Muna" %}
+                                        {% include "./snippets/filter_checkbox.html" with value="OR" label="Ordis" %}
+                                        {% include "./snippets/filter_checkbox.html" with value="YZ" label="Yzmir" %}
+                                    </div>
+                                    <div class="col">
+                                        <b>{% translate "Rarity" %}</b>
+                                        {% translate "Common" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="C" label="Common" %}
+                                        {% translate "Rare" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="R" label="Rare" %}
+                                        {% translate "Unique" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="U" label="Unique" %}
+                                    </div>
+                                    <div class="col">
+                                        <b>{% translate "Type" %}</b>
+                                        {% translate "Character" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="character" label="Character" %}
+                                        {% translate "Hero" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="hero" label="Hero" %}
+                                        {% translate "Permanent" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="permanent" label="Permanent" %}
+                                        {% translate "Spell" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="spell" label="Spell" %}
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <b>{% translate "Rarity" %}</b>
-                                    {% translate "Common" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="C" label="Common" %}
-                                    {% translate "Rare" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="R" label="Rare" %}
-                                    {% translate "Unique" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="U" label="Unique" %}
-                                </div>
-                                <div class="col">
-                                    <b>{% translate "Type" %}</b>
-                                    {% translate "Character" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="character" label="Character" %}
-                                    {% translate "Hero" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="hero" label="Hero" %}
-                                    {% translate "Permanent" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="permanent" label="Permanent" %}
-                                    {% translate "Spell" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="spell" label="Spell" %}
-                                </div>
-                            </div>
-                            <div class="row mt-2">
-                                <div class="col text-end">
-                                    <button type="submit" class="btn btn-primary" id="filterSearchButton">{% translate "Search" %}</button>                  
+                                <div class="row mt-2">
+                                    <div class="col text-end">
+                                        <button type="submit" class="btn btn-primary" id="filterSearchButton">{% translate "Search" %}</button>                  
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -64,7 +66,7 @@
                 </div>
             </div>
         </div>
-        <div class="col">
+        <div class="col d-flex">
             <div class="input-group">
                 <label class="input-group-text" for="filterOrdering"><i class="fa-solid fa-sort"></i></label>
                 <select class="form-select" aria-label="Sort by" id="filterOrdering">
@@ -80,13 +82,15 @@
                 </select>
             </div>
         </div>
-        <div class="col d-flex align-items-center">
     {% with request.GET|params_to_filter_tag as tags %}
         {% for tag, value in tags %}
+        <div class="col px-0 d-flex align-items-center">
             <span class="badge text-bg-secondary">{% translate tag %}: {% translate value %}</span>&nbsp;
+        </div>
         {% endfor %}
     {% endwith %}
     {% if order %}
+        <div class="col px-0 d-flex align-items-center">
             <span class="badge text-bg-secondary">{% translate "Order" %}: 
         {% if order == "name" %}{% translate "Name A-Z" %}
         {% elif order == "-name" %}{% translate "Name Z-A" %}
@@ -97,8 +101,8 @@
         {% elif order == "-reserve" %}{% translate "Reserve DESC" %}
         {% endif %}
             </span>&nbsp;
-    {% endif %}
         </div>
+    {% endif %}
     </div>
     <div class="row gy-3">
     {% for card in card_list %}

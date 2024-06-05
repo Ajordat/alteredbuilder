@@ -14,13 +14,13 @@
 {% block content %}
     <h3>{% translate "Public decks" %}</h3>
     <div class="row row-cols-auto">
-        <div class="col col-3">
+        <div class="col-xs-12 col-sm-9 col-md-7 col-lg-5 col-xl-4 col-xxl-4">
             <form class="d-flex" role="search" id="querySearchForm">
                 <input class="form-control me-2" type="search" aria-label="Search" id="querySearch" value="{{ query }}" placeholder="{% translate 'Search by deck or hero name' %}">
                 <button class="btn btn-outline-secondary" type="submit">{% translate "Search" %}</button>
             </form>
         </div>
-        <div class="accordion" id="filterAccordion">
+        <div class="accordion col" id="filterAccordion">
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
@@ -63,14 +63,13 @@
                 </div>
             </div>
         </div>
-        
-        <div class="col d-flex align-items-center">
-            {% with request.GET|params_to_filter_tag as tags %}
-                {% for tag, value in tags %}
-                    <span class="badge text-bg-secondary">{% translate tag %}: {% translate value %}</span>&nbsp;
-                {% endfor %}
-            {% endwith %}
+    {% with request.GET|params_to_filter_tag as tags %}
+        {% for tag, value in tags %}
+        <div class="col px-0 d-flex align-items-center">
+            <span class="badge text-bg-secondary">{% translate tag %}: {% translate value %}</span>&nbsp;
         </div>
+        {% endfor %}
+    {% endwith %}
     </div>
     <table class="table table-hover table-clickable" id="publicDecksTable" aria-describedby="Public decks">
         <thead>
