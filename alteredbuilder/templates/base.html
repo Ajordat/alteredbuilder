@@ -3,8 +3,12 @@
 {% load i18n %}
 {% load i18n_urls %}
 
+{% get_current_language as CURRENT_LANGUAGE %}
+{% get_available_languages as AVAILABLE_LANGUAGES %}
+{% get_language_info_list for AVAILABLE_LANGUAGES as languages %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ CURRENT_LANGUAGE }}">
     <head>
 {% block head %}
         <meta charset="utf-8">
@@ -16,6 +20,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/solid.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/brands.min.css">
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <script src="{% static 'js/theme-mode.js' %}"></script>
         <script src="{% url 'javascript-catalog' %}"></script>
 {% endblock %}
     </head>
@@ -27,7 +32,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-{% with tab_selected_class="border border-bottom-0 border-2 rounded-top bg-white" %}
+{% with tab_selected_class="border border-bottom-0 border-2 rounded-top" %}
                     <ul id="navbar-traversal" class="navbar-nav me-auto">
                         {% url 'deck-list' as item_url %}
                         <li class="nav-item {% if request.path == item_url %}{{ tab_selected_class }}{% endif %}">
@@ -48,11 +53,28 @@
                     </ul>
 {% endwith %}
                     <ul class="navbar-nav">
-    
-{% get_current_language as CURRENT_LANGUAGE %}
-{% get_available_languages as AVAILABLE_LANGUAGES %}
-{% get_language_info_list for AVAILABLE_LANGUAGES as languages %}
-
+                        <li class="nav-item dropdown">
+                            <button class="btn btn-link nav-link dropdown-toggle text-info-emphasis" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static">
+                                <i id="theme-icon-active"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+                                <li>
+                                    <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+                                        <i class="fa-solid fa-sun"></i>&nbsp;{% translate "Light" %}
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="dark" aria-pressed="true">
+                                        <i class="fa-solid fa-moon"></i>&nbsp;{% translate "Dark" %}
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+                                        <i class="fa-solid fa-circle-half-stroke"></i>&nbsp;{% translate "Auto" %}
+                                    </button>
+                                </li>
+                            </ul>
+                        </li>
                         <li class="nav-item dropdown">
 {% with flag_url="img/"|add:CURRENT_LANGUAGE|add:".png" %}
                             <a class="nav-link active dropdown-toggle text-info-emphasis" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="{% static flag_url %}"></a>

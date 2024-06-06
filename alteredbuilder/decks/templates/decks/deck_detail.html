@@ -48,8 +48,8 @@
                     <li id="copy-self-link"><a class="dropdown-item" href="#"><i class="fa-regular fa-copy"></i> {% translate "Copy link" %}</a></li>
                     <li id="copy-decklist"><a class="dropdown-item" href="#"><i class="fa-regular fa-copy"></i> {% translate "Copy decklist" %}</a></li>
                     <li id="share-facebook"><a class="dropdown-item" href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-facebook"></i> Facebook</a></li>
-                    <li id="share-facebook"><a class="dropdown-item" href="https://telegram.me/share/url?url={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram</a></li>
-                    <li id="share-facebook"><a class="dropdown-item" href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-twitter"></i> Twitter</a></li>
+                    <li id="share-telegram"><a class="dropdown-item" href="https://telegram.me/share/url?url={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram</a></li>
+                    <li id="share-twitter"><a class="dropdown-item" href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-twitter"></i> Twitter</a></li>
                     <li id="share-whatsapp"><a class="dropdown-item" href="https://wa.me/?text={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-whatsapp"></i> Whatsapp</a></li>
                 </ul>
             </div>
@@ -96,7 +96,7 @@
                         </thead>
                         <tbody class="table-group-divider">
     {% if object.hero %}
-                            <tr data-image-url="{{ object.hero.image_url }}">
+                            <tr class="table-light" data-image-url="{{ object.hero.image_url }}">
                                 <td>{{ object.hero.name }}</td>
                                 <td>{{ object.hero.get_faction_display.title }}</td>
                                 <td>

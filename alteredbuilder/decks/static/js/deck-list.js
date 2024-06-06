@@ -67,5 +67,7 @@ function searchCards(e) {
     return false;
 }
 
-document.getElementById("filterSearchButton").addEventListener("click", searchCards);
-document.getElementById("querySearchForm").addEventListener("submit", searchCards);
+let element = document.getElementById("filterSearchButton");
+if (element) element.addEventListener("click", searchCards);
+element = document.getElementById("querySearchForm");
+if (element) element.addEventListener("submit", searchCards);
