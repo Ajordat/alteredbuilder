@@ -12,6 +12,8 @@ from django.utils.translation import activate
 
 API_URL = "https://api.altered.gg/cards"
 ITEMS_PER_PAGE = 1000
+UPDATE_UNIQUES = False
+IMAGE_ERROR_LOCALES = ["es"]
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0",
     "Origin": "https://www.altered.gg",
@@ -35,7 +37,9 @@ class Command(BaseCommand):
         total_items = math.inf
 
         while page_index <= page_count:
-            params = f"?page={page_index}&itemsPerPage={ITEMS_PER_PAGE}&rarity[]=UNIQUE"
+            params = f"?page={page_index}&itemsPerPage={ITEMS_PER_PAGE}"
+            if UPDATE_UNIQUES:
+                params += "&rarity[]=UNIQUE"
             req = request.Request(API_URL + params, headers=headers)
             with request.urlopen(req) as response:
                 page = response.read()
@@ -52,6 +56,8 @@ class Command(BaseCommand):
                     raise CommandError("Invalid card format encountered")
 
                 self.convert_choices(card_dict)
+                if card_dict["rarity"] == Card.Rarity.UNIQUE and language_code in IMAGE_ERROR_LOCALES:
+                    card_dict["image_url"] = None
                 try:
                     card_obj = Card.objects.get(reference=card_dict["reference"])
                 except Card.DoesNotExist:
