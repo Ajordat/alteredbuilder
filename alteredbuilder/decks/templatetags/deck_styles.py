@@ -65,7 +65,15 @@ def inject_params(get_params: dict, **kwargs) -> str:
     Returns:
         str: New GET params query.
     """
-    allowed_params = ["faction", "rarity", "type", "query", "order", "legality", "other"]
+    allowed_params = [
+        "faction",
+        "rarity",
+        "type",
+        "query",
+        "order",
+        "legality",
+        "other",
+    ]
     args = [
         f"{key}={value}" for key, value in get_params.items() if key in allowed_params
     ] + [f"{key}={value}" for key, value in kwargs.items()]

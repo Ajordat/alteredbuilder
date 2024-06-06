@@ -1,6 +1,9 @@
 // Retrieve the JSON data left on the template
 var deckStats = JSON.parse(document.getElementById('deck-stats').textContent);
 
+const chartBackgroundColor = "#212529";
+const chartTextColor = "white";
+
 google.charts.load('current', {'packages':['corechart', 'bar']});
 google.charts.setOnLoadCallback(drawChart);
 google.charts.setOnLoadCallback(drawStats);
@@ -8,7 +11,7 @@ google.charts.setOnLoadCallback(drawManaCurve);
 
 function drawChart() {
     // Draw the card type distribution in a pie chart
-
+    let chartElement = document.getElementById('distribution-pie-chart');
     let deckStatsI18n = {};
     deckStatsI18n[gettext("characters")] = deckStats["type_distribution"]["characters"];
     deckStatsI18n[gettext("spells")] = deckStats["type_distribution"]["spells"];
@@ -17,18 +20,26 @@ function drawChart() {
     let data = google.visualization.arrayToDataTable(
         [['Card Type', 'Amount']].concat(Object.entries(deckStatsI18n))
     );
-
-    let options = {
-        // title: 'Card Type Distribution',
-        slices: [
-            {color: "#3F9B0B"},
-            {color: "#CD853F"},
-            {color: "#D4A017"},
-        ]
     
-    };
+    let options = {};
+    if (document.documentElement.getAttribute("data-bs-theme") === "dark") {
+        options = {
+            backgroundColor: chartBackgroundColor,
+            legend: {
+                textStyle: {
+                    color: chartTextColor
+                }
+            }
+        };
+    }
+    
+    options["slices"] = [
+        {color: "#3F9B0B"},
+        {color: "#CD853F"},
+        {color: "#D4A017"},
+    ];
 
-    let chart = new google.visualization.PieChart(document.getElementById('distribution-pie-chart'));
+    let chart = new google.visualization.PieChart(chartElement);
 
     chart.draw(data, options);
 }
@@ -75,9 +86,32 @@ function drawManaCurve() {
     }
     data = google.visualization.arrayToDataTable(data);
 
-    var options = {
-        bars: 'vertical'
-    };
+    let options = {};
+    if (document.documentElement.getAttribute("data-bs-theme") === "dark") {
+        options = {
+            backgroundColor: chartBackgroundColor,
+            chartArea: {
+                backgroundColor: chartBackgroundColor
+            },
+            hAxis: {
+                textStyle: {
+                    color: chartTextColor
+                }
+            },
+            vAxis: {
+                textStyle: {
+                    color: chartTextColor
+                }
+            },
+            legend: {
+                textStyle: {
+                    color: chartTextColor
+                }
+            }
+        };
+    }
+    
+    options["bars"] = "vertical";
 
     let chart = new google.charts.Bar(document.getElementById('mana-curve-chart'));
     chart.draw(data, google.charts.Bar.convertOptions(options));

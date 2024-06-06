@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-02 00:57+0200\n"
+"POT-Creation-Date: 2024-06-06 13:56+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,44 +44,44 @@ msgstr ""
 msgid "Multiple heroes present in the decklist"
 msgstr ""
 
-#: decks/forms.py:19 decks/forms.py:42
+#: decks/forms.py:25 decks/forms.py:55
 msgid "description"
 msgstr ""
 
-#: decks/forms.py:22
+#: decks/forms.py:31
 msgid "decklist"
 msgstr ""
 
-#: decks/forms.py:29
+#: decks/forms.py:38
 msgid "Each line should be a quantity (1, 2 or 3) and a card reference."
 msgstr ""
 
-#: decks/game_modes.py:40
+#: decks/game_modes.py:62
 #, python-format
 msgid "Exceeds maximum faction count (%(count)s)"
 msgstr ""
 
-#: decks/game_modes.py:44
+#: decks/game_modes.py:66
 #, python-format
 msgid "Does not have enough cards (%(count)s)"
 msgstr ""
 
-#: decks/game_modes.py:48
+#: decks/game_modes.py:70
 #, python-format
 msgid "Exceeds the maximum RARE card count (%(count)s)"
 msgstr ""
 
-#: decks/game_modes.py:52
+#: decks/game_modes.py:74
 #, python-format
 msgid "Exceeds the maximum UNIQUE card count (%(count)s)"
 msgstr ""
 
-#: decks/game_modes.py:57
+#: decks/game_modes.py:79
 #, python-format
 msgid "Exceeds the maximum card count for any given family (%(count)s)"
 msgstr ""
 
-#: decks/game_modes.py:60
+#: decks/game_modes.py:82
 msgid "Missing hero"
 msgstr ""
 
@@ -95,156 +95,156 @@ msgid "Search by name"
 msgstr ""
 
 #: decks/templates/decks/card_list.html:20
-#: decks/templates/decks/card_list.html:59
-#: decks/templates/decks/deck_list.html:19
-#: decks/templates/decks/deck_list.html:57
+#: decks/templates/decks/card_list.html:60
+#: decks/templates/decks/deck_list.html:20
+#: decks/templates/decks/deck_list.html:58
 msgid "Search"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:27
-#: decks/templates/decks/deck_list.html:26
+#: decks/templates/decks/card_list.html:28
+#: decks/templates/decks/deck_list.html:27
 msgid "Filters"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:35
-#: decks/templates/decks/deck_list.html:34
+#: decks/templates/decks/card_list.html:36
+#: decks/templates/decks/deck_list.html:35
 msgid "Factions"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:44
-#: decks/templates/decks/card_list.html:75
-#: decks/templates/decks/card_list.html:93
+#: decks/templates/decks/card_list.html:45
+#: decks/templates/decks/card_list.html:77
+#: decks/templates/decks/card_list.html:97
 #: decks/templates/decks/deck_detail.html:151
 msgid "Rarity"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:45
+#: decks/templates/decks/card_list.html:46
 #: decks/templates/decks/deck_detail.html:157
 msgid "Common"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:46
+#: decks/templates/decks/card_list.html:47
 #: decks/templates/decks/deck_detail.html:161
 msgid "Rare"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:47
+#: decks/templates/decks/card_list.html:48
 #: decks/templates/decks/deck_detail.html:165
 msgid "Unique"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:50
+#: decks/templates/decks/card_list.html:51
 #: decks/templates/decks/deck_detail.html:174
 msgid "Type"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:51
+#: decks/templates/decks/card_list.html:52
 msgid "Character"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:52
+#: decks/templates/decks/card_list.html:53
 #: decks/templates/decks/deck_detail.html:89
-#: decks/templates/decks/deck_list.html:73
-#: decks/templates/decks/deck_list.html:117
+#: decks/templates/decks/deck_list.html:81
+#: decks/templates/decks/deck_list.html:125
 #: decks/templates/decks/own_deck_list.html:22
 msgid "Hero"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:53
+#: decks/templates/decks/card_list.html:54
 msgid "Permanent"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:54
+#: decks/templates/decks/card_list.html:55
 msgid "Spell"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:71
+#: decks/templates/decks/card_list.html:73
 msgid "Sort by"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:72
+#: decks/templates/decks/card_list.html:74
 msgid "Default"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:73
-#: decks/templates/decks/card_list.html:91
+#: decks/templates/decks/card_list.html:75
+#: decks/templates/decks/card_list.html:95
 msgid "Name A-Z"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:74
-#: decks/templates/decks/card_list.html:92
+#: decks/templates/decks/card_list.html:76
+#: decks/templates/decks/card_list.html:96
 msgid "Name Z-A"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:76
-#: decks/templates/decks/card_list.html:94
+#: decks/templates/decks/card_list.html:78
+#: decks/templates/decks/card_list.html:98
 msgid "Mana ASC"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:77
-#: decks/templates/decks/card_list.html:95
+#: decks/templates/decks/card_list.html:79
+#: decks/templates/decks/card_list.html:99
 msgid "Mana DESC"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:78
-#: decks/templates/decks/card_list.html:96
+#: decks/templates/decks/card_list.html:80
+#: decks/templates/decks/card_list.html:100
 msgid "Reserve ASC"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:79
-#: decks/templates/decks/card_list.html:97
+#: decks/templates/decks/card_list.html:81
+#: decks/templates/decks/card_list.html:101
 msgid "Reserve DESC"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:90
+#: decks/templates/decks/card_list.html:94
 msgid "Order"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:110
+#: decks/templates/decks/card_list.html:114
 #: decks/templates/decks/deck_detail.html:61
 msgid "Options"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:113
+#: decks/templates/decks/card_list.html:117
 msgid "Start a deck"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:115
+#: decks/templates/decks/card_list.html:119
 msgid "Add to a deck"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:116
+#: decks/templates/decks/card_list.html:120
 #: decks/templates/decks/deck_detail.html:106
 #: decks/templates/decks/snippets/card_table.html:24
 msgid "Go to details"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:123
+#: decks/templates/decks/card_list.html:127
 msgid "No cards found with the current filter."
 msgstr ""
 
-#: decks/templates/decks/card_list.html:135
+#: decks/templates/decks/card_list.html:139
 msgid "Add card to deck"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:142
+#: decks/templates/decks/card_list.html:146
 msgid "Card"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:159
+#: decks/templates/decks/card_list.html:163
 msgid "Deck"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:168
+#: decks/templates/decks/card_list.html:172
 msgid "No decks found"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:175
+#: decks/templates/decks/card_list.html:179
 #: decks/templates/decks/deck_detail.html:267
 msgid "Cancel"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:176
+#: decks/templates/decks/card_list.html:180
 msgid "Add"
 msgstr ""
 
@@ -288,8 +288,8 @@ msgid "Decklist"
 msgstr ""
 
 #: decks/templates/decks/deck_detail.html:93
-#: decks/templates/decks/deck_list.html:71
-#: decks/templates/decks/deck_list.html:115
+#: decks/templates/decks/deck_list.html:79
+#: decks/templates/decks/deck_list.html:123
 #: decks/templates/decks/own_deck_list.html:20
 #: decks/templates/decks/snippets/card_table.html:9
 #: decks/templates/forms/submit_deck_metadata.html:7
@@ -298,8 +298,8 @@ msgid "Name"
 msgstr ""
 
 #: decks/templates/decks/deck_detail.html:94
-#: decks/templates/decks/deck_list.html:72
-#: decks/templates/decks/deck_list.html:116
+#: decks/templates/decks/deck_list.html:80
+#: decks/templates/decks/deck_list.html:124
 #: decks/templates/decks/own_deck_list.html:21
 msgid "Faction"
 msgstr ""
@@ -410,70 +410,74 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:6 templates/base.html:34
+#: decks/templates/decks/deck_list.html:7 templates/base.html:39
 msgid "Home"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:14
+#: decks/templates/decks/deck_list.html:15
 msgid "Public decks"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:18
+#: decks/templates/decks/deck_list.html:19
 msgid "Search by deck or hero name"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:43
-#: decks/templates/decks/deck_list.html:76
-#: decks/templates/decks/deck_list.html:120
+#: decks/templates/decks/deck_list.html:44
+#: decks/templates/decks/deck_list.html:84
+#: decks/templates/decks/deck_list.html:128
 #: decks/templates/decks/own_deck_list.html:25
 msgid "Legality"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:44
+#: decks/templates/decks/deck_list.html:45
 msgid "Standard"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:45
+#: decks/templates/decks/deck_list.html:46
 msgid "Draft"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:48
+#: decks/templates/decks/deck_list.html:49
 msgid "Other"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:70
+#: decks/templates/decks/deck_list.html:52
+msgid "Loved"
+msgstr ""
+
+#: decks/templates/decks/deck_list.html:78
 msgid "Owner"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:79
-#: decks/templates/decks/deck_list.html:124
+#: decks/templates/decks/deck_list.html:87
+#: decks/templates/decks/deck_list.html:132
 #: decks/templates/decks/own_deck_list.html:29
 msgid "Last updated"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:99
-#: decks/templates/decks/deck_list.html:144
+#: decks/templates/decks/deck_list.html:107
+#: decks/templates/decks/deck_list.html:152
 #: decks/templates/decks/own_deck_list.html:49
 #, python-format
 msgid "%(time_since)s ago"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:102
+#: decks/templates/decks/deck_list.html:110
 msgid "No decks were found with the current filters"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:110
+#: decks/templates/decks/deck_list.html:118
 #: decks/templates/decks/own_deck_list.html:6
-#: decks/templates/decks/own_deck_list.html:15 templates/base.html:42
+#: decks/templates/decks/own_deck_list.html:15 templates/base.html:47
 msgid "My decks"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:123
+#: decks/templates/decks/deck_list.html:131
 #: decks/templates/decks/own_deck_list.html:28
 msgid "Is it public?"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:150
+#: decks/templates/decks/deck_list.html:158
 msgid "See full list"
 msgstr ""
 
@@ -549,75 +553,87 @@ msgstr ""
 msgid "Import"
 msgstr ""
 
-#: decks/views.py:284 decks/views.py:325
+#: decks/views.py:351 decks/views.py:406
 msgid "Deck not found"
 msgstr ""
 
-#: decks/views.py:288 decks/views.py:328
+#: decks/views.py:355 decks/views.py:409
 msgid "Card not found"
 msgstr ""
 
-#: decks/views.py:292
+#: decks/views.py:359
 msgid "Invalid payload"
 msgstr ""
 
-#: decks/views.py:299 decks/views.py:302
+#: decks/views.py:365 decks/views.py:368
 msgid "Invalid request"
 msgstr ""
 
-#: decks/views.py:318
+#: decks/views.py:398
 msgid "Deck already has a hero"
 msgstr ""
 
-#: templates/base.html:38
+#: templates/base.html:43
 msgid "Cards"
 msgstr ""
 
-#: templates/base.html:46
+#: templates/base.html:51
 msgid "New deck"
 msgstr ""
 
-#: templates/base.html:78
+#: templates/base.html:63
+msgid "Light"
+msgstr ""
+
+#: templates/base.html:68
+msgid "Dark"
+msgstr ""
+
+#: templates/base.html:73
+msgid "Auto"
+msgstr ""
+
+#: templates/base.html:100
 msgid "Profile"
 msgstr ""
 
-#: templates/base.html:79
+#: templates/base.html:101
 msgid "Update email"
 msgstr ""
 
-#: templates/base.html:80
+#: templates/base.html:102
 msgid "Update password"
 msgstr ""
 
-#: templates/base.html:82
+#: templates/base.html:104
 msgid "Logout"
 msgstr ""
 
-#: templates/base.html:87
+#: templates/base.html:109
 msgid "Login"
 msgstr ""
 
-#: templates/base.html:102
+#: templates/base.html:124
 msgid "Links"
 msgstr ""
 
-#: templates/base.html:105
+#: templates/base.html:127
 msgid "About the project"
 msgstr ""
 
-#: templates/base.html:108
+#: templates/base.html:130
 msgid "About the author"
 msgstr ""
 
-#: templates/base.html:111
+#: templates/base.html:133
 msgid "Privacy policy"
 msgstr ""
 
-#: templates/base.html:114
+#: templates/base.html:136
 msgid "Terms and conditions"
 msgstr ""
 
-#: templates/base.html:119
+#: templates/base.html:141
 msgid "Get in touch"
 msgstr ""
 

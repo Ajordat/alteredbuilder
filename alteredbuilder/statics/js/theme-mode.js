@@ -30,7 +30,7 @@
       if (theme === 'auto') {
         theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       }
-      let activeTabElement = document.getElementsByClassName("nav-item border")[0];
+      let activeTabElement = document.getElementsByClassName("current-nav-tab")[0];
       if (!activeTabElement) return;
       if (theme === 'dark') {
         activeTabElement.classList.add("bg-dark");

@@ -56,7 +56,10 @@ class Command(BaseCommand):
                     raise CommandError("Invalid card format encountered")
 
                 self.convert_choices(card_dict)
-                if card_dict["rarity"] == Card.Rarity.UNIQUE and language_code in IMAGE_ERROR_LOCALES:
+                if (
+                    card_dict["rarity"] == Card.Rarity.UNIQUE
+                    and language_code in IMAGE_ERROR_LOCALES
+                ):
                     card_dict["image_url"] = None
                 try:
                     card_obj = Card.objects.get(reference=card_dict["reference"])
