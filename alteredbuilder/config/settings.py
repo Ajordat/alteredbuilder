@@ -121,6 +121,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.github",
     "allauth.socialaccount.providers.discord",
     "decks.apps.DecksConfig",
+    "django_extensions"
 ]
 
 MIDDLEWARE = [
