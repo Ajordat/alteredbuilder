@@ -93,7 +93,7 @@ if SERVICE_PUBLIC_URL := env("SERVICE_PUBLIC_URL"):
     # If SERVICE_PUBLIC_URL is set it means we're serving publicly
 
     ALLOWED_HOSTS = [urlparse(url).netloc for url in SERVICE_PUBLIC_URL.split(",")]
-    CSRF_TRUSTED_ORIGINS = [SERVICE_PUBLIC_URL.split(",")]
+    CSRF_TRUSTED_ORIGINS = SERVICE_PUBLIC_URL.split(",")
     SECURE_SSL_REDIRECT = True
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     CSRF_COOKIE_SECURE = True
