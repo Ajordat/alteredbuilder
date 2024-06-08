@@ -35,5 +35,6 @@ jobs:
         python manage.py test
       env:
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DEBUG: False
         USE_GCS_STATICS: False
