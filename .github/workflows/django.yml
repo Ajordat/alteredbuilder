@@ -1,7 +1,10 @@
 name: Django CI
 
 on:
-  push
+  push:
+    paths:
+    - "alteredbuilder/**"
+    - ".github/workflows/*.yml"
 
 env:
   DEBUG: False
@@ -12,7 +15,22 @@ defaults:
     working-directory: ./alteredbuilder
 
 jobs:
-
+  changes:
+    runs-on: ubuntu-22.04
+    outputs:
+      statics: ${{ steps.filter.outputs.statics }}
+      migrations: ${{ steps.filter.outputs.migrations }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dorny/paths-filter@v3.0.2
+      id: filter
+      with:
+        filters: |
+          statics:
+          - "**/static/**"
+          - "**/statics/**"
+          migrations:
+          - "**/migrations/**"
   # unittests:
   #   runs-on: ubuntu-22.04
   #   services:
@@ -80,7 +98,8 @@ jobs:
   #       DATABASE_URL: ${{ secrets.MIGRATION_DATABASE_URL }}
 
   collect_statics:
-    # needs: unittests
+    needs: changes
+    if: ${{ needs.changes.outputs.statics == 'true' }}
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
