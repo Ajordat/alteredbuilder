@@ -96,6 +96,7 @@ jobs:
       run: python manage.py collectstatic --no-input
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        DATABASE_URL: ${{ secrets.MIGRATION_DATABASE_URL }}
         USE_GCS_STATICS: True
         GCS_BUCKET_STATICS: ${{ vars.GCS_BUCKET_STATICS }}
         GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_GITHUB_SA }}
