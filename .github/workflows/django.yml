@@ -1,4 +1,4 @@
-name: Django CI
+name: Django CICD
 
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
       migrations: ${{ steps.filter.outputs.migrations }}
     steps:
     - uses: actions/checkout@v4
-    - uses: dorny/paths-filter@v3.0.2
+    - uses: dorny/paths-filter@v3
       id: filter
       with:
         filters: |
@@ -31,6 +31,7 @@ jobs:
           - "**/statics/**"
           migrations:
           - "**/migrations/**"
+
   unittests:
     runs-on: ubuntu-22.04
     services:
@@ -45,7 +46,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python 3.12
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v5
       with:
         python-version: 3.12
     - name: Install Dependencies
@@ -57,17 +58,17 @@ jobs:
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
-        
+
   build_and_push_image:
     needs: unittests
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
     - id: auth
-      uses: google-github-actions/auth@v2.1.3
+      uses: google-github-actions/auth@v2
       with:
         credentials_json: ${{ secrets.GCP_GITHUB_SA }}
-    - uses: google-github-actions/setup-gcloud@v1
+    - uses: google-github-actions/setup-gcloud@v2
     - run: gcloud auth configure-docker ${{ vars.REGION }}-docker.pkg.dev --quiet
     - run: docker build . --tag ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
     - run: docker push ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
@@ -79,7 +80,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python 3.12
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v5
       with:
         python-version: 3.12
     - name: Install Dependencies
@@ -105,7 +106,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python 3.12
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v5
       with:
         python-version: 3.12
     - name: Install Dependencies
@@ -120,17 +121,18 @@ jobs:
         USE_GCS_STATICS: True
         GCS_BUCKET_STATICS: ${{ vars.GCS_BUCKET_STATICS }}
         GCP_GITHUB_SA: ${{ secrets.GCP_GITHUB_SA }}
-        
+
   deploy:
-    needs: [migrate_db, collect_statics]
+    needs: [build_and_push_image, migrate_db, collect_statics]
+    if: ${{ needs.build_and_push_image.result == 'success'}}
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
     - id: auth
-      uses: google-github-actions/auth@v2.1.3
+      uses: google-github-actions/auth@v2
       with:
         credentials_json: ${{ secrets.GCP_GITHUB_SA }}
-    - uses: google-github-actions/deploy-cloudrun@v2.6.0
+    - uses: google-github-actions/deploy-cloudrun@v2
       with:
         service: ${{ vars.CLOUD_RUN_SERVICE_NAME }}
         image: ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
