@@ -4,7 +4,6 @@ on:
   push
 
 env:
-  RUN_ON: ubuntu-22.04
   DEBUG: False
   USE_GCS_STATICS: False
 
@@ -14,7 +13,7 @@ defaults:
 
 jobs:
   build:
-    runs-on: ${{ env.RUN_ON }}
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
     - id: auth
@@ -27,7 +26,7 @@ jobs:
     - run: docker push ${{ vars.AR_REPOSITORY }}
   test:
     needs: build
-    runs-on: ${{ env.RUN_ON }}
+    runs-on: ubuntu-22.04
     services:
       db:
         image: postgres:15.4
@@ -55,7 +54,7 @@ jobs:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
   migrate:
     needs: test
-    runs-on: ${{ env.RUN_ON }}
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python 3.12
