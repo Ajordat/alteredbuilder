@@ -75,7 +75,7 @@ jobs:
 
   migrate_db:
     needs: [changes, build_and_push_image]
-    if: ${{ needs.changes.outputs.migrations == 'true' }}
+    if: needs.changes.outputs.migrations == 'true'
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
@@ -101,7 +101,7 @@ jobs:
 
   collect_statics:
     needs: [changes, unittests]
-    if: ${{ needs.changes.outputs.statics == 'true' }}
+    if: needs.changes.outputs.statics == 'true'
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
@@ -124,7 +124,10 @@ jobs:
 
   deploy:
     needs: [build_and_push_image, migrate_db, collect_statics]
-    if: ${{ needs.build_and_push_image.result == 'success'}}
+    if: |
+      always() &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled')
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
