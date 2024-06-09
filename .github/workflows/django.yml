@@ -12,30 +12,76 @@ defaults:
     working-directory: ./alteredbuilder
 
 jobs:
-  build:
+
+  # unittests:
+  #   runs-on: ubuntu-22.04
+  #   services:
+  #     db:
+  #       image: postgres:15.4
+  #       ports:
+  #       - 5432:5432
+  #       env:
+  #         POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+  #         POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+  #         POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+  #   steps:
+  #   - uses: actions/checkout@v4
+  #   - name: Set up Python 3.12
+  #     uses: actions/setup-python@v3
+  #     with:
+  #       python-version: 3.12
+  #   - name: Install Dependencies
+  #     run: |
+  #       python -m pip install --upgrade pip
+  #       pip install -r requirements.txt
+  #   - name: Run Tests
+  #     run: python manage.py test
+  #     env:
+  #       SECRET_KEY: ${{ secrets.SECRET_KEY }}
+  #       DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
+        
+  # build_and_push_image:
+  #   needs: unittests
+  #   runs-on: ubuntu-22.04
+  #   steps:
+  #   - uses: actions/checkout@v4
+  #   - id: auth
+  #     uses: google-github-actions/auth@v1
+  #     with:
+  #       credentials_json: ${{ secrets.GCP_GITHUB_SA }}
+  #   - uses: google-github-actions/setup-gcloud@v1
+  #   - run: gcloud auth configure-docker ${{ vars.REGION }}-docker.pkg.dev --quiet
+  #   - run: docker build . --tag ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
+  #   - run: docker push ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
+    
+  # migrate_db:
+  #   needs: build_and_push_image
+  #   runs-on: ubuntu-22.04
+  #   steps:
+  #   - uses: actions/checkout@v4
+  #   - name: Set up Python 3.12
+  #     uses: actions/setup-python@v3
+  #     with:
+  #       python-version: 3.12
+  #   - name: Install Dependencies
+  #     run: |
+  #       python -m pip install --upgrade pip
+  #       pip install -r requirements.txt
+  #   - name: Google Cloud SQL Auth Proxy
+  #     uses: mattes/gce-cloudsql-proxy-action@v1
+  #     with:
+  #       creds: ${{ secrets.GCP_GITHUB_SA }}
+  #       instance: ${{ vars.CLOUD_SQL_INSTANCE }}
+  #       port: 5432
+  #   - name: Run migrations
+  #     run: python manage.py migrate
+  #     env:
+  #       SECRET_KEY: ${{ secrets.SECRET_KEY }}
+  #       DATABASE_URL: ${{ secrets.MIGRATION_DATABASE_URL }}
+
+  collect_statics:
+    # needs: unittests
     runs-on: ubuntu-22.04
-    steps:
-    - uses: actions/checkout@v4
-    - id: auth
-      uses: google-github-actions/auth@v1
-      with:
-        credentials_json: ${{ secrets.GCP_GITHUB_SA }}
-    - uses: google-github-actions/setup-gcloud@v1
-    - run: gcloud auth configure-docker ${{ vars.REGION }}-docker.pkg.dev --quiet
-    - run: docker build . --tag ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
-    - run: docker push ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
-  test:
-    needs: build
-    runs-on: ubuntu-22.04
-    services:
-      db:
-        image: postgres:15.4
-        ports:
-        - 5432:5432
-        env:
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python 3.12
@@ -46,34 +92,10 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    - name: Run Tests
-      run: |
-        python manage.py test
+    - name: Collect static files to GCS
+      run: python manage.py collectstatic --no-input
       env:
-        DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
-  migrate:
-    needs: test
-    runs-on: ubuntu-22.04
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python 3.12
-      uses: actions/setup-python@v3
-      with:
-        python-version: 3.12
-    - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    - name: Google Cloud SQL Auth Proxy
-      uses: mattes/gce-cloudsql-proxy-action@v1
-      with:
-        creds: ${{ secrets.GCP_GITHUB_SA }}
-        instance: ${{ vars.CLOUD_SQL_INSTANCE }}
-        port: 5432
-    - name: Run migrations
-      run: |
-        python manage.py migrate
-      env:
-        DATABASE_URL: ${{ secrets.MIGRATION_DATABASE_URL }}
-        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        USE_GCS_STATICS: True
+        GCS_BUCKET_STATICS: ${{ vars.GCS_BUCKET_STATICS }}
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_GITHUB_SA }}
