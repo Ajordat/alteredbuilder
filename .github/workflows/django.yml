@@ -4,6 +4,7 @@ on:
   push
 
 env:
+  RUN_ON: ubuntu-22.04
   DEBUG: False
   USE_GCS_STATICS: False
 
@@ -12,8 +13,21 @@ defaults:
     working-directory: ./alteredbuilder
 
 jobs:
+  build:
+    runs-on: ${{ env.RUN_ON }}
+    steps:
+    - uses: actions/checkout@v4
+    - id: auth
+      uses: google-github-actions/auth@v1
+      with:
+        credentials_json: ${{ secrets.GCP_GITHUB_SA }}
+    - uses: google-github-actions/setup-gcloud@v1
+    - run: gcloud auth configure-docker ${{ vars.REGION }}-docker.pkg.dev --quiet
+    - run: docker build . --tag ${{ vars.AR_REPOSITORY }}
+    - run: docker push ${{ vars.AR_REPOSITORY }}
   test:
-    runs-on: ubuntu-22.04
+    needs: build
+    runs-on: ${{ env.RUN_ON }}
     services:
       db:
         image: postgres:15.4
@@ -23,7 +37,6 @@ jobs:
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python 3.12
@@ -41,7 +54,8 @@ jobs:
         DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
   migrate:
-    runs-on: ubuntu-22.04
+    needs: test
+    runs-on: ${{ env.RUN_ON }}
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python 3.12
@@ -55,7 +69,7 @@ jobs:
     - name: Google Cloud SQL Auth Proxy
       uses: mattes/gce-cloudsql-proxy-action@v1
       with:
-        creds: ${{ secrets.SA_CLOUD_SQL }}
+        creds: ${{ secrets.GCP_GITHUB_SA }}
         instance: ${{ vars.CLOUD_SQL_INSTANCE }}
         port: 5432
     - name: Run migrations
