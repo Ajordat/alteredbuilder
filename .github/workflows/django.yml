@@ -99,4 +99,4 @@ jobs:
         DATABASE_URL: ${{ secrets.MIGRATION_DATABASE_URL }}
         USE_GCS_STATICS: True
         GCS_BUCKET_STATICS: ${{ vars.GCS_BUCKET_STATICS }}
-        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_GITHUB_SA }}
+        GCP_GITHUB_SA: ${{ secrets.GCP_GITHUB_SA }}

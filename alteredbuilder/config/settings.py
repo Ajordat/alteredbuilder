@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 import io
+import json
 import os
 from pathlib import Path
 from urllib.parse import urlparse
@@ -20,6 +21,7 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 import google.auth
 from google.cloud import secretmanager
+from google.oauth2 import service_account
 
 from config import __version__
 
@@ -269,6 +271,8 @@ if env("USE_GCS_STATICS") and (statics_bucket := env("GCS_BUCKET_STATICS")):
             },
         },
     }
+    if GITHUB_SA_CREDS := env("GCP_GITHUB_SA"):
+        GS_CREDENTIALS = service_account.Credentials.from_service_account_info(json.loads(GITHUB_SA_CREDS))
 else:
     STATIC_ROOT = BASE_DIR / "static/"
 
