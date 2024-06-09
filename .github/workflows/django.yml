@@ -22,8 +22,8 @@ jobs:
         credentials_json: ${{ secrets.GCP_GITHUB_SA }}
     - uses: google-github-actions/setup-gcloud@v1
     - run: gcloud auth configure-docker ${{ vars.REGION }}-docker.pkg.dev --quiet
-    - run: docker build . --tag ${{ vars.AR_REPOSITORY }}
-    - run: docker push ${{ vars.AR_REPOSITORY }}
+    - run: docker build . --tag ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
+    - run: docker push ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
   test:
     needs: build
     runs-on: ubuntu-22.04
