@@ -86,7 +86,7 @@ class DeckListView(ListView):
         )
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
-        """If the user is authenticated, add their decks to the context.
+        """If the user is authenticated, add their loved decks to the context.
 
         It also returns the checked filters so that they appear checked on the HTML.
 
@@ -586,7 +586,7 @@ class CardListView(ListView):
         if self.request.user.is_authenticated:
             context["own_decks"] = Deck.objects.filter(
                 owner=self.request.user
-            ).order_by("-modified_at")
+            ).order_by("-modified_at").values("id", "name")
             context["form"] = UpdateDeckForm()
 
         checked_filters = []
