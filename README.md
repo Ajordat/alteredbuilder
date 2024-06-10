@@ -1,6 +1,9 @@
 # Altered TCG Builder
 
-Application to build Altered TCG decks.
+[![Django CICD](https://github.com/Ajordat/alteredbuilder/actions/workflows/django_cicd.yml/badge.svg)](https://github.com/Ajordat/alteredbuilder/actions/workflows/django_cicd.yml)
+[![Update card pool](https://github.com/Ajordat/alteredbuilder/actions/workflows/update_card_pool.yml/badge.svg)](https://github.com/Ajordat/alteredbuilder/actions/workflows/update_card_pool.yml)
+
+Application to build, analyze and share Altered TCG decks.
 
 ## Build
 
