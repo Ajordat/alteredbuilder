@@ -95,18 +95,9 @@ class DeckListView(ListView):
         """
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            context["own_decks"] = (
-                Deck.objects.filter(owner=self.request.user)
-                .select_related("hero")
-                .defer(
-                    "description",
-                    "cards",
-                    "standard_legality_errors",
-                    "draft_legality_errors",
-                )
-                .order_by("-modified_at")[:10]
-            )
-            context["loved_decks"] = LovePoint.objects.filter(user=self.request.user).values_list("deck__id", flat=True)
+            context["loved_decks"] = LovePoint.objects.filter(
+                user=self.request.user
+            ).values_list("deck__id", flat=True)
 
         # Extract the filters applied from the GET params and add them to the context
         # to fill them into the template
@@ -154,7 +145,9 @@ class OwnDeckListView(LoginRequiredMixin, ListView):
             dict[str, Any]: The view's context.
         """
         context = super().get_context_data(**kwargs)
-        context["loved_decks"] = LovePoint.objects.filter(user=self.request.user, deck__owner=self.request.user).values_list("deck__id", flat=True)
+        context["loved_decks"] = LovePoint.objects.filter(
+            user=self.request.user, deck__owner=self.request.user
+        ).values_list("deck__id", flat=True)
         return context
 
 
