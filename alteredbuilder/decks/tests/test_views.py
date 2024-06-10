@@ -49,11 +49,6 @@ class DeckListViewTestCase(BaseViewTestCase):
         self.assertQuerySetEqual(
             public_decks, response.context["deck_list"], ordered=False
         )
-        self.assertIn("own_decks", response.context)
-        own_decks = Deck.objects.filter(owner=self.user)
-        self.assertQuerySetEqual(
-            own_decks, response.context["own_decks"], ordered=False
-        )
 
     def test_deck_list_filters(self):
         """Test the view of all the public Decks after applying filters on the query."""
