@@ -33,7 +33,7 @@
     {% for deck in deck_list %}
                 <tr data-href="{% url 'deck-detail' pk=deck.id %}">
                     <td>
-                        <a role="button" href="#" class="btn btn-sm btn-outline-danger disabled">
+                        <a role="button" href="#" class="btn btn-sm btn-outline-danger {%if deck.id in loved_decks %}active{% else %}disabled{% endif %}">
                             <i class="fa-solid fa-heart"></i> {{ deck.love_count }}
                         </a>
                     </td>

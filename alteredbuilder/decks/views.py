@@ -106,6 +106,7 @@ class DeckListView(ListView):
                 )
                 .order_by("-modified_at")[:10]
             )
+            context["loved_decks"] = LovePoint.objects.filter(user=self.request.user).values_list("deck__id", flat=True)
 
         # Extract the filters applied from the GET params and add them to the context
         # to fill them into the template
@@ -145,6 +146,16 @@ class OwnDeckListView(LoginRequiredMixin, ListView):
             )
             .order_by("-modified_at")
         )
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        """Add the loved decks ids to the context to highlight them.
+
+        Returns:
+            dict[str, Any]: The view's context.
+        """
+        context = super().get_context_data(**kwargs)
+        context["loved_decks"] = LovePoint.objects.filter(user=self.request.user, deck__owner=self.request.user).values_list("deck__id", flat=True)
+        return context
 
 
 class DeckDetailView(DetailView):
