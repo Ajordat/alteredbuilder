@@ -106,6 +106,9 @@ else:
     # If we're in a local environment, we only allow the localhost
     ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0", "localhost"]
 
+SESSION_COOKIE_NAME = "__session"
+CSRF_USE_SESSIONS = True
+
 # Application definition
 INSTALLED_APPS = [
     "modeltranslation",
