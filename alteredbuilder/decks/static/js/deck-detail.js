@@ -36,6 +36,7 @@ copyDecklistElement.onclick = function() {
 }
 
 let removeCardEls = document.getElementsByClassName("remove-card-trigger");
+let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
 
 for (let element of removeCardEls) {
     
@@ -50,7 +51,7 @@ for (let element of removeCardEls) {
             credentials: "same-origin",
             headers: {
               "X-Requested-With": "XMLHttpRequest",
-              "X-CSRFToken": getCookie("csrftoken"),
+              "X-CSRFToken": csrftoken,
             },
             body: JSON.stringify({
                 action: "delete",
