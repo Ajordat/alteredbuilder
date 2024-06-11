@@ -138,6 +138,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "allauth.account.middleware.AccountMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "troubleshoot.middleware.TroubleshootingMiddleware"
 ]
 
 ROOT_URLCONF = "config.urls"

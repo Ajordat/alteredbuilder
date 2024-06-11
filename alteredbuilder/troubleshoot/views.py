@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
 from django.http import HttpResponse, HttpResponseForbidden
 from django.urls import reverse
-from django.views import View
 from django.views.generic.edit import FormView
 
 from .forms import SubmitSessionForm
@@ -38,7 +37,6 @@ class SubmitSessionFormView(PermissionRequiredMixin, FormView):
         session = Session.objects.get(session_key=session_key)
         uid = session.get_decoded().get("_auth_user_id")
         self.session_user = User.objects.get(id=uid)
-        print(uid)
         return self.render_to_response(self.get_context_data(form=form))
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
