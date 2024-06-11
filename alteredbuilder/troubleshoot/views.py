@@ -50,14 +50,3 @@ class SubmitSessionFormView(PermissionRequiredMixin, FormView):
     
     def get_success_url(self) -> str:
         return reverse("troubleshoot:session")
-
-
-
-class SessionView(View):
-    def get(self, request, *args, **kwargs):
-        view = None
-        return view(request, *args, **kwargs)
-    
-    def post(self, request, *args, **kwargs):
-        view = SubmitSessionFormView.as_view()
-        return view(request, *args, **kwargs)

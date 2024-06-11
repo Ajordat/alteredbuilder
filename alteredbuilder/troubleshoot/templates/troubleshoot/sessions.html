@@ -8,6 +8,10 @@
 {% block content %}
     <h3>Troubleshoot sessions</h3>
 
+    <div>
+        <p>Host: {{ request.get_host }}</p>
+    </div>
+
     <form action="{% url 'troubleshoot:session' %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
