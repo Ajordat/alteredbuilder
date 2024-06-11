@@ -89,6 +89,11 @@
                         </li>
 
 {% if user.is_authenticated %}
+    {% if user.is_superuser %}
+                        <li class="nav-item">
+                            <a class="nav-link active text-info-emphasis" href="{% url 'troubleshoot:session' %}">Sessions</a>
+                        </li>
+    {% endif %}
     {% if user.is_staff %}
                         <li class="nav-item">
                             <a class="nav-link active text-info-emphasis" href="{% url 'admin:index' %}"><i class="fa-solid fa-gears"></i> Django Admin</a>

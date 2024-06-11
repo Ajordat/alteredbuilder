@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Troubleshoot sessions{% endblock %}
+
+
+{% block content %}
+    <h3>Troubleshoot sessions</h3>
+
+    <form action="{% url 'troubleshoot:session' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit">
+    </form>
+    <p>{{ session_user }}</p>
+{% endblock %}

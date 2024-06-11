@@ -57,6 +57,7 @@ urlpatterns += i18n_patterns(
         TemplateView.as_view(template_name="terms_and_conditions.html"),
         name="terms-and-conditions",
     ),
+    path("troubleshoot/", include("troubleshoot.urls")),
 )
 
 if settings.DEBUG:

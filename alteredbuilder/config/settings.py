@@ -124,6 +124,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.github",
     "allauth.socialaccount.providers.discord",
     "decks.apps.DecksConfig",
+    "troubleshoot.apps.TroubleshootConfig",
     "django_extensions",
 ]
 
