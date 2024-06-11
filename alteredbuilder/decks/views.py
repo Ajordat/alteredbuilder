@@ -584,9 +584,11 @@ class CardListView(ListView):
         """
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            context["own_decks"] = Deck.objects.filter(
-                owner=self.request.user
-            ).order_by("-modified_at").values("id", "name")
+            context["own_decks"] = (
+                Deck.objects.filter(owner=self.request.user)
+                .order_by("-modified_at")
+                .values("id", "name")
+            )
             context["form"] = UpdateDeckForm()
 
         checked_filters = []

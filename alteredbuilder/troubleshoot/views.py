@@ -12,6 +12,7 @@ from .forms import SubmitSessionForm
 
 # Create your views here.
 
+
 class SubmitSessionFormView(PermissionRequiredMixin, FormView):
     permission_required = "sessions.view_session"
     template_name = "troubleshoot/sessions.html"
@@ -22,7 +23,7 @@ class SubmitSessionFormView(PermissionRequiredMixin, FormView):
         initial["session_key"] = self.request.session.session_key
 
         return initial
-    
+
     def post(self, request, *args, **kwargs):
         if not request.user.is_superuser:
             return HttpResponseForbidden()
@@ -39,7 +40,7 @@ class SubmitSessionFormView(PermissionRequiredMixin, FormView):
         self.session_user = User.objects.get(id=uid)
         print(uid)
         return self.render_to_response(self.get_context_data(form=form))
-    
+
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         try:
@@ -47,6 +48,6 @@ class SubmitSessionFormView(PermissionRequiredMixin, FormView):
         except AttributeError:
             pass
         return context
-    
+
     def get_success_url(self) -> str:
         return reverse("troubleshoot:session")
