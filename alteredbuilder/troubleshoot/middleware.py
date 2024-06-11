@@ -12,6 +12,7 @@ class TroubleshootingMiddleware(MiddlewareMixin):
         print(f"{request.path=}")
         print(f"{request.user.username=}")
         print(f"{request.session.session_key=}")
+        print(f"{request.COOKIES}")
         try:
             print(f"{request.session["_auth_user_id"]=}")
         except KeyError:
