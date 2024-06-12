@@ -30,6 +30,6 @@ class TroubleshootingMiddleware:
                     url += [urlencode({"redirect_uri": f"https://{request.headers["X-Forwarded-Host"]}/accounts/discord/login/callback/"})]
                 else:
                     url += [url_fragment]
-            response.headers["Location"] = "&".join(url)
+            # response.headers["Location"] = "&".join(url)
 
         return response
