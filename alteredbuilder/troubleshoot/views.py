@@ -34,9 +34,16 @@ class SubmitSessionFormView(PermissionRequiredMixin, FormView):
 
     def form_valid(self, form: SubmitSessionForm) -> HttpResponse:
         session_key = form.cleaned_data["session_key"]
-        session = Session.objects.get(session_key=session_key)
-        uid = session.get_decoded().get("_auth_user_id")
-        self.session_user = User.objects.get(id=uid)
+        try:
+            session = Session.objects.get(session_key=session_key)
+        except Session.DoesNotExist:
+            pass
+        else:
+            uid = session.get_decoded().get("_auth_user_id")
+            try:
+                self.session_user = User.objects.get(id=uid)
+            except User.DoesNotExist:
+                pass
         return self.render_to_response(self.get_context_data(form=form))
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
