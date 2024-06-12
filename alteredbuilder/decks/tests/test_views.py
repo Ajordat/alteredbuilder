@@ -209,8 +209,7 @@ class OwnDeckListViewTestCase(BaseViewTestCase):
         """Test the view of a user's own decks when requested by an unauthenticated user."""
         response = self.client.get(reverse("own-deck"))
 
-        with self.settings(SITE_ID=1):
-            self.assertRedirects(response, get_login_url("own-deck"), status_code=302)
+        self.assertRedirects(response, get_login_url("own-deck"), status_code=302)
 
     def test_own_deck_list(self):
         """Test the view of a user's own decks."""

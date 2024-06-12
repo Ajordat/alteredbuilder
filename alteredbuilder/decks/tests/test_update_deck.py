@@ -42,10 +42,9 @@ class DeleteCardViewTestCase(BaseViewTestCase):
 
         # Test an unauthenticated client
         response = self.client.post(test_url)
-        with self.settings(SITE_ID=1):
-            self.assertRedirects(
-                response, get_login_url("update-deck-id", pk=deck.id), status_code=302
-            )
+        self.assertRedirects(
+            response, get_login_url("update-deck-id", pk=deck.id), status_code=302
+        )
 
         # Test a request without the necessary headers
         self.client.force_login(self.user)
@@ -107,10 +106,9 @@ class DeleteDeckViewTestCase(BaseViewTestCase):
         deck = Deck.objects.first()
         response = self.client.get(reverse("delete-deck-id", kwargs={"pk": deck.id}))
 
-        with self.settings(SITE_ID=1):
-            self.assertRedirects(
-                response, get_login_url("delete-deck-id", pk=deck.id), status_code=302
-            )
+        self.assertRedirects(
+            response, get_login_url("delete-deck-id", pk=deck.id), status_code=302
+        )
 
     def test_delete_not_owned_deck(self):
         """Test the view attempting to delete a Deck that is owned by another user."""
@@ -143,10 +141,9 @@ class LoveDeckViewTestCase(BaseViewTestCase):
         deck = Deck.objects.first()
         response = self.client.get(reverse("love-deck-id", kwargs={"pk": deck.id}))
 
-        with self.settings(SITE_ID=1):
-            self.assertRedirects(
-                response, get_login_url("love-deck-id", pk=deck.id), status_code=302
-            )
+        self.assertRedirects(
+            response, get_login_url("love-deck-id", pk=deck.id), status_code=302
+        )
 
     def test_love_not_owned_private_deck(self):
         """Test the view of a user attempting to love a private Deck."""

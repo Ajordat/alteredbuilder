@@ -50,8 +50,7 @@ class CreateDeckFormTestCase(BaseFormTestCase):
         }
 
         response = self.client.post(reverse("new-deck"), form_data)
-        with self.settings(SITE_ID=1):
-            self.assertRedirects(response, get_login_url("new-deck"), status_code=302)
+        self.assertRedirects(response, get_login_url("new-deck"), status_code=302)
 
     def test_valid_deck_authenticated(self):
         """Attempt to submit a form creating a valid Deck."""
@@ -284,12 +283,11 @@ class UpdateDeckMetadataFormTestCase(BaseFormTestCase):
         response = self.client.post(
             reverse("update-deck-metadata", kwargs={"pk": deck.id}), form_data
         )
-        with self.settings(SITE_ID=1):
-            self.assertRedirects(
-                response,
-                get_login_url("update-deck-metadata", pk=deck.id),
-                status_code=302,
-            )
+        self.assertRedirects(
+            response,
+            get_login_url("update-deck-metadata", pk=deck.id),
+            status_code=302,
+        )
 
     def test_valid_not_owned_deck(self):
         """Attempt to submit a form updating the metadata of another user's Deck."""
