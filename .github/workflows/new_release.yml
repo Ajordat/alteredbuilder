@@ -1,12 +1,11 @@
 name: Release version
 
 on:
-  push
-#   push:
-#     branches:
-#     - master
-    # paths:
-    # - "alteredbuilder/config/__init__.py"
+  push:
+    branches:
+    - master
+    paths:
+    - "alteredbuilder/config/__init__.py"
 
 jobs:
   new_release:
