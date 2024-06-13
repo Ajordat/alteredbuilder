@@ -1,4 +1,4 @@
-name: Django CICD
+name: Release version
 
 on:
   push
@@ -8,9 +8,6 @@ on:
     # paths:
     # - "alteredbuilder/config/__init__.py"
 
-defaults:
-  run:
-    working-directory: ./alteredbuilder
 
 jobs:
   new_release:
@@ -23,7 +20,7 @@ jobs:
       id: version_file
       uses: juliangruber/read-file-action@v1
       with:
-        path: "config/__init__.py"
+        path: "./alteredbuilder/config/__init__.py"
     - name: Parse version
       id: version
       uses: actions-ecosystem/action-regex-match@v2
