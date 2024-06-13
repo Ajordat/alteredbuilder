@@ -12,6 +12,8 @@ jobs:
   new_release:
     name: Create a new release
     runs-on: ubuntu-22.04
+    permissions:
+      contents: write
     steps:
     - name: Checkout
       uses: actions/checkout@v4
