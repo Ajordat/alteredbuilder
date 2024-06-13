@@ -1,7 +1,5 @@
 
 from django.http import HttpRequest
-from django.urls import reverse
-from django.utils.http import urlencode
 
 
 class TroubleshootingMiddleware:

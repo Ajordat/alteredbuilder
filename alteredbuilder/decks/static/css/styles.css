@@ -34,4 +34,11 @@
 
 .tooltip.show {
     opacity: 1;
-} 
+}
+
+#deck-qr-code{
+    width: 200px;
+    height: 200px;
+    margin: auto;
+    background-color: #fff;
+}

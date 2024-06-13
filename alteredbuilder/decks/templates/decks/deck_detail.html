@@ -11,6 +11,9 @@
     {{ block.super }}
     <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="{% static 'js/utils.js' %}"></script>
+    <script src="https://unpkg.com/@bitjson/qr-code@1.0.2/dist/qr-code.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://superal.github.io/canvas2image/canvas2image.js"></script>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 {% endblock %}
 
@@ -47,6 +50,7 @@
                 <ul class="dropdown-menu">
                     <li id="copy-self-link"><a class="dropdown-item" href="#"><i class="fa-regular fa-copy"></i> {% translate "Copy link" %}</a></li>
                     <li id="copy-decklist"><a class="dropdown-item" href="#"><i class="fa-regular fa-copy"></i> {% translate "Copy decklist" %}</a></li>
+                    <li id="share-qr-code"><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#qr-code-modal"><i class="fa-solid fa-qrcode"></i> {% translate "QR Code" %}</a></li>
                     <li id="share-facebook"><a class="dropdown-item" href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-facebook"></i> Facebook</a></li>
                     <li id="share-telegram"><a class="dropdown-item" href="https://telegram.me/share/url?url={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram</a></li>
                     <li id="share-twitter"><a class="dropdown-item" href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-twitter"></i> Twitter</a></li>
@@ -61,7 +65,7 @@
                     <i class="fa-solid fa-gears"></i> {% translate "Options" %}
                 </button>
                 <ul class="dropdown-menu">
-                    <li id="edit-deck-metadata"><a class="dropdown-item edit-deck-metadata-trigger" href="#" data-bs-toggle="modal" data-bs-target="#add-card-modal"><i class="fa-solid fa-pen"></i> {% translate "Edit deck fields" %}</a></li>
+                    <li id="edit-deck-metadata"><a class="dropdown-item edit-deck-metadata-trigger" href="#" data-bs-toggle="modal" data-bs-target="#deck-metadata-modal"><i class="fa-solid fa-pen"></i> {% translate "Edit deck fields" %}</a></li>
                     <li id="delete-deck"><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete-deck-modal"><i class="fa-solid fa-trash"></i> {% translate "Delete deck" %}</a></li>
                 </ul>
             </div>
@@ -249,11 +253,11 @@
         </div>
     </div>
     
-    <div class="modal fade" id="add-card-modal" tabindex="-1" aria-labelledby="add-card-modalLabel" aria-hidden="true">
+    <div class="modal fade" id="deck-metadata-modal" tabindex="-1" aria-labelledby="deck-metadata-modalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="add-card-modalLabel">{% translate "Edit deck" %}</h1>
+                    <h1 class="modal-title fs-5" id="deck-metadata-modalLabel">{% translate "Edit deck" %}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -283,6 +287,24 @@
                 <div class="modal-footer">
                     <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Close" %}</a>
                     <a type="button" class="btn btn-danger" href="{% url 'delete-deck-id' pk=object.id %}">{% translate "Delete" %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="qr-code-modal" tabindex="-1" aria-labelledby="qr-code-modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="qr-code-modalLabel">{% translate "Deck QR Code" %}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <qr-code id="deck-qr-code" contents="{{ request.build_absolute_uri }}" squares="true"></qr-code>
+                </div>
+                <div class="modal-footer">
+                    <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Close" %}</a>
+                    <a id="copy-qr-svg" type="button" class="btn btn-primary">{% translate "Copy" %}</a>
+                    <a id="download-qr-svg" type="button" class="btn btn-primary">{% translate "Download" %}</a>
                 </div>
             </div>
         </div>

@@ -35,8 +35,38 @@ copyDecklistElement.onclick = function() {
     return false;
 }
 
+
+let downloadQRElement = document.getElementById("download-qr-svg");
+downloadQRElement.addEventListener("click", () => {
+    html2canvas(document.getElementById("deck-qr-code")).then(canvas => {
+        Canvas2Image.saveAsPNG(canvas, canvas.width, canvas.height, "deck-qr");
+        // Initialize toaster and show it
+        displaySimpleToast(gettext("QR downloaded!"));
+    });
+
+    // Return false to avoid redirection
+    return false;
+});
+
+
+let copyQRElement = document.getElementById("copy-qr-svg");
+copyQRElement.addEventListener("click", () => {
+    html2canvas(document.getElementById("deck-qr-code")).then(canvas => {
+        canvas.toBlob((blob) => {
+            let item = new ClipboardItem({"image/png": blob});
+            navigator.clipboard.write([item]);
+            // Initialize toaster and show it
+            displaySimpleToast(gettext("QR copied into clipboard!"));
+        });
+    });
+
+    // Return false to avoid redirection
+    return false;
+});
+
+
 let removeCardEls = document.getElementsByClassName("remove-card-trigger");
-let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
 for (let element of removeCardEls) {
     
