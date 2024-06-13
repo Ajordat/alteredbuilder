@@ -1,0 +1,36 @@
+name: Release version
+
+on:
+  push:
+    branches:
+    - master
+    paths:
+    - "alteredbuilder/config/__init__.py"
+
+jobs:
+  new_release:
+    name: Create a new release
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Read file
+      id: version_file
+      uses: juliangruber/read-file-action@v1
+      with:
+        path: "./alteredbuilder/config/__init__.py"
+    - name: Parse version
+      id: version
+      uses: actions-ecosystem/action-regex-match@v2
+      with:
+        text: ${{ steps.version_file.outputs.content }}
+        regex: "__version__ = \"(.*)\""
+    - name: Create release
+      uses: softprops/action-gh-release@v2.0.5
+      with:
+        tag_name: "v${{ steps.version.outputs.group1 }}"
+        draft: false
+        prerelease: false
+        make_latest: true
