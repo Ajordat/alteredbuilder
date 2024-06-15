@@ -35,34 +35,34 @@ function parseFilter(labels) {
  */
 function searchCards(e) {
     e.preventDefault();
-    let filters = [];
+    let params = new URLSearchParams();
 
     // Retrieve the FACTION filters
     let factions = parseFilter(["Axiom", "Bravos", "Lyra", "Muna", "Ordis", "Yzmir"]);
     if (factions.length > 0) {
-        filters.push("faction=" + factions.join(","));
+        params.append("faction", factions.join(","));
     }
 
     // Retrieve the LEGALITY filters
-    let rarities = parseFilter(["Standard", "Draft"]);
-    if (rarities.length > 0) {
-        filters.push("legality=" + rarities.join(","));
+    let legality = parseFilter(["Standard", "Draft"]);
+    if (legality.length > 0) {
+        params.append("legality", legality.join(","));
     }
 
     // Retrieve the OTHER filters
     let other = parseFilter(["Loved"]);
     if (other.length > 0) {
-        filters.push("other=" + other.join(","));
+        params.append("other", other.join(","));
     }
 
     // Retrieve the QUERY from the search input
     let queryElement = document.getElementById("querySearch");
     if (queryElement.value != "") {
-        filters.push("query=" + queryElement.value);
+        params.append("query", queryElement.value);
     }
 
     // Go to the built URL
-    let url = window.location.pathname + "?" + filters.join("&");
+    let url = window.location.pathname + "?" + params.toString();
     window.open(url, "_self");
     return false;
 }

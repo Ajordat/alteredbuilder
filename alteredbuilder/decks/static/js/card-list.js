@@ -41,40 +41,45 @@ function parseFilter(labels) {
  */
 function searchCards(e) {
     e.preventDefault();
-    let filters = [];
+    let params = new URLSearchParams();
 
     // Retrieve the FACTION filters
     let factions = parseFilter(["Axiom", "Bravos", "Lyra", "Muna", "Ordis", "Yzmir"]);
     if (factions.length > 0) {
-        filters.push("faction=" + factions.join(","));
+        params.append("faction", factions.join(","));
     }
 
     // Retrieve the RARITY filters
     let rarities = parseFilter(["Common", "Rare", "Unique"]);
     if (rarities.length > 0) {
-        filters.push("rarity=" + rarities.join(","));
+        params.append("rarity", rarities.join(","));
     }
 
     // Retrieve the TYPE filters
     let types = parseFilter(["Character", "Hero", "Permanent", "Spell"]);
     if (types.length > 0) {
-        filters.push("type=" + types.join(","));
+        params.append("type", types.join(","));
     }
 
     // Retrieve the QUERY from the search input
     let queryElement = document.getElementById("querySearch");
     if (queryElement.value != "") {
-        filters.push("query=" + queryElement.value);
+        params.append("query", queryElement.value);
     }
 
     // Retrieve the marked order on the dropdown
     let orderingElement = document.getElementById("filterOrdering");
     if (orderingElement.selectedIndex > 1) {
-        filters.push("order=" + orderingElement.value);
+        params.append("order", orderingElement.value);
+    }
+
+    let deckId = (new URLSearchParams(window.location.search)).get("deck");
+    if (deckId) {
+        params.append("deck", deckId);
     }
 
     // Go to the built URL
-    let url = window.location.pathname + "?" + filters.join("&");
+    let url = window.location.pathname + "?" + params.toString();
     window.open(url, "_self");
     return false;
 }
