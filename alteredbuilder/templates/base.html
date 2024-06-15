@@ -36,11 +36,11 @@
                     <ul id="navbar-traversal" class="navbar-nav me-auto">
                         {% url 'deck-list' as item_url %}
                         <li class="nav-item {% if request.path == item_url %}{{ tab_selected_class }}{% endif %}">
-                            <a class="nav-link active text-info-emphasis" aria-current="page" href="{{ item_url }}"><i class="fa-solid fa-house"></i> {% translate "Home" %}</a>
+                            <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-house"></i> {% translate "Home" %}</a>
                         </li>
                         {% url 'cards' as item_url %}
                         <li class="nav-item {% if request.path == item_url %}{{ tab_selected_class }}{% endif %}">
-                            <a class="nav-link active text-info-emphasis" aria-current="page" href="{{ item_url }}"><i class="fa-solid fa-puzzle-piece"></i> {% translate "Cards" %}</a>
+                            <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-puzzle-piece"></i> {% translate "Cards" %}</a>
                         </li>
                         {% url 'own-deck' as item_url %}
                         <li class="nav-item {% if request.path == item_url or request.GET.next == item_url %}{{ tab_selected_class }}{% endif %}">
@@ -119,7 +119,7 @@
             </div>
         </nav>
 
-        <div class="container-fluid px-5 mt-3 mb-5">
+        <div {% block content-div %}class="container-fluid px-5 mt-3 mb-5"{% endblock %}>
 {% block content %}{% endblock %}
         </div>
         <footer class="d-flex flex-wrap justify-content-between align-items-center pt-3 border-top mt-auto">
