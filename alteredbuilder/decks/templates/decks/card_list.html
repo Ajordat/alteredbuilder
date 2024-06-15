@@ -111,7 +111,7 @@
             <div class="row gy-3">
     {% for card in card_list %}
                 <div class="col-xxl-2 col-xl-3 col-md-4 col-sm-6">
-                    <div class="card card-display">
+                    <div class="card card-display" data-card-reference="{{ card.reference }}" data-card-name="{{ card.name }}" data-card-type="{{ card.type }}">
                         <img src="{{ card.image_url }}" class="card-img-top" alt="{{ card.name }}">
                         <div class="card-body">
                             <div class="dropdown">
@@ -138,7 +138,7 @@
         </div>
         <div class="col-2 d-flex">
             <div class="vr"></div>
-            <div class="col ps-3 pe-1">
+            <div class="col ps-3 pe-1 pt-2" id="edit-deck-column">
                 <select class="form-select d-inline-flex" id="deckSelector" name="{{ form.deck_id.name }}">
     {% if edit_deck %}
                     <option value="{{ edit_deck.id }}" selected>{{ edit_deck.name }}</option>
@@ -150,25 +150,44 @@
         {% endif %}
     {% endfor %}
                 </select>
+                <div class="row">Deck name:</div>
                  <div class="row">
                     <input type="text" maxlength="50" class="form-control" required value="{{ edit_deck.name }}">
                 </div>
                 <div class="row">Hero:</div>
-                <div class="row border">
-                    {% firstof edit_deck.hero.name "-" %}
+                <div class="row my-1">
+                    <div class="col px-0">
+                        <div class="input-group">
+                            <input id="hero-name" type="text" class="form-control" value="{{ edit_deck.hero.name }}" data-card-reference="{{ edit_deck.hero.reference }}" disabled>
+                            <button class="btn btn-outline-secondary" type="button" id="remove-hero" {% if not edit_deck.hero %}disabled{% endif %}><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">Cards:</div>
     {% for cid in edit_deck.cardindeck_set.all %}
-                <div class="row border rounded row-cols-auto my-1 align-items-center">
+                <div class="row border rounded row-cols-auto my-1" id="row-{{ cid.card.reference }}">
                     <div class="col px-0">
-                        <div class="input-group">
+                        <div class="input-group input-group-sm">
                             <button class="remove-card-btn btn btn-outline-secondary" type="button">-</button>
-                            <span class="input-group-text">{{ cid.quantity }}</span>
+                            <span class="input-group-text card-quantity">{{ cid.quantity }}</span>
                             <button class="add-card-btn btn btn-outline-secondary" type="button">+</button>
                         </div>
                     </div>
                     <div class="col">
-                        <span class="d-inline-block text-truncate" style="max-width: 160px;">{{ cid.card.name }}</span>
+                        <span class="d-inline-block text-truncate card-name" style="max-width: 188px;">{{ cid.card.name }}</span>
+                    </div>
+                </div>
+    {% empty %}
+                <div class="row border rounded row-cols-auto my-1" id="row-{{ cid.card.reference }}" hidden>
+                    <div class="col px-0">
+                        <div class="input-group input-group-sm">
+                            <button class="remove-card-btn btn btn-outline-secondary" type="button">-</button>
+                            <span class="input-group-text card-quantity"></span>
+                            <button class="add-card-btn btn btn-outline-secondary" type="button">+</button>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <span class="d-inline-block text-truncate card-name" style="max-width: 188px;"></span>
                     </div>
                 </div>
     {% endfor %}
