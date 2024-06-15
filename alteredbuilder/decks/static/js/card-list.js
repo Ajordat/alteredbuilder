@@ -88,6 +88,8 @@ document.getElementById("filterSearchButton").addEventListener("click", searchCa
 document.getElementById("querySearchForm").addEventListener("submit", searchCards);
 document.getElementById("filterOrdering").addEventListener("change", searchCards);
 
+var decklistChanges = {}
+
 document.getElementById("deckSelector").addEventListener("change", (e) => {
     e.preventDefault();
 
@@ -100,24 +102,91 @@ document.getElementById("deckSelector").addEventListener("change", (e) => {
     return false;
 });
 
+// Decrease the quantity of the card
+function decreaseCardQuantity(event) {
+    let quantityElement = event.target.nextElementSibling;
+    let quantity = Number(quantityElement.innerText) - 1;
+    if (quantity > 0) {
+        quantityElement.innerText = quantity;
+    } else {
+        // If the quantity reaches 0, remove the card from the deck list
+        event.target.parentElement.parentElement.parentElement.remove();
+    }
+}
+
+// Increase the quantity of the card
+function increaseCardQuantity(event) {
+    let quantityElement = event.target.previousElementSibling;
+    quantityElement.innerText = Number(quantityElement.innerText) + 1;
+}
+
 // Retrieve all the buttons to decrease the card quantity
 let removeCardButtons = document.getElementsByClassName("remove-card-btn");
 Array.from(removeCardButtons).forEach(function(element) {
-    element.addEventListener("click", function(event) {
-        // Decrease the quantity of the card
-        let quantityElement = event.target.nextElementSibling;
-        quantityElement.innerText = Number(quantityElement.innerText) - 1;
-        // TODO: Block further inputs and send the request to the server
-    });
+    element.addEventListener("click", decreaseCardQuantity);
 });
 
 // Retrieve all the buttons to increase the card quantity
 let addCardButtons = document.getElementsByClassName("add-card-btn");
 Array.from(addCardButtons).forEach(function(element) {
+    element.addEventListener("click", increaseCardQuantity);
+});
+
+let removeHeroButton = document.getElementById("remove-hero");
+removeHeroButton.addEventListener("click", function(event) {
+    let heroTextElement = event.currentTarget.previousElementSibling;
+    let heroReference = heroTextElement.dataset.cardReference;
+
+    heroTextElement.value = "";
+    heroTextElement.dataset.cardReference = "";
+    event.currentTarget.disabled = true;
+
+    if (heroReference in decklistChanges) {
+        delete decklistChanges[heroReference];
+    } else {
+        decklistChanges[heroReference] = 0;
+    }
+});
+
+// Retrieve all the buttons to increase the card quantity
+let cardDisplayElements = document.getElementsByClassName("card-display");
+Array.from(cardDisplayElements).forEach(function(element) {
     element.addEventListener("click", function(event) {
-        // Increase the quantity of the card
-        let quantityElement = event.target.previousElementSibling;
-        quantityElement.innerText = Number(quantityElement.innerText) + 1;
-        // TODO: Block further inputs and send the request to the server
+        let cardReference = event.currentTarget.dataset.cardReference;
+        let cardName = event.currentTarget.dataset.cardName;
+        let cardType = event.currentTarget.dataset.cardType;
+        
+        if (cardType === "hero") {
+            let heroElement = document.getElementById("hero-name");
+            let removeHeroButton = document.getElementById("remove-hero");
+
+            if (heroElement.value === "") {
+                heroElement.value = cardName;
+                heroElement.dataset.cardReference = cardReference;
+                removeHeroButton.disabled = false;
+                decklistChanges[cardReference] = 1;
+            }
+            return;
+        }
+
+        let cardElement = document.getElementById("row-" + cardReference);
+
+        if (cardElement){
+            let quantity = decklistChanges[cardReference] || Number(cardElement.getElementsByClassName("card-quantity")[0].innerText);
+            decklistChanges[cardReference] = quantity + 1;
+            cardElement.getElementsByClassName("card-quantity")[0].innerText = decklistChanges[cardReference];
+
+        } else {
+            let editDeckColumn = document.getElementById("edit-deck-column");
+            let newCardElement = editDeckColumn.lastElementChild.cloneNode(true);
+            newCardElement.id = "row-" + cardReference;
+            newCardElement.getElementsByClassName("card-quantity")[0].innerText = 1;
+            newCardElement.getElementsByClassName("card-name")[0].innerText = cardName;
+            newCardElement.getElementsByClassName("remove-card-btn")[0].addEventListener("click", decreaseCardQuantity);
+            newCardElement.getElementsByClassName("add-card-btn")[0].addEventListener("click", increaseCardQuantity);
+            newCardElement.hidden = false;
+            editDeckColumn.appendChild(newCardElement);
+            decklistChanges[cardReference] = 1;
+        }
     });
 });
