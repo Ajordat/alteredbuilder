@@ -82,3 +82,15 @@ function searchCards(e) {
 document.getElementById("filterSearchButton").addEventListener("click", searchCards);
 document.getElementById("querySearchForm").addEventListener("submit", searchCards);
 document.getElementById("filterOrdering").addEventListener("change", searchCards);
+
+document.getElementById("deckSelector").addEventListener("change", (e) => {
+    e.preventDefault();
+
+    let params = new URLSearchParams(window.location.search);
+    params.delete("deck");
+    params.append("deck", e.target.value);
+    let url = window.location.pathname + "?" + params.toString();
+    window.open(url, "_self");
+
+    return false;
+});

@@ -590,6 +590,12 @@ class CardListView(ListView):
                 .values("id", "name")
             )
             context["form"] = UpdateDeckForm()
+            edit_deck_id = self.request.GET.get("deck")
+            if edit_deck_id:
+                try:
+                    context["edit_deck"] = Deck.objects.filter(pk=edit_deck_id, owner=self.request.user).order_by("-modified_at").first()
+                except Deck.DoesNotExist:
+                    pass
 
         checked_filters = []
         for filter in ["faction", "rarity", "type"]:
