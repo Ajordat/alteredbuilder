@@ -160,15 +160,11 @@
                 <div class="row">Cards:</div>
     {% for cid in edit_deck.cardindeck_set.all %}
                 <div class="row border rounded row-cols-auto my-1 align-items-center">
-                    <!-- <span class="badge rounded-pill text-bg-primary">{{ cid.quantity }}</span>{{ cid.card.name }} -->
-                    <!-- <div>{{ cid.quantity}}</div>
-                    <div class="vr px-0"></div>
-                    <div>{{ cid.card.name }}</div> -->
                     <div class="col px-0">
                         <div class="input-group">
-                            <button class="btn btn-outline-secondary" type="button" id="button-addon1">-</button>
+                            <button class="remove-card-btn btn btn-outline-secondary" type="button">-</button>
                             <span class="input-group-text">{{ cid.quantity }}</span>
-                            <button class="btn btn-outline-secondary" type="button" id="button-addon1">+</button>
+                            <button class="add-card-btn btn btn-outline-secondary" type="button">+</button>
                         </div>
                     </div>
                     <div class="col">

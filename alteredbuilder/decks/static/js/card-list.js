@@ -99,3 +99,25 @@ document.getElementById("deckSelector").addEventListener("change", (e) => {
 
     return false;
 });
+
+// Retrieve all the buttons to decrease the card quantity
+let removeCardButtons = document.getElementsByClassName("remove-card-btn");
+Array.from(removeCardButtons).forEach(function(element) {
+    element.addEventListener("click", function(event) {
+        // Decrease the quantity of the card
+        let quantityElement = event.target.nextElementSibling;
+        quantityElement.innerText = Number(quantityElement.innerText) - 1;
+        // TODO: Block further inputs and send the request to the server
+    });
+});
+
+// Retrieve all the buttons to increase the card quantity
+let addCardButtons = document.getElementsByClassName("add-card-btn");
+Array.from(addCardButtons).forEach(function(element) {
+    element.addEventListener("click", function(event) {
+        // Increase the quantity of the card
+        let quantityElement = event.target.previousElementSibling;
+        quantityElement.innerText = Number(quantityElement.innerText) + 1;
+        // TODO: Block further inputs and send the request to the server
+    });
+});
