@@ -2,6 +2,7 @@ from collections import defaultdict
 
 from django.contrib.auth.models import User
 from django.db import transaction
+from django.db.models import F
 from django.utils.translation import gettext_lazy as _
 
 from .game_modes import DraftGameMode, GameMode, StandardGameMode, update_deck_legality
@@ -74,8 +75,14 @@ def create_new_deck(user: User, deck_form: dict) -> Deck:
                     _("Multiple heroes present in the decklist")
                 )
         else:
-            # Link the Card with the Deck
-            CardInDeck.objects.create(deck=deck, card=card, quantity=count)
+            if CardInDeck.objects.filter(deck=deck, card=card).exists():
+                # If the card is already linked to the deck, increase its quantity
+                cid = CardInDeck.objects.get(deck=deck, card=card)
+                cid.quantity = F("quantity") + count
+                cid.save(update_fields=["quantity"])
+            else:
+                # Link the Card with the Deck
+                CardInDeck.objects.create(deck=deck, card=card, quantity=count)
 
     update_deck_legality(deck)
     deck.save()
