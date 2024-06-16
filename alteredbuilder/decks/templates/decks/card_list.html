@@ -131,18 +131,18 @@
     {% if edit_deck %}
                     <option value="{{ edit_deck.id }}" selected>{{ edit_deck.name }}</option>
     {% endif %}
-                    <option value="0" {% if not edit_deck %}selected{% endif %}>New deck</option>
+                    <option value="0" {% if not edit_deck %}selected{% endif %}>{% translate "New deck" %}</option>
     {% for deck in own_decks %}
         {% if deck.id != edit_deck.id %}
                     <option value="{{ deck.id }}">{{ deck.name }}</option>
         {% endif %}
     {% endfor %}
                 </select>
-                <div class="row">Deck name:</div>
+                <div class="row">{% translate "Deck name:" %}</div>
                  <div class="row">
                     <input id="deck-name" type="text" maxlength="50" class="form-control" required value="{{ edit_deck.name }}">
                 </div>
-                <div class="row">Hero:</div>
+                <div class="row">{% translate "Hero:" %}</div>
                 <div class="row my-1">
                     <div class="col px-0">
                         <div class="input-group">
@@ -151,7 +151,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">Cards:</div>
+                <div class="row">{% translate "Cards:" %}</div>
                 <div id="decklist-cards">
     {% for cid in edit_deck.cardindeck_set.all %}
                     <div class="row border rounded row-cols-auto my-1" id="row-{{ cid.card.reference }}">
