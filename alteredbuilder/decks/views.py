@@ -15,6 +15,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
+from hitcount.views import HitCountDetailView
 
 from .deck_utils import create_new_deck, get_deck_details
 from .game_modes import update_deck_legality
@@ -154,10 +155,11 @@ class OwnDeckListView(LoginRequiredMixin, ListView):
         return context
 
 
-class DeckDetailView(DetailView):
+class DeckDetailView(HitCountDetailView):
     """DetailView to display the detail of a Deck model."""
 
     model = Deck
+    count_hit = True
 
     def get_queryset(self) -> Manager[Deck]:
         """When retrieving the object, we need to make sure that the Deck is public or

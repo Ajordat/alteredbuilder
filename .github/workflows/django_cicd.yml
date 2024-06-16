@@ -6,7 +6,7 @@ on:
     - master
     paths:
     - "alteredbuilder/**"
-    - ".github/workflows/*.yml"
+    - "!alteredbuilder/config/__init__.py"
 
 env:
   DEBUG: False
@@ -112,7 +112,7 @@ jobs:
         instance: ${{ vars.CLOUD_SQL_INSTANCE }}
         port: 5432
     - name: Run migrations
-      run: python manage.py migrate
+      run: python manage.py migrate --no-input
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DATABASE_URL: ${{ secrets.MIGRATION_DATABASE_URL }}

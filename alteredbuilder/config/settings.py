@@ -129,6 +129,7 @@ INSTALLED_APPS = [
     "decks.apps.DecksConfig",
     "troubleshoot.apps.TroubleshootConfig",
     "django_extensions",
+    "hitcount",
 ]
 
 MIDDLEWARE = [
@@ -234,7 +235,7 @@ ACCOUNT_MAX_EMAIL_ADDRESSES = 3
 if SENDGRID_API_KEY := env("SENDGRID_API_KEY", default=None):
     EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
     SENDGRID_SANDBOX_MODE_IN_DEBUG = True
-    
+
     EMAIL_HOST = "smtp.sendgrid.net"
     EMAIL_HOST_USER = "apikey"
     EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
