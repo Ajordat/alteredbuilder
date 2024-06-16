@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-16 23:09+0200\n"
+"POT-Creation-Date: 2024-06-20 11:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,15 +19,15 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
 "1 : 2;\n"
 
-#: config/settings.py:255
+#: config/settings.py:254
 msgid "English"
 msgstr "Inglés"
 
-#: config/settings.py:256
+#: config/settings.py:255
 msgid "Spanish"
 msgstr "Español"
 
-#: config/settings.py:257
+#: config/settings.py:256
 msgid "French"
 msgstr "Francés"
 
@@ -88,164 +88,145 @@ msgid "Missing hero"
 msgstr "Falta un héroe"
 
 #: decks/templates/decks/card_list.html:7
-#: decks/templates/decks/card_list.html:15
+#: decks/templates/decks/card_list.html:19
 msgid "Card list"
 msgstr "Cartas"
 
-#: decks/templates/decks/card_list.html:19
+#: decks/templates/decks/card_list.html:23
 msgid "Search by name"
 msgstr "Buscar con el nombre"
 
-#: decks/templates/decks/card_list.html:20
-#: decks/templates/decks/card_list.html:60
+#: decks/templates/decks/card_list.html:24
+#: decks/templates/decks/card_list.html:64
 #: decks/templates/decks/deck_list.html:20
 #: decks/templates/decks/deck_list.html:65
 msgid "Search"
 msgstr "Buscar"
 
-#: decks/templates/decks/card_list.html:28
+#: decks/templates/decks/card_list.html:32
 #: decks/templates/decks/deck_list.html:27
 msgid "Filters"
 msgstr "Filtros"
 
-#: decks/templates/decks/card_list.html:36
+#: decks/templates/decks/card_list.html:40
 #: decks/templates/decks/deck_list.html:35
 msgid "Factions"
 msgstr "Facciones"
 
-#: decks/templates/decks/card_list.html:45
-#: decks/templates/decks/card_list.html:77
-#: decks/templates/decks/card_list.html:97
+#: decks/templates/decks/card_list.html:49
+#: decks/templates/decks/card_list.html:81
+#: decks/templates/decks/card_list.html:101
 #: decks/templates/decks/deck_detail.html:155
 msgid "Rarity"
 msgstr "Rareza"
 
-#: decks/templates/decks/card_list.html:46
+#: decks/templates/decks/card_list.html:50
 #: decks/templates/decks/deck_detail.html:161
 msgid "Common"
 msgstr "Común"
 
-#: decks/templates/decks/card_list.html:47
+#: decks/templates/decks/card_list.html:51
 #: decks/templates/decks/deck_detail.html:165
 msgid "Rare"
 msgstr "Rara"
 
-#: decks/templates/decks/card_list.html:48
+#: decks/templates/decks/card_list.html:52
 #: decks/templates/decks/deck_detail.html:169
 msgid "Unique"
 msgstr "Única"
 
-#: decks/templates/decks/card_list.html:51
+#: decks/templates/decks/card_list.html:55
 #: decks/templates/decks/deck_detail.html:178
 msgid "Type"
 msgstr "Tipo"
 
-#: decks/templates/decks/card_list.html:52
+#: decks/templates/decks/card_list.html:56
 msgid "Character"
 msgstr "Personaje"
 
-#: decks/templates/decks/card_list.html:53
+#: decks/templates/decks/card_list.html:57
 #: decks/templates/decks/deck_detail.html:93
 #: decks/templates/decks/deck_list.html:88
 #: decks/templates/decks/own_deck_list.html:22
 msgid "Hero"
 msgstr "Héroe"
 
-#: decks/templates/decks/card_list.html:54
+#: decks/templates/decks/card_list.html:58
 msgid "Permanent"
 msgstr "Permanente"
 
-#: decks/templates/decks/card_list.html:55
+#: decks/templates/decks/card_list.html:59
 msgid "Spell"
 msgstr "Hechizo"
 
-#: decks/templates/decks/card_list.html:73
+#: decks/templates/decks/card_list.html:77
 msgid "Sort by"
 msgstr "Ordenar"
 
-#: decks/templates/decks/card_list.html:74
+#: decks/templates/decks/card_list.html:78
 msgid "Default"
 msgstr "Por defecto"
 
-#: decks/templates/decks/card_list.html:75
-#: decks/templates/decks/card_list.html:95
+#: decks/templates/decks/card_list.html:79
+#: decks/templates/decks/card_list.html:99
 msgid "Name A-Z"
 msgstr "Nombre A-Z"
 
-#: decks/templates/decks/card_list.html:76
-#: decks/templates/decks/card_list.html:96
+#: decks/templates/decks/card_list.html:80
+#: decks/templates/decks/card_list.html:100
 msgid "Name Z-A"
 msgstr "Nombre Z-A"
 
-#: decks/templates/decks/card_list.html:78
-#: decks/templates/decks/card_list.html:98
+#: decks/templates/decks/card_list.html:82
+#: decks/templates/decks/card_list.html:102
 msgid "Mana ASC"
 msgstr "Maná ASC"
 
-#: decks/templates/decks/card_list.html:79
-#: decks/templates/decks/card_list.html:99
+#: decks/templates/decks/card_list.html:83
+#: decks/templates/decks/card_list.html:103
 msgid "Mana DESC"
 msgstr "Maná DESC"
 
-#: decks/templates/decks/card_list.html:80
-#: decks/templates/decks/card_list.html:100
+#: decks/templates/decks/card_list.html:84
+#: decks/templates/decks/card_list.html:104
 msgid "Reserve ASC"
 msgstr "Reserva ASC"
 
-#: decks/templates/decks/card_list.html:81
-#: decks/templates/decks/card_list.html:101
+#: decks/templates/decks/card_list.html:85
+#: decks/templates/decks/card_list.html:105
 msgid "Reserve DESC"
 msgstr "Reserva DESC"
 
-#: decks/templates/decks/card_list.html:94
+#: decks/templates/decks/card_list.html:98
 msgid "Order"
 msgstr "Ordenar"
 
-#: decks/templates/decks/card_list.html:114
-#: decks/templates/decks/deck_detail.html:65
-msgid "Options"
-msgstr "Opciones"
-
-#: decks/templates/decks/card_list.html:117
-msgid "Start a deck"
-msgstr "Crear un mazo"
-
 #: decks/templates/decks/card_list.html:119
-msgid "Add to a deck"
-msgstr "Añadir a un mazo"
-
-#: decks/templates/decks/card_list.html:120
-#: decks/templates/decks/deck_detail.html:110
-#: decks/templates/decks/snippets/card_table.html:24
-msgid "Go to details"
-msgstr "Ir a detalles"
-
-#: decks/templates/decks/card_list.html:127
 msgid "No cards found with the current filter."
 msgstr "No se han encontrado cartas con el filtro actual."
 
-#: decks/templates/decks/card_list.html:139
+#: decks/templates/decks/card_list.html:194
 msgid "Add card to deck"
 msgstr "Añadir carta a un mazo"
 
-#: decks/templates/decks/card_list.html:146
+#: decks/templates/decks/card_list.html:201
 msgid "Card"
 msgstr "Cartas"
 
-#: decks/templates/decks/card_list.html:163
+#: decks/templates/decks/card_list.html:218
 msgid "Deck"
 msgstr "Mazo"
 
-#: decks/templates/decks/card_list.html:172
+#: decks/templates/decks/card_list.html:227
 msgid "No decks found"
 msgstr "No se han encontrado mazos"
 
-#: decks/templates/decks/card_list.html:179
+#: decks/templates/decks/card_list.html:234
 #: decks/templates/decks/deck_detail.html:271
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: decks/templates/decks/card_list.html:180
+#: decks/templates/decks/card_list.html:235
 msgid "Add"
 msgstr "Añadir"
 
@@ -278,6 +259,10 @@ msgstr "Copiar decklist"
 msgid "QR Code"
 msgstr "Código QR"
 
+#: decks/templates/decks/deck_detail.html:65
+msgid "Options"
+msgstr "Opciones"
+
 #: decks/templates/decks/deck_detail.html:68
 msgid "Edit deck fields"
 msgstr "Editar campos"
@@ -306,6 +291,11 @@ msgstr "Nombre"
 #: decks/templates/decks/own_deck_list.html:21
 msgid "Faction"
 msgstr "Facción"
+
+#: decks/templates/decks/deck_detail.html:110
+#: decks/templates/decks/snippets/card_table.html:24
+msgid "Go to details"
+msgstr "Ir a detalles"
 
 #: decks/templates/decks/deck_detail.html:112
 #: decks/templates/decks/snippets/card_table.html:26
@@ -474,13 +464,13 @@ msgstr "Creador"
 msgid "Last updated"
 msgstr "Última actualización"
 
-#: decks/templates/decks/deck_list.html:114
+#: decks/templates/decks/deck_list.html:119
 #: decks/templates/decks/own_deck_list.html:49
 #, python-format
 msgid "%(time_since)s ago"
 msgstr "Hace %(time_since)s"
 
-#: decks/templates/decks/deck_list.html:117
+#: decks/templates/decks/deck_list.html:122
 msgid "No decks were found with the current filters"
 msgstr "No se han encontrado mazos con el filtro actual."
 
@@ -567,23 +557,23 @@ msgstr "¿Quieres que sea un mazo público?"
 msgid "Import"
 msgstr "Importar"
 
-#: decks/views.py:360 decks/views.py:415
+#: decks/views.py:390 decks/views.py:445
 msgid "Deck not found"
 msgstr "No se ha encontrado el mazo"
 
-#: decks/views.py:364 decks/views.py:418
+#: decks/views.py:394 decks/views.py:448
 msgid "Card not found"
 msgstr "Carta no encontrada"
 
-#: decks/views.py:368
+#: decks/views.py:398
 msgid "Invalid payload"
 msgstr "Mensaje inválido"
 
-#: decks/views.py:374 decks/views.py:377
+#: decks/views.py:404 decks/views.py:407
 msgid "Invalid request"
 msgstr "Petición inválida"
 
-#: decks/views.py:407
+#: decks/views.py:437
 msgid "Deck already has a hero"
 msgstr "El mazo ya tiene un héroe"
 
@@ -678,6 +668,18 @@ msgstr ""
 msgid ""
 "An error occurred while attempting to login via your third-party account."
 msgstr ""
+
+#~ msgid "Start a deck"
+#~ msgstr "Crear un mazo"
+
+#~ msgid "Add to a deck"
+#~ msgstr "Añadir a un mazo"
+
+#~ msgid "Hero:"
+#~ msgstr "Héroe:"
+
+#~ msgid "Cards:"
+#~ msgstr "Cartas:"
 
 #~ msgid "See full list"
 #~ msgstr "Ver la lista entera"
