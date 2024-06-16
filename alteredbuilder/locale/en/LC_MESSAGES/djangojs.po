@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-28 23:57+0200\n"
+"POT-Creation-Date: 2024-06-16 23:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,30 +26,38 @@ msgstr ""
 msgid "Decklist copied into clipboard!"
 msgstr ""
 
-#: decks/static/js/deck-detail.js:66
+#: decks/static/js/deck-detail.js:44
+msgid "QR downloaded!"
+msgstr ""
+
+#: decks/static/js/deck-detail.js:59
+msgid "QR copied into clipboard!"
+msgstr ""
+
+#: decks/static/js/deck-detail.js:97
 msgid "Unable to delete card from deck"
 msgstr ""
 
-#: decks/static/js/deck-stats.js:13
+#: decks/static/js/deck-stats.js:16
 msgid "characters"
 msgstr ""
 
-#: decks/static/js/deck-stats.js:14
+#: decks/static/js/deck-stats.js:17
 msgid "spells"
 msgstr ""
 
-#: decks/static/js/deck-stats.js:15
+#: decks/static/js/deck-stats.js:18
 msgid "permanents"
 msgstr ""
 
-#: decks/static/js/deck-stats.js:70
+#: decks/static/js/deck-stats.js:80
 msgid "Cost"
 msgstr ""
 
-#: decks/static/js/deck-stats.js:70
+#: decks/static/js/deck-stats.js:80
 msgid "Hand"
 msgstr ""
 
-#: decks/static/js/deck-stats.js:70
+#: decks/static/js/deck-stats.js:80
 msgid "Reserve"
 msgstr ""
