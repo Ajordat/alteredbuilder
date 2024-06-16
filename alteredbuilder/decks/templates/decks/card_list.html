@@ -111,20 +111,8 @@
             <div class="row gy-3">
     {% for card in card_list %}
                 <div class="col-xxl-2 col-xl-3 col-md-4 col-sm-6">
-                    <div class="card card-display" data-card-reference="{{ card.reference }}" data-card-name="{{ card.name }}" data-card-type="{{ card.type }}">
-                        <img src="{{ card.image_url }}" class="card-img-top" alt="{{ card.name }}">
-                        <div class="card-body">
-                            <div class="dropdown">
-                                <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">{% translate "Options" %}</button>
-                                <ul class="dropdown-menu">
-        {% if card.type == "hero" %}
-                                    <li><a class="dropdown-item remove-card-trigger" href="{% url 'new-deck' %}?hero={{ card.reference }}">{% translate "Start a deck" %}</a></li>
-        {% endif %}
-                                    <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ card.reference }}" data-bs-toggle="modal" data-bs-target="#add-card-modal" data-bs-name="{{ card.name }}" data-bs-reference="{{ card.reference }}">{% translate "Add to a deck" %}</a></li>
-                                    <li><a class="dropdown-item" href="{{ card.get_official_link }}" target="_blank" rel="noopener noreferrer">{% translate "Go to details" %} <i class="fa-solid fa-arrow-up-right-from-square"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
+                    <div class="card-display border rounded-5" data-card-reference="{{ card.reference }}" data-card-name="{{ card.name }}" data-card-type="{{ card.type }}">
+                        <img src="{{ card.image_url }}" class="card-img-top border rounded-3" alt="{{ card.name }}">
                     </div>
                 </div>
     {% empty %}
@@ -136,14 +124,14 @@
                 {% include "./snippets/pagination.html" %}
             </div>
         </div>
-        <div class="col-2 d-flex">
+        <aside class="col-2 d-flex max-vh-100 overflow-y-auto position-relative">
             <div class="vr"></div>
-            <div class="col ps-3 pe-1 pt-2" id="edit-deck-column">
+            <div class="col ps-3 pe-1 pt-2">
                 <select class="form-select d-inline-flex" id="deckSelector" name="{{ form.deck_id.name }}">
     {% if edit_deck %}
                     <option value="{{ edit_deck.id }}" selected>{{ edit_deck.name }}</option>
     {% endif %}
-                    <option value="-1" {% if not edit_deck %}selected{% endif %}>New deck</option>
+                    <option value="0" {% if not edit_deck %}selected{% endif %}>New deck</option>
     {% for deck in own_decks %}
         {% if deck.id != edit_deck.id %}
                     <option value="{{ deck.id }}">{{ deck.name }}</option>
@@ -152,7 +140,7 @@
                 </select>
                 <div class="row">Deck name:</div>
                  <div class="row">
-                    <input type="text" maxlength="50" class="form-control" required value="{{ edit_deck.name }}">
+                    <input id="deck-name" type="text" maxlength="50" class="form-control" required value="{{ edit_deck.name }}">
                 </div>
                 <div class="row">Hero:</div>
                 <div class="row my-1">
@@ -164,35 +152,40 @@
                     </div>
                 </div>
                 <div class="row">Cards:</div>
+                <div id="decklist-cards">
     {% for cid in edit_deck.cardindeck_set.all %}
-                <div class="row border rounded row-cols-auto my-1" id="row-{{ cid.card.reference }}">
-                    <div class="col px-0">
-                        <div class="input-group input-group-sm">
-                            <button class="remove-card-btn btn btn-outline-secondary" type="button">-</button>
-                            <span class="input-group-text card-quantity">{{ cid.quantity }}</span>
-                            <button class="add-card-btn btn btn-outline-secondary" type="button">+</button>
+                    <div class="row border rounded row-cols-auto my-1" id="row-{{ cid.card.reference }}">
+                        <div class="col px-0">
+                            <div class="input-group input-group-sm">
+                                <button class="remove-card-btn btn btn-outline-secondary" type="button">-</button>
+                                <span class="input-group-text card-quantity" data-card-reference="{{ cid.card.reference }}">{{ cid.quantity }}</span>
+                                <button class="add-card-btn btn btn-outline-secondary" type="button">+</button>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <span class="d-inline-block text-truncate card-name" style="max-width: 188px;">{{ cid.card.name }}</span>
                         </div>
                     </div>
-                    <div class="col">
-                        <span class="d-inline-block text-truncate card-name" style="max-width: 188px;">{{ cid.card.name }}</span>
-                    </div>
-                </div>
     {% empty %}
-                <div class="row border rounded row-cols-auto my-1" id="row-{{ cid.card.reference }}" hidden>
-                    <div class="col px-0">
-                        <div class="input-group input-group-sm">
-                            <button class="remove-card-btn btn btn-outline-secondary" type="button">-</button>
-                            <span class="input-group-text card-quantity"></span>
-                            <button class="add-card-btn btn btn-outline-secondary" type="button">+</button>
+                    <div class="row border rounded row-cols-auto my-1" id="row-empty" hidden>
+                        <div class="col px-0">
+                            <div class="input-group input-group-sm">
+                                <button class="remove-card-btn btn btn-outline-secondary" type="button">-</button>
+                                <span class="input-group-text card-quantity" data-card-reference="empty"></span>
+                                <button class="add-card-btn btn btn-outline-secondary" type="button">+</button>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <span class="d-inline-block text-truncate card-name" style="max-width: 188px;"></span>
                         </div>
                     </div>
-                    <div class="col">
-                        <span class="d-inline-block text-truncate card-name" style="max-width: 188px;"></span>
-                    </div>
-                </div>
     {% endfor %}
+                </div>
+                <div class="row mt-4">
+                    <button class="btn btn-success" id="save-deck">Save</button>
+                </div>
             </div>
-        </div>
+        </aside>
     </div>
     <div class="modal fade" id="add-card-modal" tabindex="-1" aria-labelledby="add-card-modalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -244,6 +237,7 @@
             </div>
         </div>
     </div>
+    {% csrf_token %}
 {% endblock %}
 
 {% block bodyscripts %}

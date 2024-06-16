@@ -104,20 +104,27 @@ document.getElementById("deckSelector").addEventListener("change", (e) => {
 
 // Decrease the quantity of the card
 function decreaseCardQuantity(event) {
-    let quantityElement = event.target.nextElementSibling;
+    let quantityElement = event.currentTarget.nextElementSibling;
+    let cardReference = quantityElement.dataset.cardReference;
     let quantity = Number(quantityElement.innerText) - 1;
+    
     if (quantity > 0) {
         quantityElement.innerText = quantity;
     } else {
         // If the quantity reaches 0, remove the card from the deck list
-        event.target.parentElement.parentElement.parentElement.remove();
+        event.currentTarget.parentElement.parentElement.parentElement.remove();
     }
+    decklistChanges[cardReference] = Math.max(quantity, 0);
 }
 
 // Increase the quantity of the card
 function increaseCardQuantity(event) {
-    let quantityElement = event.target.previousElementSibling;
-    quantityElement.innerText = Number(quantityElement.innerText) + 1;
+    let quantityElement = event.currentTarget.previousElementSibling;
+    let cardReference = quantityElement.dataset.cardReference;
+    let quantity = Number(quantityElement.innerText) + 1;
+
+    quantityElement.innerText = quantity;
+    decklistChanges[cardReference] = quantity;
 }
 
 // Retrieve all the buttons to decrease the card quantity
@@ -177,10 +184,11 @@ Array.from(cardDisplayElements).forEach(function(element) {
             cardElement.getElementsByClassName("card-quantity")[0].innerText = decklistChanges[cardReference];
 
         } else {
-            let editDeckColumn = document.getElementById("edit-deck-column");
+            let editDeckColumn = document.getElementById("decklist-cards");
             let newCardElement = editDeckColumn.lastElementChild.cloneNode(true);
             newCardElement.id = "row-" + cardReference;
             newCardElement.getElementsByClassName("card-quantity")[0].innerText = 1;
+            newCardElement.getElementsByClassName("card-quantity")[0].dataset.cardReference = cardReference;
             newCardElement.getElementsByClassName("card-name")[0].innerText = cardName;
             newCardElement.getElementsByClassName("remove-card-btn")[0].addEventListener("click", decreaseCardQuantity);
             newCardElement.getElementsByClassName("add-card-btn")[0].addEventListener("click", increaseCardQuantity);
@@ -189,4 +197,48 @@ Array.from(cardDisplayElements).forEach(function(element) {
             decklistChanges[cardReference] = 1;
         }
     });
+});
+
+
+let saveDeckButton = document.getElementById("save-deck");
+let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+saveDeckButton.addEventListener("click", function(event) {
+    event.preventDefault();
+    let deckId = document.getElementById("deckSelector").value;
+    let deckName = document.getElementById("deck-name").value;
+    let url = window.location.pathname.slice(0, 4) + "decks/" + deckId + "/update/";
+
+    fetch(url, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "X-Requested-With": "XMLHttpRequest",
+          "X-CSRFToken": csrftoken,
+        },
+        body: JSON.stringify({
+            action: "patch",
+            decklist: decklistChanges,
+            name: deckName
+        })
+    })
+    .then(response => response.json())
+    .then(payload => {
+        if ("error" in payload) {
+            console.log("Unable to update deck:");
+            console.log(payload);
+            if (payload.error.code == 400) {
+                displaySimpleToast(gettext("Unable to update deck"));
+            } else {
+                displaySimpleToast(payload.error.message);
+            }
+        } else {
+            let params = new URLSearchParams(window.location.search);
+            params.delete("deck");
+            params.append("deck", payload.data.deck);
+            let url = window.location.pathname + "?" + params.toString();
+            window.open(url, "_self");
+        }
+        return false;
+    });
+    return false;
 });
