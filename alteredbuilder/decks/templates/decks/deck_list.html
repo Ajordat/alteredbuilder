@@ -48,8 +48,15 @@
                                 <div class="col">
                                     <b>{% translate "Other" %}</b>
                                     <div class="form-check">
+    {% if user.is_authenticated %}
                                         <input class="form-check-input" type="checkbox" value="loved" id="filterLoved" {% if "loved" in checked_filters %}checked{% endif %}>
                                         {% translate "Loved" noop as _ %}<label class="form-check-label" for="filterLoved"><span class="loved"><i class="fa-solid fa-heart"></i></span></label>
+    {% else %}
+                                        <a data-bs-toggle="tooltip" data-bs-title="{% translate 'Login to save your loved decks!' %}" data-bs-html="true">
+                                            <input class="form-check-input" type="checkbox" value="loved" id="filterLoved" disabled>
+                                            {% translate "Loved" noop as _ %}<label class="form-check-label" for="filterLoved"><span class="loved"><i class="fa-solid fa-heart"></i></span></label>
+                                        </a>
+    {% endif %}
                                     </div>
                                 </div>
                             </div>

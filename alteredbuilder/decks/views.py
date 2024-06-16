@@ -76,8 +76,11 @@ class DeckListView(ListView):
         other = self.request.GET.get("other")
         if other:
             if "loved" in other.split(","):
-                lp = LovePoint.objects.filter(user=self.request.user)
-                filters &= Q(id__in=lp.values_list("deck_id", flat=True))
+                try:
+                    lp = LovePoint.objects.filter(user=self.request.user)
+                    filters &= Q(id__in=lp.values_list("deck_id", flat=True))
+                except TypeError:
+                    pass
 
         # In the deck list view there's no need for these fields, which might be
         # expensive to fill into the model
