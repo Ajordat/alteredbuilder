@@ -329,15 +329,19 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
             try:
                 # Retrieve the referenced objects
                 data = json.load(request)
-                deck = Deck.objects.get(pk=pk, owner=request.user)
-                card = Card.objects.get(reference=data["card_reference"])
+                if pk == 0:
+                    # TODO: Make sure `name` is safe
+                    deck = Deck.objects.create(owner=request.user, name=data["name"], is_public=True)
+                else:
+                    deck = Deck.objects.get(pk=pk, owner=request.user)
                 action = data["action"]
 
                 if action == "add":
                     # Not currently used
-                    pass
+                    status = {"added": True}
 
                 elif action == "delete":
+                    card = Card.objects.get(reference=data["card_reference"])
                     if (
                         card.type == Card.Type.HERO
                         and deck.hero.reference == card.reference
@@ -349,6 +353,32 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
                         cid = CardInDeck.objects.get(deck=deck, card=card)
                         cid.delete()
                     status = {"deleted": True}
+
+                elif action == "patch":
+                    # Perform changes in transaction
+                    decklist_changes = data["decklist"]
+                    deck.name = data["name"]
+                    
+                    for card_reference, quantity in decklist_changes.items():
+                        try:
+                            card = Card.objects.get(reference=card_reference)
+                            if card.type == Card.Type.HERO:
+                                if quantity > 0:
+                                    deck.hero = card.hero
+                                elif quantity == 0 and deck.hero == card:
+                                    deck.hero = None
+                            else:
+                                cid = CardInDeck.objects.get(card=card, deck=deck)
+                                if quantity > 0:
+                                    cid.quantity = quantity
+                                    cid.save()
+                                else:
+                                    cid.delete()
+                        except Card.DoesNotExist:
+                            continue
+                        except CardInDeck.DoesNotExist:
+                            CardInDeck.objects.create(card=card, deck=deck, quantity=quantity)
+                    status = {"patched": True, "deck": deck.id}
                 else:
                     raise KeyError("Invalid action")
 

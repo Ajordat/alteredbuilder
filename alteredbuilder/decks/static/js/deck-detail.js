@@ -72,9 +72,9 @@ for (let element of removeCardEls) {
     
     element.addEventListener("click", (event) => {
         event.preventDefault();
-        let url = window.location.origin + window.location.pathname + "update/";
+        let url = window.location.pathname + "update/";
     
-        cardReference = element.getAttribute('data-card-reference');
+        cardReference = element.dataset.cardReference;
 
         fetch(url, {
             method: "POST",
