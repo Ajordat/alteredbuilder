@@ -6,6 +6,7 @@ on:
     - master
     paths:
     - "alteredbuilder/**"
+    - ".github/workflows/django_cicd.yml"
     - "!alteredbuilder/config/__init__.py"
 
 env:
@@ -17,82 +18,80 @@ defaults:
     working-directory: ./alteredbuilder
 
 jobs:
-  changes:
-    name: Parse the changed files
-    runs-on: ubuntu-22.04
-    outputs:
-      statics: ${{ steps.filter.outputs.statics }}
-      migrations: ${{ steps.filter.outputs.migrations }}
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Filter changed files
-      uses: dorny/paths-filter@v3
-      id: filter
-      with:
-        filters: |
-          statics:
-          - "**/static/**"
-          - "**/statics/**"
-          - "alteredbuilder/requirements.txt"
-          migrations:
-          - "**/migrations/**"
-          - "alteredbuilder/requirements.txt"
+  # changes:
+  #   name: Parse the changed files
+  #   runs-on: ubuntu-22.04
+  #   outputs:
+  #     statics: ${{ steps.filter.outputs.statics }}
+  #     migrations: ${{ steps.filter.outputs.migrations }}
+  #   steps:
+  #   - name: Checkout
+  #     uses: actions/checkout@v4
+  #   - name: Filter changed files
+  #     uses: dorny/paths-filter@v3
+  #     id: filter
+  #     with:
+  #       filters: |
+  #         statics:
+  #         - "**/static/**"
+  #         - "**/statics/**"
+  #         - "alteredbuilder/requirements.txt"
+  #         migrations:
+  #         - "**/migrations/**"
+  #         - "alteredbuilder/requirements.txt"
 
-  unittests:
-    name: Run unittests
-    runs-on: ubuntu-22.04
-    services:
-      db:
-        image: postgres:15.4
-        ports:
-        - 5432:5432
-        env:
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Set up Python 3.12
-      uses: actions/setup-python@v5
-      with:
-        python-version: 3.12
-    - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    - name: Run Tests
-      run: python manage.py test
-      env:
-        SECRET_KEY: ${{ secrets.SECRET_KEY }}
-        DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
+  # unittests:
+  #   name: Run unittests
+  #   runs-on: ubuntu-22.04
+  #   services:
+  #     db:
+  #       image: postgres:15.4
+  #       ports:
+  #       - 5432:5432
+  #       env:
+  #         POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+  #         POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+  #         POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+  #   steps:
+  #   - name: Checkout
+  #     uses: actions/checkout@v4
+  #   - name: Set up Python 3.12
+  #     uses: actions/setup-python@v5
+  #     with:
+  #       python-version: 3.12
+  #   - name: Install Dependencies
+  #     run: |
+  #       python -m pip install --upgrade pip
+  #       pip install -r requirements.txt
+  #   - name: Run Tests
+  #     run: python manage.py test
+  #     env:
+  #       SECRET_KEY: ${{ secrets.SECRET_KEY }}
+  #       DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
 
-  build_and_push_image:
-    name: Build and push the image
-    needs: unittests
-    runs-on: ubuntu-22.04
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Authenticate into GCP
-      id: auth
-      uses: google-github-actions/auth@v2
-      with:
-        credentials_json: ${{ secrets.GCP_GITHUB_SA }}
-    - name: Set up gcloud
-      uses: google-github-actions/setup-gcloud@v2
-    - name: Set up docker
-      run: gcloud auth configure-docker ${{ vars.REGION }}-docker.pkg.dev --quiet
-    - name: Build image
-      run: docker build . --tag ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
-    - name: Push image
-      run: docker push ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
+  # build_and_push_image:
+  #   name: Build and push the image
+  #   needs: unittests
+  #   runs-on: ubuntu-22.04
+  #   steps:
+  #   - name: Checkout
+  #     uses: actions/checkout@v4
+  #   - name: Authenticate into GCP
+  #     id: auth
+  #     uses: google-github-actions/auth@v2
+  #     with:
+  #       credentials_json: ${{ secrets.GCP_GITHUB_SA }}
+  #   - name: Set up gcloud
+  #     uses: google-github-actions/setup-gcloud@v2
+  #   - name: Set up docker
+  #     run: gcloud auth configure-docker ${{ vars.REGION }}-docker.pkg.dev --quiet
+  #   - name: Build image
+  #     run: docker build . --tag ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
+  #   - name: Push image
+  #     run: docker push ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
 
   migrate_db:
     name: Perform db migrations
-    needs: [changes, build_and_push_image]
-    if: needs.changes.outputs.migrations == 'true'
     runs-on: ubuntu-22.04
     steps:
     - name: Checkout
@@ -112,73 +111,73 @@ jobs:
         instance: ${{ vars.CLOUD_SQL_INSTANCE }}
         port: 5432
     - name: Run migrations
-      run: python manage.py migrate --no-input
+      run: python manage.py migrate --no-input hitcount zero
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DATABASE_URL: ${{ secrets.MIGRATION_DATABASE_URL }}
 
-  collect_statics:
-    name: Collect static files into GCS
-    needs: [changes, unittests]
-    if: needs.changes.outputs.statics == 'true'
-    runs-on: ubuntu-22.04
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Set up Python 3.12
-      uses: actions/setup-python@v5
-      with:
-        python-version: 3.12
-    - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    - name: Collect static files to GCS
-      run: python manage.py collectstatic --no-input
-      env:
-        SECRET_KEY: ${{ secrets.SECRET_KEY }}
-        DATABASE_URL: ${{ secrets.MIGRATION_DATABASE_URL }}
-        USE_GCS_STATICS: True
-        GCS_BUCKET_STATICS: ${{ vars.GCS_BUCKET_STATICS }}
-        GCP_GITHUB_SA: ${{ secrets.GCP_GITHUB_SA }}
+  # collect_statics:
+  #   name: Collect static files into GCS
+  #   needs: [changes, unittests]
+  #   if: needs.changes.outputs.statics == 'true'
+  #   runs-on: ubuntu-22.04
+  #   steps:
+  #   - name: Checkout
+  #     uses: actions/checkout@v4
+  #   - name: Set up Python 3.12
+  #     uses: actions/setup-python@v5
+  #     with:
+  #       python-version: 3.12
+  #   - name: Install Dependencies
+  #     run: |
+  #       python -m pip install --upgrade pip
+  #       pip install -r requirements.txt
+  #   - name: Collect static files to GCS
+  #     run: python manage.py collectstatic --no-input
+  #     env:
+  #       SECRET_KEY: ${{ secrets.SECRET_KEY }}
+  #       DATABASE_URL: ${{ secrets.MIGRATION_DATABASE_URL }}
+  #       USE_GCS_STATICS: True
+  #       GCS_BUCKET_STATICS: ${{ vars.GCS_BUCKET_STATICS }}
+  #       GCP_GITHUB_SA: ${{ secrets.GCP_GITHUB_SA }}
 
-  deploy:
-    name: Deploy to Cloud Run
-    needs: [build_and_push_image, migrate_db, collect_statics]
-    if: |
-      always() &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled')
-    runs-on: ubuntu-22.04
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Authenticate into GCP
-      id: auth
-      uses: google-github-actions/auth@v2
-      with:
-        credentials_json: ${{ secrets.GCP_GITHUB_SA }}
-    - name: Create SHORT_SHA variable
-      id: vars
-      run: echo "sha_short=$(git rev-parse --short ${{ github.sha }})" >> $GITHUB_OUTPUT
-    - name: Deploy to Cloud Run
-      uses: google-github-actions/deploy-cloudrun@v2
-      with:
-        project_id: ${{ vars.GCP_PROJECT }}
-        region: ${{ vars.REGION }}
-        service: ${{ vars.CLOUD_RUN_SERVICE_NAME }}
-        image: ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
-        env_vars: |
-          COMMIT_ID=${{ steps.vars.outputs.sha_short }}
-        env_vars_update_strategy: merge
-        flags: |
-          --platform=managed
-          --port=8000
-          --add-cloudsql-instances=${{ vars.CLOUD_SQL_INSTANCE }}
-          --allow-unauthenticated
-          --service-account=${{ vars.CLOUD_RUN_SA_NAME }}
-          --cpu=1000m
-          --memory=256Mi
+  # deploy:
+  #   name: Deploy to Cloud Run
+  #   needs: [build_and_push_image, migrate_db, collect_statics]
+  #   if: |
+  #     always() &&
+  #     !contains(needs.*.result, 'failure') &&
+  #     !contains(needs.*.result, 'cancelled')
+  #   runs-on: ubuntu-22.04
+  #   permissions:
+  #     contents: 'read'
+  #     id-token: 'write'
+  #   steps:
+  #   - name: Checkout
+  #     uses: actions/checkout@v4
+  #   - name: Authenticate into GCP
+  #     id: auth
+  #     uses: google-github-actions/auth@v2
+  #     with:
+  #       credentials_json: ${{ secrets.GCP_GITHUB_SA }}
+  #   - name: Create SHORT_SHA variable
+  #     id: vars
+  #     run: echo "sha_short=$(git rev-parse --short ${{ github.sha }})" >> $GITHUB_OUTPUT
+  #   - name: Deploy to Cloud Run
+  #     uses: google-github-actions/deploy-cloudrun@v2
+  #     with:
+  #       project_id: ${{ vars.GCP_PROJECT }}
+  #       region: ${{ vars.REGION }}
+  #       service: ${{ vars.CLOUD_RUN_SERVICE_NAME }}
+  #       image: ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
+  #       env_vars: |
+  #         COMMIT_ID=${{ steps.vars.outputs.sha_short }}
+  #       env_vars_update_strategy: merge
+  #       flags: |
+  #         --platform=managed
+  #         --port=8000
+  #         --add-cloudsql-instances=${{ vars.CLOUD_SQL_INSTANCE }}
+  #         --allow-unauthenticated
+  #         --service-account=${{ vars.CLOUD_RUN_SA_NAME }}
+  #         --cpu=1000m
+  #         --memory=256Mi
