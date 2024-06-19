@@ -30,7 +30,7 @@ class DecklistForm(forms.Form):
     decklist = forms.CharField(
         label=_("decklist"),
         widget=forms.Textarea,
-        max_length=2000,
+        max_length=3000,
         required=True,
         validators=[decklist_validator],
         error_messages={
