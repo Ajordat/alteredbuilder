@@ -2,7 +2,7 @@ name: Update card pool
 
 on:
   schedule:
-  - cron: "0 21 * * 2,4"
+  - cron: "0 19 * * 1-5"
 
 env:
   DEBUG: False
