@@ -4,7 +4,7 @@
 <div class="row mb-3">
     <label for="{{ form.name.id_for_label }}" class="col-sm-2 col-form-label">{% translate "Name" %}</label>
     <div class="col-auto has-validation">
-        <input id="{{ form.name.auto_id }}" type="text" name="{{ form.name.name }}" maxlength="50" class="form-control{% if form.name.errors %} is-invalid{% endif %}" aria-describedby="{{ form.name.name }}-validation" required value="{% firstof form.name.value '' %}">
+        <input id="{{ form.name.auto_id }}" type="text" name="{{ form.name.name }}" maxlength="{{ form.fields.name.max_length }}" class="form-control{% if form.name.errors %} is-invalid{% endif %}" aria-describedby="{{ form.name.name }}-validation" required value="{% firstof form.name.value '' %}">
         <div id="{{ form.name.name }}-validation" class="invalid-feedback">
 {% for error in form.name.errors %}
             {{error}}<br>
@@ -29,7 +29,7 @@
 <p>{% translate "Paste a decklist. Do follow ExAltered's decklist format:" %}</p>
 <div class="mb-3">
     <label for="{{ form.decklist.id_for_label }}" class="form-label">{% translate "Decklist" %}</label>
-    <textarea class="form-control{% if form.decklist.errors %} is-invalid{% endif %}" id="{{ form.decklist.auto_id }}" cols="10" rows="10" maxlength="1000" name="{{ form.decklist.name }}" aria-describedby="{{ form.decklist.name }}-validation" required placeholder="1 ALT_CORE_B_LY_01_C&#10;2 ALT_CORE_B_LY_06_C&#10;1 ALT_CORE_B_LY_06_R1&#10;3 ALT_CORE_B_LY_09_R1&#10;...">{% firstof form.decklist.value "" %}</textarea>
+    <textarea class="form-control{% if form.decklist.errors %} is-invalid{% endif %}" id="{{ form.decklist.auto_id }}" cols="10" rows="12" maxlength="{{ form.fields.decklist.max_length }}" name="{{ form.decklist.name }}" aria-describedby="{{ form.decklist.name }}-validation" required placeholder="1 ALT_CORE_B_LY_01_C&#10;2 ALT_CORE_B_LY_06_C&#10;1 ALT_CORE_B_LY_06_R1&#10;3 ALT_CORE_B_LY_09_R1&#10;...">{% firstof form.decklist.value "" %}</textarea>
     <div id="{{ form.decklist.name }}-validation" class="invalid-feedback">
 {% for error in form.decklist.errors %}
         {{error}}<br>

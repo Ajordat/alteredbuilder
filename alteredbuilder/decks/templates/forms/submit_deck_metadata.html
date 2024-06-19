@@ -6,7 +6,7 @@
 <div class="row mb-3">
     <label for="{{ form.name.id_for_label }}" class="col-sm-2 col-form-label">{% translate "Name" %}</label>
     <div class="col-auto has-validation">
-        <input id="{{ form.name.auto_id }}" type="text" name="{{ form.name.name }}" maxlength="50" class="form-control{% if form.name.errors %} is-invalid{% endif %}" aria-describedby="{{ form.name.name }}-validation" required value="{{ form.name.initial }}">
+        <input id="{{ form.name.auto_id }}" type="text" name="{{ form.name.name }}" maxlength="{{ form.fields.name.max_length }}" class="form-control{% if form.name.errors %} is-invalid{% endif %}" aria-describedby="{{ form.name.name }}-validation" required value="{{ form.name.initial }}">
         <div id="{{ form.name.name }}-validation" class="invalid-feedback">
 {% for error in form.name.errors %}
             {{error}}<br>
