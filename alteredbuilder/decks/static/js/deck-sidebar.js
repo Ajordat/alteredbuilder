@@ -19,6 +19,10 @@ class DecklistChanges {
     load() {
         this.#changes = JSON.parse(sessionStorage.getItem(this.storageKey)) || {};
     }
+    clean() {
+        sessionStorage.removeItem(this.storageKey);
+        sessionStorage.removeItem("deckId");
+    }
     /**
      * Add a change to track.
      * 
@@ -126,18 +130,23 @@ if (deckId !== sessionStorage.getItem("deckId")) {
                     cardRow.remove();
                 }
             } else if (change.isHero) {
+                // Check if the change is related to a hero
                 let heroElement = document.getElementById("hero-name");
                 if (change.quantity > 0) {
+                    // Add the hero if it has a positive quantity
                     heroElement.value = change.name;
                     heroElement.dataset.cardReference = cardReference;
                     heroElement.nextElementSibling.disabled = false;
-                } else if (change.quantity == 0 && cardReference === heroElement.dataset.cardReference) {
+                } else if (change.quantity <= 0 && cardReference === heroElement.dataset.cardReference) {
+                    // Remove the hero if it doesn't have a positive quantity and the
+                    //displayed hero is the one removed
                     heroElement.value = "";
                     heroElement.dataset.cardReference = "";
                     heroElement.nextElementSibling.disabled = true;
                 }
             } else {
                 if (change.quantity > 0) {
+                    // Create the card row if it's a positive quantity
                     createCardRow(change.quantity, cardReference, change.name);
                 }
             }
@@ -146,41 +155,63 @@ if (deckId !== sessionStorage.getItem("deckId")) {
 }
 
 
+// Dropdown to select a deck
 document.getElementById("deckSelector").addEventListener("change", (e) => {
     e.preventDefault();
 
+    // Clean the changes on the current deck
+    decklistChanges.clean();
+    // Delete the existing `deck` argument and add the selected one
     let params = new URLSearchParams(window.location.search);
     params.delete("deck");
     params.append("deck", e.target.value);
     let url = window.location.pathname + "?" + params.toString();
+    // Go to the new URL
     window.open(url, "_self");
 
     return false;
 });
 
-// Decrease the quantity of the card
+
+/**
+ * Function to decrease the card quantity on the sidebar after pressing the decrease
+ * button.
+ * 
+ * @param {Event} event Event that triggered this function
+ */
 function decreaseCardQuantity(event) {
+    // Retrieve the card reference and calculate the new quantity
     let quantityElement = event.currentTarget.nextElementSibling;
     let cardReference = quantityElement.dataset.cardReference;
     let quantity = Number(quantityElement.innerText) - 1;
     
     if (quantity > 0) {
+        // If the quantity is still positive, update the value
         quantityElement.innerText = quantity;
     } else {
         // If the quantity reaches 0, remove the card from the deck list
         event.currentTarget.parentElement.parentElement.parentElement.remove();
     }
+    // Track the changes
     decklistChanges.addChange(cardReference, "quantity", Math.max(quantity, 0));
     decklistChanges.save();
 }
 
-// Increase the quantity of the card
+
+/**
+ * Function to increase the card quantity on the sidebar after pressing the increase
+ * button.
+ * 
+ * @param {Event} event Event that triggered this function
+ */
 function increaseCardQuantity(event) {
+    // Retrieve the card reference and calculate the new quantity
     let quantityElement = event.currentTarget.previousElementSibling;
     let cardReference = quantityElement.dataset.cardReference;
     let quantity = Number(quantityElement.innerText) + 1;
-
+    // Update the value
     quantityElement.innerText = quantity;
+    // Track the changes
     decklistChanges.addChange(cardReference, "quantity", quantity);
     decklistChanges.save();
 }
@@ -197,46 +228,66 @@ Array.from(addCardButtons).forEach(function(element) {
     element.addEventListener("click", increaseCardQuantity);
 });
 
+// Remove the hero from the sidebar
 let removeHeroButton = document.getElementById("remove-hero");
 removeHeroButton.addEventListener("click", function(event) {
+    // Retrieve the relevant elements.
     let heroTextElement = event.currentTarget.previousElementSibling;
     let heroReference = heroTextElement.dataset.cardReference;
 
+    // Empty the shown values and disable the button to delete the hero
     heroTextElement.value = "";
     heroTextElement.dataset.cardReference = "";
     event.currentTarget.disabled = true;
 
+    // Track the changes
     if (decklistChanges.contains(heroReference)) {
+        // If the change is already tracked it means that the hero had been added but
+        // never saved, hence we can simply delete the record that added the hero
         decklistChanges.removeChange(heroReference);
     } else {
+        // If the hero is not present in the changelist, add the hero removal action
         decklistChanges.addChange(heroReference, "quantity", 0);
         decklistChanges.addChange(heroReference, "isHero", true);
     }
     decklistChanges.save();
 });
 
+/**
+ * Add a new card record to the list of cards. It works by duplicating the last
+ * existing record, modifying its values and adding it into the document.
+ * 
+ * @param {int} quantity Quantity of the card present in the deck 
+ * @param {string} reference Reference of the card  
+ * @param {string} name Name of the card
+ */
 function createCardRow(quantity, reference, name) {
+    // Retrieve the relevant elements
     let editDeckColumn = document.getElementById("decklist-cards");
     let newCardElement = editDeckColumn.lastElementChild.cloneNode(true);
+    // Set the new values
     newCardElement.id = getRowId(reference);
     newCardElement.getElementsByClassName("card-quantity")[0].innerText = quantity;
     newCardElement.getElementsByClassName("card-quantity")[0].dataset.cardReference = reference;
     newCardElement.getElementsByClassName("card-name")[0].innerText = name;
     newCardElement.getElementsByClassName("remove-card-btn")[0].addEventListener("click", decreaseCardQuantity);
     newCardElement.getElementsByClassName("add-card-btn")[0].addEventListener("click", increaseCardQuantity);
+    // Display the new record on the document
     newCardElement.hidden = false;
     editDeckColumn.appendChild(newCardElement);
 }
 
-// Retrieve all the buttons to increase the card quantity
+// If a card display is clicked, add the card to the deck
 let cardDisplayElements = document.getElementsByClassName("card-display");
 Array.from(cardDisplayElements).forEach(function(element) {
     element.addEventListener("click", function(event) {
+        // Retrieve the information from the card pressed
         let cardReference = event.currentTarget.dataset.cardReference;
         let cardName = event.currentTarget.dataset.cardName;
         let cardType = event.currentTarget.dataset.cardType;
         
         if (cardType === "hero") {
+            // If it's a hero and there's no hero on the deck, add it
             let heroElement = document.getElementById("hero-name");
             let removeHeroButton = document.getElementById("remove-hero");
 
@@ -252,16 +303,21 @@ Array.from(cardDisplayElements).forEach(function(element) {
             return;
         }
 
+        // Attempt to retrieve the row of the clicked card
         let cardElement = document.getElementById(getRowId(cardReference));
 
         if (cardElement){
+            // If the card exists, update the row's quantity value
+            // decklistChanges is queried as a cache to avoid reading the document if possible
             let quantity = decklistChanges.getChange(cardReference, "quantity") || Number(cardElement.getElementsByClassName("card-quantity")[0].innerText);
+            quantity += 1;
 
-            decklistChanges.addChange(cardReference, "quantity", quantity + 1);
-            cardElement.getElementsByClassName("card-quantity")[0].innerText = decklistChanges.getChange(cardReference, "quantity");
-
+            decklistChanges.addChange(cardReference, "quantity", quantity);
+            cardElement.getElementsByClassName("card-quantity")[0].innerText = quantity;
         } else {
+            // If the card doesn't exist, create the card's row
             createCardRow(1, cardReference, cardName);
+            // Track the changes
             decklistChanges.addChange(cardReference, "quantity", 1);
             decklistChanges.addChange(cardReference, "name", cardName);
         }
@@ -269,21 +325,22 @@ Array.from(cardDisplayElements).forEach(function(element) {
     });
 });
 
-
+// When the `save` button is pressed, send a request to the server with the changes tracked
 let saveDeckButton = document.getElementById("save-deck");
-let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 saveDeckButton.addEventListener("click", function(event) {
     event.preventDefault();
+    // Retrieve the deck's values and generate the URL to patch the deck
     let deckId = document.getElementById("deckSelector").value;
     let deckName = document.getElementById("deck-name").value;
     let url = window.location.pathname.slice(0, 4) + "decks/" + deckId + "/update/";
 
+    // Send the POST request
     fetch(url, {
         method: "POST",
         credentials: "same-origin",
         headers: {
           "X-Requested-With": "XMLHttpRequest",
-          "X-CSRFToken": csrftoken,
+          "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
         },
         body: JSON.stringify({
             action: "patch",
@@ -302,12 +359,15 @@ saveDeckButton.addEventListener("click", function(event) {
                 displaySimpleToast(payload.error.message);
             }
         } else {
+            // If the request is successful, redirect to the new URL
+            // This is useful to ensure the client is synced with the changes accepted
+            // by the server.
+            // It also allows to continue editing the deck if it's a new one
             let params = new URLSearchParams(window.location.search);
             params.delete("deck");
             params.append("deck", payload.data.deck);
             let url = window.location.pathname + "?" + params.toString();
-            sessionStorage.removeItem("decklistChanges");
-            sessionStorage.removeItem("deckId");
+            decklistChanges.clean();
             window.open(url, "_self");
         }
         return false;
