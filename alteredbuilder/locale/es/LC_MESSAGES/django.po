@@ -581,10 +581,6 @@ msgstr "El mazo ya tiene un héroe"
 msgid "Cards"
 msgstr "Cartas"
 
-#: templates/base.html:51
-msgid "New deck"
-msgstr "Crear mazo"
-
 #: templates/base.html:63
 msgid "Light"
 msgstr "Claro"

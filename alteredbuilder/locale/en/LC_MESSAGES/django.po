@@ -577,10 +577,6 @@ msgstr ""
 msgid "Cards"
 msgstr ""
 
-#: templates/base.html:51
-msgid "New deck"
-msgstr ""
-
 #: templates/base.html:63
 msgid "Light"
 msgstr ""

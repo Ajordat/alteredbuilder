@@ -583,10 +583,6 @@ msgstr "Le deck a déjà un héros"
 msgid "Cards"
 msgstr "Cartes"
 
-#: templates/base.html:51
-msgid "New deck"
-msgstr "Nouveau deck"
-
 #: templates/base.html:63
 msgid "Light"
 msgstr "Clair"
