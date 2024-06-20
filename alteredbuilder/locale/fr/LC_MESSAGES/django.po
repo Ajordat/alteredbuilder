@@ -261,7 +261,7 @@ msgstr "Créé : %(creation)s<br>Dernière modification : %(modification)s"
 
 #: decks/templates/decks/deck_detail.html:38
 msgid "Login to share your love!"
-msgstr "Connectez-vous pour<br>montrer votre appréciation!"
+msgstr "Connectez-vous pour<br>montrer votre appréciation !"
 
 #: decks/templates/decks/deck_detail.html:48
 msgid "Share"
@@ -295,7 +295,7 @@ msgstr "Cette fonction ne peut pas être utilisée avec des cartes uniques"
 #: decks/templates/decks/deck_detail.html:77
 #: decks/templates/decks/deck_detail.html:83
 msgid "Playtest!"
-msgstr "Test de jeu!"
+msgstr "Test de jeu !"
 
 #: decks/templates/decks/deck_detail.html:81
 msgid "Try it in Exalts Table"
@@ -477,7 +477,7 @@ msgstr "Adoré"
 
 #: decks/templates/decks/deck_list.html:55
 msgid "Login to save your loved decks!"
-msgstr "Connectez-vous pour sauvegarder<br> vos decks préférés!"
+msgstr "Connectez-vous pour sauvegarder<br> vos decks préférés !"
 
 #: decks/templates/decks/deck_list.html:85
 msgid "Owner"
