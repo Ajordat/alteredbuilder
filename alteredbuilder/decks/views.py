@@ -8,23 +8,20 @@ from django.db.models import F, Q
 from django.db.models.functions import Coalesce
 from django.db.models.manager import Manager
 from django.db.models.query import QuerySet
-from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
-from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 from hitcount.views import HitCountDetailView
 
+from api.utils import ajax_request, ApiJsonResponse
 from .deck_utils import create_new_deck, get_deck_details
 from .game_modes import update_deck_legality
 from .models import Card, CardInDeck, Deck, LovePoint
 from .forms import DecklistForm, DeckMetadataForm, UpdateDeckForm
 from .exceptions import MalformedDeckException
-
-
-# Views for this app
 
 
 class DeckListView(ListView):
@@ -309,6 +306,7 @@ def love_deck(request: HttpRequest, pk: int) -> HttpResponse:
 
 
 @login_required
+@ajax_request
 def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
     """Function to update a deck with AJAX.
     I'm not proud of this implementation, as this code is kinda duplicated in
@@ -321,90 +319,71 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
     Returns:
         HttpResponse: A JSON response indicating whether the request succeeded or not.
     """
-
-    # Ensure it's an AJAX request
-    is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
-    if is_ajax:
-        if request.method == "POST":
-            try:
-                # Retrieve the referenced objects
-                data = json.load(request)
-                if pk == 0:
-                    # TODO: Make sure `name` is safe
-                    deck = Deck.objects.create(owner=request.user, name=data["name"], is_public=True)
-                else:
-                    deck = Deck.objects.get(pk=pk, owner=request.user)
-                action = data["action"]
-
-                if action == "add":
-                    # Not currently used
-                    status = {"added": True}
-
-                elif action == "delete":
-                    card = Card.objects.get(reference=data["card_reference"])
-                    if (
-                        card.type == Card.Type.HERO
-                        and deck.hero.reference == card.reference
-                    ):
-                        # If it's the Deck's hero, remove the reference
-                        deck.hero = None
-                    else:
-                        # Retrieve the CiD and delete it
-                        cid = CardInDeck.objects.get(deck=deck, card=card)
-                        cid.delete()
-                    status = {"deleted": True}
-
-                elif action == "patch":
-                    # TODO: Perform changes in transaction
-                    decklist_changes = data["decklist"]
-                    deck.name = data["name"]
-                    
-                    for card_reference, quantity in decklist_changes.items():
-                        try:
-                            card = Card.objects.get(reference=card_reference)
-                            if card.type == Card.Type.HERO:
-                                if quantity > 0:
-                                    deck.hero = card.hero
-                                elif quantity == 0 and deck.hero == card.hero:
-                                    deck.hero = None
-                            else:
-                                cid = CardInDeck.objects.get(card=card, deck=deck)
-                                if quantity > 0:
-                                    cid.quantity = quantity
-                                    cid.save()
-                                else:
-                                    cid.delete()
-                        except Card.DoesNotExist:
-                            continue
-                        except CardInDeck.DoesNotExist:
-                            CardInDeck.objects.create(card=card, deck=deck, quantity=quantity)
-                    status = {"patched": True, "deck": deck.id}
-                else:
-                    raise KeyError("Invalid action")
-
-                update_deck_legality(deck)
-                deck.save()
-
-            except Deck.DoesNotExist:
-                return JsonResponse(
-                    {"error": {"code": 404, "message": _("Deck not found")}}, status=404
-                )
-            except (Card.DoesNotExist, CardInDeck.DoesNotExist):
-                return JsonResponse(
-                    {"error": {"code": 404, "message": _("Card not found")}}, status=404
-                )
-            except (json.decoder.JSONDecodeError, KeyError):
-                return JsonResponse(
-                    {"error": {"code": 400, "message": _("Invalid payload")}},
-                    status=400,
-                )
-            return JsonResponse({"data": status}, status=201)
+    try:
+        data = json.load(request)
+        if pk == 0:
+            # TODO: Make sure `name` is safe
+            deck = Deck.objects.create(owner=request.user, name=data["name"], is_public=True)
         else:
-            return JsonResponse(
-                {"error": {"code": 400, "message": _("Invalid request")}}, status=400
-            )
-    else:
-        return HttpResponse(_("Invalid request"), status=400)
+            deck = Deck.objects.get(pk=pk, owner=request.user)
+        action = data["action"]
+
+        if action == "add":
+            # Not currently used
+            status = {"added": True}
+
+        elif action == "delete":
+            card = Card.objects.get(reference=data["card_reference"])
+            if (
+                card.type == Card.Type.HERO
+                and deck.hero.reference == card.reference
+            ):
+                # If it's the Deck's hero, remove the reference
+                deck.hero = None
+            else:
+                # Retrieve the CiD and delete it
+                cid = CardInDeck.objects.get(deck=deck, card=card)
+                cid.delete()
+            status = {"deleted": True}
+
+        elif action == "patch":
+            # TODO: Perform changes in transaction
+            decklist_changes = data["decklist"]
+            deck.name = data["name"]
+            
+            for card_reference, quantity in decklist_changes.items():
+                try:
+                    card = Card.objects.get(reference=card_reference)
+                    if card.type == Card.Type.HERO:
+                        if quantity > 0:
+                            deck.hero = card.hero
+                        elif quantity == 0 and deck.hero == card.hero:
+                            deck.hero = None
+                    else:
+                        cid = CardInDeck.objects.get(card=card, deck=deck)
+                        if quantity > 0:
+                            cid.quantity = quantity
+                            cid.save()
+                        else:
+                            cid.delete()
+                except Card.DoesNotExist:
+                    continue
+                except CardInDeck.DoesNotExist:
+                    CardInDeck.objects.create(card=card, deck=deck, quantity=quantity)
+            status = {"patched": True, "deck": deck.id}
+        else:
+            raise KeyError("Invalid action")
+
+        update_deck_legality(deck)
+        deck.save()
+
+    except Deck.DoesNotExist:
+        return ApiJsonResponse(_("Deck not found"), 404)
+    except (Card.DoesNotExist, CardInDeck.DoesNotExist):
+        return ApiJsonResponse(_("Card not found"), 404)
+    except KeyError:
+        return ApiJsonResponse(_("Invalid payload"), 400)
+    return ApiJsonResponse(status, 201)
 
 
 class UpdateDeckFormView(LoginRequiredMixin, FormView):
