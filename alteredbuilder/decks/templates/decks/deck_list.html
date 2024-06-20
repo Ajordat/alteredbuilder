@@ -99,7 +99,7 @@
             <tr data-href="{% url 'deck-detail' pk=deck.id %}">
                 <td>
         {% if user.is_superuser %}
-                    <a role="button" href="#" class="btn btn-sm btn-outline-secondary">
+                    <a role="button" href="#" class="btn btn-sm btn-outline-secondary disabled {% if deck.hit_count.hits < 10 %}me-3{% else %}me-2{% endif %}">
                         <i class="fa-solid fa-eye"></i> {{ deck.hit_count.hits }}
                     </a>
         {% endif %}
