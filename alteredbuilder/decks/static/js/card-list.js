@@ -88,7 +88,49 @@ document.getElementById("filterSearchButton").addEventListener("click", searchCa
 document.getElementById("querySearchForm").addEventListener("submit", searchCards);
 document.getElementById("filterOrdering").addEventListener("change", searchCards);
 
-var decklistChanges = {}
+function getRowId(cardReference) {
+    return "row-" + cardReference;
+}
+
+function saveDecklist() {
+    sessionStorage.setItem("decklistChanges", JSON.stringify(decklistChanges));
+}
+
+// function updateDecklist(reference, key, value) {
+//     if (decklistChanges[reference]) {
+//         decklistChanges[reference][key] = value
+//     } else {
+//         decklistChanges[reference] = {key: value}
+//     }
+// }
+
+var decklistChanges;
+var deckId = document.getElementById("deckSelector").value;
+
+if (deckId !== sessionStorage.getItem("deckId")) {
+    sessionStorage.removeItem("decklistChanges");
+    sessionStorage.setItem("deckId", deckId);
+} else {
+    decklistChanges = JSON.parse(sessionStorage.getItem("decklistChanges")) || {};
+    if (decklistChanges) {
+        for (let [cardReference, quantity] of Object.entries(decklistChanges)) {
+            console.log(cardReference, quantity);
+            let cardRow = document.getElementById(getRowId(cardReference));
+            if (cardRow) {
+                if (quantity > 0) {
+                    cardRow.getElementsByClassName("card-quantity")[0].innerText = quantity;
+                } else {
+                    cardRow.remove();
+                }
+            } else {
+                if (quantity > 0) {
+                    createCardRow(quantity, cardReference, "test");
+                }
+            }
+        }
+    }
+}
+
 
 document.getElementById("deckSelector").addEventListener("change", (e) => {
     e.preventDefault();
@@ -115,6 +157,7 @@ function decreaseCardQuantity(event) {
         event.currentTarget.parentElement.parentElement.parentElement.remove();
     }
     decklistChanges[cardReference] = Math.max(quantity, 0);
+    saveDecklist();
 }
 
 // Increase the quantity of the card
@@ -125,6 +168,7 @@ function increaseCardQuantity(event) {
 
     quantityElement.innerText = quantity;
     decklistChanges[cardReference] = quantity;
+    saveDecklist();
 }
 
 // Retrieve all the buttons to decrease the card quantity
@@ -153,7 +197,21 @@ removeHeroButton.addEventListener("click", function(event) {
     } else {
         decklistChanges[heroReference] = 0;
     }
+    saveDecklist();
 });
+
+function createCardRow(quantity, reference, name) {
+    let editDeckColumn = document.getElementById("decklist-cards");
+    let newCardElement = editDeckColumn.lastElementChild.cloneNode(true);
+    newCardElement.id = getRowId(reference);
+    newCardElement.getElementsByClassName("card-quantity")[0].innerText = quantity;
+    newCardElement.getElementsByClassName("card-quantity")[0].dataset.cardReference = reference;
+    newCardElement.getElementsByClassName("card-name")[0].innerText = name;
+    newCardElement.getElementsByClassName("remove-card-btn")[0].addEventListener("click", decreaseCardQuantity);
+    newCardElement.getElementsByClassName("add-card-btn")[0].addEventListener("click", increaseCardQuantity);
+    newCardElement.hidden = false;
+    editDeckColumn.appendChild(newCardElement);
+}
 
 // Retrieve all the buttons to increase the card quantity
 let cardDisplayElements = document.getElementsByClassName("card-display");
@@ -172,30 +230,24 @@ Array.from(cardDisplayElements).forEach(function(element) {
                 heroElement.dataset.cardReference = cardReference;
                 removeHeroButton.disabled = false;
                 decklistChanges[cardReference] = 1;
+                saveDecklist();
             }
             return;
         }
 
-        let cardElement = document.getElementById("row-" + cardReference);
+        let cardElement = document.getElementById(getRowId(cardReference));
 
         if (cardElement){
             let quantity = decklistChanges[cardReference] || Number(cardElement.getElementsByClassName("card-quantity")[0].innerText);
+
             decklistChanges[cardReference] = quantity + 1;
             cardElement.getElementsByClassName("card-quantity")[0].innerText = decklistChanges[cardReference];
 
         } else {
-            let editDeckColumn = document.getElementById("decklist-cards");
-            let newCardElement = editDeckColumn.lastElementChild.cloneNode(true);
-            newCardElement.id = "row-" + cardReference;
-            newCardElement.getElementsByClassName("card-quantity")[0].innerText = 1;
-            newCardElement.getElementsByClassName("card-quantity")[0].dataset.cardReference = cardReference;
-            newCardElement.getElementsByClassName("card-name")[0].innerText = cardName;
-            newCardElement.getElementsByClassName("remove-card-btn")[0].addEventListener("click", decreaseCardQuantity);
-            newCardElement.getElementsByClassName("add-card-btn")[0].addEventListener("click", increaseCardQuantity);
-            newCardElement.hidden = false;
-            editDeckColumn.appendChild(newCardElement);
+            createCardRow(1, cardReference, cardName);
             decklistChanges[cardReference] = 1;
         }
+        saveDecklist();
     });
 });
 
@@ -236,6 +288,8 @@ saveDeckButton.addEventListener("click", function(event) {
             params.delete("deck");
             params.append("deck", payload.data.deck);
             let url = window.location.pathname + "?" + params.toString();
+            sessionStorage.removeItem("decklistChanges");
+            sessionStorage.removeItem("deckId");
             window.open(url, "_self");
         }
         return false;
