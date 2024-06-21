@@ -71,6 +71,19 @@
             </div>
         </div>
     {% endif %}
+    {% if stats.rarity_distribution.unique %}
+        <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'This feature cannot be used with unique cards' %}">
+            <button type="button" class="btn btn-outline-primary btn-sm" disabled>
+                <i class="fa-solid fa-fish"></i> {% translate "Playtest!" %} <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </button>
+        </div>
+    {% else %}
+        <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'Try it in Exalts Table' %}">
+            <a type="button" class="btn btn-outline-primary btn-sm" href="https://exalts-table.com/deck-test/link/?decklist={{ decklist|urlencode }}" target="_blank">
+                <i class="fa-solid fa-fish"></i> {% translate "Playtest!" %} <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+        </div>
+    {% endif %}
     </div>
     <div class="my-3">
         <h3>{% translate "Decklist" %}</h3>
