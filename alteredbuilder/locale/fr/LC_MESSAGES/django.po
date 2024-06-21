@@ -299,7 +299,7 @@ msgstr "Test de jeu !"
 
 #: decks/templates/decks/deck_detail.html:81
 msgid "Try it in Exalts Table"
-msgstr "Essayez-le dans Exalts Table"
+msgstr "Essayez le sur Exalts Table"
 
 #: decks/templates/decks/deck_detail.html:89
 #: decks/templates/forms/submit_decklist.html:31
