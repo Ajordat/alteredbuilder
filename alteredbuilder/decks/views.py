@@ -607,7 +607,7 @@ class CardListView(ListView):
             edit_deck_id = self.request.GET.get("deck")
             if edit_deck_id:
                 try:
-                    context["edit_deck"] = Deck.objects.filter(pk=edit_deck_id, owner=self.request.user).order_by("-modified_at").first()
+                    context["edit_deck"] = Deck.objects.filter(pk=edit_deck_id, owner=self.request.user).prefetch_related("cardindeck_set__card").get()
                 except Deck.DoesNotExist:
                     pass
 
