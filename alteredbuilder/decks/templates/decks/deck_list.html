@@ -9,6 +9,7 @@
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/deck-list.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -99,9 +100,11 @@
             <tr data-href="{% url 'deck-detail' pk=deck.id %}">
                 <td>
         {% if user.is_superuser %}
-                    <a role="button" href="#" class="btn btn-sm btn-outline-secondary disabled {% if deck.hit_count.hits < 10 %}me-3{% else %}me-2{% endif %}">
-                        <i class="fa-solid fa-eye"></i> {{ deck.hit_count.hits }}
+            {% with hit_count=deck.hit_count.hits %}
+                    <a role="button" href="#" class="btn btn-sm btn-outline-secondary disabled {% if hit_count < 10 %}me-3{% else %}me-2{% endif %}">
+                        <i class="fa-solid fa-eye"></i> {{ hit_count }}
                     </a>
+            {% endwith %}
         {% endif %}
                     <a role="button" href="#" class="btn btn-sm btn-outline-danger {%if deck.id in loved_decks %}active{% else %}disabled{% endif %}">
                         <i class="fa-solid fa-heart"></i> {{ deck.love_count }}

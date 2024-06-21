@@ -1,0 +1,20 @@
+#mana-curve-chart {
+    width: 500px;
+    height: 300px;
+}
+
+#distribution-pie-chart {
+    width: 500px;
+    height: 500px;
+}
+
+#card-showcase {
+    max-height: 500px;
+}
+
+#deck-qr-code{
+    width: 200px;
+    height: 200px;
+    margin: auto;
+    background-color: #fff;
+}

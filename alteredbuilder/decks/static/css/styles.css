@@ -1,28 +1,8 @@
-#mana-curve-chart {
-    width: 500px;
-    height: 300px;
-}
-
-#distribution-pie-chart {
-    width: 500px;
-    height: 500px;
-}
-
-#card-showcase {
-    max-height: 500px;
-}
-
-.card-display {
-    max-width: 280px;
-}
 
 .accordion-button {
     padding: 9px 9px;
 }
 
-.table-clickable tbody tr {
-    cursor: pointer;
-}
 
 .tooltip img {
     max-height: 400px;
@@ -34,11 +14,4 @@
 
 .tooltip.show {
     opacity: 1;
-}
-
-#deck-qr-code{
-    width: 200px;
-    height: 200px;
-    margin: auto;
-    background-color: #fff;
 }
