@@ -323,7 +323,9 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
         data = json.load(request)
         if pk == 0:
             # TODO: Make sure `name` is safe
-            deck = Deck.objects.create(owner=request.user, name=data["name"], is_public=True)
+            deck = Deck.objects.create(
+                owner=request.user, name=data["name"], is_public=True
+            )
         else:
             deck = Deck.objects.get(pk=pk, owner=request.user)
         action = data["action"]
@@ -334,10 +336,7 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
 
         elif action == "delete":
             card = Card.objects.get(reference=data["card_reference"])
-            if (
-                card.type == Card.Type.HERO
-                and deck.hero.reference == card.reference
-            ):
+            if card.type == Card.Type.HERO and deck.hero.reference == card.reference:
                 # If it's the Deck's hero, remove the reference
                 deck.hero = None
             else:
@@ -350,7 +349,7 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
             # TODO: Perform changes in transaction
             decklist_changes = data["decklist"]
             deck.name = data["name"]
-            
+
             for card_reference, quantity in decklist_changes.items():
                 try:
                     card = Card.objects.get(reference=card_reference)
@@ -607,8 +606,14 @@ class CardListView(ListView):
             edit_deck_id = self.request.GET.get("deck")
             if edit_deck_id:
                 try:
-                    context["edit_deck"] = Deck.objects.filter(pk=edit_deck_id, owner=self.request.user).get()
-                    context["edit_deck_cards"] = CardInDeck.objects.filter(deck=context["edit_deck"]).select_related("card").order_by("card__reference")
+                    context["edit_deck"] = Deck.objects.filter(
+                        pk=edit_deck_id, owner=self.request.user
+                    ).get()
+                    context["edit_deck_cards"] = (
+                        CardInDeck.objects.filter(deck=context["edit_deck"])
+                        .select_related("card")
+                        .order_by("card__reference")
+                    )
                 except Deck.DoesNotExist:
                     pass
 

@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 def ajax_request(func):
     def inner(request: HttpRequest, *args, **kwargs):
-    
+
         is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
         if is_ajax:
             if request.method == "POST":
@@ -18,15 +18,12 @@ def ajax_request(func):
                 return ApiJsonResponse(_("Invalid request"), 400)
         else:
             return HttpResponse(_("Invalid request"), status=400)
+
     return inner
 
+
 class ApiJsonResponse(JsonResponse):
-    def __init__(
-        self,
-        data,
-        status_code,
-        *args, **kwargs
-    ):
+    def __init__(self, data, status_code, *args, **kwargs):
         if status_code >= 400:
             msg = {"error": {"code": status_code, "message": data}}
         else:
