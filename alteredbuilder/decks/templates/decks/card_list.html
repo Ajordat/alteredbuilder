@@ -112,7 +112,7 @@
             <div class="row gy-3">
     {% for card in card_list %}
                 <div class="col-xxl-2 col-xl-3 col-md-4 col-sm-6">
-                    <div class="card-display rounded-3" data-card-reference="{{ card.reference }}" data-card-name="{{ card.name }}" data-card-type="{{ card.type }}">
+                    <div class="card-display rounded-3" data-card-reference="{{ card.reference }}" data-card-name="{{ card.name }}" data-card-type="{{ card.type }}" data-card-rarity="{{ card.rarity }}" data-card-image="{{ card.image_url }}">
                         <img src="{{ card.image_url }}" class="card-img-top rounded-3" alt="{{ card.name }}">
                     </div>
                 </div>
@@ -154,8 +154,8 @@
                 </div>
                 <div class="row">{% translate "Cards:" %}</div>
                 <div id="decklist-cards">
-    {% for cid in edit_deck.cardindeck_set.all %}
-                    <div class="row border rounded row-cols-auto my-1" id="row-{{ cid.card.reference }}" data-card-rarity="{{ cid.card.rarity }}">
+    {% for cid in edit_deck_cards %}
+                    <div class="row border rounded row-cols-auto my-1" id="row-{{ cid.card.reference }}" data-card-rarity="{{ cid.card.rarity }}" data-bs-toggle="tooltip" data-bs-title="<img src='{{ cid.card.image_url }}'/>" data-bs-html="true" data-bs-placement="left">
                         <div class="col px-0">
                             <div class="input-group input-group-sm">
                                 <button class="remove-card-btn btn btn-outline-secondary" type="button">-</button>
@@ -168,7 +168,7 @@
                         </div>
                     </div>
     {% empty %}
-                    <div class="row border rounded row-cols-auto my-1" id="row-empty" hidden>
+                    <div class="row border rounded row-cols-auto my-1" id="row-empty"  data-card-rarity="" data-bs-toggle="tooltip" data-bs-title="" data-bs-html="true" data-bs-placement="left" hidden>
                         <div class="col px-0">
                             <div class="input-group input-group-sm">
                                 <button class="remove-card-btn btn btn-outline-secondary" type="button">-</button>
@@ -194,4 +194,5 @@
 {% block bodyscripts %}
     <script src="{% static 'js/card-list.js' %}"></script>
     <script src="{% static 'js/deck-sidebar.js' %}"></script>
+    <script src="{% static 'js/tooltip-enable.js' %}"></script>
 {% endblock %}

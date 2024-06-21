@@ -147,7 +147,7 @@ if (deckId !== sessionStorage.getItem("deckId")) {
             } else {
                 if (change.quantity > 0) {
                     // Create the card row if it's a positive quantity
-                    createCardRow(change.quantity, cardReference, change.name);
+                    createCardRow(change.quantity, cardReference, change.name, change.rarity, change.image);
                 }
             }
         }
@@ -190,7 +190,10 @@ function decreaseCardQuantity(event) {
         quantityElement.innerText = quantity;
     } else {
         // If the quantity reaches 0, remove the card from the deck list
-        event.currentTarget.parentElement.parentElement.parentElement.remove();
+        let rowId = getRowId(cardReference);
+        let tooltip = bootstrap.Tooltip.getInstance("#" + rowId);
+        tooltip.hide();
+        document.getElementById(rowId).remove();
     }
     // Track the changes
     decklistChanges.addChange(cardReference, "quantity", Math.max(quantity, 0));
@@ -260,19 +263,24 @@ removeHeroButton.addEventListener("click", function(event) {
  * @param {int} quantity Quantity of the card present in the deck 
  * @param {string} reference Reference of the card  
  * @param {string} name Name of the card
+ * @param {string} rarity Rarity of the card 
+ * @param {string} image Image of the card
  */
-function createCardRow(quantity, reference, name) {
+function createCardRow(quantity, reference, name, rarity, image) {
     // Retrieve the relevant elements
     let editDeckColumn = document.getElementById("decklist-cards");
     let newCardElement = editDeckColumn.lastElementChild.cloneNode(true);
     // Set the new values
     newCardElement.id = getRowId(reference);
+    newCardElement.dataset.cardRarity = rarity;
+    newCardElement.dataset.bsTitle = "<img src='" + image +  "'/>";
     newCardElement.getElementsByClassName("card-quantity")[0].innerText = quantity;
     newCardElement.getElementsByClassName("card-quantity")[0].dataset.cardReference = reference;
     newCardElement.getElementsByClassName("card-name")[0].innerText = name;
     newCardElement.getElementsByClassName("remove-card-btn")[0].addEventListener("click", decreaseCardQuantity);
     newCardElement.getElementsByClassName("add-card-btn")[0].addEventListener("click", increaseCardQuantity);
-    // Display the new record on the document
+    // Enable the tooltip and display the new record on the document
+    new bootstrap.Tooltip(newCardElement);
     newCardElement.hidden = false;
     editDeckColumn.appendChild(newCardElement);
 }
@@ -285,6 +293,8 @@ Array.from(cardDisplayElements).forEach(function(element) {
         let cardReference = event.currentTarget.dataset.cardReference;
         let cardName = event.currentTarget.dataset.cardName;
         let cardType = event.currentTarget.dataset.cardType;
+        let cardRarity = event.currentTarget.dataset.cardRarity;
+        let cardImage = event.currentTarget.dataset.cardImage;
         
         if (cardType === "hero") {
             // If it's a hero and there's no hero on the deck, add it
@@ -316,10 +326,12 @@ Array.from(cardDisplayElements).forEach(function(element) {
             cardElement.getElementsByClassName("card-quantity")[0].innerText = quantity;
         } else {
             // If the card doesn't exist, create the card's row
-            createCardRow(1, cardReference, cardName);
+            createCardRow(1, cardReference, cardName, cardRarity, cardImage);
             // Track the changes
             decklistChanges.addChange(cardReference, "quantity", 1);
             decklistChanges.addChange(cardReference, "name", cardName);
+            decklistChanges.addChange(cardReference, "rarity", cardRarity);
+            decklistChanges.addChange(cardReference, "image", cardImage);
         }
         decklistChanges.save();
     });
