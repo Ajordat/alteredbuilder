@@ -140,11 +140,11 @@
     {% endfor %}
                 </select>
                 <div class="row">{% translate "Deck name:" %}</div>
-                 <div class="row">
+                <div class="row">
                     <input id="deck-name" type="text" maxlength="50" class="form-control" required value="{{ edit_deck.name }}">
                 </div>
                 <div class="row">{% translate "Hero:" %}</div>
-                <div class="row my-1">
+                <div class="row my-1" id="row-hero" data-bs-toggle="tooltip" {% if not edit_deck.hero %}data-bs-disable="true"{% endif %} data-bs-title="<img src='{{ edit_deck.hero.image_url }}'/>" data-bs-html="true" data-bs-placement="left">
                     <div class="col px-0">
                         <div class="input-group">
                             <input id="hero-name" type="text" class="form-control" value="{{ edit_deck.hero.name }}" data-card-reference="{{ edit_deck.hero.reference }}" disabled>
@@ -168,7 +168,7 @@
                         </div>
                     </div>
     {% empty %}
-                    <div class="row border rounded row-cols-auto my-1" id="row-empty"  data-card-rarity="" data-bs-toggle="tooltip" data-bs-title="" data-bs-html="true" data-bs-placement="left" hidden>
+                    <div class="row border rounded row-cols-auto my-1" id="row-empty"  data-card-rarity="" data-bs-toggle="tooltip" data-bs-disable="true" data-bs-title="" data-bs-html="true" data-bs-placement="left" hidden>
                         <div class="col px-0">
                             <div class="input-group input-group-sm">
                                 <button class="remove-card-btn btn btn-outline-secondary" type="button">-</button>
@@ -192,7 +192,7 @@
 {% endblock %}
 
 {% block bodyscripts %}
+    <script src="{% static 'js/tooltip-enable.js' %}"></script>
     <script src="{% static 'js/card-list.js' %}"></script>
     <script src="{% static 'js/deck-sidebar.js' %}"></script>
-    <script src="{% static 'js/tooltip-enable.js' %}"></script>
 {% endblock %}

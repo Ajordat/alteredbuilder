@@ -104,6 +104,10 @@ function getRowId(cardReference) {
     return "row-" + cardReference;
 }
 
+function getImageElement(imageUrl) {
+    return "<img src='" + imageUrl +  "'/>";
+}
+
 // Declare the variables to track the changes
 var decklistChanges = new DecklistChanges("decklistChanges");
 var deckId = document.getElementById("deckSelector").value;
@@ -132,17 +136,23 @@ if (deckId !== sessionStorage.getItem("deckId")) {
             } else if (change.isHero) {
                 // Check if the change is related to a hero
                 let heroElement = document.getElementById("hero-name");
+                let tooltip = bootstrap.Tooltip.getOrCreateInstance("#row-hero");
                 if (change.quantity > 0) {
                     // Add the hero if it has a positive quantity
                     heroElement.value = change.name;
                     heroElement.dataset.cardReference = cardReference;
                     heroElement.nextElementSibling.disabled = false;
+                    // heroElement.dataset.bsTitle = getImageElement(change.image);
+                    tooltip.setContent({".tooltip-inner": getImageElement(change.image)});
+                    tooltip.enable();
                 } else if (change.quantity <= 0 && cardReference === heroElement.dataset.cardReference) {
                     // Remove the hero if it doesn't have a positive quantity and the
                     //displayed hero is the one removed
                     heroElement.value = "";
                     heroElement.dataset.cardReference = "";
                     heroElement.nextElementSibling.disabled = true;
+
+                    tooltip.disable();
                 }
             } else {
                 if (change.quantity > 0) {
@@ -191,8 +201,7 @@ function decreaseCardQuantity(event) {
     } else {
         // If the quantity reaches 0, remove the card from the deck list
         let rowId = getRowId(cardReference);
-        let tooltip = bootstrap.Tooltip.getInstance("#" + rowId);
-        tooltip.hide();
+        bootstrap.Tooltip.getInstance("#" + rowId).hide();
         document.getElementById(rowId).remove();
     }
     // Track the changes
@@ -242,6 +251,10 @@ removeHeroButton.addEventListener("click", function(event) {
     heroTextElement.value = "";
     heroTextElement.dataset.cardReference = "";
     event.currentTarget.disabled = true;
+    // Hide and disable the tooltip showing the hero's image
+    let tooltip = bootstrap.Tooltip.getInstance("#row-hero");
+    tooltip.disable();
+    tooltip.hide();
 
     // Track the changes
     if (decklistChanges.contains(heroReference)) {
@@ -273,7 +286,7 @@ function createCardRow(quantity, reference, name, rarity, image) {
     // Set the new values
     newCardElement.id = getRowId(reference);
     newCardElement.dataset.cardRarity = rarity;
-    newCardElement.dataset.bsTitle = "<img src='" + image +  "'/>";
+    newCardElement.dataset.bsTitle = getImageElement(image);
     newCardElement.getElementsByClassName("card-quantity")[0].innerText = quantity;
     newCardElement.getElementsByClassName("card-quantity")[0].dataset.cardReference = reference;
     newCardElement.getElementsByClassName("card-name")[0].innerText = name;
@@ -299,15 +312,22 @@ Array.from(cardDisplayElements).forEach(function(element) {
         if (cardType === "hero") {
             // If it's a hero and there's no hero on the deck, add it
             let heroElement = document.getElementById("hero-name");
-            let removeHeroButton = document.getElementById("remove-hero");
 
             if (heroElement.value === "") {
+                let removeHeroButton = document.getElementById("remove-hero");
+                let tooltip = bootstrap.Tooltip.getOrCreateInstance("#row-hero");
+
                 heroElement.value = cardName;
                 heroElement.dataset.cardReference = cardReference;
                 removeHeroButton.disabled = false;
+
+                tooltip.setContent({".tooltip-inner": getImageElement(cardImage)});
+                tooltip.enable();
+
                 decklistChanges.addChange(cardReference, "quantity", 1);
                 decklistChanges.addChange(cardReference, "isHero", true);
                 decklistChanges.addChange(cardReference, "name", cardName);
+                decklistChanges.addChange(cardReference, "image", cardImage);
                 decklistChanges.save();
             }
             return;
