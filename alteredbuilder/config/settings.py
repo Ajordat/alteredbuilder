@@ -188,7 +188,7 @@ if DEBUG:
     import socket
 
     MIDDLEWARE.insert(
-        MIDDLEWARE.index("django.middleware.gzip.GZipMiddleware"),
+        MIDDLEWARE.index("django.middleware.gzip.GZipMiddleware") + 1,
         "debug_toolbar.middleware.DebugToolbarMiddleware",
     )
     INSTALLED_APPS += ["debug_toolbar"]
