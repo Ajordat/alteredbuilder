@@ -134,6 +134,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "django.middleware.gzip.GZipMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -186,7 +187,10 @@ if DEBUG:
     # https://ranjanmp.medium.com/e79585813bc6
     import socket
 
-    MIDDLEWARE = ["debug_toolbar.middleware.DebugToolbarMiddleware"] + MIDDLEWARE
+    MIDDLEWARE.insert(
+        MIDDLEWARE.index("django.middleware.gzip.GZipMiddleware"),
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
+    )
     INSTALLED_APPS += ["debug_toolbar"]
 
     ip = socket.gethostbyname(socket.gethostname())

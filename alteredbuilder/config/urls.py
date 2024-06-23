@@ -47,7 +47,11 @@ urlpatterns += i18n_patterns(
     path("accounts/", include("allauth.socialaccount.urls")),
     path("decks/", include("decks.urls")),
     path("about/", TemplateView.as_view(template_name="about.html"), name="about"),
-    path("collaborators/", TemplateView.as_view(template_name="collaborators.html"), name="collaborators"),
+    path(
+        "collaborators/",
+        TemplateView.as_view(template_name="collaborators.html"),
+        name="collaborators",
+    ),
     path(
         "privacy-policy/",
         TemplateView.as_view(template_name="privacy_policy.html"),
