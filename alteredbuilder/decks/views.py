@@ -212,12 +212,11 @@ class NewDeckFormView(LoginRequiredMixin, FormView):
             dict[str, Any]: Initial values
         """
         initial = super().get_initial()
-        try:
-            # If the initial GET request contains the `hero` parameter, insert it into
-            # the decklist
+        if "decklist" in self.request.GET:
+            initial["decklist"] = self.request.GET["decklist"]
+        elif "hero" in self.request.GET:
             initial["decklist"] = f"1 {self.request.GET['hero']}"
-        except KeyError:
-            pass
+
         return initial
 
     def form_valid(self, form: DecklistForm) -> HttpResponse:
