@@ -13,10 +13,10 @@
     </thead>
     <tbody class="table-group-divider">
 {% for quantity, card in card_list %}
-        <tr class="{% get_row_color_from_rarity card.get_rarity_display %}" data-image-url="{{ card.image_url }}">
+        <tr class="{% get_row_color_from_rarity card.get_rarity_display %}" data-image-url="{{ card.image_url }}" data-faction="{{ card.faction }}">
             <td>{{ quantity }}</td>
             <td>{{ card.name }}</td>
-            <td>{% get_main_cost card %}/{% get_recall_cost card %}</td>
+            <td><span class="hand-mana altered-{% get_main_cost card %}"></span>/<span class="reserve-mana altered-{% get_recall_cost card %}"></span></td>
             <td>
                 <div class="dropdown">
                     <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>

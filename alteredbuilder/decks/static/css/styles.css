@@ -42,3 +42,31 @@
     margin: auto;
     background-color: #fff;
 }
+
+.card-table tr span.hand-mana {
+    color: #5095c9;
+}
+
+.card-table tr[data-faction="AX"] span.reserve-mana {
+    color: #7e4b36;
+}
+
+.card-table tr[data-faction="BR"] span.reserve-mana {
+    color: #b24848;
+}
+
+.card-table tr[data-faction="LY"] span.reserve-mana {
+    color: #d12358;
+}
+
+.card-table tr[data-faction="MU"] span.reserve-mana {
+    color: #4c7245;
+}
+
+.card-table tr[data-faction="OR"] span.reserve-mana {
+    color: #00628b;
+}
+
+.card-table tr[data-faction="YZ"] span.reserve-mana {
+    color: #483b66;
+}
