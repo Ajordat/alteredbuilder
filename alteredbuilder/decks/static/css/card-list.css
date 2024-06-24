@@ -1,23 +1,28 @@
 
 .card-display {
     max-width: 280px;
-}
-
-.card-display:hover{
-    box-shadow: 0px 0px 12px #058196;
-    transform:scale(1.05);
-}
-
-.card-display {
     transition: .3s;
 }
 
+.card-display:hover{
+    transform: scale(1.05);
+}
+
+.card-display:hover[data-card-rarity="R"]{
+    box-shadow: 0 0 12px #058196;
+}
+
+.card-display:hover[data-card-rarity="U"]{
+    box-shadow: 0 0 12px #ff5e00fd;
+}
+
 #decklist-cards .row[data-card-rarity="R"] {
-    box-shadow: 0px 0px 12px #058196;
+    box-shadow: 0 0 4px #058196;
     background-color: var(--bs-info-bg-subtle) !important;
 }
 
 #decklist-cards .row[data-card-rarity="U"] {
-    box-shadow: 0px 0px 12px red;
+    box-shadow: 0 0 4px #ff5e00fd;
+    /* box-shadow: 0 0 4px red; */
     background-color: var(--bs-danger-bg-subtle) !important;
 }
