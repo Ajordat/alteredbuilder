@@ -168,13 +168,18 @@ if (deckId !== sessionStorage.getItem("deckId")) {
 // Dropdown to select a deck
 document.getElementById("deckSelector").addEventListener("change", (e) => {
     e.preventDefault();
+    let targetDeckId = e.target.value;
 
     // Clean the changes on the current deck
     decklistChanges.clean();
-    // Delete the existing `deck` argument and add the selected one
+    // Delete the existing `deck` argument
     let params = new URLSearchParams(window.location.search);
     params.delete("deck");
-    params.append("deck", e.target.value);
+
+    if (targetDeckId != 0) {
+        // If it's not a new deck, add the `deck` argument to the URI
+        params.append("deck", targetDeckId);
+    }
     let url = window.location.pathname + "?" + params.toString();
     // Go to the new URL
     window.open(url, "_self");
