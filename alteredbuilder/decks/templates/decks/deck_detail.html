@@ -22,14 +22,14 @@
     <div class="row">
         <div class="col">{{ object.description | markdown | safe }}</div>
     </div>
-    <div class="row row-cols-auto">
+    <div class="row row-cols-auto gx-2">
         <div class="col">
             <i class="fa-solid fa-user"></i> {{ object.owner.username }}
         </div>
         <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% blocktranslate with creation=object.created_at|date:'DATE_FORMAT' modification=object.modified_at|date:'DATE_FORMAT' %}Created: {{ creation }}<br>Last modified: {{ modification }}{% endblocktranslate %}" data-bs-html="true">
             <i class="fa-regular fa-calendar"></i> <small>{{ object.modified_at|date:"SHORT_DATE_FORMAT" }}</small>
         </div>
-        <div class="col">
+        <div class="col me-3">
     {% if user.is_authenticated %}
             <a role="button" href="{% url 'love-deck-id' pk=object.id %}" class="btn btn-sm {% if is_loved %}btn-danger{% else %}btn-outline-danger{% endif %}">
                 <i class="fa-solid fa-heart"></i> {{ object.love_count }}
@@ -84,6 +84,11 @@
             </a>
         </div>
     {% endif %}
+        <div class="col">
+            <a type="button" class="btn btn-outline-primary btn-sm" href="{% url 'new-deck' %}?decklist={{ decklist|urlencode }}">
+                <i class="fa-solid fa-square-plus"></i> {% translate "Copy deck" %}
+            </a>
+        </div>
     </div>
     <div class="my-3">
         <h3>{% translate "Decklist" %}</h3>
