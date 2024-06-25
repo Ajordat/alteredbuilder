@@ -10,7 +10,7 @@ from django.db.models.manager import Manager
 from django.db.models.query import QuerySet
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
@@ -20,7 +20,7 @@ from api.utils import ajax_request, ApiJsonResponse
 from .deck_utils import create_new_deck, get_deck_details
 from .game_modes import update_deck_legality
 from .models import Card, CardInDeck, Deck, LovePoint
-from .forms import DecklistForm, DeckMetadataForm, UpdateDeckForm
+from .forms import DecklistForm, DeckMetadataForm
 from .exceptions import MalformedDeckException
 
 
@@ -385,68 +385,6 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
     return ApiJsonResponse(status, 201)
 
 
-class UpdateDeckFormView(LoginRequiredMixin, FormView):
-    """View to add a Card to a Deck."""
-
-    template_name = "decks/card_list.html"
-    form_class = UpdateDeckForm
-
-    def form_valid(self, form: UpdateDeckForm) -> HttpResponse:
-        """If the form is valid, add the Card to the Deck
-
-        Args:
-            form (UpdateDeckForm): The request.
-
-        Returns:
-            HttpResponse: The response.
-        """
-        try:
-            # Retrieve the referenced Card and Deck
-            deck = Deck.objects.get(
-                pk=form.cleaned_data["deck_id"], owner=self.request.user
-            )
-            card = Card.objects.get(reference=form.cleaned_data["card_reference"])
-            if card.type == Card.Type.HERO:
-                # If it's a hero, add it to the Deck unless the Deck has one already
-                if not deck.hero:
-                    deck.hero = card.hero
-                else:
-                    # Silently fail
-                    form.add_error("deck_id", _("Deck already has a hero"))
-                    return super().form_valid(form)
-            else:
-                # If the Card is already in the Deck, add it to the quantity of it
-                cid = CardInDeck.objects.get(deck=deck, card=card)
-                cid.quantity = F("quantity") + form.cleaned_data["quantity"]
-                cid.save()
-        except Deck.DoesNotExist:
-            form.add_error("deck_id", _("Deck not found"))
-            return self.form_invalid(form)
-        except Card.DoesNotExist:
-            form.add_error("card_reference", _("Card not found"))
-            return self.form_invalid(form)
-        except CardInDeck.DoesNotExist:
-            # The card is not in the deck, so we add it
-            CardInDeck.objects.create(
-                deck=deck, card=card, quantity=form.cleaned_data["quantity"]
-            )
-
-        # Check the Deck's legality again after adding the Card
-        update_deck_legality(deck)
-        deck.save()
-
-        return super().form_valid(form)
-
-    def get_success_url(self) -> str:
-        """Return the redirect URL after successfully adding the Card to the Deck.
-        Redirect to the same page.
-
-        Returns:
-            str: The user's current page.
-        """
-        return f"{reverse_lazy('cards')}?{self.request.META['QUERY_STRING']}"
-
-
 class UpdateDeckMetadataFormView(LoginRequiredMixin, FormView):
     """View to update the metadata fields of a Deck."""
 
@@ -602,7 +540,7 @@ class CardListView(ListView):
                 .order_by("-modified_at")
                 .values("id", "name")
             )
-            context["form"] = UpdateDeckForm()
+            # context["form"] = UpdateDeckForm()
             edit_deck_id = self.request.GET.get("deck")
             if edit_deck_id:
                 try:

@@ -1,9 +1,9 @@
 from django.test import RequestFactory
 from django.urls import reverse
 
-from decks.forms import DecklistForm, DeckMetadataForm, UpdateDeckForm
+from decks.forms import DecklistForm, DeckMetadataForm
 from decks.models import Card, CardInDeck, Character, Deck, Hero
-from decks.views import NewDeckFormView, UpdateDeckFormView
+from decks.views import NewDeckFormView
 from .utils import BaseFormTestCase, generate_card, get_login_url, silence_logging
 
 
@@ -181,40 +181,6 @@ class AddCardFormTestCase(BaseFormTestCase):
 
         self.assertEqual(cid.quantity, 3)
         self.assertRedirects(response, reverse("cards"))
-
-    def test_update_deck_invalid_deck_reference(self):
-        character = Character.objects.first()
-        form_data = {
-            "deck_id": 100_000,
-            "card_reference": character.reference,
-            "quantity": 2,
-        }
-        request = RequestFactory().post(reverse("update-deck"), form_data)
-        request.user = self.user
-
-        response = UpdateDeckFormView.as_view()(request)
-        form: UpdateDeckForm = response.context_data["form"]
-
-        self.assertTrue(form.has_error("deck_id"))
-        self.assertIn(f"Deck not found", form.errors["deck_id"])
-        self.assertEqual(response.status_code, 200)
-
-    def test_update_deck_invalid_card_reference(self):
-        deck = Deck.objects.filter(owner=self.user).first()
-        form_data = {
-            "deck_id": deck.id,
-            "card_reference": "XXXX",
-            "quantity": 2,
-        }
-        request = RequestFactory().post(reverse("update-deck"), form_data)
-        request.user = self.user
-
-        response = UpdateDeckFormView.as_view()(request)
-        form: UpdateDeckForm = response.context_data["form"]
-
-        self.assertTrue(form.has_error("card_reference"))
-        self.assertIn(f"Card not found", form.errors["card_reference"])
-        self.assertEqual(response.status_code, 200)
 
     def test_update_deck_add_new_card(self):
         character = generate_card(
