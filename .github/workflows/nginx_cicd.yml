@@ -36,7 +36,7 @@ jobs:
 
   deploy:
     name: Deploy to Cloud Run
-    # needs: [build_and_push_image]
+    needs: [build_and_push_image]
     runs-on: ubuntu-22.04
     permissions:
       contents: 'read'
