@@ -64,4 +64,4 @@ jobs:
           --allow-unauthenticated
           --service-account=${{ vars.CLOUD_RUN_SA_NAME }}
           --cpu=1000m
-          --memory=256Mi
+          --memory=128Mi
