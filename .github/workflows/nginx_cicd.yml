@@ -2,6 +2,8 @@ name: Nginx CICD
 
 on:
   push:
+    branches:
+    - master
     paths:
     - "nginx/**"
     - ".github/workflows/nginx_cicd.yml"
