@@ -96,7 +96,7 @@ class DecklistChanges {
 
 /**
  * Returns the expected ID of the HTMLelement containing the card.
- *  
+ * 
  * @param {string} cardReference The card to retrieve the HTMLelement for
  * @returns string
  */
@@ -106,6 +106,19 @@ function getRowId(cardReference) {
 
 function getImageElement(imageUrl) {
     return "<img src='" + imageUrl +  "'/>";
+}
+
+function sortDeckCards() {
+    function sortByReference(a, b) {
+        return a.id.localeCompare(b.id);
+    }
+    
+    let decklistElement = document.getElementById("decklist-cards");
+    let cardRowElements = Array.prototype.slice.call(decklistElement.children, 0);
+    cardRowElements.sort(sortByReference);
+    for (let i = 0; i < cardRowElements.length; i++) {
+        decklistElement.appendChild(cardRowElements[i]);
+    }
 }
 
 // Declare the variables to track the changes
@@ -161,6 +174,7 @@ if (deckId !== sessionStorage.getItem("deckId")) {
                 }
             }
         }
+        sortDeckCards();
     }
 }
 
@@ -352,6 +366,7 @@ Array.from(cardDisplayElements).forEach(function(element) {
         } else {
             // If the card doesn't exist, create the card's row
             createCardRow(1, cardReference, cardName, cardRarity, cardImage);
+            sortDeckCards();
             // Track the changes
             decklistChanges.addChange(cardReference, "quantity", 1);
             decklistChanges.addChange(cardReference, "name", cardName);
