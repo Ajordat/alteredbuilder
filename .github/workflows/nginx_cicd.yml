@@ -4,10 +4,14 @@ on:
   push:
     paths:
     - "nginx/**"
+    - ".github/workflows/nginx_cicd.yml"
+
+env:
+  IMAGE_NAME: nginx
 
 defaults:
   run:
-    working-directory: ./alteredbuilder
+    working-directory: ./nginx
 
 jobs:
   build_and_push_image:
@@ -26,13 +30,13 @@ jobs:
     - name: Set up docker
       run: gcloud auth configure-docker ${{ vars.NGINX_REGION }}-docker.pkg.dev --quiet
     - name: Build image
-      run: docker build . --tag ${{ vars.NGINX_AR_REPOSITORY }}/nginx
+      run: docker build . --tag ${{ vars.NGINX_AR_REPOSITORY }}/${{ env.IMAGE_NAME }}
     - name: Push image
-      run: docker push ${{ vars.NGINX_AR_REPOSITORY }}/nginx
+      run: docker push ${{ vars.NGINX_AR_REPOSITORY }}/${{ env.IMAGE_NAME }}
 
   deploy:
     name: Deploy to Cloud Run
-    needs: [build_and_push_image]
+    # needs: [build_and_push_image]
     runs-on: ubuntu-22.04
     permissions:
       contents: 'read'
@@ -51,7 +55,7 @@ jobs:
         project_id: ${{ vars.GCP_PROJECT }}
         region: ${{ vars.NGINX_REGION }}
         service: ${{ vars.CLOUD_RUN_SERVICE_NAME }}
-        image: ${{ vars.NGINX_AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
+        image: ${{ vars.NGINX_AR_REPOSITORY }}/${{ env.IMAGE_NAME }}
         flags: |
           --platform=managed
           --port=8000
