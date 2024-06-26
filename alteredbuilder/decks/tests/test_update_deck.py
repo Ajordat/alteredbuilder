@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from django.http import HttpResponse
 from django.urls import reverse
 
@@ -43,43 +45,43 @@ class DeleteCardViewTestCase(BaseViewTestCase):
         # Test an unauthenticated client
         response = self.client.post(test_url)
         self.assertRedirects(
-            response, get_login_url("update-deck-id", pk=deck.id), status_code=302
+            response, get_login_url("update-deck-id", pk=deck.id), status_code=HTTPStatus.FOUND
         )
 
         # Test a request without the necessary headers
         self.client.force_login(self.user)
         with silence_logging():
             response = self.client.post(test_url)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
         self.assertEqual(response.content, b"Invalid request")
 
         # Test a request without using the POST method
         with silence_logging():
             response = self.client.get(test_url, **headers)
-        self.assert_ajax_error(response, 400, "Invalid request")
+        self.assert_ajax_error(response, HTTPStatus.BAD_REQUEST, "Invalid request")
 
         # Test a request without sending any payload
         with silence_logging():
             response = self.client.post(test_url, **headers)
-        self.assert_ajax_error(response, 400, "Invalid payload")
+        self.assert_ajax_error(response, HTTPStatus.BAD_REQUEST, "Invalid payload")
 
         # Test a request targeting a non-existent deck id
         with silence_logging():
             response = self.client.post(
                 reverse("update-deck-id", kwargs={"pk": 100_000}), **headers, data=data
             )
-        self.assert_ajax_error(response, 404, "Deck not found")
+        self.assert_ajax_error(response, HTTPStatus.NOT_FOUND, "Deck not found")
 
         # Test a request providing an invalid action (should be "add" or "delete")
         wrong_data = dict(data)
         wrong_data["action"] = "test"
         with silence_logging():
             response = self.client.post(test_url, **headers, data=wrong_data)
-        self.assert_ajax_error(response, 400, "Invalid payload")
+        self.assert_ajax_error(response, HTTPStatus.BAD_REQUEST, "Invalid payload")
 
         # Test a request with valid data
         response = self.client.post(test_url, **headers, data=data)
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertIn("data", response.json())
         self.assertEqual(response.json()["data"]["deleted"], True)
 
@@ -87,13 +89,13 @@ class DeleteCardViewTestCase(BaseViewTestCase):
         # been removed
         with silence_logging():
             response = self.client.post(test_url, **headers, data=data)
-        self.assert_ajax_error(response, 404, "Card not found")
+        self.assert_ajax_error(response, HTTPStatus.NOT_FOUND, "Card not found")
 
         # Test a request with valid data to delete a hero
         hero_data = dict(data)
         hero_data["card_reference"] = deck.hero.reference
         response = self.client.post(test_url, **headers, data=hero_data)
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertIn("data", response.json())
         self.assertEqual(response.json()["data"]["deleted"], True)
 
@@ -107,7 +109,7 @@ class DeleteDeckViewTestCase(BaseViewTestCase):
         response = self.client.get(reverse("delete-deck-id", kwargs={"pk": deck.id}))
 
         self.assertRedirects(
-            response, get_login_url("delete-deck-id", pk=deck.id), status_code=302
+            response, get_login_url("delete-deck-id", pk=deck.id), status_code=HTTPStatus.FOUND
         )
 
     def test_delete_not_owned_deck(self):
@@ -118,7 +120,7 @@ class DeleteDeckViewTestCase(BaseViewTestCase):
 
         # Even if the user does not own the Deck, the request fails silently. The user
         # is redirected to their list of Decks, although the Deck persists.
-        self.assertRedirects(response, reverse("own-deck"), status_code=302)
+        self.assertRedirects(response, reverse("own-deck"), status_code=HTTPStatus.FOUND)
         self.assertTrue(Deck.objects.filter(pk=deck.id).exists())
 
     def test_delete_owned_deck(self):
@@ -130,7 +132,7 @@ class DeleteDeckViewTestCase(BaseViewTestCase):
         self.assertFalse(Deck.objects.filter(pk=deck.id).exists())
         # Recreate the deck that was just deleted
         deck.save()
-        self.assertRedirects(response, reverse("own-deck"), status_code=302)
+        self.assertRedirects(response, reverse("own-deck"), status_code=HTTPStatus.FOUND)
 
 
 class LoveDeckViewTestCase(BaseViewTestCase):
@@ -142,7 +144,7 @@ class LoveDeckViewTestCase(BaseViewTestCase):
         response = self.client.get(reverse("love-deck-id", kwargs={"pk": deck.id}))
 
         self.assertRedirects(
-            response, get_login_url("love-deck-id", pk=deck.id), status_code=302
+            response, get_login_url("love-deck-id", pk=deck.id), status_code=HTTPStatus.FOUND
         )
 
     def test_love_not_owned_private_deck(self):
@@ -165,7 +167,7 @@ class LoveDeckViewTestCase(BaseViewTestCase):
         new_deck = Deck.objects.get(pk=deck.id)
         self.assertEqual(old_love_count + 1, new_deck.love_count)
         self.assertRedirects(
-            response, reverse("deck-detail", kwargs={"pk": deck.id}), status_code=302
+            response, reverse("deck-detail", kwargs={"pk": deck.id}), status_code=HTTPStatus.FOUND
         )
 
         # Un-love the same Deck
@@ -174,5 +176,5 @@ class LoveDeckViewTestCase(BaseViewTestCase):
         new_deck = Deck.objects.get(pk=deck.id)
         self.assertEqual(old_love_count, new_deck.love_count)
         self.assertRedirects(
-            response, reverse("deck-detail", kwargs={"pk": deck.id}), status_code=302
+            response, reverse("deck-detail", kwargs={"pk": deck.id}), status_code=HTTPStatus.FOUND
         )

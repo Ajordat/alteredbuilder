@@ -1,10 +1,12 @@
+from http import HTTPStatus
+
 from django.test import RequestFactory
 from django.urls import reverse
 
 from decks.forms import DecklistForm, DeckMetadataForm
-from decks.models import Card, CardInDeck, Character, Deck, Hero
+from decks.models import Character, Deck, Hero
 from decks.views import NewDeckFormView
-from .utils import BaseFormTestCase, generate_card, get_login_url, silence_logging
+from .utils import BaseFormTestCase, get_login_url, silence_logging
 
 
 class CreateDeckFormTestCase(BaseFormTestCase):
@@ -50,7 +52,7 @@ class CreateDeckFormTestCase(BaseFormTestCase):
         }
 
         response = self.client.post(reverse("new-deck"), form_data)
-        self.assertRedirects(response, get_login_url("new-deck"), status_code=302)
+        self.assertRedirects(response, get_login_url("new-deck"), status_code=HTTPStatus.FOUND)
 
     def test_valid_deck_authenticated(self):
         """Attempt to submit a form creating a valid Deck."""
@@ -95,7 +97,7 @@ class CreateDeckFormTestCase(BaseFormTestCase):
         self.assertIn(
             f"Card '{wrong_card_reference}' does not exist", form.errors["decklist"]
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_invalid_deck_multiple_heroes(self):
         """Attempt to submit a form creating a Deck that contains multiple heroes."""
@@ -113,7 +115,7 @@ class CreateDeckFormTestCase(BaseFormTestCase):
         self.assertIn(
             f"Multiple heroes present in the decklist", form.errors["decklist"]
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_invalid_deck_wrong_format(self):
         """Attempt to submit a form creating a Deck with an incorrect format.
@@ -135,7 +137,7 @@ class CreateDeckFormTestCase(BaseFormTestCase):
         self.assertIn(
             f"Failed to unpack '{wrong_format_line}'", form.errors["decklist"]
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_valid_deck_missing_hero(self):
         """Submit a form creating a Deck without a hero reference, which is a valid Deck model."""
@@ -187,7 +189,7 @@ class UpdateDeckMetadataFormTestCase(BaseFormTestCase):
         self.assertRedirects(
             response,
             get_login_url("update-deck-metadata", pk=deck.id),
-            status_code=302,
+            status_code=HTTPStatus.FOUND,
         )
 
     def test_valid_not_owned_deck(self):
@@ -202,7 +204,7 @@ class UpdateDeckMetadataFormTestCase(BaseFormTestCase):
             )
 
         # For an unknown reason, this is returning 405 instead of 403
-        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
 
     def test_valid_non_existent_deck(self):
         """Attempt to submit a form updating the metadata of a non-existent Deck."""
@@ -215,7 +217,7 @@ class UpdateDeckMetadataFormTestCase(BaseFormTestCase):
             )
 
         # For an unknown reason, this is returning 405 instead of 403
-        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
 
     def test_valid_submission(self):
         """Submit a form updating a the metadata of a Deck."""
@@ -234,5 +236,5 @@ class UpdateDeckMetadataFormTestCase(BaseFormTestCase):
         self.assertEqual(deck.name, form_data["name"])
         self.assertEqual(deck.description, form_data["description"])
         self.assertRedirects(
-            response, reverse("deck-detail", kwargs={"pk": deck.id}), status_code=302
+            response, reverse("deck-detail", kwargs={"pk": deck.id}), status_code=HTTPStatus.FOUND
         )

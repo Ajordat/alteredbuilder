@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from django.db.models.functions import Coalesce
 from django.http import HttpResponse
 from django.urls import reverse
@@ -26,7 +28,7 @@ class DeckListViewTestCase(BaseViewTestCase):
         """Test that the index page redirects to the entry endpoint."""
         response = self.client.get(reverse("index"))
 
-        self.assertRedirects(response, reverse("deck-list"), status_code=301)
+        self.assertRedirects(response, reverse("deck-list"), status_code=HTTPStatus.MOVED_PERMANENTLY)
 
     def test_decks_home_unauthenticated(self):
         """Test the context content for an unauthenticated user."""
