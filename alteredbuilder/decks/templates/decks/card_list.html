@@ -142,7 +142,7 @@
                 </select>
                 <div class="row">{% translate "Deck name:" %}</div>
                 <div class="row">
-                    <input id="deck-name" type="text" maxlength="50" class="form-control" required value="{% if edit_deck.name %}{{ edit_deck }}{% else %}{% translate 'Deck' %} {{ own_decks|length|add:'1' }}{% endif %}">
+                    <input id="deck-name" type="text" maxlength="50" class="form-control" required value="{% if edit_deck.name %}{{ edit_deck.name }}{% else %}{% translate 'Deck' %} {{ own_decks|length|add:'1' }}{% endif %}">
                 </div>
                 <div class="row">{% translate "Hero:" %}</div>
                 <div class="row my-1" id="row-hero" data-bs-toggle="tooltip" {% if not edit_deck.hero %}data-bs-disable="true"{% endif %} data-bs-title="<img src='{{ edit_deck.hero.image_url }}'/>" data-bs-html="true" data-bs-placement="left">
