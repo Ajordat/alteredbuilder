@@ -319,23 +319,22 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
     """
     try:
         data = json.load(request)
-        if pk == 0:
-            if not data["name"]:
-                return ApiJsonResponse(_("The deck must have a name"), HTTPStatus.UNPROCESSABLE_ENTITY)
-            deck = Deck.objects.create(
-                owner=request.user, name=data["name"], is_public=True
-            )
-        else:
-            deck = Deck.objects.get(pk=pk, owner=request.user)
 
         match data["action"]:
             case "add":
                 # Not currently used
                 status = {"added": False}
             case "delete":
+                deck = Deck.objects.get(pk=pk, owner=request.user)
                 remove_card_from_deck(deck, data["card_reference"])
                 status = {"deleted": True}
             case "patch":
+                if not data["name"]:
+                    return ApiJsonResponse(_("The deck must have a name"), HTTPStatus.UNPROCESSABLE_ENTITY)
+                if pk == 0:
+                    deck = Deck.objects.create(owner=request.user, name=data["name"], is_public=True)
+                else:
+                    deck = Deck.objects.get(pk=pk, owner=request.user)
                 patch_deck(deck, data["name"], data["decklist"])
                 status = {"patched": True, "deck": deck.id}
             case _:
@@ -350,7 +349,7 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
         return ApiJsonResponse(_("Card not found"), HTTPStatus.NOT_FOUND)
     except KeyError:
         return ApiJsonResponse(_("Invalid payload"), HTTPStatus.BAD_REQUEST)
-    return ApiJsonResponse(status, 201)
+    return ApiJsonResponse(status, HTTPStatus.OK)
 
 
 class UpdateDeckMetadataFormView(LoginRequiredMixin, FormView):
