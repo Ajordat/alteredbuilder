@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-20 11:55+0200\n"
+"POT-Creation-Date: 2024-06-26 11:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,10 +18,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
 "1 : 2;\n"
-
-#: decks/static/js/card-list.js:230
-msgid "Unable to update deck"
-msgstr "No se puede actualizar el mazo"
 
 #: decks/static/js/deck-detail.js:19
 msgid "Link copied into clipboard!"
@@ -42,6 +38,14 @@ msgstr "¡QR copiado en el portapapeles!"
 #: decks/static/js/deck-detail.js:97
 msgid "Unable to delete card from deck"
 msgstr "No se puede eliminar la carta del mazo"
+
+#: decks/static/js/deck-sidebar.js:390
+msgid "The deck must have a name"
+msgstr "El mazo necesita un nombre"
+
+#: decks/static/js/deck-sidebar.js:414
+msgid "Unable to update deck"
+msgstr "No se puede actualizar el mazo"
 
 #: decks/static/js/deck-stats.js:16
 msgid "characters"

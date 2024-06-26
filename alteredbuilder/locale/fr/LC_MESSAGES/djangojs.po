@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-20 11:55+0200\n"
+"POT-Creation-Date: 2024-06-26 11:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,10 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-
-#: decks/static/js/card-list.js:230
-msgid "Unable to update deck"
-msgstr "Impossible de mettre à jour le deck"
 
 #: decks/static/js/deck-detail.js:19
 msgid "Link copied into clipboard!"
@@ -41,6 +37,14 @@ msgstr "QR copié dans le presse-papiers!"
 #: decks/static/js/deck-detail.js:97
 msgid "Unable to delete card from deck"
 msgstr "Impossible de supprimer la carte du deck"
+
+#: decks/static/js/deck-sidebar.js:390
+msgid "The deck must have a name"
+msgstr "Le deck doit avoir un nom"
+
+#: decks/static/js/deck-sidebar.js:414
+msgid "Unable to update deck"
+msgstr "Impossible de mettre à jour le deck"
 
 #: decks/static/js/deck-stats.js:16
 msgid "characters"
