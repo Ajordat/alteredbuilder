@@ -63,6 +63,11 @@ urlpatterns += i18n_patterns(
         name="terms-and-conditions",
     ),
     path("troubleshoot/", include("troubleshoot.urls")),
+    path(
+        "",
+        RedirectView.as_view(url=reverse_lazy("deck-list"), permanent=True),
+        name="i18n_index",
+    ),
 )
 
 if settings.DEBUG:
