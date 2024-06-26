@@ -386,6 +386,11 @@ saveDeckButton.addEventListener("click", function(event) {
     let deckName = document.getElementById("deck-name").value;
     let url = window.location.pathname.slice(0, 4) + "decks/" + deckId + "/update/";
 
+    if (!deckName) {
+        displaySimpleToast(gettext("The deck must have a name"));
+        return false;
+    }
+
     // Send the POST request
     fetch(url, {
         method: "POST",
