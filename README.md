@@ -19,6 +19,11 @@ docker compose up
 
 ## Database
 
+### Connect
+```bash
+psql -d <database> -U <user>
+```
+
 ### Create a Django migration
 
 ```bash

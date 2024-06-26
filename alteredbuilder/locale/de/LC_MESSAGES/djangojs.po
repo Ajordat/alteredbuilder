@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-26 12:37+0200\n"
+"POT-Creation-Date: 2024-06-26 12:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,49 +16,48 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
-"1 : 2;\n"
-
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 #: decks/static/js/deck-detail.js:19
 msgid "Link copied into clipboard!"
-msgstr "¡Enlace copiado en el portapapeles!"
+msgstr "Link in Zwischenablage kopiert!"
 
 #: decks/static/js/deck-detail.js:32
 msgid "Decklist copied into clipboard!"
-msgstr "¡Decklist copiado en el portapapeles!"
+msgstr "Deckliste in Zwischenablage kopiert!"
 
 #: decks/static/js/deck-detail.js:44
 msgid "QR downloaded!"
-msgstr "¡QR descargado!"
+msgstr "QR heruntergeladen!"
 
 #: decks/static/js/deck-detail.js:59
 msgid "QR copied into clipboard!"
-msgstr "¡QR copiado en el portapapeles!"
+msgstr "QR in Zwischenablage kopiert!"
 
 #: decks/static/js/deck-detail.js:97
 msgid "Unable to delete card from deck"
-msgstr "No se puede eliminar la carta del mazo"
+msgstr "Karte konnte nicht aus dem Deck gelöscht werden"
 
 #: decks/static/js/deck-stats.js:16
 msgid "characters"
-msgstr "personajes"
+msgstr "Zeichen"
 
 #: decks/static/js/deck-stats.js:17
 msgid "spells"
-msgstr "hechizos"
+msgstr "Zauber"
 
 #: decks/static/js/deck-stats.js:18
 msgid "permanents"
-msgstr "permanentes"
+msgstr "permanent"
 
 #: decks/static/js/deck-stats.js:80
 msgid "Cost"
-msgstr "Coste"
+msgstr "Kosten"
 
 #: decks/static/js/deck-stats.js:80
 msgid "Hand"
-msgstr "Mano"
+msgstr ""
 
 #: decks/static/js/deck-stats.js:80
 msgid "Reserve"
-msgstr "Reserva"
+msgstr "Reservieren"
+

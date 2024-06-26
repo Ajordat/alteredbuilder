@@ -38,7 +38,7 @@ class Card(models.Model):
         UNIQUE = "U", "unique"
 
     reference = models.CharField(max_length=32, primary_key=True)
-    name = models.CharField(max_length=32, null=False, blank=False)
+    name = models.CharField(max_length=48, null=False, blank=False)
     faction = models.CharField(max_length=2, choices=Faction)
     type = models.CharField(max_length=16, choices=Type)
     rarity = models.CharField(max_length=1, choices=Rarity)
