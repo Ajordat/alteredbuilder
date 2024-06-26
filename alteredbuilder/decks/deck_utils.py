@@ -168,3 +168,38 @@ def get_deck_details(deck: Deck) -> dict:
             },
         },
     }
+
+@transaction.atomic
+def patch_deck(deck, name, changes):
+    deck.name = name
+
+    for card_reference, quantity in changes.items():
+        try:
+            card = Card.objects.get(reference=card_reference)
+            if card.type == Card.Type.HERO:
+                if quantity > 0:
+                    deck.hero = card.hero
+                elif quantity == 0 and deck.hero == card.hero:
+                    deck.hero = None
+            else:
+                cid = CardInDeck.objects.get(card=card, deck=deck)
+                if quantity > 0:
+                    cid.quantity = quantity
+                    cid.save()
+                else:
+                    cid.delete()
+        except Card.DoesNotExist:
+            continue
+        except CardInDeck.DoesNotExist:
+            CardInDeck.objects.create(card=card, deck=deck, quantity=quantity)
+
+
+def remove_card_from_deck(deck, reference):
+    card = Card.objects.get(reference=reference)
+    if card.type == Card.Type.HERO and deck.hero.reference == card.reference:
+        # If it's the Deck's hero, remove the reference
+        deck.hero = None
+    else:
+        # Retrieve the CiD and delete it
+        cid = CardInDeck.objects.get(deck=deck, card=card)
+        cid.delete()

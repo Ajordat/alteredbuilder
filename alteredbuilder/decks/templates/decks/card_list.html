@@ -8,6 +8,7 @@
 
 {% block head %}
     {{ block.super }}
+    <script src="{% static 'js/utils.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/card-list.css' %}">
 {% endblock %}
@@ -187,6 +188,14 @@
                 </div>
             </div>
         </aside>
+    </div>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="simple-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-body d-flex">
+                <span id="toast-text"></span>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
     </div>
     {% csrf_token %}
 {% endblock %}

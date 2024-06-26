@@ -1,3 +1,4 @@
+from http import HTTPStatus
 from typing import Any
 import json
 
@@ -17,7 +18,7 @@ from django.views.generic.list import ListView
 from hitcount.views import HitCountDetailView
 
 from api.utils import ajax_request, ApiJsonResponse
-from .deck_utils import create_new_deck, get_deck_details
+from .deck_utils import create_new_deck, get_deck_details, patch_deck, remove_card_from_deck
 from .game_modes import update_deck_legality
 from .models import Card, CardInDeck, Deck, LovePoint
 from .forms import DecklistForm, DeckMetadataForm
@@ -293,7 +294,6 @@ def love_deck(request: HttpRequest, pk: int) -> HttpResponse:
         # If the LovePoint does not exist, create it and increase the `love_count`
         LovePoint.objects.create(deck=deck, user=request.user)
         deck.love_count = F("love_count") + 1
-        deck.save(update_fields=["love_count"])
     except Deck.DoesNotExist:
         # If the Deck is not found (private and not owned), raise a permission error
         raise PermissionDenied
@@ -301,7 +301,7 @@ def love_deck(request: HttpRequest, pk: int) -> HttpResponse:
         # If the LovePoint exists, delete it and decrease the `love_count`
         love_point.delete()
         deck.love_count = F("love_count") - 1
-        deck.save(update_fields=["love_count"])
+    deck.save(update_fields=["love_count"])
     return redirect(reverse("deck-detail", kwargs={"pk": deck.id}))
 
 
@@ -309,8 +309,6 @@ def love_deck(request: HttpRequest, pk: int) -> HttpResponse:
 @ajax_request
 def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
     """Function to update a deck with AJAX.
-    I'm not proud of this implementation, as this code is kinda duplicated in
-    `UpdateDeckFormView`. Ideally it should be moved to the API app.
 
     Args:
         request (HttpRequest): Received request
@@ -322,66 +320,36 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
     try:
         data = json.load(request)
         if pk == 0:
-            # TODO: Make sure `name` is safe
+            if not data["name"]:
+                return ApiJsonResponse(_("The deck must have a name"), HTTPStatus.UNPROCESSABLE_ENTITY)
             deck = Deck.objects.create(
                 owner=request.user, name=data["name"], is_public=True
             )
         else:
             deck = Deck.objects.get(pk=pk, owner=request.user)
-        action = data["action"]
 
-        if action == "add":
-            # Not currently used
-            status = {"added": True}
-
-        elif action == "delete":
-            card = Card.objects.get(reference=data["card_reference"])
-            if card.type == Card.Type.HERO and deck.hero.reference == card.reference:
-                # If it's the Deck's hero, remove the reference
-                deck.hero = None
-            else:
-                # Retrieve the CiD and delete it
-                cid = CardInDeck.objects.get(deck=deck, card=card)
-                cid.delete()
-            status = {"deleted": True}
-
-        elif action == "patch":
-            # TODO: Perform changes in transaction
-            decklist_changes = data["decklist"]
-            deck.name = data["name"]
-
-            for card_reference, quantity in decklist_changes.items():
-                try:
-                    card = Card.objects.get(reference=card_reference)
-                    if card.type == Card.Type.HERO:
-                        if quantity > 0:
-                            deck.hero = card.hero
-                        elif quantity == 0 and deck.hero == card.hero:
-                            deck.hero = None
-                    else:
-                        cid = CardInDeck.objects.get(card=card, deck=deck)
-                        if quantity > 0:
-                            cid.quantity = quantity
-                            cid.save()
-                        else:
-                            cid.delete()
-                except Card.DoesNotExist:
-                    continue
-                except CardInDeck.DoesNotExist:
-                    CardInDeck.objects.create(card=card, deck=deck, quantity=quantity)
-            status = {"patched": True, "deck": deck.id}
-        else:
-            raise KeyError("Invalid action")
+        match data["action"]:
+            case "add":
+                # Not currently used
+                status = {"added": False}
+            case "delete":
+                remove_card_from_deck(deck, data["card_reference"])
+                status = {"deleted": True}
+            case "patch":
+                patch_deck(deck, data["name"], data["decklist"])
+                status = {"patched": True, "deck": deck.id}
+            case _:
+                raise KeyError("Invalid action")
 
         update_deck_legality(deck)
         deck.save()
 
     except Deck.DoesNotExist:
-        return ApiJsonResponse(_("Deck not found"), 404)
+        return ApiJsonResponse(_("Deck not found"), HTTPStatus.NOT_FOUND)
     except (Card.DoesNotExist, CardInDeck.DoesNotExist):
-        return ApiJsonResponse(_("Card not found"), 404)
+        return ApiJsonResponse(_("Card not found"), HTTPStatus.NOT_FOUND)
     except KeyError:
-        return ApiJsonResponse(_("Invalid payload"), 400)
+        return ApiJsonResponse(_("Invalid payload"), HTTPStatus.BAD_REQUEST)
     return ApiJsonResponse(status, 201)
 
 
