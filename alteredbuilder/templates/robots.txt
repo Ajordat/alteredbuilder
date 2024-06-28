@@ -10,3 +10,4 @@ Disallow: /*/collaborators
 Disallow: /*/privacy-policy
 Disallow: /*/terms-and-conditions
 Disallow: /*/troubleshoot
+Disallow: /*/decks/new
