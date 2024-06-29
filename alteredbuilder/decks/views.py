@@ -18,7 +18,12 @@ from django.views.generic.list import ListView
 from hitcount.views import HitCountDetailView
 
 from api.utils import ajax_request, ApiJsonResponse
-from .deck_utils import create_new_deck, get_deck_details, patch_deck, remove_card_from_deck
+from .deck_utils import (
+    create_new_deck,
+    get_deck_details,
+    patch_deck,
+    remove_card_from_deck,
+)
 from .game_modes import update_deck_legality
 from .models import Card, CardInDeck, Deck, LovePoint
 from .forms import DecklistForm, DeckMetadataForm
@@ -330,9 +335,13 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
                 status = {"deleted": True}
             case "patch":
                 if not data["name"]:
-                    return ApiJsonResponse(_("The deck must have a name"), HTTPStatus.UNPROCESSABLE_ENTITY)
+                    return ApiJsonResponse(
+                        _("The deck must have a name"), HTTPStatus.UNPROCESSABLE_ENTITY
+                    )
                 if pk == 0:
-                    deck = Deck.objects.create(owner=request.user, name=data["name"], is_public=True)
+                    deck = Deck.objects.create(
+                        owner=request.user, name=data["name"], is_public=True
+                    )
                 else:
                     deck = Deck.objects.get(pk=pk, owner=request.user)
                 patch_deck(deck, data["name"], data["decklist"])

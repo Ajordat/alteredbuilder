@@ -169,6 +169,7 @@ def get_deck_details(deck: Deck) -> dict:
         },
     }
 
+
 @transaction.atomic
 def patch_deck(deck, name, changes):
     deck.name = name

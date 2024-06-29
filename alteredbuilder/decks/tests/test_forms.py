@@ -52,7 +52,9 @@ class CreateDeckFormTestCase(BaseFormTestCase):
         }
 
         response = self.client.post(reverse("new-deck"), form_data)
-        self.assertRedirects(response, get_login_url("new-deck"), status_code=HTTPStatus.FOUND)
+        self.assertRedirects(
+            response, get_login_url("new-deck"), status_code=HTTPStatus.FOUND
+        )
 
     def test_valid_deck_authenticated(self):
         """Attempt to submit a form creating a valid Deck."""
@@ -236,5 +238,7 @@ class UpdateDeckMetadataFormTestCase(BaseFormTestCase):
         self.assertEqual(deck.name, form_data["name"])
         self.assertEqual(deck.description, form_data["description"])
         self.assertRedirects(
-            response, reverse("deck-detail", kwargs={"pk": deck.id}), status_code=HTTPStatus.FOUND
+            response,
+            reverse("deck-detail", kwargs={"pk": deck.id}),
+            status_code=HTTPStatus.FOUND,
         )

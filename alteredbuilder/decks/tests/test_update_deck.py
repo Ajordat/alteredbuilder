@@ -45,7 +45,9 @@ class DeleteCardViewTestCase(BaseViewTestCase):
         # Test an unauthenticated client
         response = self.client.post(test_url)
         self.assertRedirects(
-            response, get_login_url("update-deck-id", pk=deck.id), status_code=HTTPStatus.FOUND
+            response,
+            get_login_url("update-deck-id", pk=deck.id),
+            status_code=HTTPStatus.FOUND,
         )
 
         # Test a request without the necessary headers
@@ -109,7 +111,9 @@ class DeleteDeckViewTestCase(BaseViewTestCase):
         response = self.client.get(reverse("delete-deck-id", kwargs={"pk": deck.id}))
 
         self.assertRedirects(
-            response, get_login_url("delete-deck-id", pk=deck.id), status_code=HTTPStatus.FOUND
+            response,
+            get_login_url("delete-deck-id", pk=deck.id),
+            status_code=HTTPStatus.FOUND,
         )
 
     def test_delete_not_owned_deck(self):
@@ -120,7 +124,9 @@ class DeleteDeckViewTestCase(BaseViewTestCase):
 
         # Even if the user does not own the Deck, the request fails silently. The user
         # is redirected to their list of Decks, although the Deck persists.
-        self.assertRedirects(response, reverse("own-deck"), status_code=HTTPStatus.FOUND)
+        self.assertRedirects(
+            response, reverse("own-deck"), status_code=HTTPStatus.FOUND
+        )
         self.assertTrue(Deck.objects.filter(pk=deck.id).exists())
 
     def test_delete_owned_deck(self):
@@ -132,7 +138,9 @@ class DeleteDeckViewTestCase(BaseViewTestCase):
         self.assertFalse(Deck.objects.filter(pk=deck.id).exists())
         # Recreate the deck that was just deleted
         deck.save()
-        self.assertRedirects(response, reverse("own-deck"), status_code=HTTPStatus.FOUND)
+        self.assertRedirects(
+            response, reverse("own-deck"), status_code=HTTPStatus.FOUND
+        )
 
 
 class LoveDeckViewTestCase(BaseViewTestCase):
@@ -144,7 +152,9 @@ class LoveDeckViewTestCase(BaseViewTestCase):
         response = self.client.get(reverse("love-deck-id", kwargs={"pk": deck.id}))
 
         self.assertRedirects(
-            response, get_login_url("love-deck-id", pk=deck.id), status_code=HTTPStatus.FOUND
+            response,
+            get_login_url("love-deck-id", pk=deck.id),
+            status_code=HTTPStatus.FOUND,
         )
 
     def test_love_not_owned_private_deck(self):
@@ -167,7 +177,9 @@ class LoveDeckViewTestCase(BaseViewTestCase):
         new_deck = Deck.objects.get(pk=deck.id)
         self.assertEqual(old_love_count + 1, new_deck.love_count)
         self.assertRedirects(
-            response, reverse("deck-detail", kwargs={"pk": deck.id}), status_code=HTTPStatus.FOUND
+            response,
+            reverse("deck-detail", kwargs={"pk": deck.id}),
+            status_code=HTTPStatus.FOUND,
         )
 
         # Un-love the same Deck
@@ -176,5 +188,7 @@ class LoveDeckViewTestCase(BaseViewTestCase):
         new_deck = Deck.objects.get(pk=deck.id)
         self.assertEqual(old_love_count, new_deck.love_count)
         self.assertRedirects(
-            response, reverse("deck-detail", kwargs={"pk": deck.id}), status_code=HTTPStatus.FOUND
+            response,
+            reverse("deck-detail", kwargs={"pk": deck.id}),
+            status_code=HTTPStatus.FOUND,
         )
