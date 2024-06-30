@@ -11,6 +11,18 @@ Application to build, analyze and share Altered TCG decks.
 docker compose build
 ```
 
+## Initial setup
+
+Create the super user. Give it the username `admin` and use whatever for the other fields. Ignore the warnings of missing migrations.
+```bash
+docker compose run web python manage.py createsuperuser
+```
+
+Apply all the migrations.
+```bash
+docker compose run web python manage.py migrate
+```
+
 ## Run
 
 ```bash
