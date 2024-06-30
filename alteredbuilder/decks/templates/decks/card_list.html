@@ -126,7 +126,7 @@
                 {% include "./snippets/pagination.html" %}
             </div>
         </div>
-        <aside class="col-2 d-flex max-vh-100 overflow-y-auto position-relative">
+        <aside class="col-2 vh-100 sticky-top d-flex overflow-y-scroll z-0">
             <div class="vr"></div>
             <div class="col ps-3 pe-1 pt-2">
                 <select class="form-select d-inline-flex" id="deckSelector" name="deck_id">
@@ -164,8 +164,8 @@
                                 <button class="add-card-btn btn btn-outline-secondary" type="button">+</button>
                             </div>
                         </div>
-                        <div class="col">
-                            <span class="d-inline-block text-truncate card-name" style="max-width: 188px;">{{ cid.card.name }}</span>
+                        <div class="col-2">
+                            <span class="d-inline-block text-truncate card-name" style="max-width: 100px;">{{ cid.card.name }}</span>
                         </div>
                     </div>
     {% empty %}
