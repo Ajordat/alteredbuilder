@@ -215,7 +215,9 @@ AUTHENTICATION_BACKENDS = [
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
-if not DEBUG:
+if DEBUG:
+    SITE_ID = 1
+else:
     SITE_ID = 4
 
 LOGIN_URL = reverse_lazy("account_login")
