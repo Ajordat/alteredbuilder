@@ -5,7 +5,7 @@
 {% load deck_styles %}
 {% load markdown_extras %}
 
-{% block title %}{% translate "Deck detail" %}{% endblock %}
+{% block title %}{{object.name}}{% endblock %}
 
 {% block head %}
     {{ block.super }}
