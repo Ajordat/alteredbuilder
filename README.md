@@ -5,22 +5,37 @@
 
 Application to build, analyze and share Altered TCG decks.
 
-## Build
+## Initial setup
 
+Initialize the database container. Once the database is ready to accept connections, terminate the container (Ctrl+C).
 ```bash
-docker compose build
+docker compose run db
 ```
 
-## Initial setup
+Apply `auth`'s migrations.
+```bash
+docker compose run web python manage.py migrate auth
+```
 
 Create the super user. Give it the username `admin` and use whatever for the other fields. Ignore the warnings of missing migrations.
 ```bash
 docker compose run web python manage.py createsuperuser
 ```
 
-Apply all the migrations.
+Apply the remaining migrations:
 ```bash
 docker compose run web python manage.py migrate
+```
+
+Retrieve the cards from Altered's API:
+```bash
+docker compose run web python manage.py update_card_pool
+```
+
+## Build
+
+```bash
+docker compose build
 ```
 
 ## Run
@@ -145,8 +160,3 @@ Once the texts are translated, the `.po` files need to be compiled:
 ```bash
 docker compose run web python manage.py compilemessages
 ```
-
-
-
-
-
