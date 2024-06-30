@@ -2,10 +2,66 @@
 import os
 from pathlib import Path
 
-from django.contrib.auth.models import User
-from django.db import migrations
+from django.db import migrations, transaction
+from django.db.models import F
 
-from decks.views import create_new_deck
+from decks.exceptions import MalformedDeckException
+
+
+
+@transaction.atomic
+def create_new_deck(user, deck_form: dict):
+    decklist = deck_form["decklist"]
+    deck = Deck.objects.create(
+        name=deck_form["name"],
+        owner=user,
+        is_public=deck_form["is_public"],
+    )
+    has_hero = False
+
+    for line in decklist.splitlines():
+        # For each line, it is needed to:
+        # * Validate its format
+        # * Search the card reference on the database
+        #   - If it's a Hero, assign it to the Deck's Hero
+        #   - Otherwise append it to the list of cards
+        try:
+            count, reference = line.split()
+            count = int(count)
+        except ValueError:
+            # The form validator only checks if there's at least one
+            # line with the correct format
+            raise MalformedDeckException(f"Failed to unpack '{line}'")
+
+        try:
+            card = Card.objects.get(reference=reference)
+        except Card.DoesNotExist:
+            # The Card's reference needs to exist on the database
+            raise MalformedDeckException(f"Card '{reference}' does not exist")
+
+        if card.type == "hero":
+            if not has_hero:
+                try:
+                    deck.hero = Hero.objects.get(reference=reference)
+                except Hero.DoesNotExist:
+                    # This situation would imply a database inconsistency
+                    raise MalformedDeckException(f"Card '{reference}' does not exist")
+                has_hero = True
+            else:
+                # The Deck model requires to have exactly one Hero per Deck
+                raise MalformedDeckException("Multiple heroes present in the decklist")
+
+        else:
+            if CardInDeck.objects.filter(deck=deck, card=card).exists():
+                # If the card is already linked to the deck, increase its quantity
+                cid = CardInDeck.objects.get(deck=deck, card=card)
+                cid.quantity = F("quantity") + count
+                cid.save(update_fields=["quantity"])
+            else:
+                # Link the Card with the Deck
+                CardInDeck.objects.create(deck=deck, card=card, quantity=count)
+
+    deck.save()
 
 
 def import_deck(file):
@@ -16,7 +72,17 @@ def import_deck(file):
     create_new_deck(user, {"name": file.name, "decklist": decklist, "is_public": True})
 
 
+def init_models(apps):
+    global Deck, Card, CardInDeck, Hero, User
+    Deck = apps.get_model("decks", "Deck")
+    Card = apps.get_model("decks", "Card")
+    CardInDeck = apps.get_model("decks", "CardInDeck")
+    Hero = apps.get_model("decks", "Hero")
+    User = apps.get_model("auth", "User")
+
+
 def create_starter_decks(apps, schema_editor):
+    init_models(apps)
     stater_decks_dir = Path(__file__).resolve().parent / "starter-decks"
 
     for file in os.listdir(stater_decks_dir):
