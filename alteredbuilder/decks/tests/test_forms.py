@@ -4,7 +4,7 @@ from django.test import RequestFactory
 from django.urls import reverse
 
 from decks.forms import DecklistForm, DeckMetadataForm
-from decks.models import Character, Deck, Hero
+from decks.models import Card, Character, Deck, Hero
 from decks.views import NewDeckFormView
 from .utils import BaseFormTestCase, get_login_url, silence_logging
 
@@ -101,6 +101,34 @@ class CreateDeckFormTestCase(BaseFormTestCase):
         )
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
+    def test_invalid_deck_db_hero_inconsistency(self):
+        """Attempt to use a Card defined as Hero but that isn't linked to a Hero model.
+        This would indicate an inconsistency on the database.
+        """
+        wrong_card_reference = "incomplete_hero"
+        Card.objects.create(
+            reference=wrong_card_reference,
+            name=wrong_card_reference,
+            faction=Card.Faction.AXIOM,
+            type=Card.Type.HERO,
+            rarity=Card.Rarity.COMMON,
+        )
+        form_data = {
+            "name": self.DECK_NAME,
+            "decklist": f"3 {wrong_card_reference}",
+        }
+
+        request = RequestFactory().post(reverse("new-deck"), form_data)
+        request.user = self.user
+        response = NewDeckFormView.as_view()(request)
+        form: DecklistForm = response.context_data["form"]
+
+        self.assertTrue(form.has_error("decklist"))
+        self.assertIn(
+            f"Card '{wrong_card_reference}' does not exist", form.errors["decklist"]
+        )
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+
     def test_invalid_deck_multiple_heroes(self):
         """Attempt to submit a form creating a Deck that contains multiple heroes."""
         form_data = {
@@ -162,6 +190,31 @@ class CreateDeckFormTestCase(BaseFormTestCase):
         self.assertEqual(new_deck.hero, None)
         self.assertEqual(len(deck_cards), 1)
         self.assertEqual(deck_cards[0].quantity, 3)
+        self.assertEqual(deck_cards[0].card.character, character)
+
+    def test_valid_deck_repeated_card(self):
+        """Submit a form creating a Deck with multiple references to the same card.
+        The CardInDeck should be aggregated.
+        """
+        form_data = {
+            "name": self.DECK_NAME,
+            "decklist": f"3 {self.CHARACTER_REFERENCE}\n2 {self.CHARACTER_REFERENCE}",
+        }
+
+        self.client.force_login(self.user)
+        response = self.client.post(reverse("new-deck"), form_data)
+
+        new_deck = Deck.objects.filter(owner=self.user).latest("created_at")
+        character = Character.objects.get(reference=self.CHARACTER_REFERENCE)
+        deck_cards = new_deck.cardindeck_set.all()
+
+        self.assertRedirects(
+            response, reverse("deck-detail", kwargs={"pk": new_deck.id})
+        )
+        self.assertFalse(new_deck.is_public)
+        self.assertEqual(new_deck.hero, None)
+        self.assertEqual(len(deck_cards), 1)
+        self.assertEqual(deck_cards[0].quantity, 5)
         self.assertEqual(deck_cards[0].card.character, character)
 
 

@@ -6,11 +6,11 @@ from typing import Union
 
 from django.conf import settings
 from django.contrib.auth.models import User
-from decks.models import Card, CardInDeck, Character, Deck, Hero, Permanent, Spell
+from django.http import HttpResponse
 from django.test import TestCase
 from django.urls import reverse
 
-from decks.models import Card, CardInDeck, Deck, Hero
+from decks.models import Card, CardInDeck, Character, Deck, Hero, Permanent, Spell
 
 
 def get_id() -> Generator[int, None, None]:
@@ -140,6 +140,23 @@ def get_detail_card_list(deck: Deck, card_type: Card.Type) -> list[int, Card]:
         for c in deck.cardindeck_set.all()
         if c.card.type == card_type
     ]
+
+
+class AjaxTestCase(TestCase):
+    def assert_ajax_error(
+        self, response: HttpResponse, status_code: int, error_message: str
+    ):
+        """Method to verify the integrity of an error message to an AJAX request.
+
+        Args:
+            response (HttpResponse): Response received from the server.
+            status_code (int): Expected HTTP status code.
+            error_message (str): Expected string response for the given error.
+        """
+        self.assertEqual(response.status_code, status_code)
+        self.assertIn("error", response.json())
+        self.assertEqual(response.json()["error"]["code"], status_code)
+        self.assertEqual(response.json()["error"]["message"], error_message)
 
 
 class BaseViewTestCase(TestCase):

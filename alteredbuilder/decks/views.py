@@ -328,6 +328,8 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
         match data["action"]:
             case "add":
                 # Not currently used
+                # The deck is retrieved for validation purposes
+                deck = Deck.objects.get(pk=pk, owner=request.user)
                 status = {"added": False}
             case "delete":
                 deck = Deck.objects.get(pk=pk, owner=request.user)
@@ -516,7 +518,6 @@ class CardListView(ListView):
                 .order_by("-modified_at")
                 .values("id", "name")
             )
-            # context["form"] = UpdateDeckForm()
             edit_deck_id = self.request.GET.get("deck")
             if edit_deck_id:
                 try:
