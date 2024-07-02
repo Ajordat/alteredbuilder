@@ -1,5 +1,6 @@
 from collections.abc import Generator
 from contextlib import contextmanager
+from http import HTTPStatus
 import logging
 from random import randint
 from typing import Union
@@ -103,7 +104,7 @@ def create_cid(
         )
 
 
-def get_login_url(template: str, **kwargs) -> str:
+def get_login_url(template: str = None, next: str = None, **kwargs) -> str:
     """Return the login URL with the received template as the `next` parameter.
 
     Args:
@@ -112,6 +113,8 @@ def get_login_url(template: str, **kwargs) -> str:
     Returns:
         str: The built login URL.
     """
+    if next:
+        return f"{settings.LOGIN_URL}?next={next}"
     return f"{settings.LOGIN_URL}?next={reverse(template, kwargs=kwargs)}"
 
 
@@ -143,6 +146,12 @@ def get_detail_card_list(deck: Deck, card_type: Card.Type) -> list[int, Card]:
 
 
 class AjaxTestCase(TestCase):
+    """This class provides a way to easily test views that receive AJAX requests.
+
+    Ideally it should be an abstract class, but unittest does not allow tests to
+    implement abstract classes.
+    """
+
     def assert_ajax_error(
         self, response: HttpResponse, status_code: int, error_message: str
     ):
@@ -157,6 +166,41 @@ class AjaxTestCase(TestCase):
         self.assertIn("error", response.json())
         self.assertEqual(response.json()["error"]["code"], status_code)
         self.assertEqual(response.json()["error"]["message"], error_message)
+
+    def test_ajax_request(self):
+        """This method should be inherited and implemented to build a test URL, which
+        is passed to `assert_ajax_protocol`.
+
+        Ideally it should be an abstract method, but unittest does not allow tests to
+        implement abstract classes.
+        """
+        pass
+
+    def assert_ajax_protocol(self, test_url: str, user: User):
+        """Assert that the view accepts AJAX requests and fails for other connections.
+
+        Args:
+            test_url (str): Target URL.
+            user (User): User making the request.
+        """
+        headers = {
+            "HTTP_X_REQUESTED_WITH": "XMLHttpRequest",
+            "content_type": "application/json",
+        }
+        self.client.force_login(user)
+
+        # Test a request without the necessary headers
+        with silence_logging():
+            response = self.client.post(test_url)
+
+        self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
+        self.assertEqual(response.content, b"Invalid request")
+
+        # Test a request without using the POST method
+        with silence_logging():
+            response = self.client.get(test_url, **headers)
+
+        self.assert_ajax_error(response, HTTPStatus.BAD_REQUEST, "Invalid request")
 
 
 class BaseViewTestCase(TestCase):

@@ -8,9 +8,17 @@ urlpatterns = [
     path("", views.DeckListView.as_view(), name="deck-list"),
     path("own/", views.OwnDeckListView.as_view(), name="own-deck"),
     path("<int:pk>/", views.DeckDetailView.as_view(), name="deck-detail"),
+    path(
+        "<int:pk>/<uuid:code>",
+        views.PrivateLinkDeckDetailView.as_view(),
+        name="private-url-deck-detail",
+    ),
     path("cards/", views.CardListView.as_view(), name="cards"),
     path("new/", views.NewDeckFormView.as_view(), name="new-deck"),
     path("<int:pk>/update/", views.update_deck, name="update-deck-id"),
+    path(
+        "<int:pk>/privatelink/", views.create_private_link, name="create-private-link"
+    ),
     path(
         "<int:pk>/update/metadata/",
         views.UpdateDeckMetadataFormView.as_view(),

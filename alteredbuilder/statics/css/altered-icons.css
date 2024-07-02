@@ -1,0 +1,81 @@
+@font-face {
+  font-family: 'altered';
+  src:  url('../fonts/altered.eot?4qyzft');
+  src:  url('../fonts/altered.eot?4qyzft#iefix') format('embedded-opentype'),
+    url('../fonts/altered.ttf?4qyzft') format('truetype'),
+    url('../fonts/altered.woff?4qyzft') format('woff'),
+    url('../fonts/altered.svg?4qyzft#altered') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="altered-"], [class*=" altered-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'altered' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.altered-1:before {
+  content: "\e900";
+}
+.altered-2:before {
+  content: "\e901";
+}
+.altered-3:before {
+  content: "\e902";
+}
+.altered-4:before {
+  content: "\e903";
+}
+.altered-5:before {
+  content: "\e904";
+}
+.altered-6:before {
+  content: "\e905";
+}
+.altered-7:before {
+  content: "\e906";
+}
+.altered-8:before {
+  content: "\e907";
+}
+.altered-9:before {
+  content: "\e908";
+}
+.altered-etb:before {
+  content: "\e909";
+}
+.altered-exhaust:before {
+  content: "\e90a";
+}
+.altered-forest:before {
+  content: "\e90b";
+}
+.altered-hand:before {
+  content: "\e90c";
+}
+.altered-mountain:before {
+  content: "\e90d";
+}
+.altered-reserve:before {
+  content: "\e90e";
+}
+.altered-support:before {
+  content: "\e90f";
+}
+.altered-water:before {
+  content: "\e910";
+}
+.altered-x:before {
+  content: "\e911";
+}

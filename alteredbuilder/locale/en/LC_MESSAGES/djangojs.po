@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-26 11:30+0200\n"
+"POT-Creation-Date: 2024-07-02 15:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: decks/static/js/deck-detail.js:19
+#: decks/static/js/deck-detail.js:19 decks/static/js/deck-detail.js:125
 msgid "Link copied into clipboard!"
 msgstr ""
 
@@ -26,16 +26,20 @@ msgstr ""
 msgid "Decklist copied into clipboard!"
 msgstr ""
 
-#: decks/static/js/deck-detail.js:44
+#: decks/static/js/deck-detail.js:45
 msgid "QR downloaded!"
 msgstr ""
 
-#: decks/static/js/deck-detail.js:59
+#: decks/static/js/deck-detail.js:62
 msgid "QR copied into clipboard!"
 msgstr ""
 
-#: decks/static/js/deck-detail.js:97
+#: decks/static/js/deck-detail.js:91
 msgid "Unable to delete card from deck"
+msgstr ""
+
+#: decks/static/js/deck-detail.js:116
+msgid "Cannot create a private link"
 msgstr ""
 
 #: decks/static/js/deck-sidebar.js:390

@@ -134,6 +134,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "django.middleware.gzip.GZipMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -186,7 +187,10 @@ if DEBUG:
     # https://ranjanmp.medium.com/e79585813bc6
     import socket
 
-    MIDDLEWARE = ["debug_toolbar.middleware.DebugToolbarMiddleware"] + MIDDLEWARE
+    MIDDLEWARE.insert(
+        MIDDLEWARE.index("django.middleware.gzip.GZipMiddleware") + 1,
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
+    )
     INSTALLED_APPS += ["debug_toolbar"]
 
     ip = socket.gethostbyname(socket.gethostname())
@@ -252,10 +256,13 @@ else:
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
 LANGUAGE_CODE = "en"
+MODELTRANSLATION_DEFAULT_LANGUAGE = LANGUAGE_CODE
 LANGUAGES = (
+    ("de", _("Deutsch")),
     ("en", _("English")),
     ("es", _("Spanish")),
     ("fr", _("French")),
+    ("it", _("Italian")),
 )
 LOCALE_PATHS = [BASE_DIR / "locale"]
 

@@ -1,3 +1,4 @@
+from http import HTTPStatus
 import json
 
 from django.http import HttpRequest, HttpResponse, JsonResponse
@@ -13,18 +14,18 @@ def ajax_request(func):
                 try:
                     return func(request, *args, **kwargs)
                 except json.decoder.JSONDecodeError:
-                    return ApiJsonResponse(_("Invalid payload"), 400)
+                    return ApiJsonResponse(_("Invalid payload"), HTTPStatus.BAD_REQUEST)
             else:
-                return ApiJsonResponse(_("Invalid request"), 400)
+                return ApiJsonResponse(_("Invalid request"), HTTPStatus.BAD_REQUEST)
         else:
-            return HttpResponse(_("Invalid request"), status=400)
+            return HttpResponse(_("Invalid request"), status=HTTPStatus.BAD_REQUEST)
 
     return inner
 
 
 class ApiJsonResponse(JsonResponse):
     def __init__(self, data, status_code, *args, **kwargs):
-        if status_code >= 400:
+        if status_code >= HTTPStatus.BAD_REQUEST:
             msg = {"error": {"code": status_code, "message": data}}
         else:
             msg = {"data": data}

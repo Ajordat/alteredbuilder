@@ -48,7 +48,7 @@
                         </li>
                         {% url 'new-deck' as item_url %}
                         <li class="nav-item {% if request.path == item_url or request.GET.next == item_url %}{{ tab_selected_class }}{% endif %}">
-                            <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-cart-plus"></i> {% translate "New deck" %}</a>
+                            <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-square-plus"></i> {% translate "New deck" %}</a>
                         </li>
                     </ul>
 {% endwith %}
@@ -135,6 +135,9 @@
                                 <a href="{% url 'about' %}#about_the_author">{% translate "About the author" %}</a>
                             </li>
                             <li class="mb-1">
+                                <a href="{% url 'collaborators' %}">{% translate "Collaborators" %}</a>
+                            </li>
+                            <li class="mb-1">
                                 <a href="{% url 'privacy-policy' %}">{% translate "Privacy policy" %}</a>
                             </li>
                             <li class="mb-1">
@@ -145,6 +148,7 @@
                     <div class="col">
                         <h5 class="mb-3">{% translate "Get in touch" %}</h5>
                         <ul class="list-unstyled mb-0">
+                            <li class="mb-1"><a href="https://discordapp.com/users/501840797159653389" target="_blank" class="no-underline"><i class="fa-brands fa-discord"></i> <u>Discord</u></a></li>
                             <li class="mb-1"><a href="https://github.com/Ajordat" target="_blank" class="no-underline"><i class="fa-brands fa-github"></i> <u>GitHub</u></a></li>
                             <li class="mb-1"><a href="https://www.linkedin.com/in/alex-jorda-triginer/" target="_blank" class="no-underline"><i class="fa-brands fa-linkedin"></i> <u>LinkedIn</u></a></li>
                             <li class="mb-1"><a href="mailto:altered-tcg-builder@ajordat.com" target="_blank" class="no-underline"><i class="fa-solid fa-envelope"></i> <u>email</u></a></li>

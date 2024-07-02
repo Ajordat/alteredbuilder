@@ -39,6 +39,10 @@ urlpatterns = [
         RedirectView.as_view(url=reverse_lazy("deck-list"), permanent=True),
         name="index",
     ),
+    path(
+        "robots.txt",
+        TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
+    ),
 ]
 
 urlpatterns += i18n_patterns(
@@ -47,6 +51,11 @@ urlpatterns += i18n_patterns(
     path("accounts/", include("allauth.socialaccount.urls")),
     path("decks/", include("decks.urls")),
     path("about/", TemplateView.as_view(template_name="about.html"), name="about"),
+    path(
+        "collaborators/",
+        TemplateView.as_view(template_name="collaborators.html"),
+        name="collaborators",
+    ),
     path(
         "privacy-policy/",
         TemplateView.as_view(template_name="privacy_policy.html"),
@@ -58,6 +67,11 @@ urlpatterns += i18n_patterns(
         name="terms-and-conditions",
     ),
     path("troubleshoot/", include("troubleshoot.urls")),
+    path(
+        "",
+        RedirectView.as_view(url=reverse_lazy("deck-list"), permanent=True),
+        name="i18n_index",
+    ),
 )
 
 if settings.DEBUG:

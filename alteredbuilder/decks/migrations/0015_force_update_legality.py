@@ -2,11 +2,16 @@
 
 from django.db import migrations
 
-from decks.models import Deck
 from decks.game_modes import update_deck_legality
 
 
+def init_models(apps):
+    global Deck
+    Deck = apps.get_model("decks", "Deck")
+
+
 def force_update_legality(apps, schema_editor):
+    init_models(apps)
     decks = Deck.objects.all()
 
     for deck in decks:

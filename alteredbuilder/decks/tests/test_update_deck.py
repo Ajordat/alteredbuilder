@@ -12,39 +12,23 @@ class UpdateDeckViewTestCase(BaseViewTestCase, AjaxTestCase):
     def test_ajax_request(self):
         deck = Deck.objects.get(owner=self.user, name=self.PRIVATE_DECK_NAME)
         test_url = reverse("update-deck-id", kwargs={"pk": deck.id})
+
+        self.assert_ajax_protocol(test_url, self.user)
+
+    def test_unauthenticated(self):
+        """Test the view to add a Card to a Deck with an unauthenticated user."""
+        deck = Deck.objects.get(owner=self.user, name=self.PRIVATE_DECK_NAME)
+        test_url = reverse("update-deck-id", kwargs={"pk": deck.id})
         headers = {
             "HTTP_X_REQUESTED_WITH": "XMLHttpRequest",
             "content_type": "application/json",
         }
 
-        # Test an unauthenticated client
-        response = self.client.post(test_url)
+        response = self.client.post(test_url, **headers)
 
         self.assertRedirects(
-            response,
-            get_login_url("update-deck-id", pk=deck.id),
-            status_code=HTTPStatus.FOUND,
+            response, get_login_url(next=test_url), status_code=HTTPStatus.FOUND
         )
-
-        # Test a request without the necessary headers
-        self.client.force_login(self.user)
-        with silence_logging():
-            response = self.client.post(test_url)
-
-        self.assertEqual(response.status_code, HTTPStatus.BAD_REQUEST)
-        self.assertEqual(response.content, b"Invalid request")
-
-        # Test a request without using the POST method
-        with silence_logging():
-            response = self.client.get(test_url, **headers)
-
-        self.assert_ajax_error(response, HTTPStatus.BAD_REQUEST, "Invalid request")
-
-        # Test a request without sending any payload
-        with silence_logging():
-            response = self.client.post(test_url, **headers)
-
-        self.assert_ajax_error(response, HTTPStatus.BAD_REQUEST, "Invalid payload")
 
     def test_add_card_view(self):
         """Test the view to add a Card to a Deck. It currently works via an AJAX call.
@@ -92,6 +76,12 @@ class UpdateDeckViewTestCase(BaseViewTestCase, AjaxTestCase):
             )
 
         self.assert_ajax_error(response, HTTPStatus.NOT_FOUND, "Deck not found")
+
+        # Test a request without sending any payload
+        with silence_logging():
+            response = self.client.post(test_url, **headers)
+
+        self.assert_ajax_error(response, HTTPStatus.BAD_REQUEST, "Invalid payload")
 
         # Test a request providing an invalid action (should be "add", "delete" or
         # "patch")

@@ -5,7 +5,7 @@
 {% load deck_styles %}
 {% load markdown_extras %}
 
-{% block title %}{% translate "Deck detail" %}{% endblock %}
+{% block title %}{{object.name}}{% endblock %}
 
 {% block head %}
     {{ block.super }}
@@ -15,6 +15,7 @@
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script src="https://superal.github.io/canvas2image/canvas2image.js"></script>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/altered-icons.css' %}">
     <link rel="stylesheet" href="{% static 'css/deck-detail.css' %}">
 {% endblock %}
 
@@ -23,24 +24,32 @@
     <div class="row">
         <div class="col">{{ object.description | markdown | safe }}</div>
     </div>
-    <div class="row row-cols-auto">
+    <div class="row row-cols-auto gx-2">
         <div class="col">
             <i class="fa-solid fa-user"></i> {{ object.owner.username }}
         </div>
         <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% blocktranslate with creation=object.created_at|date:'DATE_FORMAT' modification=object.modified_at|date:'DATE_FORMAT' %}Created: {{ creation }}<br>Last modified: {{ modification }}{% endblocktranslate %}" data-bs-html="true">
             <i class="fa-regular fa-calendar"></i> <small>{{ object.modified_at|date:"SHORT_DATE_FORMAT" }}</small>
         </div>
-        <div class="col">
-    {% if user.is_authenticated %}
-            <a role="button" href="{% url 'love-deck-id' pk=object.id %}" class="btn btn-sm {% if is_loved %}btn-danger{% else %}btn-outline-danger{% endif %}">
-                <i class="fa-solid fa-heart"></i> {{ object.love_count }}
-            </a>
-    {% else %}
-            <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'Login to share your love!' %}" data-bs-html="true">
-                <a role="button" href="#" class="btn btn-sm btn-outline-danger disabled">
+        <div class="col me-3">
+    {% if object.is_public or object.owner == user %}
+        {% if user.is_authenticated %}
+                <a role="button" href="{% url 'love-deck-id' pk=object.id %}" class="btn btn-sm {% if is_loved %}btn-danger{% else %}btn-outline-danger{% endif %}">
                     <i class="fa-solid fa-heart"></i> {{ object.love_count }}
                 </a>
-            </div>
+        {% else %}
+                <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'Login to share your love!' %}" data-bs-html="true">
+                    <a role="button" href="#" class="btn btn-sm btn-outline-danger disabled">
+                        <i class="fa-solid fa-heart"></i> {{ object.love_count }}
+                    </a>
+                </div>
+        {% endif %}
+    {% else %}
+        <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'This feature is only for public decks' %}" data-bs-html="true">
+            <a role="button" href="#" class="btn btn-sm {% if is_loved %}btn-danger{% else %}btn-outline-danger{% endif %} disabled">
+                <i class="fa-solid fa-heart"></i> {{ object.love_count }}
+            </a>
+        </div>
     {% endif %}
         </div>
         <div class="col">
@@ -51,11 +60,15 @@
                 <ul class="dropdown-menu">
                     <li id="copy-self-link"><a class="dropdown-item" href="#"><i class="fa-regular fa-copy"></i> {% translate "Copy link" %}</a></li>
                     <li id="copy-decklist"><a class="dropdown-item" href="#"><i class="fa-regular fa-copy"></i> {% translate "Copy decklist" %}</a></li>
+    {% if object.is_public %}
                     <li id="share-qr-code"><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#qr-code-modal"><i class="fa-solid fa-qrcode"></i> {% translate "QR Code" %}</a></li>
                     <li id="share-facebook"><a class="dropdown-item" href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-facebook"></i> Facebook</a></li>
                     <li id="share-telegram"><a class="dropdown-item" href="https://telegram.me/share/url?url={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram</a></li>
                     <li id="share-twitter"><a class="dropdown-item" href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-twitter"></i> Twitter</a></li>
                     <li id="share-whatsapp"><a class="dropdown-item" href="https://wa.me/?text={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-whatsapp"></i> Whatsapp</a></li>
+    {% elif object.owner == user %}
+                    <li id="create-private-link"><a class="dropdown-item" href="#"><i class="fa-solid fa-link"></i> {% translate "Create private link" %}</a></li>
+    {% endif %}
                 </ul>
             </div>
         </div>
@@ -72,6 +85,24 @@
             </div>
         </div>
     {% endif %}
+    {% if stats.rarity_distribution.unique %}
+        <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'This feature cannot be used with unique cards' %}">
+            <button type="button" class="btn btn-outline-primary btn-sm" disabled>
+                <i class="fa-solid fa-fish"></i> {% translate "Playtest!" %} <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </button>
+        </div>
+    {% else %}
+        <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'Try it in Exalts Table' %}">
+            <a type="button" class="btn btn-outline-primary btn-sm" href="https://exalts-table.com/deck-test/link/?decklist={{ decklist|urlencode }}" target="_blank">
+                <i class="fa-solid fa-fish"></i> {% translate "Playtest!" %} <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+        </div>
+    {% endif %}
+        <div class="col">
+            <a type="button" class="btn btn-outline-primary btn-sm" href="{% url 'new-deck' %}?decklist={{ decklist|urlencode }}">
+                <i class="fa-solid fa-square-plus"></i> {% translate "Copy deck" %}
+            </a>
+        </div>
     </div>
     <div class="my-3">
         <h3>{% translate "Decklist" %}</h3>
@@ -254,6 +285,7 @@
         </div>
     </div>
     
+    {% if object.owner == user %}
     <div class="modal fade" id="deck-metadata-modal" tabindex="-1" aria-labelledby="deck-metadata-modalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -292,6 +324,8 @@
             </div>
         </div>
     </div>
+    {% endif %}
+    {% if object.is_public %}
     <div class="modal fade" id="qr-code-modal" tabindex="-1" aria-labelledby="qr-code-modalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-sm">
             <div class="modal-content">
@@ -310,6 +344,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
 
     <article id="decklist-text" data-decklist="{{ decklist }}"></article>
     {% csrf_token %}

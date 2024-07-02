@@ -15,6 +15,6 @@ def change_lang(context: dict, lang: str, *args, **kwargs) -> str:
     Returns:
         str: Current URL translated to the target language.
     """
-    path = context["request"].path
+    path = context["request"].get_full_path()
 
     return translate_url(path, lang)

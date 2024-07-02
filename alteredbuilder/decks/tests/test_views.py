@@ -1,11 +1,19 @@
 from http import HTTPStatus
+import uuid
 
 from django.db.models.functions import Coalesce
 from django.http import HttpResponse
 from django.urls import reverse
 
-from decks.models import Card, CardInDeck, Deck, LovePoint
-from .utils import BaseViewTestCase, generate_card, get_detail_card_list, get_login_url
+from decks.models import Card, CardInDeck, Deck, LovePoint, PrivateLink
+from .utils import (
+    AjaxTestCase,
+    BaseViewTestCase,
+    generate_card,
+    get_detail_card_list,
+    get_login_url,
+    silence_logging,
+)
 
 
 class DeckListViewTestCase(BaseViewTestCase):
@@ -244,7 +252,9 @@ class OwnDeckListViewTestCase(BaseViewTestCase):
         """Test the view of a user's own decks when requested by an unauthenticated user."""
         response = self.client.get(reverse("own-deck"))
 
-        self.assertRedirects(response, get_login_url("own-deck"), status_code=302)
+        self.assertRedirects(
+            response, get_login_url("own-deck"), status_code=HTTPStatus.FOUND
+        )
 
     def test_own_deck_list(self):
         """Test the view of a user's own decks."""
@@ -460,3 +470,199 @@ class CardListViewTestCase(BaseViewTestCase):
             type__in=[Card.Type.CHARACTER, Card.Type.PERMANENT],
         ).order_by("-name", "-reference")
         self.assertQuerySetEqual(query_cards, response.context["card_list"])
+
+
+class AccessPrivateLinkViewTestCase(BaseViewTestCase):
+    """Test case focusing on the view to access a Deck through a PrivateLink."""
+
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
+        cls.pl_deck = Deck.objects.filter(owner=cls.user, is_public=False).first()
+        cls.pl = PrivateLink.objects.create(deck=cls.pl_deck)
+
+    def test_unauthenticated(self):
+        """Test the view of a Deck through a PrivateLink when requested by an
+        unauthenticated user.
+        """
+        url = reverse(
+            "private-url-deck-detail",
+            kwargs={"pk": self.pl_deck.id, "code": self.pl.code},
+        )
+        response = self.client.get(url)
+
+        self.assertRedirects(
+            response, get_login_url(next=url), status_code=HTTPStatus.FOUND
+        )
+
+    def test_authenticated_deck_mismatch(self):
+        """Test the view of a Deck through a PrivateLink when requested by an
+        authenticated user, but the deck id does not correspond to the code.
+        """
+        another_deck = (
+            Deck.objects.filter(is_public=False)
+            .exclude(id__in=[self.pl_deck.id])
+            .first()
+        )
+        url = reverse(
+            "private-url-deck-detail",
+            kwargs={"pk": another_deck.id, "code": self.pl.code},
+        )
+        self.client.force_login(self.other_user)
+        response = self.client.get(url)
+
+        self.assertTemplateUsed(response, "errors/404.html")
+
+    def test_authenticated_code_mismatch(self):
+        """Test the view of a Deck through a PrivateLink when requested by an
+        authenticated user, but the code does not correspond to the deck.
+        """
+        code = str(uuid.uuid4())
+        url = reverse(
+            "private-url-deck-detail",
+            kwargs={"pk": self.pl_deck.id, "code": code},
+        )
+        self.client.force_login(self.other_user)
+        response = self.client.get(url)
+
+        self.assertTemplateUsed(response, "errors/404.html")
+
+    def test_authenticated_by_another_user(self):
+        """Test the view of a Deck through a PrivateLink when requested by an
+        authenticated user other than the owner.
+        """
+        self.client.force_login(self.other_user)
+        response = self.client.get(
+            reverse(
+                "private-url-deck-detail",
+                kwargs={"pk": self.pl_deck.id, "code": self.pl.code},
+            )
+        )
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed("decks/deck_detail.html")
+
+    def test_authenticated_by_owner(self):
+        """Test the view of a Deck through a PrivateLink when requested by the owner."""
+        self.client.force_login(self.user)
+        response = self.client.get(
+            reverse(
+                "private-url-deck-detail",
+                kwargs={"pk": self.pl_deck.id, "code": self.pl.code},
+            )
+        )
+
+        self.assertRedirects(
+            response,
+            reverse("deck-detail", kwargs={"pk": self.pl_deck.id}),
+            status_code=HTTPStatus.FOUND,
+        )
+
+    def test_authenticated_to_public_deck(self):
+        """Test the view of a public Deck through a PrivateLink."""
+        public_deck = Deck.objects.filter(owner=self.other_user, is_public=True).first()
+        pl = PrivateLink.objects.create(deck=public_deck)
+
+        self.client.force_login(self.user)
+        response = self.client.get(
+            reverse(
+                "private-url-deck-detail",
+                kwargs={"pk": public_deck.id, "code": pl.code},
+            )
+        )
+
+        self.assertRedirects(
+            response,
+            reverse("deck-detail", kwargs={"pk": public_deck.id}),
+            status_code=HTTPStatus.FOUND,
+        )
+
+
+class CreatePrivateLinkViewTestCase(BaseViewTestCase, AjaxTestCase):
+    """Test case focusing on the view that creates a PrivateLink for a Deck."""
+
+    def test_ajax_request(self):
+        deck = Deck.objects.get(owner=self.user, name=self.PRIVATE_DECK_NAME)
+        test_url = reverse("create-private-link", kwargs={"pk": deck.id})
+        self.assert_ajax_protocol(test_url, self.user)
+
+    def test_unauthenticated(self):
+        """Test the view to add a Card to a Deck with an unauthenticated user."""
+        deck = Deck.objects.get(owner=self.user, name=self.PRIVATE_DECK_NAME)
+        test_url = reverse("create-private-link", kwargs={"pk": deck.id})
+        headers = {
+            "HTTP_X_REQUESTED_WITH": "XMLHttpRequest",
+            "content_type": "application/json",
+        }
+
+        response = self.client.post(test_url, **headers)
+        self.assertRedirects(
+            response, get_login_url(next=test_url), status_code=HTTPStatus.FOUND
+        )
+
+    def test_delete_card_view(self):
+        """Test the view to create a PrivateLink for a Deck. It currently works via an AJAX
+        call.
+
+        Throughout this method, multiple times the logging is silenced, otherwise the
+        logs for a failed/invalid request would be logged to the console and would mess
+        with the unittest expected logs.
+        """
+        deck = Deck.objects.get(owner=self.user, name=self.PRIVATE_DECK_NAME)
+        test_url = reverse("create-private-link", kwargs={"pk": deck.id})
+        headers = {
+            "HTTP_X_REQUESTED_WITH": "XMLHttpRequest",
+            "content_type": "application/json",
+        }
+        self.client.force_login(self.user)
+
+        # Test a request targeting a non-existent deck id
+        wrong_url = reverse("create-private-link", kwargs={"pk": 100_000})
+        with silence_logging():
+            response = self.client.post(wrong_url, **headers)
+        self.assert_ajax_error(response, HTTPStatus.NOT_FOUND, "Deck not found")
+
+        # Test a request with valid data
+        response = self.client.post(test_url, **headers)
+
+        pl = PrivateLink.objects.get(deck=deck)
+        response_data = response.json()["data"]
+        created_url = reverse(
+            "private-url-deck-detail", kwargs={"pk": deck.id, "code": pl.code}
+        )
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTrue(response_data["created"])
+        self.assertEqual(response_data["link"], created_url)
+
+        # Test a request with valid data, which will not create the link
+        response = self.client.post(test_url, **headers)
+
+        pl.refresh_from_db()
+        created_url = reverse(
+            "private-url-deck-detail", kwargs={"pk": deck.id, "code": pl.code}
+        )
+        response_data = response.json()["data"]
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertFalse(response_data["created"])
+        self.assertEqual(response_data["link"], created_url)
+        self.assertEqual(PrivateLink.objects.filter(deck=deck).count(), 1)
+
+        # Test a request with valid data and a public deck
+        public_deck = Deck.objects.filter(owner=self.user, is_public=True).first()
+        wrong_url = reverse("create-private-link", kwargs={"pk": public_deck.id})
+        with silence_logging():
+            response = self.client.post(wrong_url, **headers)
+
+        self.assert_ajax_error(response, HTTPStatus.BAD_REQUEST, "Invalid request")
+        self.assertFalse(PrivateLink.objects.filter(deck=public_deck).exists())
+
+        # Test a request with valid data and a not-owned deck
+        not_owned_deck = Deck.objects.filter(
+            owner=self.other_user, is_public=False
+        ).first()
+        wrong_url = reverse("create-private-link", kwargs={"pk": not_owned_deck.id})
+        with silence_logging():
+            response = self.client.post(wrong_url, **headers)
+
+        self.assert_ajax_error(response, HTTPStatus.NOT_FOUND, "Deck not found")
+        self.assertFalse(PrivateLink.objects.filter(deck=not_owned_deck).exists())

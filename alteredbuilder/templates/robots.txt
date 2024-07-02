@@ -1,0 +1,13 @@
+User-agent: *
+Disallow: /admin
+Disallow: /api-auth
+Disallow: /api
+Disallow: /accounts
+Disallow: /*/jsi18n
+Disallow: /*/accounts
+Disallow: /*/about
+Disallow: /*/collaborators
+Disallow: /*/privacy-policy
+Disallow: /*/terms-and-conditions
+Disallow: /*/troubleshoot
+Disallow: /*/decks/new

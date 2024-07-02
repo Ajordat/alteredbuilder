@@ -1,6 +1,9 @@
+import uuid
+
 from django.conf import settings
 from django.db import models
 from hitcount.models import HitCountMixin
+
 
 ALTERED_TCG_URL = "https://www.altered.gg"
 
@@ -38,7 +41,7 @@ class Card(models.Model):
         UNIQUE = "U", "unique"
 
     reference = models.CharField(max_length=32, primary_key=True)
-    name = models.CharField(max_length=32, null=False, blank=False)
+    name = models.CharField(max_length=48, null=False, blank=False)
     faction = models.CharField(max_length=2, choices=Faction)
     type = models.CharField(max_length=16, choices=Type)
     rarity = models.CharField(max_length=1, choices=Rarity)
@@ -134,4 +137,11 @@ class CardInDeck(models.Model):
 class LovePoint(models.Model):
     deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class PrivateLink(models.Model):
+    code = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    deck = models.OneToOneField(Deck, on_delete=models.CASCADE)
+    last_accessed_at = models.DateTimeField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
