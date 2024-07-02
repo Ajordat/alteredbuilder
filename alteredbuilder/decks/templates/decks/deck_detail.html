@@ -31,16 +31,24 @@
             <i class="fa-regular fa-calendar"></i> <small>{{ object.modified_at|date:"SHORT_DATE_FORMAT" }}</small>
         </div>
         <div class="col me-3">
-    {% if user.is_authenticated %}
-            <a role="button" href="{% url 'love-deck-id' pk=object.id %}" class="btn btn-sm {% if is_loved %}btn-danger{% else %}btn-outline-danger{% endif %}">
-                <i class="fa-solid fa-heart"></i> {{ object.love_count }}
-            </a>
-    {% else %}
-            <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'Login to share your love!' %}" data-bs-html="true">
-                <a role="button" href="#" class="btn btn-sm btn-outline-danger disabled">
+    {% if object.is_public or object.owner == user %}
+        {% if user.is_authenticated %}
+                <a role="button" href="{% url 'love-deck-id' pk=object.id %}" class="btn btn-sm {% if is_loved %}btn-danger{% else %}btn-outline-danger{% endif %}">
                     <i class="fa-solid fa-heart"></i> {{ object.love_count }}
                 </a>
-            </div>
+        {% else %}
+                <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'Login to share your love!' %}" data-bs-html="true">
+                    <a role="button" href="#" class="btn btn-sm btn-outline-danger disabled">
+                        <i class="fa-solid fa-heart"></i> {{ object.love_count }}
+                    </a>
+                </div>
+        {% endif %}
+    {% else %}
+        <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'This feature is only for public decks' %}" data-bs-html="true">
+            <a role="button" href="#" class="btn btn-sm {% if is_loved %}btn-danger{% else %}btn-outline-danger{% endif %} disabled">
+                <i class="fa-solid fa-heart"></i> {{ object.love_count }}
+            </a>
+        </div>
     {% endif %}
         </div>
         <div class="col">
