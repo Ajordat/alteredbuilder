@@ -8,18 +8,18 @@ from django.db.models import F, Q
 from django.db.models.functions import Coalesce
 from django.db.models.manager import Manager
 from django.db.models.query import QuerySet
-from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 from hitcount.views import HitCountDetailView
 
 from .deck_utils import create_new_deck, get_deck_details
 from .game_modes import update_deck_legality
-from .models import Card, CardInDeck, Deck, LovePoint
+from .models import Card, CardInDeck, Deck, LovePoint, PrivateLink
 from .forms import DecklistForm, DeckMetadataForm, UpdateDeckForm
 from .exceptions import MalformedDeckException
 
@@ -197,6 +197,36 @@ class DeckDetailView(HitCountDetailView):
         return context
 
 
+class PrivateLinkDeckDetailView(LoginRequiredMixin, DeckDetailView):
+    """DetailView to display the detail of a Deck model by using a private link."""
+
+    def get(self, request, *args, **kwargs):
+        self.object: Deck = self.get_object()
+        if self.object.owner == request.user or self.object.is_public:
+            # If the owner is accessing with the private link or the Deck is public,
+            # redirect to the official one
+            return redirect(reverse("deck-detail", kwargs={"pk": self.object.id}))
+        context = self.get_context_data(object=self.object)
+        return self.render_to_response(context)
+
+    def get_queryset(self) -> Manager[Deck]:
+        """When retrieving the object, we need to make sure that the code matches with
+        the requested Deck.
+
+        Returns:
+            Manager[Deck]: The view's queryset.
+        """
+        code = self.kwargs["code"]
+        deck_id = self.kwargs["pk"]
+        try:
+            link = PrivateLink.objects.get(code=code, deck__id=deck_id)
+            link.last_accessed_at = timezone.now()
+            link.save(update_fields=["last_accessed_at"])
+            return Deck.objects.filter(id=deck_id).select_related("hero", "owner")
+        except PrivateLink.DoesNotExist:
+            raise Http404("Private link does not exist")
+
+
 class NewDeckFormView(LoginRequiredMixin, FormView):
     """FormView to manage the creation of a Deck.
     It requires being authenticated.
@@ -366,6 +396,52 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
                 return JsonResponse(
                     {"error": {"code": 400, "message": _("Invalid payload")}},
                     status=400,
+                )
+            return JsonResponse({"data": status}, status=201)
+        else:
+            return JsonResponse(
+                {"error": {"code": 400, "message": _("Invalid request")}}, status=400
+            )
+    else:
+        return HttpResponse(_("Invalid request"), status=400)
+
+
+@login_required
+def create_private_link(request: HttpRequest, pk: int) -> HttpResponse:
+    """Function to create a PrivateLink with AJAX.
+    Ideally it should be moved to the API app.
+
+    Args:
+        request (HttpRequest): Received request
+        pk (int): Id of the target deck
+
+    Returns:
+        HttpResponse: A JSON response indicating whether the request succeeded or not.
+    """
+
+    # Ensure it's an AJAX request
+    is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    if is_ajax:
+        if request.method == "POST":
+            try:
+                # Retrieve the referenced Deck
+                deck = Deck.objects.get(pk=pk, owner=request.user)
+                if deck.is_public:
+                    return JsonResponse(
+                        {"error": {"code": 400, "message": _("Invalid request")}},
+                        status=400,
+                    )
+
+                pl, created = PrivateLink.objects.get_or_create(deck=deck)
+                status = {
+                    "created": created,
+                    "link": reverse(
+                        "private-url-deck-detail", kwargs={"pk": pk, "code": pl.code}
+                    ),
+                }
+            except Deck.DoesNotExist:
+                return JsonResponse(
+                    {"error": {"code": 404, "message": _("Deck not found")}}, status=404
                 )
             return JsonResponse({"data": status}, status=201)
         else:

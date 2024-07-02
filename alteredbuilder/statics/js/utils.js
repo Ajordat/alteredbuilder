@@ -21,3 +21,17 @@ function displaySimpleToast(displayText) {
     toastText.innerHTML = displayText;
     myToast.show();
 }
+
+function ajaxRequest(url, body = {}) {
+    let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    
+    return fetch(url, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "X-Requested-With": "XMLHttpRequest",
+          "X-CSRFToken": csrftoken,
+        },
+        body: JSON.stringify(body)
+    })
+}

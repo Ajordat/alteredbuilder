@@ -103,7 +103,7 @@ def create_cid(
         )
 
 
-def get_login_url(template: str, **kwargs) -> str:
+def get_login_url(template: str = None, next: str = None, **kwargs) -> str:
     """Return the login URL with the received template as the `next` parameter.
 
     Args:
@@ -112,6 +112,8 @@ def get_login_url(template: str, **kwargs) -> str:
     Returns:
         str: The built login URL.
     """
+    if next:
+        return f"{settings.LOGIN_URL}?next={next}"
     return f"{settings.LOGIN_URL}?next={reverse(template, kwargs=kwargs)}"
 
 

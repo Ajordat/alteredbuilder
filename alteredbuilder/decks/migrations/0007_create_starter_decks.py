@@ -8,7 +8,6 @@ from django.db.models import F
 from decks.exceptions import MalformedDeckException
 
 
-
 @transaction.atomic
 def create_new_deck(user, deck_form: dict):
     decklist = deck_form["decklist"]

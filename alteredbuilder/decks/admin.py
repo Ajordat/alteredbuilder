@@ -1,6 +1,15 @@
 from django.contrib import admin
 
-from .models import CardInDeck, Character, Deck, Hero, LovePoint, Permanent, Spell
+from .models import (
+    CardInDeck,
+    Character,
+    Deck,
+    Hero,
+    LovePoint,
+    Permanent,
+    PrivateLink,
+    Spell,
+)
 
 
 # Register your models here.
@@ -24,3 +33,8 @@ class CardInDeckAdmin(admin.ModelAdmin):
 @admin.register(LovePoint)
 class LovePointAdmin(admin.ModelAdmin):
     list_display = ["user", "deck", "created_at"]
+
+
+@admin.register(PrivateLink)
+class PrivateLinkAdmin(admin.ModelAdmin):
+    list_display = ["code", "deck", "last_accessed_at", "created_at"]
