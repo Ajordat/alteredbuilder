@@ -12,6 +12,9 @@ urlpatterns = [
     path("new/", views.NewDeckFormView.as_view(), name="new-deck"),
     path("<int:pk>/update/", views.update_deck, name="update-deck-id"),
     path(
+        "<int:pk>/privatelink/", views.create_private_link, name="create-private-link"
+    ),
+    path(
         "<int:pk>/update/metadata/",
         views.UpdateDeckMetadataFormView.as_view(),
         name="update-deck-metadata",

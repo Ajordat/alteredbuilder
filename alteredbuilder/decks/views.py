@@ -19,7 +19,7 @@ from hitcount.views import HitCountDetailView
 
 from .deck_utils import create_new_deck, get_deck_details
 from .game_modes import update_deck_legality
-from .models import Card, CardInDeck, Deck, LovePoint
+from .models import Card, CardInDeck, Deck, LovePoint, PrivateLink
 from .forms import DecklistForm, DeckMetadataForm, UpdateDeckForm
 from .exceptions import MalformedDeckException
 
@@ -366,6 +366,51 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
                 return JsonResponse(
                     {"error": {"code": 400, "message": _("Invalid payload")}},
                     status=400,
+                )
+            return JsonResponse({"data": status}, status=201)
+        else:
+            return JsonResponse(
+                {"error": {"code": 400, "message": _("Invalid request")}}, status=400
+            )
+    else:
+        return HttpResponse(_("Invalid request"), status=400)
+
+
+@login_required
+def create_private_link(request: HttpRequest, pk: int) -> HttpResponse:
+    """Function to create a PrivateLink with AJAX.
+    Ideally it should be moved to the API app.
+
+    Args:
+        request (HttpRequest): Received request
+        pk (int): Id of the target deck
+
+    Returns:
+        HttpResponse: A JSON response indicating whether the request succeeded or not.
+    """
+
+    # Ensure it's an AJAX request
+    is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    if is_ajax:
+        if request.method == "POST":
+            try:
+                # Retrieve the referenced Deck
+                deck = Deck.objects.get(pk=pk, owner=request.user)
+                if deck.is_public:
+                    return JsonResponse(
+                        {"error": {"code": 400, "message": _("Invalid request")}}, status=400
+                    )
+
+                pl, created = PrivateLink.objects.get_or_create(deck=deck)
+                status = {
+                    "created": created,
+                    "link": reverse(
+                        "private-url-deck-detail", kwargs={"pk": pk, "code": pl.code}
+                    ),
+                }
+            except Deck.DoesNotExist:
+                return JsonResponse(
+                    {"error": {"code": 404, "message": _("Deck not found")}}, status=404
                 )
             return JsonResponse({"data": status}, status=201)
         else:

@@ -37,36 +37,39 @@ copyDecklistElement.onclick = function() {
 
 
 let downloadQRElement = document.getElementById("download-qr-svg");
-downloadQRElement.addEventListener("click", () => {
-    html2canvas(document.getElementById("deck-qr-code")).then(canvas => {
-        Canvas2Image.saveAsPNG(canvas, canvas.width, canvas.height, "deck-qr");
-        // Initialize toaster and show it
-        displaySimpleToast(gettext("QR downloaded!"));
+if (downloadQRElement) {
+    downloadQRElement.addEventListener("click", () => {
+        html2canvas(document.getElementById("deck-qr-code")).then(canvas => {
+            Canvas2Image.saveAsPNG(canvas, canvas.width, canvas.height, "deck-qr");
+            // Initialize toaster and show it
+            displaySimpleToast(gettext("QR downloaded!"));
+        });
+    
+        // Return false to avoid redirection
+        return false;
     });
-
-    // Return false to avoid redirection
-    return false;
-});
+}
 
 
 let copyQRElement = document.getElementById("copy-qr-svg");
-copyQRElement.addEventListener("click", () => {
-    html2canvas(document.getElementById("deck-qr-code")).then(canvas => {
-        canvas.toBlob((blob) => {
-            let item = new ClipboardItem({"image/png": blob});
-            navigator.clipboard.write([item]);
-            // Initialize toaster and show it
-            displaySimpleToast(gettext("QR copied into clipboard!"));
+if (copyQRElement) {
+    copyQRElement.addEventListener("click", () => {
+        html2canvas(document.getElementById("deck-qr-code")).then(canvas => {
+            canvas.toBlob((blob) => {
+                let item = new ClipboardItem({"image/png": blob});
+                navigator.clipboard.write([item]);
+                // Initialize toaster and show it
+                displaySimpleToast(gettext("QR copied into clipboard!"));
+            });
         });
-    });
 
-    // Return false to avoid redirection
-    return false;
-});
+        // Return false to avoid redirection
+        return false;
+    });
+}
 
 
 let removeCardEls = document.getElementsByClassName("remove-card-trigger");
-let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
 for (let element of removeCardEls) {
     
@@ -75,18 +78,9 @@ for (let element of removeCardEls) {
         let url = window.location.origin + window.location.pathname + "update/";
     
         cardReference = element.getAttribute('data-card-reference');
-
-        fetch(url, {
-            method: "POST",
-            credentials: "same-origin",
-            headers: {
-              "X-Requested-With": "XMLHttpRequest",
-              "X-CSRFToken": csrftoken,
-            },
-            body: JSON.stringify({
-                action: "delete",
-                card_reference: cardReference
-            })
+        ajaxRequest(url, {
+            action: "delete",
+            card_reference: cardReference
         })
         .then(response => response.json())
         .then(payload => {
@@ -108,3 +102,30 @@ for (let element of removeCardEls) {
 };
 
 
+let createPrivateLink = document.getElementById("create-private-link");
+if (createPrivateLink) {
+    createPrivateLink.addEventListener("click", (event) => {
+        event.preventDefault();
+        let url = window.location.origin + window.location.pathname + "privatelink/";
+    
+        ajaxRequest(url)
+        .then(response => response.json())
+        .then(payload => {
+            if ("error" in payload) {
+                if (payload.error.code == 400) {
+                    displaySimpleToast(gettext("Cannot create a private link"));
+                } else {
+                    displaySimpleToast(payload.error.message);
+                }
+            } else {
+                let url = window.location.origin + payload["data"]["link"]
+                navigator.clipboard.writeText(url);
+            
+                // Initialize toaster and show it
+                displaySimpleToast(gettext("Link copied into clipboard!"));
+            }
+            return false;
+        });
+        return false;
+    });
+}
