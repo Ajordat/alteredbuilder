@@ -428,7 +428,8 @@ def create_private_link(request: HttpRequest, pk: int) -> HttpResponse:
                 deck = Deck.objects.get(pk=pk, owner=request.user)
                 if deck.is_public:
                     return JsonResponse(
-                        {"error": {"code": 400, "message": _("Invalid request")}}, status=400
+                        {"error": {"code": 400, "message": _("Invalid request")}},
+                        status=400,
                     )
 
                 pl, created = PrivateLink.objects.get_or_create(deck=deck)
