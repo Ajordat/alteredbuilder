@@ -197,7 +197,7 @@ class DeckDetailView(HitCountDetailView):
         return context
 
 
-class PrivateLinkDeckDetailView(DeckDetailView):
+class PrivateLinkDeckDetailView(LoginRequiredMixin, DeckDetailView):
     """DetailView to display the detail of a Deck model by using a private link."""
 
     def get(self, request, *args, **kwargs):
