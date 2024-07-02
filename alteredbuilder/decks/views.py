@@ -8,11 +8,11 @@ from django.db.models import F, Q
 from django.db.models.functions import Coalesce
 from django.db.models.manager import Manager
 from django.db.models.query import QuerySet
-from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 from hitcount.views import HitCountDetailView
@@ -195,6 +195,36 @@ class DeckDetailView(HitCountDetailView):
             ).exists()
 
         return context
+
+
+class PrivateLinkDeckDetailView(DeckDetailView):
+    """DetailView to display the detail of a Deck model by using a private link."""
+
+    def get(self, request, *args, **kwargs):
+        self.object: Deck = self.get_object()
+        if self.object.owner == request.user or self.object.is_public:
+            # If the owner is accessing with the private link or the Deck is public,
+            # redirect to the official one
+            return redirect(reverse("deck-detail", kwargs={"pk": self.object.id}))
+        context = self.get_context_data(object=self.object)
+        return self.render_to_response(context)
+
+    def get_queryset(self) -> Manager[Deck]:
+        """When retrieving the object, we need to make sure that the code matches with
+        the requested Deck.
+
+        Returns:
+            Manager[Deck]: The view's queryset.
+        """
+        code = self.kwargs["code"]
+        deck_id = self.kwargs["pk"]
+        try:
+            link = PrivateLink.objects.get(code=code, deck__id=deck_id)
+            link.last_accessed_at = timezone.now()
+            link.save(update_fields=["last_accessed_at"])
+            return Deck.objects.filter(id=deck_id).select_related("hero", "owner")
+        except PrivateLink.DoesNotExist:
+            raise Http404("Private link does not exist")
 
 
 class NewDeckFormView(LoginRequiredMixin, FormView):
