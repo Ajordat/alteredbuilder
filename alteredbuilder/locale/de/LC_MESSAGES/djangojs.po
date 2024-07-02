@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-26 12:38+0200\n"
+"POT-Creation-Date: 2024-07-02 12:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-#: decks/static/js/deck-detail.js:19
+
+#: decks/static/js/deck-detail.js:19 decks/static/js/deck-detail.js:125
 msgid "Link copied into clipboard!"
 msgstr "Link in Zwischenablage kopiert!"
 
@@ -25,17 +26,21 @@ msgstr "Link in Zwischenablage kopiert!"
 msgid "Decklist copied into clipboard!"
 msgstr "Deckliste in Zwischenablage kopiert!"
 
-#: decks/static/js/deck-detail.js:44
+#: decks/static/js/deck-detail.js:45
 msgid "QR downloaded!"
 msgstr "QR heruntergeladen!"
 
-#: decks/static/js/deck-detail.js:59
+#: decks/static/js/deck-detail.js:62
 msgid "QR copied into clipboard!"
 msgstr "QR in Zwischenablage kopiert!"
 
-#: decks/static/js/deck-detail.js:97
+#: decks/static/js/deck-detail.js:91
 msgid "Unable to delete card from deck"
 msgstr "Karte konnte nicht aus dem Deck gelöscht werden"
+
+#: decks/static/js/deck-detail.js:116
+msgid "Cannot create a private link"
+msgstr "Kann keinen privaten Link erstellen"
 
 #: decks/static/js/deck-stats.js:16
 msgid "characters"
@@ -60,4 +65,3 @@ msgstr ""
 #: decks/static/js/deck-stats.js:80
 msgid "Reserve"
 msgstr "Reservieren"
-
