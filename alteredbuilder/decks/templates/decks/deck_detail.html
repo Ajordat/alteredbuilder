@@ -21,7 +21,7 @@
 {% block content %}
     <h1>{{ object.name }}</h1>
     <div class="row">
-        <div class="col">{{ object.description | markdown | safe }}</div>
+        <div class="col">{{ object.description | markdown }}</div>
     </div>
     <div class="row row-cols-auto gx-2">
         <div class="col">
