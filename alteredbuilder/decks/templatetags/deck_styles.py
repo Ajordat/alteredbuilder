@@ -1,4 +1,5 @@
 from django import template
+from django.contrib.auth.models import User
 
 from decks.models import Card
 
@@ -113,3 +114,18 @@ def params_to_filter_tag(get_params: dict) -> list[(str, str)]:
                 pass
 
     return tags
+
+
+@register.filter
+def has_group(user: User, group_name: str) -> bool:
+    """Receives a User and the name of a group and returns if the User is part of a
+    Group with that name.
+
+    Args:
+        user (User): User to check.
+        group_name (str): Group name.
+
+    Returns:
+        bool: If the User is part of a Group with that name.
+    """
+    return user.groups.filter(name=group_name).exists()
