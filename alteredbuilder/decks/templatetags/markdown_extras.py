@@ -1,3 +1,5 @@
+# import re
+
 from django import template
 from django.template.defaultfilters import stringfilter
 
@@ -17,4 +19,7 @@ def markdown(value: str) -> str:
     Returns:
         str: HTML code version of the received string.
     """
-    return md.markdown(value, extensions=["markdown.extensions.fenced_code"])
+    # print(value)
+    # matches = re.finditer(r"(?:\[\[(?P<reference>.*?)\]\])", value)
+    # print([x.group("reference") for x in matches])
+    return md.markdown(value, extensions=["markdown.extensions.fenced_code", "markdown_mark"])
