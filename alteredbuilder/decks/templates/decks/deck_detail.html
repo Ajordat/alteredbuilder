@@ -24,7 +24,7 @@
     {% if object.owner|has_group:"safe_markdown" %}
         <div class="col">{{ object.description | markdown | safe }}</div>
     {% else %}
-        <div class="col">{{ object.description | markdown }}</div>
+        <div class="col">{{ object.description | escape | markdown | safe }}</div>
     {% endif %}
     </div>
     <div class="row row-cols-auto gx-2">
