@@ -101,6 +101,22 @@ for (let element of removeCardEls) {
     });
 };
 
+let copyReferenceEls = document.getElementsByClassName("card-reference-container");
+
+for (let element of copyReferenceEls) {
+    element.addEventListener("click", (event) => {
+        event.preventDefault();
+        // Retrieve the card link from the container and write it into the clipboard
+        navigator.clipboard.writeText(event.target.dataset.cardReference);
+    
+        // Initialize toaster and show it
+        displaySimpleToast(gettext("Card reference copied into clipboard!"));
+    
+        // Return false to avoid redirection
+        return false;
+    });
+};
+
 
 let createPrivateLink = document.getElementById("create-private-link");
 if (createPrivateLink) {

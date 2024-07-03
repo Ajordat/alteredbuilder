@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-02 12:45+0200\n"
+"POT-Creation-Date: 2024-07-03 16:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -124,27 +124,27 @@ msgstr "Facciones"
 #: decks/templates/decks/card_list.html:45
 #: decks/templates/decks/card_list.html:77
 #: decks/templates/decks/card_list.html:97
-#: decks/templates/decks/deck_detail.html:186
+#: decks/templates/decks/deck_detail.html:191
 msgid "Rarity"
 msgstr "Rareza"
 
 #: decks/templates/decks/card_list.html:46
-#: decks/templates/decks/deck_detail.html:192
+#: decks/templates/decks/deck_detail.html:197
 msgid "Common"
 msgstr "Común"
 
 #: decks/templates/decks/card_list.html:47
-#: decks/templates/decks/deck_detail.html:196
+#: decks/templates/decks/deck_detail.html:201
 msgid "Rare"
 msgstr "Rara"
 
 #: decks/templates/decks/card_list.html:48
-#: decks/templates/decks/deck_detail.html:200
+#: decks/templates/decks/deck_detail.html:205
 msgid "Unique"
 msgstr "Única"
 
 #: decks/templates/decks/card_list.html:51
-#: decks/templates/decks/deck_detail.html:209
+#: decks/templates/decks/deck_detail.html:214
 msgid "Type"
 msgstr "Tipo"
 
@@ -153,7 +153,7 @@ msgid "Character"
 msgstr "Personaje"
 
 #: decks/templates/decks/card_list.html:53
-#: decks/templates/decks/deck_detail.html:124
+#: decks/templates/decks/deck_detail.html:128
 #: decks/templates/decks/deck_list.html:88
 #: decks/templates/decks/own_deck_list.html:22
 msgid "Hero"
@@ -210,7 +210,7 @@ msgid "Order"
 msgstr "Ordenar"
 
 #: decks/templates/decks/card_list.html:114
-#: decks/templates/decks/deck_detail.html:78
+#: decks/templates/decks/deck_detail.html:82
 msgid "Options"
 msgstr "Opciones"
 
@@ -223,7 +223,7 @@ msgid "Add to a deck"
 msgstr "Añadir a un mazo"
 
 #: decks/templates/decks/card_list.html:120
-#: decks/templates/decks/deck_detail.html:141
+#: decks/templates/decks/deck_detail.html:145
 #: decks/templates/decks/snippets/card_table.html:24
 msgid "Go to details"
 msgstr "Ir a detalles"
@@ -249,7 +249,7 @@ msgid "No decks found"
 msgstr "No se han encontrado mazos"
 
 #: decks/templates/decks/card_list.html:179
-#: decks/templates/decks/deck_detail.html:303
+#: decks/templates/decks/deck_detail.html:308
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -257,71 +257,71 @@ msgstr "Cancelar"
 msgid "Add"
 msgstr "Añadir"
 
-#: decks/templates/decks/deck_detail.html:30
+#: decks/templates/decks/deck_detail.html:34
 #, python-format
 msgid "Created: %(creation)s<br>Last modified: %(modification)s"
 msgstr "Creado: %(creation)s<br>Actualizado: %(modification)s"
 
-#: decks/templates/decks/deck_detail.html:40
+#: decks/templates/decks/deck_detail.html:44
 msgid "Login to share your love!"
 msgstr "¡Inicia sesión para apoyar al creador!"
 
-#: decks/templates/decks/deck_detail.html:47
+#: decks/templates/decks/deck_detail.html:51
 msgid "This feature is only for public decks"
 msgstr "Esta función es sólo para mazos públicos"
 
-#: decks/templates/decks/deck_detail.html:57
+#: decks/templates/decks/deck_detail.html:61
 msgid "Share"
 msgstr "Compartir"
 
-#: decks/templates/decks/deck_detail.html:60
+#: decks/templates/decks/deck_detail.html:64
 msgid "Copy link"
 msgstr "Copiar link"
 
-#: decks/templates/decks/deck_detail.html:61
+#: decks/templates/decks/deck_detail.html:65
 msgid "Copy decklist"
 msgstr "Copiar decklist"
 
-#: decks/templates/decks/deck_detail.html:63
+#: decks/templates/decks/deck_detail.html:67
 msgid "QR Code"
 msgstr "Código QR"
 
-#: decks/templates/decks/deck_detail.html:69
+#: decks/templates/decks/deck_detail.html:73
 msgid "Create private link"
 msgstr "Crear enlace privado"
 
-#: decks/templates/decks/deck_detail.html:81
+#: decks/templates/decks/deck_detail.html:85
 msgid "Edit deck fields"
 msgstr "Editar campos"
 
-#: decks/templates/decks/deck_detail.html:82
-#: decks/templates/decks/deck_detail.html:313
+#: decks/templates/decks/deck_detail.html:86
+#: decks/templates/decks/deck_detail.html:318
 msgid "Delete deck"
 msgstr "Eliminar mazo"
 
-#: decks/templates/decks/deck_detail.html:88
+#: decks/templates/decks/deck_detail.html:92
 msgid "This feature cannot be used with unique cards"
 msgstr "No se puede usar con cartas únicas"
 
-#: decks/templates/decks/deck_detail.html:90
-#: decks/templates/decks/deck_detail.html:96
+#: decks/templates/decks/deck_detail.html:94
+#: decks/templates/decks/deck_detail.html:100
 msgid "Playtest!"
 msgstr "¡Prueba el mazo!"
 
-#: decks/templates/decks/deck_detail.html:94
+#: decks/templates/decks/deck_detail.html:98
 msgid "Try it in Exalts Table"
 msgstr "Juega en Exalts Table"
 
-#: decks/templates/decks/deck_detail.html:102
+#: decks/templates/decks/deck_detail.html:106
 msgid "Copy deck"
 msgstr "Copiar mazo"
 
-#: decks/templates/decks/deck_detail.html:107
+#: decks/templates/decks/deck_detail.html:111
 #: decks/templates/forms/submit_decklist.html:31
 msgid "Decklist"
 msgstr "Decklist"
 
-#: decks/templates/decks/deck_detail.html:128
+#: decks/templates/decks/deck_detail.html:132
 #: decks/templates/decks/deck_list.html:86
 #: decks/templates/decks/own_deck_list.html:20
 #: decks/templates/decks/snippets/card_table.html:9
@@ -330,128 +330,133 @@ msgstr "Decklist"
 msgid "Name"
 msgstr "Nombre"
 
-#: decks/templates/decks/deck_detail.html:129
+#: decks/templates/decks/deck_detail.html:133
 #: decks/templates/decks/deck_list.html:87
 #: decks/templates/decks/own_deck_list.html:21
 msgid "Faction"
 msgstr "Facción"
 
-#: decks/templates/decks/deck_detail.html:143
-#: decks/templates/decks/snippets/card_table.html:26
+#: decks/templates/decks/deck_detail.html:146
+#: decks/templates/decks/snippets/card_table.html:25
+msgid "Copy card reference"
+msgstr "Copiar referencia de la carta"
+
+#: decks/templates/decks/deck_detail.html:148
+#: decks/templates/decks/snippets/card_table.html:27
 msgid "Remove card"
 msgstr "Eliminar carta"
 
-#: decks/templates/decks/deck_detail.html:150
+#: decks/templates/decks/deck_detail.html:155
 msgid "No hero"
 msgstr "No hay héroe"
 
-#: decks/templates/decks/deck_detail.html:157
-#: decks/templates/decks/deck_detail.html:216
+#: decks/templates/decks/deck_detail.html:162
+#: decks/templates/decks/deck_detail.html:221
 msgid "Characters"
 msgstr "Personajes"
 
-#: decks/templates/decks/deck_detail.html:162
-#: decks/templates/decks/deck_detail.html:221
+#: decks/templates/decks/deck_detail.html:167
+#: decks/templates/decks/deck_detail.html:226
 msgid "Spells"
 msgstr "Hechizos"
 
-#: decks/templates/decks/deck_detail.html:167
-#: decks/templates/decks/deck_detail.html:226
+#: decks/templates/decks/deck_detail.html:172
+#: decks/templates/decks/deck_detail.html:231
 msgid "Permanents"
 msgstr "Permanentes"
 
-#: decks/templates/decks/deck_detail.html:175
+#: decks/templates/decks/deck_detail.html:180
 msgid "Stats"
 msgstr "Estadísticas"
 
-#: decks/templates/decks/deck_detail.html:178
+#: decks/templates/decks/deck_detail.html:183
 msgid "Card Type Distribution"
 msgstr "Distribución por tipo"
 
-#: decks/templates/decks/deck_detail.html:182
+#: decks/templates/decks/deck_detail.html:187
 msgid "Rarity distribution"
 msgstr "Distribución por rareza"
 
-#: decks/templates/decks/deck_detail.html:187
+#: decks/templates/decks/deck_detail.html:192
 msgid "Count"
 msgstr "Cantidad"
 
-#: decks/templates/decks/deck_detail.html:205
+#: decks/templates/decks/deck_detail.html:210
 msgid "Probability of drawing"
 msgstr "Probabilidad de robar"
 
-#: decks/templates/decks/deck_detail.html:210
+#: decks/templates/decks/deck_detail.html:215
 msgid "Anytime"
 msgstr "En cualquier momento"
 
-#: decks/templates/decks/deck_detail.html:211
+#: decks/templates/decks/deck_detail.html:216
 msgid "Initial hand"
 msgstr "Mano inicial"
 
-#: decks/templates/decks/deck_detail.html:232
+#: decks/templates/decks/deck_detail.html:237
 msgid "Format legality"
 msgstr "Legalidad de formato"
 
-#: decks/templates/decks/deck_detail.html:236
+#: decks/templates/decks/deck_detail.html:241
 msgid "Format"
 msgstr "Formato"
 
-#: decks/templates/decks/deck_detail.html:237
+#: decks/templates/decks/deck_detail.html:242
 msgid "Is it legal?"
 msgstr "¿Es legal?"
 
-#: decks/templates/decks/deck_detail.html:238
+#: decks/templates/decks/deck_detail.html:243
 msgid "Notes"
 msgstr "Notas"
 
-#: decks/templates/decks/deck_detail.html:245
-#: decks/templates/decks/deck_detail.html:259
+#: decks/templates/decks/deck_detail.html:250
+#: decks/templates/decks/deck_detail.html:264
 msgid "Yes"
 msgstr "Sí"
 
-#: decks/templates/decks/deck_detail.html:248
-#: decks/templates/decks/deck_detail.html:262
+#: decks/templates/decks/deck_detail.html:253
+#: decks/templates/decks/deck_detail.html:267
 msgid "No"
 msgstr "No"
 
-#: decks/templates/decks/deck_detail.html:274
+#: decks/templates/decks/deck_detail.html:279
 msgid "Mana curve"
 msgstr "Curva de maná"
 
-#: decks/templates/decks/deck_detail.html:292
+#: decks/templates/decks/deck_detail.html:297
 msgid "Edit deck"
 msgstr "Editar mazo"
 
-#: decks/templates/decks/deck_detail.html:304
+#: decks/templates/decks/deck_detail.html:309
 msgid "Apply"
 msgstr "Aplicar"
 
-#: decks/templates/decks/deck_detail.html:317
+#: decks/templates/decks/deck_detail.html:322
 msgid "Are you sure you want to delete this deck?"
 msgstr "¿Estás seguro que quieres eliminar este mazo?"
 
-#: decks/templates/decks/deck_detail.html:317
+#: decks/templates/decks/deck_detail.html:322
 msgid "It won't be possible to recover it later."
 msgstr "No será posible recuperarlo más tarde."
 
-#: decks/templates/decks/deck_detail.html:320
-#: decks/templates/decks/deck_detail.html:339
+#: decks/templates/decks/deck_detail.html:325
+#: decks/templates/decks/deck_detail.html:344
 msgid "Close"
 msgstr "Cerrar"
 
-#: decks/templates/decks/deck_detail.html:321
+#: decks/templates/decks/deck_detail.html:326
 msgid "Delete"
 msgstr "Eliminar"
 
-#: decks/templates/decks/deck_detail.html:332
+#: decks/templates/decks/deck_detail.html:337
 msgid "Deck QR Code"
 msgstr "Código QR del mazo"
 
-#: decks/templates/decks/deck_detail.html:340
+#: decks/templates/decks/deck_detail.html:345
 msgid "Copy"
 msgstr "Copiar"
 
-#: decks/templates/decks/deck_detail.html:341
+#: decks/templates/decks/deck_detail.html:346
 msgid "Download"
 msgstr "Descargar"
 
@@ -534,7 +539,7 @@ msgstr "No se han creado mazos todavía"
 msgid "Mana"
 msgstr "Maná"
 
-#: decks/templates/decks/snippets/card_table.html:33
+#: decks/templates/decks/snippets/card_table.html:34
 #, python-format
 msgid "No %(type)ss"
 msgstr "No hay %(type)ss"
@@ -637,51 +642,51 @@ msgstr "Oscuro"
 msgid "Auto"
 msgstr "Automático"
 
-#: templates/base.html:105
+#: templates/base.html:108
 msgid "Profile"
 msgstr "Perfil"
 
-#: templates/base.html:106
+#: templates/base.html:109
 msgid "Update email"
 msgstr "Actualizar correo"
 
-#: templates/base.html:107
+#: templates/base.html:110
 msgid "Update password"
 msgstr "Actualizar contraseña"
 
-#: templates/base.html:109
+#: templates/base.html:112
 msgid "Logout"
 msgstr "Desconnectar"
 
-#: templates/base.html:114
+#: templates/base.html:117
 msgid "Login"
 msgstr "Entrar"
 
-#: templates/base.html:129
+#: templates/base.html:132
 msgid "Links"
 msgstr "Enlaces"
 
-#: templates/base.html:132
+#: templates/base.html:135
 msgid "About the project"
 msgstr "Sobre el proyecto"
 
-#: templates/base.html:135
+#: templates/base.html:138
 msgid "About the author"
 msgstr "Sobre el autor"
 
-#: templates/base.html:138
+#: templates/base.html:141
 msgid "Collaborators"
 msgstr "Colaboradores"
 
-#: templates/base.html:141
+#: templates/base.html:144
 msgid "Privacy policy"
 msgstr "Política de privacidad"
 
-#: templates/base.html:144
+#: templates/base.html:147
 msgid "Terms and conditions"
 msgstr "Términos y condiciones"
 
-#: templates/base.html:149
+#: templates/base.html:152
 msgid "Get in touch"
 msgstr "Ponte en contacto"
 
