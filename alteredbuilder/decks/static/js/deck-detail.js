@@ -1,5 +1,5 @@
 // Retrieve all the rows of the tables containing cards
-let deckRows = document.querySelectorAll(".card-table tbody tr");
+let deckRows = document.querySelectorAll(".card-hover");
 
 deckRows.forEach(function(element) {
     element.addEventListener("mouseover", function() {
