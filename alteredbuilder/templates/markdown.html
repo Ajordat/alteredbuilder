@@ -16,80 +16,84 @@
 
     <h4>Basic syntax</h4>
     <p>The following <a href="https://www.markdownguide.org/basic-syntax/">basic syntax</a> is supported:</p>
-    <table class="table align-middle">
-        <thead>
-            <tr>
-                <th>Element</th>
-                <th>Markdown syntax</th>
-                <th>HTML</th>
-                <th>Effect</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Heading</td>
-                <td># title1<br>## title2<br>### title3</td>
-                <td><code>&lt;h1&gt;title1&lt;/h1&gt;<br>&lt;h2&gt;title2&lt;/h2&gt;<br>&lt;h3&gt;title3&lt;/h3&gt;</code></td>
-                <!-- <td><h1>title1</h1><br><h2>title2</h2><br><h3>title3</h3></td> -->
-                <td class="table-active"></td>
-            </tr>
-            <tr>
-                <td>Bold</td>
-                <td>**bold text**</td>
-                <td><code>&lt;strong&gt;bold text&lt;/strong&gt;</code></td>
-                <td><strong>bold text</strong></td>
-            </tr>
-            <tr>
-                <td>Italic</td>
-                <td>*italicized text*</td>
-                <td><code>&lt;em&gt;italicized text&lt;/em&gt;</code></td>
-                <td><em>italicized text</em></td>
-            </tr>
-            <tr>
-                <td>Blockquote</td>
-                <td>> quote text</td>
-                <td><code>&lt;blockquote&gt;quote text&lt;/blockquote&gt;</code></td>
-                <!-- <td>hey<blockquote>quote text</blockquote>tremendo</td> -->
-                <td class="table-active"></td>
-            </tr>
-            <tr>
-                <td>Ordered list</td>
-                <td>1. First<br>2. Second</td>
-                <td><code>&lt;ol&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;First&lt;/li&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;Second&lt;/li&gt;<br>&lt;/ol&gt;</code></td>
-                <td><ol><li>First</li><li>Second</li></ol></td>
-            </tr>
-            <tr>
-                <td>Unordered list</td>
-                <td>- First<br>- Second</td>
-                <td><code>&lt;ul&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;First&lt;/li&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;Second&lt;/li&gt;<br>&lt;/ul&gt;</code></td>
-                <td><ul><li>First</li><li>Second</li></ul></td>
-            </tr>
-            <tr>
-                <td>Code</td>
-                <td>`inline code`</td>
-                <td><code>&lt;code&gt;inline code&lt;/code&gt;</code></td>
-                <td><code>inline code</code></td>
-            </tr>
-            <tr>
-                <td>Horizontal rule</td>
-                <td>---</td>
-                <td><code>&lt;hr&gt;</code></td>
-                <td><hr></td>
-            </tr>
-            <tr>
-                <td>Link</td>
-                <td>[title](https://example.com)</td>
-                <td><code>&lt;a href="https://example.com"&gt;title&lt;/a&gt;</code></td>
-                <td><a href="https://example.come">title</a></td>
-            </tr>
-            <tr>
-                <td>Image</td>
-                <td>![alternative text](https://example.com/image.png)</td>
-                <td><code>&lt;a href="https://example.com/image.png"&gt;alternative text&lt;/a&gt;</code></td>
-                <td><a href="https://example.com/image.png">alternative text</a></td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Markdown syntax</th>
+                        <th>HTML</th>
+                        <th>Effect</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">              
+                    <tr>
+                        <td>Heading</td>
+                        <td># title1<br>## title2<br>### title3</td>
+                        <td><code>&lt;h1&gt;title1&lt;/h1&gt;<br>&lt;h2&gt;title2&lt;/h2&gt;<br>&lt;h3&gt;title3&lt;/h3&gt;</code></td>
+                        <!-- <td><h1>title1</h1><br><h2>title2</h2><br><h3>title3</h3></td> -->
+                        <td class="table-active"></td>
+                    </tr>
+                    <tr>
+                        <td>Bold</td>
+                        <td>**bold text**</td>
+                        <td><code>&lt;strong&gt;bold text&lt;/strong&gt;</code></td>
+                        <td><strong>bold text</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Italic</td>
+                        <td>*italicized text*</td>
+                        <td><code>&lt;em&gt;italicized text&lt;/em&gt;</code></td>
+                        <td><em>italicized text</em></td>
+                    </tr>
+                    <tr>
+                        <td>Blockquote</td>
+                        <td>> quote text</td>
+                        <td><code>&lt;blockquote&gt;quote text&lt;/blockquote&gt;</code></td>
+                        <!-- <td>hey<blockquote>quote text</blockquote>tremendo</td> -->
+                        <td class="table-active"></td>
+                    </tr>
+                    <tr>
+                        <td>Ordered list</td>
+                        <td>1. First<br>2. Second</td>
+                        <td><code>&lt;ol&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;First&lt;/li&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;Second&lt;/li&gt;<br>&lt;/ol&gt;</code></td>
+                        <td><ol><li>First</li><li>Second</li></ol></td>
+                    </tr>
+                    <tr>
+                        <td>Unordered list</td>
+                        <td>- First<br>- Second</td>
+                        <td><code>&lt;ul&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;First&lt;/li&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;Second&lt;/li&gt;<br>&lt;/ul&gt;</code></td>
+                        <td><ul><li>First</li><li>Second</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td>Code</td>
+                        <td>`inline code`</td>
+                        <td><code>&lt;code&gt;inline code&lt;/code&gt;</code></td>
+                        <td><code>inline code</code></td>
+                    </tr>
+                    <tr>
+                        <td>Horizontal rule</td>
+                        <td>---</td>
+                        <td><code>&lt;hr&gt;</code></td>
+                        <td><hr></td>
+                    </tr>
+                    <tr>
+                        <td>Link</td>
+                        <td>[title](https://example.com)</td>
+                        <td><code>&lt;a href="https://example.com"&gt;title&lt;/a&gt;</code></td>
+                        <td><a href="https://example.come">title</a></td>
+                    </tr>
+                    <tr>
+                        <td>Image</td>
+                        <td>![alternative text](https://example.com/image.png)</td>
+                        <td><code>&lt;a href="https://example.com/image.png"&gt;alternative text&lt;/a&gt;</code></td>
+                        <td><a href="https://example.com/image.png">alternative text</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <p>Please note that:</p>
     <ul>
         <li><strong>Images</strong> (<code>![text](url)</code>) are <strong>not</strong> supported. If used, they will be converted to a link.</li>
@@ -97,46 +101,50 @@
     </ul>
     <h4>Altered syntax</h4>
     <p>In order to make the deck explanation's a bit more visual and linked to the Altered TCG, the following rules have also been included:</p>
-    <table class="table align-middle">
-        <thead>
-            <tr>
-                <th>Element</th>
-                <th>Markdown syntax</th>
-                <th>Effect</th>
-                <th>Notes</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Card reference</td>
-                <td>[[ALT_CORE_B_AX_01_C]]</td>
-                <td>{{ "[[ALT_CORE_B_AX_01_C]]" | markdown | safe }}</td>
-                <td>The reference will be replaced with with the card's name translated to the site's settings.<br>It's a link that opens the card's detail page.<br>When the mouse is on top of the name, the card displayed on the page will change.</td>
-            </tr>
-            <tr>
-                <td>Mana icons</td>
-                <td>[[x]] [[1]] ... [[9]]</td>
-                <td>{{ "[[x]] [[1]] ... [[9]]" | markdown | safe }}</td>
-                <td>All the mana numbers in between are included as well.</td>
-            </tr>
-            <tr>
-                <td>Region icons</td>
-                <td>[[forest]] [[mountain]] [[water]]</td>
-                <td>{{ "[[forest]] [[mountain]] [[water]]" | markdown | safe }}</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Trigger icons</td>
-                <td>[[etb]] [[hand]] [[reserve]]</td>
-                <td>{{ "[[etb]] [[hand]] [[reserve]]" | markdown | safe }}</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Activate icons</td>
-                <td>[[discard]] [[exhaust]]</td>
-                <td>{{ "[[discard]] [[exhaust]]" | markdown | safe }}</td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Markdown syntax</th>
+                        <th>Effect</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">              
+                    <tr>
+                        <td>Card reference</td>
+                        <td>[[ALT_CORE_B_AX_01_C]]</td>
+                        <td>{{ "[[ALT_CORE_B_AX_01_C]]" | markdown | safe }}</td>
+                        <td>The reference will be replaced with the card's name translated to the site's settings.<br>It's a link that opens the card's detail page.<br>When the mouse is on top of the name, the card displayed on the page will change.</td>
+                    </tr>
+                    <tr>
+                        <td>Mana icons</td>
+                        <td>[[x]] [[1]] ... [[9]]</td>
+                        <td>{{ "[[x]] [[1]] ... [[9]]" | markdown | safe }}</td>
+                        <td>All the mana numbers in between are included as well.</td>
+                    </tr>
+                    <tr>
+                        <td>Region icons</td>
+                        <td>[[forest]] [[mountain]] [[water]]</td>
+                        <td>{{ "[[forest]] [[mountain]] [[water]]" | markdown | safe }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Trigger icons</td>
+                        <td>[[etb]] [[hand]] [[reserve]]</td>
+                        <td>{{ "[[etb]] [[hand]] [[reserve]]" | markdown | safe }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Activate icons</td>
+                        <td>[[discard]] [[exhaust]]</td>
+                        <td>{{ "[[discard]] [[exhaust]]" | markdown | safe }}</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}
