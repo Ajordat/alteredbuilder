@@ -13,7 +13,7 @@ from decks.models import Card
 
 ALTERED_API = "https://www.altered.gg/cards/"
 REFERENCE_RE = r"\[\[(.*?)\]\]"
-ICON_LIST = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "etb", "exhaust", "forest", "hand", "mountain", "reserve", "support", "water", "x"]
+ICON_LIST = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "etb", "exhaust", "forest", "hand", "mountain", "reserve", "discard", "water", "x"]
 
 
 class InlineCardReferenceProcessor(InlineProcessor):

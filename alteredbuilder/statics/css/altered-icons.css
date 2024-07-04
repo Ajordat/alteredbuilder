@@ -70,7 +70,7 @@
 .altered-reserve:before {
   content: "\e90e";
 }
-.altered-support:before {
+.altered-discard:before {
   content: "\e90f";
 }
 .altered-water:before {
