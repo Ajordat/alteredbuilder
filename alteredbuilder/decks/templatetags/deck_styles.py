@@ -19,7 +19,7 @@ def get_row_color_from_rarity(rarity: str) -> str:
     """
     match rarity:
         case "common":
-            return "table-light"
+            return "table-secondary"
         case "rare":
             return "table-primary"
         case "unique":
