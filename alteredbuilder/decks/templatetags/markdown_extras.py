@@ -13,29 +13,35 @@ from decks.models import Card
 
 
 ALTERED_API = "https://www.altered.gg/cards/"
-REFERENCE_RE = r'\[\[(.*?)\]\]'
+REFERENCE_RE = r"\[\[(.*?)\]\]"
 
 
 class InlineCardReferenceProcessor(InlineProcessor):
-    def handleMatch(self, m: Match[str], data: str) -> tuple[Element | str | None, int | None, int | None]:
-        el = Element("a")
+    def handleMatch(
+        self, m: Match[str], data: str
+    ) -> tuple[Element | str | None, int | None, int | None]:
         reference = m.group(1)
-        el.attrib["href"] = ALTERED_API + reference
-        el.attrib["target"] = "_blank"
+        anchor = Element("a", href=ALTERED_API + reference, target="_blank")
         try:
             card = Card.objects.get(reference=reference)
-            el.text = card.name
-            el.attrib["class"] = "card-hover"
-            el.attrib["data-image-url"] = card.image_url
+            anchor.text = card.name
+            anchor.attrib["class"] = "card-hover"
+            anchor.attrib["data-image-url"] = card.image_url
+            prefetch = Element("link", rel="prefetch", href=card.image_url)
+            anchor.append(prefetch)
         except Card.DoesNotExist:
-            el.text = reference
-        
-        return el, m.start(0), m.end(0)
+            anchor = None
+
+        return anchor, m.start(0), m.end(0)
 
 
 class AlteredCardsExtension(Extension):
     def extendMarkdown(self, md: md.Markdown) -> None:
-        md.inlinePatterns.register(InlineCardReferenceProcessor(REFERENCE_RE, md), 'inlinecardreferenceprocessor', 30)
+        md.inlinePatterns.register(
+            InlineCardReferenceProcessor(REFERENCE_RE, md),
+            "inlinecardreferenceprocessor",
+            30,
+        )
 
 
 register = template.Library()

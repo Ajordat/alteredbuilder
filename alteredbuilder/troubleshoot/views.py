@@ -10,6 +10,7 @@ from django.views.generic.list import ListView
 
 from decks.models import Deck
 from .forms import SubmitSessionForm
+
 # Create your views here.
 
 
@@ -57,7 +58,7 @@ class SubmitSessionFormView(PermissionRequiredMixin, FormView):
 
     def get_success_url(self) -> str:
         return reverse("troubleshoot:session")
-    
+
 
 class DeckDescriptionsListView(PermissionRequiredMixin, ListView):
     permission_required = "sessions.view_session"
