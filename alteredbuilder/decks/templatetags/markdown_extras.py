@@ -1,5 +1,3 @@
-# import re
-
 from re import Match
 from xml.etree.ElementTree import Element
 from django import template
@@ -14,6 +12,7 @@ from decks.models import Card
 
 ALTERED_API = "https://www.altered.gg/cards/"
 REFERENCE_RE = r"\[\[(.*?)\]\]"
+ICON_LIST = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "etb", "exhaust", "forest", "hand", "mountain", "reserve", "support", "water", "x"]
 
 
 class InlineCardReferenceProcessor(InlineProcessor):
@@ -21,18 +20,22 @@ class InlineCardReferenceProcessor(InlineProcessor):
         self, m: Match[str], data: str
     ) -> tuple[Element | str | None, int | None, int | None]:
         reference = m.group(1)
-        anchor = Element("a", href=ALTERED_API + reference, target="_blank")
-        try:
-            card = Card.objects.get(reference=reference)
-            anchor.text = card.name
-            anchor.attrib["class"] = "card-hover"
-            anchor.attrib["data-image-url"] = card.image_url
-            prefetch = Element("link", rel="prefetch", href=card.image_url)
-            anchor.append(prefetch)
-        except Card.DoesNotExist:
-            anchor = None
+        if reference in ICON_LIST:
+            element = Element("span")
+            element.attrib["class"] = "altered-" + reference
+        else:
+            try:
+                element = Element("a", href=ALTERED_API + reference, target="_blank")
+                card = Card.objects.get(reference=reference)
+                element.text = card.name
+                element.attrib["class"] = "card-hover"
+                element.attrib["data-image-url"] = card.image_url
+                prefetch = Element("link", rel="prefetch", href=card.image_url)
+                element.append(prefetch)
+            except Card.DoesNotExist:
+                element = None
 
-        return anchor, m.start(0), m.end(0)
+        return element, m.start(0), m.end(0)
 
 
 class AlteredCardsExtension(Extension):
