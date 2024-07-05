@@ -192,7 +192,8 @@ def patch_deck(deck, name, changes):
         except Card.DoesNotExist:
             continue
         except CardInDeck.DoesNotExist:
-            CardInDeck.objects.create(card=card, deck=deck, quantity=quantity)
+            if quantity > 0:
+                CardInDeck.objects.create(card=card, deck=deck, quantity=quantity)
 
 
 def remove_card_from_deck(deck, reference):
