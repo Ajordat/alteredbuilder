@@ -11,6 +11,7 @@
     <script src="{% static 'js/utils.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/card-list.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 {% endblock %}
 
 {% block content-div %}class="container-fluid ps-5 mb-5"{% endblock %}
@@ -110,9 +111,9 @@
                 </div>
     {% endif %}
             </div>
-            <div class="row gy-3">
+            <div class="row gy-3 infinite-container">
     {% for card in card_list %}
-                <div class="col-xxl-2 col-xl-3 col-md-4 col-sm-6">
+                <div class="col-xxl-2 col-xl-3 col-md-4 col-sm-6 infinite-item">
                     <div class="card-display rounded-3" data-card-reference="{{ card.reference }}" data-card-name="{{ card.name }}" data-card-type="{{ card.type }}" data-card-rarity="{{ card.rarity }}" data-card-image="{{ card.image_url }}">
                         <img src="{{ card.image_url }}" class="card-img-top rounded-3" alt="{{ card.name }}">
                     </div>
@@ -123,7 +124,9 @@
             </div>
             
             <div class="mt-3">
-                {% include "./snippets/pagination.html" %}
+                {% if page_obj.has_next %}
+                    <a class="infinite-more-link page-link" href="?{% inject_params request.GET page=page_obj.next_page_number %}">More</a>
+                {% endif %}
             </div>
         </div>
         <aside class="col-2 vh-100 sticky-top d-flex overflow-y-scroll z-0" style="width: 20%">
@@ -205,4 +208,19 @@
     <script src="{% static 'js/tooltip-enable.js' %}"></script>
     <script src="{% static 'js/card-list.js' %}"></script>
     <script src="{% static 'js/deck-sidebar.js' %}"></script>
+    <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'js/infinite.min.js' %}"></script>
+    <script>
+        var infinite = new Waypoint.Infinite({
+            element: $('.infinite-container')[0],
+            onBeforePageLoad: function () {
+            },
+            onAfterPageLoad: function ($items) {
+                let cardDisplayElements = document.getElementsByClassName("card-display");
+                Array.from(cardDisplayElements).forEach(function(element) {
+                    element.addEventListener("click", addCardFromDisplay);
+                });
+            }
+        });
+    </script>
 {% endblock %}

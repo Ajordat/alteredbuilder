@@ -317,64 +317,65 @@ function createCardRow(quantity, reference, name, rarity, image) {
     editDeckColumn.appendChild(newCardElement);
 }
 
+function addCardFromDisplay(event) {
+    // Retrieve the information from the card pressed
+    let cardReference = event.currentTarget.dataset.cardReference;
+    let cardName = event.currentTarget.dataset.cardName;
+    let cardType = event.currentTarget.dataset.cardType;
+    let cardRarity = event.currentTarget.dataset.cardRarity;
+    let cardImage = event.currentTarget.dataset.cardImage;
+
+    if (cardType === "hero") {
+        // If it's a hero and there's no hero on the deck, add it
+        let heroElement = document.getElementById("hero-name");
+
+        if (heroElement.value === "") {
+            let removeHeroButton = document.getElementById("remove-hero");
+            let tooltip = bootstrap.Tooltip.getOrCreateInstance("#row-hero");
+
+            heroElement.value = cardName;
+            heroElement.dataset.cardReference = cardReference;
+            removeHeroButton.disabled = false;
+
+            tooltip.setContent({".tooltip-inner": getImageElement(cardImage)});
+            tooltip.enable();
+
+            decklistChanges.addChange(cardReference, "quantity", 1);
+            decklistChanges.addChange(cardReference, "isHero", true);
+            decklistChanges.addChange(cardReference, "name", cardName);
+            decklistChanges.addChange(cardReference, "image", cardImage);
+            decklistChanges.save();
+        }
+        return;
+    }
+
+    // Attempt to retrieve the row of the clicked card
+    let cardElement = document.getElementById(getRowId(cardReference));
+
+    if (cardElement){
+        // If the card exists, update the row's quantity value
+        // decklistChanges is queried as a cache to avoid reading the document if possible
+        let quantity = decklistChanges.getChange(cardReference, "quantity") || Number(cardElement.getElementsByClassName("card-quantity")[0].innerText);
+        quantity += 1;
+
+        decklistChanges.addChange(cardReference, "quantity", quantity);
+        cardElement.getElementsByClassName("card-quantity")[0].innerText = quantity;
+    } else {
+        // If the card doesn't exist, create the card's row
+        createCardRow(1, cardReference, cardName, cardRarity, cardImage);
+        sortDeckCards();
+        // Track the changes
+        decklistChanges.addChange(cardReference, "quantity", 1);
+        decklistChanges.addChange(cardReference, "name", cardName);
+        decklistChanges.addChange(cardReference, "rarity", cardRarity);
+        decklistChanges.addChange(cardReference, "image", cardImage);
+    }
+    decklistChanges.save();
+}
 // If a card display is clicked, add the card to the deck
 let cardDisplayElements = document.getElementsByClassName("card-display");
 Array.from(cardDisplayElements).forEach(function(element) {
-    element.addEventListener("click", function(event) {
-        // Retrieve the information from the card pressed
-        let cardReference = event.currentTarget.dataset.cardReference;
-        let cardName = event.currentTarget.dataset.cardName;
-        let cardType = event.currentTarget.dataset.cardType;
-        let cardRarity = event.currentTarget.dataset.cardRarity;
-        let cardImage = event.currentTarget.dataset.cardImage;
-        
-        if (cardType === "hero") {
-            // If it's a hero and there's no hero on the deck, add it
-            let heroElement = document.getElementById("hero-name");
-
-            if (heroElement.value === "") {
-                let removeHeroButton = document.getElementById("remove-hero");
-                let tooltip = bootstrap.Tooltip.getOrCreateInstance("#row-hero");
-
-                heroElement.value = cardName;
-                heroElement.dataset.cardReference = cardReference;
-                removeHeroButton.disabled = false;
-
-                tooltip.setContent({".tooltip-inner": getImageElement(cardImage)});
-                tooltip.enable();
-
-                decklistChanges.addChange(cardReference, "quantity", 1);
-                decklistChanges.addChange(cardReference, "isHero", true);
-                decklistChanges.addChange(cardReference, "name", cardName);
-                decklistChanges.addChange(cardReference, "image", cardImage);
-                decklistChanges.save();
-            }
-            return;
-        }
-
-        // Attempt to retrieve the row of the clicked card
-        let cardElement = document.getElementById(getRowId(cardReference));
-
-        if (cardElement){
-            // If the card exists, update the row's quantity value
-            // decklistChanges is queried as a cache to avoid reading the document if possible
-            let quantity = decklistChanges.getChange(cardReference, "quantity") || Number(cardElement.getElementsByClassName("card-quantity")[0].innerText);
-            quantity += 1;
-
-            decklistChanges.addChange(cardReference, "quantity", quantity);
-            cardElement.getElementsByClassName("card-quantity")[0].innerText = quantity;
-        } else {
-            // If the card doesn't exist, create the card's row
-            createCardRow(1, cardReference, cardName, cardRarity, cardImage);
-            sortDeckCards();
-            // Track the changes
-            decklistChanges.addChange(cardReference, "quantity", 1);
-            decklistChanges.addChange(cardReference, "name", cardName);
-            decklistChanges.addChange(cardReference, "rarity", cardRarity);
-            decklistChanges.addChange(cardReference, "image", cardImage);
-        }
-        decklistChanges.save();
-    });
+    element.addEventListener("click", addCardFromDisplay);
 });
 
 // When the `save` button is pressed, send a request to the server with the changes tracked
