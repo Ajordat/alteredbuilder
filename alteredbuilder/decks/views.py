@@ -1,10 +1,11 @@
+from datetime import timedelta
 from typing import Any
 import json
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.db.models import F, Q
+from django.db.models import Count, F, Q
 from django.db.models.functions import Coalesce
 from django.db.models.manager import Manager
 from django.db.models.query import QuerySet
@@ -15,6 +16,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
+from hitcount.models import Hit
 from hitcount.views import HitCountDetailView
 
 from .deck_utils import create_new_deck, get_deck_details
@@ -102,6 +104,14 @@ class DeckListView(ListView):
             context["loved_decks"] = LovePoint.objects.filter(
                 user=self.request.user
             ).values_list("deck__id", flat=True)
+        
+        if self.request.user.is_superuser:
+            last_week = timezone.now() - timedelta(days=14)
+            lps = LovePoint.objects.filter(created_at__date__gt=last_week, deck__is_public=True).values("deck").annotate(total=Count("deck"))[:6]
+            context["most_loved"] = Deck.objects.filter(id__in=[lp["deck"] for lp in lps]).order_by("-love_count").select_related("owner", "hero")
+
+            hits = Hit.objects.filter(created__date__gt=last_week).values("hitcount", "hitcount__object_pk").annotate(total=Count("hitcount")).order_by("-total")[:6]
+            context["trending"] = Deck.objects.filter(id__in=[hit["hitcount__object_pk"] for hit in hits]).select_related("owner", "hero")
 
         # Extract the filters applied from the GET params and add them to the context
         # to fill them into the template
