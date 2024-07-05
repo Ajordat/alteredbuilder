@@ -17,7 +17,7 @@ from .models import (
 
 @admin.register(Deck)
 class DeckAdmin(admin.ModelAdmin):
-    list_display = ["owner", "name", "is_public", "modified_at"]
+    list_display = ["id", "owner", "name", "is_public", "modified_at"]
 
 
 @admin.register(Character, Hero, Permanent, Spell)
