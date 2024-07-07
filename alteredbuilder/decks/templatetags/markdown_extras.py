@@ -13,7 +13,26 @@ from decks.models import Card
 
 ALTERED_API = "https://www.altered.gg/cards/"
 REFERENCE_RE = r"\[\[(.*?)\]\]"
-ICON_LIST = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "etb", "exhaust", "forest", "hand", "mountain", "reserve", "discard", "water", "x"]
+ICON_LIST = [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "etb",
+    "exhaust",
+    "forest",
+    "hand",
+    "mountain",
+    "reserve",
+    "discard",
+    "water",
+    "x",
+]
 
 
 class InlineCardReferenceProcessor(InlineProcessor):
@@ -50,13 +69,13 @@ class AlteredExtension(Extension):
 
 class InlineImageProcessor(Treeprocessor):
     def run(self, root: Element) -> Element | None:
-        for element in root.iter('img'):
+        for element in root.iter("img"):
             attrib = element.attrib
             tail = element.tail
             element.clear()
-            element.tag = 'a'
-            element.attrib['href'] = attrib.pop('src')
-            element.text = attrib.pop('alt')
+            element.tag = "a"
+            element.attrib["href"] = attrib.pop("src")
+            element.text = attrib.pop("alt")
             element.tail = tail
             # element.attrib |= attrib
             for k, v in attrib.items():
@@ -65,7 +84,7 @@ class InlineImageProcessor(Treeprocessor):
 
 class ImageExtension(Extension):
     def extendMarkdown(self, md: md.Markdown) -> None:
-        md.treeprocessors.register(InlineImageProcessor(), 'inlineimageprocessor', 20)
+        md.treeprocessors.register(InlineImageProcessor(), "inlineimageprocessor", 20)
 
 
 register = template.Library()
@@ -82,4 +101,6 @@ def markdown(value: str) -> str:
     Returns:
         str: HTML code version of the received string.
     """
-    return md.markdown(value, extensions=["markdown_mark", AlteredExtension(), ImageExtension()])
+    return md.markdown(
+        value, extensions=["markdown_mark", AlteredExtension(), ImageExtension()]
+    )

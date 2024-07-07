@@ -189,22 +189,22 @@ msgstr "Name Z-A"
 #: decks/templates/decks/card_list.html:78
 #: decks/templates/decks/card_list.html:98
 msgid "Mana ASC"
-msgstr ""
+msgstr "Mana aufsteigend"
 
 #: decks/templates/decks/card_list.html:79
 #: decks/templates/decks/card_list.html:99
 msgid "Mana DESC"
-msgstr ""
+msgstr "Mana absteigend"
 
 #: decks/templates/decks/card_list.html:80
 #: decks/templates/decks/card_list.html:100
 msgid "Reserve ASC"
-msgstr "Reservieren ASC"
+msgstr "Reserve aufsteigend"
 
 #: decks/templates/decks/card_list.html:81
 #: decks/templates/decks/card_list.html:101
 msgid "Reserve DESC"
-msgstr "Reservieren DESC"
+msgstr "Reserve absteigend"
 
 #: decks/templates/decks/card_list.html:94
 msgid "Order"
@@ -302,7 +302,7 @@ msgstr "Deck löschen"
 
 #: decks/templates/decks/deck_detail.html:92
 msgid "This feature cannot be used with unique cards"
-msgstr "Diese Funktion kann nicht mit eindeutigen Karten verwendet werden"
+msgstr "Diese Funktion kann nicht mit einzigartigen Karten verwendet werden"
 
 #: decks/templates/decks/deck_detail.html:94
 #: decks/templates/decks/deck_detail.html:100
@@ -364,7 +364,7 @@ msgstr "Zauber"
 #: decks/templates/decks/deck_detail.html:172
 #: decks/templates/decks/deck_detail.html:231
 msgid "Permanents"
-msgstr "Festangestellte"
+msgstr "Bleibende Karte"
 
 #: decks/templates/decks/deck_detail.html:180
 msgid "Stats"
@@ -392,7 +392,7 @@ msgstr "Jederzeit"
 
 #: decks/templates/decks/deck_detail.html:216
 msgid "Initial hand"
-msgstr "Anfangszeiger"
+msgstr "Starthand"
 
 #: decks/templates/decks/deck_detail.html:237
 msgid "Format legality"
@@ -543,7 +543,7 @@ msgstr ""
 #: decks/templates/decks/snippets/card_table.html:34
 #, python-format
 msgid "No %(type)ss"
-msgstr "Nein %(type)ss"
+msgstr "Kein %(type)ss"
 
 #: decks/templates/decks/snippets/pagination.html:9
 #: decks/templates/decks/snippets/pagination.html:15

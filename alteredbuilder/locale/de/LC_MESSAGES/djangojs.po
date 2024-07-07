@@ -68,4 +68,4 @@ msgstr ""
 
 #: decks/static/js/deck-stats.js:80
 msgid "Reserve"
-msgstr "Reservieren"
+msgstr "Reserve"
