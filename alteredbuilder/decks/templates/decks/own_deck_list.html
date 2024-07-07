@@ -39,7 +39,9 @@
                     </td>
                     <td>{{ deck.name }}</td>
         {% if deck.hero %}
-                    <td>{{ deck.hero.get_faction_display.title }}</td>
+            {% with faction_img="img/"|add:deck.hero.faction|add:".png" %}
+                    <td><img src="{% static faction_img %}" style="max-width: 20px;"> {{ deck.hero.get_faction_display.title }}</td>
+            {% endwith %}
                     <td><link rel="prefetch" href="{{ deck.hero.image_url }}"/><span class="d-inline-block" data-bs-toggle="tooltip" data-bs-title="<img src='{{ deck.hero.image_url }}'/>" data-bs-html="true" data-bs-placement="right">{{ deck.hero.name }}</span></td>
         {% else %}
                     <td>-</td><td>-</td>
