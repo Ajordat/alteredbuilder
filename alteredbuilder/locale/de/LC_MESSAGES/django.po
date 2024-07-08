@@ -614,7 +614,7 @@ msgstr "Beispiele:"
 
 #: decks/templates/decks/tooltips/query_search.html:23
 msgid "Search cards that cost <span class=\"altered-3\"></span>:"
-msgstr "Suchkarten, die <span class=\"altered-3\"></span> kosten:"
+msgstr "Such Karten, die <span class=\"altered-3\"></span> kosten:"
 
 #: decks/templates/decks/tooltips/query_search.html:26
 msgid ""
