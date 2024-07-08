@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-08 11:09+0200\n"
+"POT-Creation-Date: 2024-07-08 13:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,18 +38,34 @@ msgstr ""
 msgid "Italian"
 msgstr ""
 
-#: decks/deck_utils.py:50
+#: decks/deck_utils.py:51
 #, python-format
 msgid "Failed to unpack '%(line)s'"
 msgstr ""
 
-#: decks/deck_utils.py:58 decks/deck_utils.py:68
+#: decks/deck_utils.py:59 decks/deck_utils.py:69
 #, python-format
 msgid "Card '%(reference)s' does not exist"
 msgstr ""
 
-#: decks/deck_utils.py:75
+#: decks/deck_utils.py:76
 msgid "Multiple heroes present in the decklist"
+msgstr ""
+
+#: decks/deck_utils.py:214
+msgid "hand cost"
+msgstr ""
+
+#: decks/deck_utils.py:254
+msgid "reserve cost"
+msgstr ""
+
+#: decks/deck_utils.py:270
+msgid "ability"
+msgstr ""
+
+#: decks/deck_utils.py:274
+msgid "query"
 msgstr ""
 
 #: decks/forms.py:25 decks/forms.py:55
@@ -121,7 +137,7 @@ msgstr ""
 
 #: decks/templates/decks/card_list.html:45
 #: decks/templates/decks/card_list.html:77
-#: decks/templates/decks/card_list.html:97
+#: decks/templates/decks/card_list.html:102
 #: decks/templates/decks/deck_detail.html:193
 msgid "Rarity"
 msgstr ""
@@ -174,84 +190,84 @@ msgid "Default"
 msgstr ""
 
 #: decks/templates/decks/card_list.html:75
-#: decks/templates/decks/card_list.html:95
+#: decks/templates/decks/card_list.html:100
 msgid "Name A-Z"
 msgstr ""
 
 #: decks/templates/decks/card_list.html:76
-#: decks/templates/decks/card_list.html:96
+#: decks/templates/decks/card_list.html:101
 msgid "Name Z-A"
 msgstr ""
 
 #: decks/templates/decks/card_list.html:78
-#: decks/templates/decks/card_list.html:98
+#: decks/templates/decks/card_list.html:103
 msgid "Mana ASC"
 msgstr ""
 
 #: decks/templates/decks/card_list.html:79
-#: decks/templates/decks/card_list.html:99
+#: decks/templates/decks/card_list.html:104
 msgid "Mana DESC"
 msgstr ""
 
 #: decks/templates/decks/card_list.html:80
-#: decks/templates/decks/card_list.html:100
+#: decks/templates/decks/card_list.html:105
 msgid "Reserve ASC"
 msgstr ""
 
 #: decks/templates/decks/card_list.html:81
-#: decks/templates/decks/card_list.html:101
+#: decks/templates/decks/card_list.html:106
 msgid "Reserve DESC"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:94
+#: decks/templates/decks/card_list.html:99
 msgid "Order"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:114
+#: decks/templates/decks/card_list.html:119
 #: decks/templates/decks/deck_detail.html:82
 msgid "Options"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:117
+#: decks/templates/decks/card_list.html:122
 msgid "Start a deck"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:119
+#: decks/templates/decks/card_list.html:124
 msgid "Add to a deck"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:120
+#: decks/templates/decks/card_list.html:125
 #: decks/templates/decks/deck_detail.html:147
 #: decks/templates/decks/snippets/card_table.html:25
 msgid "Go to details"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:127
+#: decks/templates/decks/card_list.html:132
 msgid "No cards found with the current filter."
 msgstr ""
 
-#: decks/templates/decks/card_list.html:139
+#: decks/templates/decks/card_list.html:144
 msgid "Add card to deck"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:146
+#: decks/templates/decks/card_list.html:151
 msgid "Card"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:163
+#: decks/templates/decks/card_list.html:168
 msgid "Deck"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:172
+#: decks/templates/decks/card_list.html:177
 msgid "No decks found"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:179
+#: decks/templates/decks/card_list.html:184
 #: decks/templates/decks/deck_detail.html:310
 msgid "Cancel"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:180
+#: decks/templates/decks/card_list.html:185
 msgid "Add"
 msgstr ""
 

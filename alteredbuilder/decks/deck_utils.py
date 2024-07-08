@@ -267,7 +267,7 @@ def parse_query_syntax(query):
                 | Q(spell__echo_effect__icontains=value)
                 | Q(permanent__echo_effect__icontains=value)
             )
-            tags.append((_("effect"), ": ", value))
+            tags.append((_("ability"), ": ", value))
         query = re.sub(x_regex, "", query)
     query = query.strip()
     if query:
