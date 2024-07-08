@@ -633,7 +633,7 @@ msgid ""
 "Search cards that cost between <span class=\"altered-3\"></span> and <span "
 "class=\"altered-5\"></span> (inclusive):"
 msgstr ""
-"Recherchez les cartes dont le coût est compris entre <span "
+"Rechercher les cartes dont le coût est compris entre <span "
 "class=\"altered-3\"></span> et <span class=\"altered-5\"></span> (inclus) :"
 
 #: decks/templates/decks/tooltips/query_search.html:30
