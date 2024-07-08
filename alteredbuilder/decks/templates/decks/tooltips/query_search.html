@@ -5,31 +5,32 @@
 <div class="text-start">
     {% translate "Advanced search filters" %}:
     <ul>
-        <li>{% translate "Hand cost" %}: <code class="inline">hc</code><br>
-            {% translate "Operators" %}: <code class="inline">=</code>, <code class="inline">></code>, <code class="inline">>=</code>, <code class="inline"><</code>, <code class="inline"><=</code></code><br>
-            {% translate "Value" %}: <code class="inline">{% translate "Number" %}</code>
+        <li>{% translate "Hand cost:" %} <code class="inline">hc</code><br>
+            {% translate "Operators:" %} <code class="inline">=</code>, <code class="inline">></code>, <code class="inline">>=</code>, <code class="inline"><</code>, <code class="inline"><=</code></code><br>
+            {% translate "Value:" %} <code class="inline">{% translate "Number" %}</code>
         </li>
-        <li>{% translate "Reserve cost" %}: <code class="inline">rc</code><br>
-            {% translate "Operators" %}: <code class="inline">=</code>, <code class="inline">></code>, <code class="inline">>=</code>, <code class="inline"><</code>, <code class="inline"><=</code></code><br>
-            {% translate "Value" %}: <code class="inline">{% translate "Number" %}</code>
+        <li>{% translate "Reserve cost:" %} <code class="inline">rc</code><br>
+            {% translate "Operators:" %} <code class="inline">=</code>, <code class="inline">></code>, <code class="inline">>=</code>, <code class="inline"><</code>, <code class="inline"><=</code></code><br>
+            {% translate "Value:" %} <code class="inline">{% translate "Number" %}</code>
         </li>
-        <li>{% translate "Abilities" %}: <code class="inline">x</code><br>
-            {% translate "Operators" %}: <code class="inline">:</code><br>
-            {% translate "Value" %}: <code class="inline">{% translate "Single word" %}</code>
+        <li>{% translate "Abilities:" %} <code class="inline">x</code><br>
+            {% translate "Operators:" %} <code class="inline">:</code><br>
+            {% translate "Value:" %} <code class="inline">{% translate "Single word" %}</code>
         </li>
     </ul>
-    {% translate "Examples" %}:
-        <li>{% translate "Search cards that cost <span class="altered-2"></span>:" %}<br>
-            <code class="inline">hc=2</code>
+    {% translate "Examples:" %}
+    <ul>
+        <li>{% translate 'Search cards that cost <span class="altered-3"></span>:' %}<br>
+            <code class="inline">hc=3</code>
         </li>
-        <li>{% translate "Search cards with `kelon` in their name that cost <span class="altered-3"></span>:" %}<br>
-            <code class="inline">kelon hc=3</code>
+        <li>{% translate 'Search cards with `training` in their name that cost <span class="altered-2"></span>:' %}<br>
+            <code class="inline">{% translate "training" %} hc=2</code>
         </li>
-        <li>{% translate "Search cards that cost between <span class="altered-3"></span> and <span class="altered-5"></span> (inclusive):" %}<br>
+        <li>{% translate 'Search cards that cost between <span class="altered-3"></span> and <span class="altered-5"></span> (inclusive):' %}<br>
             <code class="inline">hc>=3 hc<=5</code> {% translate "OR" %} <code class="inline">hc>2 hc<6</code>
         </li>
-        <li>{% translate "Search cards with `anchor` abilities that cost <span class="altered-3"></span> or less from reserve:" %}<br>
-            <code class="inline">x:anchor rc<=3</code>
+        <li>{% translate 'Search cards with `anchor` abilities that cost <span class="altered-3"></span> or less from reserve:' %}<br>
+            <code class="inline">x:{% translate "anchor" %} rc<=3</code>
         </li>
     </ul>
 </div>

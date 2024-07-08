@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-08 13:45+0200\n"
+"POT-Creation-Date: 2024-07-08 17:45+0200\n"
 "PO-Revision-Date: 2024-05-22 18:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -39,33 +39,33 @@ msgstr "Français"
 msgid "Italian"
 msgstr "Italien"
 
-#: decks/deck_utils.py:51
+#: decks/deck_utils.py:61
 #, python-format
 msgid "Failed to unpack '%(line)s'"
 msgstr "Échec d'extraction '%(line)s'"
 
-#: decks/deck_utils.py:59 decks/deck_utils.py:69
+#: decks/deck_utils.py:69 decks/deck_utils.py:79
 #, python-format
 msgid "Card '%(reference)s' does not exist"
 msgstr "La carte '%(reference)s' n'existe pas"
 
-#: decks/deck_utils.py:76
+#: decks/deck_utils.py:86
 msgid "Multiple heroes present in the decklist"
 msgstr "Plusieurs héros présents dans la decklist"
 
-#: decks/deck_utils.py:214
+#: decks/deck_utils.py:224
 msgid "hand cost"
 msgstr "coût de main"
 
-#: decks/deck_utils.py:254
+#: decks/deck_utils.py:264
 msgid "reserve cost"
 msgstr "coût de réserve"
 
-#: decks/deck_utils.py:270
+#: decks/deck_utils.py:280
 msgid "ability"
 msgstr "capacité"
 
-#: decks/deck_utils.py:274
+#: decks/deck_utils.py:284
 msgid "query"
 msgstr "requête"
 
@@ -113,171 +113,166 @@ msgid "Missing hero"
 msgstr "Héros manquant"
 
 #: decks/templates/decks/card_list.html:7
-#: decks/templates/decks/card_list.html:15
+#: decks/templates/decks/card_list.html:16
 msgid "Card list"
 msgstr "Liste de cartes"
 
-#: decks/templates/decks/card_list.html:19
+#: decks/templates/decks/card_list.html:21
 msgid "Search by name"
 msgstr "Rechercher par nom"
 
-#: decks/templates/decks/card_list.html:20
-#: decks/templates/decks/card_list.html:60
+#: decks/templates/decks/card_list.html:25
+#: decks/templates/decks/card_list.html:66
 #: decks/templates/decks/deck_list.html:20
 #: decks/templates/decks/deck_list.html:65
 msgid "Search"
 msgstr "Rechercher"
 
-#: decks/templates/decks/card_list.html:28
+#: decks/templates/decks/card_list.html:34
 #: decks/templates/decks/deck_list.html:27
 msgid "Filters"
 msgstr "Filtres"
 
-#: decks/templates/decks/card_list.html:36
+#: decks/templates/decks/card_list.html:42
 #: decks/templates/decks/deck_list.html:35
 msgid "Factions"
 msgstr "Factions"
 
-#: decks/templates/decks/card_list.html:45
-#: decks/templates/decks/card_list.html:77
-#: decks/templates/decks/card_list.html:102
+#: decks/templates/decks/card_list.html:51
+#: decks/templates/decks/card_list.html:83
+#: decks/templates/decks/card_list.html:108
 #: decks/templates/decks/deck_detail.html:193
 msgid "Rarity"
 msgstr "Rareté"
 
-#: decks/templates/decks/card_list.html:46
+#: decks/templates/decks/card_list.html:52
 #: decks/templates/decks/deck_detail.html:199
 msgid "Common"
 msgstr "Commune"
 
-#: decks/templates/decks/card_list.html:47
+#: decks/templates/decks/card_list.html:53
 #: decks/templates/decks/deck_detail.html:203
 msgid "Rare"
 msgstr "Rare"
 
-#: decks/templates/decks/card_list.html:48
+#: decks/templates/decks/card_list.html:54
 #: decks/templates/decks/deck_detail.html:207
 msgid "Unique"
 msgstr "Unique"
 
-#: decks/templates/decks/card_list.html:51
+#: decks/templates/decks/card_list.html:57
 #: decks/templates/decks/deck_detail.html:216
 msgid "Type"
 msgstr "Type"
 
-#: decks/templates/decks/card_list.html:52
+#: decks/templates/decks/card_list.html:58
 msgid "Character"
 msgstr "Personnage"
 
-#: decks/templates/decks/card_list.html:53
+#: decks/templates/decks/card_list.html:59
 #: decks/templates/decks/deck_detail.html:128
 #: decks/templates/decks/own_deck_list.html:22
 #: decks/templates/decks/snippets/public_deck_table.html:12
 msgid "Hero"
 msgstr "Héros"
 
-#: decks/templates/decks/card_list.html:54
+#: decks/templates/decks/card_list.html:60
 msgid "Permanent"
 msgstr "Permanent"
 
-#: decks/templates/decks/card_list.html:55
+#: decks/templates/decks/card_list.html:61
 msgid "Spell"
 msgstr "Sort"
 
-#: decks/templates/decks/card_list.html:73
+#: decks/templates/decks/card_list.html:79
 msgid "Sort by"
 msgstr "Trier par"
 
-#: decks/templates/decks/card_list.html:74
+#: decks/templates/decks/card_list.html:80
 msgid "Default"
 msgstr "Par défaut"
 
-#: decks/templates/decks/card_list.html:75
-#: decks/templates/decks/card_list.html:100
+#: decks/templates/decks/card_list.html:81
+#: decks/templates/decks/card_list.html:106
 msgid "Name A-Z"
 msgstr "Nom A-Z"
 
-#: decks/templates/decks/card_list.html:76
-#: decks/templates/decks/card_list.html:101
+#: decks/templates/decks/card_list.html:82
+#: decks/templates/decks/card_list.html:107
 msgid "Name Z-A"
 msgstr "Nom Z-A"
 
-#: decks/templates/decks/card_list.html:78
-#: decks/templates/decks/card_list.html:103
+#: decks/templates/decks/card_list.html:84
+#: decks/templates/decks/card_list.html:109
 msgid "Mana ASC"
 msgstr "Mana ASC"
 
-#: decks/templates/decks/card_list.html:79
-#: decks/templates/decks/card_list.html:104
+#: decks/templates/decks/card_list.html:85
+#: decks/templates/decks/card_list.html:110
 msgid "Mana DESC"
 msgstr "Mana DESC"
 
-#: decks/templates/decks/card_list.html:80
-#: decks/templates/decks/card_list.html:105
+#: decks/templates/decks/card_list.html:86
+#: decks/templates/decks/card_list.html:111
 msgid "Reserve ASC"
 msgstr "Réserve ASC"
 
-#: decks/templates/decks/card_list.html:81
-#: decks/templates/decks/card_list.html:106
+#: decks/templates/decks/card_list.html:87
+#: decks/templates/decks/card_list.html:112
 msgid "Reserve DESC"
 msgstr "Réserve DESC"
 
-#: decks/templates/decks/card_list.html:99
+#: decks/templates/decks/card_list.html:105
 msgid "Order"
 msgstr "Ordre"
 
-#: decks/templates/decks/card_list.html:119
+#: decks/templates/decks/card_list.html:125
 #: decks/templates/decks/deck_detail.html:82
 msgid "Options"
 msgstr "Options"
 
-#: decks/templates/decks/card_list.html:122
+#: decks/templates/decks/card_list.html:128
 msgid "Start a deck"
 msgstr "Commencer un deck"
 
-#: decks/templates/decks/card_list.html:124
+#: decks/templates/decks/card_list.html:130
 msgid "Add to a deck"
 msgstr "Ajouter à un deck"
 
-#: decks/templates/decks/card_list.html:125
+#: decks/templates/decks/card_list.html:131
 #: decks/templates/decks/deck_detail.html:147
 #: decks/templates/decks/snippets/card_table.html:25
 msgid "Go to details"
 msgstr "Voir les détails"
 
-#: decks/templates/decks/card_list.html:132
+#: decks/templates/decks/card_list.html:138
 msgid "No cards found with the current filter."
 msgstr "Aucune carte trouvée avec les filtres choisis."
 
-#: decks/templates/decks/card_list.html:144
+#: decks/templates/decks/card_list.html:150
 msgid "Add card to deck"
 msgstr "Ajouter la carte à un deck"
 
-#: decks/templates/decks/card_list.html:151
+#: decks/templates/decks/card_list.html:157
 msgid "Card"
 msgstr "Carte"
 
-#: decks/templates/decks/card_list.html:168
+#: decks/templates/decks/card_list.html:174
 msgid "Deck"
 msgstr "Deck"
 
-#: decks/templates/decks/card_list.html:177
+#: decks/templates/decks/card_list.html:183
 msgid "No decks found"
 msgstr "Aucun deck trouvé"
 
-#: decks/templates/decks/card_list.html:184
+#: decks/templates/decks/card_list.html:190
 #: decks/templates/decks/deck_detail.html:310
 msgid "Cancel"
 msgstr "Annuler"
 
-#: decks/templates/decks/card_list.html:185
+#: decks/templates/decks/card_list.html:191
 msgid "Add"
 msgstr "Ajouter"
-
-#: decks/templates/decks/deck_detail.html:34
-#, python-format
-msgid "Created: %(creation)s<br>Last modified: %(modification)s"
-msgstr "Créé : %(creation)s<br>Dernière modification : %(modification)s"
 
 #: decks/templates/decks/deck_detail.html:44
 msgid "Login to share your love!"
@@ -477,7 +472,7 @@ msgstr "Copier"
 msgid "Download"
 msgstr "Télécharger"
 
-#: decks/templates/decks/deck_list.html:7 templates/base.html:39
+#: decks/templates/decks/deck_list.html:7 templates/base.html:40
 msgid "Home"
 msgstr "Accueil"
 
@@ -521,7 +516,7 @@ msgid "New Deck"
 msgstr "Nouveau deck"
 
 #: decks/templates/decks/own_deck_list.html:6
-#: decks/templates/decks/own_deck_list.html:15 templates/base.html:47
+#: decks/templates/decks/own_deck_list.html:15 templates/base.html:48
 msgid "My decks"
 msgstr "Mes decks"
 
@@ -570,6 +565,92 @@ msgstr "Propriétaire"
 #: decks/templates/decks/snippets/public_deck_table.html:50
 msgid "No decks were found with the current filters"
 msgstr "Aucun deck trouvé avec les filtres choisis"
+
+#: decks/templates/decks/tooltips/deck_timestamps.html:3
+#, python-format
+msgid "Created: %(creation)s<br>Last modified: %(modification)s"
+msgstr "Créé : %(creation)s<br>Dernière modification : %(modification)s"
+
+#: decks/templates/decks/tooltips/query_search.html:6
+msgid "Advanced search filters"
+msgstr "Filtres de recherche avancés"
+
+#: decks/templates/decks/tooltips/query_search.html:8
+msgid "Hand cost:"
+msgstr "Coût de main :"
+
+#: decks/templates/decks/tooltips/query_search.html:9
+#: decks/templates/decks/tooltips/query_search.html:13
+#: decks/templates/decks/tooltips/query_search.html:17
+msgid "Operators:"
+msgstr "Opérateurs :"
+
+#: decks/templates/decks/tooltips/query_search.html:10
+#: decks/templates/decks/tooltips/query_search.html:14
+#: decks/templates/decks/tooltips/query_search.html:18
+msgid "Value:"
+msgstr "Valeur :"
+
+#: decks/templates/decks/tooltips/query_search.html:10
+#: decks/templates/decks/tooltips/query_search.html:14
+msgid "Number"
+msgstr "Nombre"
+
+#: decks/templates/decks/tooltips/query_search.html:12
+msgid "Reserve cost:"
+msgstr "Coût de réserve :"
+
+#: decks/templates/decks/tooltips/query_search.html:16
+msgid "Abilities:"
+msgstr "Capacités :"
+
+#: decks/templates/decks/tooltips/query_search.html:18
+msgid "Single word"
+msgstr "Un seul mot"
+
+#: decks/templates/decks/tooltips/query_search.html:21
+msgid "Examples:"
+msgstr "Exemples :"
+
+#: decks/templates/decks/tooltips/query_search.html:23
+msgid "Search cards that cost <span class=\"altered-3\"></span>:"
+msgstr "Chercher des cartes qui coûtent <span class=\"altered-3\"></span> :"
+
+#: decks/templates/decks/tooltips/query_search.html:26
+msgid ""
+"Search cards with `training` in their name that cost <span "
+"class=\"altered-2\"></span>:"
+msgstr ""
+"Chercher les cartes avec « scarabot » dans leur nom qui coûtent <span "
+"class=\"altered-2\"></span> :"
+
+#: decks/templates/decks/tooltips/query_search.html:27
+msgid "training"
+msgstr "scarabot"
+
+#: decks/templates/decks/tooltips/query_search.html:29
+msgid ""
+"Search cards that cost between <span class=\"altered-3\"></span> and <span "
+"class=\"altered-5\"></span> (inclusive):"
+msgstr ""
+"Recherchez les cartes dont le coût est compris entre <span "
+"class=\"altered-3\"></span> et <span class=\"altered-5\"></span> (inclus) :"
+
+#: decks/templates/decks/tooltips/query_search.html:30
+msgid "OR"
+msgstr "OU"
+
+#: decks/templates/decks/tooltips/query_search.html:32
+msgid ""
+"Search cards with `anchor` abilities that cost <span class=\"altered-3\"></"
+"span> or less from reserve:"
+msgstr ""
+"Chercher des cartes avec des capacités « sabotez » avec un coût de réserve "
+"de <span class=\"altered-3\"></span> ou moins :"
+
+#: decks/templates/decks/tooltips/query_search.html:33
+msgid "anchor"
+msgstr "sabotez"
 
 #: decks/templates/forms/submit_deck_metadata.html:15
 #: decks/templates/forms/submit_decklist.html:14
@@ -640,71 +721,71 @@ msgstr "Requête invalide"
 msgid "Deck already has a hero"
 msgstr "Le deck a déjà un héros"
 
-#: templates/base.html:43
+#: templates/base.html:44
 msgid "Cards"
 msgstr "Cartes"
 
-#: templates/base.html:51
+#: templates/base.html:52
 msgid "New deck"
 msgstr "Nouveau deck"
 
-#: templates/base.html:63
+#: templates/base.html:64
 msgid "Light"
 msgstr "Clair"
 
-#: templates/base.html:68
+#: templates/base.html:69
 msgid "Dark"
 msgstr "Sombre"
 
-#: templates/base.html:73
+#: templates/base.html:74
 msgid "Auto"
 msgstr ""
 
-#: templates/base.html:108
+#: templates/base.html:109
 msgid "Profile"
 msgstr "Profil"
 
-#: templates/base.html:109
+#: templates/base.html:110
 msgid "Update email"
 msgstr "Changer l'e-mail"
 
-#: templates/base.html:110
+#: templates/base.html:111
 msgid "Update password"
 msgstr "Changer le mot de passe"
 
-#: templates/base.html:112
+#: templates/base.html:113
 msgid "Logout"
 msgstr "Se déconnecter"
 
-#: templates/base.html:117
+#: templates/base.html:118
 msgid "Login"
 msgstr "Se connecter"
 
-#: templates/base.html:132
+#: templates/base.html:133
 msgid "Links"
 msgstr "Liens"
 
-#: templates/base.html:135
+#: templates/base.html:136
 msgid "About the project"
 msgstr "À propos du projet"
 
-#: templates/base.html:138
+#: templates/base.html:139
 msgid "About the author"
 msgstr "À propos de l'auteur"
 
-#: templates/base.html:141
+#: templates/base.html:142
 msgid "Collaborators"
 msgstr "Collaborateurs"
 
-#: templates/base.html:144
+#: templates/base.html:145
 msgid "Privacy policy"
 msgstr "Politique de confidentialité"
 
-#: templates/base.html:147
+#: templates/base.html:148
 msgid "Terms and conditions"
 msgstr "Conditions générales"
 
-#: templates/base.html:152
+#: templates/base.html:153
 msgid "Get in touch"
 msgstr "Contacter"
 
