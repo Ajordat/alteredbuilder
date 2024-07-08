@@ -31,7 +31,7 @@
         <div class="col">
             <i class="fa-solid fa-user"></i> {{ object.owner.username }}
         </div>
-        <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% blocktranslate with creation=object.created_at|date:'DATE_FORMAT' modification=object.modified_at|date:'DATE_FORMAT' %}Created: {{ creation }}<br>Last modified: {{ modification }}{% endblocktranslate %}" data-bs-html="true">
+        <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% include './tooltips/deck_timestamps.html' with deck=object %}" data-bs-html="true">
             <i class="fa-regular fa-calendar"></i> <small>{{ object.modified_at|date:"SHORT_DATE_FORMAT" }}</small>
         </div>
         <div class="col me-3">

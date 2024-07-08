@@ -97,3 +97,12 @@ html[data-bs-theme="light"] .card-table tr[data-rarity="unique"] {
 html[data-bs-theme="dark"] .card-table tr[data-rarity="unique"] {
     --bs-table-bg: #ffafb6;
 }
+
+code.inline {
+    border-radius: 5px; 
+    -moz-border-radius: 5px; 
+    -webkit-border-radius: 5px; 
+    border: 1px solid #BCBEC0;
+    padding: 2px;
+    font:12px Monaco,Consolas,"Andale  Mono","DejaVu Sans Mono",monospace
+}

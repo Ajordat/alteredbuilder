@@ -11,6 +11,16 @@ from .models import Card, CardInDeck, Deck, Hero
 from .exceptions import MalformedDeckException
 
 
+OPERATOR_TO_HTML = {
+    ":": ":",
+    "=": " =",
+    "<": " &lt;",
+    "<=": " &le;",
+    ">": " &gt;",
+    ">=": " &ge;",
+}
+
+
 @transaction.atomic
 def create_new_deck(user: User, deck_form: dict) -> Deck:
     """Method to validate the clean data from a DecklistForm and create it if all input
@@ -211,7 +221,7 @@ def parse_query_syntax(query):
                         | Q(spell__main_cost__gte=value)
                         | Q(permanent__main_cost__gte=value)
                     )
-            tags.append((_("hand cost"), op, value))
+            tags.append((_("hand cost"), OPERATOR_TO_HTML[op], value))
         query = re.sub(hc_regex, "", query)
 
     rc_regex = r"rc(?P<rc_op>:|=|>|>=|<|<=)(?P<rc>\d+)"
@@ -251,7 +261,7 @@ def parse_query_syntax(query):
                         | Q(spell__recall_cost__gte=value)
                         | Q(permanent__recall_cost__gte=value)
                     )
-            tags.append((_("reserve cost"), op, value))
+            tags.append((_("reserve cost"), OPERATOR_TO_HTML[op], value))
         query = re.sub(rc_regex, "", query)
 
     x_regex = r"x:(?P<effect>\w+)"
@@ -267,11 +277,11 @@ def parse_query_syntax(query):
                 | Q(spell__echo_effect__icontains=value)
                 | Q(permanent__echo_effect__icontains=value)
             )
-            tags.append((_("ability"), ": ", value))
+            tags.append((_("ability"), ":", value))
         query = re.sub(x_regex, "", query)
     query = query.strip()
     if query:
-        tags.append((_("query"), ": ", query))
+        tags.append((_("query"), ":", query))
         return filters & Q(name__icontains=query), tags
     else:
         return filters, tags

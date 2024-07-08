@@ -9,6 +9,7 @@
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/altered-icons.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -16,8 +17,13 @@
     <div class="row row-cols-auto mb-3">
         <div class="col">
             <form class="d-flex" role="search" id="querySearchForm">
-                <input class="form-control me-2" type="search" aria-label="Search" id="querySearch" value="{{ query }}" placeholder="{% translate 'Search by name' %}">
-                <button class="btn btn-outline-secondary" type="submit">{% translate "Search" %}</button>
+                <div class="input-group">
+                    <input class="form-control" type="search" aria-label="Search" id="querySearch" value="{{ query }}" placeholder="{% translate 'Search by name' %}">
+                    <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title='{% include "./tooltips/query_search.html" %}' data-bs-html="true">
+                        <i class="fa-regular fa-question"></i>
+                    </span>
+                    <button class="btn btn-outline-secondary" type="submit">{% translate "Search" %}</button>
+                </div>
             </form>
         </div>
         <div class="col d-flex">
@@ -85,7 +91,7 @@
     {% with request.GET|card_params_to_filter_tag as tags %}
         {% for tag, op, value in query_tags %}
         <div class="col px-0 d-flex align-items-center">
-            <span class="badge text-bg-secondary">{% translate tag %}{{ op }}{% translate value %}</span>&nbsp;
+            <span class="badge text-bg-secondary">{% translate tag %}{{ op | safe }} {% translate value %}</span>&nbsp;
         </div>
         {% endfor %}
         {% for tag, op, value in tags %}
@@ -191,4 +197,5 @@
 
 {% block bodyscripts %}
     <script src="{% static 'js/card-list.js' %}"></script>
+    <script src="{% static 'js/tooltip-enable.js' %}"></script>
 {% endblock %}
