@@ -19,7 +19,7 @@ from django.views.generic.list import ListView
 from hitcount.models import Hit
 from hitcount.views import HitCountDetailView
 
-from .deck_utils import create_new_deck, get_deck_details
+from .deck_utils import create_new_deck, get_deck_details, parse_query_syntax
 from .game_modes import update_deck_legality
 from .models import Card, CardInDeck, Deck, LovePoint, PrivateLink
 from .forms import DecklistForm, DeckMetadataForm, UpdateDeckForm
@@ -600,7 +600,11 @@ class CardListView(ListView):
         # Retrieve the text query and search by name
         query = self.request.GET.get("query")
         if query:
-            filters &= Q(name__icontains=query)
+            query_filters, query_tags = parse_query_syntax(query)
+            filters &= query_filters
+            self.query_tags = query_tags
+        else:
+            self.query_tags = None
 
         # Retrieve the Faction filters.
         # If any value is invalid, this filter will not be applied.
@@ -707,5 +711,6 @@ class CardListView(ListView):
             context["order"] = self.request.GET["order"]
         if "query" in self.request.GET:
             context["query"] = self.request.GET.get("query")
+            context["query_tags"] = self.query_tags
 
         return context
