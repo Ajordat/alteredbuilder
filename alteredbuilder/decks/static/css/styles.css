@@ -50,3 +50,39 @@
 .card-table tr[data-faction="YZ"] span.reserve-mana {
     color: #483b66;
 }
+
+/* class "table-light" */
+html[data-bs-theme="light"] .card-table tr[data-rarity="common"] {
+    /* original: #f8f9fa; suggested: #bfbfbf */
+    --bs-table-bg: #f8f9fa;
+}
+html[data-bs-theme="dark"] .card-table tr[data-rarity="common"] {
+    --bs-table-bg: #e2e3e5;
+}
+
+/* class "table-primary" */
+html[data-bs-theme="light"] .card-table tr[data-rarity="rare"] {
+    /* original: #cfe2ff; suggested: #a3c7ff */
+    --bs-table-bg: #cfe2ff;
+}
+html[data-bs-theme="dark"] .card-table tr[data-rarity="rare"] {
+    --bs-table-bg: #a3c7ff;
+}
+
+/* class "table-danger" */
+html[data-bs-theme="light"] .card-table tr[data-rarity="unique"] {
+    /* original: #f8d7da; suggested: #ffafb6 */
+    --bs-table-bg: #f8d7da;
+}
+html[data-bs-theme="dark"] .card-table tr[data-rarity="unique"] {
+    --bs-table-bg: #ffafb6;
+}
+
+code.inline {
+    border-radius: 5px; 
+    -moz-border-radius: 5px; 
+    -webkit-border-radius: 5px; 
+    border: 1px solid #BCBEC0;
+    padding: 2px;
+    font:12px Monaco,Consolas,"Andale  Mono","DejaVu Sans Mono",monospace
+}

@@ -1,13 +1,24 @@
 from collections import defaultdict
+import re
 
 from django.contrib.auth.models import User
 from django.db import transaction
-from django.db.models import F
+from django.db.models import F, Q
 from django.utils.translation import gettext_lazy as _
 
 from .game_modes import DraftGameMode, GameMode, StandardGameMode, update_deck_legality
 from .models import Card, CardInDeck, Deck, Hero
 from .exceptions import MalformedDeckException
+
+
+OPERATOR_TO_HTML = {
+    ":": ":",
+    "=": " =",
+    "<": " &lt;",
+    "<=": " &le;",
+    ">": " &gt;",
+    ">=": " &ge;",
+}
 
 
 @transaction.atomic
@@ -205,3 +216,110 @@ def remove_card_from_deck(deck, reference):
         # Retrieve the CiD and delete it
         cid = CardInDeck.objects.get(deck=deck, card=card)
         cid.delete()
+
+
+def parse_query_syntax(query):
+    filters = Q()
+    hc_regex = r"hc(?P<hc_op>:|=|>|>=|<|<=)(?P<hc>\d+)"
+    tags = []
+
+    if matches := re.finditer(hc_regex, query, re.ASCII):
+        for re_match in matches:
+            op = re_match.group("hc_op")
+            value = re_match.group("hc")
+            match op:
+                case "=" | ":":
+                    filters &= (
+                        Q(character__main_cost=value)
+                        | Q(spell__main_cost=value)
+                        | Q(permanent__main_cost=value)
+                    )
+                case "<":
+                    filters &= (
+                        Q(character__main_cost__lt=value)
+                        | Q(spell__main_cost__lt=value)
+                        | Q(permanent__main_cost__lt=value)
+                    )
+                case "<=":
+                    filters &= (
+                        Q(character__main_cost__lte=value)
+                        | Q(spell__main_cost__lte=value)
+                        | Q(permanent__main_cost__lte=value)
+                    )
+                case ">":
+                    filters &= (
+                        Q(character__main_cost__gt=value)
+                        | Q(spell__main_cost__gt=value)
+                        | Q(permanent__main_cost__gt=value)
+                    )
+                case ">=":
+                    filters &= (
+                        Q(character__main_cost__gte=value)
+                        | Q(spell__main_cost__gte=value)
+                        | Q(permanent__main_cost__gte=value)
+                    )
+            tags.append((_("hand cost"), OPERATOR_TO_HTML[op], value))
+        query = re.sub(hc_regex, "", query)
+
+    rc_regex = r"rc(?P<rc_op>:|=|>|>=|<|<=)(?P<rc>\d+)"
+
+    if matches := re.finditer(rc_regex, query, re.ASCII):
+        for re_match in matches:
+            op = re_match.group("rc_op")
+            value = re_match.group("rc")
+            match op:
+                case "=" | ":":
+                    filters &= (
+                        Q(character__recall_cost=value)
+                        | Q(spell__recall_cost=value)
+                        | Q(permanent__recall_cost=value)
+                    )
+                case "<":
+                    filters &= (
+                        Q(character__recall_cost__lt=value)
+                        | Q(spell__recall_cost__lt=value)
+                        | Q(permanent__recall_cost__lt=value)
+                    )
+                case "<=":
+                    filters &= (
+                        Q(character__recall_cost__lte=value)
+                        | Q(spell__recall_cost__lte=value)
+                        | Q(permanent__recall_cost__lte=value)
+                    )
+                case ">":
+                    filters &= (
+                        Q(character__recall_cost__gt=value)
+                        | Q(spell__recall_cost__gt=value)
+                        | Q(permanent__recall_cost__gt=value)
+                    )
+                case ">=":
+                    filters &= (
+                        Q(character__recall_cost__gte=value)
+                        | Q(spell__recall_cost__gte=value)
+                        | Q(permanent__recall_cost__gte=value)
+                    )
+            tags.append((_("reserve cost"), OPERATOR_TO_HTML[op], value))
+        query = re.sub(rc_regex, "", query)
+
+    x_regex = r"x:(?P<effect>\w+)"
+
+    if matches := re.finditer(x_regex, query, re.ASCII):
+        for re_match in matches:
+            value = re_match.group("effect")
+            filters &= (
+                Q(character__main_effect__icontains=value)
+                | Q(spell__main_effect__icontains=value)
+                | Q(permanent__main_effect__icontains=value)
+                | Q(character__echo_effect__icontains=value)
+                | Q(spell__echo_effect__icontains=value)
+                | Q(permanent__echo_effect__icontains=value)
+            )
+            tags.append((_("ability"), ":", value))
+        query = re.sub(x_regex, "", query)
+    query = query.strip()
+    if query:
+        tags.append((_("query"), ":", query))
+        return filters & Q(name__icontains=query), tags
+    else:
+        return filters, tags
+

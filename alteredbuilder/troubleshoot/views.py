@@ -6,7 +6,9 @@ from django.contrib.sessions.models import Session
 from django.http import HttpResponse, HttpResponseForbidden
 from django.urls import reverse
 from django.views.generic.edit import FormView
+from django.views.generic.list import ListView
 
+from decks.models import Deck
 from .forms import SubmitSessionForm
 
 # Create your views here.
@@ -56,3 +58,9 @@ class SubmitSessionFormView(PermissionRequiredMixin, FormView):
 
     def get_success_url(self) -> str:
         return reverse("troubleshoot:session")
+
+
+class DeckDescriptionsListView(PermissionRequiredMixin, ListView):
+    permission_required = "sessions.view_session"
+    template_name = "troubleshoot/deck_descriptions.html"
+    queryset = Deck.objects.exclude(description="")

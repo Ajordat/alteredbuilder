@@ -1,5 +1,5 @@
 // Retrieve all the rows of the tables containing cards
-let deckRows = document.querySelectorAll(".card-table tbody tr");
+let deckRows = document.querySelectorAll(".card-hover");
 
 deckRows.forEach(function(element) {
     element.addEventListener("mouseover", function() {
@@ -97,6 +97,22 @@ for (let element of removeCardEls) {
             }
             return false;
         });
+        return false;
+    });
+};
+
+let copyReferenceEls = document.getElementsByClassName("card-reference-container");
+
+for (let element of copyReferenceEls) {
+    element.addEventListener("click", (event) => {
+        event.preventDefault();
+        // Retrieve the card link from the container and write it into the clipboard
+        navigator.clipboard.writeText(event.target.dataset.cardReference);
+    
+        // Initialize toaster and show it
+        displaySimpleToast(gettext("Card reference copied into clipboard!"));
+    
+        // Return false to avoid redirection
         return false;
     });
 };

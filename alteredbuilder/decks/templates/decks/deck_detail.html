@@ -5,7 +5,7 @@
 {% load deck_styles %}
 {% load markdown_extras %}
 
-{% block title %}{{object.name}}{% endblock %}
+{% block title %}{{ object.name }}{% endblock %}
 
 {% block head %}
     {{ block.super }}
@@ -22,34 +22,38 @@
 {% block content %}
     <h1>{{ object.name }}</h1>
     <div class="row">
+    {% if object.owner|has_group:"safe_markdown" %}
         <div class="col">{{ object.description | markdown | safe }}</div>
+    {% else %}
+        <div class="col">{{ object.description | escape | markdown | safe }}</div>
+    {% endif %}
     </div>
     <div class="row row-cols-auto gx-2">
         <div class="col">
             <i class="fa-solid fa-user"></i> {{ object.owner.username }}
         </div>
-        <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% blocktranslate with creation=object.created_at|date:'DATE_FORMAT' modification=object.modified_at|date:'DATE_FORMAT' %}Created: {{ creation }}<br>Last modified: {{ modification }}{% endblocktranslate %}" data-bs-html="true">
+        <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% include './tooltips/deck_timestamps.html' with deck=object %}" data-bs-html="true">
             <i class="fa-regular fa-calendar"></i> <small>{{ object.modified_at|date:"SHORT_DATE_FORMAT" }}</small>
         </div>
         <div class="col me-3">
     {% if object.is_public or object.owner == user %}
         {% if user.is_authenticated %}
-                <a role="button" href="{% url 'love-deck-id' pk=object.id %}" class="btn btn-sm {% if is_loved %}btn-danger{% else %}btn-outline-danger{% endif %}">
-                    <i class="fa-solid fa-heart"></i> {{ object.love_count }}
-                </a>
-        {% else %}
-                <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'Login to share your love!' %}" data-bs-html="true">
-                    <a role="button" href="#" class="btn btn-sm btn-outline-danger disabled">
-                        <i class="fa-solid fa-heart"></i> {{ object.love_count }}
-                    </a>
-                </div>
-        {% endif %}
-    {% else %}
-        <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'This feature is only for public decks' %}" data-bs-html="true">
-            <a role="button" href="#" class="btn btn-sm {% if is_loved %}btn-danger{% else %}btn-outline-danger{% endif %} disabled">
+            <a role="button" href="{% url 'love-deck-id' pk=object.id %}" class="btn btn-sm {% if is_loved %}btn-danger{% else %}btn-outline-danger{% endif %}">
                 <i class="fa-solid fa-heart"></i> {{ object.love_count }}
             </a>
-        </div>
+        {% else %}
+            <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'Login to share your love!' %}" data-bs-html="true">
+                <a role="button" href="#" class="btn btn-sm btn-outline-danger disabled">
+                    <i class="fa-solid fa-heart"></i> {{ object.love_count }}
+                </a>
+            </div>
+        {% endif %}
+    {% else %}
+            <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'This feature is only for public decks' %}" data-bs-html="true">
+                <a role="button" href="#" class="btn btn-sm {% if is_loved %}btn-danger{% else %}btn-outline-danger{% endif %} disabled">
+                    <i class="fa-solid fa-heart"></i> {{ object.love_count }}
+                </a>
+            </div>
     {% endif %}
         </div>
         <div class="col">
@@ -132,14 +136,17 @@
                         </thead>
                         <tbody class="table-group-divider">
     {% if object.hero %}
-                            <tr class="table-light" data-image-url="{{ object.hero.image_url }}">
+                            <tr class="table-light card-hover" data-image-url="{{ object.hero.image_url }}">
                                 <td>{{ object.hero.name }}</td>
-                                <td>{{ object.hero.get_faction_display.title }}</td>
+        {% with faction_img="img/"|add:object.hero.faction|add:".png" %}
+                                <td><img src="{% static faction_img %}" style="max-width: 20px;"> {{ object.hero.get_faction_display.title }}</td>
+        {% endwith %}
                                 <td>
                                     <div class="dropdown">
                                         <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item" href="{{ object.hero.get_official_link }}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> {% translate "Go to details" %}</a></li>
+                                            <li><a class="dropdown-item card-reference-container" href="#" data-card-reference="{{ object.hero.reference }}"><i class="fa-regular fa-copy"></i> {% translate "Copy card reference" %}</a></li>
         {% if object.owner == user %}
                                             <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ object.hero.reference }}"><i class="fa-solid fa-trash"></i> {% translate "Remove card" %}</a></li>
         {% endif %}

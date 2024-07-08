@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-02 15:20+0200\n"
+"POT-Creation-Date: 2024-07-09 00:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: decks/static/js/deck-detail.js:19 decks/static/js/deck-detail.js:125
+#: decks/static/js/deck-detail.js:19 decks/static/js/deck-detail.js:141
 msgid "Link copied into clipboard!"
 msgstr "Link copiato negli appunti!"
 
@@ -38,15 +38,19 @@ msgstr "QR copiato negli appunti!"
 msgid "Unable to delete card from deck"
 msgstr "Impossibile eliminare la carta dal mazzo"
 
-#: decks/static/js/deck-detail.js:116
+#: decks/static/js/deck-detail.js:113
+msgid "Card reference copied into clipboard!"
+msgstr "Link copiato negli appunti!"
+
+#: decks/static/js/deck-detail.js:132
 msgid "Cannot create a private link"
 msgstr "Cannot create a private link"
 
-#: decks/static/js/deck-sidebar.js:390
+#: decks/static/js/deck-sidebar.js:391
 msgid "The deck must have a name"
 msgstr "Il mazzo deve avere un nome"
 
-#: decks/static/js/deck-sidebar.js:414
+#: decks/static/js/deck-sidebar.js:415
 msgid "Unable to update deck"
 msgstr "Impossibile aggiornare il mazzo"
 

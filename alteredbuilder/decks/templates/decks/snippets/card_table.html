@@ -13,7 +13,8 @@
     </thead>
     <tbody class="table-group-divider">
 {% for quantity, card in card_list %}
-        <tr class="{% get_row_color_from_rarity card.get_rarity_display %}" data-image-url="{{ card.image_url }}" data-faction="{{ card.faction }}">
+        <tr class="{% get_row_color_from_rarity card.get_rarity_display %} card-hover" data-rarity="{{ card.get_rarity_display }}" data-image-url="{{ card.image_url }}" data-faction="{{ card.faction }}">
+            <link rel="prefetch" href="{{ card.image_url }}"/>
             <td>{{ quantity }}</td>
             <td>{{ card.name }}</td>
             <td><span class="hand-mana altered-{% get_main_cost card %}"></span>/<span class="reserve-mana altered-{% get_recall_cost card %}"></span></td>
@@ -22,6 +23,7 @@
                     <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{{ card.get_official_link }}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> {% translate "Go to details" %}</a></li>
+                        <li><a class="dropdown-item card-reference-container" href="#" data-card-reference="{{ card.reference }}"><i class="fa-regular fa-copy"></i> {% translate "Copy card reference" %}</a></li>
     {% if object.owner == user %}
                         <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ card.reference }}"><i class="fa-solid fa-trash"></i> {% translate "Remove card" %}</a></li>
     {% endif %}

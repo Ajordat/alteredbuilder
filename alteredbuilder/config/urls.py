@@ -66,6 +66,11 @@ urlpatterns += i18n_patterns(
         TemplateView.as_view(template_name="terms_and_conditions.html"),
         name="terms-and-conditions",
     ),
+    path(
+        "markdown/",
+        TemplateView.as_view(template_name="markdown.html"),
+        name="markdown",
+    ),
     path("troubleshoot/", include("troubleshoot.urls")),
     path(
         "",
