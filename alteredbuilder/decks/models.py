@@ -53,6 +53,9 @@ class Card(models.Model):
     def get_official_link(self) -> str:
         return f"{ALTERED_TCG_URL}/cards/{self.reference}"
 
+    def get_family_code(self):
+        return "_".join(self.reference.split("_")[3:5])
+
     class Meta:
         ordering = ["reference"]
 

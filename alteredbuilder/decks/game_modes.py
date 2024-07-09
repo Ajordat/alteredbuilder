@@ -18,11 +18,11 @@ class GameMode(ABC):
     MIN_TOTAL_COUNT = None
     MAX_RARE_COUNT = None
     MAX_UNIQUE_COUNT = None
+    ENFORCE_INDIVIDUAL_UNIQUES = True
     MAX_SAME_FAMILY_CARD_COUNT = None
     IS_HERO_MANDATORY = None
 
     @classmethod
-    @abstractmethod
     def validate(cls, **kwargs) -> list:
         """Validate if the received parameters comply with this game mode's rules and
         returns a list with the error codes (`GameMode.ErrorCode`) of the noticed
@@ -32,7 +32,27 @@ class GameMode(ABC):
             list[GameMode.ErrorCode]: List of failed rules to be considered a valid
                                       deck for the format.
         """
-        pass
+        error_list = []
+
+        if cls.MAX_FACTION_COUNT and (kwargs["faction_count"] > cls.MAX_FACTION_COUNT):
+            error_list.append(cls.ErrorCode.ERR_EXCEED_FACTION_COUNT)
+        if cls.MIN_TOTAL_COUNT and (kwargs["total_count"] < cls.MIN_TOTAL_COUNT):
+            error_list.append(cls.ErrorCode.ERR_NOT_ENOUGH_CARD_COUNT)
+        if cls.MAX_RARE_COUNT and (kwargs["rare_count"] > cls.MAX_RARE_COUNT):
+            error_list.append(cls.ErrorCode.ERR_EXCEED_RARE_COUNT)
+        if cls.MAX_UNIQUE_COUNT and (kwargs["unique_count"] > cls.MAX_UNIQUE_COUNT):
+            error_list.append(cls.ErrorCode.ERR_EXCEED_UNIQUE_COUNT)
+        if cls.ENFORCE_INDIVIDUAL_UNIQUES and kwargs["repeats_same_unique"]:
+            error_list.append(cls.ErrorCode.ERR_UNIQUE_IS_REPEATED)
+        if cls.MAX_SAME_FAMILY_CARD_COUNT and (
+            max(kwargs["family_count"].values(), default=0)
+            > cls.MAX_SAME_FAMILY_CARD_COUNT
+        ):
+            error_list.append(cls.ErrorCode.ERR_EXCEED_SAME_FAMILY_COUNT)
+        if cls.IS_HERO_MANDATORY and not kwargs["has_hero"]:
+            error_list.append(cls.ErrorCode.ERR_MISSING_HERO)
+
+        return error_list
 
     class ErrorCode(StrEnum):
         # Exceeds maximum faction count
@@ -43,6 +63,8 @@ class GameMode(ABC):
         ERR_EXCEED_RARE_COUNT = "ERR_EXCEED_RARE_COUNT"
         # Exceeds maximum unique card count
         ERR_EXCEED_UNIQUE_COUNT = "ERR_EXCEED_UNIQUE_COUNT"
+        # There are multiple copies of a single unique
+        ERR_UNIQUE_IS_REPEATED = "ERR_UNIQUE_IS_REPEATED"
         # Exceeds maximum card count of same family
         ERR_EXCEED_SAME_FAMILY_COUNT = "ERR_EXCEED_SAME_FAMILY_COUNT"
         # No hero present in deck
@@ -74,6 +96,8 @@ class GameMode(ABC):
                     return _("Exceeds the maximum UNIQUE card count (%(count)s)") % {
                         "count": gm.MAX_UNIQUE_COUNT
                     }
+                case GameMode.ErrorCode.ERR_UNIQUE_IS_REPEATED:
+                    return _("There's more than a single copy of a UNIQUE card")
                 case GameMode.ErrorCode.ERR_EXCEED_SAME_FAMILY_COUNT:
                     return _(
                         "Exceeds the maximum card count for any given family (%(count)s)"
@@ -106,28 +130,6 @@ class StandardGameMode(GameMode):
     MAX_SAME_FAMILY_CARD_COUNT = 3
     IS_HERO_MANDATORY = True
 
-    @classmethod
-    def validate(cls, **kwargs) -> list[GameMode.ErrorCode]:
-        error_list = []
-
-        if kwargs["faction_count"] > cls.MAX_FACTION_COUNT:
-            error_list.append(cls.ErrorCode.ERR_EXCEED_FACTION_COUNT)
-        if kwargs["total_count"] < cls.MIN_TOTAL_COUNT:
-            error_list.append(cls.ErrorCode.ERR_NOT_ENOUGH_CARD_COUNT)
-        if kwargs["rare_count"] > cls.MAX_RARE_COUNT:
-            error_list.append(cls.ErrorCode.ERR_EXCEED_RARE_COUNT)
-        if kwargs["unique_count"] > cls.MAX_UNIQUE_COUNT:
-            error_list.append(cls.ErrorCode.ERR_EXCEED_UNIQUE_COUNT)
-        if (
-            max(kwargs["family_count"].values(), default=0)
-            > cls.MAX_SAME_FAMILY_CARD_COUNT
-        ):
-            error_list.append(cls.ErrorCode.ERR_EXCEED_SAME_FAMILY_COUNT)
-        if not kwargs["has_hero"] and cls.IS_HERO_MANDATORY:
-            error_list.append(cls.ErrorCode.ERR_MISSING_HERO)
-
-        return error_list
-
 
 class DraftGameMode(GameMode):
     """Class to represent the Draft game mode."""
@@ -143,6 +145,8 @@ class DraftGameMode(GameMode):
             error_list.append(cls.ErrorCode.ERR_EXCEED_FACTION_COUNT)
         if (kwargs["total_count"] + int(kwargs["has_hero"])) < cls.MIN_TOTAL_COUNT:
             error_list.append(cls.ErrorCode.ERR_NOT_ENOUGH_CARD_COUNT)
+        if kwargs["repeats_same_unique"]:
+            error_list.append(cls.ErrorCode.ERR_UNIQUE_IS_REPEATED)
 
         return error_list
 
@@ -158,6 +162,7 @@ def update_deck_legality(deck: Deck) -> None:
     total_count = 0
     rare_count = 0
     unique_count = 0
+    repeats_same_unique = False
     factions = [deck.hero.faction] if deck.hero else []
     family_count = defaultdict(int)
 
@@ -171,9 +176,11 @@ def update_deck_legality(deck: Deck) -> None:
             rare_count += cid.quantity
         elif cid.card.rarity == Card.Rarity.UNIQUE:
             unique_count += cid.quantity
+            if cid.quantity > 1:
+                repeats_same_unique = True
         if cid.card.faction not in factions:
             factions.append(cid.card.faction)
-        family_key = "_".join(cid.card.reference.split("_")[:-1])
+        family_key = cid.card.get_family_code()
         family_count[family_key] += cid.quantity
 
     data = {
@@ -183,6 +190,7 @@ def update_deck_legality(deck: Deck) -> None:
         "unique_count": unique_count,
         "family_count": family_count,
         "has_hero": bool(deck.hero),
+        "repeats_same_unique": repeats_same_unique,
     }
 
     error_list = StandardGameMode.validate(**data)
