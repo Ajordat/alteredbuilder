@@ -179,7 +179,9 @@
                             </div>
                         </div>
                         <div class="col-2">
-                            <span class="d-inline-block text-truncate card-name" style="max-width: 170px;">{{ cid.card.name }}</span>
+                            <span class="d-inline-block text-truncate" style="max-width: 170px;">
+                                <span class="card-warning" {% if cid.card.rarity != "U" and cid.quantity < 4 or cid.card.rarity == "U" and cid.quantity == 1%} hidden{% endif %}><i class="fa-solid fa-triangle-exclamation"></i> </span><span class="card-name">{{ cid.card.name }}</span>
+                            </span>
                         </div>
                     </div>
     {% empty %}
@@ -191,8 +193,10 @@
                                 <button class="add-card-btn btn btn-outline-secondary" type="button">+</button>
                             </div>
                         </div>
-                        <div class="col">
-                            <span class="d-inline-block text-truncate card-name" style="max-width: 188px;"></span>
+                        <div class="col-2">
+                            <span class="d-inline-block text-truncate" style="max-width: 170px;">
+                                <span class="card-warning" hidden><i class="fa-solid fa-triangle-exclamation"></i> </span><span class="card-name"></span>
+                            </span>
                         </div>
                     </div>
     {% endfor %}
@@ -218,7 +222,6 @@
 {% block bodyscripts %}
     <script src="{% static 'js/tooltip-enable.js' %}"></script>
     <script src="{% static 'js/card-list.js' %}"></script>
-    <script src="{% static 'js/tooltip-enable.js' %}"></script>
     <script src="{% static 'js/deck-sidebar.js' %}"></script>
     <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
     <script src="{% static 'js/infinite.min.js' %}"></script>

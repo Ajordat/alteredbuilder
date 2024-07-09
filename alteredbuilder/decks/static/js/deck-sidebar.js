@@ -104,10 +104,36 @@ function getRowId(cardReference) {
     return "row-" + cardReference;
 }
 
+/**
+ * Returns the element that should be displayed in the tooltip when hovering a card.
+ * 
+ * @param {string} imageUrl 
+ * @returns string
+ */
 function getImageElement(imageUrl) {
     return "<img src='" + imageUrl +  "'/>";
 }
 
+/**
+ * Shows or hides the warning for a given row depending on the card's rarity and the quantity.
+ * 
+ * @param {Element} cardRow The element that contains the card row. 
+ * @param {int} quantity The amount of times a Card is included in the Deck.
+ */
+function assertCardLimitWarning(cardRow, quantity) {
+    let warningElement = cardRow.getElementsByClassName("card-warning")[0];
+    if (quantity > 3 || cardRow.dataset.cardRarity === "U" && quantity != 1) {
+        // The warning should appear when there's more than 3 cards or it's unique and there's
+        // more than 1 copy
+        warningElement.hidden = false;
+    } else {
+        warningElement.hidden = true;
+    }
+}
+
+/**
+ * Method to sort the card rows according to the Card references.
+ */
 function sortDeckCards() {
     function sortByReference(a, b) {
         return a.id.localeCompare(b.id);
@@ -142,6 +168,7 @@ if (deckId !== sessionStorage.getItem("deckId")) {
                 if (change.quantity > 0) {
                     // If the target quantity is positive, set the right quantity to the row
                     cardRow.getElementsByClassName("card-quantity")[0].innerText = change.quantity;
+                    assertCardLimitWarning(cardRow, change.quantity);
                 } else {
                     // If the target quantity is 0 or negative, remove the row
                     cardRow.remove();
@@ -160,7 +187,7 @@ if (deckId !== sessionStorage.getItem("deckId")) {
                     tooltip.enable();
                 } else if (change.quantity <= 0 && cardReference === heroElement.dataset.cardReference) {
                     // Remove the hero if it doesn't have a positive quantity and the
-                    //displayed hero is the one removed
+                    // displayed hero is the one removed
                     heroElement.value = "";
                     heroElement.dataset.cardReference = "";
                     heroElement.nextElementSibling.disabled = true;
@@ -170,7 +197,8 @@ if (deckId !== sessionStorage.getItem("deckId")) {
             } else {
                 if (change.quantity > 0) {
                     // Create the card row if it's a positive quantity
-                    createCardRow(change.quantity, cardReference, change.name, change.rarity, change.image);
+                    cardRow = createCardRow(change.quantity, cardReference, change.name, change.rarity, change.image);
+                    assertCardLimitWarning(cardRow, change.quantity);
                 }
             }
         }
@@ -214,14 +242,17 @@ function decreaseCardQuantity(event) {
     let cardReference = quantityElement.dataset.cardReference;
     let quantity = Number(quantityElement.innerText) - 1;
     
+    let rowId = getRowId(cardReference);
+    let cardRowElement = document.getElementById(rowId);
+
     if (quantity > 0) {
         // If the quantity is still positive, update the value
         quantityElement.innerText = quantity;
+        assertCardLimitWarning(cardRowElement, quantity);
     } else {
         // If the quantity reaches 0, remove the card from the deck list
-        let rowId = getRowId(cardReference);
         bootstrap.Tooltip.getInstance("#" + rowId).hide();
-        document.getElementById(rowId).remove();
+        cardRowElement.remove();
     }
     // Track the changes
     decklistChanges.addChange(cardReference, "quantity", Math.max(quantity, 0));
@@ -245,6 +276,9 @@ function increaseCardQuantity(event) {
     // Track the changes
     decklistChanges.addChange(cardReference, "quantity", quantity);
     decklistChanges.save();
+
+    let cardRowElement = document.getElementById(getRowId(cardReference));
+    assertCardLimitWarning(cardRowElement, quantity);
 }
 
 // Retrieve all the buttons to decrease the card quantity
@@ -315,6 +349,8 @@ function createCardRow(quantity, reference, name, rarity, image) {
     new bootstrap.Tooltip(newCardElement);
     newCardElement.hidden = false;
     editDeckColumn.appendChild(newCardElement);
+
+    return newCardElement;
 }
 
 function addCardFromDisplay(event) {
@@ -360,6 +396,7 @@ function addCardFromDisplay(event) {
 
         decklistChanges.addChange(cardReference, "quantity", quantity);
         cardElement.getElementsByClassName("card-quantity")[0].innerText = quantity;
+        assertCardLimitWarning(cardElement, quantity);
     } else {
         // If the card doesn't exist, create the card's row
         createCardRow(1, cardReference, cardName, cardRarity, cardImage);
