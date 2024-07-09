@@ -125,6 +125,7 @@ class Deck(models.Model, HitCountMixin):
         return f"{self.owner.username} - {self.name}"
 
     class Meta:
+        ordering = ["-modified_at"]
         indexes = [
             models.Index(fields=["-modified_at"]),
             models.Index(fields=["is_public"]),
