@@ -32,7 +32,7 @@ class GameModesTestCase(TestCase):
             5, deck, 3, Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.RARE
         )
         create_cid(
-            1, deck, 3, Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.UNIQUE
+            3, deck, 1, Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.UNIQUE
         )
         create_cid(
             4, deck, 3, Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.COMMON
