@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 
 from decks.game_modes import GameMode, update_deck_legality
-from decks.models import Card, CardInDeck, Deck
+from decks.models import Card, Deck
 from .utils import create_cid, generate_card
 
 

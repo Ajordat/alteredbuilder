@@ -256,14 +256,14 @@ class CardListViewTestCase(BaseViewTestCase):
         )
 
         # Search all the cards with a string not appearing in any Card's name
-        response = self.client.get(reverse("cards") + f"?query=XXXX")
+        response = self.client.get(reverse("cards") + "?query=XXXX")
         query_cards = Card.objects.none()
         self.assertQuerySetEqual(
             query_cards, response.context["card_list"], ordered=False
         )
 
         # Search all the cards belonging to the AXIOM faction
-        response = self.client.get(reverse("cards") + f"?faction=AX")
+        response = self.client.get(reverse("cards") + "?faction=AX")
         query_cards = Card.objects.filter(faction=Card.Faction.AXIOM)
         self.assertQuerySetEqual(
             query_cards, response.context["card_list"], ordered=False
@@ -286,14 +286,14 @@ class CardListViewTestCase(BaseViewTestCase):
         )
 
         # Search all the cards with the COMMON rarity
-        response = self.client.get(reverse("cards") + f"?rarity=C")
+        response = self.client.get(reverse("cards") + "?rarity=C")
         query_cards = Card.objects.filter(rarity=Card.Rarity.COMMON)
         self.assertQuerySetEqual(
             query_cards, response.context["card_list"], ordered=False
         )
 
         # Search all the cards with the COMMON or RARE rarities
-        response = self.client.get(reverse("cards") + f"?rarity=C,R")
+        response = self.client.get(reverse("cards") + "?rarity=C,R")
         query_cards = Card.objects.filter(
             rarity__in=[Card.Rarity.COMMON, Card.Rarity.RARE]
         )
@@ -302,21 +302,21 @@ class CardListViewTestCase(BaseViewTestCase):
         )
 
         # Search all the cards with an invalid rarity (parameter ignored)
-        response = self.client.get(reverse("cards") + f"?rarity=XXXXX")
+        response = self.client.get(reverse("cards") + "?rarity=XXXXX")
         query_cards = Card.objects.all()
         self.assertQuerySetEqual(
             query_cards, response.context["card_list"], ordered=False
         )
 
         # Search all the cards of type CHARACTER
-        response = self.client.get(reverse("cards") + f"?type=character")
+        response = self.client.get(reverse("cards") + "?type=character")
         query_cards = Card.objects.filter(type=Card.Type.CHARACTER)
         self.assertQuerySetEqual(
             query_cards, response.context["card_list"], ordered=False
         )
 
         # Search all the cards of type CHARACTER or PERMANENT
-        response = self.client.get(reverse("cards") + f"?type=character,permanent")
+        response = self.client.get(reverse("cards") + "?type=character,permanent")
         query_cards = Card.objects.filter(
             type__in=[Card.Type.CHARACTER, Card.Type.PERMANENT]
         )
@@ -325,19 +325,19 @@ class CardListViewTestCase(BaseViewTestCase):
         )
 
         # Search all the cards of type CHARACTER
-        response = self.client.get(reverse("cards") + f"?type=XXXX")
+        response = self.client.get(reverse("cards") + "?type=XXXX")
         query_cards = Card.objects.all()
         self.assertQuerySetEqual(
             query_cards, response.context["card_list"], ordered=False
         )
 
         # Search all the cards by RARITY order
-        response = self.client.get(reverse("cards") + f"?order=rarity")
+        response = self.client.get(reverse("cards") + "?order=rarity")
         query_cards = Card.objects.order_by("rarity", "reference")
         self.assertQuerySetEqual(query_cards, response.context["card_list"])
 
         # Search all the cards by RESERVE MANA order
-        response = self.client.get(reverse("cards") + f"?order=reserve")
+        response = self.client.get(reverse("cards") + "?order=reserve")
         query_cards = Card.objects.order_by(
             Coalesce(
                 "character__recall_cost", "spell__recall_cost", "permanent__recall_cost"
@@ -347,7 +347,7 @@ class CardListViewTestCase(BaseViewTestCase):
         self.assertQuerySetEqual(query_cards, response.context["card_list"])
 
         # Search all the cards by inverse MANA order
-        response = self.client.get(reverse("cards") + f"?order=-mana")
+        response = self.client.get(reverse("cards") + "?order=-mana")
         query_cards = Card.objects.order_by(
             Coalesce(
                 "character__main_cost", "spell__main_cost", "permanent__main_cost"
@@ -359,7 +359,7 @@ class CardListViewTestCase(BaseViewTestCase):
         # Search all the COMMON CHARACTERS or PERMANENTS of AXIOM ordered by inverse NAME order
         response = self.client.get(
             reverse("cards")
-            + f"?faction=AX&rarity=C&type=character,permanent&order=-name"
+            + "?faction=AX&rarity=C&type=character,permanent&order=-name"
         )
         query_cards = Card.objects.filter(
             faction=Card.Faction.AXIOM,

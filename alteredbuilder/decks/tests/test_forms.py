@@ -111,7 +111,7 @@ class CreateDeckFormTestCase(BaseFormTestCase):
 
         self.assertTrue(form.has_error("decklist"))
         self.assertIn(
-            f"Multiple heroes present in the decklist", form.errors["decklist"]
+            "Multiple heroes present in the decklist", form.errors["decklist"]
         )
         self.assertEqual(response.status_code, 200)
 
@@ -196,7 +196,7 @@ class AddCardFormTestCase(BaseFormTestCase):
         form: UpdateDeckForm = response.context_data["form"]
 
         self.assertTrue(form.has_error("deck_id"))
-        self.assertIn(f"Deck not found", form.errors["deck_id"])
+        self.assertIn("Deck not found", form.errors["deck_id"])
         self.assertEqual(response.status_code, 200)
 
     def test_update_deck_invalid_card_reference(self):
@@ -213,7 +213,7 @@ class AddCardFormTestCase(BaseFormTestCase):
         form: UpdateDeckForm = response.context_data["form"]
 
         self.assertTrue(form.has_error("card_reference"))
-        self.assertIn(f"Card not found", form.errors["card_reference"])
+        self.assertIn("Card not found", form.errors["card_reference"])
         self.assertEqual(response.status_code, 200)
 
     def test_update_deck_add_new_card(self):

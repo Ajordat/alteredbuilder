@@ -10,8 +10,6 @@ from decks.models import Card, CardInDeck, Character, Deck, Hero, Permanent, Spe
 from django.test import TestCase
 from django.urls import reverse
 
-from decks.models import Card, CardInDeck, Deck, Hero
-
 
 def get_id() -> Generator[int, None, None]:
     """Return an ID that hasn't been returned so far.
