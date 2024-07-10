@@ -170,7 +170,7 @@
                 <div class="row">{% translate "Cards:" %}</div>
                 <div id="decklist-cards">
     {% for cid in edit_deck_cards %}
-                    <div class="row border rounded row-cols-auto my-1" id="row-{{ cid.card.reference }}" style="background-image: linear-gradient(to right, var(--{{ cid.card.rarity }}-color) 30%, 35%, rgba(0,0,0,0) 100%), url({{ cid.card.image_url }});" data-card-rarity="{{ cid.card.rarity }}" data-bs-toggle="tooltip" data-bs-title="<img src='{{ cid.card.image_url }}'/>" data-bs-html="true" data-bs-placement="left">
+                    <div class="row border rounded row-cols-auto my-1" id="row-{{ cid.card.reference }}" style="background-image: url({{ cid.card.image_url }});" data-card-rarity="{{ cid.card.rarity }}" data-bs-toggle="tooltip" data-bs-title="<img src='{{ cid.card.image_url }}'/>" data-bs-html="true" data-bs-placement="left">
                         <div class="col px-0">
                             <div class="input-group input-group-sm">
                                 <button class="remove-card-btn btn btn-outline-secondary" type="button">-</button>

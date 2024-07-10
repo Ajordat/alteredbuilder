@@ -345,7 +345,7 @@ function createCardRow(quantity, reference, name, rarity, image) {
     newCardElement.getElementsByClassName("card-name")[0].innerText = name;
     newCardElement.getElementsByClassName("remove-card-btn")[0].addEventListener("click", decreaseCardQuantity);
     newCardElement.getElementsByClassName("add-card-btn")[0].addEventListener("click", increaseCardQuantity);
-    newCardElement.style["background-image"] = `linear-gradient(to right, var(--${rarity}-color) 30%, 35%, rgba(0,0,0,0) 100%), url(${image})`;
+    newCardElement.style["background-image"] = `url(${image})`;
     // Enable the tooltip and display the new record on the document
     new bootstrap.Tooltip(newCardElement);
     newCardElement.hidden = false;
