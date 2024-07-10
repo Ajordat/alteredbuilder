@@ -39,3 +39,11 @@
 span.card-row-text {
     max-width: 170px;
 }
+
+html[data-bs-theme="light"] .card-name {
+    color: black;
+}
+
+.card-name {
+    text-shadow: 2px 2px 3px var(--bs-body-bg);
+}
