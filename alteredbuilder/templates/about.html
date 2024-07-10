@@ -13,50 +13,62 @@
         <ul>
             <li class="mb-2"><b>Python 3.12</b> to implement the backend technology. Remarkable tools used are:
                 <ul>
-                    <li><a href="https://pypi.org/project/black/">Black</a> as the code formatter</li>
-                    <li><a href="https://coverage.readthedocs.io/en/latest/">Coverage.py</a> as tool to measure the code coverage of the written tests</li>
-                    <li><a href="https://www.djangoproject.com/">Django 5</a> as the web framework
+                    <li><a href="https://pypi.org/project/black/">Black</a> as the code formatter.</li>
+                    <li><a href="https://coverage.readthedocs.io/en/latest/">Coverage.py</a> as tool to measure the code coverage of the written tests.</li>
+                    <li><a href="https://www.djangoproject.com/">Django 5</a> as the web framework.
                         <ul>
-                            <li><a href="https://django-debug-toolbar.readthedocs.io/en/latest/">Django Debug Toolbar</a> in development mode as a troubleshooting and performance diagnosis tool</li>
-                            <li><a href="https://www.django-rest-framework.org/">Django REST framework 3</a> to expose a limited part of the API</li>
-                            <li><a href="https://allauth.org/">django-allauth</a> to integrate a complete authentication mechanism that allows social accounts as well</li>
-                            <li><a href="https://django-modeltranslation.readthedocs.io/en/latest/">django-modeltranslation</a> to internalize the database models</li>
-                            <li><a href="https://docs.djangoproject.com/en/5.0/topics/i18n/">i18n</a> module of Django to internationalize the user-facing text within Python, Django templates and JS code; and the help of native speaking people for Spanish and French localization</li>
+                            <li><a href="https://django-debug-toolbar.readthedocs.io/en/latest/">Django Debug Toolbar</a> in development mode as a troubleshooting and performance diagnosis tool.</li>
+                            <li><a href="https://www.django-rest-framework.org/">Django REST framework 3</a> to expose a limited part of the API.</li>
+                            <li><a href="https://allauth.org/">django-allauth</a> to integrate a complete authentication mechanism that allows social accounts as well.</li>
+                            <li><a href="https://django-hitcount.readthedocs.io/en/latest/">django-hitcount</a> to count the amount of visualizations each Deck receives. This information will be used to generate trending lists.</li>
+                            <li><a href="https://django-modeltranslation.readthedocs.io/en/latest/">django-modeltranslation</a> to internalize the database models.</li>
+                            <li><a href="https://pypi.org/project/django-sendgrid-v5/">django-sendgrid-v5</a> to send emails over HTTP instead of SMTP (which is a protocol blocked on Cloud Run).</li>
+                            <li><a href="https://docs.djangoproject.com/en/5.0/topics/i18n/">i18n</a> module of Django to internationalize the user-facing text within Python, Django templates and JS code; <br>
+                                and the help of native speaking people for the French, German and Spanish localizations.</li>
                         </ul>
                     </li>
-                    <li>Google API libraries to authenticate into Google and interact with the dependencies on GCP services</li>
-                    <li><a href="https://docs.python.org/3.12/library/unittest.html">Unittest</a> to construct and run unit tests</li>
+                    <li>Google API libraries to authenticate into Google and interact with the dependencies on GCP services.</li>
+                    <li><a href="https://docs.python.org/3.12/library/unittest.html">Unittest</a> to construct and run unit tests.</li>
                 </ul>
             </li>
             <li class="mb-2"><b>Google Cloud Platform (GCP)</b> as the public cloud provider. Specifically, the products used are:
                 <ul>
-                    <li><a href="https://cloud.google.com/artifact-registry/docs/overview?hl=en">Artifact Registry</a>: Storage for the service's docker images</li>
-                    <li><a href="https://cloud.google.com/build/docs/overview">Cloud Build</a>: Implement the CI/CD pipeline. It builds the base image, pushes it into the registry, applies the database migrations, collects the static files and deploys the service.</li>
-                    <li><a href="https://cloud.google.com/logging/docs/overview">Cloud Logging</a>: Log management for the builds, the app and the database</li>
-                    <li><a href="https://cloud.google.com/run/docs/overview/what-is-cloud-run">Cloud Run</a>: Serverless platform that runs the app and scales it according to the incoming traffic</li>
-                    <li><a href="https://cloud.google.com/sql/docs/postgres">Cloud SQL for PostgreSQL</a>: A fully-managed database service with a PostgreSQL instance storing the service's database</li>
-                    <li><a href="https://cloud.google.com/storage/docs/introduction">Cloud Storage</a>: Store the static files. Acting like a CDN</li>
-                    <li><a href="https://cloud.google.com/iam/docs/overview">IAM</a>: Authenticate and authorize access to resources within GCP; while adopting the least privilege security principle on Service Accounts</li>
+                    <li><a href="https://cloud.google.com/artifact-registry/docs/overview?hl=en">Artifact Registry</a>: Storage for the service's docker images.</li>
+                    <li><a href="https://cloud.google.com/build/docs/overview">Cloud Build</a>: The CI/CD pipeline. It builds the base image, pushes it into the registry, applies the database migrations, collects the static files and deploys the service.<br>
+                        Currently deprecated in favor of GitHub Actions.</li>
+                    <li><a href="https://cloud.google.com/logging/docs/overview">Cloud Logging</a>: Log management for the builds, the app and the database.</li>
+                    <li><a href="https://cloud.google.com/run/docs/overview/what-is-cloud-run">Cloud Run</a>: Serverless platform that runs the app and scales it according to the incoming traffic. It also uses the feature to integrate a custom domain.</li>
+                    <li><a href="https://cloud.google.com/sql/docs/postgres">Cloud SQL for PostgreSQL</a>: A fully-managed database service with a PostgreSQL instance storing the service's database.</li>
+                    <li><a href="https://cloud.google.com/storage/docs/introduction">Cloud Storage</a>: Store and serve the static files. Acts like a CDN.</li>
+                    <li><a href="https://cloud.google.com/iam/docs/overview">IAM</a>: Authenticate and authorize access to resources within GCP; while adopting the least privilege security principle on Service Accounts.</li>
                     <li><a href="https://cloud.google.com/secret-manager/docs/overview">Secret Manager</a>: Store and access for the application's secrets, such as the database credentials.</li>
+                    <li><a href="https://console.cloud.google.com/marketplace/product/sendgrid-app/sendgrid-email">SendGrid Email API</a>: Email API integrated into GCP's marketplace. Send the authentication-related emails.</li>
                 </ul>
             </li>
             <li class="mb-2"><b>Docker</b> as the containerization solution. In particular:
                 <ul>
-                    <li><a href="https://docs.docker.com/compose/">Docker Compose</a> as the tool to spin up the multiple containers required while developing locally</li>
-                    <li><a href="https://docs.docker.com/reference/dockerfile/">Dockerfile</a> to define the layers of the app's base image</li>
+                    <li><a href="https://docs.docker.com/compose/">Docker Compose</a> as the tool to spin up the multiple containers required while developing locally.</li>
+                    <li><a href="https://docs.docker.com/reference/dockerfile/">Dockerfile</a> to define the layers of the app's base image.</li>
                 </ul>
             </li>
-            <li><b>HTML, CSS and JavaScript</b> as the frontend technologies. With the help of:
+            <li class="mb-2"><b>HTML, CSS and JavaScript</b> as the frontend technologies. With the help of:
                 <ul>
-                    <li><a href="https://getbootstrap.com/docs/5.3/getting-started/introduction/">Bootstrap 5.3</a>: Frontend toolkit used as the base for most of the page elements</li>
-                    <li><a href="https://fontawesome.com/">Font Awesome</a>: Source for all the icons used</li>
-                    <li><a href="https://developers.google.com/chart">Google charts</a>: Display of pie and bar charts</li>
+                    <li><a href="https://getbootstrap.com/docs/5.3/getting-started/introduction/">Bootstrap 5.3</a>: Frontend toolkit used as the base for most of the page elements.</li>
+                    <li><a href="https://fontawesome.com/">Font Awesome</a>: Source for all the icons used.</li>
+                    <li><a href="https://developers.google.com/chart">Google charts</a>: Display of pie and bar charts.</li>
                 </ul>
             </li>
-            <li><b>GitHub</b> as the Version Control System</li>
+            <li class="mb-2"><b>GitHub</b> as the platform storing the source code and keeping track of its history. It's also used as a CICD platform:
+                <ul>
+                    <li><a href="https://git-scm.com/">Git</a>: The Version Control System for the source code.</li>
+                    <li><a href="https://docs.github.com/en/actions">GitHub Actions</a>: The CI/CD pipeline. It runs the tests, if these are passed the image is built, stored in the registry and deployed. <br>
+                        If there's a change in the static files, it updates the statics on the CDN. If there's a new migration, it applies it to the database.</li>
+                </ul>
+            </li>
+            <li class="mb-2"><b>Squarespace Domains</b> as the domain registrar for <a href="https://altered.ajordat.com/">altered.ajordat.com</a>.</li>
         </ul>
     </p>
-
+    
     <h3 id="about_the_author" style="scroll-margin-top: 60px;">About me</h3>
     <p>
         Hi! My name is <b>Àlex Jordà</b> and I'm a <b>Computer Engineer</b> from Spain{% comment %} living in France since 2024{% endcomment%}.<br>
