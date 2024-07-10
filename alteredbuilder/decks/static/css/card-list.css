@@ -44,10 +44,17 @@ span.card-row-text {
     max-width: 170px;
 }
 
-html[data-bs-theme="light"] .card-name {
-    color: black;
+.card-name {
+    color: var(--text-color);
+    text-shadow: 1px 1px 2px var(--shadow-color),  0px 0px 1em var(--shadow-color);
 }
 
-.card-name {
-    text-shadow: 2px 2px 3px var(--bs-body-bg);
+html[data-bs-theme="light"] .card-name {
+    --text-color: black;
+    --shadow-color: white;
+}
+
+html[data-bs-theme="dark"] .card-name {
+    --text-color: white;
+    --shadow-color: black;
 }
