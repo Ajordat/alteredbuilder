@@ -249,6 +249,8 @@ function decreaseCardQuantity(event) {
         // If the quantity is still positive, update the value
         quantityElement.innerText = quantity;
         assertCardLimitWarning(cardRowElement, quantity);
+        
+        bootstrap.Tooltip.getInstance("#" + rowId).hide();
     } else {
         // If the quantity reaches 0, remove the card from the deck list
         bootstrap.Tooltip.getInstance("#" + rowId).hide();
@@ -277,8 +279,11 @@ function increaseCardQuantity(event) {
     decklistChanges.addChange(cardReference, "quantity", quantity);
     decklistChanges.save();
 
-    let cardRowElement = document.getElementById(getRowId(cardReference));
+    let rowId = getRowId(cardReference);
+    let cardRowElement = document.getElementById(rowId);
     assertCardLimitWarning(cardRowElement, quantity);
+    let t = bootstrap.Tooltip.getInstance("#" + rowId);
+    t.hide();
 }
 
 // Retrieve all the buttons to decrease the card quantity
