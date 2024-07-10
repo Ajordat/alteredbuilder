@@ -35,3 +35,7 @@
 #decklist-cards .row[data-card-rarity="U"] {
     box-shadow: 0 0 4px var(--unique-shadow-color);
 }
+
+span.card-row-text {
+    max-width: 170px;
+}
