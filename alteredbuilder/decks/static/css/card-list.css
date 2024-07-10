@@ -1,3 +1,10 @@
+:root {
+    --rare-shadow-color: #058196;
+    --unique-shadow-color: #ff5e00fd;
+    --C-color: var(--bs-body-bg);
+    --R-color: var(--bs-info-bg-subtle);
+    --U-color: var(--bs-danger-bg-subtle);
+}
 
 .card-display {
     max-width: 280px;
@@ -9,20 +16,22 @@
 }
 
 .card-display:hover[data-card-rarity="R"]{
-    box-shadow: 0 0 12px #058196;
+    box-shadow: 0 0 12px var(--rare-shadow-color);
 }
 
 .card-display:hover[data-card-rarity="U"]{
-    box-shadow: 0 0 12px #ff5e00fd;
+    box-shadow: 0 0 12px var(--unique-shadow-color);
+}
+
+#decklist-cards .row {
+    background-size: 125%;
+    background-position: 60% 25%;
 }
 
 #decklist-cards .row[data-card-rarity="R"] {
-    box-shadow: 0 0 4px #058196;
-    background-color: var(--bs-info-bg-subtle) !important;
+    box-shadow: 0 0 4px var(--rare-shadow-color);
 }
 
 #decklist-cards .row[data-card-rarity="U"] {
-    box-shadow: 0 0 4px #ff5e00fd;
-    /* box-shadow: 0 0 4px red; */
-    background-color: var(--bs-danger-bg-subtle) !important;
+    box-shadow: 0 0 4px var(--unique-shadow-color);
 }
