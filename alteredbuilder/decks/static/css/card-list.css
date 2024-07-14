@@ -40,6 +40,14 @@
     background: var(--bs-body-bg);
 }
 
+#decklist-cards .row[data-card-rarity="R"] button {
+    background: var(--R-color);
+}
+
+#decklist-cards .row[data-card-rarity="U"] button {
+    background: var(--U-color);
+}
+
 span.card-row-text {
     max-width: 170px;
 }
