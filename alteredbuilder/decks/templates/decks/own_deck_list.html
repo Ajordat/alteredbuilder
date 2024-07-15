@@ -21,7 +21,7 @@
                     <th scope="col">{% translate "Faction" %}</th>
                     <th scope="col">{% translate "Hero" %}</th>
                     <th scope="col" class="text-center">
-                        <a data-bs-toggle="tooltip" data-bs-title="Standard | Draft">
+                        <a data-bs-toggle="tooltip" data-bs-title="{% translate 'Standard' %}">
                             {% translate "Legality" %} <i class="fa-regular fa-circle-question"></i>
                         </a>
                     </th>
@@ -46,8 +46,8 @@
         {% else %}
                     <td>-</td><td>-</td>
         {% endif %}
-                    <td class="text-center">{% if deck.is_standard_legal %}<i class="fa-solid fa-check"></i>{% else %}<i class="fa-solid fa-xmark"></i>{% endif %} | {% if deck.is_draft_legal %}<i class="fa-solid fa-check"></i>{% else %}<i class="fa-solid fa-xmark"></i>{% endif %}</td>
-                    <td class="text-center">{% if deck.is_public %}<i class="fa-solid fa-check"></i>{% endif %}</td>
+                    <td class="text-center">{% if deck.is_standard_legal %}<i class="fa-regular fa-circle-check"></i>{% else %}<i class="fa-regular fa-circle-xmark"></i>{% endif %}</td>
+                    <td class="text-center">{% if deck.is_public %}<i class="fa-regular fa-circle-check"></i>{% endif %}</td>
                     <td>{% blocktranslate with time_since=deck.modified_at|timesince %}{{ time_since }} ago{% endblocktranslate %}</td>
                 </tr>
     {% empty %}
