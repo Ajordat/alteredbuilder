@@ -31,7 +31,7 @@
         <div class="col">
             <i class="fa-solid fa-user"></i> {{ object.owner.username }}
         </div>
-        <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% include './tooltips/deck_timestamps.html' with deck=object %}" data-bs-html="true">
+        <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% include 'decks/tooltips/deck_timestamps.html' with deck=object %}" data-bs-html="true">
             <i class="fa-regular fa-calendar"></i> <small>{{ object.modified_at|date:"SHORT_DATE_FORMAT" }}</small>
         </div>
         <div class="col me-3">
@@ -162,17 +162,17 @@
 
                 <div class="col">
                     <p><i class="fa-solid fa-people-group"></i> {% translate "Characters" %}</p>
-                    {% include "./snippets/card_table.html" with type="character" card_list=character_list %}
+                    {% include "decks/snippets/card_table.html" with type="character" card_list=character_list %}
                 </div>
 
                 <div class="col">
                     <p><i class="fa-solid fa-hat-wizard"></i> {% translate "Spells" %}</p>
-                    {% include "./snippets/card_table.html" with type="spell" card_list=spell_list %}
+                    {% include "decks/snippets/card_table.html" with type="spell" card_list=spell_list %}
                 </div>
 
                 <div class="col">
                     <p><i class="fa-solid fa-landmark"></i> {% translate "Permanents" %}</p>
-                    {% include "./snippets/card_table.html" with type="permanent" card_list=permanent_list %}
+                    {% include "decks/snippets/card_table.html" with type="permanent" card_list=permanent_list %}
                 </div>
             </div>
         </div>

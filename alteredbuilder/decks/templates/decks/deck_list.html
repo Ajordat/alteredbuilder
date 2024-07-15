@@ -33,17 +33,17 @@
                             <div class="row">
                                 <div class="col">
                                     <b>{% translate "Factions" %}</b>
-                                    {% include "./snippets/filter_checkbox.html" with value="AX" label="Axiom" %}
-                                    {% include "./snippets/filter_checkbox.html" with value="BR" label="Bravos" %}
-                                    {% include "./snippets/filter_checkbox.html" with value="LY" label="Lyra" %}
-                                    {% include "./snippets/filter_checkbox.html" with value="MU" label="Muna" %}
-                                    {% include "./snippets/filter_checkbox.html" with value="OR" label="Ordis" %}
-                                    {% include "./snippets/filter_checkbox.html" with value="YZ" label="Yzmir" %}
+                                    {% include "decks/snippets/filter_checkbox.html" with value="AX" label="Axiom" %}
+                                    {% include "decks/snippets/filter_checkbox.html" with value="BR" label="Bravos" %}
+                                    {% include "decks/snippets/filter_checkbox.html" with value="LY" label="Lyra" %}
+                                    {% include "decks/snippets/filter_checkbox.html" with value="MU" label="Muna" %}
+                                    {% include "decks/snippets/filter_checkbox.html" with value="OR" label="Ordis" %}
+                                    {% include "decks/snippets/filter_checkbox.html" with value="YZ" label="Yzmir" %}
                                 </div>
                                 <div class="col">
                                     <b>{% translate "Legality" %}</b>
-                                    {% translate "Standard" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="standard" label="Standard" %}
-                                    {% translate "Draft" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="draft" label="Draft" %}
+                                    {% translate "Standard" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="standard" label="Standard" %}
+                                    {% translate "Draft" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="draft" label="Draft" %}
                                 </div>
                                 <div class="col">
                                     <b>{% translate "Other" %}</b>
@@ -79,12 +79,12 @@
     {% endwith %}
     </div>
     {% if user.is_superuser %}
-        {% include "./snippets/public_deck_table.html" with table_id="lovedDecksTable" deck_list=most_loved %}
-        {% include "./snippets/public_deck_table.html" with table_id="trendingDecksTable" deck_list=trending %}
+        {% include "decks/snippets/public_deck_table.html" with table_id="lovedDecksTable" deck_list=most_loved %}
+        {% include "decks/snippets/public_deck_table.html" with table_id="trendingDecksTable" deck_list=trending %}
     {% endif %}
-    {% include "./snippets/public_deck_table.html" with table_id="publicDecksTable" deck_list=deck_list %}
+    {% include "decks/snippets/public_deck_table.html" with table_id="publicDecksTable" deck_list=deck_list %}
 
-    {% include "./snippets/pagination.html" %}
+    {% include "decks/snippets/pagination.html" %}
 {% endblock %}
 
 
