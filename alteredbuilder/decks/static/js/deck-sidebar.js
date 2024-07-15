@@ -449,7 +449,14 @@ saveDeckButton.addEventListener("click", function(event) {
             name: deckName
         })
     })
-    .then(response => response.json())
+    .then(response => {
+        if (response.redirected) {
+            let url = URL.parse(response.url);
+            url.search = "?next=" + encodeURIComponent(window.location.pathname + window.location.search);
+            window.open(url, "_self");
+        }
+        return response.json();
+    })
     .then(payload => {
         if ("error" in payload) {
             console.log("Unable to update deck:");
