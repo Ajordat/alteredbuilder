@@ -1,6 +1,6 @@
 :root {
-    --rare-shadow-color: #058196;
-    --unique-shadow-color: #ff5e00fd;
+    --R-shadow-color: #058196;
+    --U-shadow-color: #ff5e00fd;
     --C-color: var(--bs-body-bg);
     --R-color: var(--bs-info-bg-subtle);
     --U-color: var(--bs-danger-bg-subtle);
@@ -16,24 +16,24 @@
 }
 
 .card-display:hover[data-card-rarity="R"]{
-    box-shadow: 0 0 12px var(--rare-shadow-color);
+    box-shadow: 0 0 12px var(--R-shadow-color);
 }
 
 .card-display:hover[data-card-rarity="U"]{
-    box-shadow: 0 0 12px var(--unique-shadow-color);
+    box-shadow: 0 0 12px var(--U-shadow-color);
 }
 
-#decklist-cards .row {
+#decklist-cards .row, #hero-name {
     background-size: 125%;
     background-position: 60% 25%;
 }
 
 #decklist-cards .row[data-card-rarity="R"] {
-    box-shadow: 0 0 4px var(--rare-shadow-color);
+    box-shadow: 0 0 4px var(--R-shadow-color);
 }
 
 #decklist-cards .row[data-card-rarity="U"] {
-    box-shadow: 0 0 4px var(--unique-shadow-color);
+    box-shadow: 0 0 4px var(--U-shadow-color);
 }
 
 #decklist-cards .row button {

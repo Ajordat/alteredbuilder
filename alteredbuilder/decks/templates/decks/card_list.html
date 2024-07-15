@@ -162,7 +162,7 @@
                 <div class="row my-1" id="row-hero" data-bs-toggle="tooltip" {% if not edit_deck.hero %}data-bs-disable="true"{% endif %} data-bs-title="<img src='{{ edit_deck.hero.image_url }}'/>" data-bs-html="true" data-bs-placement="left">
                     <div class="col px-0">
                         <div class="input-group">
-                            <input id="hero-name" type="text" class="form-control" value="{{ edit_deck.hero.name }}" data-card-reference="{{ edit_deck.hero.reference }}" disabled>
+                            <input id="hero-name" type="text" class="card-name form-control" value="{{ edit_deck.hero.name }}" data-card-reference="{{ edit_deck.hero.reference }}" disabled style="background-image: url('{{ edit_deck.hero.image_url }}')">
                             <button class="btn btn-outline-secondary" type="button" id="remove-hero" {% if not edit_deck.hero %}disabled{% endif %}><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </div>

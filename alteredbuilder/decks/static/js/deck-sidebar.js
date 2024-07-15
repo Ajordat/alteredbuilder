@@ -182,7 +182,8 @@ if (deckId !== sessionStorage.getItem("deckId")) {
                     heroElement.value = change.name;
                     heroElement.dataset.cardReference = cardReference;
                     heroElement.nextElementSibling.disabled = false;
-                    // heroElement.dataset.bsTitle = getImageElement(change.image);
+                    heroElement.style["background-image"] = `url(${change.image})`;
+                    
                     tooltip.setContent({".tooltip-inner": getImageElement(change.image)});
                     tooltip.enable();
                 } else if (change.quantity <= 0 && cardReference === heroElement.dataset.cardReference) {
@@ -191,6 +192,7 @@ if (deckId !== sessionStorage.getItem("deckId")) {
                     heroElement.value = "";
                     heroElement.dataset.cardReference = "";
                     heroElement.nextElementSibling.disabled = true;
+                    heroElement.style["background-image"] = "";
 
                     tooltip.disable();
                 }
@@ -308,6 +310,7 @@ removeHeroButton.addEventListener("click", function(event) {
     // Empty the shown values and disable the button to delete the hero
     heroTextElement.value = "";
     heroTextElement.dataset.cardReference = "";
+    heroTextElement.style["background-image"] = "";
     event.currentTarget.disabled = true;
     // Hide and disable the tooltip showing the hero's image
     let tooltip = bootstrap.Tooltip.getInstance("#row-hero");
@@ -377,6 +380,7 @@ function addCardFromDisplay(event) {
 
             heroElement.value = cardName;
             heroElement.dataset.cardReference = cardReference;
+            heroElement.style["background-image"] = `url(${cardImage})`;
             removeHeroButton.disabled = false;
 
             tooltip.setContent({".tooltip-inner": getImageElement(cardImage)});
