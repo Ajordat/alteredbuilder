@@ -228,8 +228,6 @@
     <script>
         var infinite = new Waypoint.Infinite({
             element: $('.infinite-container')[0],
-            onBeforePageLoad: function () {
-            },
             onAfterPageLoad: function ($items) {
                 let cardDisplayElements = document.getElementsByClassName("card-display");
                 Array.from(cardDisplayElements).forEach(function(element) {

@@ -322,4 +322,3 @@ def parse_query_syntax(query):
         return filters & Q(name__icontains=query), tags
     else:
         return filters, tags
-
