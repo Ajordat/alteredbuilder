@@ -131,6 +131,34 @@ class StandardGameMode(GameMode):
     IS_HERO_MANDATORY = True
 
 
+class ExaltsChampionship(StandardGameMode):
+    """Class to represent the Standard game mode."""
+
+    MAX_RARE_COUNT = 18
+    MAX_UNIQUE_COUNT = 0
+
+    @classmethod
+    def validate(cls, **kwargs) -> bool:
+        """Validate if the received parameters comply with this game mode's rules and
+        returns if the deck contains any errors.
+
+        Returns:
+            bool: If the deck contains any errors.
+        """
+        return (
+            (kwargs["faction_count"] > cls.MAX_FACTION_COUNT)
+            or (kwargs["total_count"] < cls.MIN_TOTAL_COUNT)
+            or (kwargs["rare_count"] > cls.MAX_RARE_COUNT)
+            or (kwargs["unique_count"] > cls.MAX_UNIQUE_COUNT)
+            or (kwargs["repeats_same_unique"])
+            or (
+                max(kwargs["family_count"].values(), default=0)
+                > cls.MAX_SAME_FAMILY_CARD_COUNT
+            )
+            or (not kwargs["has_hero"])
+        )
+
+
 class DraftGameMode(GameMode):
     """Class to represent the Draft game mode."""
 
@@ -200,3 +228,6 @@ def update_deck_legality(deck: Deck) -> None:
     error_list = DraftGameMode.validate(**data)
     deck.is_draft_legal = not bool(error_list)
     deck.draft_legality_errors = error_list
+
+    # has_errors = ExaltsChampionship.validate(**data)
+    # deck.is_exalts_legal = not has_errors

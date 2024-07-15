@@ -115,6 +115,7 @@ class Deck(models.Model, HitCountMixin):
     standard_legality_errors = models.JSONField(default=list, blank=True)
     is_draft_legal = models.BooleanField(null=True)
     draft_legality_errors = models.JSONField(default=list, blank=True)
+    is_exalts_legal = models.BooleanField(null=True)
 
     love_count = models.PositiveIntegerField(default=0)
 

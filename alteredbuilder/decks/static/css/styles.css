@@ -111,6 +111,10 @@ i.fa-circle-check {
     color: green;
 }
 
+i.fa-circle-check.exalts-legal {
+    color: orange;
+}
+
 i.fa-circle-xmark {
     /* color: red; */
     color: #d71b1b;
