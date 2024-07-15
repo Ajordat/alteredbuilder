@@ -26,7 +26,7 @@
                     <form class="d-flex" role="search" id="querySearchForm">
                         <div class="input-group">
                             <input class="form-control" type="search" aria-label="Search" id="querySearch" value="{{ query }}" placeholder="{% translate 'Search by name' %}">
-                            <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title='{% include "./tooltips/query_search.html" %}' data-bs-html="true">
+                            <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title='{% include "decks/tooltips/query_search.html" %}' data-bs-html="true">
                                 <i class="fa-regular fa-question"></i>
                             </span>
                             <button class="btn btn-outline-secondary" type="submit">{% translate "Search" %}</button>
@@ -47,25 +47,25 @@
                                         <div class="row">
                                             <div class="col">
                                                 <b>{% translate "Factions" %}</b>
-                                                {% include "./snippets/filter_checkbox.html" with value="AX" label="Axiom" %}
-                                                {% include "./snippets/filter_checkbox.html" with value="BR" label="Bravos" %}
-                                                {% include "./snippets/filter_checkbox.html" with value="LY" label="Lyra" %}
-                                                {% include "./snippets/filter_checkbox.html" with value="MU" label="Muna" %}
-                                                {% include "./snippets/filter_checkbox.html" with value="OR" label="Ordis" %}
-                                                {% include "./snippets/filter_checkbox.html" with value="YZ" label="Yzmir" %}
+                                                {% include "decks/snippets/filter_checkbox.html" with value="AX" label="Axiom" %}
+                                                {% include "decks/snippets/filter_checkbox.html" with value="BR" label="Bravos" %}
+                                                {% include "decks/snippets/filter_checkbox.html" with value="LY" label="Lyra" %}
+                                                {% include "decks/snippets/filter_checkbox.html" with value="MU" label="Muna" %}
+                                                {% include "decks/snippets/filter_checkbox.html" with value="OR" label="Ordis" %}
+                                                {% include "decks/snippets/filter_checkbox.html" with value="YZ" label="Yzmir" %}
                                             </div>
                                             <div class="col">
                                                 <b>{% translate "Rarity" %}</b>
-                                                {% translate "Common" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="C" label="Common" %}
-                                                {% translate "Rare" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="R" label="Rare" %}
-                                                {% translate "Unique" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="U" label="Unique" %}
+                                                {% translate "Common" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="C" label="Common" %}
+                                                {% translate "Rare" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="R" label="Rare" %}
+                                                {% translate "Unique" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="U" label="Unique" %}
                                             </div>
                                             <div class="col">
                                                 <b>{% translate "Type" %}</b>
-                                                {% translate "Character" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="character" label="Character" %}
-                                                {% translate "Hero" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="hero" label="Hero" %}
-                                                {% translate "Permanent" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="permanent" label="Permanent" %}
-                                                {% translate "Spell" noop as _ %}{% include "./snippets/filter_checkbox.html" with value="spell" label="Spell" %}
+                                                {% translate "Character" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="character" label="Character" %}
+                                                {% translate "Hero" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="hero" label="Hero" %}
+                                                {% translate "Permanent" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="permanent" label="Permanent" %}
+                                                {% translate "Spell" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="spell" label="Spell" %}
                                             </div>
                                         </div>
                                         <div class="row mt-2">

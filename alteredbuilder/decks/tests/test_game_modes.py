@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 
 from decks.game_modes import GameMode, update_deck_legality
-from decks.models import Card, CardInDeck, Deck
+from decks.models import Card, Deck
 from .utils import create_cid, generate_card
 
 
@@ -32,7 +32,7 @@ class GameModesTestCase(TestCase):
             5, deck, 3, Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.RARE
         )
         create_cid(
-            1, deck, 3, Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.UNIQUE
+            3, deck, 1, Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.UNIQUE
         )
         create_cid(
             4, deck, 3, Card.Faction.AXIOM, Card.Type.CHARACTER, Card.Rarity.COMMON

@@ -143,7 +143,7 @@ class CreateDeckFormTestCase(BaseFormTestCase):
 
         self.assertTrue(form.has_error("decklist"))
         self.assertIn(
-            f"Multiple heroes present in the decklist", form.errors["decklist"]
+            "Multiple heroes present in the decklist", form.errors["decklist"]
         )
         self.assertEqual(response.status_code, HTTPStatus.OK)
 

@@ -23,3 +23,16 @@ code.inline {
     padding: 2px;
     font:12px Monaco,Consolas,"Andale  Mono","DejaVu Sans Mono",monospace
 }
+
+i.fa-circle-check {
+    color: green;
+}
+
+i.fa-circle-check.exalts-legal {
+    color: orange;
+}
+
+i.fa-circle-xmark {
+    /* color: red; */
+    color: #d71b1b;
+}

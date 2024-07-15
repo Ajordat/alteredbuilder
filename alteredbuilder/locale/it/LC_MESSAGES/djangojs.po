@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-09 00:25+0200\n"
+"POT-Creation-Date: 2024-07-15 16:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,11 +46,15 @@ msgstr "Link copiato negli appunti!"
 msgid "Cannot create a private link"
 msgstr "Cannot create a private link"
 
-#: decks/static/js/deck-sidebar.js:391
+#: decks/static/js/deck-sidebar.js:438
 msgid "The deck must have a name"
 msgstr "Il mazzo deve avere un nome"
 
-#: decks/static/js/deck-sidebar.js:415
+#: decks/static/js/deck-sidebar.js:443
+msgid "There are no changes to save"
+msgstr "Non ci sono modifiche da salvare"
+
+#: decks/static/js/deck-sidebar.js:474
 msgid "Unable to update deck"
 msgstr "Impossibile aggiornare il mazzo"
 

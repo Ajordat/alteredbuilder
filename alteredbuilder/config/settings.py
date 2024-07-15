@@ -23,8 +23,6 @@ import google.auth
 from google.cloud import secretmanager
 from google.oauth2 import service_account
 
-from config import __version__
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -288,7 +286,7 @@ if env("USE_GCS_STATICS") and (statics_bucket := env("GCS_BUCKET_STATICS")):
                 "default_acl": None,
                 "querystring_auth": False,
                 "gzip": True,
-                "object_parameters": {"cache_control": "public, max-age=3600"},
+                "object_parameters": {"cache_control": "private, max-age=3600"},
             },
         },
     }

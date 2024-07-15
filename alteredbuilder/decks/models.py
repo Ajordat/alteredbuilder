@@ -53,6 +53,9 @@ class Card(models.Model):
     def get_official_link(self) -> str:
         return f"{ALTERED_TCG_URL}/cards/{self.reference}"
 
+    def get_family_code(self):
+        return "_".join(self.reference.split("_")[3:5])
+
     class Meta:
         ordering = ["reference"]
 
@@ -112,6 +115,7 @@ class Deck(models.Model, HitCountMixin):
     standard_legality_errors = models.JSONField(default=list, blank=True)
     is_draft_legal = models.BooleanField(null=True)
     draft_legality_errors = models.JSONField(default=list, blank=True)
+    is_exalts_legal = models.BooleanField(null=True)
 
     love_count = models.PositiveIntegerField(default=0)
 
@@ -122,6 +126,7 @@ class Deck(models.Model, HitCountMixin):
         return f"{self.owner.username} - {self.name}"
 
     class Meta:
+        ordering = ["-modified_at"]
         indexes = [
             models.Index(fields=["-modified_at"]),
             models.Index(fields=["is_public"]),
