@@ -72,7 +72,7 @@ class DecklistChanges {
      * @returns boolean
      */
     hasChanges() {
-        return !!this.#changes;
+        return Object.keys(this.#changes).length != 0;
     }
     /**
      * Returns the tracked changes in the format that the server accepts.
@@ -432,6 +432,11 @@ saveDeckButton.addEventListener("click", function(event) {
 
     if (!deckName) {
         displaySimpleToast(gettext("The deck must have a name"));
+        return false;
+    }
+
+    if (!decklistChanges.hasChanges()) {
+        displaySimpleToast(gettext("There are no changes to save"));
         return false;
     }
 
