@@ -1,4 +1,5 @@
 from datetime import timedelta
+from http import HTTPStatus
 from typing import Any
 import json
 
@@ -11,7 +12,7 @@ from django.db.models.manager import Manager
 from django.db.models.query import QuerySet
 from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import redirect
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic.edit import FormView
@@ -19,14 +20,18 @@ from django.views.generic.list import ListView
 from hitcount.models import Hit
 from hitcount.views import HitCountDetailView
 
-from .deck_utils import create_new_deck, get_deck_details, parse_query_syntax
+from api.utils import ajax_request, ApiJsonResponse
+from .deck_utils import (
+    create_new_deck,
+    get_deck_details,
+    parse_query_syntax,
+    patch_deck,
+    remove_card_from_deck,
+)
 from .game_modes import update_deck_legality
 from .models import Card, CardInDeck, Deck, LovePoint, PrivateLink
-from .forms import DecklistForm, DeckMetadataForm, UpdateDeckForm
+from .forms import DecklistForm, DeckMetadataForm
 from .exceptions import MalformedDeckException
-
-
-# Views for this app
 
 
 class DeckListView(ListView):
@@ -352,7 +357,6 @@ def love_deck(request: HttpRequest, pk: int) -> HttpResponse:
         # If the LovePoint does not exist, create it and increase the `love_count`
         LovePoint.objects.create(deck=deck, user=request.user)
         deck.love_count = F("love_count") + 1
-        deck.save(update_fields=["love_count"])
     except Deck.DoesNotExist:
         # If the Deck is not found (private and not owned), raise a permission error
         raise PermissionDenied
@@ -360,15 +364,14 @@ def love_deck(request: HttpRequest, pk: int) -> HttpResponse:
         # If the LovePoint exists, delete it and decrease the `love_count`
         love_point.delete()
         deck.love_count = F("love_count") - 1
-        deck.save(update_fields=["love_count"])
+    deck.save(update_fields=["love_count"])
     return redirect(reverse("deck-detail", kwargs={"pk": deck.id}))
 
 
 @login_required
+@ajax_request
 def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
     """Function to update a deck with AJAX.
-    I'm not proud of this implementation, as this code is kinda duplicated in
-    `UpdateDeckFormView`. Ideally it should be moved to the API app.
 
     Args:
         request (HttpRequest): Received request
@@ -377,63 +380,48 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
     Returns:
         HttpResponse: A JSON response indicating whether the request succeeded or not.
     """
+    try:
+        data = json.load(request)
 
-    # Ensure it's an AJAX request
-    is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
-    if is_ajax:
-        if request.method == "POST":
-            try:
-                # Retrieve the referenced objects
-                data = json.load(request)
+        match data["action"]:
+            case "add":
+                # Not currently used
+                # The deck is retrieved for validation purposes
                 deck = Deck.objects.get(pk=pk, owner=request.user)
-                card = Card.objects.get(reference=data["card_reference"])
-                action = data["action"]
-
-                if action == "add":
-                    # Not currently used
-                    pass
-
-                elif action == "delete":
-                    if (
-                        card.type == Card.Type.HERO
-                        and deck.hero.reference == card.reference
-                    ):
-                        # If it's the Deck's hero, remove the reference
-                        deck.hero = None
-                    else:
-                        # Retrieve the CiD and delete it
-                        cid = CardInDeck.objects.get(deck=deck, card=card)
-                        cid.delete()
-                    status = {"deleted": True}
+                status = {"added": False}
+            case "delete":
+                deck = Deck.objects.get(pk=pk, owner=request.user)
+                remove_card_from_deck(deck, data["card_reference"])
+                status = {"deleted": True}
+            case "patch":
+                if not data["name"]:
+                    return ApiJsonResponse(
+                        _("The deck must have a name"), HTTPStatus.UNPROCESSABLE_ENTITY
+                    )
+                if pk == 0:
+                    deck = Deck.objects.create(
+                        owner=request.user, name=data["name"], is_public=True
+                    )
                 else:
-                    raise KeyError("Invalid action")
+                    deck = Deck.objects.get(pk=pk, owner=request.user)
+                patch_deck(deck, data["name"], data["decklist"])
+                status = {"patched": True, "deck": deck.id}
+            case _:
+                raise KeyError("Invalid action")
 
-                update_deck_legality(deck)
-                deck.save()
-
-            except Deck.DoesNotExist:
-                return JsonResponse(
-                    {"error": {"code": 404, "message": _("Deck not found")}}, status=404
-                )
-            except (Card.DoesNotExist, CardInDeck.DoesNotExist):
-                return JsonResponse(
-                    {"error": {"code": 404, "message": _("Card not found")}}, status=404
-                )
-            except (json.decoder.JSONDecodeError, KeyError):
-                return JsonResponse(
-                    {"error": {"code": 400, "message": _("Invalid payload")}},
-                    status=400,
-                )
-            return JsonResponse({"data": status}, status=201)
-        else:
-            return JsonResponse(
-                {"error": {"code": 400, "message": _("Invalid request")}}, status=400
-            )
-    else:
-        return HttpResponse(_("Invalid request"), status=400)
+        update_deck_legality(deck)
+        deck.save()
+    except Deck.DoesNotExist:
+        return ApiJsonResponse(_("Deck not found"), HTTPStatus.NOT_FOUND)
+    except (Card.DoesNotExist, CardInDeck.DoesNotExist):
+        return ApiJsonResponse(_("Card not found"), HTTPStatus.NOT_FOUND)
+    except KeyError:
+        return ApiJsonResponse(_("Invalid payload"), HTTPStatus.BAD_REQUEST)
+    return ApiJsonResponse(status, HTTPStatus.OK)
 
 
 @login_required
+@ajax_request
 def create_private_link(request: HttpRequest, pk: int) -> HttpResponse:
     """Function to create a PrivateLink with AJAX.
     Ideally it should be moved to the API app.
@@ -445,100 +433,33 @@ def create_private_link(request: HttpRequest, pk: int) -> HttpResponse:
     Returns:
         HttpResponse: A JSON response indicating whether the request succeeded or not.
     """
-
-    # Ensure it's an AJAX request
-    is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
-    if is_ajax:
-        if request.method == "POST":
-            try:
-                # Retrieve the referenced Deck
-                deck = Deck.objects.get(pk=pk, owner=request.user)
-                if deck.is_public:
-                    return JsonResponse(
-                        {"error": {"code": 400, "message": _("Invalid request")}},
-                        status=400,
-                    )
-
-                pl, created = PrivateLink.objects.get_or_create(deck=deck)
-                status = {
-                    "created": created,
-                    "link": reverse(
-                        "private-url-deck-detail", kwargs={"pk": pk, "code": pl.code}
-                    ),
-                }
-            except Deck.DoesNotExist:
-                return JsonResponse(
-                    {"error": {"code": 404, "message": _("Deck not found")}}, status=404
-                )
-            return JsonResponse({"data": status}, status=201)
-        else:
+    try:
+        # Retrieve the referenced Deck
+        deck = Deck.objects.get(pk=pk, owner=request.user)
+        if deck.is_public:
             return JsonResponse(
-                {"error": {"code": 400, "message": _("Invalid request")}}, status=400
-            )
-    else:
-        return HttpResponse(_("Invalid request"), status=400)
-
-
-class UpdateDeckFormView(LoginRequiredMixin, FormView):
-    """View to add a Card to a Deck."""
-
-    template_name = "decks/card_list.html"
-    form_class = UpdateDeckForm
-
-    def form_valid(self, form: UpdateDeckForm) -> HttpResponse:
-        """If the form is valid, add the Card to the Deck
-
-        Args:
-            form (UpdateDeckForm): The request.
-
-        Returns:
-            HttpResponse: The response.
-        """
-        try:
-            # Retrieve the referenced Card and Deck
-            deck = Deck.objects.get(
-                pk=form.cleaned_data["deck_id"], owner=self.request.user
-            )
-            card = Card.objects.get(reference=form.cleaned_data["card_reference"])
-            if card.type == Card.Type.HERO:
-                # If it's a hero, add it to the Deck unless the Deck has one already
-                if not deck.hero:
-                    deck.hero = card.hero
-                else:
-                    # Silently fail
-                    form.add_error("deck_id", _("Deck already has a hero"))
-                    return super().form_valid(form)
-            else:
-                # If the Card is already in the Deck, add it to the quantity of it
-                cid = CardInDeck.objects.get(deck=deck, card=card)
-                cid.quantity = F("quantity") + form.cleaned_data["quantity"]
-                cid.save()
-        except Deck.DoesNotExist:
-            form.add_error("deck_id", _("Deck not found"))
-            return self.form_invalid(form)
-        except Card.DoesNotExist:
-            form.add_error("card_reference", _("Card not found"))
-            return self.form_invalid(form)
-        except CardInDeck.DoesNotExist:
-            # The card is not in the deck, so we add it
-            CardInDeck.objects.create(
-                deck=deck, card=card, quantity=form.cleaned_data["quantity"]
+                {
+                    "error": {
+                        "code": HTTPStatus.BAD_REQUEST,
+                        "message": _("Invalid request"),
+                    }
+                },
+                status=HTTPStatus.BAD_REQUEST,
             )
 
-        # Check the Deck's legality again after adding the Card
-        update_deck_legality(deck)
-        deck.save()
-
-        return super().form_valid(form)
-
-    def get_success_url(self) -> str:
-        """Return the redirect URL after successfully adding the Card to the Deck.
-        Redirect to the same page.
-
-        Returns:
-            str: The user's current page.
-        """
-        return f"{reverse_lazy('cards')}?{self.request.META['QUERY_STRING']}"
+        pl, created = PrivateLink.objects.get_or_create(deck=deck)
+        status = {
+            "created": created,
+            "link": reverse(
+                "private-url-deck-detail", kwargs={"pk": pk, "code": pl.code}
+            ),
+        }
+    except Deck.DoesNotExist:
+        return JsonResponse(
+            {"error": {"code": HTTPStatus.NOT_FOUND, "message": _("Deck not found")}},
+            status=HTTPStatus.NOT_FOUND,
+        )
+    return JsonResponse({"data": status}, status=HTTPStatus.OK)
 
 
 class UpdateDeckMetadataFormView(LoginRequiredMixin, FormView):
@@ -700,7 +621,19 @@ class CardListView(ListView):
                 .order_by("-modified_at")
                 .values("id", "name")
             )
-            context["form"] = UpdateDeckForm()
+            edit_deck_id = self.request.GET.get("deck")
+            if edit_deck_id:
+                try:
+                    context["edit_deck"] = Deck.objects.filter(
+                        pk=edit_deck_id, owner=self.request.user
+                    ).get()
+                    context["edit_deck_cards"] = (
+                        CardInDeck.objects.filter(deck=context["edit_deck"])
+                        .select_related("card")
+                        .order_by("card__reference")
+                    )
+                except Deck.DoesNotExist:
+                    pass
 
         checked_filters = []
         for filter in ["faction", "rarity", "type"]:

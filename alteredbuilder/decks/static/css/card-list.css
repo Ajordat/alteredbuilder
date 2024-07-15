@@ -1,0 +1,68 @@
+:root {
+    --R-shadow-color: #058196;
+    --U-shadow-color: #ff5e00fd;
+    --C-color: var(--bs-body-bg);
+    --R-color: var(--bs-info-bg-subtle);
+    --U-color: var(--bs-danger-bg-subtle);
+}
+
+.card-display {
+    max-width: 280px;
+    transition: .3s;
+}
+
+.card-display:hover{
+    transform: scale(1.05);
+}
+
+.card-display:hover[data-card-rarity="R"]{
+    box-shadow: 0 0 12px var(--R-shadow-color);
+}
+
+.card-display:hover[data-card-rarity="U"]{
+    box-shadow: 0 0 12px var(--U-shadow-color);
+}
+
+#decklist-cards .row, #hero-name {
+    background-size: 125%;
+    background-position: 60% 25%;
+}
+
+#decklist-cards .row[data-card-rarity="R"] {
+    box-shadow: 0 0 4px var(--R-shadow-color);
+}
+
+#decklist-cards .row[data-card-rarity="U"] {
+    box-shadow: 0 0 4px var(--U-shadow-color);
+}
+
+#decklist-cards .row button {
+    background: var(--bs-body-bg);
+}
+
+#decklist-cards .row[data-card-rarity="R"] button {
+    background: var(--R-color);
+}
+
+#decklist-cards .row[data-card-rarity="U"] button {
+    background: var(--U-color);
+}
+
+span.card-row-text {
+    max-width: 170px;
+}
+
+.card-name {
+    color: var(--text-color);
+    text-shadow: 1px 1px 2px var(--shadow-color),  0px 0px 1em var(--shadow-color);
+}
+
+html[data-bs-theme="light"] .card-name {
+    --text-color: black;
+    --shadow-color: white;
+}
+
+html[data-bs-theme="dark"] .card-name {
+    --text-color: white;
+    --shadow-color: black;
+}

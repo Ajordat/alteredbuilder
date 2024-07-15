@@ -8,101 +8,108 @@
 
 {% block head %}
     {{ block.super }}
+    <script src="{% static 'js/utils.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/card-list.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/altered-icons.css' %}">
 {% endblock %}
 
+{% block content-div %}class="container-fluid ps-5 mb-5"{% endblock %}
+
 {% block content %}
-    <h3>{% translate "Card list" %}</h3>
-    <div class="row row-cols-auto mb-3">
-        <div class="col">
-            <form class="d-flex" role="search" id="querySearchForm">
-                <div class="input-group">
-                    <input class="form-control" type="search" aria-label="Search" id="querySearch" value="{{ query }}" placeholder="{% translate 'Search by name' %}">
-                    <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title='{% include "decks/tooltips/query_search.html" %}' data-bs-html="true">
-                        <i class="fa-regular fa-question"></i>
-                    </span>
-                    <button class="btn btn-outline-secondary" type="submit">{% translate "Search" %}</button>
+    <div class="row flex-nowrap">
+        <div class="col mt-3">
+            <h3>{% translate "Card list" %}</h3>
+            <div class="row row-cols-auto mb-3">
+                <div class="col">
+                    <form class="d-flex" role="search" id="querySearchForm">
+                        <div class="input-group">
+                            <input class="form-control" type="search" aria-label="Search" id="querySearch" value="{{ query }}" placeholder="{% translate 'Search by name' %}">
+                            <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title='{% include "decks/tooltips/query_search.html" %}' data-bs-html="true">
+                                <i class="fa-regular fa-question"></i>
+                            </span>
+                            <button class="btn btn-outline-secondary" type="submit">{% translate "Search" %}</button>
+                        </div>
+                    </form>
                 </div>
-            </form>
-        </div>
-        <div class="col d-flex">
-            <div class="accordion" id="filterAccordion">
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-                            <i class="fa-solid fa-filter"></i>&nbsp; {% translate "Filters" %}&nbsp; <span class="badge text-bg-secondary">{{ checked_filters|length }}</span>&nbsp; 
-                        </button>
-                    </h2>
-                    <div id="collapseFilter" class="accordion-collapse collapse" data-bs-parent="#filterAccordion">
-                        <div class="accordion-body">
-                            <div class="col">
-                                <div class="row">
+                <div class="col d-flex">
+                    <div class="accordion" id="filterAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                                    <i class="fa-solid fa-filter"></i>&nbsp; {% translate "Filters" %}&nbsp; <span class="badge text-bg-secondary">{{ checked_filters|length }}</span>&nbsp; 
+                                </button>
+                            </h2>
+                            <div id="collapseFilter" class="accordion-collapse collapse" data-bs-parent="#filterAccordion">
+                                <div class="accordion-body">
                                     <div class="col">
-                                        <b>{% translate "Factions" %}</b>
-                                        {% include "decks/snippets/filter_checkbox.html" with value="AX" label="Axiom" %}
-                                        {% include "decks/snippets/filter_checkbox.html" with value="BR" label="Bravos" %}
-                                        {% include "decks/snippets/filter_checkbox.html" with value="LY" label="Lyra" %}
-                                        {% include "decks/snippets/filter_checkbox.html" with value="MU" label="Muna" %}
-                                        {% include "decks/snippets/filter_checkbox.html" with value="OR" label="Ordis" %}
-                                        {% include "decks/snippets/filter_checkbox.html" with value="YZ" label="Yzmir" %}
-                                    </div>
-                                    <div class="col">
-                                        <b>{% translate "Rarity" %}</b>
-                                        {% translate "Common" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="C" label="Common" %}
-                                        {% translate "Rare" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="R" label="Rare" %}
-                                        {% translate "Unique" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="U" label="Unique" %}
-                                    </div>
-                                    <div class="col">
-                                        <b>{% translate "Type" %}</b>
-                                        {% translate "Character" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="character" label="Character" %}
-                                        {% translate "Hero" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="hero" label="Hero" %}
-                                        {% translate "Permanent" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="permanent" label="Permanent" %}
-                                        {% translate "Spell" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="spell" label="Spell" %}
-                                    </div>
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col text-end">
-                                        <button type="submit" class="btn btn-primary" id="filterSearchButton">{% translate "Search" %}</button>                  
+                                        <div class="row">
+                                            <div class="col">
+                                                <b>{% translate "Factions" %}</b>
+                                                {% include "decks/snippets/filter_checkbox.html" with value="AX" label="Axiom" %}
+                                                {% include "decks/snippets/filter_checkbox.html" with value="BR" label="Bravos" %}
+                                                {% include "decks/snippets/filter_checkbox.html" with value="LY" label="Lyra" %}
+                                                {% include "decks/snippets/filter_checkbox.html" with value="MU" label="Muna" %}
+                                                {% include "decks/snippets/filter_checkbox.html" with value="OR" label="Ordis" %}
+                                                {% include "decks/snippets/filter_checkbox.html" with value="YZ" label="Yzmir" %}
+                                            </div>
+                                            <div class="col">
+                                                <b>{% translate "Rarity" %}</b>
+                                                {% translate "Common" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="C" label="Common" %}
+                                                {% translate "Rare" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="R" label="Rare" %}
+                                                {% translate "Unique" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="U" label="Unique" %}
+                                            </div>
+                                            <div class="col">
+                                                <b>{% translate "Type" %}</b>
+                                                {% translate "Character" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="character" label="Character" %}
+                                                {% translate "Hero" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="hero" label="Hero" %}
+                                                {% translate "Permanent" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="permanent" label="Permanent" %}
+                                                {% translate "Spell" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="spell" label="Spell" %}
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col text-end">
+                                                <button type="submit" class="btn btn-primary" id="filterSearchButton">{% translate "Search" %}</button>                  
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="input-group">
-                <label class="input-group-text" for="filterOrdering"><i class="fa-solid fa-sort"></i></label>
-                <select class="form-select" aria-label="Sort by" id="filterOrdering">
-                    <option {% if not order %}selected{% endif %} disabled hidden>{% translate "Sort by" %}</option>
-                    <option>{% translate "Default" %}</option>
-                    <option {% if order == "name" %}selected{% endif %} value="name">{% translate "Name A-Z" %}</option>
-                    <option {% if order == "-name" %}selected{% endif %} value="-name">{% translate "Name Z-A" %}</option>
-                    <option {% if order == "rarity" %}selected{% endif %} value="rarity">{% translate "Rarity" %}</option>
-                    <option {% if order == "mana" %}selected{% endif %} value="mana">{% translate "Mana ASC" %}</option>
-                    <option {% if order == "-mana" %}selected{% endif %} value="-mana">{% translate "Mana DESC" %}</option>
-                    <option {% if order == "reserve" %}selected{% endif %} value="reserve">{% translate "Reserve ASC" %}</option>
-                    <option {% if order == "-reserve" %}selected{% endif %} value="-reserve">{% translate "Reserve DESC" %}</option>
-                </select>
-            </div>
-        </div>
+                <div class="col">
+                    <div class="input-group">
+                        <label class="input-group-text" for="filterOrdering"><i class="fa-solid fa-sort"></i></label>
+                        <select class="form-select" aria-label="Sort by" id="filterOrdering">
+                            <option {% if not order %}selected{% endif %} disabled hidden>{% translate "Sort by" %}</option>
+                            <option>{% translate "Default" %}</option>
+                            <option {% if order == "name" %}selected{% endif %} value="name">{% translate "Name A-Z" %}</option>
+                            <option {% if order == "-name" %}selected{% endif %} value="-name">{% translate "Name Z-A" %}</option>
+                            <option {% if order == "rarity" %}selected{% endif %} value="rarity">{% translate "Rarity" %}</option>
+                            <option {% if order == "mana" %}selected{% endif %} value="mana">{% translate "Mana ASC" %}</option>
+                            <option {% if order == "-mana" %}selected{% endif %} value="-mana">{% translate "Mana DESC" %}</option>
+                            <option {% if order == "reserve" %}selected{% endif %} value="reserve">{% translate "Reserve ASC" %}</option>
+                            <option {% if order == "-reserve" %}selected{% endif %} value="-reserve">{% translate "Reserve DESC" %}</option>
+                        </select>
+                    </div>
+                </div>
     {% with request.GET|card_params_to_filter_tag as tags %}
         {% for tag, op, value in query_tags %}
-        <div class="col px-0 d-flex align-items-center">
-            <span class="badge text-bg-secondary">{% translate tag %}{{ op | safe }} {% translate value %}</span>&nbsp;
-        </div>
+                <div class="col px-0 d-flex align-items-center">
+                    <span class="badge text-bg-secondary">{% translate tag %}{{ op | safe }} {% translate value %}</span>&nbsp;
+                </div>
         {% endfor %}
         {% for tag, op, value in tags %}
-        <div class="col px-0 d-flex align-items-center">
-            <span class="badge text-bg-secondary">{% translate tag %}{{ op }}{% translate value %}</span>&nbsp;
-        </div>
+                <div class="col px-0 d-flex align-items-center">
+                    <span class="badge text-bg-secondary">{% translate tag %}{{ op }}{% translate value %}</span>&nbsp;
+                </div>
         {% endfor %}
     {% endwith %}
     {% if order %}
-        <div class="col px-0 d-flex align-items-center">
-            <span class="badge text-bg-secondary">{% translate "Order" %}: 
+                <div class="col px-0 d-flex align-items-center">
+                    <span class="badge text-bg-secondary">{% translate "Order" %}: 
         {% if order == "name" %}{% translate "Name A-Z" %}
         {% elif order == "-name" %}{% translate "Name Z-A" %}
         {% elif order == "rarity" %}{% translate "Rarity" %}
@@ -111,91 +118,122 @@
         {% elif order == "reserve" %}{% translate "Reserve ASC" %}
         {% elif order == "-reserve" %}{% translate "Reserve DESC" %}
         {% endif %}
-            </span>&nbsp;
-        </div>
+                    </span>&nbsp;
+                </div>
     {% endif %}
-    </div>
-    <div class="row gy-3">
+            </div>
+            <div class="row gy-3 infinite-container">
     {% for card in card_list %}
-        <div class="col-xxl-2 col-xl-3 col-md-4 col-sm-6">
-            <div class="card card-display">
-                <img src="{{ card.image_url }}" class="card-img-top" alt="{{ card.name }}">
-                <div class="card-body">
-                    <div class="dropdown">
-                        <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">{% translate "Options" %}</button>
-                        <ul class="dropdown-menu">
-        {% if card.type == "hero" %}
-                            <li><a class="dropdown-item remove-card-trigger" href="{% url 'new-deck' %}?hero={{ card.reference }}">{% translate "Start a deck" %}</a></li>
-        {% endif %}
-                            <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ card.reference }}" data-bs-toggle="modal" data-bs-target="#add-card-modal" data-bs-name="{{ card.name }}" data-bs-reference="{{ card.reference }}">{% translate "Add to a deck" %}</a></li>
-                            <li><a class="dropdown-item" href="{{ card.get_official_link }}" target="_blank" rel="noopener noreferrer">{% translate "Go to details" %} <i class="fa-solid fa-arrow-up-right-from-square"></i></a></li>
-                        </ul>
+                <div class="col-xxl-2 col-xl-3 col-md-4 col-sm-6 infinite-item">
+                    <div class="card-display rounded-3" data-card-reference="{{ card.reference }}" data-card-name="{{ card.name }}" data-card-type="{{ card.type }}" data-card-rarity="{{ card.rarity }}" data-card-image="{{ card.image_url }}">
+                        <img src="{{ card.image_url }}" class="card-img-top rounded-3" alt="{{ card.name }}">
                     </div>
                 </div>
-            </div>
-        </div>
     {% empty %}
-        <p>{% translate "No cards found with the current filter." %}</p>
+                <p>{% translate "No cards found with the current filter." %}</p>
     {% endfor %}
-    </div>
-    
-    <div class="mt-3">
-        {% include "decks/snippets/pagination.html" %}
-    </div>
-    
-    <div class="modal fade" id="add-card-modal" tabindex="-1" aria-labelledby="add-card-modalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="add-card-modalLabel">{% translate "Add card to deck" %}</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{% url 'update-deck' %}?{% inject_params request.GET page=page_obj.number %}" method="post" id="update-deck-form">
-                        {% csrf_token %}
-
-                        <label for="{{ form.quantity.id_for_label }}" class="col-form-label">{% translate "Card" %}:</label>
-
-                        <div class="input-group">
-                            <select class="form-select d-inline-flex" id="{{ form.quantity.auto_id }}" name="{{ form.quantity.name }}">
-                                <option value="1" selected>1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                            <input id="modal-card-name" name="card-reference" class="form-control {% if form.card_reference.errors %}is-invalid{% endif %}" type="text" aria-label="Cardname" aria-describedby="{{ form.card_reference.name }}-validation" disabled readonly>
-                            <input id="modal-card-reference" name="{{ form.card_reference.name }}" type="hidden">
-                        </div>
-                        <div id="{{ form.card_reference.name }}-validation" class="invalid-feedback">
-    {% for error in form.card_reference.errors %}
-                            {{error}}<br>
-    {% endfor %}
-                        </div>
-                        <div>
-                            <label for="{{ form.deck_id.id_for_label }}" class="col-form-label">{% translate "Deck" %}:</label>
-    {% if own_decks %}
-                            <select class="form-select d-inline-flex" id="{{ form.deck_id.auto_id }}" name="{{ form.deck_id.name }}">
-        {% for deck in own_decks %}
-                                <option value="{{ deck.id }}" {% if forloop.first %}selected{% endif %}>{{ deck.name }}</option>
-        {% endfor %}
-                            </select>
-    {% else %}
-                            <select class="form-select d-inline-flex" id="{{ form.deck_id.auto_id }}" disabled>
-                                <option selected>{% translate "No decks found" %}</option>
-                            </select>
+            </div>
+            
+            <div class="mt-3">
+                {% if page_obj.has_next %}
+                    <a class="infinite-more-link page-link" href="?{% inject_params request.GET page=page_obj.next_page_number %}">More</a>
+                {% endif %}
+            </div>
+        </div>
+        <aside class="col-xxl-2 col-xl-3 col-md-4 col-xs-6 vh-100 sticky-top d-flex overflow-y-scroll z-0">
+            <div class="vr"></div>
+            <div class="col ps-3 pe-1 pt-2">
+                <select class="form-select d-inline-flex" id="deckSelector" name="deck_id">
+    {% if edit_deck %}
+                    <option value="{{ edit_deck.id }}" selected>{{ edit_deck.name }}</option>
     {% endif %}
+                    <option value="0" {% if not edit_deck %}selected{% endif %}>{% translate "New deck" %}</option>
+    {% for deck in own_decks %}
+        {% if deck.id != edit_deck.id %}
+                    <option value="{{ deck.id }}">{{ deck.name }}</option>
+        {% endif %}
+    {% endfor %}
+                </select>
+                <div class="row">{% translate "Deck name:" %}</div>
+                <div class="row">
+                    <input id="deck-name" type="text" maxlength="50" class="form-control" required value="{% if edit_deck.name %}{{ edit_deck.name }}{% else %}{% translate 'Deck' %} {{ own_decks|length|add:'1' }}{% endif %}">
+                </div>
+                <div class="row">{% translate "Hero:" %}</div>
+                <div class="row my-1" id="row-hero" data-bs-toggle="tooltip" {% if not edit_deck.hero %}data-bs-disable="true"{% endif %} data-bs-title="<img src='{{ edit_deck.hero.image_url }}'/>" data-bs-html="true" data-bs-placement="left">
+                    <div class="col px-0">
+                        <div class="input-group">
+                            <input id="hero-name" type="text" class="card-name form-control" value="{{ edit_deck.hero.name }}" data-card-reference="{{ edit_deck.hero.reference }}" disabled style="background-image: url('{{ edit_deck.hero.image_url }}')">
+                            <button class="btn btn-outline-secondary" type="button" id="remove-hero" {% if not edit_deck.hero %}disabled{% endif %}><i class="fa-solid fa-trash"></i></button>
                         </div>
-                    </form>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
-                    <button type="submit" class="btn btn-primary" form="update-deck-form" {% if not own_decks %}disabled{% endif %}>{% translate "Add" %}</button>
+                <div class="row">{% translate "Cards:" %}</div>
+                <div id="decklist-cards">
+    {% for cid in edit_deck_cards %}
+                    <div class="row border rounded row-cols-auto my-1" id="row-{{ cid.card.reference }}" style="background-image: url({{ cid.card.image_url }});" data-card-rarity="{{ cid.card.rarity }}" data-bs-toggle="tooltip" data-bs-title="<img src='{{ cid.card.image_url }}'/>" data-bs-html="true" data-bs-placement="left">
+                        <div class="col px-0">
+                            <div class="input-group input-group-sm">
+                                <button class="remove-card-btn btn btn-outline-secondary" type="button">-</button>
+                                <span class="input-group-text card-quantity" data-card-reference="{{ cid.card.reference }}">{{ cid.quantity }}</span>
+                                <button class="add-card-btn btn btn-outline-secondary" type="button">+</button>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <span class="d-inline-block text-truncate card-row-text">
+                                <span class="card-warning" {% if cid.card.rarity != "U" and cid.quantity < 4 or cid.card.rarity == "U" and cid.quantity == 1%} hidden{% endif %}><i class="fa-solid fa-triangle-exclamation"></i> </span><span class="card-name">{{ cid.card.name }}</span>
+                            </span>
+                        </div>
+                    </div>
+    {% empty %}
+                    <div class="row border rounded row-cols-auto my-1" id="row-empty" data-card-rarity="" data-bs-toggle="tooltip" data-bs-disable="true" data-bs-html="true" data-bs-placement="left" hidden>
+                        <div class="col px-0">
+                            <div class="input-group input-group-sm">
+                                <button class="remove-card-btn btn btn-outline-secondary" type="button">-</button>
+                                <span class="input-group-text card-quantity" data-card-reference="empty"></span>
+                                <button class="add-card-btn btn btn-outline-secondary" type="button">+</button>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <span class="d-inline-block text-truncate card-row-text">
+                                <span class="card-warning" hidden><i class="fa-solid fa-triangle-exclamation"></i> </span><span class="card-name"></span>
+                            </span>
+                        </div>
+                    </div>
+    {% endfor %}
                 </div>
+                
+            </div>
+            <div class="row position-fixed bottom-0 end-0 z-2 me-auto pb-2 pe-5">
+                <button class="btn btn-success" id="save-deck">{% translate "Save" %}</button>
+            </div>
+        </aside>
+    </div>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="simple-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-body d-flex">
+                <span id="toast-text"></span>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
     </div>
+    {% csrf_token %}
 {% endblock %}
 
 {% block bodyscripts %}
-    <script src="{% static 'js/card-list.js' %}"></script>
     <script src="{% static 'js/tooltip-enable.js' %}"></script>
+    <script src="{% static 'js/card-list.js' %}"></script>
+    <script src="{% static 'js/deck-sidebar.js' %}"></script>
+    <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'js/infinite.min.js' %}"></script>
+    <script>
+        var infinite = new Waypoint.Infinite({
+            element: $('.infinite-container')[0],
+            onAfterPageLoad: function ($items) {
+                let cardDisplayElements = document.getElementsByClassName("card-display");
+                Array.from(cardDisplayElements).forEach(function(element) {
+                    element.addEventListener("click", addCardFromDisplay);
+                });
+            }
+        });
+    </script>
 {% endblock %}

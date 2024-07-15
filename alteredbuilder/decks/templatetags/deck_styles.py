@@ -73,6 +73,7 @@ def inject_params(get_params: dict, **kwargs) -> str:
         "query",
         "order",
         "legality",
+        "deck",
         "other",
     ]
     args = [

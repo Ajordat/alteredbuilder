@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-08 11:09+0200\n"
+"POT-Creation-Date: 2024-07-15 16:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,6 +45,18 @@ msgstr "Kartenreferenz in die Zwischenablage kopiert!"
 #: decks/static/js/deck-detail.js:132
 msgid "Cannot create a private link"
 msgstr "Kann keinen privaten Link erstellen"
+
+#: decks/static/js/deck-sidebar.js:438
+msgid "The deck must have a name"
+msgstr "Das Deck muss einen Namen haben"
+
+#: decks/static/js/deck-sidebar.js:443
+msgid "There are no changes to save"
+msgstr "Es sind keine Änderungen zu speichern"
+
+#: decks/static/js/deck-sidebar.js:474
+msgid "Unable to update deck"
+msgstr "Deck kann nicht aktualisiert werden"
 
 #: decks/static/js/deck-stats.js:16
 msgid "characters"

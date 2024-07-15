@@ -4,7 +4,7 @@ from django import forms
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
 
-from .models import Card, Deck
+from .models import Deck
 
 # Form definitions
 
@@ -58,14 +58,3 @@ class DeckMetadataForm(forms.Form):
         required=False,
     )
     is_public = forms.BooleanField(required=False)
-
-
-class UpdateDeckForm(forms.Form):
-    """Form to validate the addition of a Card into a Deck."""
-
-    template_name = ""
-    card_reference = forms.CharField(
-        max_length=Card._meta.get_field("reference").max_length
-    )
-    quantity = forms.IntegerField()
-    deck_id = forms.IntegerField()

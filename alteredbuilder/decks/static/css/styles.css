@@ -1,27 +1,6 @@
-#mana-curve-chart {
-    width: 500px;
-    height: 300px;
-}
-
-#distribution-pie-chart {
-    width: 500px;
-    height: 500px;
-}
-
-#card-showcase {
-    max-height: 500px;
-}
-
-.card-display {
-    max-width: 280px;
-}
 
 .accordion-button {
     padding: 9px 9px;
-}
-
-.table-clickable tbody tr {
-    cursor: pointer;
 }
 
 .tooltip img {
@@ -34,68 +13,6 @@
 
 .tooltip.show {
     opacity: 1;
-}
-
-#deck-qr-code{
-    width: 200px;
-    height: 200px;
-    margin: auto;
-    background-color: #fff;
-}
-
-.card-table tr span.hand-mana {
-    color: #5095c9;
-}
-
-.card-table tr[data-faction="AX"] span.reserve-mana {
-    color: #7e4b36;
-}
-
-.card-table tr[data-faction="BR"] span.reserve-mana {
-    color: #b24848;
-}
-
-.card-table tr[data-faction="LY"] span.reserve-mana {
-    color: #d12358;
-}
-
-.card-table tr[data-faction="MU"] span.reserve-mana {
-    color: #4c7245;
-}
-
-.card-table tr[data-faction="OR"] span.reserve-mana {
-    color: #00628b;
-}
-
-.card-table tr[data-faction="YZ"] span.reserve-mana {
-    color: #483b66;
-}
-
-/* class "table-light" */
-html[data-bs-theme="light"] .card-table tr[data-rarity="common"] {
-    /* original: #f8f9fa; suggested: #bfbfbf */
-    --bs-table-bg: #f8f9fa;
-}
-html[data-bs-theme="dark"] .card-table tr[data-rarity="common"] {
-    --bs-table-bg: #e2e3e5;
-}
-
-/* class "table-primary" */
-html[data-bs-theme="light"] .card-table tr[data-rarity="rare"] {
-    /* original: #cfe2ff; suggested: #a3c7ff */
-    --bs-table-bg: #cfe2ff;
-}
-html[data-bs-theme="dark"] .card-table tr[data-rarity="rare"] {
-    --bs-table-bg: #a3c7ff;
-}
-
-/* class "table-danger" */
-html[data-bs-theme="light"] .card-table tr[data-rarity="unique"] {
-    /* original: #f8d7da; suggested: #ffafb6 */
-    --bs-table-bg: #f8d7da;
-}
-html[data-bs-theme="dark"] .card-table tr[data-rarity="unique"] {
-    --bs-table-bg: #ffafb6;
 }
 
 code.inline {
