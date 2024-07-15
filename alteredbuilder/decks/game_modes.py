@@ -229,5 +229,5 @@ def update_deck_legality(deck: Deck) -> None:
     deck.is_draft_legal = not bool(error_list)
     deck.draft_legality_errors = error_list
 
-    # has_errors = ExaltsChampionship.validate(**data)
-    # deck.is_exalts_legal = not has_errors
+    has_errors = ExaltsChampionship.validate(**data)
+    deck.is_exalts_legal = not has_errors
