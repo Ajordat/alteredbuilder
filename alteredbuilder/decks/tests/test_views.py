@@ -1,6 +1,8 @@
 from http import HTTPStatus
+from urllib.parse import quote
 import uuid
 
+from django.db.models import Q
 from django.db.models.functions import Coalesce
 from django.http import HttpResponse
 from django.urls import reverse
@@ -459,7 +461,8 @@ class CardListViewTestCase(BaseViewTestCase):
         )
         self.assertQuerySetEqual(query_cards, response.context["card_list"])
 
-        # Search all the COMMON CHARACTERS or PERMANENTS of AXIOM ordered by inverse NAME order
+        # Search all the COMMON CHARACTERS or PERMANENTS of AXIOM ordered by inverse
+        # NAME order
         response = self.client.get(
             reverse("cards")
             + "?faction=AX&rarity=C&type=character,permanent&order=-name"
@@ -470,6 +473,132 @@ class CardListViewTestCase(BaseViewTestCase):
             type__in=[Card.Type.CHARACTER, Card.Type.PERMANENT],
         ).order_by("-name", "-reference")
         self.assertQuerySetEqual(query_cards, response.context["card_list"])
+
+    def test_card_list_hc_advanced_filters(self):
+        """Test the view of all the Cards after applying advanced filters on the query."""
+        # Search all the cards with a hand cost of 2
+        value = 2
+        response = self.client.get(reverse("cards") + f"?query={quote('hc=')}{value}")
+        query_cards = Card.objects.filter(
+            Q(character__main_cost=value)
+            | Q(spell__main_cost=value)
+            | Q(permanent__main_cost=value)
+        )
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+        # Search all the cards with a hand cost greater than 2
+        value = 2
+        response = self.client.get(reverse("cards") + f"?query={quote('hc>')}{value}")
+        # print(response.context)
+        query_cards = Card.objects.filter(
+            Q(character__main_cost__gt=value)
+            | Q(spell__main_cost__gt=value)
+            | Q(permanent__main_cost__gt=value)
+        )
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+        # Search all the cards with a hand cost greater than or equal to 2
+        value = 2
+        response = self.client.get(reverse("cards") + f"?query={quote('hc>=')}{value}")
+        query_cards = Card.objects.filter(
+            Q(character__main_cost__gte=value)
+            | Q(spell__main_cost__gte=value)
+            | Q(permanent__main_cost__gte=value)
+        )
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+        # Search all the cards with a hand cost smaller than 4
+        value = 4
+        response = self.client.get(reverse("cards") + f"?query={quote('hc<')}{value}")
+        query_cards = Card.objects.filter(
+            Q(character__main_cost__lt=value)
+            | Q(spell__main_cost__lt=value)
+            | Q(permanent__main_cost__lt=value)
+        )
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+        # Search all the cards with a hand cost smaller than or equal to 4
+        value = 4
+        response = self.client.get(reverse("cards") + f"?query={quote('hc<=')}{value}")
+        query_cards = Card.objects.filter(
+            Q(character__main_cost__lte=value)
+            | Q(spell__main_cost__lte=value)
+            | Q(permanent__main_cost__lte=value)
+        )
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+    def test_card_list_rc_advanced_filters(self):
+        """Test the view of all the Cards after applying advanced filters on the query."""
+        # Search all the cards with a reserve cost of 2
+        value = 2
+        response = self.client.get(reverse("cards") + f"?query={quote('rc=')}{value}")
+        query_cards = Card.objects.filter(
+            Q(character__recall_cost=value)
+            | Q(spell__recall_cost=value)
+            | Q(permanent__recall_cost=value)
+        )
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+        # Search all the cards with a reserve cost greater than 2
+        value = 2
+        response = self.client.get(reverse("cards") + f"?query={quote('rc>')}{value}")
+        # print(response.context)
+        query_cards = Card.objects.filter(
+            Q(character__recall_cost__gt=value)
+            | Q(spell__recall_cost__gt=value)
+            | Q(permanent__recall_cost__gt=value)
+        )
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+        # Search all the cards with a reserve cost greater than or equal to 2
+        value = 2
+        response = self.client.get(reverse("cards") + f"?query={quote('rc>=')}{value}")
+        query_cards = Card.objects.filter(
+            Q(character__recall_cost__gte=value)
+            | Q(spell__recall_cost__gte=value)
+            | Q(permanent__recall_cost__gte=value)
+        )
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+        # Search all the cards with a reserve cost smaller than 4
+        value = 4
+        response = self.client.get(reverse("cards") + f"?query={quote('rc<')}{value}")
+        query_cards = Card.objects.filter(
+            Q(character__recall_cost__lt=value)
+            | Q(spell__recall_cost__lt=value)
+            | Q(permanent__recall_cost__lt=value)
+        )
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+        # Search all the cards with a reserve cost smaller than or equal to 4
+        value = 4
+        response = self.client.get(reverse("cards") + f"?query={quote('rc<=')}{value}")
+        query_cards = Card.objects.filter(
+            Q(character__recall_cost__lte=value)
+            | Q(spell__recall_cost__lte=value)
+            | Q(permanent__recall_cost__lte=value)
+        )
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
 
 
 class AccessPrivateLinkViewTestCase(BaseViewTestCase):

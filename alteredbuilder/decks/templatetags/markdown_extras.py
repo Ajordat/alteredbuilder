@@ -77,9 +77,7 @@ class InlineImageProcessor(Treeprocessor):
             element.attrib["href"] = attrib.pop("src")
             element.text = attrib.pop("alt")
             element.tail = tail
-            # element.attrib |= attrib
-            for k, v in attrib.items():
-                element.set(k, v)
+            element.attrib.update(attrib)
 
 
 class ImageExtension(Extension):

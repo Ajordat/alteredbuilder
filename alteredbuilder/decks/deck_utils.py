@@ -348,7 +348,6 @@ def parse_query_syntax(query):
                 continue
         query = re.sub(t_regex, "", query)
 
-
     query = query.strip()
     if query:
         tags.append((_("query"), ":", query))
