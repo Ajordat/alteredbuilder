@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-15 16:45+0200\n"
+"POT-Creation-Date: 2024-07-16 13:30+0200\n"
 "PO-Revision-Date: 2024-05-22 18:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -47,33 +47,37 @@ msgstr "Français"
 msgid "Italian"
 msgstr "Italien"
 
-#: decks/deck_utils.py:61
+#: decks/deck_utils.py:68
 #, python-format
 msgid "Failed to unpack '%(line)s'"
 msgstr "Échec d'extraction '%(line)s'"
 
-#: decks/deck_utils.py:69 decks/deck_utils.py:79
+#: decks/deck_utils.py:76 decks/deck_utils.py:86
 #, python-format
 msgid "Card '%(reference)s' does not exist"
 msgstr "La carte '%(reference)s' n'existe pas"
 
-#: decks/deck_utils.py:86
+#: decks/deck_utils.py:93
 msgid "Multiple heroes present in the decklist"
 msgstr "Plusieurs héros présents dans la decklist"
 
-#: decks/deck_utils.py:261
+#: decks/deck_utils.py:268
 msgid "hand cost"
 msgstr "coût de main"
 
-#: decks/deck_utils.py:301
+#: decks/deck_utils.py:308
 msgid "reserve cost"
 msgstr "coût de réserve"
 
-#: decks/deck_utils.py:317
+#: decks/deck_utils.py:324
 msgid "ability"
 msgstr "capacité"
 
-#: decks/deck_utils.py:321
+#: decks/deck_utils.py:346
+msgid "trigger"
+msgstr "déclencher"
+
+#: decks/deck_utils.py:354
 msgid "query"
 msgstr "requête"
 
@@ -449,7 +453,9 @@ msgstr "Championnat ExAlts"
 msgid ""
 "This mode works the same as Standard but replaces the 3 uniques with 3 extra "
 "rares."
-msgstr "Ce mode fonctionne de la même manière que le mode Standard mais remplace les 3 uniques par 3 rares supplémentaires."
+msgstr ""
+"Ce mode fonctionne de la même manière que le mode Standard mais remplace les "
+"3 uniques par 3 rares supplémentaires."
 
 #: decks/templates/decks/deck_detail.html:275
 #: decks/templates/decks/deck_list.html:47
@@ -607,6 +613,7 @@ msgstr "Coût de main :"
 #: decks/templates/decks/tooltips/query_search.html:9
 #: decks/templates/decks/tooltips/query_search.html:13
 #: decks/templates/decks/tooltips/query_search.html:17
+#: decks/templates/decks/tooltips/query_search.html:21
 msgid "Operators:"
 msgstr "Opérateurs :"
 
@@ -633,15 +640,23 @@ msgstr "Capacités :"
 msgid "Single word"
 msgstr "Un seul mot"
 
-#: decks/templates/decks/tooltips/query_search.html:21
+#: decks/templates/decks/tooltips/query_search.html:20
+msgid "Triggers:"
+msgstr "Déclencheurs :"
+
+#: decks/templates/decks/tooltips/query_search.html:22
+msgid "Values:"
+msgstr "Valeurs :"
+
+#: decks/templates/decks/tooltips/query_search.html:25
 msgid "Examples:"
 msgstr "Exemples :"
 
-#: decks/templates/decks/tooltips/query_search.html:23
+#: decks/templates/decks/tooltips/query_search.html:27
 msgid "Search cards that cost <span class=\"altered-3\"></span>:"
 msgstr "Chercher des cartes qui coûtent <span class=\"altered-3\"></span> :"
 
-#: decks/templates/decks/tooltips/query_search.html:26
+#: decks/templates/decks/tooltips/query_search.html:30
 msgid ""
 "Search cards with `training` in their name that cost <span "
 "class=\"altered-2\"></span>:"
@@ -649,11 +664,11 @@ msgstr ""
 "Chercher les cartes avec « scarabot » dans leur nom qui coûtent <span "
 "class=\"altered-2\"></span> :"
 
-#: decks/templates/decks/tooltips/query_search.html:27
+#: decks/templates/decks/tooltips/query_search.html:31
 msgid "training"
 msgstr "scarabot"
 
-#: decks/templates/decks/tooltips/query_search.html:29
+#: decks/templates/decks/tooltips/query_search.html:33
 msgid ""
 "Search cards that cost between <span class=\"altered-3\"></span> and <span "
 "class=\"altered-5\"></span> (inclusive):"
@@ -661,11 +676,11 @@ msgstr ""
 "Rechercher les cartes dont le coût est compris entre <span "
 "class=\"altered-3\"></span> et <span class=\"altered-5\"></span> (inclus) :"
 
-#: decks/templates/decks/tooltips/query_search.html:30
+#: decks/templates/decks/tooltips/query_search.html:34
 msgid "OR"
 msgstr "OU"
 
-#: decks/templates/decks/tooltips/query_search.html:32
+#: decks/templates/decks/tooltips/query_search.html:36
 msgid ""
 "Search cards with `anchor` abilities that cost <span class=\"altered-3\"></"
 "span> or less from reserve:"
@@ -673,9 +688,19 @@ msgstr ""
 "Chercher des cartes avec des capacités « sabotez » avec un coût de réserve "
 "de <span class=\"altered-3\"></span> ou moins :"
 
-#: decks/templates/decks/tooltips/query_search.html:33
+#: decks/templates/decks/tooltips/query_search.html:37
 msgid "anchor"
 msgstr "sabotez"
+
+#: decks/templates/decks/tooltips/query_search.html:39
+msgid ""
+"Search cards that trigger when played from the hand (<span class=\"altered-"
+"hand\"></span>) and that can be discarded (<span class=\"altered-discard\"></"
+"span>):"
+msgstr ""
+"Recherche les cartes qui se déclenchent lorsqu'elles sont jouées depuis la "
+"main (<span class=\"altered-hand\"></span>) et qui peuvent être défaussées "
+"(<span class=\"altered-discard\"></span>) :"
 
 #: decks/templates/forms/submit_deck_metadata.html:15
 #: decks/templates/forms/submit_decklist.html:14

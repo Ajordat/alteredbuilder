@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-15 16:45+0200\n"
+"POT-Creation-Date: 2024-07-16 13:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,33 +46,37 @@ msgstr "Francese"
 msgid "Italian"
 msgstr "Italiano"
 
-#: decks/deck_utils.py:61
+#: decks/deck_utils.py:68
 #, python-format
 msgid "Failed to unpack '%(line)s'"
 msgstr "Impossibile decomprimere '%(line)s'"
 
-#: decks/deck_utils.py:69 decks/deck_utils.py:79
+#: decks/deck_utils.py:76 decks/deck_utils.py:86
 #, python-format
 msgid "Card '%(reference)s' does not exist"
 msgstr "La carta '%(reference)s' non esiste"
 
-#: decks/deck_utils.py:86
+#: decks/deck_utils.py:93
 msgid "Multiple heroes present in the decklist"
 msgstr "Più eroi presenti nella lista del mazzo"
 
-#: decks/deck_utils.py:261
+#: decks/deck_utils.py:268
 msgid "hand cost"
 msgstr "costo della mano"
 
-#: decks/deck_utils.py:301
+#: decks/deck_utils.py:308
 msgid "reserve cost"
 msgstr "costo della riserva"
 
-#: decks/deck_utils.py:317
+#: decks/deck_utils.py:324
 msgid "ability"
 msgstr "capacità"
 
-#: decks/deck_utils.py:321
+#: decks/deck_utils.py:346
+msgid "trigger"
+msgstr "innesco"
+
+#: decks/deck_utils.py:354
 msgid "query"
 msgstr "consultazione"
 
@@ -448,7 +452,9 @@ msgstr "Campionato ExAlts"
 msgid ""
 "This mode works the same as Standard but replaces the 3 uniques with 3 extra "
 "rares."
-msgstr "Questa modalità funziona come la Standard, ma sostituisce le 3 carte uniche con 3 carte rare extra."
+msgstr ""
+"Questa modalità funziona come la Standard, ma sostituisce le 3 carte uniche "
+"con 3 carte rare extra."
 
 #: decks/templates/decks/deck_detail.html:275
 #: decks/templates/decks/deck_list.html:47
@@ -606,6 +612,7 @@ msgstr "Costo della mano:"
 #: decks/templates/decks/tooltips/query_search.html:9
 #: decks/templates/decks/tooltips/query_search.html:13
 #: decks/templates/decks/tooltips/query_search.html:17
+#: decks/templates/decks/tooltips/query_search.html:21
 msgid "Operators:"
 msgstr "Operatori:"
 
@@ -632,15 +639,23 @@ msgstr "Abilità:"
 msgid "Single word"
 msgstr "Una sola parola"
 
-#: decks/templates/decks/tooltips/query_search.html:21
+#: decks/templates/decks/tooltips/query_search.html:20
+msgid "Triggers:"
+msgstr ""
+
+#: decks/templates/decks/tooltips/query_search.html:22
+msgid "Values:"
+msgstr "Valori:"
+
+#: decks/templates/decks/tooltips/query_search.html:25
 msgid "Examples:"
 msgstr "Esempi:"
 
-#: decks/templates/decks/tooltips/query_search.html:23
+#: decks/templates/decks/tooltips/query_search.html:27
 msgid "Search cards that cost <span class=\"altered-3\"></span>:"
 msgstr "Cerca carte che costano <span class=\"altered-3\"></span>:"
 
-#: decks/templates/decks/tooltips/query_search.html:26
+#: decks/templates/decks/tooltips/query_search.html:30
 msgid ""
 "Search cards with `training` in their name that cost <span "
 "class=\"altered-2\"></span>:"
@@ -648,11 +663,11 @@ msgstr ""
 "Cerca le carte con `addestramento` nel loro nome che costano <span "
 "class=\"altered-2\"></span>:"
 
-#: decks/templates/decks/tooltips/query_search.html:27
+#: decks/templates/decks/tooltips/query_search.html:31
 msgid "training"
 msgstr "addestramento"
 
-#: decks/templates/decks/tooltips/query_search.html:29
+#: decks/templates/decks/tooltips/query_search.html:33
 msgid ""
 "Search cards that cost between <span class=\"altered-3\"></span> and <span "
 "class=\"altered-5\"></span> (inclusive):"
@@ -660,11 +675,11 @@ msgstr ""
 "Cerca le carte che costano tra <span class=\"altered-3\"></span> e <span "
 "class=\"altered-5\"></span> (inclusi):"
 
-#: decks/templates/decks/tooltips/query_search.html:30
+#: decks/templates/decks/tooltips/query_search.html:34
 msgid "OR"
 msgstr "O"
 
-#: decks/templates/decks/tooltips/query_search.html:32
+#: decks/templates/decks/tooltips/query_search.html:36
 msgid ""
 "Search cards with `anchor` abilities that cost <span class=\"altered-3\"></"
 "span> or less from reserve:"
@@ -672,9 +687,19 @@ msgstr ""
 "Cerca carte con abilità `ancorato` che abbiano un costo di riserva di <span "
 "class=\"altered-3\"></span> o meno:"
 
-#: decks/templates/decks/tooltips/query_search.html:33
+#: decks/templates/decks/tooltips/query_search.html:37
 msgid "anchor"
 msgstr "ancorato"
+
+#: decks/templates/decks/tooltips/query_search.html:39
+msgid ""
+"Search cards that trigger when played from the hand (<span class=\"altered-"
+"hand\"></span>) and that can be discarded (<span class=\"altered-discard\"></"
+"span>):"
+msgstr ""
+"Cerca carte che si attivano quando vengono giocate dalla mano (<span "
+"class=\"altered-hand\"></span>) e che possono essere scartate (<span "
+"class=\"altered-discard\"></span>):"
 
 #: decks/templates/forms/submit_deck_metadata.html:15
 #: decks/templates/forms/submit_decklist.html:14

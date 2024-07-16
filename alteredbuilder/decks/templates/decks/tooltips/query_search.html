@@ -17,6 +17,10 @@
             {% translate "Operators:" %} <code class="inline">:</code><br>
             {% translate "Value:" %} <code class="inline">{% translate "Single word" %}</code>
         </li>
+        <li>{% translate "Triggers:" %} <code class="inline">t</code><br>
+            {% translate "Operators:" %} <code class="inline">:</code><br>
+            {% translate "Values:" %} <code class="inline">etb</code>(<span class="altered-etb"></span>), <code class="inline">hand</code>(<span class="altered-hand"></span>), <code class="inline">reserve</code>(<span class="altered-reserve"></span>), <code class="inline">discard</code>(<span class="altered-discard"></span>), <code class="inline">exhaust</code>(<span class="altered-exhaust"></span>)
+        </li>
     </ul>
     {% translate "Examples:" %}
     <ul>
@@ -31,6 +35,9 @@
         </li>
         <li>{% translate 'Search cards with `anchor` abilities that cost <span class="altered-3"></span> or less from reserve:' %}<br>
             <code class="inline">x:{% translate "anchor" %} rc<=3</code>
+        </li>
+        <li>{% translate 'Search cards that trigger when played from the hand (<span class="altered-hand"></span>) and that can be discarded (<span class="altered-discard"></span>):' %}<br>
+            <code class="inline">t:hand t:discard</code>
         </li>
     </ul>
 </div>

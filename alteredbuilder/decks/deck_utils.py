@@ -19,6 +19,13 @@ OPERATOR_TO_HTML = {
     ">": " &gt;",
     ">=": " &ge;",
 }
+TRIGGER_TRANSLATION = {
+    "etb": "{J}",
+    "hand": "{H}",
+    "reserve": "{R}",
+    "discard": "{D}",
+    "exhaust": "{T}",
+}
 
 
 @transaction.atomic
@@ -316,6 +323,32 @@ def parse_query_syntax(query):
             )
             tags.append((_("ability"), ":", value))
         query = re.sub(x_regex, "", query)
+
+    t_regex = r"t:(?P<trigger>\w+)"
+
+    if matches := re.finditer(t_regex, query, re.ASCII):
+        for re_match in matches:
+            try:
+                trigger = re_match.group("trigger")
+                value = TRIGGER_TRANSLATION[trigger]
+                if trigger == "discard":
+                    filters &= (
+                        Q(character__echo_effect__contains=value)
+                        | Q(spell__echo_effect__contains=value)
+                        | Q(permanent__echo_effect__contains=value)
+                    )
+                else:
+                    filters &= (
+                        Q(character__main_effect__contains=value)
+                        | Q(spell__main_effect__contains=value)
+                        | Q(permanent__main_effect__contains=value)
+                    )
+                tags.append((_("trigger"), ":", trigger))
+            except KeyError:
+                continue
+        query = re.sub(t_regex, "", query)
+
+
     query = query.strip()
     if query:
         tags.append((_("query"), ":", query))

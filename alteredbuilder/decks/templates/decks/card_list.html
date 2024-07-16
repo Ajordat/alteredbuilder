@@ -95,12 +95,12 @@
                         </select>
                     </div>
                 </div>
-    {% with request.GET|card_params_to_filter_tag as tags %}
-        {% for tag, op, value in query_tags %}
+    {% for tag, op, value in query_tags %}
                 <div class="col px-0 d-flex align-items-center">
                     <span class="badge text-bg-secondary">{% translate tag %}{{ op | safe }} {% translate value %}</span>&nbsp;
                 </div>
-        {% endfor %}
+    {% endfor %}
+    {% with request.GET|card_params_to_filter_tag as tags %}
         {% for tag, op, value in tags %}
                 <div class="col px-0 d-flex align-items-center">
                     <span class="badge text-bg-secondary">{% translate tag %}{{ op }}{% translate value %}</span>&nbsp;

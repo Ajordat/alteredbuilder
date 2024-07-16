@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-15 16:45+0200\n"
+"POT-Creation-Date: 2024-07-16 13:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,33 +46,37 @@ msgstr ""
 msgid "Italian"
 msgstr ""
 
-#: decks/deck_utils.py:61
+#: decks/deck_utils.py:68
 #, python-format
 msgid "Failed to unpack '%(line)s'"
 msgstr ""
 
-#: decks/deck_utils.py:69 decks/deck_utils.py:79
+#: decks/deck_utils.py:76 decks/deck_utils.py:86
 #, python-format
 msgid "Card '%(reference)s' does not exist"
 msgstr ""
 
-#: decks/deck_utils.py:86
+#: decks/deck_utils.py:93
 msgid "Multiple heroes present in the decklist"
 msgstr ""
 
-#: decks/deck_utils.py:261
+#: decks/deck_utils.py:268
 msgid "hand cost"
 msgstr ""
 
-#: decks/deck_utils.py:301
+#: decks/deck_utils.py:308
 msgid "reserve cost"
 msgstr ""
 
-#: decks/deck_utils.py:317
+#: decks/deck_utils.py:324
 msgid "ability"
 msgstr ""
 
-#: decks/deck_utils.py:321
+#: decks/deck_utils.py:346
+msgid "trigger"
+msgstr ""
+
+#: decks/deck_utils.py:354
 msgid "query"
 msgstr ""
 
@@ -604,6 +608,7 @@ msgstr ""
 #: decks/templates/decks/tooltips/query_search.html:9
 #: decks/templates/decks/tooltips/query_search.html:13
 #: decks/templates/decks/tooltips/query_search.html:17
+#: decks/templates/decks/tooltips/query_search.html:21
 msgid "Operators:"
 msgstr ""
 
@@ -630,42 +635,57 @@ msgstr ""
 msgid "Single word"
 msgstr ""
 
-#: decks/templates/decks/tooltips/query_search.html:21
+#: decks/templates/decks/tooltips/query_search.html:20
+msgid "Triggers:"
+msgstr ""
+
+#: decks/templates/decks/tooltips/query_search.html:22
+msgid "Values:"
+msgstr ""
+
+#: decks/templates/decks/tooltips/query_search.html:25
 msgid "Examples:"
 msgstr ""
 
-#: decks/templates/decks/tooltips/query_search.html:23
+#: decks/templates/decks/tooltips/query_search.html:27
 msgid "Search cards that cost <span class=\"altered-3\"></span>:"
 msgstr ""
 
-#: decks/templates/decks/tooltips/query_search.html:26
+#: decks/templates/decks/tooltips/query_search.html:30
 msgid ""
 "Search cards with `training` in their name that cost <span "
 "class=\"altered-2\"></span>:"
 msgstr ""
 
-#: decks/templates/decks/tooltips/query_search.html:27
+#: decks/templates/decks/tooltips/query_search.html:31
 msgid "training"
 msgstr ""
 
-#: decks/templates/decks/tooltips/query_search.html:29
+#: decks/templates/decks/tooltips/query_search.html:33
 msgid ""
 "Search cards that cost between <span class=\"altered-3\"></span> and <span "
 "class=\"altered-5\"></span> (inclusive):"
 msgstr ""
 
-#: decks/templates/decks/tooltips/query_search.html:30
+#: decks/templates/decks/tooltips/query_search.html:34
 msgid "OR"
 msgstr ""
 
-#: decks/templates/decks/tooltips/query_search.html:32
+#: decks/templates/decks/tooltips/query_search.html:36
 msgid ""
 "Search cards with `anchor` abilities that cost <span class=\"altered-3\"></"
 "span> or less from reserve:"
 msgstr ""
 
-#: decks/templates/decks/tooltips/query_search.html:33
+#: decks/templates/decks/tooltips/query_search.html:37
 msgid "anchor"
+msgstr ""
+
+#: decks/templates/decks/tooltips/query_search.html:39
+msgid ""
+"Search cards that trigger when played from the hand (<span class=\"altered-"
+"hand\"></span>) and that can be discarded (<span class=\"altered-discard\"></"
+"span>):"
 msgstr ""
 
 #: decks/templates/forms/submit_deck_metadata.html:15
