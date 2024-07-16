@@ -698,7 +698,7 @@ msgid ""
 "span>):"
 msgstr ""
 "Busca cartas que se activen al jugarlas desde la mano (<span class=\"altered-"
-"hand\"></span>) y que puedan ser descartadas(<span class=\"altered-"
+"hand\"></span>) y que puedan ser descartadas (<span class=\"altered-"
 "discard\"></span>):"
 
 #: decks/templates/forms/submit_deck_metadata.html:15
