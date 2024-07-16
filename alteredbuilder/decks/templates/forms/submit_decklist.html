@@ -17,7 +17,7 @@
     </div>
 </div>
 
-<p>{% url 'markdown' as md_url %}{% blocktranslate %}Optionally, add a description/explanation of your deck (feel free to use <a href="{{ md_url }}">markdown</a>):' {% endblocktranslate %}</p>
+<p>{% url 'markdown' as md_url %}{% blocktranslate %}Optionally, add a description/explanation of your deck (feel free to use <a href="{{ md_url }}">markdown</a>): {% endblocktranslate %}</p>
 <div class="mb-3">
     <label for="{{ form.description.id_for_label }}" class="col-sm-2 col-form-label">{% translate "Description" %}</label>
     <textarea class="form-control{% if form.description.errors %} is-invalid{% endif %}" id="{{ form.description.auto_id }}" cols="10" rows="5" maxlength="{{ form.fields.description.max_length }}" name="{{ form.description.name }}" aria-describedby="{{ form.description.name }}-validation">{% firstof form.description.value "" %}</textarea>
