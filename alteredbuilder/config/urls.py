@@ -19,9 +19,11 @@ from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.urls import include, path, reverse_lazy
+from django.views.decorators.cache import cache_page
 from django.views.generic import RedirectView, TemplateView
 from django.views.i18n import JavaScriptCatalog
 
+from . import __version__
 
 # Error files definitions
 handler403 = TemplateView.as_view(template_name="errors/403.html")
@@ -46,7 +48,13 @@ urlpatterns = [
 ]
 
 urlpatterns += i18n_patterns(
-    path("jsi18n/", JavaScriptCatalog.as_view(), name="javascript-catalog"),
+    path(
+        "jsi18n/",
+        cache_page(3600, key_prefix="jsi18n-%s" % __version__)(
+            JavaScriptCatalog.as_view()
+        ),
+        name="javascript-catalog",
+    ),
     path("accounts/", include("allauth.account.urls")),
     path("accounts/", include("allauth.socialaccount.urls")),
     path("decks/", include("decks.urls")),
