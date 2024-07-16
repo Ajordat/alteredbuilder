@@ -144,9 +144,15 @@ class LovePoint(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ["-created_at"]
+
 
 class PrivateLink(models.Model):
     code = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     deck = models.OneToOneField(Deck, on_delete=models.CASCADE)
     last_accessed_at = models.DateTimeField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
