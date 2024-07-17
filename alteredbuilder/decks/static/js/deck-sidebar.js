@@ -58,7 +58,7 @@ class DecklistChanges {
 
             }
         }
-        this.#changes[reference] = value;
+        this.#changes[reference] = Object.assign(this.#changes[reference] || {}, value);
     }
     /**
      * Returns if a card has any changes registered.
