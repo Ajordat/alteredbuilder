@@ -1,4 +1,5 @@
 :root {
+    --C-shadow-color: gray;
     --R-shadow-color: #058196;
     --U-shadow-color: #ff5e00fd;
     --C-color: var(--bs-body-bg);
@@ -13,6 +14,10 @@
 
 .card-display:hover{
     transform: scale(1.05);
+}
+
+.card-display:hover[data-card-rarity="C"]{
+    box-shadow: 0 0 12px var(--C-shadow-color);
 }
 
 .card-display:hover[data-card-rarity="R"]{
