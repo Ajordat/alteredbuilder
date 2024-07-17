@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-15 16:45+0200\n"
+"POT-Creation-Date: 2024-07-17 11:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,8 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
-"1 : 2;\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: decks/static/js/deck-detail.js:19 decks/static/js/deck-detail.js:141
 msgid "Link copied into clipboard!"
@@ -47,15 +46,33 @@ msgstr "¡Referencia copiada en el portapapeles!"
 msgid "Cannot create a private link"
 msgstr "No se puede crear un enlace privado"
 
-#: decks/static/js/deck-sidebar.js:438
+#: decks/static/js/deck-sidebar.js:153
+msgid "Common"
+msgid_plural "Commons"
+msgstr[0] "Común"
+msgstr[1] "Comunes"
+
+#: decks/static/js/deck-sidebar.js:155
+msgid "Rare"
+msgid_plural "Rares"
+msgstr[0] "Rara"
+msgstr[1] "Raras"
+
+#: decks/static/js/deck-sidebar.js:157
+msgid "Unique"
+msgid_plural "Uniques"
+msgstr[0] "Única"
+msgstr[1] "Únicas"
+
+#: decks/static/js/deck-sidebar.js:475
 msgid "The deck must have a name"
 msgstr "El mazo necesita un nombre"
 
-#: decks/static/js/deck-sidebar.js:443
+#: decks/static/js/deck-sidebar.js:480
 msgid "There are no changes to save"
 msgstr "No hay cambios que guardar"
 
-#: decks/static/js/deck-sidebar.js:474
+#: decks/static/js/deck-sidebar.js:511
 msgid "Unable to update deck"
 msgstr "No se puede actualizar el mazo"
 

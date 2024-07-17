@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-15 16:45+0200\n"
+"POT-Creation-Date: 2024-07-17 11:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,15 +46,33 @@ msgstr "Link copiato negli appunti!"
 msgid "Cannot create a private link"
 msgstr "Cannot create a private link"
 
-#: decks/static/js/deck-sidebar.js:438
+#: decks/static/js/deck-sidebar.js:153
+msgid "Common"
+msgid_plural "Commons"
+msgstr[0] "Comune"
+msgstr[1] "Comuni"
+
+#: decks/static/js/deck-sidebar.js:155
+msgid "Rare"
+msgid_plural "Rares"
+msgstr[0] "Rara"
+msgstr[1] "Rari"
+
+#: decks/static/js/deck-sidebar.js:157
+msgid "Unique"
+msgid_plural "Uniques"
+msgstr[0] "Unica"
+msgstr[1] "Unici"
+
+#: decks/static/js/deck-sidebar.js:475
 msgid "The deck must have a name"
 msgstr "Il mazzo deve avere un nome"
 
-#: decks/static/js/deck-sidebar.js:443
+#: decks/static/js/deck-sidebar.js:480
 msgid "There are no changes to save"
 msgstr "Non ci sono modifiche da salvare"
 
-#: decks/static/js/deck-sidebar.js:474
+#: decks/static/js/deck-sidebar.js:511
 msgid "Unable to update deck"
 msgstr "Impossibile aggiornare il mazzo"
 

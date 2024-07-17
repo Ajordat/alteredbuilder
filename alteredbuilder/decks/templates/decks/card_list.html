@@ -167,6 +167,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="row row-cols-auto gx-0 justify-content-center">
+                    <span id="C-count-container" class="me-2"><span id="C-count" class="badge text-bg-secondary"></span> <span id="C-count-text"></span></span>
+                    <span id="R-count-container" class="me-2"><span id="R-count" class="badge text-bg-info"></span> <span id="R-count-text"></span></span>
+                    <span id="U-count-container"><span id="U-count" class="badge text-bg-danger"></span> <span id="U-count-text"></span></span>
+                </div>
                 <div class="row">{% translate "Cards:" %}</div>
                 <div id="decklist-cards">
     {% for cid in edit_deck_cards %}

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-16 13:42+0200\n"
+"POT-Creation-Date: 2024-07-17 11:31+0200\n"
 "PO-Revision-Date: 2024-05-22 18:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -77,7 +77,7 @@ msgstr "capacité"
 msgid "trigger"
 msgstr "déclencher"
 
-#: decks/deck_utils.py:354
+#: decks/deck_utils.py:353
 msgid "query"
 msgstr "requête"
 
@@ -262,11 +262,11 @@ msgstr "Deck"
 msgid "Hero:"
 msgstr "Héros:"
 
-#: decks/templates/decks/card_list.html:170
+#: decks/templates/decks/card_list.html:175
 msgid "Cards:"
 msgstr "Cartes:"
 
-#: decks/templates/decks/card_list.html:207
+#: decks/templates/decks/card_list.html:212
 msgid "Save"
 msgstr "Sauver"
 
@@ -726,6 +726,7 @@ msgid "Use a cool name for your deck:"
 msgstr "Utilisez un nom cool pour votre deck :"
 
 #: decks/templates/forms/submit_decklist.html:20
+#, python-format
 msgid ""
 "Optionally, add a description/explanation of your deck (feel free to use <a "
 "href=\"%(md_url)s\">markdown</a>): "

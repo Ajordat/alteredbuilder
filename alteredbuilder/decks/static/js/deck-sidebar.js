@@ -147,6 +147,38 @@ function sortDeckCards() {
     }
 }
 
+function getRarityTranslated(rarity, count) {
+    switch(rarity) {
+        case "C":
+            return ngettext("Common", "Commons", count);
+        case "R":
+            return ngettext("Rare", "Rares", count);
+        case "U":
+            return ngettext("Unique", "Uniques", count);
+        default:
+            return "";
+    }
+}
+
+function updateCardCount() {
+    let rarities = ["C", "R", "U"];
+
+    for (let rarity of rarities) {
+        let rarityCards = document.querySelectorAll(`#decklist-cards .row[data-card-rarity="${rarity}"] .card-quantity`);
+        let count = 0;
+        for (let card of rarityCards) {
+            count += parseInt(card.innerText);
+        }
+        if (count > 0) {
+            document.getElementById(`${rarity}-count`).innerText = count;
+            document.getElementById(`${rarity}-count-container`).hidden = false;
+            document.getElementById(`${rarity}-count-text`).innerText = getRarityTranslated(rarity, count);
+        } else {
+            document.getElementById(`${rarity}-count-container`).hidden = true;
+        } 
+    }
+}
+
 // Declare the variables to track the changes
 var decklistChanges = new DecklistChanges("decklistChanges");
 var deckId = document.getElementById("deckSelector").value;
@@ -207,6 +239,7 @@ if (deckId !== sessionStorage.getItem("deckId")) {
         sortDeckCards();
     }
 }
+updateCardCount();
 
 
 // Dropdown to select a deck
@@ -261,6 +294,7 @@ function decreaseCardQuantity(event) {
     // Track the changes
     decklistChanges.addChange(cardReference, "quantity", Math.max(quantity, 0));
     decklistChanges.save();
+    updateCardCount();
 }
 
 
@@ -286,6 +320,7 @@ function increaseCardQuantity(event) {
     assertCardLimitWarning(cardRowElement, quantity);
     let t = bootstrap.Tooltip.getInstance("#" + rowId);
     t.hide();
+    updateCardCount();
 }
 
 // Retrieve all the buttons to decrease the card quantity
@@ -418,6 +453,7 @@ function addCardFromDisplay(event) {
         decklistChanges.addChange(cardReference, "image", cardImage);
     }
     decklistChanges.save();
+    updateCardCount();
 }
 // If a card display is clicked, add the card to the deck
 let cardDisplayElements = document.getElementsByClassName("card-display");

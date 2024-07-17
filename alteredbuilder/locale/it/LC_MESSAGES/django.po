@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-16 13:42+0200\n"
+"POT-Creation-Date: 2024-07-17 11:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -76,7 +76,7 @@ msgstr "capacità"
 msgid "trigger"
 msgstr "innesco"
 
-#: decks/deck_utils.py:354
+#: decks/deck_utils.py:353
 msgid "query"
 msgstr "consultazione"
 
@@ -168,12 +168,12 @@ msgstr "Comune"
 #: decks/templates/decks/card_list.html:60
 #: decks/templates/decks/deck_detail.html:204
 msgid "Rare"
-msgstr "Raro"
+msgstr "Rara"
 
 #: decks/templates/decks/card_list.html:61
 #: decks/templates/decks/deck_detail.html:208
 msgid "Unique"
-msgstr "Unico"
+msgstr "Unica"
 
 #: decks/templates/decks/card_list.html:64
 #: decks/templates/decks/deck_detail.html:217
@@ -261,11 +261,11 @@ msgstr "Mazzo"
 msgid "Hero:"
 msgstr "Eroe:"
 
-#: decks/templates/decks/card_list.html:170
+#: decks/templates/decks/card_list.html:175
 msgid "Cards:"
 msgstr "Carte:"
 
-#: decks/templates/decks/card_list.html:207
+#: decks/templates/decks/card_list.html:212
 msgid "Save"
 msgstr "Salvare"
 
@@ -725,6 +725,7 @@ msgid "Use a cool name for your deck:"
 msgstr "Usa un bel nome per il tuo mazzo:"
 
 #: decks/templates/forms/submit_decklist.html:20
+#, python-format
 msgid ""
 "Optionally, add a description/explanation of your deck (feel free to use <a "
 "href=\"%(md_url)s\">markdown</a>): "

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-16 13:42+0200\n"
+"POT-Creation-Date: 2024-07-17 11:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,8 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
-"1 : 2;\n"
+"Plural-Forms: nplurals=2; plural=n != 1;"
 
 #: api/utils.py:17 decks/views.py:419
 msgid "Invalid payload"
@@ -77,7 +76,7 @@ msgstr "habilidad"
 msgid "trigger"
 msgstr "activación"
 
-#: decks/deck_utils.py:354
+#: decks/deck_utils.py:353
 msgid "query"
 msgstr "consulta"
 
@@ -261,11 +260,11 @@ msgstr "Mazo"
 msgid "Hero:"
 msgstr "Héroe:"
 
-#: decks/templates/decks/card_list.html:170
+#: decks/templates/decks/card_list.html:175
 msgid "Cards:"
 msgstr "Cartas:"
 
-#: decks/templates/decks/card_list.html:207
+#: decks/templates/decks/card_list.html:212
 msgid "Save"
 msgstr "Guardar"
 
@@ -725,6 +724,7 @@ msgid "Use a cool name for your deck:"
 msgstr "Pon un buen nombre a tu mazo:"
 
 #: decks/templates/forms/submit_decklist.html:20
+#, python-format
 msgid ""
 "Optionally, add a description/explanation of your deck (feel free to use <a "
 "href=\"%(md_url)s\">markdown</a>): "

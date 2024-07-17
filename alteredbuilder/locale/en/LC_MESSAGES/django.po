@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-16 13:42+0200\n"
+"POT-Creation-Date: 2024-07-17 11:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -76,7 +76,7 @@ msgstr ""
 msgid "trigger"
 msgstr ""
 
-#: decks/deck_utils.py:354
+#: decks/deck_utils.py:353
 msgid "query"
 msgstr ""
 
@@ -259,11 +259,11 @@ msgstr ""
 msgid "Hero:"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:170
+#: decks/templates/decks/card_list.html:175
 msgid "Cards:"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:207
+#: decks/templates/decks/card_list.html:212
 msgid "Save"
 msgstr ""
 
