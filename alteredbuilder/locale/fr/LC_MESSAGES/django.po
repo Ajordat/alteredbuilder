@@ -252,7 +252,7 @@ msgstr "Nouveau deck"
 
 #: decks/templates/decks/card_list.html:157
 msgid "Deck name:"
-msgstr "Nom du deck:"
+msgstr "Nom du deck :"
 
 #: decks/templates/decks/card_list.html:159
 msgid "Deck"
@@ -260,11 +260,11 @@ msgstr "Deck"
 
 #: decks/templates/decks/card_list.html:161
 msgid "Hero:"
-msgstr "Héros:"
+msgstr "Héros :"
 
 #: decks/templates/decks/card_list.html:175
 msgid "Cards:"
-msgstr "Cartes:"
+msgstr "Cartes :"
 
 #: decks/templates/decks/card_list.html:212
 msgid "Save"
