@@ -3,9 +3,11 @@
  */
 class DecklistChanges {
     #changes;
+    #snapshot;
     constructor (storageKey) {
         this.storageKey = storageKey;
         this.#changes = {};
+        this.#snapshot = {};
     }
     /**
      * Store the registered changes into the session storage.
@@ -19,6 +21,19 @@ class DecklistChanges {
     load() {
         this.#changes = JSON.parse(sessionStorage.getItem(this.storageKey)) || {};
     }
+    takeSnapshot() {
+        let cardRows = document.querySelectorAll("#decklist-cards .card-quantity");
+        for (let card of cardRows) {
+            let quantity = Number(card.innerText);
+            let reference = card.dataset.cardReference;
+            this.#snapshot[reference] = quantity;
+        }
+        let heroRow = document.getElementById("hero-name");
+        if (heroRow.dataset.cardReference != "") {
+            this.#snapshot[heroRow.dataset.cardReference] = 1;
+        }
+
+    }
     clean() {
         sessionStorage.removeItem(this.storageKey);
         sessionStorage.removeItem("deckId");
@@ -30,11 +45,20 @@ class DecklistChanges {
      * @param {string} key Attribute to track of the given card
      * @param {*} value Value to keep track of
      */
-    addChange(reference, key, value) {
-        if (!this.#changes[reference]) {
-            this.#changes[reference] = {};
+    addChange(reference, value) {
+        if ("quantity" in value) {
+            if (reference in this.#snapshot) {
+                if (this.#snapshot[reference] == value["quantity"]) {
+                    delete this.#changes[reference];
+                    return;
+                }
+            } else if(value["quantity"] == 0) {
+                delete this.#changes[reference];
+                return;
+
+            }
         }
-        this.#changes[reference][key] = value;
+        this.#changes[reference] = value;
     }
     /**
      * Returns if a card has any changes registered.
@@ -131,6 +155,11 @@ function assertCardLimitWarning(cardRow, quantity) {
     }
 }
 
+
+function assertHasChangesWarning() {
+    document.getElementById("changes-warning").hidden = !decklistChanges.hasChanges();
+}
+
 /**
  * Method to sort the card rows according to the Card references.
  */
@@ -167,12 +196,12 @@ function updateCardCount() {
         let rarityCards = document.querySelectorAll(`#decklist-cards .row[data-card-rarity="${rarity}"] .card-quantity`);
         let count = 0;
         for (let card of rarityCards) {
-            count += parseInt(card.innerText);
+            count += Number(card.innerText);
         }
         if (count > 0) {
             document.getElementById(`${rarity}-count`).innerText = count;
-            document.getElementById(`${rarity}-count-container`).hidden = false;
             document.getElementById(`${rarity}-count-text`).innerText = getRarityTranslated(rarity, count);
+            document.getElementById(`${rarity}-count-container`).hidden = false;
         } else {
             document.getElementById(`${rarity}-count-container`).hidden = true;
         } 
@@ -181,6 +210,7 @@ function updateCardCount() {
 
 // Declare the variables to track the changes
 var decklistChanges = new DecklistChanges("decklistChanges");
+decklistChanges.takeSnapshot();
 var deckId = document.getElementById("deckSelector").value;
 
 
@@ -240,6 +270,7 @@ if (deckId !== sessionStorage.getItem("deckId")) {
     }
 }
 updateCardCount();
+assertHasChangesWarning();
 
 
 // Dropdown to select a deck
@@ -292,9 +323,10 @@ function decreaseCardQuantity(event) {
         cardRowElement.remove();
     }
     // Track the changes
-    decklistChanges.addChange(cardReference, "quantity", Math.max(quantity, 0));
+    decklistChanges.addChange(cardReference, {"quantity": Math.max(quantity, 0)});
     decklistChanges.save();
     updateCardCount();
+    assertHasChangesWarning();
 }
 
 
@@ -312,7 +344,7 @@ function increaseCardQuantity(event) {
     // Update the value
     quantityElement.innerText = quantity;
     // Track the changes
-    decklistChanges.addChange(cardReference, "quantity", quantity);
+    decklistChanges.addChange(cardReference, {"quantity": quantity});
     decklistChanges.save();
 
     let rowId = getRowId(cardReference);
@@ -321,6 +353,7 @@ function increaseCardQuantity(event) {
     let t = bootstrap.Tooltip.getInstance("#" + rowId);
     t.hide();
     updateCardCount();
+    assertHasChangesWarning();
 }
 
 // Retrieve all the buttons to decrease the card quantity
@@ -353,16 +386,9 @@ removeHeroButton.addEventListener("click", function(event) {
     tooltip.hide();
 
     // Track the changes
-    if (decklistChanges.contains(heroReference)) {
-        // If the change is already tracked it means that the hero had been added but
-        // never saved, hence we can simply delete the record that added the hero
-        decklistChanges.removeChange(heroReference);
-    } else {
-        // If the hero is not present in the changelist, add the hero removal action
-        decklistChanges.addChange(heroReference, "quantity", 0);
-        decklistChanges.addChange(heroReference, "isHero", true);
-    }
+    decklistChanges.addChange(heroReference, {"quantity": 0, "isHero": true});
     decklistChanges.save();
+    assertHasChangesWarning();
 });
 
 /**
@@ -421,11 +447,9 @@ function addCardFromDisplay(event) {
             tooltip.setContent({".tooltip-inner": getImageElement(cardImage)});
             tooltip.enable();
 
-            decklistChanges.addChange(cardReference, "quantity", 1);
-            decklistChanges.addChange(cardReference, "isHero", true);
-            decklistChanges.addChange(cardReference, "name", cardName);
-            decklistChanges.addChange(cardReference, "image", cardImage);
+            decklistChanges.addChange(cardReference, {"quantity": 1, "isHero": true, "name": cardName, "image": cardImage});
             decklistChanges.save();
+            assertHasChangesWarning();
         }
         return;
     }
@@ -439,7 +463,7 @@ function addCardFromDisplay(event) {
         let quantity = decklistChanges.getChange(cardReference, "quantity") || Number(cardElement.getElementsByClassName("card-quantity")[0].innerText);
         quantity += 1;
 
-        decklistChanges.addChange(cardReference, "quantity", quantity);
+        decklistChanges.addChange(cardReference, {"quantity": quantity});
         cardElement.getElementsByClassName("card-quantity")[0].innerText = quantity;
         assertCardLimitWarning(cardElement, quantity);
     } else {
@@ -447,13 +471,11 @@ function addCardFromDisplay(event) {
         createCardRow(1, cardReference, cardName, cardRarity, cardImage);
         sortDeckCards();
         // Track the changes
-        decklistChanges.addChange(cardReference, "quantity", 1);
-        decklistChanges.addChange(cardReference, "name", cardName);
-        decklistChanges.addChange(cardReference, "rarity", cardRarity);
-        decklistChanges.addChange(cardReference, "image", cardImage);
+        decklistChanges.addChange(cardReference, {"quantity": 1, "name": cardName, "rarity": cardRarity, "image": cardImage});
     }
     decklistChanges.save();
     updateCardCount();
+    assertHasChangesWarning();
 }
 // If a card display is clicked, add the card to the deck
 let cardDisplayElements = document.getElementsByClassName("card-display");
