@@ -381,9 +381,7 @@ removeHeroButton.addEventListener("click", function(event) {
     heroTextElement.style["background-image"] = "";
     event.currentTarget.disabled = true;
     // Hide and disable the tooltip showing the hero's image
-    let tooltip = bootstrap.Tooltip.getInstance("#row-hero");
-    tooltip.disable();
-    tooltip.hide();
+    bootstrap.Tooltip.getInstance("#row-hero").dispose();
 
     // Track the changes
     decklistChanges.addChange(heroReference, {"quantity": 0, "isHero": true});
