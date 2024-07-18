@@ -1,13 +1,7 @@
 name: Update card pool 
 
 on:
-  schedule:
-  - cron: "0 19 * * 1-5"
-  push:
-    branches:
-    - master
-    paths:
-    - ".github/workflows/update_card_pool.yml"
+  workflow_dispatch
 
 env:
   DEBUG: False
