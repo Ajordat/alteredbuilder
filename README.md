@@ -58,6 +58,18 @@ docker compose run web python manage.py makemigrations
 docker compose run web python manage.py migrate
 ```
 
+### Revert a Django migration
+
+If it's a reversible (automated) migration, simply migrate to a previous version:
+```bash
+docker compose run web python manage.py migrate <migration_number>
+```
+
+If it was manual, delete the record of the migration from the database and manually reverse the changes made by the migration:
+```bash
+DELETE FROM django_migrations WHERE name=<migration_name>
+```
+
 ### Import and export
 
 ```bash
