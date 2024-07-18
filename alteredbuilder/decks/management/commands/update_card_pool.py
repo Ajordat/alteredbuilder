@@ -13,7 +13,7 @@ from decks.models import Card, Set
 
 API_URL = "https://api.altered.gg/cards"
 ITEMS_PER_PAGE = 2000
-UPDATE_UNIQUES = True
+UPDATE_UNIQUES = False
 IMAGE_ERROR_LOCALES = ["es", "fr", "de"]
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0",
