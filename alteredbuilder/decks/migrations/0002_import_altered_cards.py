@@ -106,7 +106,7 @@ def import_cards(apps, schema_editor):
                     Spell.objects.create(**card_object)
                 case Card.Type.PERMANENT:
                     Permanent.objects.create(**card_object)
-                case Card.Type.TOKEN | Card.Type.MANA:
+                case Card.Type.TOKEN | Card.Type.TOKEN_MANA:
                     continue
                 case _:
                     continue

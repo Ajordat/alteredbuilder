@@ -24,7 +24,7 @@ class Card(models.Model):
         TOKEN = "token"
         CHARACTER = "character"
         HERO = "hero"
-        MANA = "mana"
+        TOKEN_MANA = "token_mana"
 
         @staticmethod
         def to_class(type):

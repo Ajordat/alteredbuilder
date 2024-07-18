@@ -11,7 +11,7 @@ from django.utils.translation import activate
 
 
 API_URL = "https://api.altered.gg/cards"
-ITEMS_PER_PAGE = 1000
+ITEMS_PER_PAGE = 2000
 UPDATE_UNIQUES = False
 IMAGE_ERROR_LOCALES = ["es"]
 headers = {
@@ -52,10 +52,17 @@ class Command(BaseCommand):
                 try:
                     card_dict = self.extract_card(card)
                 except KeyError:
+                    print(card)
                     self.stderr.write(card)
                     raise CommandError("Invalid card format encountered")
-
-                self.convert_choices(card_dict)
+                
+                if "_COREKS_" in card_dict["reference"]:
+                    print(f"Skipped {card_dict["reference"]}, {card_dict["name"]}")
+                    continue
+                try:
+                    self.convert_choices(card_dict)
+                except ValueError:
+                    continue
                 if (
                     card_dict["rarity"] == Card.Rarity.UNIQUE
                     and language_code in IMAGE_ERROR_LOCALES
@@ -94,7 +101,7 @@ class Command(BaseCommand):
                 card_dict.update({"reserve_count": 2, "permanent_count": 2})
 
         else:
-            if card_dict["type"] == "TOKEN":
+            if card_dict["type"] in ["TOKEN", "TOKEN_MANA"]:
                 card_dict.update({"main_cost": 0, "recall_cost": 0})
             else:
                 card_dict.update(
@@ -123,7 +130,7 @@ class Command(BaseCommand):
 
     def create_card(self, card_dict: dict) -> None:
         try:
-            if card_dict["type"] != Card.Type.TOKEN:
+            if card_dict["type"] not in [Card.Type.TOKEN, Card.Type.TOKEN_MANA]:
                 self.stdout.write(f"{card_dict}")
             card = Card.Type.to_class(card_dict["type"]).objects.create(**card_dict)
             self.stdout.write(f"card created: {card}")
