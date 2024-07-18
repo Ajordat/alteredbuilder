@@ -13,6 +13,7 @@ from .models import (
     LovePoint,
     Permanent,
     PrivateLink,
+    Set,
     Spell,
 )
 
@@ -114,7 +115,7 @@ class DeckAdmin(admin.ModelAdmin):
 
 @admin.register(Character, Hero, Permanent, Spell)
 class CardAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
-    list_display = ["reference", "name", "rarity", "faction"]
+    list_display = ["reference", "name", "rarity", "faction", "set"]
     search_fields = ["reference", "name"]
     list_display_links = ["reference", "name"]
 
@@ -122,7 +123,7 @@ class CardAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
         self, request: HttpRequest, obj: Card
     ) -> list[tuple[str | None, dict[str, Any]]]:
 
-        base_fieldset = ["reference", "name", "faction", "type", "rarity", "image_url"]
+        base_fieldset = ["set", "reference", "name", "faction", "type", "rarity", "image_url"]
         i18n_fields = ["name", "image_url", "main_effect"]
 
         if obj.type == Card.Type.HERO:
@@ -173,3 +174,8 @@ class PrivateLinkAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
     list_display = ["code", "deck", "last_accessed_at", "created_at"]
     fields = list_display
     search_fields = ["deck"]
+
+
+@admin.register(Set)
+class SetAdmin(admin.ModelAdmin):
+    list_display = ["name", "short_name", "code", "reference_code"]

@@ -14,6 +14,8 @@ class Set(models.Model):
     code = models.CharField(max_length=8, null=False, blank=False, unique=True)
     reference_code = models.CharField(null=False, blank=False, unique=True)
 
+    def __str__(self) -> str:
+        return self.name
 
 # Create your models here.
 class Card(models.Model):
