@@ -36,7 +36,7 @@ def link_cards_to_sets(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("decks", "0030_set_reference_code_set_short_name_alter_set_code"),
+        ("decks", "0031_alter_set_code"),
     ]
 
     operations = [

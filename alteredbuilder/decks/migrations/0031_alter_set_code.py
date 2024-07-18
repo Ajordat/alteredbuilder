@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("decks", "0031_create_sets"),
+        ("decks", "0030_set_reference_code_set_short_name_alter_set_code"),
     ]
 
     operations = [
