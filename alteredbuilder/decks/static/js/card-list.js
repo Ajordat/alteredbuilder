@@ -61,6 +61,12 @@ function searchCards(e) {
         params.append("type", types.join(","));
     }
 
+    // Retrieve the SET filters
+    let sets = parseFilter(["BTG", "BTG-KS"]);
+    if (sets.length > 0) {
+        params.append("set", sets.join(","));
+    }
+
     // Retrieve the QUERY from the search input
     let queryElement = document.getElementById("querySearch");
     if (queryElement.value != "") {
