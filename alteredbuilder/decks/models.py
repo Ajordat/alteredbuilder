@@ -8,6 +8,13 @@ from hitcount.models import HitCountMixin
 ALTERED_TCG_URL = "https://www.altered.gg"
 
 
+class Set(models.Model):
+    name = models.CharField(null=False, blank=False, unique=True)
+    short_name = models.CharField(null=False, blank=False, unique=True)
+    code = models.CharField(max_length=5, null=False, blank=False, unique=True)
+    reference_code = models.CharField(null=False, blank=False, unique=True)
+
+
 # Create your models here.
 class Card(models.Model):
     class Faction(models.TextChoices):
@@ -46,6 +53,7 @@ class Card(models.Model):
     type = models.CharField(max_length=16, choices=Type)
     rarity = models.CharField(max_length=1, choices=Rarity)
     image_url = models.URLField(null=False, blank=True)
+    set = models.ForeignKey(Set, null=True, on_delete=models.SET_NULL)
 
     def __str__(self) -> str:
         return f"[{self.faction}] - {self.name} ({self.rarity})"
