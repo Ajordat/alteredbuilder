@@ -3,11 +3,12 @@ import math
 from typing import Any
 from urllib import request
 
-from decks.models import Card, Set
-
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from django.utils.translation import activate
+
+from decks.exceptions import IgnoreCardType
+from decks.models import Card, Set
 
 
 API_URL = "https://api.altered.gg/cards"
@@ -51,6 +52,8 @@ class Command(BaseCommand):
             for card in data["hydra:member"]:
                 try:
                     card_dict = self.extract_card(card)
+                except IgnoreCardType:
+                    continue
                 except KeyError:
                     print(card)
                     self.stderr.write(card)
@@ -86,6 +89,9 @@ class Command(BaseCommand):
         }
         if "MAIN_EFFECT" in card["elements"]:
             card_dict["main_effect"] = card["elements"]["MAIN_EFFECT"]
+        
+        if card_dict["type"] in ["TOKEN", "TOKEN_MANA", "FOILER"]:
+            raise IgnoreCardType()
 
         if card_dict["type"] == "HERO":
             try:
@@ -99,7 +105,7 @@ class Command(BaseCommand):
                 card_dict.update({"reserve_count": 2, "permanent_count": 2})
 
         else:
-            if card_dict["type"] in ["TOKEN", "TOKEN_MANA"]:
+            if card_dict["type"] == "TOKEN":
                 card_dict.update({"main_cost": 0, "recall_cost": 0})
             else:
                 card_dict.update(

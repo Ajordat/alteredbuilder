@@ -11,7 +11,7 @@ ALTERED_TCG_URL = "https://www.altered.gg"
 class Set(models.Model):
     name = models.CharField(null=False, blank=False, unique=True)
     short_name = models.CharField(null=False, blank=False, unique=True)
-    code = models.CharField(max_length=5, null=False, blank=False, unique=True)
+    code = models.CharField(max_length=8, null=False, blank=False, unique=True)
     reference_code = models.CharField(null=False, blank=False, unique=True)
 
 

@@ -16,9 +16,9 @@ def create_sets(apps, schema_editor):
         name="Beyond The Gates", short_name="BTG", code="CORE", reference_code="_CORE_"
     )
     Set.objects.update_or_create(
-        name="Beyond The Gates - Kickstarter Edition",
+        name="Kickstarter Edition",
         short_name="BTG-KS",
-        code="KS",
+        code="COREKS",
         reference_code="_COREKS_",
     )
 
