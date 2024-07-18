@@ -3,7 +3,7 @@ import math
 from typing import Any
 from urllib import request
 
-from decks.models import Card
+from decks.models import Card, Set
 
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
@@ -55,14 +55,12 @@ class Command(BaseCommand):
                     print(card)
                     self.stderr.write(card)
                     raise CommandError("Invalid card format encountered")
-                
-                if "_COREKS_" in card_dict["reference"]:
-                    print(f"Skipped {card_dict["reference"]}, {card_dict["name"]}")
-                    continue
+
                 try:
                     self.convert_choices(card_dict)
                 except ValueError:
                     continue
+
                 if (
                     card_dict["rarity"] == Card.Rarity.UNIQUE
                     and language_code in IMAGE_ERROR_LOCALES
@@ -127,6 +125,10 @@ class Command(BaseCommand):
         card_dict["faction"] = Card.Faction(card_dict["faction"])
         card_dict["type"] = getattr(Card.Type, card_dict["type"])
         card_dict["rarity"] = getattr(Card.Rarity, card_dict["rarity"])
+        if "_CORE_" in card_dict["reference"]:
+            card_dict["set"] = Set.objects.get(reference_code="_CORE_")
+        elif "_COREKS_" in card_dict["reference"]:
+            card_dict["set"] = Set.objects.get(reference_code="_COREKS_")
 
     def create_card(self, card_dict: dict) -> None:
         try:
