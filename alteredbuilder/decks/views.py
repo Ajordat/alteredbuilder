@@ -29,7 +29,7 @@ from .deck_utils import (
     remove_card_from_deck,
 )
 from .game_modes import update_deck_legality
-from .models import Card, CardInDeck, Deck, LovePoint, PrivateLink
+from .models import Card, CardInDeck, Deck, LovePoint, PrivateLink, Set
 from .forms import DecklistForm, DeckMetadataForm
 from .exceptions import MalformedDeckException
 
@@ -548,6 +548,8 @@ class CardListView(ListView):
                 pass
             else:
                 filters &= Q(rarity__in=rarities)
+        else:
+            filters &= ~Q(rarity=Card.Rarity.UNIQUE)
 
         # Retrieve the Type filters.
         # If any value is invalid, this filter will not be applied.
@@ -561,6 +563,15 @@ class CardListView(ListView):
                 pass
             else:
                 filters &= Q(type__in=card_types)
+
+        # Retrieve the Set filters.
+        # If any value is invalid, this filter will not be applied.
+        card_sets = self.request.GET.get("set")
+        if card_sets:
+            self.filter_sets = Set.objects.filter(code__in=card_sets.split(","))
+            filters &= Q(set__in=self.filter_sets)
+        else:
+            self.filter_sets = None
 
         query_order = []
         order_param = self.request.GET.get("order")
@@ -636,10 +647,12 @@ class CardListView(ListView):
                     pass
 
         checked_filters = []
-        for filter in ["faction", "rarity", "type"]:
+        for filter in ["faction", "rarity", "type", "set"]:
             if filter in self.request.GET:
                 checked_filters += self.request.GET[filter].split(",")
         context["checked_filters"] = checked_filters
+        context["checked_sets"] = self.filter_sets
+        context["sets"] = Set.objects.all()
         if "order" in self.request.GET:
             context["order"] = self.request.GET["order"]
         if "query" in self.request.GET:

@@ -75,6 +75,7 @@ def inject_params(get_params: dict, **kwargs) -> str:
         "legality",
         "deck",
         "other",
+        "set"
     ]
     args = [
         f"{key}={value}" for key, value in get_params.items() if key in allowed_params
@@ -142,7 +143,7 @@ def card_params_to_filter_tag(get_params: dict) -> list[(str, str)]:
                         for value in get_params[param].split(",")
                     ]
             except ValueError:
-                pass
+                continue
 
     return tags
 

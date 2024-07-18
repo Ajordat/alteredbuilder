@@ -44,7 +44,7 @@
                             <div id="collapseFilter" class="accordion-collapse collapse" data-bs-parent="#filterAccordion">
                                 <div class="accordion-body">
                                     <div class="col">
-                                        <div class="row">
+                                        <div class="row row-cols-auto">
                                             <div class="col">
                                                 <b>{% translate "Factions" %}</b>
                                                 {% include "decks/snippets/filter_checkbox.html" with value="AX" label="Axiom" %}
@@ -66,6 +66,15 @@
                                                 {% translate "Hero" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="hero" label="Hero" %}
                                                 {% translate "Permanent" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="permanent" label="Permanent" %}
                                                 {% translate "Spell" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="spell" label="Spell" %}
+                                            </div>
+                                            <div class="col">
+                                                <b>{% translate "Set" %}</b>
+    {% for set in sets %}
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="{{ set.code }}" id="filter{{ set.short_name }}" {% if set.code in checked_filters %}checked{% endif %}>
+                                                    <label class="form-check-label" for="filter{{ set.short_name }}"><span class="{{ set.code }}">{{ set.name }}</span></label>
+                                                </div>
+    {% endfor %}
                                             </div>
                                         </div>
                                         <div class="row mt-2">
@@ -107,6 +116,11 @@
                 </div>
         {% endfor %}
     {% endwith %}
+    {% for set in checked_sets %}
+                <div class="col px-0 d-flex align-items-center">
+                    <span class="badge text-bg-secondary">{% translate "Set" %}: {{ set.name }}</span>&nbsp;
+                </div>
+    {% endfor %}
     {% if order %}
                 <div class="col px-0 d-flex align-items-center">
                     <span class="badge text-bg-secondary">{% translate "Order" %}: 
