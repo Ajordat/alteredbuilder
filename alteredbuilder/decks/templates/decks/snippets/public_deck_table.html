@@ -1,6 +1,7 @@
 
 {% load i18n %}
 {% load static %}
+{% load deck_styles %}
 
 <table class="table table-hover table-clickable" id="{{ table_id }}" aria-describedby="Public decks">
     <thead>
@@ -33,7 +34,7 @@
                     <i class="fa-solid fa-heart"></i> {{ deck.love_count }}
                 </a>
             </td>
-            <td>{{ deck.owner.username }}</td>
+            <td>{{ deck.owner.username|safe_username }}</td>
             <td>{{ deck.name }}</td>
     {% if deck.hero %}
         {% with faction_img="img/"|add:deck.hero.faction|add:".png" %}

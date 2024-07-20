@@ -161,3 +161,8 @@ def has_group(user: User, group_name: str) -> bool:
         bool: If the User is part of a Group with that name.
     """
     return user.groups.filter(name=group_name).exists()
+
+
+@register.filter
+def safe_username(username: str) -> str:
+    return username.partition("@")[0]

@@ -28,7 +28,7 @@
     </div>
     <div class="row row-cols-auto gx-2">
         <div class="col">
-            <i class="fa-solid fa-user"></i> {{ object.owner.username }}
+            <i class="fa-solid fa-user"></i> {{ object.owner.username|safe_username }}
         </div>
         <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% include 'decks/tooltips/deck_timestamps.html' with deck=object %}" data-bs-html="true">
             <i class="fa-regular fa-calendar"></i> <small>{{ object.modified_at|date:"SHORT_DATE_FORMAT" }}</small>
