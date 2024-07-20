@@ -7,6 +7,7 @@
 
 {% block title %}{{ object.name }}{% endblock %}
 {% block meta_title %}{{ object.name }} | {{ block.super }}{% endblock %}
+{% block meta_image %}{{ object.hero.image_url }}{% endblock %}
 
 {% block head %}
     {{ block.super }}
