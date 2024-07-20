@@ -1,10 +1,11 @@
 // Retrieve the table rows to make them clickable to open the Deck's detail
 const tableRows = document.querySelectorAll(".table-clickable tbody tr");
 
+function openDeck(event) {
+    window.open(this.dataset.href, "_self");
+}
 for (const tableRow of tableRows) {
-    tableRow.addEventListener("click", function () {
-        window.open(this.dataset.href, "_self");
-    });
+    tableRow.addEventListener("click", openDeck);
 }
 
 /**
