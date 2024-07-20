@@ -150,7 +150,7 @@
             
             <div class="mt-3">
                 {% if page_obj.has_next %}
-                    <a class="infinite-more-link page-link" href="?{% inject_params request.GET page=page_obj.next_page_number %}">More</a>
+                    <a class="infinite-more-link page-link" href="?{% inject_params request.GET page=page_obj.next_page_number %}"></a>
                 {% endif %}
             </div>
         </div>
