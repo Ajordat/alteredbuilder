@@ -110,6 +110,8 @@ CSRF_USE_SESSIONS = True
 # Application definition
 INSTALLED_APPS = [
     "modeltranslation",
+    "admin_tools_stats",
+    "django_nvd3",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

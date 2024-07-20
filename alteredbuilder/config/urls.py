@@ -32,6 +32,7 @@ handler500 = TemplateView.as_view(template_name="errors/500.html")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("admin_tools_stats/", include("admin_tools_stats.urls")),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
     path("api/", include("api.urls")),
     path("accounts/", include("allauth.socialaccount.providers.github.urls")),
