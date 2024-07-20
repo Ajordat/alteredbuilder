@@ -6,6 +6,7 @@
 {% load markdown_extras %}
 
 {% block title %}{{ object.name }}{% endblock %}
+{% block meta_title %}{{ object.name }} | {{ block.super }}{% endblock %}
 
 {% block head %}
     {{ block.super }}
