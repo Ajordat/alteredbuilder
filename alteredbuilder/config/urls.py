@@ -14,11 +14,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-
+import sys
 from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.urls import include, path, reverse_lazy
+from django.views.debug import technical_404_response, technical_500_response
 from django.views.decorators.cache import cache_page
 from django.views.generic import RedirectView, TemplateView
 from django.views.i18n import JavaScriptCatalog
@@ -27,8 +28,21 @@ from . import __version__
 
 # Error files definitions
 handler403 = TemplateView.as_view(template_name="errors/403.html")
-handler404 = TemplateView.as_view(template_name="errors/404.html")
-handler500 = TemplateView.as_view(template_name="errors/500.html")
+# handler404 = TemplateView.as_view(template_name="errors/404.html")
+# handler500 = TemplateView.as_view(template_name="errors/500.html")
+
+def handler404(request, exception):
+    if request.user.is_superuser:
+        print(f"404: {exception}")
+        return technical_404_response(request, exception)
+    else:
+        return TemplateView.as_view(template_name="errors/404.html")
+
+def handler500(request):
+    if request.user.is_superuser:
+        return technical_500_response(request, *sys.exc_info())
+    else:
+        return TemplateView.as_view(template_name="errors/500.html")
 
 urlpatterns = [
     path("admin/", admin.site.urls),

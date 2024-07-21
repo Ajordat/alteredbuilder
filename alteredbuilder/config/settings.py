@@ -219,7 +219,7 @@ AUTHENTICATION_BACKENDS = [
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
-if DEBUG:
+if DEBUG or not SERVICE_PUBLIC_URL:
     SITE_ID = 1
 else:
     SITE_ID = 4
