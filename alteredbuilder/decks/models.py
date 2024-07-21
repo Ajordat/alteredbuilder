@@ -17,6 +17,7 @@ class Set(models.Model):
     def __str__(self) -> str:
         return self.name
 
+
 # Create your models here.
 class Card(models.Model):
     class Faction(models.TextChoices):

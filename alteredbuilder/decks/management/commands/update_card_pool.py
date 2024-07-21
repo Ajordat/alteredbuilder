@@ -89,7 +89,7 @@ class Command(BaseCommand):
         }
         if "MAIN_EFFECT" in card["elements"]:
             card_dict["main_effect"] = card["elements"]["MAIN_EFFECT"]
-        
+
         if card_dict["type"] in ["TOKEN", "TOKEN_MANA", "FOILER"]:
             raise IgnoreCardType()
 

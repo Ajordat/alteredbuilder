@@ -123,7 +123,15 @@ class CardAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
         self, request: HttpRequest, obj: Card
     ) -> list[tuple[str | None, dict[str, Any]]]:
 
-        base_fieldset = ["set", "reference", "name", "faction", "type", "rarity", "image_url"]
+        base_fieldset = [
+            "set",
+            "reference",
+            "name",
+            "faction",
+            "type",
+            "rarity",
+            "image_url",
+        ]
         i18n_fields = ["name", "image_url", "main_effect"]
 
         if obj.type == Card.Type.HERO:

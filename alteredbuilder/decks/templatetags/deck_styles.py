@@ -75,7 +75,7 @@ def inject_params(get_params: dict, **kwargs) -> str:
         "legality",
         "deck",
         "other",
-        "set"
+        "set",
     ]
     args = [
         f"{key}={value}" for key, value in get_params.items() if key in allowed_params
