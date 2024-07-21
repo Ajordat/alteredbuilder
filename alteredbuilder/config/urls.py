@@ -36,13 +36,13 @@ def handler404(request, exception):
         print(f"404: {exception}")
         return technical_404_response(request, exception)
     else:
-        return TemplateView.as_view(template_name="errors/404.html")
+        return TemplateView.as_view(template_name="errors/404.html")(request, exception)
 
 def handler500(request):
     if request.user.is_superuser:
         return technical_500_response(request, *sys.exc_info())
     else:
-        return TemplateView.as_view(template_name="errors/500.html")
+        return TemplateView.as_view(template_name="errors/500.html")(request)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
