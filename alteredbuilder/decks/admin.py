@@ -71,10 +71,11 @@ class DeckAdmin(admin.ModelAdmin):
         "draft_legality_errors",
         "is_exalts_legal",
         "love_count",
+        "hit_count",
     ]
     fieldsets = [
         ("Metadata", {"fields": ["owner", "name", "description", "hero"]}),
-        ("Engagement", {"fields": ["is_public", "love_count"]}),
+        ("Engagement", {"fields": ["is_public", "love_count", "hit_count"]}),
         (
             "Legality",
             {
