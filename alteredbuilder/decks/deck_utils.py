@@ -320,6 +320,7 @@ def parse_query_syntax(query):
                 | Q(character__echo_effect__icontains=value)
                 | Q(spell__echo_effect__icontains=value)
                 | Q(permanent__echo_effect__icontains=value)
+                | Q(hero__main_effect__icontains=value)
             )
             tags.append((_("ability"), ":", value))
         query = re.sub(x_regex, "", query)
@@ -342,6 +343,7 @@ def parse_query_syntax(query):
                         Q(character__main_effect__contains=value)
                         | Q(spell__main_effect__contains=value)
                         | Q(permanent__main_effect__contains=value)
+                        | Q(hero__main_effect__contains=value)
                     )
                 tags.append((_("trigger"), ":", trigger))
             except KeyError:
