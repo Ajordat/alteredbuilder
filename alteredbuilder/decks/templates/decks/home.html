@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load i18n %}
+{% load deck_styles %}
+
+{% block title %}{% translate "Home" %}{% endblock %}
+{% block meta_title %}{% translate "Home" %}{% endblock %}
+
+{% block head %}
+    {{ block.super }}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/deck-list.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h3>{% translate "Trending decks" %}</h3>
+    {% include "decks/snippets/public_deck_table.html" with table_id="trendingDecksTable" deck_list=trending %}
+
+{% endblock %}
+
+
+{% block bodyscripts %}
+    <script src="{% static 'js/deck-list.js' %}"></script>
+    <script src="{% static 'js/tooltip-enable.js' %}"></script>
+{% endblock %}

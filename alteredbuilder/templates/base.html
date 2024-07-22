@@ -46,9 +46,13 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
 {% with tab_selected_class="current-nav-tab border border-bottom-0 border-2 rounded-top" %}
                     <ul id="navbar-traversal" class="navbar-nav me-auto">
-                        {% url 'deck-list' as item_url %}
+                        {% url 'home' as item_url %}
                         <li class="nav-item {% if request.path == item_url %}{{ tab_selected_class }}{% endif %}">
                             <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-house"></i> {% translate "Home" %}</a>
+                        </li>
+                        {% url 'deck-list' as item_url %}
+                        <li class="nav-item {% if request.path == item_url %}{{ tab_selected_class }}{% endif %}">
+                            <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-layer-group"></i> {% translate "Decks" %}</a>
                         </li>
                         {% url 'cards' as item_url %}
                         <li class="nav-item {% if request.path == item_url %}{{ tab_selected_class }}{% endif %}">
@@ -60,7 +64,7 @@
                         </li>
                         {% url 'new-deck' as item_url %}
                         <li class="nav-item {% if request.path == item_url or request.GET.next == item_url %}{{ tab_selected_class }}{% endif %}">
-                            <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-square-plus"></i> {% translate "New deck" %}</a>
+                            <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-square-plus"></i> {% translate "Import deck" %}</a>
                         </li>
                     </ul>
 {% endwith %}

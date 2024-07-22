@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block content %}
-    <h3>{% translate "Public decks" %}</h3>
+    <h3>{% translate "Latest decks" %}</h3>
     <div class="row row-cols-auto">
         <div class="col-xs-12 col-sm-9 col-md-7 col-lg-5 col-xl-4 col-xxl-4">
             <form class="d-flex" role="search" id="querySearchForm">
@@ -81,10 +81,6 @@
         {% endfor %}
     {% endwith %}
     </div>
-    {% if user.is_superuser %}
-        {% include "decks/snippets/public_deck_table.html" with table_id="lovedDecksTable" deck_list=most_loved %}
-        {% include "decks/snippets/public_deck_table.html" with table_id="trendingDecksTable" deck_list=trending %}
-    {% endif %}
     {% include "decks/snippets/public_deck_table.html" with table_id="publicDecksTable" deck_list=deck_list %}
 
     <div class="mt-3">

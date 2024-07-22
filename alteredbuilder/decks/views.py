@@ -15,6 +15,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 from hitcount.models import Hit
@@ -32,6 +33,31 @@ from .game_modes import update_deck_legality
 from .models import Card, CardInDeck, Deck, LovePoint, PrivateLink, Set
 from .forms import DecklistForm, DeckMetadataForm
 from .exceptions import MalformedDeckException
+
+
+class HomeView(TemplateView):
+    template_name = "decks/home.html"
+    TRENDING_COUNT = 10
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+
+        last_week = timezone.now() - timedelta(days=7)
+        hits = (
+            Hit.objects.filter(created__date__gt=last_week)
+            .values("hitcount", "hitcount__object_pk")
+            .annotate(total=Count("hitcount"))
+            .order_by("-total")[: self.TRENDING_COUNT]
+        )
+        deck_pks = [hit["hitcount__object_pk"] for hit in hits]
+        trending = (
+            Deck.objects.filter(id__in=deck_pks)
+            .select_related("owner", "hero")
+            .order_by("-hit_count_generic__hits")
+        )
+        context["trending"] = trending
+
+        return context
 
 
 class DeckListView(ListView):
@@ -109,31 +135,6 @@ class DeckListView(ListView):
             context["loved_decks"] = LovePoint.objects.filter(
                 user=self.request.user
             ).values_list("deck__id", flat=True)
-
-        if self.request.user.is_superuser:
-            last_week = timezone.now() - timedelta(days=7)
-            lps = (
-                LovePoint.objects.filter(
-                    created_at__date__gt=last_week, deck__is_public=True
-                )
-                .values("deck")
-                .annotate(total=Count("deck"))[:6]
-            )
-            context["most_loved"] = (
-                Deck.objects.filter(id__in=[lp["deck"] for lp in lps])
-                .order_by("-love_count")
-                .select_related("owner", "hero")
-            )
-
-            hits = (
-                Hit.objects.filter(created__date__gt=last_week)
-                .values("hitcount", "hitcount__object_pk")
-                .annotate(total=Count("hitcount"))
-                .order_by("-total")[:6]
-            )
-            context["trending"] = Deck.objects.filter(
-                id__in=[hit["hitcount__object_pk"] for hit in hits]
-            ).select_related("owner", "hero")
 
         # Extract the filters applied from the GET params and add them to the context
         # to fill them into the template

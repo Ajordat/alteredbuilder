@@ -1,8 +1,9 @@
 import uuid
 
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
-from hitcount.models import HitCountMixin
+from hitcount.models import HitCount, HitCountMixin
 
 
 ALTERED_TCG_URL = "https://www.altered.gg"
@@ -129,6 +130,11 @@ class Deck(models.Model, HitCountMixin):
     is_exalts_legal = models.BooleanField(null=True)
 
     love_count = models.PositiveIntegerField(default=0)
+    hit_count_generic = GenericRelation(
+        HitCount,
+        object_id_field="object_pk",
+        related_query_name="hit_count_generic_relation",
+    )
 
     modified_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)

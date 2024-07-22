@@ -79,7 +79,7 @@ urlpatterns += i18n_patterns(
     path("troubleshoot/", include("troubleshoot.urls")),
     path(
         "",
-        RedirectView.as_view(url=reverse_lazy("deck-list"), permanent=True),
+        RedirectView.as_view(url=reverse_lazy("home"), permanent=True),
         name="i18n_index",
     ),
 )
