@@ -45,7 +45,7 @@ class DeckListView(ListView):
         .select_related("owner", "hero")
         .order_by("-modified_at")
     )
-    paginate_by = 24
+    paginate_by = 30
 
     def get_queryset(self) -> QuerySet[Deck]:
         """Return a queryset with the Decks that match the filters in the GET params.
@@ -111,7 +111,7 @@ class DeckListView(ListView):
             ).values_list("deck__id", flat=True)
 
         if self.request.user.is_superuser:
-            last_week = timezone.now() - timedelta(days=14)
+            last_week = timezone.now() - timedelta(days=7)
             lps = (
                 LovePoint.objects.filter(
                     created_at__date__gt=last_week, deck__is_public=True
