@@ -87,7 +87,6 @@ class HomeView(TemplateView):
             .annotate(count=Count("hero_name"))
             .order_by("-count")
         )
-        print(hero_trends)
         context["hero_trends"] = {
             hero["hero_name"]: (hero["hero__faction"], hero["count"]) for hero in hero_trends
         }
@@ -96,15 +95,13 @@ class HomeView(TemplateView):
             CardInDeck.objects.filter(
                 deck__modified_at__date__gte=last_week, deck__is_public=True
             )
-            .annotate(card_name=F(f"card__name_{get_language()}"))
-            .values("card_name")
-            .annotate(count=Count("card_name"))
+            .annotate(name=F(f"card__name_{get_language()}"))
+            .values("name", "card__faction")
+            .annotate(count=Count("name"))
             .order_by("-count")[:10]
         )
-
-        context["card_trends"] = {
-            card["card_name"]: card["count"] for card in card_trends
-        }
+        context["card_trends"] = card_trends
+        
         return context
 
 
