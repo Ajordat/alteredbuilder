@@ -53,6 +53,7 @@ class HomeView(TemplateView):
         trending = (
             Deck.objects.filter(id__in=deck_pks)
             .select_related("owner", "hero")
+            .prefetch_related("hit_count_generic")
             .order_by("-hit_count_generic__hits")
         )
         context["trending"] = trending
@@ -120,7 +121,7 @@ class DeckListView(ListView):
         # expensive to fill into the model
         return qs.filter(filters).defer(
             "description", "cards", "standard_legality_errors", "draft_legality_errors"
-        )
+        ).prefetch_related("hit_count_generic")
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         """If the user is authenticated, add their loved decks to the context.

@@ -24,7 +24,7 @@
         <tr {% if table_id == 'publicDecksTable' %}class="infinite-item"{% endif %} data-href="{% url 'deck-detail' pk=deck.id %}">
             <td>
     {% if user.is_superuser %}
-        {% with hits=deck.hit_count.hits %}
+        {% with hits=deck.hit_count_generic.first.hits %}
                 <a role="button" href="#" class="btn btn-sm btn-outline-secondary disabled {% if hits < 10 %}me-3{% else %}me-2{% endif %}">
                     <i class="fa-solid fa-eye"></i> {{ hits }}
                 </a>
