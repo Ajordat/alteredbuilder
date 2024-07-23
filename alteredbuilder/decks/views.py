@@ -14,7 +14,7 @@ from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import get_language, gettext_lazy as _
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
@@ -82,23 +82,23 @@ class HomeView(TemplateView):
             Deck.objects.filter(
                 modified_at__date__gte=last_week, is_public=True, hero__isnull=False
             )
-            .annotate(hero_name=F("hero__name_en"))
-            .values("hero_name")
+            .annotate(hero_name=F(f"hero__name_{get_language()}"))
+            .values("hero_name", "hero__faction")
             .annotate(count=Count("hero_name"))
             .order_by("-count")
         )
+        print(hero_trends)
         context["hero_trends"] = {
-            hero["hero_name"]: hero["count"] for hero in hero_trends
+            hero["hero_name"]: (hero["hero__faction"], hero["count"]) for hero in hero_trends
         }
 
         card_trends = (
             CardInDeck.objects.filter(
                 deck__modified_at__date__gte=last_week, deck__is_public=True
             )
-            .annotate(card_name=F("card__name_en"))
+            .annotate(card_name=F(f"card__name_{get_language()}"))
             .values("card_name")
             .annotate(count=Count("card_name"))
-            # .annotate(count=Sum("quantity"))
             .order_by("-count")[:10]
         )
 
