@@ -21,23 +21,22 @@ function drawChart() {
         [['Card Type', 'Amount']].concat(Object.entries(deckStatsI18n))
     );
     
-    let options = {};
+    let options = {
+        backgroundColor: "transparent",
+        slices: [
+            {color: "#3F9B0B"},
+            {color: "#CD853F"},
+            {color: "#D4A017"},
+        ]
+    };
+
     if (document.documentElement.getAttribute("data-bs-theme") === "dark") {
-        options = {
-            backgroundColor: chartBackgroundColor,
-            legend: {
-                textStyle: {
-                    color: chartTextColor
-                }
+        options["legend"] = {
+            textStyle: {
+                color: chartTextColor
             }
         };
     }
-    
-    options["slices"] = [
-        {color: "#3F9B0B"},
-        {color: "#CD853F"},
-        {color: "#D4A017"},
-    ];
 
     let chart = new google.visualization.PieChart(chartElement);
 
@@ -89,9 +88,9 @@ function drawManaCurve() {
     let options = {};
     if (document.documentElement.getAttribute("data-bs-theme") === "dark") {
         options = {
-            backgroundColor: chartBackgroundColor,
+            backgroundColor: "transparent",
             chartArea: {
-                backgroundColor: chartBackgroundColor
+                backgroundColor: "transparent"
             },
             hAxis: {
                 textStyle: {

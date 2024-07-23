@@ -6,17 +6,17 @@
 <table class="table table-hover table-clickable" id="{{ table_id }}" aria-describedby="Public decks">
     <thead>
         <tr>
-            <th scope="col"></th>
-            <th scope="col">{% translate "Owner" %}</th>
+            <th scope="col" style="width: 8%"></th>
+            <th scope="col" style="width: 10%">{% translate "Owner" %}</th>
             <th scope="col">{% translate "Name" %}</th>
-            <th scope="col">{% translate "Faction" %}</th>
-            <th scope="col">{% translate "Hero" %}</th>
-            <th scope="col" class="text-center">
+            <th scope="col" style="width: 10%">{% translate "Faction" %}</th>
+            <th scope="col" style="width: 15%">{% translate "Hero" %}</th>
+            <th scope="col" style="width: 8%" class="text-center">
                 <a data-bs-toggle="tooltip" data-bs-title='{% include "decks/tooltips/legality.html" %}' data-bs-html="true">
                     {% translate "Legality" %} <i class="fa-regular fa-circle-question"></i>
                 </a>
             </th>
-            <th scope="col">{% translate "Last updated" %}</th>
+            <th scope="col" style="width: 13%">{% translate "Last updated" %}</th>
         </tr>
     </thead>
     <tbody class="table-group-divider align-middle {% if table_id == 'publicDecksTable' %}infinite-container{% endif %}">
@@ -24,7 +24,7 @@
         <tr {% if table_id == 'publicDecksTable' %}class="infinite-item"{% endif %} data-href="{% url 'deck-detail' pk=deck.id %}">
             <td>
     {% if user.is_superuser %}
-        {% with hits=deck.hit_count.hits %}
+        {% with hits=deck.hit_count_generic.first.hits %}
                 <a role="button" href="#" class="btn btn-sm btn-outline-secondary disabled {% if hits < 10 %}me-3{% else %}me-2{% endif %}">
                     <i class="fa-solid fa-eye"></i> {{ hits }}
                 </a>

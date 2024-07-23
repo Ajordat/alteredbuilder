@@ -114,7 +114,10 @@ class DeckAdmin(admin.ModelAdmin):
             )
 
 
-@admin.register(Character, Hero, Permanent, Spell)
+@admin.register(Character)
+@admin.register(Hero)
+@admin.register(Permanent)
+@admin.register(Spell)
 class CardAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
     list_display = ["reference", "name", "rarity", "faction", "set"]
     search_fields = ["reference", "name"]
