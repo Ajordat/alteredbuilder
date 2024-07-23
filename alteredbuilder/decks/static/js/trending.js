@@ -15,7 +15,7 @@ function drawChart(elementId, dataElementId) {
     let dataElement = JSON.parse(document.getElementById(dataElementId).textContent);
     
     let data = google.visualization.arrayToDataTable(
-        [['Faction', 'Amount']].concat(Object.entries(dataElement))
+        [['Faction', 'Amount']].concat(Object.entries(dataElement).slice(0, 8))
     );
     
     let options = {
