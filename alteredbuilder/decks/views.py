@@ -83,12 +83,13 @@ class HomeView(TemplateView):
                 modified_at__date__gte=last_week, is_public=True, hero__isnull=False
             )
             .annotate(hero_name=F(f"hero__name_{get_language()}"))
-            .values("hero_name")
+            .values("hero_name", "hero__faction")
             .annotate(count=Count("hero_name"))
             .order_by("-count")
         )
+        print(hero_trends)
         context["hero_trends"] = {
-            hero["hero_name"]: hero["count"] for hero in hero_trends
+            hero["hero_name"]: (hero["hero__faction"], hero["count"]) for hero in hero_trends
         }
 
         card_trends = (
