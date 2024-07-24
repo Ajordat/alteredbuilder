@@ -6,7 +6,7 @@ class DeckQuerySet(models.QuerySet):
         if faction:
             return self.filter(hero__faction=faction)
         return self
-    
+
     def with_hero(self, hero_name):
         if hero_name:
             return self.filter(hero__name__startswith=hero_name)

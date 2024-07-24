@@ -105,7 +105,10 @@ class HomeView(TemplateView):
             .order_by("-count")
         )
         context["hero_trends"] = {
-            hero["hero_name"]: {"faction": hero["hero__faction"], "count": hero["count"]}
+            hero["hero_name"]: {
+                "faction": hero["hero__faction"],
+                "count": hero["count"],
+            }
             for hero in hero_trends
         }
 
