@@ -21,7 +21,6 @@ const heroColors = {
 function drawCharts() {
     drawFactionChart();
     drawHeroChart();
-    drawChart("card-pie-chart", "card-trends");
 }
 
 function getBaseChartOptions() {
@@ -39,21 +38,6 @@ function getBaseChartOptions() {
     return options;
 }
 
-function drawChart(elementId, dataElementId) {
-    // Draw the card type distribution in a pie chart
-    let chartElement = document.getElementById(elementId);
-    let dataElement = JSON.parse(document.getElementById(dataElementId).textContent);
-    
-    let data = google.visualization.arrayToDataTable(
-        [['Faction', 'Amount']].concat(Object.entries(dataElement).slice(0, 9))
-    );
-    
-    let options = getBaseChartOptions();
-
-    let chart = new google.visualization.PieChart(chartElement);
-
-    chart.draw(data, options);
-}
 
 function drawFactionChart() {
     // Draw the card type distribution in a pie chart
@@ -72,6 +56,22 @@ function drawFactionChart() {
     let chart = new google.visualization.PieChart(chartElement);
 
     chart.draw(data, options);
+
+    let params = new URLSearchParams(document.location.search);
+    if (params.get("faction")) {
+        chart.setSelection([{row:0, column:null}]);
+    }
+    google.visualization.events.addListener(chart, "select", () => {
+        let selection = chart.getSelection();
+        if (selection.length == 0) {
+            // Remove selection
+            window.open(window.location.pathname, "_self");
+            return;
+        }
+        let item = Object.entries(dataElement)[selection[0].row];
+        let url = window.location.pathname + "?faction=" + item[0];
+        window.open(url, "_self");
+    })
 }
 
 function drawHeroChart() {
@@ -91,10 +91,10 @@ function drawHeroChart() {
     let heroData = [];
     options["slices"] = [];
     for (let k of Object.keys(dataElement)) {
-        let faction = dataElement[k][0];
+        let faction = dataElement[k]["faction"];
         options["slices"].push({color: heroColors[faction][factionOccurrence[faction]]});
         factionOccurrence[faction] += 1;
-        heroData.push([k, dataElement[k][1]]);
+        heroData.push([k, dataElement[k]["count"]]);
     }
 
     let data = google.visualization.arrayToDataTable(
@@ -104,4 +104,23 @@ function drawHeroChart() {
     let chart = new google.visualization.PieChart(chartElement);
  
     chart.draw(data, options);
+
+    let params = new URLSearchParams(document.location.search);
+    if (params.get("hero")) {
+        chart.setSelection([{row:0, column:null}]);
+    }
+    google.visualization.events.addListener(chart, "select", () => {
+        let selection = chart.getSelection();
+
+        if (selection.length == 0) {
+            // Remove selection
+            window.open(window.location.pathname, "_self");
+            return;
+        }
+        let item = heroData[selection[0].row];
+        console.log(item)
+        let url = window.location.pathname + "?hero=" + encodeURI(item[0].split(" ")[0]);
+        console.log(url)
+        window.open(url, "_self");
+    })
 }
