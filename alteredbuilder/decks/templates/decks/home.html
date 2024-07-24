@@ -18,29 +18,27 @@
     <h3>{% translate "Trends from the last 7 days" %}</h3>
     <div class="row">
         <div class="col">
-            Popularity according to faction
+            {% translate "Popular Factions" %}
             <div id="faction-pie-chart" style="min-height: 300px"></div>
         </div>
         <div class="col">
-            Popularity according to hero
+            {% translate "Popular Heroes" %}
             <div id="hero-pie-chart" style="min-height: 300px"></div>
         </div>
         <div class="col">
-            Card popularity
+            {% translate "Popular Cards" %}
             <table>
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Amount</th>
+                        <th>{% translate "Name" %}</th>
                     </tr>
                 </thead>
                 <tbody>
-    {% for card in card_trends%}
+    {% for card in card_trends %}
                     <tr>
         {% with faction_img="img/"|add:card.card__faction|add:".png" %}
                         <td><img src="{% static faction_img %}" style="max-width: 20px;"> {{ card.name }}</td>
         {% endwith %}
-                        <td>{{ card.count }}</td>
                     </tr>
     {% endfor %}
                 </tbody>

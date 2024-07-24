@@ -5,6 +5,8 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from hitcount.models import HitCount, HitCountMixin
 
+from .managers import CardInDeckManager, DeckManager, LovePointManager
+
 
 ALTERED_TCG_URL = "https://www.altered.gg"
 
@@ -139,6 +141,8 @@ class Deck(models.Model, HitCountMixin):
     modified_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    objects = DeckManager()
+
     def __str__(self) -> str:
         return f"{self.owner.username} - {self.name}"
 
@@ -155,11 +159,15 @@ class CardInDeck(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
     quantity = models.PositiveSmallIntegerField(default=1)
 
+    objects = CardInDeckManager()
+
 
 class LovePoint(models.Model):
     deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    objects = LovePointManager()
 
     class Meta:
         ordering = ["-created_at"]
