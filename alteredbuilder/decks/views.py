@@ -65,7 +65,7 @@ class HomeView(TemplateView):
             Hit.objects.filter(created__date__gte=last_week)
             .values("hitcount")
             .alias(total=Count("hitcount"))
-            .order_by("-total")
+            .order_by("-total")[: self.TRENDING_COUNT]
             .values_list("hitcount__object_pk", flat=True)
         )
         # Add the most viewed decks to the context
@@ -75,7 +75,7 @@ class HomeView(TemplateView):
             .with_hero(hero_name)
             .select_related("owner", "hero")
             .prefetch_related("hit_count_generic")
-            .order_by("-hit_count_generic__hits")[: self.TRENDING_COUNT]
+            .order_by("-hit_count_generic__hits")
         )
 
         faction_trends = (
