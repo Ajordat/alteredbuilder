@@ -7,8 +7,8 @@ from django.utils.translation import get_language, gettext_lazy as _
 from django.views.generic.base import TemplateView
 
 from hitcount.models import Hit
-from decks.models import Card, CardInDeck, Deck, LovePoint
-from .models import FactionTrend
+from decks.models import Card, CardInDeck, Deck, Hero, LovePoint
+from .models import FactionTrend, HeroTrend
 
 
 class HomeView(TemplateView):
@@ -24,10 +24,12 @@ class HomeView(TemplateView):
             faction = Card.Faction(self.request.GET.get("faction"))
         except ValueError:
             faction = None
+
         try:
             hero_name = self.request.GET.get("hero")
-        except ValueError:
-            hero_name = None
+            hero = Hero.objects.filter(name__startswith=hero_name).first()
+        except (ValueError, Hero.DoesNotExist):
+            hero = None
 
         # Retrieve loved decks
         if self.request.user.is_authenticated:
@@ -57,27 +59,21 @@ class HomeView(TemplateView):
         )
 
         faction_trends = FactionTrend.objects.filter(date=today).order_by("-count")
-        if faction:
+        if hero:
+            faction_trends = faction_trends.filter(faction=hero.faction)
+        elif faction:
             faction_trends = faction_trends.filter(faction=faction)
         context["faction_trends"] = {t.faction: t.count for t in faction_trends}
 
-        hero_trends = (
-            Deck.objects.filter(
-                modified_at__date__gte=time_lapse, is_public=True, hero__isnull=False
-            )
-            .with_faction(faction)
-            .with_hero(hero_name)
-            .annotate(hero_name=F(f"hero__name_{get_language()}"))
-            .values("hero_name", "hero__faction")
-            .annotate(count=Count("hero_name"))
-            .order_by("-count")
-        )
+        # Retrieve hero trends
+        hero_trends = HeroTrend.objects.filter(date=today).order_by("-count")
+        if hero:
+            hero_trends = hero_trends.filter(hero__name=hero.name)
+        elif faction:
+            hero_trends = hero_trends.filter(hero__faction=faction)
         context["hero_trends"] = {
-            hero["hero_name"]: {
-                "faction": hero["hero__faction"],
-                "count": hero["count"],
-            }
-            for hero in hero_trends
+            t.hero.name: {"faction": t.hero.faction, "count": t.count}
+            for t in hero_trends
         }
 
         card_trends = (

@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand, CommandParser
 from django.db.models import Count, F
 from django.utils.timezone import localdate
 
-from decks.models import Deck, Hero
+from decks.models import Deck, Hero, Set
 from trends.models import FactionTrend, HeroTrend
 
 
@@ -58,13 +58,14 @@ class Command(BaseCommand):
             .annotate(count=Count("hero_name"))
             .order_by("-count")
         )
-        
+
+        core_set = Set.objects.get(code="CORE")
         for record in hero_trends:
-            Hero.objects.get(name=record["hero_name"])
-            # HeroTrend.objects.update_or_create(
-            #     hero="",
-            #     faction="",
-            #     count=record["count"],
-            #     day_count=self.day_count,
-            #     date=self.today,
-            # )
+            hero = Hero.objects.get(name=record["hero_name"], set=core_set)
+
+            HeroTrend.objects.update_or_create(
+                hero=hero,
+                count=record["count"],
+                day_count=self.day_count,
+                date=self.today,
+            )
