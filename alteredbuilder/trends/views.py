@@ -12,7 +12,7 @@ from .models import FactionTrend
 
 
 class HomeView(TemplateView):
-    template_name = "decks/home.html"
+    template_name = "trends/home.html"
     TRENDING_COUNT = 10
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:

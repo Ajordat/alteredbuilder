@@ -16,7 +16,7 @@
 
 {% block content %}
     <h3>{% translate "Trends from the last 7 days" %}</h3>
-    <div class="row">
+    <div class="row mt-4">
         <div class="col">
             {% translate "Popular Factions" %}
             <div id="faction-pie-chart" style="min-height: 300px"></div>
@@ -50,9 +50,6 @@
 
     {{ faction_trends|json_script:"faction-trends"}}
     {{ hero_trends|json_script:"hero-trends"}}
-    {% comment %} <script id="faction-trends" type="application/json">{"MU": 24, "YZ": 22, "OR": 20, "LY": 16, "AX": 12, "BR": 12}</script>
-    <script id="hero-trends" type="application/json">{"Lindiwe \u0026 Maw": ["YZ", 11], "Teija \u0026 Nauraa": ["MU", 10], "Subhash \u0026 Marmo": ["AX", 9], "Arjun \u0026 Spike": ["MU", 9], "Fen \u0026 Crowbar": ["LY", 8], "Sigismar \u0026 Wingspan": ["OR", 8], "Waru \u0026 Mack": ["OR", 6], "Basira \u0026 Kaizaimon": ["BR", 6], "Gulrang \u0026 Tocsin": ["OR", 6], "Nevenka \u0026 Blotch": ["LY", 6], "Akesha \u0026 Taru": ["YZ", 6], "Atsadi \u0026 Surge": ["BR", 5], "Rin \u0026 Orchid": ["MU", 5], "Afanas \u0026 Senka": ["YZ", 5], "Treyst \u0026 Rossum": ["AX", 3], "Auraq \u0026 Kibble": ["LY", 2], "Kojo \u0026 Booda": ["BR", 1]}</script>
-    <script id="card-trends" type="application/json">{"Baba Yaga": 24, "Hydracaena": 21, "Ordis Carrier": 21, "Kodama": 20, "The Spindle, Muna Bastion": 20, "Daughter of Yggdrasil": 19, "Meditation Training": 19, "Spindle Harvesters": 18, "Banishing Gate": 18, "Magical Training": 18}</script> {% endcomment %}
 {% endblock %}
 
 
