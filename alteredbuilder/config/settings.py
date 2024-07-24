@@ -130,6 +130,7 @@ INSTALLED_APPS = [
     "troubleshoot.apps.TroubleshootConfig",
     "django_extensions",
     "hitcount",
+    "trends.apps.TrendsConfig",
 ]
 
 MIDDLEWARE = [

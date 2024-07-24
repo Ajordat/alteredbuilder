@@ -5,8 +5,7 @@ from . import views
 # Endpoints for this app
 
 urlpatterns = [
-    path("", views.HomeView.as_view(), name="home"),
-    path("list/", views.DeckListView.as_view(), name="deck-list"),
+    path("", views.DeckListView.as_view(), name="deck-list"),
     path("own/", views.OwnDeckListView.as_view(), name="own-deck"),
     path("<int:pk>/", views.DeckDetailView.as_view(), name="deck-detail"),
     path(
