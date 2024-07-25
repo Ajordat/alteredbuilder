@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("decks", "0034_create_promo_set"),
-        ("trends", "0003_cardtrend"), 
+        ("trends", "0003_cardtrend"),
     ]
 
     operations = [

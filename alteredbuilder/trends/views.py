@@ -65,7 +65,9 @@ class HomeView(TemplateView):
         elif faction:
             faction_trends = {faction: 1}
         else:
-            faction_trends = FactionTrend.objects.filter(date=yesterday).order_by("-count")
+            faction_trends = FactionTrend.objects.filter(date=yesterday).order_by(
+                "-count"
+            )
             faction_trends = {t.faction: t.count for t in faction_trends}
 
         context["faction_trends"] = faction_trends

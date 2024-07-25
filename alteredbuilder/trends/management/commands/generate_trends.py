@@ -115,9 +115,9 @@ class Command(BaseCommand):
                 date=self.yesterday,
             )
 
-        trending_factions = FactionTrend.objects.filter(date=self.yesterday).values_list(
-            "faction", flat=True
-        )
+        trending_factions = FactionTrend.objects.filter(
+            date=self.yesterday
+        ).values_list("faction", flat=True)
         for faction in trending_factions:
             card_trends = (
                 CardInDeck.objects.filter(*legality_filter, **base_filter)
@@ -153,7 +153,7 @@ class Command(BaseCommand):
                 .alias(count=Count("name"))
                 .order_by("-count")[:CARD_RANKING_LIMIT]
             )
-            
+
             for rank, record in enumerate(card_trends, start=1):
                 card = Card.objects.get(
                     name=record["name"],
