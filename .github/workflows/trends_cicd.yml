@@ -1,0 +1,47 @@
+name: Django CICD
+
+on:
+  push:
+    branches:
+    - master
+    paths:
+    - "alteredbuilder/trends/management/commands/generate_trends.py"
+    - ".github/workflows/trends_cicd.yml"
+
+env:
+  DEBUG: False
+  USE_GCS_STATICS: False
+
+defaults:
+  run:
+    working-directory: ./alteredbuilder
+
+jobs:
+  deploy:
+    name: Deploy to Cloud Run
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Authenticate into GCP
+      id: auth
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_GITHUB_SA }}
+    - name: Deploy to Cloud Run
+      uses: google-github-actions/deploy-cloudrun@v2
+      with:
+        project_id: ${{ vars.GCP_PROJECT }}
+        region: ${{ vars.REGION }}
+        job: ${{ vars.GENERATE_TRENDS_JOB_NAME }}
+        image: ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
+        flags: |
+          --command=python
+          --args manage.py,generate_trends
+          --set-cloudsql-instances=${{ vars.CLOUD_SQL_INSTANCE }}
+          --service-account=${{ vars.CLOUD_RUN_SA_NAME }}
+          --cpu=1000m
+          --memory=512Mi
