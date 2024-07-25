@@ -1,13 +1,13 @@
 from datetime import timedelta
 from typing import Any
 
-from django.db.models import Count, F, Q
+from django.db.models import Count
 from django.utils.timezone import localdate
-from django.utils.translation import get_language, gettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.views.generic.base import TemplateView
 
 from hitcount.models import Hit
-from decks.models import Card, CardInDeck, Deck, Hero, LovePoint
+from decks.models import Card, Deck, Hero, LovePoint
 from .models import CardTrend, FactionTrend, HeroTrend
 
 
@@ -18,10 +18,11 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
 
-        today = localdate()
+        yesterday = localdate() - timedelta(days=1)
 
         try:
             faction = Card.Faction(self.request.GET.get("faction"))
+            print(faction)
         except ValueError:
             faction = None
 
@@ -30,6 +31,7 @@ class HomeView(TemplateView):
             hero = Hero.objects.filter(
                 name__startswith=hero_name, set__code="CORE"
             ).first()
+            print(hero)
         except (ValueError, Hero.DoesNotExist):
             hero = None
 
@@ -42,7 +44,7 @@ class HomeView(TemplateView):
             )
 
         # Retrieve the most hits made in the last 7 days and sort them DESC
-        time_lapse = today - timedelta(days=7)
+        time_lapse = yesterday - timedelta(days=7)
         trending_deck_pks = (
             Hit.objects.filter(created__date__gte=time_lapse)
             .values("hitcount")
@@ -60,7 +62,7 @@ class HomeView(TemplateView):
             .order_by("-hit_count_generic__hits")
         )
 
-        faction_trends = FactionTrend.objects.filter(date=today).order_by("-count")
+        faction_trends = FactionTrend.objects.filter(date=yesterday).order_by("-count")
         if hero:
             faction_trends = faction_trends.filter(faction=hero.faction)
         elif faction:
@@ -68,9 +70,9 @@ class HomeView(TemplateView):
         context["faction_trends"] = {t.faction: t.count for t in faction_trends}
 
         # Retrieve hero trends
-        hero_trends = HeroTrend.objects.filter(date=today).order_by("-count")
+        hero_trends = HeroTrend.objects.filter(date=yesterday).order_by("-count")
         if hero:
-            hero_trends = hero_trends.filter(hero__name=hero.name)
+            hero_trends = hero_trends.filter(hero=hero)
         elif faction:
             hero_trends = hero_trends.filter(hero__faction=faction)
         context["hero_trends"] = {
@@ -78,7 +80,7 @@ class HomeView(TemplateView):
             for t in hero_trends
         }
 
-        card_trends = CardTrend.objects.filter(date=today).order_by("-ranking")
+        card_trends = CardTrend.objects.filter(date=yesterday).order_by("-ranking")
         if hero:
             card_trends = card_trends.filter(hero=hero)
         elif faction:

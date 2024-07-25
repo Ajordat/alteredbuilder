@@ -28,9 +28,9 @@ class Command(BaseCommand):
     def handle(self, *args: Any, **options: Any) -> str | None:
 
         self.day_count = options["day_count"]
-        self.today = localdate()
+        self.yesterday = localdate() - timedelta(days=1)
 
-        self.time_lapse = self.today - timedelta(days=self.day_count)
+        self.time_lapse = self.yesterday - timedelta(days=self.day_count)
 
         self.generate_faction_trends()
         self.generate_hero_trends()
@@ -53,7 +53,7 @@ class Command(BaseCommand):
                 faction=record["hero__faction"],
                 count=record["count"],
                 day_count=self.day_count,
-                date=self.today,
+                date=self.yesterday,
             )
 
     def generate_hero_trends(self):
@@ -78,7 +78,7 @@ class Command(BaseCommand):
                 hero=hero,
                 count=record["count"],
                 day_count=self.day_count,
-                date=self.today,
+                date=self.yesterday,
             )
 
     def generate_card_trends(self):
@@ -112,10 +112,10 @@ class Command(BaseCommand):
                 faction=None,
                 ranking=rank,
                 day_count=self.day_count,
-                date=self.today,
+                date=self.yesterday,
             )
 
-        trending_factions = FactionTrend.objects.filter(date=self.today).values_list(
+        trending_factions = FactionTrend.objects.filter(date=self.yesterday).values_list(
             "faction", flat=True
         )
         for faction in trending_factions:
@@ -140,10 +140,10 @@ class Command(BaseCommand):
                     faction=faction,
                     ranking=rank,
                     day_count=self.day_count,
-                    date=self.today,
+                    date=self.yesterday,
                 )
 
-        trending_heroes = HeroTrend.objects.filter(date=self.today)
+        trending_heroes = HeroTrend.objects.filter(date=self.yesterday)
         for hero_trend in trending_heroes:
             card_trends = (
                 CardInDeck.objects.filter(*legality_filter, **base_filter)
@@ -167,5 +167,5 @@ class Command(BaseCommand):
                     faction=None,
                     ranking=rank,
                     day_count=self.day_count,
-                    date=self.today,
+                    date=self.yesterday,
                 )
