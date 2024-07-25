@@ -34,10 +34,10 @@
                     </tr>
                 </thead>
                 <tbody>
-    {% for card in card_trends %}
+    {% for trend in card_trends %}
                     <tr>
-        {% with faction_img="img/"|add:card.card__faction|add:".png" %}
-                        <td><img src="{% static faction_img %}" style="max-width: 20px;"> {{ card.name }}</td>
+        {% with faction_img="img/"|add:trend.card.faction|add:".png" %}
+                        <td><img src="{% static faction_img %}" style="max-width: 20px;"> {{ trend.card.name }}</td>
         {% endwith %}
                     </tr>
     {% endfor %}

@@ -8,7 +8,7 @@ from django.views.generic.base import TemplateView
 
 from hitcount.models import Hit
 from decks.models import Card, CardInDeck, Deck, Hero, LovePoint
-from .models import FactionTrend, HeroTrend
+from .models import CardTrend, FactionTrend, HeroTrend
 
 
 class HomeView(TemplateView):
@@ -27,7 +27,9 @@ class HomeView(TemplateView):
 
         try:
             hero_name = self.request.GET.get("hero")
-            hero = Hero.objects.filter(name__startswith=hero_name).first()
+            hero = Hero.objects.filter(
+                name__startswith=hero_name, set__code="CORE"
+            ).first()
         except (ValueError, Hero.DoesNotExist):
             hero = None
 
@@ -76,17 +78,13 @@ class HomeView(TemplateView):
             for t in hero_trends
         }
 
-        card_trends = (
-            CardInDeck.objects.filter(
-                deck__modified_at__date__gte=time_lapse, deck__is_public=True
-            )
-            .with_faction(faction)
-            .with_hero(hero_name)
-            .annotate(name=F(f"card__name_{get_language()}"))
-            .values("name", "card__faction")
-            .alias(count=Count("name"))
-            .order_by("-count")[:10]
-        )
+        card_trends = CardTrend.objects.filter(date=today).order_by("-ranking")
+        if hero:
+            card_trends = card_trends.filter(hero=hero)
+        elif faction:
+            card_trends = card_trends.filter(faction=faction)
+        else:
+            card_trends = card_trends.filter(faction__isnull=True, hero__isnull=True)
         context["card_trends"] = card_trends
 
         return context

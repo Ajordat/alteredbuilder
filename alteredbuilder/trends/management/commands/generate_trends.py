@@ -2,11 +2,15 @@ from datetime import timedelta
 from typing import Any
 
 from django.core.management.base import BaseCommand, CommandParser
-from django.db.models import Count, F
+from django.db.models import Count, F, Q
 from django.utils.timezone import localdate
 
-from decks.models import Deck, Hero, Set
-from trends.models import FactionTrend, HeroTrend
+from decks.models import Card, CardInDeck, Deck, Hero, Set
+from trends.models import FactionTrend, HeroTrend, CardTrend
+
+
+DEFAULT_TIME_LAPSE = 7
+CARD_RANKING_LIMIT = 10
 
 
 class Command(BaseCommand):
@@ -14,7 +18,11 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser: CommandParser) -> None:
         parser.add_argument(
-            "--days", action="store", default=7, type=int, dest="day_count"
+            "--days",
+            action="store",
+            default=DEFAULT_TIME_LAPSE,
+            type=int,
+            dest="day_count",
         )
 
     def handle(self, *args: Any, **options: Any) -> str | None:
@@ -26,10 +34,12 @@ class Command(BaseCommand):
 
         self.generate_faction_trends()
         self.generate_hero_trends()
+        self.generate_card_trends()
 
     def generate_faction_trends(self):
         faction_trends = (
             Deck.objects.filter(
+                Q(is_standard_legal=True) | Q(is_exalts_legal=True),
                 modified_at__date__gte=self.time_lapse,
                 is_public=True,
                 hero__isnull=False,
@@ -49,6 +59,7 @@ class Command(BaseCommand):
     def generate_hero_trends(self):
         hero_trends = (
             Deck.objects.filter(
+                Q(is_standard_legal=True) | Q(is_exalts_legal=True),
                 modified_at__date__gte=self.time_lapse,
                 is_public=True,
                 hero__isnull=False,
@@ -69,3 +80,92 @@ class Command(BaseCommand):
                 day_count=self.day_count,
                 date=self.today,
             )
+
+    def generate_card_trends(self):
+
+        legality_filter = [
+            Q(deck__is_standard_legal=True) | Q(deck__is_exalts_legal=True)
+        ]
+        base_filter = {
+            "deck__modified_at__date__gte": self.time_lapse,
+            "deck__is_public": True,
+        }
+
+        card_trends = (
+            CardInDeck.objects.filter(*legality_filter, **base_filter)
+            .annotate(name=F(f"card__name_en"))
+            .values("name", "card__faction", "card__rarity")
+            .alias(count=Count("name"))
+            .order_by("-count")[:CARD_RANKING_LIMIT]
+        )
+        core_set = Set.objects.get(code="CORE")
+        for rank, record in enumerate(card_trends, start=1):
+            card = Card.objects.get(
+                name=record["name"],
+                rarity=record["card__rarity"],
+                faction=record["card__faction"],
+                set=core_set,
+            )
+            CardTrend.objects.update_or_create(
+                card=card,
+                hero=None,
+                faction=None,
+                ranking=rank,
+                day_count=self.day_count,
+                date=self.today,
+            )
+
+        trending_factions = FactionTrend.objects.filter(date=self.today).values_list(
+            "faction", flat=True
+        )
+        for faction in trending_factions:
+            card_trends = (
+                CardInDeck.objects.filter(*legality_filter, **base_filter)
+                .filter(card__faction=faction)
+                .annotate(name=F(f"card__name_en"))
+                .values("name", "card__faction", "card__rarity")
+                .alias(count=Count("name"))
+                .order_by("-count")[:CARD_RANKING_LIMIT]
+            )
+            for rank, record in enumerate(card_trends, start=1):
+                card = Card.objects.get(
+                    name=record["name"],
+                    rarity=record["card__rarity"],
+                    faction=record["card__faction"],
+                    set=core_set,
+                )
+                CardTrend.objects.update_or_create(
+                    card=card,
+                    hero=None,
+                    faction=faction,
+                    ranking=rank,
+                    day_count=self.day_count,
+                    date=self.today,
+                )
+
+        trending_heroes = HeroTrend.objects.filter(date=self.today)
+        for hero_trend in trending_heroes:
+            card_trends = (
+                CardInDeck.objects.filter(*legality_filter, **base_filter)
+                .filter(deck__hero__name_en=hero_trend.hero.name)
+                .annotate(name=F(f"card__name_en"))
+                .values("name", "card__faction", "card__rarity")
+                .alias(count=Count("name"))
+                .order_by("-count")[:CARD_RANKING_LIMIT]
+            )
+            
+            for rank, record in enumerate(card_trends, start=1):
+                card = Card.objects.get(
+                    name=record["name"],
+                    rarity=record["card__rarity"],
+                    faction=record["card__faction"],
+                    set=core_set,
+                )
+                CardTrend.objects.update_or_create(
+                    card=card,
+                    hero=hero_trend.hero,
+                    faction=None,
+                    ranking=rank,
+                    day_count=self.day_count,
+                    date=self.today,
+                )
