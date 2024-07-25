@@ -47,7 +47,7 @@ class HomeView(TemplateView):
             Hit.objects.filter(created__date__gte=time_lapse)
             .values("hitcount")
             .alias(total=Count("hitcount"))
-            .order_by("-total")[: self.TRENDING_COUNT]
+            .order_by("-total")
             .values_list("hitcount__object_pk", flat=True)
         )
         # Add the most viewed decks to the context
@@ -57,7 +57,7 @@ class HomeView(TemplateView):
             .with_hero(hero_name)
             .select_related("owner", "hero")
             .prefetch_related("hit_count_generic")
-            .order_by("-hit_count_generic__hits")
+            .order_by("-hit_count_generic__hits")[: self.TRENDING_COUNT]
         )
 
         if hero:
