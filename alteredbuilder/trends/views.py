@@ -22,7 +22,6 @@ class HomeView(TemplateView):
 
         try:
             faction = Card.Faction(self.request.GET.get("faction"))
-            print(faction)
         except ValueError:
             faction = None
 
@@ -31,7 +30,6 @@ class HomeView(TemplateView):
             hero = Hero.objects.filter(
                 name__startswith=hero_name, set__code="CORE"
             ).first()
-            print(hero)
         except (ValueError, Hero.DoesNotExist):
             hero = None
 
@@ -62,23 +60,28 @@ class HomeView(TemplateView):
             .order_by("-hit_count_generic__hits")
         )
 
-        faction_trends = FactionTrend.objects.filter(date=yesterday).order_by("-count")
         if hero:
-            faction_trends = faction_trends.filter(faction=hero.faction)
+            faction_trends = {hero.faction: 1}
         elif faction:
-            faction_trends = faction_trends.filter(faction=faction)
-        context["faction_trends"] = {t.faction: t.count for t in faction_trends}
+            faction_trends = {faction: 1}
+        else:
+            faction_trends = FactionTrend.objects.filter(date=yesterday).order_by("-count")
+            faction_trends = {t.faction: t.count for t in faction_trends}
+
+        context["faction_trends"] = faction_trends
 
         # Retrieve hero trends
         hero_trends = HeroTrend.objects.filter(date=yesterday).order_by("-count")
         if hero:
-            hero_trends = hero_trends.filter(hero=hero)
-        elif faction:
-            hero_trends = hero_trends.filter(hero__faction=faction)
-        context["hero_trends"] = {
-            t.hero.name: {"faction": t.hero.faction, "count": t.count}
-            for t in hero_trends
-        }
+            hero_trends = {hero.name: {"faction": hero.faction, "count": 1}}
+        else:
+            if faction:
+                hero_trends = hero_trends.filter(hero__faction=faction)
+            hero_trends = {
+                t.hero.name: {"faction": t.hero.faction, "count": t.count}
+                for t in hero_trends
+            }
+        context["hero_trends"] = hero_trends
 
         card_trends = CardTrend.objects.filter(date=yesterday).order_by("-ranking")
         if hero:
