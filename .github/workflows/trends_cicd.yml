@@ -1,4 +1,4 @@
-name: Django CICD
+name: Trends CICD
 
 on:
   push:
