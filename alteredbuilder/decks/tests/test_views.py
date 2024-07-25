@@ -39,7 +39,7 @@ class DeckListViewTestCase(BaseViewTestCase):
         response = self.client.get(reverse("index"))
 
         self.assertRedirects(
-            response, reverse("deck-list"), status_code=HTTPStatus.MOVED_PERMANENTLY
+            response, reverse("home"), status_code=HTTPStatus.MOVED_PERMANENTLY
         )
 
     def test_decks_home_unauthenticated(self):
