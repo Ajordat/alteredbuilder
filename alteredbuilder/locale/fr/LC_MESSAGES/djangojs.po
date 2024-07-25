@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-17 11:35+0200\n"
+"POT-Creation-Date: 2024-07-25 14:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,33 +46,33 @@ msgstr "Référence de la carte copiée dans le presse-papiers !"
 msgid "Cannot create a private link"
 msgstr "Impossible de créer un lien privé"
 
-#: decks/static/js/deck-sidebar.js:153
+#: decks/static/js/deck-sidebar.js:184
 msgid "Common"
 msgid_plural "Commons"
 msgstr[0] "Commune"
 msgstr[1] "Communes"
 
-#: decks/static/js/deck-sidebar.js:155
+#: decks/static/js/deck-sidebar.js:186
 msgid "Rare"
 msgid_plural "Rares"
 msgstr[0] "Rare"
 msgstr[1] "Rares"
 
-#: decks/static/js/deck-sidebar.js:157
+#: decks/static/js/deck-sidebar.js:188
 msgid "Unique"
 msgid_plural "Uniques"
 msgstr[0] "Unique"
 msgstr[1] "Uniques"
 
-#: decks/static/js/deck-sidebar.js:475
+#: decks/static/js/deck-sidebar.js:496
 msgid "The deck must have a name"
 msgstr "Le deck doit avoir un nom"
 
-#: decks/static/js/deck-sidebar.js:480
+#: decks/static/js/deck-sidebar.js:501
 msgid "There are no changes to save"
 msgstr "Il n'y a pas de modifications à sauvegarder"
 
-#: decks/static/js/deck-sidebar.js:511
+#: decks/static/js/deck-sidebar.js:532
 msgid "Unable to update deck"
 msgstr "Impossible de mettre à jour le deck"
 
@@ -88,14 +88,14 @@ msgstr "sorts"
 msgid "permanents"
 msgstr "permanents"
 
-#: decks/static/js/deck-stats.js:80
+#: decks/static/js/deck-stats.js:79
 msgid "Cost"
 msgstr "Coût"
 
-#: decks/static/js/deck-stats.js:80
+#: decks/static/js/deck-stats.js:79
 msgid "Hand"
 msgstr "Main"
 
-#: decks/static/js/deck-stats.js:80
+#: decks/static/js/deck-stats.js:79
 msgid "Reserve"
 msgstr "Réserve"
