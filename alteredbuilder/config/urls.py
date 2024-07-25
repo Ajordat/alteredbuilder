@@ -35,7 +35,7 @@ urlpatterns = [
     path("accounts/", include("allauth.socialaccount.providers.discord.urls")),
     path(
         "",
-        RedirectView.as_view(url=reverse_lazy("deck-list"), permanent=True),
+        RedirectView.as_view(url=reverse_lazy("home"), permanent=True),
         name="index",
     ),
     path(
@@ -45,6 +45,8 @@ urlpatterns = [
 ]
 
 urlpatterns += i18n_patterns(
+    path("decks/", include("decks.urls")),
+    path("trends/", include("trends.urls")),
     path(
         "jsi18n/",
         cache_page(3600, key_prefix="jsi18n-%s" % __version__)(
@@ -54,7 +56,6 @@ urlpatterns += i18n_patterns(
     ),
     path("accounts/", include("allauth.account.urls")),
     path("accounts/", include("allauth.socialaccount.urls")),
-    path("decks/", include("decks.urls")),
     path("about/", TemplateView.as_view(template_name="about.html"), name="about"),
     path(
         "collaborators/",
@@ -79,7 +80,7 @@ urlpatterns += i18n_patterns(
     path("troubleshoot/", include("troubleshoot.urls")),
     path(
         "",
-        RedirectView.as_view(url=reverse_lazy("home"), permanent=True),
+        RedirectView.as_view(url=reverse_lazy("home"), permanent=False),
         name="i18n_index",
     ),
 )

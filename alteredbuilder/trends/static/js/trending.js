@@ -26,6 +26,12 @@ function drawCharts() {
 function getBaseChartOptions() {
     let options = {
         backgroundColor: "transparent",
+        tooltip: {
+            ignoreBounds: true,
+            isHtml: true,
+            text: "percentage",
+            trigger: "focus"
+        }
     };
 
     if (document.documentElement.getAttribute("data-bs-theme") === "dark") {
