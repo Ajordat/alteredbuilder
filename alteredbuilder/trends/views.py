@@ -1,7 +1,7 @@
 from datetime import timedelta
 from typing import Any
 
-from django.db.models import Count, Q
+from django.db.models import Count, FilteredRelation, OuterRef, Q
 from django.utils.timezone import localdate
 from django.utils.translation import gettext_lazy as _
 from django.views.generic.base import TemplateView
@@ -73,7 +73,11 @@ class HomeView(TemplateView):
         context["faction_trends"] = faction_trends
 
         # Retrieve hero trends
-        hero_trends = HeroTrend.objects.filter(date=yesterday).order_by("-count").select_related("hero")
+        hero_trends = (
+            HeroTrend.objects.filter(date=yesterday)
+            .order_by("-count")
+            .select_related("hero")
+        )
         if hero:
             hero_trends = {hero.name: {"faction": hero.faction, "count": 1}}
         else:
@@ -85,7 +89,11 @@ class HomeView(TemplateView):
             }
         context["hero_trends"] = hero_trends
 
-        card_trends = CardTrend.objects.filter(date=yesterday).select_related("card").order_by("-ranking")
+        card_trends = (
+            CardTrend.objects.filter(date=yesterday)
+            .select_related("card")
+            .order_by("ranking")
+        )
         if hero:
             filters = Q(hero=hero)
         elif faction:
@@ -93,11 +101,15 @@ class HomeView(TemplateView):
         else:
             filters = Q(faction__isnull=True) & Q(hero__isnull=True)
 
-        card_trends = card_trends.filter(filters)
-
-        # old_card_trends = CardTrend.objects.filter(date=yesterday - timedelta(days=1)).filter(filters)
-
+        card_trends = card_trends.filter(filters).annotate(
+            prev_ranking=CardTrend.objects.filter(
+                card=OuterRef("card_id"), date=yesterday - timedelta(days=1)
+            )
+            .filter(filters)
+            .values("ranking")
+        )
 
         context["card_trends"] = card_trends
 
         return context
+

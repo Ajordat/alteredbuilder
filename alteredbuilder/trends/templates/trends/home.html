@@ -11,6 +11,7 @@
     {{ block.super }}
     <script src="https://www.gstatic.com/charts/loader.js"></script>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/trends.css' %}">
     <link rel="stylesheet" href="{% static 'css/deck-list.css' %}">
 {% endblock %}
 
@@ -30,12 +31,14 @@
             <table>
                 <thead>
                     <tr>
+                        <th></th>
                         <th>{% translate "Name" %}</th>
                     </tr>
                 </thead>
                 <tbody>
     {% for trend in card_trends %}
                     <tr>
+                        <td>{% if not trend.prev_ranking or trend.prev_ranking < trend.ranking %}<i class="fa-solid fa-chevron-up"></i>{% elif trend.prev_ranking == trend.ranking %}<i class="fa-solid fa-equals"></i>{% else %}<i class="fa-solid fa-chevron-down"></i>{% endif %}</td>
         {% with faction_img="img/"|add:trend.card.faction|add:".png" %}
                         <td><img src="{% static faction_img %}" style="max-width: 20px;"> {{ trend.card.name }}</td>
         {% endwith %}
