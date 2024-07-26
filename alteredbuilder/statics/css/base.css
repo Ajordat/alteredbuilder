@@ -1,4 +1,13 @@
 
+:root {
+    --C-shadow-color: gray;
+    --R-shadow-color: #058196;
+    --U-shadow-color: #ff5e00fd;
+    --C-color: var(--bs-body-bg);
+    --R-color: var(--bs-info-bg-subtle);
+    --U-color: var(--bs-danger-bg-subtle);
+}
+
 body {
     font-family: Verdana, Tahoma, Geneva, sans-serif;
 }

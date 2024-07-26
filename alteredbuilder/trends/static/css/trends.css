@@ -10,3 +10,23 @@
 .fa-chevron-down {
     color: red;
 }
+
+/* .card-name[data-card-rarity="R"] {
+    color: var(--text-color);
+    text-shadow: 1px 1px 2px cyan,  0px 0px 1em LightBlue;
+}
+
+.card-name[data-card-rarity="C"] {
+    color: var(--text-color);
+    text-shadow: 0px 0px 0.5em var(--shadow-color);
+}
+
+html[data-bs-theme="light"] .card-name {
+    --text-color: black;
+    --shadow-color: white;
+}
+
+html[data-bs-theme="dark"] .card-name {
+    --text-color: white;
+    --shadow-color: white;
+} */
