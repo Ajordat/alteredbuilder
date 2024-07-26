@@ -49,15 +49,16 @@ function drawFactionChart() {
     // Draw the card type distribution in a pie chart
     let chartElement = document.getElementById("faction-pie-chart");
     let dataElement = JSON.parse(document.getElementById("faction-trends").textContent);
+    dataElement = Object.entries(dataElement).sort((a, b) => b[1] - a[1]);
     
     let options = getBaseChartOptions();
     options["slices"] = [];
-    for (let faction of Object.keys(dataElement)) {
+    for (let [faction, _] of dataElement) {
         options["slices"].push({color: factionColors[faction]});
     }
 
     let data = google.visualization.arrayToDataTable(
-        [['Faction', 'Amount']].concat(Object.entries(dataElement))
+        [['Faction', 'Amount']].concat(dataElement)
     );
     let chart = new google.visualization.PieChart(chartElement);
 
@@ -74,7 +75,7 @@ function drawFactionChart() {
             window.open(window.location.pathname, "_self");
             return;
         }
-        let item = Object.entries(dataElement)[selection[0].row];
+        let item = dataElement[selection[0].row];
         let url = window.location.pathname + "?faction=" + item[0];
         window.open(url, "_self");
     })
@@ -84,7 +85,8 @@ function drawHeroChart() {
     // Draw the card type distribution in a pie chart
     let chartElement = document.getElementById("hero-pie-chart");
     let dataElement = JSON.parse(document.getElementById("hero-trends").textContent);
-     
+    dataElement = Object.entries(dataElement).sort((a, b) => b[1].count - a[1].count);
+
     let factionOccurrence = {
         "AX": 0,
         "BR": 0,
@@ -96,11 +98,11 @@ function drawHeroChart() {
     let options = getBaseChartOptions();
     let heroData = [];
     options["slices"] = [];
-    for (let k of Object.keys(dataElement)) {
-        let faction = dataElement[k]["faction"];
+    for (let [hero, data] of dataElement) {
+        let faction = data["faction"];
         options["slices"].push({color: heroColors[faction][factionOccurrence[faction]]});
         factionOccurrence[faction] += 1;
-        heroData.push([k, dataElement[k]["count"]]);
+        heroData.push([hero, data["count"]]);
     }
 
     let data = google.visualization.arrayToDataTable(
@@ -124,9 +126,7 @@ function drawHeroChart() {
             return;
         }
         let item = heroData[selection[0].row];
-        console.log(item)
         let url = window.location.pathname + "?hero=" + encodeURI(item[0].split(" ")[0]);
-        console.log(url)
         window.open(url, "_self");
     })
 }
