@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-25 14:45+0200\n"
+"POT-Creation-Date: 2024-07-26 16:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -342,7 +342,7 @@ msgstr "Decklist"
 #: decks/templates/decks/snippets/public_deck_table.html:11
 #: decks/templates/forms/submit_deck_metadata.html:8
 #: decks/templates/forms/submit_decklist.html:7
-#: trends/templates/trends/home.html:33
+#: trends/templates/trends/home.html:36
 msgid "Name"
 msgstr "Nombre"
 
@@ -869,23 +869,32 @@ msgid ""
 "An error occurred while attempting to login via your third-party account."
 msgstr ""
 
-#: trends/templates/trends/home.html:18
+#: trends/templates/trends/home.html:19
 msgid "Trends from the last 7 days"
 msgstr "Tendencias de los últimos 7 días"
 
-#: trends/templates/trends/home.html:21
+#: trends/templates/trends/home.html:20
+msgid ""
+"The statistics are extracted daily from the public legal decks modified "
+"within the last 7 days.<br>Click on the faction and hero pie charts to "
+"narrow down the results!"
+msgstr "Las estadísticas se extraen diariamente de los mazos públicos y "
+"legales modificados en los últimos 7 días.<br>Haz click en una facción o"
+" un héroe de los gráficos para acotar los resultados!"
+
+#: trends/templates/trends/home.html:23
 msgid "Popular Factions"
 msgstr "Facciones Populares"
 
-#: trends/templates/trends/home.html:25
+#: trends/templates/trends/home.html:27
 msgid "Popular Heroes"
 msgstr "Héroes Populares"
 
-#: trends/templates/trends/home.html:29
+#: trends/templates/trends/home.html:31
 msgid "Popular Cards"
 msgstr "Cartas Populares"
 
-#: trends/templates/trends/home.html:48
+#: trends/templates/trends/home.html:64
 msgid "Trending decks"
 msgstr "Mazos populares"
 
