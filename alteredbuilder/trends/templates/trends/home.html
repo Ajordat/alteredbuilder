@@ -41,12 +41,11 @@
                         <td>
         {% if trend.prev_ranking == trend.ranking %}
                             <i class="fa-solid fa-equals"></i>
-        {% elif trend.prev_ranking > trend.ranking %}
+        {% elif trend.prev_ranking < trend.ranking %}
                             <i class="fa-solid fa-chevron-down"></i>
         {% else %}
                             <i class="fa-solid fa-chevron-up"></i>
         {% endif %}
-                            <span hidden>{{ trend.prev_ranking }} {{ trend.ranking }}</span>
                         </td>
         {% with faction_img="img/"|add:trend.card.faction|add:".png" %}
                         <td><img src="{% static faction_img %}" style="max-width: 20px;"> {{ trend.card.name }}</td>
