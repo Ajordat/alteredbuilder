@@ -38,7 +38,15 @@
                 <tbody>
     {% for trend in card_trends %}
                     <tr>
-                        <td>{% if not trend.prev_ranking or trend.prev_ranking < trend.ranking %}<i class="fa-solid fa-chevron-up"></i>{% elif trend.prev_ranking == trend.ranking %}<i class="fa-solid fa-equals"></i>{% else %}<i class="fa-solid fa-chevron-down"></i>{% endif %}</td>
+                        <td>
+        {% if trend.prev_ranking == trend.ranking %}
+                            <i class="fa-solid fa-equals"></i>
+        {% elif trend.prev_ranking > trend.ranking %}
+                            <i class="fa-solid fa-chevron-down"></i>
+        {% else %}
+                            <i class="fa-solid fa-chevron-up"></i>
+        {% endif %}
+                        </td>
         {% with faction_img="img/"|add:trend.card.faction|add:".png" %}
                         <td><img src="{% static faction_img %}" style="max-width: 20px;"> {{ trend.card.name }}</td>
         {% endwith %}
