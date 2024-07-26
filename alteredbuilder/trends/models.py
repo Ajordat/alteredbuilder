@@ -10,6 +10,9 @@ class FactionTrend(models.Model):
     day_count = models.PositiveIntegerField(default=7)
     date = models.DateField()
 
+    class Meta:
+        ordering = ["-date", "-count"]
+
 
 class HeroTrend(models.Model):
     hero = models.ForeignKey(Hero, on_delete=models.CASCADE)
@@ -18,6 +21,8 @@ class HeroTrend(models.Model):
     day_count = models.PositiveIntegerField(default=7)
     date = models.DateField()
 
+    class Meta:
+        ordering = ["-date", "-count"]
 
 class CardTrend(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
@@ -35,3 +40,6 @@ class CardTrend(models.Model):
 
     def __str__(self) -> str:
         return f"{self.ranking} - {self.card} [{self.faction}] [{self.hero}]"
+
+    class Meta:
+        ordering = ["-date", "-hero", "-faction", "ranking"]
