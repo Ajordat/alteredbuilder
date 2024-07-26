@@ -883,7 +883,7 @@ msgid ""
 "within the last 7 days.<br>Click on the faction and hero pie charts to "
 "narrow down the results!"
 msgstr "Les statistiques sont mises à jour quotidiennement à partir des "
-"decks valides des 7 derniers jours. Cliquez sur le graphique circulaire "
+"decks valides des 7 derniers jours.<br>Cliquez sur le graphique circulaire "
 "de faction ou de héros pour affiner les résultats !"
 
 #: trends/templates/trends/home.html:23

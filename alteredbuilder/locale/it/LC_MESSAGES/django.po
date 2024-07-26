@@ -882,7 +882,7 @@ msgid ""
 "within the last 7 days.<br>Click on the faction and hero pie charts to "
 "narrow down the results!"
 msgstr "Le statistiche sono estratte quotidianamente dai mazzi legali "
-"pubblici modificati negli ultimi 7 giorni. Clicca sui grafici a torta "
+"pubblici modificati negli ultimi 7 giorni.<br>Clicca sui grafici a torta "
 "delle fazioni e degli eroi per restringere i risultati!"
 
 #: trends/templates/trends/home.html:23

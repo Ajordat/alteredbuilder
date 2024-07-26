@@ -883,7 +883,7 @@ msgid ""
 "within the last 7 days.<br>Click on the faction and hero pie charts to "
 "narrow down the results!"
 msgstr "Die Statistiken werden täglich aus den öffentlichen legalen Decks "
-"extrahiert, die innerhalb der letzten 7 Tage geändert wurden. Klickt auf "
+"extrahiert, die innerhalb der letzten 7 Tage geändert wurden.<br>Klickt auf "
 "die Fraktions- und Heldentortendiagramme, um die Ergebnisse einzugrenzen!"
 
 #: trends/templates/trends/home.html:23
