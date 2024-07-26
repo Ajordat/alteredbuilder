@@ -42,7 +42,6 @@ class Command(BaseCommand):
                 Q(is_standard_legal=True) | Q(is_exalts_legal=True),
                 modified_at__date__gte=self.time_lapse,
                 is_public=True,
-                hero__isnull=False,
             )
             .values("hero__faction")
             .annotate(count=Count("hero__faction"))
@@ -62,7 +61,6 @@ class Command(BaseCommand):
                 Q(is_standard_legal=True) | Q(is_exalts_legal=True),
                 modified_at__date__gte=self.time_lapse,
                 is_public=True,
-                hero__isnull=False,
             )
             .annotate(hero_name=F(f"hero__name_en"))
             .values("hero_name")
