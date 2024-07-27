@@ -32,11 +32,11 @@ class DecklistChanges {
         if (heroRow.dataset.cardReference != "") {
             this.#snapshot[heroRow.dataset.cardReference] = 1;
         }
-
     }
     clean() {
         sessionStorage.removeItem(this.storageKey);
         sessionStorage.removeItem("deckId");
+        sessionStorage.removeItem("deckName");
     }
     /**
      * Add a change to track.
@@ -220,6 +220,11 @@ if (deckId !== sessionStorage.getItem("deckId")) {
     sessionStorage.setItem("deckId", deckId);
 } else {
     // Attempt to load any previous changes
+    let deckName = sessionStorage.getItem("deckName");
+    if (deckName) {
+        document.getElementById("deck-name").value = deckName;
+    }
+
     decklistChanges.load();
     if (decklistChanges.hasChanges()) {
         // If there are previous changes, apply them so that they are reflected in the sidebar
@@ -271,6 +276,14 @@ if (deckId !== sessionStorage.getItem("deckId")) {
 }
 updateCardCount();
 assertHasChangesWarning();
+
+
+// Save the changes when modifying the deck's name
+document.getElementById("deck-name").addEventListener("change", (e) => {
+    e.preventDefault();
+    sessionStorage.setItem("deckName", e.currentTarget.value);
+    return false;
+});
 
 
 // Dropdown to select a deck
