@@ -93,14 +93,16 @@
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
-{% with flag_url="img/"|add:CURRENT_LANGUAGE|add:".png" %}
-                            <a class="nav-link active dropdown-toggle text-info-emphasis" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="{% static flag_url %}" width="24" height="24"></a>
-{% endwith %}
+                            <a class="nav-link active dropdown-toggle text-info-emphasis" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Select site language">
+                                {% include "decks/snippets/picture_webp.html" with img_name=CURRENT_LANGUAGE width=24 height=24 %}
+                            </a>
                             <ul class="dropdown-menu dropdown-menu-end">
 {% for lang in languages %}
-    {% with flag_url="img/"|add:lang.code|add:".png" %}
-                                <li><a class="dropdown-item" href="{% change_lang lang.code %}"><img src="{% static flag_url %}" width="24" height="24"> {{ lang.name_local|title }}</a></li>
-    {% endwith %}
+                                <li>
+                                    <a class="dropdown-item" href="{% change_lang lang.code %}">
+                                        {% include "decks/snippets/picture_webp.html" with img_name=lang.code width=24 height=24 %} {{ lang.name_local|title }}
+                                    </a>
+                                </li>
 {% endfor %}
                             </ul>
                         </li>

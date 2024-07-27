@@ -136,9 +136,7 @@
     {% if object.hero %}
                             <tr class="table-light card-hover" data-image-url="{{ object.hero.image_url }}">
                                 <td>{{ object.hero.name }}</td>
-        {% with faction_img="img/"|add:object.hero.faction|add:".png" %}
-                                <td><img src="{% static faction_img %}" style="max-width: 20px;"> {{ object.hero.get_faction_display.title }}</td>
-        {% endwith %}
+                                <td>{% include "decks/snippets/picture_webp.html" with img_name=object.hero.faction width=20 height=20 %} {{ object.hero.get_faction_display.title }}</td>
                                 <td>
                                     <div class="dropdown">
                                         <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>

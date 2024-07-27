@@ -1,0 +1,10 @@
+
+{% load static %}
+
+<picture>
+{% with img_path="img/"|add:img_name %}
+    <source type="image/webp" srcset="{% static img_path|add:".webp" %}" width="{{ width }}" height="{{ height }}">
+    <source type="image/png" srcset="{% static img_path|add:".png" %}" width="{{ width }}" height="{{ height }}">
+    <img src="{% static img_path|add:".png" %}" alt="" width="{{ width }}" height="{{ height }}">
+{% endwith %}
+</picture>
