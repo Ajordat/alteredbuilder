@@ -77,6 +77,8 @@ class DeckListView(ListView):
                 filters &= Q(is_standard_legal=True)
             elif "draft" in legality:
                 filters &= Q(is_draft_legal=True)
+            if "exalts" in legality:
+                filters &= Q(is_exalts_legal=True)
 
         # Extract the other filters, which currently it's simply if the deck is loved
         other = self.request.GET.get("other")

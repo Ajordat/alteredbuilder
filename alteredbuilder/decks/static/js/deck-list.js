@@ -32,7 +32,6 @@ function parseFilter(labels) {
  * the server.
  * 
  * @param {HTMLElement} e Element that triggered the event.
- * @returns 
  */
 function searchCards(e) {
     e.preventDefault();
@@ -45,7 +44,7 @@ function searchCards(e) {
     }
 
     // Retrieve the LEGALITY filters
-    let legality = parseFilter(["Standard", "Draft"]);
+    let legality = parseFilter(["Standard", "ExAlts", "Draft"]);
     if (legality.length > 0) {
         params.append("legality", legality.join(","));
     }
