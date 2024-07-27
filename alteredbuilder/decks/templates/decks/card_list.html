@@ -150,14 +150,14 @@
             
             <div class="mt-3">
                 {% if page_obj.has_next %}
-                    <a class="infinite-more-link page-link" href="?{% inject_params request.GET page=page_obj.next_page_number %}"></a>
+                    <a class="infinite-more-link page-link" href="?{% inject_params request.GET page=page_obj.next_page_number %}" aria-label="Next page"></a>
                 {% endif %}
             </div>
         </div>
         <aside class="col-xxl-2 col-xl-3 col-md-4 col-6 vh-100 sticky-top d-flex overflow-y-scroll z-0">
             <div class="vr"></div>
             <div class="col ps-3 pe-1 pt-2">
-                <select class="form-select d-inline-flex" id="deckSelector" name="deck_id">
+                <select class="form-select d-inline-flex" id="deckSelector" name="deck_id" aria-label="Select a deck to modify">
     {% if edit_deck %}
                     <option value="{{ edit_deck.id }}" selected>{{ edit_deck.name }}</option>
     {% endif %}
@@ -168,16 +168,16 @@
         {% endif %}
     {% endfor %}
                 </select>
-                <div class="row">{% translate "Deck name:" %}</div>
+                <div class="row" id="deck-name-label">{% translate "Deck name:" %}</div>
                 <div class="row">
-                    <input id="deck-name" type="text" maxlength="50" class="form-control" required value="{% if edit_deck.name %}{{ edit_deck.name }}{% else %}{% translate 'Deck' %} {{ own_decks|length|add:'1' }}{% endif %}">
+                    <input id="deck-name" type="text" maxlength="50" class="form-control" required value="{% if edit_deck.name %}{{ edit_deck.name }}{% else %}{% translate 'Deck' %} {{ own_decks|length|add:'1' }}{% endif %}" aria-labelledby="deck-name-label">
                 </div>
-                <div class="row">{% translate "Hero:" %}</div>
+                <div class="row" id="hero-name-label">{% translate "Hero:" %}</div>
                 <div class="row my-1" id="row-hero" data-bs-toggle="tooltip" {% if not edit_deck.hero %}data-bs-disable="true"{% endif %} data-bs-title="<img src='{{ edit_deck.hero.image_url }}'/>" data-bs-html="true" data-bs-placement="left">
                     <div class="col px-0">
                         <div class="input-group">
-                            <input id="hero-name" type="text" class="card-name form-control" value="{{ edit_deck.hero.name }}" data-card-reference="{{ edit_deck.hero.reference }}" disabled style="background-image: url('{{ edit_deck.hero.image_url }}')">
-                            <button class="btn btn-outline-secondary" type="button" id="remove-hero" {% if not edit_deck.hero %}disabled{% endif %}><i class="fa-solid fa-trash"></i></button>
+                            <input id="hero-name" type="text" class="card-name form-control" value="{{ edit_deck.hero.name }}" data-card-reference="{{ edit_deck.hero.reference }}" disabled style="background-image: url('{{ edit_deck.hero.image_url }}')" aria-labelledby="hero-name-label">
+                            <button class="btn btn-outline-secondary" type="button" id="remove-hero" {% if not edit_deck.hero %}disabled{% endif %} aria-label="Remove hero from deck"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </div>
                 </div>
