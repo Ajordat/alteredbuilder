@@ -51,10 +51,10 @@
                         <td>
                             <span class="d-inline-block" data-bs-offset="0,30" data-bs-toggle="tooltip" data-bs-title="<img src='{{ trend.card.image_url }}'/>" data-bs-html="true" data-bs-placement="left">
         {% with faction_img="img/"|add:trend.card.faction|add:".png" %}
-                                <img src="{% static faction_img %}" style="max-width: 20px;">
+                                <img src="{% static faction_img %}" width="20" height="20">
         {% endwith %}
         {% with faction_img="img/"|add:trend.card.get_rarity_display|add:".png" %}
-                            <img src="{% static faction_img %}" style="max-width: 20px;">
+                            <img src="{% static faction_img %}" width="20" height="11">
         {% endwith %}
                             <span class="card-name" data-card-rarity="{{ trend.card.rarity }}">{{ trend.card.name }}</span>
                         </span>       
