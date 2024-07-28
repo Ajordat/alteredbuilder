@@ -33,7 +33,7 @@
         <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% include 'decks/tooltips/deck_timestamps.html' with deck=object %}" data-bs-html="true">
             <i class="fa-regular fa-calendar"></i> <small>{{ object.modified_at|date:"SHORT_DATE_FORMAT" }}</small>
         </div>
-        <div class="col me-3">
+        <div class="col">
     {% if object.is_public or object.owner == user %}
         {% if user.is_authenticated %}
             <a role="button" href="{% url 'love-deck-id' pk=object.id %}" class="btn btn-sm {% if is_loved %}btn-danger{% else %}btn-outline-danger{% endif %}">
@@ -47,7 +47,9 @@
             </div>
         {% endif %}
     {% endif %}
-            <a role="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="offcanvas" data-bs-target="#commentsOffcanvas" aria-controls="commentsOffcanvas">
+        </div>
+        <div class="col me-3">
+            <a role="button" class="btn btn-sm btn-outline-secondary {% if deck.comment_count > 0 %}active{% else %}disabled{% endif %}" data-bs-toggle="offcanvas" data-bs-target="#commentsOffcanvas" aria-controls="commentsOffcanvas">
                 <i class="fa-solid fa-comment"></i> {{ object.comment_count }}
             </a>
         </div>
