@@ -27,7 +27,7 @@ from .deck_utils import (
     remove_card_from_deck,
 )
 from .game_modes import update_deck_legality
-from .models import Card, CardInDeck, Comment, Deck, LovePoint, PrivateLink, Set
+from .models import Card, CardInDeck, Comment, CommentVote, Deck, LovePoint, PrivateLink, Set
 from .forms import CommentForm, DecklistForm, DeckMetadataForm
 from .exceptions import MalformedDeckException
 
@@ -185,7 +185,7 @@ class DeckDetailView(HitCountDetailView):
         filter = Q(is_public=True)
         if self.request.user.is_authenticated:
             filter |= Q(owner=self.request.user)
-        return Deck.objects.filter(filter).select_related("hero", "owner")
+        return Deck.objects.filter(filter).select_related("hero", "owner").prefetch_related("comment_set", "comment_set__user")
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         """Add metadata of the Deck to the context.
@@ -400,6 +400,38 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
         return ApiJsonResponse(_("Card not found"), HTTPStatus.NOT_FOUND)
     except KeyError:
         return ApiJsonResponse(_("Invalid payload"), HTTPStatus.BAD_REQUEST)
+    return ApiJsonResponse(status, HTTPStatus.OK)
+
+
+@login_required
+@ajax_request
+def vote_comment(request: HttpRequest, pk: int, comment_pk: int) -> HttpResponse:
+    """Function to upvote a Comment with AJAX.
+
+    Args:
+        request (HttpRequest): Received request
+        pk (int): Id of the target deck
+
+    Returns:
+        HttpResponse: A JSON response indicating whether the request succeeded or not.
+    """
+    try:
+        comment = Comment.objects.get(pk=comment_pk, deck__pk=pk)
+        comment_vote = CommentVote.objects.get(user=request.user, comment=comment)
+        comment_vote.delete()
+        comment.vote_count = F("vote_count") - 1
+        comment.save()
+        status = {"deleted": True}
+    except CommentVote.DoesNotExist:
+        CommentVote.objects.create(user=request.user, comment=comment)
+        comment.vote_count = F("vote_count") + 1
+        comment.save()
+        status = {"created": True}
+    except Deck.DoesNotExist:
+        return ApiJsonResponse(_("Deck not found"), HTTPStatus.NOT_FOUND)
+    except Comment.DoesNotExist:
+        return ApiJsonResponse(_("Comment not found"), HTTPStatus.NOT_FOUND)
+    
     return ApiJsonResponse(status, HTTPStatus.OK)
 
 

@@ -373,15 +373,20 @@
         {% for comment in object.comment_set.all %}
                         <div class="media">
                             <div class="media-body">
-                                <h4 class="media-heading">{{ comment.user.username|safe_username }}</h4>
+                                <h4 class="media-heading">{{ comment.user.username|safe_username }}
+                                    <span class="float-end">
+            {% if comment.user == request.user %}
+                                        <a role="button" class="btn btn-sm btn-outline-danger delete-comment" href="" data-comment-id="{{ comment.id }}">
+                                            <i class="fa-solid fa-trash"></i> Delete
+                                        </a>
+            {% endif %}
+                                    </span>
+                                </h4>
                                 <p>{{ comment.body }}</p>
-                                <ul class="list-unstyled list-inline media-detail pull-left">
-                                    <li><i class="fa fa-calendar"></i> {% blocktranslate with time_since=comment.created_at|timesince %}{{ time_since }} ago{% endblocktranslate %}</li>
-                                    <li><a href=""><i class="fa fa-thumbs-up"></i> {{ comment.vote_count }}</li></a>
+                                <ul class="list-unstyled list-inline media-detail">
+                                    <li class="list-inline-item"><a role="button" class="btn btn-sm btn-outline-primary upvote-comment" href="" data-comment-id="{{ comment.id }}"><i class="fa fa-thumbs-up"></i> <span class="comment-count">{{ comment.vote_count }}</span></a></li>
+                                    <li class="list-inline-item"><i class="fa fa-calendar"></i> {% blocktranslate with time_since=comment.created_at|timesince %}{{ time_since }} ago{% endblocktranslate %}</li>
                                 </ul>
-                                {% comment %} <ul class="list-unstyled list-inline media-detail pull-right">
-                                    <li class=""><a href="">Like</a></li>
-                                </ul> {% endcomment %}
                             </div>
                         </div>
         {% endfor %}

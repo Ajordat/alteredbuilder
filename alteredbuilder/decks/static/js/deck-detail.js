@@ -1,6 +1,5 @@
 // Retrieve all the rows of the tables containing cards
 let deckRows = document.querySelectorAll(".card-hover");
-
 deckRows.forEach(function(element) {
     element.addEventListener("mouseover", function() {
         // Change the display image to show the current (or last) card hovered
@@ -70,7 +69,6 @@ if (copyQRElement) {
 
 
 let removeCardEls = document.getElementsByClassName("remove-card-trigger");
-
 for (let element of removeCardEls) {
     
     element.addEventListener("click", (event) => {
@@ -101,8 +99,8 @@ for (let element of removeCardEls) {
     });
 };
 
-let copyReferenceEls = document.getElementsByClassName("card-reference-container");
 
+let copyReferenceEls = document.getElementsByClassName("card-reference-container");
 for (let element of copyReferenceEls) {
     element.addEventListener("click", (event) => {
         event.preventDefault();
@@ -145,3 +143,37 @@ if (createPrivateLink) {
         return false;
     });
 }
+
+
+let upvoteCommentsEls = document.getElementsByClassName("upvote-comment");
+for (let element of upvoteCommentsEls) {
+    
+    element.addEventListener("click", (event) => {
+        event.preventDefault();
+        let commentId = element.dataset.commentId;
+        let url = window.location.pathname + "comment/" + commentId + "/vote/";
+    
+        ajaxRequest(url)
+        .then(response => response.json())
+        .then(payload => {
+            if ("error" in payload) {
+                console.log("Unable to delete card:");
+                console.log(payload);
+                if (payload.error.code == 400) {
+                    displaySimpleToast(gettext("Unable to delete card from deck"));
+                } else {
+                    displaySimpleToast(payload.error.message);
+                }
+            } else {
+                let voteCountEl = element.getElementsByClassName("comment-count")[0];
+                if ("created" in payload["data"]) {
+                    voteCountEl.innerText = Number(voteCountEl.innerText) + 1;
+                } else if ("deleted" in payload["data"]) {
+                    voteCountEl.innerText = Number(voteCountEl.innerText) - 1;
+                }
+            }
+            return false;
+        });
+        return false;
+    });
+};
