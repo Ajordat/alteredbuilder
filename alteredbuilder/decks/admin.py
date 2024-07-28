@@ -196,7 +196,7 @@ class SetAdmin(admin.ModelAdmin):
 
 
 @admin.register(Comment)
-class SetAdmin(admin.ModelAdmin):
+class CommentAdmin(admin.ModelAdmin):
     list_display = ["deck", "user", "created_at"]
     readonly_fields = [
         "user", "deck", "vote_count"
