@@ -31,5 +31,9 @@ urlpatterns = [
     ),
     path("<int:pk>/delete/", views.delete_deck, name="delete-deck-id"),
     path("<int:pk>/love/", views.love_deck, name="love-deck-id"),
-    path("<int:pk>/comment/<int:comment_pk>/vote/", views.vote_comment, name="vote-comment"),
+    path(
+        "<int:pk>/comment/<int:comment_pk>/vote/",
+        views.vote_comment,
+        name="vote-comment",
+    ),
 ]

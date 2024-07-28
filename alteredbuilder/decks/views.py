@@ -27,7 +27,16 @@ from .deck_utils import (
     remove_card_from_deck,
 )
 from .game_modes import update_deck_legality
-from .models import Card, CardInDeck, Comment, CommentVote, Deck, LovePoint, PrivateLink, Set
+from .models import (
+    Card,
+    CardInDeck,
+    Comment,
+    CommentVote,
+    Deck,
+    LovePoint,
+    PrivateLink,
+    Set,
+)
 from .forms import CommentForm, DecklistForm, DeckMetadataForm
 from .exceptions import MalformedDeckException
 
@@ -185,7 +194,11 @@ class DeckDetailView(HitCountDetailView):
         filter = Q(is_public=True)
         if self.request.user.is_authenticated:
             filter |= Q(owner=self.request.user)
-        return Deck.objects.filter(filter).select_related("hero", "owner").prefetch_related("comment_set", "comment_set__user")
+        return (
+            Deck.objects.filter(filter)
+            .select_related("hero", "owner")
+            .prefetch_related("comment_set", "comment_set__user")
+        )
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         """Add metadata of the Deck to the context.
@@ -431,7 +444,7 @@ def vote_comment(request: HttpRequest, pk: int, comment_pk: int) -> HttpResponse
         return ApiJsonResponse(_("Deck not found"), HTTPStatus.NOT_FOUND)
     except Comment.DoesNotExist:
         return ApiJsonResponse(_("Comment not found"), HTTPStatus.NOT_FOUND)
-    
+
     return ApiJsonResponse(status, HTTPStatus.OK)
 
 
@@ -535,7 +548,9 @@ class CreateCommentFormView(LoginRequiredMixin, FormView):
         """
         # Retrieve the Deck by ID and the user, to ensure ownership
         deck = Deck.objects.get(pk=self.kwargs["pk"])
-        Comment.objects.create(user=self.request.user, deck=deck, body=form.cleaned_data["body"])
+        Comment.objects.create(
+            user=self.request.user, deck=deck, body=form.cleaned_data["body"]
+        )
         deck.comment_count = F("comment_count") + 1
 
         deck.save(update_fields=["comment_count"])

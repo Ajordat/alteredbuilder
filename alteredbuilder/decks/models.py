@@ -185,11 +185,13 @@ class PrivateLink(models.Model):
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True
+    )
     deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
     body = models.TextField(blank=False, max_length=280)
     vote_count = models.PositiveIntegerField(default=0)
-    
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -199,7 +201,7 @@ class Comment(models.Model):
 class CommentVote(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
-    
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

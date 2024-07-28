@@ -24,6 +24,7 @@ class HeroTrend(models.Model):
     class Meta:
         ordering = ["-date", "-count"]
 
+
 class CardTrend(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
     hero = models.ForeignKey(

@@ -77,7 +77,10 @@ class DeckAdmin(admin.ModelAdmin):
     ]
     fieldsets = [
         ("Metadata", {"fields": ["owner", "name", "description", "hero"]}),
-        ("Engagement", {"fields": ["is_public", "love_count", "comment_count", "hit_count"]}),
+        (
+            "Engagement",
+            {"fields": ["is_public", "love_count", "comment_count", "hit_count"]},
+        ),
         (
             "Legality",
             {
@@ -198,6 +201,4 @@ class SetAdmin(admin.ModelAdmin):
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ["deck", "user", "created_at"]
-    readonly_fields = [
-        "user", "deck", "vote_count"
-    ]
+    readonly_fields = ["user", "deck", "vote_count"]
