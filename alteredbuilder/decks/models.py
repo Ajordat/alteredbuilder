@@ -132,6 +132,7 @@ class Deck(models.Model, HitCountMixin):
     is_exalts_legal = models.BooleanField(null=True)
 
     love_count = models.PositiveIntegerField(default=0)
+    comment_count = models.PositiveIntegerField(default=0)
     hit_count_generic = GenericRelation(
         HitCount,
         object_id_field="object_pk",
@@ -177,6 +178,28 @@ class PrivateLink(models.Model):
     code = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     deck = models.OneToOneField(Deck, on_delete=models.CASCADE)
     last_accessed_at = models.DateTimeField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
+    body = models.TextField(blank=False, max_length=280)
+    vote_count = models.PositiveIntegerField(default=0)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+
+class CommentVote(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

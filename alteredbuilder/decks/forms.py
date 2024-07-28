@@ -4,7 +4,7 @@ from django import forms
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
 
-from .models import Deck
+from .models import Comment, Deck
 
 # Form definitions
 
@@ -58,3 +58,14 @@ class DeckMetadataForm(forms.Form):
         required=False,
     )
     is_public = forms.BooleanField(required=False)
+
+
+class CommentForm(forms.Form):
+    """Form to create a Comment on a Deck."""
+
+    template_name = "forms/submit_comment.html"
+    body = forms.CharField(
+        label="body",
+        max_length=Comment._meta.get_field("body").max_length,
+        required=True,
+    )

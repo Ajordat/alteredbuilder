@@ -33,6 +33,9 @@
                 <a role="button" href="#" class="btn btn-sm btn-outline-danger {%if deck.id in loved_decks %}active{% else %}disabled{% endif %}">
                     <i class="fa-solid fa-heart"></i> {{ deck.love_count }}
                 </a>
+                <a role="button" href="#" class="btn btn-sm btn-outline-secondary {%if deck.comment_count > 0 %}active{% else %}disabled{% endif %}">
+                    <i class="fa-solid fa-comment"></i> {{ deck.comment_count }}
+                </a>
             </td>
             <td>{{ deck.owner.username|safe_username }}</td>
             <td>{{ deck.name }}</td>

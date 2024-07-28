@@ -73,3 +73,23 @@ html[data-bs-theme="light"] .card-table tr[data-rarity="unique"] {
 html[data-bs-theme="dark"] .card-table tr[data-rarity="unique"] {
     --bs-table-bg: #ffafb6;
 }
+
+#comments {
+    box-shadow: 0 -1px 6px 1px rgba(0,0,0,0.1);
+}
+
+#comments form {
+	margin-bottom:30px;
+}
+
+#comments .btn {
+	margin-top:7px;
+}
+
+#comments form fieldset {
+	clear:both;
+}
+
+#comments form textarea {
+	height:100px;
+}

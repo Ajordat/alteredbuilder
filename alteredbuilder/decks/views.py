@@ -27,8 +27,8 @@ from .deck_utils import (
     remove_card_from_deck,
 )
 from .game_modes import update_deck_legality
-from .models import Card, CardInDeck, Deck, LovePoint, PrivateLink, Set
-from .forms import DecklistForm, DeckMetadataForm
+from .models import Card, CardInDeck, Comment, Deck, LovePoint, PrivateLink, Set
+from .forms import CommentForm, DecklistForm, DeckMetadataForm
 from .exceptions import MalformedDeckException
 
 
@@ -196,13 +196,14 @@ class DeckDetailView(HitCountDetailView):
 
         context = super().get_context_data(**kwargs)
         context |= get_deck_details(self.object)
-        context["form"] = DeckMetadataForm(
+        context["metadata_form"] = DeckMetadataForm(
             initial={
                 "name": self.object.name,
                 "description": self.object.description,
                 "is_public": self.object.is_public,
             }
         )
+        context["comment_form"] = CommentForm()
         if self.request.user.is_authenticated:
             context["is_loved"] = LovePoint.objects.filter(
                 deck=self.object, user=self.request.user
@@ -472,6 +473,40 @@ class UpdateDeckMetadataFormView(LoginRequiredMixin, FormView):
         except Deck.DoesNotExist:
             # For some unknown reason, this is returning 405 instead of 403
             raise PermissionDenied
+
+        return super().form_valid(form)
+
+    def get_success_url(self) -> str:
+        """Return the redirect URL for a successful update.
+        Redirect to the Deck's detail view.
+
+        Returns:
+            str: The Deck's detail endpoint.
+        """
+        return reverse("deck-detail", kwargs={"pk": self.kwargs["pk"]})
+
+
+class CreateCommentFormView(LoginRequiredMixin, FormView):
+    """View to create a Comment for a Deck."""
+
+    template_name = "decks/deck_detail.html"
+    form_class = CommentForm
+
+    def form_valid(self, form: CommentForm) -> HttpResponse:
+        """If the input data is valid, create a new Comment.
+
+        Args:
+            form (CommentForm): The form filed by the user.
+
+        Returns:
+            HttpResponse: The response.
+        """
+        # Retrieve the Deck by ID and the user, to ensure ownership
+        deck = Deck.objects.get(pk=self.kwargs["pk"])
+        Comment.objects.create(user=self.request.user, deck=deck, body=form.cleaned_data["body"])
+        deck.comment_count = F("comment_count") + 1
+
+        deck.save(update_fields=["comment_count"])
 
         return super().form_valid(form)
 
