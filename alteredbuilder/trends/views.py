@@ -36,12 +36,17 @@ class HomeView(TemplateView):
         # Retrieve the most hits made in the last 7 days and sort them DESC
         time_lapse = yesterday - timedelta(days=7)
         # Add the most viewed decks to the context
+        trending_decks = Deck.objects.filter(is_public=True).filter(
+            Q(is_standard_legal=True) | Q(is_exalts_legal=True)
+        )
+
+        if faction:
+            trending_decks = trending_decks.filter(hero__faction=faction)
+        if hero:
+            trending_decks = trending_decks.filter(hero__name__startswith=hero_name)
+
         trending_decks = (
-            Deck.objects.filter(is_public=True)
-            .filter(Q(is_standard_legal=True) | Q(is_exalts_legal=True))
-            .with_faction(faction)
-            .with_hero(hero_name)
-            .annotate(
+            trending_decks.annotate(
                 recent_hits=Subquery(
                     Hit.objects.filter(
                         created__date__gte=time_lapse,
@@ -56,6 +61,7 @@ class HomeView(TemplateView):
             .prefetch_related("hit_count_generic")
             .order_by("-recent_hits")[: self.TRENDING_COUNT]
         )
+
         if self.request.user.is_authenticated:
             trending_decks = trending_decks.annotate(
                 is_loved=Exists(
