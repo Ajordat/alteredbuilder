@@ -50,7 +50,7 @@
         </div>
         <div class="col me-3">
             <a role="button" class="btn btn-sm btn-outline-secondary {% if deck.comment_count > 0 %}active{% else %}disabled{% endif %}" data-bs-toggle="offcanvas" data-bs-target="#commentsOffcanvas" aria-controls="commentsOffcanvas">
-                <i class="fa-solid fa-comment"></i> {{ object.comment_count }}
+                <i class="fa-solid fa-comment"></i> <span id="comment-count-total">{{ object.comment_count }}</span>
             </a>
         </div>
         <div class="col">
@@ -356,8 +356,12 @@
         </div>
     </div>
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="commentsOffcanvas" aria-labelledby="commentsOffcanvasLabel">
+        
+        <button class="btn btn-sm btn-secondary offcanvas-btn position-absolute mt-2 {% if object.comment_count %}animate{% endif %}" type="button" data-bs-toggle="offcanvas" data-bs-target="#commentsOffcanvas">
+            <span>{{ object.comment_count }} comments</span>
+        </button>
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="commentsOffcanvasLabel">Comments</h5>
+            <h5 class="offcanvas-title" id="commentsOffcanvasLabel">{% translate "Comments" %}</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
@@ -367,25 +371,30 @@
                         
                         <form action="{% url 'create-deck-comment' pk=object.id %}" method="post" id="create-deck-comment-form">
                             {% csrf_token %}
-                            
                             {{ comment_form }}
                         </form>
         {% for comment in object.comment_set.all %}
-                        <div class="media">
+                        <div class="media comment-body">
                             <div class="media-body">
                                 <h4 class="media-heading">{{ comment.user.username|safe_username }}
                                     <span class="float-end">
             {% if comment.user == request.user %}
-                                        <a role="button" class="btn btn-sm btn-outline-danger delete-comment" href="" data-comment-id="{{ comment.id }}">
-                                            <i class="fa-solid fa-trash"></i> Delete
+                                        <a role="button" class="btn btn-sm btn-outline-danger delete-comment" href="{% url 'delete-comment' pk=object.id comment_pk=comment.id %}">
+                                            <i class="fa-solid fa-trash"></i> {% translate "Delete" %}
                                         </a>
             {% endif %}
                                     </span>
                                 </h4>
                                 <p>{{ comment.body }}</p>
                                 <ul class="list-unstyled list-inline media-detail">
-                                    <li class="list-inline-item"><a role="button" class="btn btn-sm btn-outline-primary upvote-comment" href="" data-comment-id="{{ comment.id }}"><i class="fa fa-thumbs-up"></i> <span class="comment-count">{{ comment.vote_count }}</span></a></li>
-                                    <li class="list-inline-item"><i class="fa fa-calendar"></i> {% blocktranslate with time_since=comment.created_at|timesince %}{{ time_since }} ago{% endblocktranslate %}</li>
+                                    <li class="list-inline-item">
+                                        <a role="button" class="btn btn-sm btn-outline-primary upvote-comment" href="" data-comment-id="{{ comment.id }}">
+                                            <i class="fa fa-thumbs-up"></i> <span class="comment-count">{{ comment.vote_count }}</span>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <i class="fa fa-calendar"></i> {% blocktranslate with time_since=comment.created_at|timesince %}{{ time_since }} ago{% endblocktranslate %}
+                                    </li>
                                 </ul>
                             </div>
                         </div>

@@ -424,6 +424,7 @@ def vote_comment(request: HttpRequest, pk: int, comment_pk: int) -> HttpResponse
     Args:
         request (HttpRequest): Received request
         pk (int): Id of the target deck
+        comment_pk (int): Id of the target comment
 
     Returns:
         HttpResponse: A JSON response indicating whether the request succeeded or not.
@@ -444,6 +445,35 @@ def vote_comment(request: HttpRequest, pk: int, comment_pk: int) -> HttpResponse
         return ApiJsonResponse(_("Deck not found"), HTTPStatus.NOT_FOUND)
     except Comment.DoesNotExist:
         return ApiJsonResponse(_("Comment not found"), HTTPStatus.NOT_FOUND)
+
+    return ApiJsonResponse(status, HTTPStatus.OK)
+
+
+@login_required
+@ajax_request
+def delete_comment(request: HttpRequest, pk: int, comment_pk: int) -> HttpResponse:
+    """Function to delete a Comment with AJAX.
+
+    Args:
+        request (HttpRequest): Received request
+        pk (int): Id of the target deck
+        comment_pk (int): Id of the target comment
+
+    Returns:
+        HttpResponse: A JSON response indicating whether the request succeeded or not.
+    """
+    try:
+        deck = Deck.objects.get(pk=pk)
+        comment = Comment.objects.get(pk=comment_pk, deck=deck, user=request.user)
+        comment.delete()
+        deck.comment_count = F("comment_count") - 1
+        deck.save(update_fields=["comment_count"])
+
+        status = {"deleted": True}
+    except Comment.DoesNotExist:
+        return ApiJsonResponse(_("Comment not found"), HTTPStatus.NOT_FOUND)
+    except Deck.DoesNotExist:
+        return ApiJsonResponse(_("Deck not found"), HTTPStatus.NOT_FOUND)
 
     return ApiJsonResponse(status, HTTPStatus.OK)
 

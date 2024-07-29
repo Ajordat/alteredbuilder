@@ -75,7 +75,7 @@ html[data-bs-theme="dark"] .card-table tr[data-rarity="unique"] {
 }
 
 #comments {
-    box-shadow: 0 -1px 6px 1px rgba(0,0,0,0.1);
+    /* box-shadow: 0 -1px 6px 1px rgba(0,0,0,0.1); */
 }
 
 #comments form {
@@ -146,4 +146,24 @@ html[data-bs-theme="dark"] .card-table tr[data-rarity="unique"] {
 	color:#666666;
 	font-size:15px;
 	margin-right:10px;
+}
+
+.offcanvas-btn {
+    right: 100%;
+    bottom: 50%;
+    writing-mode: sideways-lr;
+    visibility: visible;
+}
+
+.offcanvas-btn.animate {
+    animation: 1s ease-out 0s 1 slideInFromLeft;
+}
+
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
 }

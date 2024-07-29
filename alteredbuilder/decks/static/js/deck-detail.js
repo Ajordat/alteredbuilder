@@ -157,10 +157,10 @@ for (let element of upvoteCommentsEls) {
         .then(response => response.json())
         .then(payload => {
             if ("error" in payload) {
-                console.log("Unable to delete card:");
+                console.log("Unable to upvote comment:");
                 console.log(payload);
                 if (payload.error.code == 400) {
-                    displaySimpleToast(gettext("Unable to delete card from deck"));
+                    displaySimpleToast(gettext("Unable to upvote the comment"));
                 } else {
                     displaySimpleToast(payload.error.message);
                 }
@@ -170,6 +170,39 @@ for (let element of upvoteCommentsEls) {
                     voteCountEl.innerText = Number(voteCountEl.innerText) + 1;
                 } else if ("deleted" in payload["data"]) {
                     voteCountEl.innerText = Number(voteCountEl.innerText) - 1;
+                }
+            }
+            return false;
+        });
+        return false;
+    });
+};
+
+
+let deleteCommentsEls = document.getElementsByClassName("delete-comment");
+for (let element of deleteCommentsEls) {
+    
+    element.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        let url = element.pathname;
+    
+        ajaxRequest(url)
+        .then(response => response.json())
+        .then(payload => {
+            if ("error" in payload) {
+                console.log("Unable to delete comment:");
+                console.log(payload);
+                if (payload.error.code == 400) {
+                    displaySimpleToast(gettext("Unable to delete the comment"));
+                } else {
+                    displaySimpleToast(payload.error.message);
+                }
+            } else {
+                if ("deleted" in payload.data && payload.data["deleted"]) {
+                    document.querySelectorAll(`.comment-body:has(a[href='${url}'])`)[0].remove();
+                    let commentCount = Number(document.getElementById("comment-count-total").innerText);
+                    document.getElementById("comment-count-total").innerText = commentCount - 1;
                 }
             }
             return false;
