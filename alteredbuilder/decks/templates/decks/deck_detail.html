@@ -49,7 +49,7 @@
     {% endif %}
         </div>
         <div class="col me-3">
-            <a role="button" class="btn btn-sm btn-outline-secondary {% if deck.comment_count > 0 %}active{% else %}disabled{% endif %}" data-bs-toggle="offcanvas" data-bs-target="#commentsOffcanvas" aria-controls="commentsOffcanvas">
+            <a role="button" class="btn btn-sm {% if deck.comment_count > 0 %}btn-secondary{% else %}btn-outline-secondary{% endif %}" data-bs-toggle="offcanvas" data-bs-target="#commentsOffcanvas" aria-controls="commentsOffcanvas">
                 <i class="fa-solid fa-comment"></i> <span id="comment-count-total">{{ object.comment_count }}</span>
             </a>
         </div>
@@ -379,7 +379,7 @@
                             <a role="button" class="btn active text-info-emphasis" href="{% url 'account_login' %}?next={{ request.path }}"><i class="fa-solid fa-user"></i> {% translate "Login" %}</a></p>
                         </div>
         {% endif %}
-        {% for comment in object.comment_set.all %}
+        {% for comment in comments %}
                         <div class="media comment-body">
                             <div class="media-body">
                                 <h4 class="media-heading">{{ comment.user.username|safe_username }}
@@ -394,7 +394,7 @@
                                 <p>{{ comment.body }}</p>
                                 <ul class="list-unstyled list-inline media-detail">
                                     <li class="list-inline-item">
-                                        <a role="button" class="btn btn-sm btn-outline-primary upvote-comment" href="" data-comment-id="{{ comment.id }}">
+                                        <a role="button" class="btn btn-sm upvote-comment {% if comment.is_upvoted %}btn-primary{% else %}btn-outline-primary{% endif %}" href="{% url 'vote-comment' pk=object.id comment_pk=comment.id %}">
                                             <i class="fa fa-thumbs-up"></i> <span class="comment-count">{{ comment.vote_count }}</span>
                                         </a>
                                     </li>

@@ -5,7 +5,7 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.db.models import Exists, F, OuterRef, Q
+from django.db.models import Exists, F, OuterRef, Q, Subquery
 from django.db.models.functions import Coalesce
 from django.db.models.manager import Manager
 from django.db.models.query import QuerySet
@@ -193,7 +193,7 @@ class DeckDetailView(HitCountDetailView):
         return (
             qs.filter(filter)
             .select_related("hero", "owner")
-            .prefetch_related("comment_set", "comment_set__user")
+            # .prefetch_related("comment_set", "comment_set__user")
         )
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
@@ -213,6 +213,9 @@ class DeckDetailView(HitCountDetailView):
             }
         )
         context["comment_form"] = CommentForm()
+        context["comments"] = Comment.objects.filter(deck=self.object).select_related("user").annotate(
+            is_upvoted=Exists(CommentVote.objects.filter(comment=OuterRef("pk"), user=self.request.user))
+        )
         return context
 
 

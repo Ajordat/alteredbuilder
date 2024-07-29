@@ -150,8 +150,7 @@ for (let element of upvoteCommentsEls) {
     
     element.addEventListener("click", (event) => {
         event.preventDefault();
-        let commentId = element.dataset.commentId;
-        let url = window.location.pathname + "comment/" + commentId + "/vote/";
+        let url = element.pathname;
     
         ajaxRequest(url)
         .then(response => response.json())
@@ -166,10 +165,15 @@ for (let element of upvoteCommentsEls) {
                 }
             } else {
                 let voteCountEl = element.getElementsByClassName("comment-count")[0];
-                if ("created" in payload["data"]) {
+                if ("created" in payload.data && payload.data["created"]) {
                     voteCountEl.innerText = Number(voteCountEl.innerText) + 1;
-                } else if ("deleted" in payload["data"]) {
+                    // change class
+                    element.classList.remove("btn-outline-primary");
+                    element.classList.add("btn-primary");
+                } else if ("deleted" in payload.data && payload.data["deleted"]) {
                     voteCountEl.innerText = Number(voteCountEl.innerText) - 1;
+                    element.classList.remove("btn-primary");
+                    element.classList.add("btn-outline-primary");
                 }
             }
             return false;
