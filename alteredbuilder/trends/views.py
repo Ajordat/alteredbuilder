@@ -1,7 +1,7 @@
 from datetime import timedelta
 from typing import Any
 
-from django.db.models import Count, Exists, OuterRef, Q
+from django.db.models import Count, Exists, OuterRef, Q, Subquery, Sum
 from django.utils.timezone import localdate
 from django.utils.translation import gettext_lazy as _
 from django.views.generic.base import TemplateView
@@ -35,22 +35,26 @@ class HomeView(TemplateView):
 
         # Retrieve the most hits made in the last 7 days and sort them DESC
         time_lapse = yesterday - timedelta(days=7)
-        trending_deck_pks = (
-            Hit.objects.filter(created__date__gte=time_lapse)
-            .values("hitcount")
-            .alias(total=Count("hitcount"))
-            .order_by("-total")
-            .values_list("hitcount__object_pk", flat=True)
-        )
         # Add the most viewed decks to the context
         trending_decks = (
-            Deck.objects.filter(id__in=trending_deck_pks, is_public=True)
+            Deck.objects.filter(is_public=True)
             .filter(Q(is_standard_legal=True) | Q(is_exalts_legal=True))
             .with_faction(faction)
             .with_hero(hero_name)
+            .annotate(
+                recent_hits=Subquery(
+                    Hit.objects.filter(
+                        created__date__gte=time_lapse,
+                        hitcount__object_pk=OuterRef("pk"),
+                    )
+                    .values("hitcount__object_pk")
+                    .annotate(count=Count("pk"))
+                    .values("count")
+                )
+            )
             .select_related("owner", "hero")
             .prefetch_related("hit_count_generic")
-            .order_by("-hit_count_generic__hits")[: self.TRENDING_COUNT]
+            .order_by("-recent_hits")[: self.TRENDING_COUNT]
         )
         if self.request.user.is_authenticated:
             trending_decks = trending_decks.annotate(
