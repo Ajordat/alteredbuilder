@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-25 14:45+0200\n"
+"POT-Creation-Date: 2024-07-29 17:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,61 +18,69 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: decks/static/js/deck-detail.js:19 decks/static/js/deck-detail.js:141
+#: decks/static/js/deck-detail.js:18 decks/static/js/deck-detail.js:139
 msgid "Link copied into clipboard!"
 msgstr ""
 
-#: decks/static/js/deck-detail.js:32
+#: decks/static/js/deck-detail.js:31
 msgid "Decklist copied into clipboard!"
 msgstr ""
 
-#: decks/static/js/deck-detail.js:45
+#: decks/static/js/deck-detail.js:44
 msgid "QR downloaded!"
 msgstr ""
 
-#: decks/static/js/deck-detail.js:62
+#: decks/static/js/deck-detail.js:61
 msgid "QR copied into clipboard!"
 msgstr ""
 
-#: decks/static/js/deck-detail.js:91
+#: decks/static/js/deck-detail.js:89
 msgid "Unable to delete card from deck"
 msgstr ""
 
-#: decks/static/js/deck-detail.js:113
+#: decks/static/js/deck-detail.js:111
 msgid "Card reference copied into clipboard!"
 msgstr ""
 
-#: decks/static/js/deck-detail.js:132
+#: decks/static/js/deck-detail.js:130
 msgid "Cannot create a private link"
 msgstr ""
 
-#: decks/static/js/deck-sidebar.js:184
+#: decks/static/js/deck-detail.js:162
+msgid "Unable to upvote the comment"
+msgstr ""
+
+#: decks/static/js/deck-detail.js:201
+msgid "Unable to delete the comment"
+msgstr ""
+
+#: decks/static/js/deck-sidebar.js:182
 msgid "Common"
 msgid_plural "Commons"
 msgstr[0] ""
 msgstr[1] ""
 
-#: decks/static/js/deck-sidebar.js:186
+#: decks/static/js/deck-sidebar.js:184
 msgid "Rare"
 msgid_plural "Rares"
 msgstr[0] ""
 msgstr[1] ""
 
-#: decks/static/js/deck-sidebar.js:188
+#: decks/static/js/deck-sidebar.js:186
 msgid "Unique"
 msgid_plural "Uniques"
 msgstr[0] ""
 msgstr[1] ""
 
-#: decks/static/js/deck-sidebar.js:496
+#: decks/static/js/deck-sidebar.js:507
 msgid "The deck must have a name"
 msgstr ""
 
-#: decks/static/js/deck-sidebar.js:501
+#: decks/static/js/deck-sidebar.js:512
 msgid "There are no changes to save"
 msgstr ""
 
-#: decks/static/js/deck-sidebar.js:532
+#: decks/static/js/deck-sidebar.js:543
 msgid "Unable to update deck"
 msgstr ""
 
