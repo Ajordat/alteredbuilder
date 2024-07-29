@@ -52,7 +52,8 @@ class HomeView(TemplateView):
         )
         # Add the most viewed decks to the context
         context["trending"] = (
-            Deck.objects.filter(id__in=trending_deck_pks, is_public=True).filter(Q(is_standard_legal=True) | Q(is_exalts_legal=True))
+            Deck.objects.filter(id__in=trending_deck_pks, is_public=True)
+            .filter(Q(is_standard_legal=True) | Q(is_exalts_legal=True))
             .with_faction(faction)
             .with_hero(hero_name)
             .select_related("owner", "hero")
@@ -112,4 +113,3 @@ class HomeView(TemplateView):
         context["card_trends"] = card_trends
 
         return context
-

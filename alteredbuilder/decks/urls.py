@@ -24,6 +24,21 @@ urlpatterns = [
         views.UpdateDeckMetadataFormView.as_view(),
         name="update-deck-metadata",
     ),
+    path(
+        "<int:pk>/comment/",
+        views.CreateCommentFormView.as_view(),
+        name="create-deck-comment",
+    ),
     path("<int:pk>/delete/", views.delete_deck, name="delete-deck-id"),
     path("<int:pk>/love/", views.love_deck, name="love-deck-id"),
+    path(
+        "<int:pk>/comment/<int:comment_pk>/vote/",
+        views.vote_comment,
+        name="vote-comment",
+    ),
+    path(
+        "<int:pk>/comment/<int:comment_pk>/delete/",
+        views.delete_comment,
+        name="delete-comment",
+    ),
 ]

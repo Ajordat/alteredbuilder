@@ -8,6 +8,7 @@ from .models import (
     Card,
     CardInDeck,
     Character,
+    Comment,
     Deck,
     Hero,
     LovePoint,
@@ -72,10 +73,14 @@ class DeckAdmin(admin.ModelAdmin):
         "is_exalts_legal",
         "love_count",
         "hit_count",
+        "comment_count",
     ]
     fieldsets = [
         ("Metadata", {"fields": ["owner", "name", "description", "hero"]}),
-        ("Engagement", {"fields": ["is_public", "love_count", "hit_count"]}),
+        (
+            "Engagement",
+            {"fields": ["is_public", "love_count", "comment_count", "hit_count"]},
+        ),
         (
             "Legality",
             {
@@ -191,3 +196,9 @@ class PrivateLinkAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
 @admin.register(Set)
 class SetAdmin(admin.ModelAdmin):
     list_display = ["name", "short_name", "code", "reference_code"]
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ["deck", "user", "created_at"]
+    readonly_fields = ["user", "deck", "vote_count"]

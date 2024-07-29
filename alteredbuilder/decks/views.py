@@ -5,7 +5,7 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.db.models import F, Q
+from django.db.models import Exists, F, OuterRef, Q, Subquery
 from django.db.models.functions import Coalesce
 from django.db.models.manager import Manager
 from django.db.models.query import QuerySet
@@ -27,8 +27,17 @@ from .deck_utils import (
     remove_card_from_deck,
 )
 from .game_modes import update_deck_legality
-from .models import Card, CardInDeck, Deck, LovePoint, PrivateLink, Set
-from .forms import DecklistForm, DeckMetadataForm
+from .models import (
+    Card,
+    CardInDeck,
+    Comment,
+    CommentVote,
+    Deck,
+    LovePoint,
+    PrivateLink,
+    Set,
+)
+from .forms import CommentForm, DecklistForm, DeckMetadataForm
 from .exceptions import MalformedDeckException
 
 
@@ -90,6 +99,11 @@ class DeckListView(ListView):
                 except TypeError:
                     pass
 
+        if self.request.user.is_authenticated:
+            qs = qs.annotate(
+                is_loved=Exists(LovePoint.objects.filter(deck=OuterRef("pk"), user=self.request.user))
+            )
+        
         # In the deck list view there's no need for these fields, which might be
         # expensive to fill into the model
         return (
@@ -112,10 +126,6 @@ class DeckListView(ListView):
             dict[str, Any]: The view's context.
         """
         context = super().get_context_data(**kwargs)
-        if self.request.user.is_authenticated:
-            context["loved_decks"] = LovePoint.objects.filter(
-                user=self.request.user
-            ).values_list("deck__id", flat=True)
 
         # Extract the filters applied from the GET params and add them to the context
         # to fill them into the template
@@ -146,6 +156,9 @@ class OwnDeckListView(LoginRequiredMixin, ListView):
         qs = super().get_queryset()
         return (
             qs.filter(owner=self.request.user)
+            .annotate(
+                is_loved=Exists(LovePoint.objects.filter(deck=OuterRef("pk"), user=self.request.user))
+            )
             .select_related("hero")
             .defer(
                 "description",
@@ -155,18 +168,6 @@ class OwnDeckListView(LoginRequiredMixin, ListView):
             )
             .order_by("-modified_at")
         )
-
-    def get_context_data(self, **kwargs) -> dict[str, Any]:
-        """Add the loved decks ids to the context to highlight them.
-
-        Returns:
-            dict[str, Any]: The view's context.
-        """
-        context = super().get_context_data(**kwargs)
-        context["loved_decks"] = LovePoint.objects.filter(
-            user=self.request.user, deck__owner=self.request.user
-        ).values_list("deck__id", flat=True)
-        return context
 
 
 class DeckDetailView(HitCountDetailView):
@@ -182,10 +183,18 @@ class DeckDetailView(HitCountDetailView):
         Returns:
             Manager[Deck]: The view's queryset.
         """
+        qs = super().get_queryset()
         filter = Q(is_public=True)
         if self.request.user.is_authenticated:
             filter |= Q(owner=self.request.user)
-        return Deck.objects.filter(filter).select_related("hero", "owner")
+            qs = qs.annotate(
+                is_loved=Exists(LovePoint.objects.filter(deck=OuterRef("pk"), user=self.request.user))
+            )
+        return (
+            qs.filter(filter)
+            .select_related("hero", "owner")
+            # .prefetch_related("comment_set", "comment_set__user")
+        )
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         """Add metadata of the Deck to the context.
@@ -196,18 +205,17 @@ class DeckDetailView(HitCountDetailView):
 
         context = super().get_context_data(**kwargs)
         context |= get_deck_details(self.object)
-        context["form"] = DeckMetadataForm(
+        context["metadata_form"] = DeckMetadataForm(
             initial={
                 "name": self.object.name,
                 "description": self.object.description,
                 "is_public": self.object.is_public,
             }
         )
-        if self.request.user.is_authenticated:
-            context["is_loved"] = LovePoint.objects.filter(
-                deck=self.object, user=self.request.user
-            ).exists()
-
+        context["comment_form"] = CommentForm()
+        context["comments"] = Comment.objects.filter(deck=self.object).select_related("user").annotate(
+            is_upvoted=Exists(CommentVote.objects.filter(comment=OuterRef("pk"), user=self.request.user))
+        )
         return context
 
 
@@ -404,6 +412,68 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
 
 @login_required
 @ajax_request
+def vote_comment(request: HttpRequest, pk: int, comment_pk: int) -> HttpResponse:
+    """Function to upvote a Comment with AJAX.
+
+    Args:
+        request (HttpRequest): Received request
+        pk (int): Id of the target deck
+        comment_pk (int): Id of the target comment
+
+    Returns:
+        HttpResponse: A JSON response indicating whether the request succeeded or not.
+    """
+    try:
+        comment = Comment.objects.get(pk=comment_pk, deck__pk=pk)
+        comment_vote = CommentVote.objects.get(user=request.user, comment=comment)
+        comment_vote.delete()
+        comment.vote_count = F("vote_count") - 1
+        comment.save()
+        status = {"deleted": True}
+    except CommentVote.DoesNotExist:
+        CommentVote.objects.create(user=request.user, comment=comment)
+        comment.vote_count = F("vote_count") + 1
+        comment.save()
+        status = {"created": True}
+    except Deck.DoesNotExist:
+        return ApiJsonResponse(_("Deck not found"), HTTPStatus.NOT_FOUND)
+    except Comment.DoesNotExist:
+        return ApiJsonResponse(_("Comment not found"), HTTPStatus.NOT_FOUND)
+
+    return ApiJsonResponse(status, HTTPStatus.OK)
+
+
+@login_required
+@ajax_request
+def delete_comment(request: HttpRequest, pk: int, comment_pk: int) -> HttpResponse:
+    """Function to delete a Comment with AJAX.
+
+    Args:
+        request (HttpRequest): Received request
+        pk (int): Id of the target deck
+        comment_pk (int): Id of the target comment
+
+    Returns:
+        HttpResponse: A JSON response indicating whether the request succeeded or not.
+    """
+    try:
+        deck = Deck.objects.get(pk=pk)
+        comment = Comment.objects.get(pk=comment_pk, deck=deck, user=request.user)
+        comment.delete()
+        deck.comment_count = F("comment_count") - 1
+        deck.save(update_fields=["comment_count"])
+
+        status = {"deleted": True}
+    except Comment.DoesNotExist:
+        return ApiJsonResponse(_("Comment not found"), HTTPStatus.NOT_FOUND)
+    except Deck.DoesNotExist:
+        return ApiJsonResponse(_("Deck not found"), HTTPStatus.NOT_FOUND)
+
+    return ApiJsonResponse(status, HTTPStatus.OK)
+
+
+@login_required
+@ajax_request
 def create_private_link(request: HttpRequest, pk: int) -> HttpResponse:
     """Function to create a PrivateLink with AJAX.
     Ideally it should be moved to the API app.
@@ -472,6 +542,42 @@ class UpdateDeckMetadataFormView(LoginRequiredMixin, FormView):
         except Deck.DoesNotExist:
             # For some unknown reason, this is returning 405 instead of 403
             raise PermissionDenied
+
+        return super().form_valid(form)
+
+    def get_success_url(self) -> str:
+        """Return the redirect URL for a successful update.
+        Redirect to the Deck's detail view.
+
+        Returns:
+            str: The Deck's detail endpoint.
+        """
+        return reverse("deck-detail", kwargs={"pk": self.kwargs["pk"]})
+
+
+class CreateCommentFormView(LoginRequiredMixin, FormView):
+    """View to create a Comment for a Deck."""
+
+    template_name = "decks/deck_detail.html"
+    form_class = CommentForm
+
+    def form_valid(self, form: CommentForm) -> HttpResponse:
+        """If the input data is valid, create a new Comment.
+
+        Args:
+            form (CommentForm): The form filed by the user.
+
+        Returns:
+            HttpResponse: The response.
+        """
+        # Retrieve the Deck by ID and the user, to ensure ownership
+        deck = Deck.objects.get(pk=self.kwargs["pk"])
+        Comment.objects.create(
+            user=self.request.user, deck=deck, body=form.cleaned_data["body"]
+        )
+        deck.comment_count = F("comment_count") + 1
+
+        deck.save(update_fields=["comment_count"])
 
         return super().form_valid(form)
 

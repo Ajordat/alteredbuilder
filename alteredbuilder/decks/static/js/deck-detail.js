@@ -1,6 +1,5 @@
 // Retrieve all the rows of the tables containing cards
 let deckRows = document.querySelectorAll(".card-hover");
-
 deckRows.forEach(function(element) {
     element.addEventListener("mouseover", function() {
         // Change the display image to show the current (or last) card hovered
@@ -70,7 +69,6 @@ if (copyQRElement) {
 
 
 let removeCardEls = document.getElementsByClassName("remove-card-trigger");
-
 for (let element of removeCardEls) {
     
     element.addEventListener("click", (event) => {
@@ -101,8 +99,8 @@ for (let element of removeCardEls) {
     });
 };
 
-let copyReferenceEls = document.getElementsByClassName("card-reference-container");
 
+let copyReferenceEls = document.getElementsByClassName("card-reference-container");
 for (let element of copyReferenceEls) {
     element.addEventListener("click", (event) => {
         event.preventDefault();
@@ -145,3 +143,74 @@ if (createPrivateLink) {
         return false;
     });
 }
+
+
+let upvoteCommentsEls = document.getElementsByClassName("upvote-comment");
+for (let element of upvoteCommentsEls) {
+    
+    element.addEventListener("click", (event) => {
+        event.preventDefault();
+        let url = element.pathname;
+    
+        ajaxRequest(url)
+        .then(response => response.json())
+        .then(payload => {
+            if ("error" in payload) {
+                console.log("Unable to upvote comment:");
+                console.log(payload);
+                if (payload.error.code == 400) {
+                    displaySimpleToast(gettext("Unable to upvote the comment"));
+                } else {
+                    displaySimpleToast(payload.error.message);
+                }
+            } else {
+                let voteCountEl = element.getElementsByClassName("comment-count")[0];
+                if ("created" in payload.data && payload.data["created"]) {
+                    voteCountEl.innerText = Number(voteCountEl.innerText) + 1;
+                    // change class
+                    element.classList.remove("btn-outline-primary");
+                    element.classList.add("btn-primary");
+                } else if ("deleted" in payload.data && payload.data["deleted"]) {
+                    voteCountEl.innerText = Number(voteCountEl.innerText) - 1;
+                    element.classList.remove("btn-primary");
+                    element.classList.add("btn-outline-primary");
+                }
+            }
+            return false;
+        });
+        return false;
+    });
+};
+
+
+let deleteCommentsEls = document.getElementsByClassName("delete-comment");
+for (let element of deleteCommentsEls) {
+    
+    element.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        let url = element.pathname;
+    
+        ajaxRequest(url)
+        .then(response => response.json())
+        .then(payload => {
+            if ("error" in payload) {
+                console.log("Unable to delete comment:");
+                console.log(payload);
+                if (payload.error.code == 400) {
+                    displaySimpleToast(gettext("Unable to delete the comment"));
+                } else {
+                    displaySimpleToast(payload.error.message);
+                }
+            } else {
+                if ("deleted" in payload.data && payload.data["deleted"]) {
+                    document.querySelectorAll(`.comment-body:has(a[href='${url}'])`)[0].remove();
+                    let commentCount = Number(document.getElementById("comment-count-total").innerText);
+                    document.getElementById("comment-count-total").innerText = commentCount - 1;
+                }
+            }
+            return false;
+        });
+        return false;
+    });
+};
