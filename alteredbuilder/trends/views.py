@@ -1,7 +1,7 @@
 from datetime import timedelta
 from typing import Any
 
-from django.db.models import Count, Exists, OuterRef, Q, Subquery, Sum
+from django.db.models import Count, Exists, F, OuterRef, Q, Subquery
 from django.utils.timezone import localdate
 from django.utils.translation import gettext_lazy as _
 from django.views.generic.base import TemplateView
@@ -59,7 +59,7 @@ class HomeView(TemplateView):
             )
             .select_related("owner", "hero")
             .prefetch_related("hit_count_generic")
-            .order_by("-recent_hits")[: self.TRENDING_COUNT]
+            .order_by(F("recent_hits").desc(nulls_last=True))[: self.TRENDING_COUNT]
         )
 
         if self.request.user.is_authenticated:
