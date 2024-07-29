@@ -213,9 +213,12 @@ class DeckDetailView(HitCountDetailView):
             }
         )
         context["comment_form"] = CommentForm()
-        context["comments"] = Comment.objects.filter(deck=self.object).select_related("user").annotate(
-            is_upvoted=Exists(CommentVote.objects.filter(comment=OuterRef("pk"), user=self.request.user))
-        )
+        comments_qs = Comment.objects.filter(deck=self.object).select_related("user")
+        if self.request.user.is_authenticated:
+            comments_qs = comments_qs.annotate(
+                is_upvoted=Exists(CommentVote.objects.filter(comment=OuterRef("pk"), user=self.request.user))
+            )
+        context["comments"] = comments_qs
         return context
 
 
