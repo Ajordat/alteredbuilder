@@ -101,9 +101,13 @@ class DeckListView(ListView):
 
         if self.request.user.is_authenticated:
             qs = qs.annotate(
-                is_loved=Exists(LovePoint.objects.filter(deck=OuterRef("pk"), user=self.request.user))
+                is_loved=Exists(
+                    LovePoint.objects.filter(
+                        deck=OuterRef("pk"), user=self.request.user
+                    )
+                )
             )
-        
+
         # In the deck list view there's no need for these fields, which might be
         # expensive to fill into the model
         return (
@@ -157,7 +161,11 @@ class OwnDeckListView(LoginRequiredMixin, ListView):
         return (
             qs.filter(owner=self.request.user)
             .annotate(
-                is_loved=Exists(LovePoint.objects.filter(deck=OuterRef("pk"), user=self.request.user))
+                is_loved=Exists(
+                    LovePoint.objects.filter(
+                        deck=OuterRef("pk"), user=self.request.user
+                    )
+                )
             )
             .select_related("hero")
             .defer(
@@ -188,11 +196,14 @@ class DeckDetailView(HitCountDetailView):
         if self.request.user.is_authenticated:
             filter |= Q(owner=self.request.user)
             qs = qs.annotate(
-                is_loved=Exists(LovePoint.objects.filter(deck=OuterRef("pk"), user=self.request.user))
+                is_loved=Exists(
+                    LovePoint.objects.filter(
+                        deck=OuterRef("pk"), user=self.request.user
+                    )
+                )
             )
         return (
-            qs.filter(filter)
-            .select_related("hero", "owner")
+            qs.filter(filter).select_related("hero", "owner")
             # .prefetch_related("comment_set", "comment_set__user")
         )
 
@@ -216,7 +227,11 @@ class DeckDetailView(HitCountDetailView):
         comments_qs = Comment.objects.filter(deck=self.object).select_related("user")
         if self.request.user.is_authenticated:
             comments_qs = comments_qs.annotate(
-                is_upvoted=Exists(CommentVote.objects.filter(comment=OuterRef("pk"), user=self.request.user))
+                is_upvoted=Exists(
+                    CommentVote.objects.filter(
+                        comment=OuterRef("pk"), user=self.request.user
+                    )
+                )
             )
         context["comments"] = comments_qs
         return context
