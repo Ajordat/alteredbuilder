@@ -30,7 +30,7 @@
                 </a>
         {% endwith %}
     {% endif %}
-                <a role="button" href="#" class="btn btn-sm btn-outline-danger {% if deck.id in loved_decks %}active{% else %}disabled{% endif %}">
+                <a role="button" href="#" class="btn btn-sm btn-outline-danger {% if deck.is_loved %}active{% else %}disabled{% endif %}">
                     <i class="fa-solid fa-heart"></i> {{ deck.love_count }}
                 </a>
                 <a role="button" href="#" class="btn btn-sm btn-outline-secondary {% if deck.comment_count > 0 %}active{% else %}disabled{% endif %}">

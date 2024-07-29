@@ -5,7 +5,7 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.db.models import F, Q
+from django.db.models import Exists, F, OuterRef, Q
 from django.db.models.functions import Coalesce
 from django.db.models.manager import Manager
 from django.db.models.query import QuerySet
@@ -99,6 +99,11 @@ class DeckListView(ListView):
                 except TypeError:
                     pass
 
+        if self.request.user.is_authenticated:
+            qs = qs.annotate(
+                is_loved=Exists(LovePoint.objects.filter(deck=OuterRef("pk"), user=self.request.user))
+            )
+        
         # In the deck list view there's no need for these fields, which might be
         # expensive to fill into the model
         return (
@@ -121,10 +126,6 @@ class DeckListView(ListView):
             dict[str, Any]: The view's context.
         """
         context = super().get_context_data(**kwargs)
-        if self.request.user.is_authenticated:
-            context["loved_decks"] = LovePoint.objects.filter(
-                user=self.request.user
-            ).values_list("deck__id", flat=True)
 
         # Extract the filters applied from the GET params and add them to the context
         # to fill them into the template
@@ -155,6 +156,9 @@ class OwnDeckListView(LoginRequiredMixin, ListView):
         qs = super().get_queryset()
         return (
             qs.filter(owner=self.request.user)
+            .annotate(
+                is_loved=Exists(LovePoint.objects.filter(deck=OuterRef("pk"), user=self.request.user))
+            )
             .select_related("hero")
             .defer(
                 "description",
@@ -164,18 +168,6 @@ class OwnDeckListView(LoginRequiredMixin, ListView):
             )
             .order_by("-modified_at")
         )
-
-    def get_context_data(self, **kwargs) -> dict[str, Any]:
-        """Add the loved decks ids to the context to highlight them.
-
-        Returns:
-            dict[str, Any]: The view's context.
-        """
-        context = super().get_context_data(**kwargs)
-        context["loved_decks"] = LovePoint.objects.filter(
-            user=self.request.user, deck__owner=self.request.user
-        ).values_list("deck__id", flat=True)
-        return context
 
 
 class DeckDetailView(HitCountDetailView):
