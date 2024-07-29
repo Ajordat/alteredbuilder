@@ -393,9 +393,9 @@
                                 </h4>
                                 <p>{{ comment.body }}</p>
                                 <ul class="list-unstyled list-inline media-detail">
-                                    <li class="list-inline-item">
-                                        <a role="button" class="btn btn-sm upvote-comment {% if comment.is_upvoted %}btn-primary{% else %}btn-outline-primary{% endif %}" href="{% url 'vote-comment' pk=object.id comment_pk=comment.id %}">
-                                            <i class="fa fa-thumbs-up"></i> <span class="comment-count">{{ comment.vote_count }}</span>
+                                    <li class="list-inline-item float-end">
+                                        <a role="button" class="btn btn-sm upvote-comment {% if comment.is_upvoted %}btn-primary{% else %}btn-outline-primary{% endif %} {% if not user.is_authenticated %}disabled{% endif %}" href="{% url 'vote-comment' pk=object.id comment_pk=comment.id %}">
+                                            <i class="fa-solid fa-thumbs-up"></i> <span class="comment-count">{{ comment.vote_count }}</span>
                                         </a>
                                     </li>
                                     <li class="list-inline-item">

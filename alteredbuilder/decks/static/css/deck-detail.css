@@ -128,7 +128,6 @@ html[data-bs-theme="dark"] .card-table tr[data-rarity="unique"] {
 }
 
 #comments .media-detail li {
-	color:#AAAAAA;
 	font-size:12px;
 	padding-right: 10px;
 	font-weight:600;
@@ -143,7 +142,6 @@ html[data-bs-theme="dark"] .card-table tr[data-rarity="unique"] {
 }
 
 #comments .media-detail li i {
-	color:#666666;
 	font-size:15px;
 	margin-right:10px;
 }
