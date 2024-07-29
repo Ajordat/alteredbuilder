@@ -48,11 +48,13 @@
         {% endif %}
     {% endif %}
         </div>
+    {% if object.is_public %}
         <div class="col me-3">
             <a role="button" class="btn btn-sm {% if deck.comment_count > 0 %}btn-secondary{% else %}btn-outline-secondary{% endif %}" data-bs-toggle="offcanvas" data-bs-target="#commentsOffcanvas" aria-controls="commentsOffcanvas">
                 <i class="fa-solid fa-comment"></i> <span id="comment-count-total">{{ object.comment_count }}</span>
             </a>
         </div>
+    {% endif %}
         <div class="col">
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">

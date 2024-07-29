@@ -38,6 +38,11 @@
                         <a role="button" href="#" class="btn btn-sm btn-outline-danger {%if deck.is_loved %}active{% else %}disabled{% endif %}">
                             <i class="fa-solid fa-heart"></i> {{ deck.love_count }}
                         </a>
+        {% if deck.is_public %}
+                        <a role="button" href="#" class="btn btn-sm btn-outline-secondary {% if deck.comment_count > 0 %}active{% else %}disabled{% endif %}">
+                            <i class="fa-solid fa-comment"></i> {{ deck.comment_count }}
+                        </a>
+        {% endif %}
                     </td>
                     <td>{{ deck.name }}</td>
         {% if deck.hero %}
