@@ -2,6 +2,17 @@ name: Django CICD
 
 on:
   workflow_dispatch:
+    inputs:
+      force_static_collection:
+        description: Force the deployment of the static files to GCS
+        required: true
+        type: boolean
+        default: false
+      force_migration:
+        description: Force the DB mgiration
+        required: true
+        type: boolean
+        default: false
   push:
     branches:
     - master
@@ -94,7 +105,7 @@ jobs:
   migrate_db:
     name: Perform db migrations
     needs: [changes, build_and_push_image]
-    if: needs.changes.outputs.migrations == 'true'
+    if: needs.changes.outputs.migrations == 'true' or ${{ inputs.force_migration}}
     runs-on: ubuntu-22.04
     steps:
     - name: Checkout
@@ -122,7 +133,7 @@ jobs:
   collect_statics:
     name: Collect static files into GCS
     needs: [changes, unittests]
-    if: needs.changes.outputs.statics == 'true'
+    if: needs.changes.outputs.statics == 'true' or ${{ inputs.force_static_collection }}
     runs-on: ubuntu-22.04
     steps:
     - name: Checkout
