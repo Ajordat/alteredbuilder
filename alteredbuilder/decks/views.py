@@ -183,11 +183,15 @@ class DeckDetailView(HitCountDetailView):
         Returns:
             Manager[Deck]: The view's queryset.
         """
+        qs = super().get_queryset()
         filter = Q(is_public=True)
         if self.request.user.is_authenticated:
             filter |= Q(owner=self.request.user)
+            qs = qs.annotate(
+                is_loved=Exists(LovePoint.objects.filter(deck=OuterRef("pk"), user=self.request.user))
+            )
         return (
-            Deck.objects.filter(filter)
+            qs.filter(filter)
             .select_related("hero", "owner")
             .prefetch_related("comment_set", "comment_set__user")
         )
@@ -209,11 +213,6 @@ class DeckDetailView(HitCountDetailView):
             }
         )
         context["comment_form"] = CommentForm()
-        if self.request.user.is_authenticated:
-            context["is_loved"] = LovePoint.objects.filter(
-                deck=self.object, user=self.request.user
-            ).exists()
-
         return context
 
 

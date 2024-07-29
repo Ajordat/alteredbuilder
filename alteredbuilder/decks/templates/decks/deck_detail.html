@@ -36,7 +36,7 @@
         <div class="col">
     {% if object.is_public or object.owner == user %}
         {% if user.is_authenticated %}
-            <a role="button" href="{% url 'love-deck-id' pk=object.id %}" class="btn btn-sm {% if is_loved %}btn-danger{% else %}btn-outline-danger{% endif %}">
+            <a role="button" href="{% url 'love-deck-id' pk=object.id %}" class="btn btn-sm {% if deck.is_loved %}btn-danger{% else %}btn-outline-danger{% endif %}">
                 <i class="fa-solid fa-heart"></i> {{ object.love_count }}
             </a>
         {% else %}
