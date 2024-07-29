@@ -107,6 +107,13 @@ class DeckListViewTestCase(BaseViewTestCase):
             query_decks, response.context["deck_list"], ordered=False
         )
 
+        # Search all the decks that are legal on the Exalts format
+        response = self.client.get(reverse("deck-list") + "?legality=exalts")
+        query_decks = Deck.objects.filter(is_public=True, is_exalts_legal=True)
+        self.assertQuerySetEqual(
+            query_decks, response.context["deck_list"], ordered=False
+        )
+
         # Search all the decks that are legal on the Draft format
         response = self.client.get(reverse("deck-list") + "?legality=draft")
         query_decks = Deck.objects.filter(is_public=True, is_draft_legal=True)
