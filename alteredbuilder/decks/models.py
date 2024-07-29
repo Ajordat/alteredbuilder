@@ -5,7 +5,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from hitcount.models import HitCount, HitCountMixin
 
-from .managers import CardInDeckManager, DeckManager, LovePointManager
+from .managers import DeckManager, LovePointManager
 
 
 ALTERED_TCG_URL = "https://www.altered.gg"
@@ -159,8 +159,6 @@ class CardInDeck(models.Model):
     deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
     quantity = models.PositiveSmallIntegerField(default=1)
-
-    objects = CardInDeckManager()
 
 
 class LovePoint(models.Model):

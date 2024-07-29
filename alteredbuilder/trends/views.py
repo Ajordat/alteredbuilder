@@ -1,7 +1,7 @@
 from datetime import timedelta
 from typing import Any
 
-from django.db.models import Count, FilteredRelation, OuterRef, Q
+from django.db.models import Count, Exists, OuterRef, Q
 from django.utils.timezone import localdate
 from django.utils.translation import gettext_lazy as _
 from django.views.generic.base import TemplateView
@@ -33,14 +33,6 @@ class HomeView(TemplateView):
         except (ValueError, Hero.DoesNotExist):
             hero = None
 
-        # Retrieve loved decks
-        if self.request.user.is_authenticated:
-            context["loved_decks"] = (
-                LovePoint.objects.filter(user=self.request.user)
-                .with_faction(faction)
-                .values_list("deck__id", flat=True)
-            )
-
         # Retrieve the most hits made in the last 7 days and sort them DESC
         time_lapse = yesterday - timedelta(days=7)
         trending_deck_pks = (
@@ -51,7 +43,7 @@ class HomeView(TemplateView):
             .values_list("hitcount__object_pk", flat=True)
         )
         # Add the most viewed decks to the context
-        context["trending"] = (
+        trending_decks = (
             Deck.objects.filter(id__in=trending_deck_pks, is_public=True)
             .filter(Q(is_standard_legal=True) | Q(is_exalts_legal=True))
             .with_faction(faction)
@@ -60,6 +52,15 @@ class HomeView(TemplateView):
             .prefetch_related("hit_count_generic")
             .order_by("-hit_count_generic__hits")[: self.TRENDING_COUNT]
         )
+        if self.request.user.is_authenticated:
+            trending_decks = trending_decks.annotate(
+                is_loved=Exists(
+                    LovePoint.objects.filter(
+                        deck=OuterRef("pk"), user=self.request.user
+                    )
+                )
+            )
+        context["trending"] = trending_decks
 
         if hero:
             faction_trends = {hero.faction: 1}
