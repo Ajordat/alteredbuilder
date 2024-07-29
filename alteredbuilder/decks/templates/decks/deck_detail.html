@@ -358,7 +358,7 @@
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="commentsOffcanvas" aria-labelledby="commentsOffcanvasLabel">
         
         <button class="btn btn-sm btn-secondary offcanvas-btn position-absolute mt-2 {% if object.comment_count %}animate{% endif %}" type="button" data-bs-toggle="offcanvas" data-bs-target="#commentsOffcanvas">
-            <span>{{ object.comment_count }} comments</span>
+            <span>{% blocktranslate count comment_count=object.comment_count %}{{ comment_count }} comment{% plural %}{{ comment_count }} comments{% endblocktranslate%}</span>
         </button>
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="commentsOffcanvasLabel">{% translate "Comments" %}</h5>
@@ -368,11 +368,17 @@
             <section class="content-item" id="comments">
                 <div class="container">
                     <div class="col">
-                        
+        {% if user.is_authenticated %}
                         <form action="{% url 'create-deck-comment' pk=object.id %}" method="post" id="create-deck-comment-form">
                             {% csrf_token %}
                             {{ comment_form }}
                         </form>
+        {% else %}
+                        <diV>
+                            <p>{% translate "Login to use this feature!" %}<br>
+                            <a role="button" class="btn active text-info-emphasis" href="{% url 'account_login' %}?next={{ request.path }}"><i class="fa-solid fa-user"></i> {% translate "Login" %}</a></p>
+                        </div>
+        {% endif %}
         {% for comment in object.comment_set.all %}
                         <div class="media comment-body">
                             <div class="media-body">
