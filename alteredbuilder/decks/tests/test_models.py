@@ -111,14 +111,6 @@ class DecksViewsTestCase(TestCase):
         )
         self.assertEqual(str(deck), f"{deck.owner.username} - {deck.name}")
 
-    def test_hero_promo(self):
-        """Test if the Hero objects correctly identify whether they're a promo card."""
-        hero = Hero.objects.get(reference=self.HERO_REFERENCE)
-        promo_hero = Hero.objects.get(reference=self.PROMO_HERO_REFERENCE)
-
-        self.assertFalse(hero.is_promo())
-        self.assertTrue(promo_hero.is_promo())
-
     def test_character_oof(self):
         """Test if the Character objects correctly identify whether they're out of
         their original faction or not.

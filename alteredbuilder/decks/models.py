@@ -59,6 +59,11 @@ class Card(models.Model):
     image_url = models.URLField(null=False, blank=True)
     set = models.ForeignKey(Set, null=True, on_delete=models.SET_NULL)
 
+    main_effect_temp = models.TextField(blank=True)
+    echo_effect_temp = models.TextField(blank=True)
+
+    stats = models.JSONField(blank=True, default=dict)
+
     def __str__(self) -> str:
         return f"[{self.faction}] - {self.name} ({self.rarity})"
 
@@ -76,9 +81,6 @@ class Hero(Card):
     reserve_count = models.SmallIntegerField(default=2)
     permanent_count = models.SmallIntegerField(default=2)
     main_effect = models.TextField(blank=True)
-
-    def is_promo(self) -> bool:
-        return "_P_" in self.reference
 
     def __str__(self) -> str:
         return f"{self.reference} - {self.name}"

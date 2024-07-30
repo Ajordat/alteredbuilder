@@ -119,11 +119,61 @@ class DeckAdmin(admin.ModelAdmin):
             )
 
 
+@admin.register(Card)
+class CardAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
+    list_display = ["reference", "name", "rarity", "faction", "set"]
+    search_fields = ["reference", "name"]
+    list_display_links = ["reference", "name"]
+
+    def get_fieldsets(
+        self, request: HttpRequest, obj: Card
+    ) -> list[tuple[str | None, dict[str, Any]]]:
+
+        base_fieldset = [
+            "set",
+            "reference",
+            "name",
+            "faction",
+            "type",
+            "rarity",
+            "image_url",
+            "stats"
+        ]
+        i18n_fields = ["name", "image_url", "main_effect_temp"]
+
+        if obj.type == Card.Type.HERO:
+            base_fieldset += ["main_effect_temp"]
+        else:
+            base_fieldset += [
+                "main_effect_temp",
+                "echo_effect_temp",
+            ]
+            i18n_fields += ["echo_effect_temp"]
+
+        fieldsets = [
+            (
+                "Base stats",
+                {"fields": base_fieldset},
+            ),
+        ]
+
+        for code, name in settings.LANGUAGES:
+            lang_fieldset = (
+                name,
+                {
+                    "fields": [f"{field}_{code}" for field in i18n_fields],
+                    "classes": ["collapse"],
+                },
+            )
+            fieldsets.append(lang_fieldset)
+        return fieldsets
+
+
 @admin.register(Character)
 @admin.register(Hero)
 @admin.register(Permanent)
 @admin.register(Spell)
-class CardAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
+class PlayingCardAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
     list_display = ["reference", "name", "rarity", "faction", "set"]
     search_fields = ["reference", "name"]
     list_display_links = ["reference", "name"]
