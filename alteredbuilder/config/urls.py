@@ -18,13 +18,21 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
+from django.contrib.sitemaps import views as sitemap_views
 from django.urls import include, path, reverse_lazy
 from django.views.decorators.cache import cache_page
 from django.views.generic import RedirectView, TemplateView
 from django.views.i18n import JavaScriptCatalog
 
 from . import __version__
+from .sitemaps import DeckSitemap, LocalizedStaticViewSitemap, StaticViewSitemap
 
+
+sitemaps = {
+    "static": StaticViewSitemap,
+    "localized-static": LocalizedStaticViewSitemap,
+    "decks": DeckSitemap,
+}
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -42,6 +50,9 @@ urlpatterns = [
         "robots.txt",
         TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
     ),
+    path("sitemap.xml", sitemap_views.sitemap, {"sitemaps": sitemaps}, name="django.contrib.sitemaps.views.sitemap"),
+    # path("sitemap.xml", sitemap_views.index, {"sitemaps": sitemaps}, name="django.contrib.sitemaps.views.index"),
+    # path("sitemap-<section>.xml", sitemap_views.sitemap, {"sitemaps": sitemaps}, name="django.contrib.sitemaps.views.sitemap",),
 ]
 
 urlpatterns += i18n_patterns(
