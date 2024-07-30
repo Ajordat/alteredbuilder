@@ -123,6 +123,7 @@ class Deck(models.Model, HitCountMixin):
     description = models.TextField(blank=True, max_length=2500)
     cards = models.ManyToManyField(Card, through="CardInDeck", related_name="decks")
     hero = models.ForeignKey(Hero, blank=True, null=True, on_delete=models.SET_NULL)
+    hero_temp = models.ForeignKey(Card, blank=True, null=True, on_delete=models.SET_NULL, related_name="hero_temp")
     is_public = models.BooleanField(default=False)
 
     is_standard_legal = models.BooleanField(null=True)

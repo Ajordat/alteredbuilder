@@ -6,9 +6,8 @@ from django.utils.translation import activate
 
 
 def init_models(apps):
-    global Card, Set
+    global Card
     Card = apps.get_model("decks", "Card")
-    Set = apps.get_model("decks", "Set")
 
 
 def refactor_cards(apps, schema_editor):

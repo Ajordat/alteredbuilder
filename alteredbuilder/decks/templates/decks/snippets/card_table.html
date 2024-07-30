@@ -17,7 +17,7 @@
             <link rel="prefetch" href="{{ card.image_url }}"/>
             <td>{{ quantity }}</td>
             <td>{{ card.name }}</td>
-            <td><span class="hand-mana altered-{% get_main_cost card %}"></span>/<span class="reserve-mana altered-{% get_recall_cost card %}"></span></td>
+            <td><span class="hand-mana altered-{{ card.stats.main_cost }}"></span>/<span class="reserve-mana altered-{{ card.stats.recall_cost }}"></span></td>
             <td>
                 <div class="dropdown">
                     <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>

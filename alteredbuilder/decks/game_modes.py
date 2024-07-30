@@ -195,7 +195,7 @@ def update_deck_legality(deck: Deck) -> None:
     family_count = defaultdict(int)
 
     decklist = (
-        deck.cardindeck_set.select_related("card").order_by("card__reference").all()
+        deck.cardindeck_set.select_related("card").all()
     )
 
     for cid in decklist:

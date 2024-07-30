@@ -7,7 +7,7 @@ from django.db.models import F, Q
 from django.utils.translation import gettext_lazy as _
 
 from .game_modes import DraftGameMode, GameMode, StandardGameMode, update_deck_legality
-from .models import Card, CardInDeck, Deck, Hero
+from .models import Card, CardInDeck, Deck
 from .exceptions import MalformedDeckException
 
 
@@ -78,14 +78,7 @@ def create_new_deck(user: User, deck_form: dict) -> Deck:
 
         if card.type == Card.Type.HERO:
             if not has_hero:
-                try:
-                    deck.hero = Hero.objects.get(reference=reference)
-                except Hero.DoesNotExist:
-                    # This situation would imply a database inconsistency
-                    raise MalformedDeckException(
-                        _("Card '%(reference)s' does not exist")
-                        % {"reference": reference}
-                    )
+                deck.hero = card
                 has_hero = True
             else:
                 # The Deck model requires to have exactly one Hero per Deck
@@ -111,9 +104,7 @@ def create_new_deck(user: User, deck_form: dict) -> Deck:
 def get_deck_details(deck: Deck) -> dict:
 
     decklist = (
-        deck.cardindeck_set.select_related(
-            "card__character", "card__spell", "card__permanent"
-        )
+        deck.cardindeck_set.select_related("card")
         .order_by("card__reference")
         .all()
     )
@@ -125,9 +116,9 @@ def get_deck_details(deck: Deck) -> dict:
     # This dictionary will hold all metadata based on the card's type by using the
     # type as a key
     d = {
-        Card.Type.CHARACTER: [[], 0, "character"],
-        Card.Type.SPELL: [[], 0, "spell"],
-        Card.Type.PERMANENT: [[], 0, "permanent"],
+        Card.Type.CHARACTER: [[], 0],
+        Card.Type.SPELL: [[], 0],
+        Card.Type.PERMANENT: [[], 0],
     }
     for cid in decklist:
         # Append the card to its own type card list
@@ -135,11 +126,9 @@ def get_deck_details(deck: Deck) -> dict:
         # Count the card count of the card's type
         d[cid.card.type][1] += cid.quantity
         # Count the amount of cards with the same hand cost
-        hand_counter[getattr(cid.card, d[cid.card.type][2]).main_cost] += cid.quantity
+        hand_counter[cid.card.stats["main_cost"]] += cid.quantity
         # Count the amount of cards with the same recall cost
-        recall_counter[
-            getattr(cid.card, d[cid.card.type][2]).recall_cost
-        ] += cid.quantity
+        recall_counter[cid.card.stats["recall_cost"]] += cid.quantity
         # Count the amount of cards with the same rarity
         rarity_counter[cid.card.rarity] += cid.quantity
 
@@ -233,39 +222,19 @@ def parse_query_syntax(query):
     if matches := re.finditer(hc_regex, query, re.ASCII):
         for re_match in matches:
             op = re_match.group("hc_op")
-            value = re_match.group("hc")
+            value = int(re_match.group("hc"))
             match op:
                 case "=" | ":":
-                    filters &= (
-                        Q(character__main_cost=value)
-                        | Q(spell__main_cost=value)
-                        | Q(permanent__main_cost=value)
-                    )
+                    filters &= Q(stats__main_cost=value)
                 case "<":
-                    filters &= (
-                        Q(character__main_cost__lt=value)
-                        | Q(spell__main_cost__lt=value)
-                        | Q(permanent__main_cost__lt=value)
-                    )
+                    filters &= Q(stats__main_cost__lt=value)
                 case "<=":
-                    filters &= (
-                        Q(character__main_cost__lte=value)
-                        | Q(spell__main_cost__lte=value)
-                        | Q(permanent__main_cost__lte=value)
-                    )
+                    filters &= Q(stats__main_cost__lte=value)
                 case ">":
-                    filters &= (
-                        Q(character__main_cost__gt=value)
-                        | Q(spell__main_cost__gt=value)
-                        | Q(permanent__main_cost__gt=value)
-                    )
+                    filters &= Q(stats__main_cost__gt=value)
                 case ">=":
-                    filters &= (
-                        Q(character__main_cost__gte=value)
-                        | Q(spell__main_cost__gte=value)
-                        | Q(permanent__main_cost__gte=value)
-                    )
-            tags.append((_("hand cost"), OPERATOR_TO_HTML[op], value))
+                    filters &= Q(stats__main_cost__gte=value)
+            tags.append((_("hand cost"), OPERATOR_TO_HTML[op], str(value)))
         query = re.sub(hc_regex, "", query)
 
     rc_regex = r"rc(?P<rc_op>:|=|>|>=|<|<=)(?P<rc>\d+)"
@@ -273,39 +242,19 @@ def parse_query_syntax(query):
     if matches := re.finditer(rc_regex, query, re.ASCII):
         for re_match in matches:
             op = re_match.group("rc_op")
-            value = re_match.group("rc")
+            value = int(re_match.group("rc"))
             match op:
                 case "=" | ":":
-                    filters &= (
-                        Q(character__recall_cost=value)
-                        | Q(spell__recall_cost=value)
-                        | Q(permanent__recall_cost=value)
-                    )
+                    filters &= Q(stats__recall_cost=value)
                 case "<":
-                    filters &= (
-                        Q(character__recall_cost__lt=value)
-                        | Q(spell__recall_cost__lt=value)
-                        | Q(permanent__recall_cost__lt=value)
-                    )
+                    filters &= Q(stats__recall_cost__lt=value)
                 case "<=":
-                    filters &= (
-                        Q(character__recall_cost__lte=value)
-                        | Q(spell__recall_cost__lte=value)
-                        | Q(permanent__recall_cost__lte=value)
-                    )
+                    filters &= Q(stats__recall_cost__lte=value)
                 case ">":
-                    filters &= (
-                        Q(character__recall_cost__gt=value)
-                        | Q(spell__recall_cost__gt=value)
-                        | Q(permanent__recall_cost__gt=value)
-                    )
+                    filters &= Q(stats__recall_cost__gt=value)
                 case ">=":
-                    filters &= (
-                        Q(character__recall_cost__gte=value)
-                        | Q(spell__recall_cost__gte=value)
-                        | Q(permanent__recall_cost__gte=value)
-                    )
-            tags.append((_("reserve cost"), OPERATOR_TO_HTML[op], value))
+                    filters &= Q(stats__recall_cost__gte=value)
+            tags.append((_("reserve cost"), OPERATOR_TO_HTML[op], str(value)))
         query = re.sub(rc_regex, "", query)
 
     x_regex = r"x:(?P<effect>\w+)"
@@ -313,15 +262,7 @@ def parse_query_syntax(query):
     if matches := re.finditer(x_regex, query, re.ASCII):
         for re_match in matches:
             value = re_match.group("effect")
-            filters &= (
-                Q(character__main_effect__icontains=value)
-                | Q(spell__main_effect__icontains=value)
-                | Q(permanent__main_effect__icontains=value)
-                | Q(character__echo_effect__icontains=value)
-                | Q(spell__echo_effect__icontains=value)
-                | Q(permanent__echo_effect__icontains=value)
-                | Q(hero__main_effect__icontains=value)
-            )
+            filters &= (Q(main_effect_temp__icontains=value) | Q(echo_effect_temp__icontains=value))
             tags.append((_("ability"), ":", value))
         query = re.sub(x_regex, "", query)
 
@@ -333,18 +274,9 @@ def parse_query_syntax(query):
                 trigger = re_match.group("trigger")
                 value = TRIGGER_TRANSLATION[trigger]
                 if trigger == "discard":
-                    filters &= (
-                        Q(character__echo_effect__contains=value)
-                        | Q(spell__echo_effect__contains=value)
-                        | Q(permanent__echo_effect__contains=value)
-                    )
+                    filters &= Q(echo_effect_temp__contains=value)
                 else:
-                    filters &= (
-                        Q(character__main_effect__contains=value)
-                        | Q(spell__main_effect__contains=value)
-                        | Q(permanent__main_effect__contains=value)
-                        | Q(hero__main_effect__contains=value)
-                    )
+                    filters &= Q(main_effect_temp__contains=value)
                 tags.append((_("trigger"), ":", trigger))
             except KeyError:
                 continue
