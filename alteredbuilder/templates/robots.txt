@@ -11,3 +11,5 @@ Disallow: /*/privacy-policy
 Disallow: /*/terms-and-conditions
 Disallow: /*/troubleshoot
 Disallow: /*/decks/new
+
+Sitemap: {{ request.scheme}}://{{ request.get_host }}/sitemap.xml
