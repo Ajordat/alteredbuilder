@@ -9,6 +9,14 @@ const factionColors = {
     "OR": "#00628b",
     "YZ": "#483b66",
 }
+const factionNames = {
+    "AX": "Axiom",
+    "BR": "Bravos",
+    "LY": "Lyra",
+    "MU": "Muna",
+    "OR": "Ordis",
+    "YZ": "Yzmir",
+}
 const heroColors = {
     "AX": ["#7e4b36", "#a16045", "#ba7a5e"],
     "BR": ["#ff1a1a", "#ff4d4d", "#ff8080"],
@@ -58,7 +66,9 @@ function drawFactionChart() {
     }
 
     let data = google.visualization.arrayToDataTable(
-        [['Faction', 'Amount']].concat(dataElement)
+        [['Faction', 'Amount']].concat(
+            dataElement.map((dataPoint) => [factionNames[dataPoint[0]], dataPoint[1]])
+        )
     );
     let chart = new google.visualization.PieChart(chartElement);
 
