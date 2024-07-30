@@ -104,9 +104,7 @@ def create_new_deck(user: User, deck_form: dict) -> Deck:
 def get_deck_details(deck: Deck) -> dict:
 
     decklist = (
-        deck.cardindeck_set.select_related("card")
-        .order_by("card__reference")
-        .all()
+        deck.cardindeck_set.select_related("card").order_by("card__reference").all()
     )
 
     hand_counter = defaultdict(int)
@@ -262,7 +260,9 @@ def parse_query_syntax(query):
     if matches := re.finditer(x_regex, query, re.ASCII):
         for re_match in matches:
             value = re_match.group("effect")
-            filters &= (Q(main_effect_temp__icontains=value) | Q(echo_effect_temp__icontains=value))
+            filters &= Q(main_effect_temp__icontains=value) | Q(
+                echo_effect_temp__icontains=value
+            )
             tags.append((_("ability"), ":", value))
         query = re.sub(x_regex, "", query)
 

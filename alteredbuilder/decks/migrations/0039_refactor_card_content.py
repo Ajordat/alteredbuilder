@@ -33,7 +33,11 @@ def refactor_hero(card):
         "permanent_count": card.hero.permanent_count,
     }
     for language, _ in settings.LANGUAGES:
-        setattr(card, f"main_effect_temp_{language}", getattr(card.hero, f"main_effect_{language}"))
+        setattr(
+            card,
+            f"main_effect_temp_{language}",
+            getattr(card.hero, f"main_effect_{language}"),
+        )
     card.save()
 
 
@@ -43,8 +47,16 @@ def refactor_spell(card):
         "recall_cost": card.spell.recall_cost,
     }
     for language, _ in settings.LANGUAGES:
-        setattr(card, f"main_effect_temp_{language}", getattr(card.spell, f"main_effect_{language}"))
-        setattr(card, f"echo_effect_temp_{language}", getattr(card.spell, f"echo_effect_{language}"))
+        setattr(
+            card,
+            f"main_effect_temp_{language}",
+            getattr(card.spell, f"main_effect_{language}"),
+        )
+        setattr(
+            card,
+            f"echo_effect_temp_{language}",
+            getattr(card.spell, f"echo_effect_{language}"),
+        )
     card.save()
 
 
@@ -54,8 +66,16 @@ def refactor_permanent(card):
         "recall_cost": card.permanent.recall_cost,
     }
     for language, _ in settings.LANGUAGES:
-        setattr(card, f"main_effect_temp_{language}", getattr(card.permanent, f"main_effect_{language}"))
-        setattr(card, f"echo_effect_temp_{language}", getattr(card.permanent, f"echo_effect_{language}"))
+        setattr(
+            card,
+            f"main_effect_temp_{language}",
+            getattr(card.permanent, f"main_effect_{language}"),
+        )
+        setattr(
+            card,
+            f"echo_effect_temp_{language}",
+            getattr(card.permanent, f"echo_effect_{language}"),
+        )
     card.save()
 
 
@@ -68,8 +88,16 @@ def refactor_character(card):
         "ocean_power": card.character.ocean_power,
     }
     for language, _ in settings.LANGUAGES:
-        setattr(card, f"main_effect_temp_{language}", getattr(card.character, f"main_effect_{language}"))
-        setattr(card, f"echo_effect_temp_{language}", getattr(card.character, f"echo_effect_{language}"))
+        setattr(
+            card,
+            f"main_effect_temp_{language}",
+            getattr(card.character, f"main_effect_{language}"),
+        )
+        setattr(
+            card,
+            f"echo_effect_temp_{language}",
+            getattr(card.character, f"echo_effect_{language}"),
+        )
     card.save()
 
 
@@ -79,6 +107,4 @@ class Migration(migrations.Migration):
         ("decks", "0038_card_echo_effect_temp_card_echo_effect_temp_de_and_more"),
     ]
 
-    operations = [
-        migrations.RunPython(refactor_cards)
-    ]
+    operations = [migrations.RunPython(refactor_cards)]

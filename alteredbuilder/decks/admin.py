@@ -138,7 +138,7 @@ class CardAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
             "type",
             "rarity",
             "image_url",
-            "stats"
+            "stats",
         ]
         i18n_fields = ["name", "image_url", "main_effect_temp"]
 

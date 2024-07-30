@@ -150,5 +150,5 @@ class Migration(migrations.Migration):
             name="stats",
             field=models.JSONField(blank=True, default=dict),
         ),
-        migrations.RunPython(refactor_cards)
+        migrations.RunPython(refactor_cards),
     ]
