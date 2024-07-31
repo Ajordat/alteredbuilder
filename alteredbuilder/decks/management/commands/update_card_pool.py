@@ -55,7 +55,6 @@ class Command(BaseCommand):
                 except IgnoreCardType:
                     continue
                 except KeyError:
-                    print(card)
                     self.stderr.write(card)
                     raise CommandError("Invalid card format encountered")
 
@@ -140,7 +139,7 @@ class Command(BaseCommand):
         try:
             if card_dict["type"] not in [Card.Type.TOKEN, Card.Type.TOKEN_MANA]:
                 self.stdout.write(f"{card_dict}")
-            card = Card.Type.to_class(card_dict["type"]).objects.create(**card_dict)
+            card = Card.objects.create(**card_dict)
             self.stdout.write(f"card created: {card}")
         except KeyError:
             pass

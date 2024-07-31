@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 
-from decks.models import Card, Character, Deck, Hero, Permanent, Spell
+from decks.models import Card, Deck
 
 
 class DecksViewsTestCase(TestCase):
@@ -29,21 +29,17 @@ class DecksViewsTestCase(TestCase):
         * 1 Deck
         """
         cls.user = User.objects.create_user(username=cls.TEST_USER)
-        hero = Hero.objects.create(
+        hero = Card.objects.create_hero(
             reference=cls.HERO_REFERENCE,
             name="Sierra & Oddball",
-            faction=Card.Faction.AXIOM,
-            type=Card.Type.HERO,
-            rarity=Card.Rarity.COMMON,
+            faction=Card.Faction.AXIOM
         )
-        Hero.objects.create(
+        Card.objects.create_hero(
             reference=cls.PROMO_HERO_REFERENCE,
             name="Sierra & Oddball",
-            faction=Card.Faction.AXIOM,
-            type=Card.Type.HERO,
-            rarity=Card.Rarity.COMMON,
+            faction=Card.Faction.AXIOM
         )
-        Character.objects.create(
+        Card.objects.create_card(
             reference=cls.CHARACTER_REFERENCE,
             name="Yzmir Stargazer",
             faction=Card.Faction.YZMIR,
@@ -55,7 +51,7 @@ class DecksViewsTestCase(TestCase):
             mountain_power=2,
             ocean_power=1,
         )
-        Character.objects.create(
+        Card.objects.create_card(
             reference=cls.OOF_CHARACTER_REFERENCE,
             name="Yzmir Stargazer",
             faction=Card.Faction.AXIOM,
@@ -67,7 +63,7 @@ class DecksViewsTestCase(TestCase):
             mountain_power=2,
             ocean_power=1,
         )
-        Spell.objects.create(
+        Card.objects.create_card(
             reference=cls.SPELL_REFERENCE,
             name="Kraken's Wrath",
             faction=Card.Faction.AXIOM,
@@ -76,7 +72,7 @@ class DecksViewsTestCase(TestCase):
             main_cost=5,
             recall_cost=5,
         )
-        Permanent.objects.create(
+        Card.objects.create_card(
             reference=cls.PERMANENT_REFERENCE,
             name="The Ouroboros, Lyra Bastion",
             faction=Card.Faction.AXIOM,
@@ -91,13 +87,13 @@ class DecksViewsTestCase(TestCase):
 
     def test_to_string(self):
         """Test the string representations of all models."""
-        hero = Hero.objects.get(reference=self.HERO_REFERENCE)
-        character = Character.objects.get(reference=self.CHARACTER_REFERENCE)
-        spell = Spell.objects.get(reference=self.SPELL_REFERENCE)
-        permanent = Permanent.objects.get(reference=self.PERMANENT_REFERENCE)
+        hero = Card.objects.get(reference=self.HERO_REFERENCE)
+        character = Card.objects.get(reference=self.CHARACTER_REFERENCE)
+        spell = Card.objects.get(reference=self.SPELL_REFERENCE)
+        permanent = Card.objects.get(reference=self.PERMANENT_REFERENCE)
         deck = Deck.objects.get(name=self.DECK_NAME)
 
-        self.assertEqual(str(hero), f"{hero.reference} - {hero.name}")
+        self.assertEqual(str(hero), f"[{hero.faction}] - {hero.name} ({hero.rarity})")
         self.assertEqual(
             str(character),
             f"[{character.faction}] - {character.name} ({character.rarity})",
@@ -115,8 +111,8 @@ class DecksViewsTestCase(TestCase):
         """Test if the Character objects correctly identify whether they're out of
         their original faction or not.
         """
-        character = Character.objects.get(reference=self.CHARACTER_REFERENCE)
-        oof_character = Character.objects.get(reference=self.OOF_CHARACTER_REFERENCE)
+        character = Card.objects.get(reference=self.CHARACTER_REFERENCE)
+        oof_character = Card.objects.get(reference=self.OOF_CHARACTER_REFERENCE)
 
         self.assertFalse(character.is_oof())
         self.assertTrue(oof_character.is_oof())

@@ -100,15 +100,6 @@ class Card(models.Model):
         HERO = "hero"
         TOKEN_MANA = "token_mana"
 
-        @staticmethod
-        def to_class(type):
-            return {
-                Card.Type.HERO: Hero,
-                Card.Type.CHARACTER: Character,
-                Card.Type.SPELL: Spell,
-                Card.Type.PERMANENT: Permanent,
-            }[type]
-
     class Rarity(models.TextChoices):
         COMMON = "C", "common"
         RARE = "R", "rare"
@@ -138,48 +129,11 @@ class Card(models.Model):
     def get_family_code(self):
         return "_".join(self.reference.split("_")[3:5])
 
-    class Meta:
-        ordering = ["reference"]
-
-
-class Hero(Card):
-    reserve_count = models.SmallIntegerField(default=2)
-    permanent_count = models.SmallIntegerField(default=2)
-    main_effect = models.TextField(blank=True)
-
-    def __str__(self) -> str:
-        return f"{self.reference} - {self.name}"
-
-    class Meta:
-        verbose_name_plural = "heroes"
-
-
-class PlayableCard(Card):
-    class Meta:
-        abstract = True
-
-    main_cost = models.SmallIntegerField()
-    recall_cost = models.SmallIntegerField()
-
-    main_effect = models.TextField(blank=True)
-    echo_effect = models.TextField(blank=True)
-
-
-class Character(PlayableCard):
-    forest_power = models.SmallIntegerField()
-    mountain_power = models.SmallIntegerField()
-    ocean_power = models.SmallIntegerField()
-
     def is_oof(self) -> bool:
         return f"_{self.faction}_" not in self.reference
 
-
-class Spell(PlayableCard):
-    pass
-
-
-class Permanent(PlayableCard):
-    pass
+    class Meta:
+        ordering = ["reference"]
 
 
 class Deck(models.Model, HitCountMixin):
