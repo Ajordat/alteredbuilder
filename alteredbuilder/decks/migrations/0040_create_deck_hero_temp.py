@@ -4,19 +4,6 @@ import django.db.models.deletion
 from django.db import migrations, models
 
 
-def init_models(apps):
-    global Deck
-    Deck = apps.get_model("decks", "Deck")
-
-
-def replicate_hero(apps, schema_editor):
-    init_models(apps)
-
-    for deck in Deck.objects.all():
-        deck.hero_temp = deck.hero
-        deck.save()
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -35,5 +22,4 @@ class Migration(migrations.Migration):
                 to="decks.card",
             ),
         ),
-        migrations.RunPython(replicate_hero),
     ]

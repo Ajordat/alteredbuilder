@@ -2,7 +2,6 @@
 
 from django.conf import settings
 from django.db import migrations
-from django.utils.translation import activate
 
 
 def init_models(apps):

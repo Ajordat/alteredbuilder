@@ -66,7 +66,6 @@ class DeckAdmin(admin.ModelAdmin):
     readonly_fields = [
         "owner",
         "hero",
-        "hero_temp",
         "is_standard_legal",
         "standard_legality_errors",
         "is_draft_legal",
@@ -77,7 +76,7 @@ class DeckAdmin(admin.ModelAdmin):
         "comment_count",
     ]
     fieldsets = [
-        ("Metadata", {"fields": ["owner", "name", "description", "hero", "hero_temp"]}),
+        ("Metadata", {"fields": ["owner", "name", "description", "hero"]}),
         (
             "Engagement",
             {"fields": ["is_public", "love_count", "comment_count", "hit_count"]},

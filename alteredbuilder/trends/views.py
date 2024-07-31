@@ -43,7 +43,9 @@ class HomeView(TemplateView):
         if faction:
             trending_decks = trending_decks.filter(hero__faction=faction)
         if hero:
-            trending_decks = trending_decks.filter(hero__name__startswith=hero_name)
+            trending_decks = trending_decks.filter(
+                hero__name__startswith=hero_name
+            )
 
         trending_decks = (
             trending_decks.annotate(

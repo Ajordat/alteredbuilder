@@ -9,6 +9,69 @@ from hitcount.models import HitCount, HitCountMixin
 ALTERED_TCG_URL = "https://www.altered.gg"
 
 
+class CardManager(models.Manager):
+    def create_hero(
+        self,
+        reference,
+        name,
+        faction,
+        image_url=None,
+        card_set=None,
+        main_effect=None,
+        reserve_count=2,
+        permanent_count=2,
+    ):
+        return self.create(
+            reference=reference,
+            name=name,
+            faction=faction,
+            type=Card.Type.HERO,
+            image_url=image_url,
+            set=card_set,
+            main_effect_temp=main_effect,
+            stats={"reserve_count": reserve_count, "permanent_count": permanent_count},
+        )
+
+    def create_card(
+        self,
+        reference,
+        name,
+        type,
+        faction,
+        rarity,
+        image_url=None,
+        card_set=None,
+        main_effect=None,
+        echo_effect=None,
+        main_cost=0,
+        recall_cost=0,
+        forest_power=0,
+        mountain_power=0,
+        ocean_power=0,
+    ):
+        stats = {"main_cost": main_cost, "recall_cost": recall_cost}
+        if type == Card.Type.CHARACTER:
+            stats.update(
+                {
+                    "forest_power": forest_power,
+                    "mountain_power": mountain_power,
+                    "ocean_power": ocean_power,
+                }
+            )
+        return self.create(
+            reference=reference,
+            name=name,
+            faction=faction,
+            type=type,
+            rarity=rarity,
+            image_url=image_url,
+            set=card_set,
+            main_effect_temp=main_effect,
+            echo_effect_temp=echo_effect,
+            stats=stats,
+        )
+
+
 class Set(models.Model):
     name = models.CharField(null=False, blank=False, unique=True)
     short_name = models.CharField(null=False, blank=False, unique=True)
@@ -63,6 +126,8 @@ class Card(models.Model):
     echo_effect_temp = models.TextField(blank=True)
 
     stats = models.JSONField(blank=True, default=dict)
+
+    objects = CardManager()
 
     def __str__(self) -> str:
         return f"[{self.faction}] - {self.name} ({self.rarity})"
@@ -122,8 +187,7 @@ class Deck(models.Model, HitCountMixin):
     name = models.CharField(max_length=50)
     description = models.TextField(blank=True, max_length=2500)
     cards = models.ManyToManyField(Card, through="CardInDeck", related_name="decks")
-    hero = models.ForeignKey(Hero, blank=True, null=True, on_delete=models.SET_NULL)
-    hero_temp = models.ForeignKey(Card, blank=True, null=True, on_delete=models.SET_NULL, related_name="hero_temp")
+    hero = models.ForeignKey(Card, blank=True, null=True, on_delete=models.SET_NULL)
     is_public = models.BooleanField(default=False)
 
     is_standard_legal = models.BooleanField(null=True)

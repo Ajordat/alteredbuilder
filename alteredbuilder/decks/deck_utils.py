@@ -184,8 +184,8 @@ def patch_deck(deck, name, changes):
             card = Card.objects.get(reference=card_reference)
             if card.type == Card.Type.HERO:
                 if quantity > 0:
-                    deck.hero = card.hero
-                elif quantity == 0 and deck.hero == card.hero:
+                    deck.hero = card
+                elif quantity == 0 and deck.hero == card:
                     deck.hero = None
             else:
                 cid = CardInDeck.objects.get(card=card, deck=deck)
