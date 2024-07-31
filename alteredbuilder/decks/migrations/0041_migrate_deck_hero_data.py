@@ -12,7 +12,7 @@ def replicate_hero(apps, schema_editor):
 
     for deck in Deck.objects.all():
         deck.hero_temp = deck.hero
-        deck.save()
+        deck.save(update_fields=["hero_temp"])
 
 
 class Migration(migrations.Migration):

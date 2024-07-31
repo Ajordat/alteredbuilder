@@ -12,7 +12,7 @@ def restore_hero(apps, schema_editor):
 
     for deck in Deck.objects.all():
         deck.hero = deck.hero_temp
-        deck.save()
+        deck.save(update_fields=["hero"])
 
 
 class Migration(migrations.Migration):
