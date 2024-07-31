@@ -12,7 +12,7 @@ from .models import (
     LovePoint,
     PrivateLink,
     Set,
-    TempDeck
+    TempDeck,
 )
 
 
@@ -70,9 +70,22 @@ class TempDeckAdmin(admin.ModelAdmin):
         "is_exalts_legal",
         "love_count",
         "comment_count",
+        "created_at",
+        "modified_at",
     ]
     fieldsets = [
-        ("Metadata", {"fields": ["owner_id", "name", "description", "hero"]}),
+        (
+            "Metadata",
+            {
+                "fields": [
+                    "owner_id",
+                    "name",
+                    "description",
+                    "hero_id",
+                    ("created_at", "modified_at"),
+                ]
+            },
+        ),
         (
             "Engagement",
             {"fields": ["is_public", "love_count", "comment_count"]},
@@ -108,9 +121,22 @@ class DeckAdmin(admin.ModelAdmin):
         "love_count",
         "hit_count",
         "comment_count",
+        "created_at",
+        "modified_at",
     ]
     fieldsets = [
-        ("Metadata", {"fields": ["owner", "name", "description", "hero"]}),
+        (
+            "Metadata",
+            {
+                "fields": [
+                    "owner",
+                    "name",
+                    "description",
+                    "hero",
+                    ("created_at", "modified_at"),
+                ]
+            },
+        ),
         (
             "Engagement",
             {"fields": ["is_public", "love_count", "comment_count", "hit_count"]},
