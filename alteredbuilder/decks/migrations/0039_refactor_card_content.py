@@ -23,7 +23,8 @@ def refactor_cards(apps, schema_editor):
             case "character":
                 refactor_character(card)
             case _:
-                print(f"un-typed card found: {card}")
+                print(f"un-typed card found: {card} {card.type}")
+                raise Exception
 
 
 def refactor_hero(card):
