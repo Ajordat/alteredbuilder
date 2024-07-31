@@ -8,10 +8,12 @@ from .models import (
     Card,
     CardInDeck,
     Comment,
+    CommentVote,
     Deck,
     LovePoint,
     PrivateLink,
     Set,
+    Subtype,
 )
 
 
@@ -146,6 +148,7 @@ class CardAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
             "name",
             "faction",
             "type",
+            "subtypes",
             "rarity",
             "image_url",
             "stats",
@@ -208,3 +211,27 @@ class SetAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
 class CommentAdmin(admin.ModelAdmin):
     list_display = ["deck", "user", "created_at"]
     readonly_fields = ["user", "deck", "vote_count"]
+
+
+@admin.register(CommentVote)
+class CommentVoteAdmin(admin.ModelAdmin):
+    list_display = ["user", "comment"]
+    readonly_fields = ["user", "comment"]
+
+
+@admin.register(Subtype)
+class SubtypeAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
+    list_display = ["reference"]
+
+    def get_fieldsets(
+        self, request: HttpRequest, obj: Card
+    ) -> list[tuple[str | None, dict[str, Any]]]:
+
+        base_fieldset = ["reference", "name"]
+
+        fieldsets = [(None, {"fields": base_fieldset})]
+
+        for code, name in settings.LANGUAGES:
+            lang_fieldset = (name, {"fields": [f"name_{code}"]})
+            fieldsets.append(lang_fieldset)
+        return fieldsets

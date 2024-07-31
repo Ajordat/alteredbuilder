@@ -82,6 +82,14 @@ class Set(models.Model):
         return self.name
 
 
+class Subtype(models.Model):
+    reference = models.CharField(primary_key=True)
+    name = models.CharField(null=False, blank=False)
+
+    def __str__(self) -> str:
+        return self.reference
+
+
 # Create your models here.
 class Card(models.Model):
     class Faction(models.TextChoices):
@@ -109,6 +117,7 @@ class Card(models.Model):
     name = models.CharField(max_length=48, null=False, blank=False)
     faction = models.CharField(max_length=2, choices=Faction)
     type = models.CharField(max_length=16, choices=Type)
+    subtypes = models.ManyToManyField(Subtype)
     rarity = models.CharField(max_length=1, choices=Rarity)
     image_url = models.URLField(null=False, blank=True)
     set = models.ForeignKey(Set, null=True, on_delete=models.SET_NULL)

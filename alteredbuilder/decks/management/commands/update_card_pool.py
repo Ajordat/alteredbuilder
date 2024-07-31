@@ -8,7 +8,7 @@ from django.core.management.base import BaseCommand, CommandError
 from django.utils.translation import activate
 
 from decks.exceptions import IgnoreCardType
-from decks.models import Card, Set
+from decks.models import Card, Set, Subtype
 
 
 API_URL = "https://api.altered.gg/cards"
@@ -85,9 +85,13 @@ class Command(BaseCommand):
             "type": card["cardType"]["reference"],
             "rarity": card["rarity"]["reference"],
             "image_url": card["imagePath"],
+            "subtypes": [
+                (subtype["reference"], subtype["name"])
+                for subtype in card["cardSubTypes"]
+            ],
         }
         if "MAIN_EFFECT" in card["elements"]:
-            card_dict["main_effect"] = card["elements"]["MAIN_EFFECT"]
+            card_dict["main_effect_temp"] = card["elements"]["MAIN_EFFECT"]
 
         if card_dict["type"] in ["TOKEN", "TOKEN_MANA", "FOILER"]:
             raise IgnoreCardType()
@@ -115,7 +119,7 @@ class Command(BaseCommand):
                 )
 
             if "ECHO_EFFECT" in card["elements"]:
-                card_dict["echo_effect"] = card["elements"]["ECHO_EFFECT"]
+                card_dict["echo_effect_temp"] = card["elements"]["ECHO_EFFECT"]
             if card_dict["type"] == "CHARACTER":
                 card_dict.update(
                     {
@@ -137,38 +141,55 @@ class Command(BaseCommand):
 
     def create_card(self, card_dict: dict) -> None:
         try:
-            if card_dict["type"] not in [Card.Type.TOKEN, Card.Type.TOKEN_MANA]:
-                self.stdout.write(f"{card_dict}")
+            self.stdout.write(f"{card_dict}")
+            subtypes = card_dict.pop("subtypes")
             card = Card.objects.create(**card_dict)
+
+            for subtype in subtypes:
+                st_reference, st_name = subtype
+                try:
+                    st = Subtype.objects.get(reference=st_reference)
+                    st.name = st_name
+                    st.save()
+                except Subtype.DoesNotExist:
+                    st = Subtype.objects.create(reference=st_reference, name=st_name)
+                card.subtypes.add(st)
+
             self.stdout.write(f"card created: {card}")
         except KeyError:
             pass
 
     def update_card(self, card_dict: dict, card_obj: Card) -> None:
-        if card_dict["image_url"] == card_obj.image_url:
-            # If the image hasn't changed, we assume the other attributes haven't changed
-            return
+        # if card_dict["image_url"] == card_obj.image_url:
+        # If the image hasn't changed, we assume the other attributes haven't changed
+        # return
 
-        shared_fields = ["name", "faction", "image_url"]
-        specific_fields = ["main_effect"]
-        type_name = str(card_obj.type)
+        card_fields = ["name", "faction", "image_url", "set"]
+        if "main_effect_temp" in card_dict:
+            card_fields += ["main_effect_temp"]
+        if "echo_effect_temp" in card_dict:
+            card_fields += ["echo_effect_temp"]
 
         if card_obj.type == Card.Type.HERO:
-            specific_fields += ["reserve_count", "permanent_count"]
+            stats_fields = ["reserve_count", "permanent_count"]
         else:
-            specific_fields += ["main_cost", "recall_cost", "echo_effect"]
+            stats_fields = ["main_cost", "recall_cost"]
             if card_obj.type == Card.Type.CHARACTER:
-                specific_fields += ["forest_power", "mountain_power", "ocean_power"]
+                stats_fields += ["forest_power", "mountain_power", "ocean_power"]
 
-        for field in shared_fields:
+        for field in card_fields:
             setattr(card_obj, field, card_dict[field])
 
-        card_obj.save()
+        card_obj.stats = {field: card_dict[field] for field in stats_fields}
 
-        for field in specific_fields:
+        for subtype in card_dict["subtypes"]:
+            st_reference, st_name = subtype
             try:
-                setattr(getattr(card_obj, type_name), field, card_dict[field])
-            except KeyError:
-                pass
+                st = Subtype.objects.get(reference=st_reference)
+                st.name = st_name
+                st.save()
+            except Subtype.DoesNotExist:
+                st = Subtype.objects.create(reference=st_reference, name=st_name)
+            card_obj.subtypes.add(st)
 
-        getattr(card_obj, type_name).save()
+        card_obj.save()
