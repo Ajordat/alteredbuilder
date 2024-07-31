@@ -73,7 +73,7 @@ jobs:
         instance: ${{ vars.CLOUD_SQL_INSTANCE }}
         port: 5432
     - name: Run migrations
-      run: python manage.py migrate --no-input
+      run: python manage.py migrate --no-input ${{ inputs.migration_params }}
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DATABASE_URL: ${{ secrets.MIGRATION_DATABASE_URL }}
