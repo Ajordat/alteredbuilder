@@ -22,10 +22,10 @@
         <div class="col mt-3">
             <h3>{% translate "Card list" %}</h3>
             <div class="row row-cols-auto mb-3">
-                <div class="col">
+                <div class="col-4">
                     <form class="d-flex" role="search" id="querySearchForm">
                         <div class="input-group">
-                            <input class="form-control" type="search" aria-label="Search" id="querySearch" value="{{ query }}" placeholder="{% translate 'Search by name' %}">
+                            <input class="form-control" type="search" aria-label="Search" id="querySearch" value="{{ query }}" placeholder="{% translate 'Card search' %}">
                             <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title='{% include "decks/tooltips/query_search.html" %}' data-bs-html="true">
                                 <i class="fa-regular fa-question"></i>
                             </span>
