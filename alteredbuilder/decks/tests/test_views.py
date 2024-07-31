@@ -34,14 +34,6 @@ class DeckListViewTestCase(BaseViewTestCase):
         cls.create_decks_for_user(cls.user, mu_hero, [])
         cls.create_decks_for_user(cls.other_user, mu_hero, [])
 
-    def test_homepage_redirect(self):
-        """Test that the index page redirects to the entry endpoint."""
-        response = self.client.get(reverse("index"))
-
-        self.assertRedirects(
-            response, reverse("home"), status_code=HTTPStatus.MOVED_PERMANENTLY
-        )
-
     def test_decks_home_unauthenticated(self):
         """Test the context content for an unauthenticated user."""
         response = self.client.get(reverse("deck-list"))
@@ -94,7 +86,8 @@ class DeckListViewTestCase(BaseViewTestCase):
         # Search all the decks belonging to either the AXIOM or MUNA factions
         response = self.client.get(reverse("deck-list") + "?faction=AX,MU")
         query_decks = Deck.objects.filter(
-            is_public=True, hero__faction__in=[Card.Faction.AXIOM, Card.Faction.MUNA]
+            is_public=True,
+            hero__faction__in=[Card.Faction.AXIOM, Card.Faction.MUNA],
         )
         self.assertQuerySetEqual(
             query_decks, response.context["deck_list"], ordered=False
@@ -450,22 +443,12 @@ class CardListViewTestCase(BaseViewTestCase):
 
         # Search all the cards by RESERVE MANA order
         response = self.client.get(reverse("cards") + "?order=reserve")
-        query_cards = Card.objects.order_by(
-            Coalesce(
-                "character__recall_cost", "spell__recall_cost", "permanent__recall_cost"
-            ),
-            "reference",
-        )
+        query_cards = Card.objects.order_by("stats__recall_cost", "reference")
         self.assertQuerySetEqual(query_cards, response.context["card_list"])
 
         # Search all the cards by inverse MANA order
         response = self.client.get(reverse("cards") + "?order=-mana")
-        query_cards = Card.objects.order_by(
-            Coalesce(
-                "character__main_cost", "spell__main_cost", "permanent__main_cost"
-            ).desc(),
-            "-reference",
-        )
+        query_cards = Card.objects.order_by("-stats__main_cost", "-reference")
         self.assertQuerySetEqual(query_cards, response.context["card_list"])
 
         # Search all the COMMON CHARACTERS or PERMANENTS of AXIOM ordered by inverse
@@ -486,11 +469,7 @@ class CardListViewTestCase(BaseViewTestCase):
         # Search all the cards with a hand cost of 2
         value = 2
         response = self.client.get(reverse("cards") + f"?query={quote('hc=')}{value}")
-        query_cards = Card.objects.filter(
-            Q(character__main_cost=value)
-            | Q(spell__main_cost=value)
-            | Q(permanent__main_cost=value)
-        )
+        query_cards = Card.objects.filter(stats__main_cost=value)
         self.assertQuerySetEqual(
             query_cards, response.context["card_list"], ordered=False
         )
@@ -499,11 +478,7 @@ class CardListViewTestCase(BaseViewTestCase):
         value = 2
         response = self.client.get(reverse("cards") + f"?query={quote('hc>')}{value}")
         # print(response.context)
-        query_cards = Card.objects.filter(
-            Q(character__main_cost__gt=value)
-            | Q(spell__main_cost__gt=value)
-            | Q(permanent__main_cost__gt=value)
-        )
+        query_cards = Card.objects.filter(stats__main_cost__gt=value)
         self.assertQuerySetEqual(
             query_cards, response.context["card_list"], ordered=False
         )
@@ -511,11 +486,7 @@ class CardListViewTestCase(BaseViewTestCase):
         # Search all the cards with a hand cost greater than or equal to 2
         value = 2
         response = self.client.get(reverse("cards") + f"?query={quote('hc>=')}{value}")
-        query_cards = Card.objects.filter(
-            Q(character__main_cost__gte=value)
-            | Q(spell__main_cost__gte=value)
-            | Q(permanent__main_cost__gte=value)
-        )
+        query_cards = Card.objects.filter(stats__main_cost__gte=value)
         self.assertQuerySetEqual(
             query_cards, response.context["card_list"], ordered=False
         )
@@ -523,11 +494,7 @@ class CardListViewTestCase(BaseViewTestCase):
         # Search all the cards with a hand cost smaller than 4
         value = 4
         response = self.client.get(reverse("cards") + f"?query={quote('hc<')}{value}")
-        query_cards = Card.objects.filter(
-            Q(character__main_cost__lt=value)
-            | Q(spell__main_cost__lt=value)
-            | Q(permanent__main_cost__lt=value)
-        )
+        query_cards = Card.objects.filter(stats__main_cost__lt=value)
         self.assertQuerySetEqual(
             query_cards, response.context["card_list"], ordered=False
         )
@@ -535,11 +502,7 @@ class CardListViewTestCase(BaseViewTestCase):
         # Search all the cards with a hand cost smaller than or equal to 4
         value = 4
         response = self.client.get(reverse("cards") + f"?query={quote('hc<=')}{value}")
-        query_cards = Card.objects.filter(
-            Q(character__main_cost__lte=value)
-            | Q(spell__main_cost__lte=value)
-            | Q(permanent__main_cost__lte=value)
-        )
+        query_cards = Card.objects.filter(stats__main_cost__lte=value)
         self.assertQuerySetEqual(
             query_cards, response.context["card_list"], ordered=False
         )
@@ -549,11 +512,7 @@ class CardListViewTestCase(BaseViewTestCase):
         # Search all the cards with a reserve cost of 2
         value = 2
         response = self.client.get(reverse("cards") + f"?query={quote('rc=')}{value}")
-        query_cards = Card.objects.filter(
-            Q(character__recall_cost=value)
-            | Q(spell__recall_cost=value)
-            | Q(permanent__recall_cost=value)
-        )
+        query_cards = Card.objects.filter(stats__recall_cost=value)
         self.assertQuerySetEqual(
             query_cards, response.context["card_list"], ordered=False
         )
@@ -562,11 +521,7 @@ class CardListViewTestCase(BaseViewTestCase):
         value = 2
         response = self.client.get(reverse("cards") + f"?query={quote('rc>')}{value}")
         # print(response.context)
-        query_cards = Card.objects.filter(
-            Q(character__recall_cost__gt=value)
-            | Q(spell__recall_cost__gt=value)
-            | Q(permanent__recall_cost__gt=value)
-        )
+        query_cards = Card.objects.filter(stats__recall_cost__gt=value)
         self.assertQuerySetEqual(
             query_cards, response.context["card_list"], ordered=False
         )
@@ -574,11 +529,7 @@ class CardListViewTestCase(BaseViewTestCase):
         # Search all the cards with a reserve cost greater than or equal to 2
         value = 2
         response = self.client.get(reverse("cards") + f"?query={quote('rc>=')}{value}")
-        query_cards = Card.objects.filter(
-            Q(character__recall_cost__gte=value)
-            | Q(spell__recall_cost__gte=value)
-            | Q(permanent__recall_cost__gte=value)
-        )
+        query_cards = Card.objects.filter(stats__recall_cost__gte=value)
         self.assertQuerySetEqual(
             query_cards, response.context["card_list"], ordered=False
         )
@@ -586,11 +537,7 @@ class CardListViewTestCase(BaseViewTestCase):
         # Search all the cards with a reserve cost smaller than 4
         value = 4
         response = self.client.get(reverse("cards") + f"?query={quote('rc<')}{value}")
-        query_cards = Card.objects.filter(
-            Q(character__recall_cost__lt=value)
-            | Q(spell__recall_cost__lt=value)
-            | Q(permanent__recall_cost__lt=value)
-        )
+        query_cards = Card.objects.filter(stats__recall_cost__lt=value)
         self.assertQuerySetEqual(
             query_cards, response.context["card_list"], ordered=False
         )
@@ -598,11 +545,7 @@ class CardListViewTestCase(BaseViewTestCase):
         # Search all the cards with a reserve cost smaller than or equal to 4
         value = 4
         response = self.client.get(reverse("cards") + f"?query={quote('rc<=')}{value}")
-        query_cards = Card.objects.filter(
-            Q(character__recall_cost__lte=value)
-            | Q(spell__recall_cost__lte=value)
-            | Q(permanent__recall_cost__lte=value)
-        )
+        query_cards = Card.objects.filter(stats__recall_cost__lte=value)
         self.assertQuerySetEqual(
             query_cards, response.context["card_list"], ordered=False
         )

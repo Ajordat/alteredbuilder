@@ -4,7 +4,7 @@ from django.test import RequestFactory
 from django.urls import reverse
 
 from decks.forms import DecklistForm, DeckMetadataForm
-from decks.models import Card, Character, Deck, Hero
+from decks.models import Card, Deck
 from decks.views import NewDeckFormView
 from .utils import BaseFormTestCase, get_login_url, silence_logging
 
@@ -67,8 +67,8 @@ class CreateDeckFormTestCase(BaseFormTestCase):
         response = self.client.post(reverse("new-deck"), form_data)
 
         new_deck = Deck.objects.filter(owner=self.user).latest("created_at")
-        hero = Hero.objects.get(reference=self.HERO_REFERENCE)
-        character = Character.objects.get(reference=self.CHARACTER_REFERENCE)
+        hero = Card.objects.get(reference=self.HERO_REFERENCE)
+        character = Card.objects.get(reference=self.CHARACTER_REFERENCE)
         deck_cards = new_deck.cardindeck_set.all()
 
         self.assertRedirects(
@@ -78,7 +78,7 @@ class CreateDeckFormTestCase(BaseFormTestCase):
         self.assertEqual(new_deck.hero, hero)
         self.assertEqual(len(deck_cards), 1)
         self.assertEqual(deck_cards[0].quantity, 3)
-        self.assertEqual(deck_cards[0].card.character, character)
+        self.assertEqual(deck_cards[0].card, character)
 
     def test_invalid_deck_wrong_reference(self):
         """Attempt to submit a form creating a Deck with an invalid reference to a
@@ -88,34 +88,6 @@ class CreateDeckFormTestCase(BaseFormTestCase):
         form_data = {
             "name": self.DECK_NAME,
             "decklist": f"1 {self.HERO_REFERENCE}\n3 {wrong_card_reference}",
-        }
-
-        request = RequestFactory().post(reverse("new-deck"), form_data)
-        request.user = self.user
-        response = NewDeckFormView.as_view()(request)
-        form: DecklistForm = response.context_data["form"]
-
-        self.assertTrue(form.has_error("decklist"))
-        self.assertIn(
-            f"Card '{wrong_card_reference}' does not exist", form.errors["decklist"]
-        )
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-
-    def test_invalid_deck_db_hero_inconsistency(self):
-        """Attempt to use a Card defined as Hero but that isn't linked to a Hero model.
-        This would indicate an inconsistency on the database.
-        """
-        wrong_card_reference = "incomplete_hero"
-        Card.objects.create(
-            reference=wrong_card_reference,
-            name=wrong_card_reference,
-            faction=Card.Faction.AXIOM,
-            type=Card.Type.HERO,
-            rarity=Card.Rarity.COMMON,
-        )
-        form_data = {
-            "name": self.DECK_NAME,
-            "decklist": f"3 {wrong_card_reference}",
         }
 
         request = RequestFactory().post(reverse("new-deck"), form_data)
@@ -180,7 +152,7 @@ class CreateDeckFormTestCase(BaseFormTestCase):
         response = self.client.post(reverse("new-deck"), form_data)
 
         new_deck = Deck.objects.filter(owner=self.user).latest("created_at")
-        character = Character.objects.get(reference=self.CHARACTER_REFERENCE)
+        character = Card.objects.get(reference=self.CHARACTER_REFERENCE)
         deck_cards = new_deck.cardindeck_set.all()
 
         self.assertRedirects(
@@ -190,7 +162,7 @@ class CreateDeckFormTestCase(BaseFormTestCase):
         self.assertEqual(new_deck.hero, None)
         self.assertEqual(len(deck_cards), 1)
         self.assertEqual(deck_cards[0].quantity, 3)
-        self.assertEqual(deck_cards[0].card.character, character)
+        self.assertEqual(deck_cards[0].card, character)
 
     def test_valid_deck_repeated_card(self):
         """Submit a form creating a Deck with multiple references to the same card.
@@ -205,7 +177,7 @@ class CreateDeckFormTestCase(BaseFormTestCase):
         response = self.client.post(reverse("new-deck"), form_data)
 
         new_deck = Deck.objects.filter(owner=self.user).latest("created_at")
-        character = Character.objects.get(reference=self.CHARACTER_REFERENCE)
+        character = Card.objects.get(reference=self.CHARACTER_REFERENCE)
         deck_cards = new_deck.cardindeck_set.all()
 
         self.assertRedirects(
@@ -215,7 +187,7 @@ class CreateDeckFormTestCase(BaseFormTestCase):
         self.assertEqual(new_deck.hero, None)
         self.assertEqual(len(deck_cards), 1)
         self.assertEqual(deck_cards[0].quantity, 5)
-        self.assertEqual(deck_cards[0].card.character, character)
+        self.assertEqual(deck_cards[0].card, character)
 
 
 class UpdateDeckMetadataFormTestCase(BaseFormTestCase):

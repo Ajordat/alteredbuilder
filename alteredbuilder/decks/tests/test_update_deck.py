@@ -2,7 +2,7 @@ from http import HTTPStatus
 
 from django.urls import reverse
 
-from decks.models import CardInDeck, Deck, Hero
+from decks.models import Card, CardInDeck, Deck
 from .utils import AjaxTestCase, BaseViewTestCase, get_login_url, silence_logging
 
 
@@ -234,7 +234,7 @@ class UpdateDeckViewTestCase(BaseViewTestCase, AjaxTestCase):
         self.assertIsNone(deck.hero)
 
         # Test a request with valid data to add a hero
-        hero = Hero.objects.first()
+        hero = Card.objects.filter(type=Card.Type.HERO).first()
         hero_data["decklist"] = {hero.reference: 1}
 
         response = self.client.post(test_url, **headers, data=hero_data)
