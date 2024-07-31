@@ -1,7 +1,7 @@
 from django.contrib.auth.models import Group, User
 from rest_framework import serializers
 
-from decks.models import Card, Character, Hero, Permanent, Spell
+from decks.models import Card
 
 
 # API serializers. They define what fields of the referred model they will return.
@@ -23,28 +23,4 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class CardSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Card
-        fields = "__all__"
-
-
-class CharacterSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Character
-        fields = "__all__"
-
-
-class HeroSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Hero
-        fields = "__all__"
-
-
-class PermanentSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Permanent
-        fields = "__all__"
-
-
-class SpellSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Spell
         fields = "__all__"

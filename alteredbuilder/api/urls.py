@@ -8,10 +8,6 @@ router = routers.DefaultRouter()
 router.register(r"users", views.UserViewSet)
 router.register(r"groups", views.GroupViewSet)
 router.register(r"cards", views.CardViewSet)
-router.register(r"characters", views.CharacterViewSet)
-router.register(r"heroes", views.HeroViewSet)
-router.register(r"permanents", views.PermanentViewSet)
-router.register(r"spells", views.SpellViewSet)
 
 # Wire up our API using automatic URL routing.
 urlpatterns = router.urls
