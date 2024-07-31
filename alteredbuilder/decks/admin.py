@@ -12,7 +12,6 @@ from .models import (
     LovePoint,
     PrivateLink,
     Set,
-    TempDeck,
 )
 
 
@@ -51,56 +50,6 @@ class ReadOnlyAdminMixin(object):
 
     def save_related(self, request: Any, form: Any, formsets: Any, change: Any) -> None:
         pass
-
-
-@admin.register(TempDeck)
-class TempDeckAdmin(admin.ModelAdmin):
-    list_display = ["id", "owner_id", "name", "is_public", "modified_at", "created_at"]
-    search_fields = ["id", "name"]
-    list_filter = ["is_public"]
-    list_display_links = ["id", "name"]
-    show_facets = admin.ShowFacets.ALWAYS
-    readonly_fields = [
-        "owner_id",
-        "hero_id",
-        "is_standard_legal",
-        "standard_legality_errors",
-        "is_draft_legal",
-        "draft_legality_errors",
-        "is_exalts_legal",
-        "love_count",
-        "comment_count",
-        "created_at",
-        "modified_at",
-    ]
-    fieldsets = [
-        (
-            "Metadata",
-            {
-                "fields": [
-                    "owner_id",
-                    "name",
-                    "description",
-                    "hero_id",
-                    ("created_at", "modified_at"),
-                ]
-            },
-        ),
-        (
-            "Engagement",
-            {"fields": ["is_public", "love_count", "comment_count"]},
-        ),
-        (
-            "Legality",
-            {
-                "fields": [
-                    ("is_standard_legal", "standard_legality_errors"),
-                    ("is_draft_legal", "draft_legality_errors"),
-                    "is_exalts_legal",
-                ]
-            },
-        ),
-    ]
 
 
 @admin.register(Deck)
