@@ -176,7 +176,7 @@ class TempDeck(models.Model):
     owner_id = models.IntegerField()
     name = models.CharField(max_length=50)
     description = models.TextField(blank=True, max_length=2500)
-    hero_id = models.CharField(max_length=32,  null=True)
+    hero_id = models.CharField(max_length=32, null=True)
     is_public = models.BooleanField(default=False)
 
     is_standard_legal = models.BooleanField(null=True)

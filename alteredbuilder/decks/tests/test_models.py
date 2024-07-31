@@ -32,12 +32,12 @@ class DecksViewsTestCase(TestCase):
         hero = Card.objects.create_hero(
             reference=cls.HERO_REFERENCE,
             name="Sierra & Oddball",
-            faction=Card.Faction.AXIOM
+            faction=Card.Faction.AXIOM,
         )
         Card.objects.create_hero(
             reference=cls.PROMO_HERO_REFERENCE,
             name="Sierra & Oddball",
-            faction=Card.Faction.AXIOM
+            faction=Card.Faction.AXIOM,
         )
         Card.objects.create_card(
             reference=cls.CHARACTER_REFERENCE,

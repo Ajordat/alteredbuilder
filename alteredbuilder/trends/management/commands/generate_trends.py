@@ -70,7 +70,9 @@ class Command(BaseCommand):
 
         core_set = Set.objects.get(code="CORE")
         for record in hero_trends:
-            hero = Card.objects.get(type=Card.Type.HERO, name=record["hero_name"], set=core_set)
+            hero = Card.objects.get(
+                type=Card.Type.HERO, name=record["hero_name"], set=core_set
+            )
 
             HeroTrend.objects.update_or_create(
                 hero=hero,

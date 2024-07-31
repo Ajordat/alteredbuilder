@@ -27,7 +27,9 @@ class HomeView(TemplateView):
 
         try:
             hero_name = self.request.GET.get("hero")
-            hero = Card.objects.filter(type=Card.Type.HERO, name__startswith=hero_name, set__code="CORE").first()
+            hero = Card.objects.filter(
+                type=Card.Type.HERO, name__startswith=hero_name, set__code="CORE"
+            ).first()
         except (ValueError, Card.DoesNotExist):
             hero = None
 
@@ -41,9 +43,7 @@ class HomeView(TemplateView):
         if faction:
             trending_decks = trending_decks.filter(hero__faction=faction)
         if hero:
-            trending_decks = trending_decks.filter(
-                hero__name__startswith=hero_name
-            )
+            trending_decks = trending_decks.filter(hero__name__startswith=hero_name)
 
         trending_decks = (
             trending_decks.annotate(
