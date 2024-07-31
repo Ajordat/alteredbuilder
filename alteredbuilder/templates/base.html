@@ -17,7 +17,7 @@
         <meta property="og:site_name" content="Altered TCG Builder"/>
         <meta property="og:type" content="website"/>
         <meta property="og:url" content="{{ request.build_absolute_uri }}"/>
-        <meta property="og:image" content="{% block meta_image %}{% static 'img/logo.png' %}{% endblock %}"/>
+        <meta property="og:image" content="{% block meta_image %}{% static 'img/logo-og-fade.png' %}{% endblock %}"/>
         <meta property="og:image:type" content="image/png"/>
         <meta property="og:description" content="The place to build, analyze and share Altered TCG decks."/>
         <meta name="description" content="The place to build, analyze and share Altered TCG decks."/>
@@ -27,12 +27,12 @@
     {% endfor %}
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-        <link rel="shortcut icon" href="https://zany.sh/favicon.svg?text=A&font-family=monospace&text-color=white">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/fontawesome.min.css" integrity="sha512-UuQ/zJlbMVAw/UU8vVBhnI4op+/tFOpQZVT+FormmIEhRSCnJWyHiBbEVgM4Uztsht41f3FzVWgLuwzUqOObKw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/solid.min.css" integrity="sha512-Hp+WwK4QdKZk9/W0ViDvLunYjFrGJmNDt6sCflZNkjgvNq9mY+0tMbd6tWMiAlcf1OQyqL4gn2rYp7UsfssZPA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/regular.min.css" integrity="sha512-KYEnM30Gjf5tMbgsrQJsR0FSpufP9S4EiAYi168MvTjK6E83x3r6PTvLPlXYX350/doBXmTFUEnJr/nCsDovuw==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/brands.min.css" integrity="sha512-DJLNx+VLY4aEiEQFjiawXaiceujj5GA7lIY8CHCIGQCBPfsEG0nGz1edb4Jvw1LR7q031zS5PpPqFuPA8ihlRA==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <link rel="icon" type="image/x-icon" href="{% static "img/logo.ico" %}">
         <script src="{% static 'js/theme-mode.js' %}"></script>
         <script src="{% url 'javascript-catalog' %}"></script>
 {% endblock %}
@@ -40,7 +40,7 @@
     <body class="d-flex flex-column min-vh-100">
         <nav class="navbar navbar-expand-md bg-info-subtle sticky-top pb-0">
             <div class="container-fluid">
-                <a class="navbar-brand text-info-emphasis" href="{% url 'index' %}">Altered TCG Builder</a>
+                <a class="navbar-brand text-info-emphasis" href="{% url 'index' %}"><img class="logo" src="{% static "img/logo.png" %}">Altered TCG Builder</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>

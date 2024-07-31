@@ -28,3 +28,13 @@ footer a.no-underline {
 #navbar-traversal li.nav-item {
     border-color: #058196 !important;
 }
+
+.navbar img.logo {
+    max-height: 40px;
+    margin-top: -12px;
+    margin-right: 5px;
+}
+
+html[data-bs-theme="light"] .navbar img.logo {
+    filter: drop-shadow(0 0 5px #175457);
+}
