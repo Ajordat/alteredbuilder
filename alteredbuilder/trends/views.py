@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic.base import TemplateView
 
 from hitcount.models import Hit
-from decks.models import Card, Deck, Hero, LovePoint
+from decks.models import Card, Deck, LovePoint
 from .models import CardTrend, FactionTrend, HeroTrend
 
 
@@ -27,10 +27,8 @@ class HomeView(TemplateView):
 
         try:
             hero_name = self.request.GET.get("hero")
-            hero = Hero.objects.filter(
-                name__startswith=hero_name, set__code="CORE"
-            ).first()
-        except (ValueError, Hero.DoesNotExist):
+            hero = Card.objects.filter(type=Card.Type.HERO, name__startswith=hero_name, set__code="CORE").first()
+        except (ValueError, Card.DoesNotExist):
             hero = None
 
         # Retrieve the most hits made in the last 7 days and sort them DESC
