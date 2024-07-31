@@ -5,7 +5,7 @@ from .models import Card, Subtype
 
 @register(Card)
 class CardTranslationOptions(TranslationOptions):
-    fields = ("name", "image_url", "main_effect_temp", "echo_effect_temp")
+    fields = ("name", "image_url", "main_effect", "echo_effect")
 
 
 @register(Subtype)

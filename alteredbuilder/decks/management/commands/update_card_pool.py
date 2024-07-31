@@ -91,7 +91,7 @@ class Command(BaseCommand):
             ],
         }
         if "MAIN_EFFECT" in card["elements"]:
-            card_dict["main_effect_temp"] = card["elements"]["MAIN_EFFECT"]
+            card_dict["main_effect"] = card["elements"]["MAIN_EFFECT"]
 
         if card_dict["type"] in ["TOKEN", "TOKEN_MANA", "FOILER"]:
             raise IgnoreCardType()
@@ -119,7 +119,7 @@ class Command(BaseCommand):
                 )
 
             if "ECHO_EFFECT" in card["elements"]:
-                card_dict["echo_effect_temp"] = card["elements"]["ECHO_EFFECT"]
+                card_dict["echo_effect"] = card["elements"]["ECHO_EFFECT"]
             if card_dict["type"] == "CHARACTER":
                 card_dict.update(
                     {
@@ -165,10 +165,10 @@ class Command(BaseCommand):
         # return
 
         card_fields = ["name", "faction", "image_url", "set"]
-        if "main_effect_temp" in card_dict:
-            card_fields += ["main_effect_temp"]
-        if "echo_effect_temp" in card_dict:
-            card_fields += ["echo_effect_temp"]
+        if "main_effect" in card_dict:
+            card_fields += ["main_effect"]
+        if "echo_effect" in card_dict:
+            card_fields += ["echo_effect"]
 
         if card_obj.type == Card.Type.HERO:
             stats_fields = ["reserve_count", "permanent_count"]

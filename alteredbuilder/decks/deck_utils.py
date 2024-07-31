@@ -260,8 +260,8 @@ def parse_query_syntax(query):
     if matches := re.finditer(x_regex, query, re.ASCII):
         for re_match in matches:
             value = re_match.group("effect")
-            filters &= Q(main_effect_temp__icontains=value) | Q(
-                echo_effect_temp__icontains=value
+            filters &= Q(main_effect__icontains=value) | Q(
+                echo_effect__icontains=value
             )
             tags.append((_("ability"), ":", value))
         query = re.sub(x_regex, "", query)
@@ -274,9 +274,9 @@ def parse_query_syntax(query):
                 trigger = re_match.group("trigger")
                 value = TRIGGER_TRANSLATION[trigger]
                 if trigger == "discard":
-                    filters &= Q(echo_effect_temp__contains=value)
+                    filters &= Q(echo_effect__contains=value)
                 else:
-                    filters &= Q(main_effect_temp__contains=value)
+                    filters &= Q(main_effect__contains=value)
                 tags.append((_("trigger"), ":", trigger))
             except KeyError:
                 continue

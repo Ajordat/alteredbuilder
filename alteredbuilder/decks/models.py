@@ -28,7 +28,7 @@ class CardManager(models.Manager):
             type=Card.Type.HERO,
             image_url=image_url,
             set=card_set,
-            main_effect_temp=main_effect,
+            main_effect=main_effect,
             stats={"reserve_count": reserve_count, "permanent_count": permanent_count},
         )
 
@@ -66,8 +66,8 @@ class CardManager(models.Manager):
             rarity=rarity,
             image_url=image_url,
             set=card_set,
-            main_effect_temp=main_effect,
-            echo_effect_temp=echo_effect,
+            main_effect=main_effect,
+            echo_effect=echo_effect,
             stats=stats,
         )
 
@@ -122,8 +122,8 @@ class Card(models.Model):
     image_url = models.URLField(null=False, blank=True)
     set = models.ForeignKey(Set, null=True, on_delete=models.SET_NULL)
 
-    main_effect_temp = models.TextField(blank=True)
-    echo_effect_temp = models.TextField(blank=True)
+    main_effect = models.TextField(blank=True)
+    echo_effect = models.TextField(blank=True)
 
     stats = models.JSONField(blank=True, default=dict)
 

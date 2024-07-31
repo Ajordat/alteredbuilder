@@ -153,16 +153,16 @@ class CardAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
             "image_url",
             "stats",
         ]
-        i18n_fields = ["name", "image_url", "main_effect_temp"]
+        i18n_fields = ["name", "image_url", "main_effect"]
 
         if obj.type == Card.Type.HERO:
-            base_fieldset += ["main_effect_temp"]
+            base_fieldset += ["main_effect"]
         else:
             base_fieldset += [
-                "main_effect_temp",
-                "echo_effect_temp",
+                "main_effect",
+                "echo_effect",
             ]
-            i18n_fields += ["echo_effect_temp"]
+            i18n_fields += ["echo_effect"]
 
         fieldsets = [
             (
