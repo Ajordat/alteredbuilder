@@ -172,6 +172,31 @@ class Deck(models.Model, HitCountMixin):
         ]
 
 
+class TempDeck(models.Model):
+    owner_id = models.IntegerField()
+    name = models.CharField(max_length=50)
+    description = models.TextField(blank=True, max_length=2500)
+    hero_id = models.CharField(max_length=32,  null=True)
+    is_public = models.BooleanField(default=False)
+
+    is_standard_legal = models.BooleanField(null=True)
+    standard_legality_errors = models.JSONField(default=list, blank=True)
+    is_draft_legal = models.BooleanField(null=True)
+    draft_legality_errors = models.JSONField(default=list, blank=True)
+    is_exalts_legal = models.BooleanField(null=True)
+
+    love_count = models.PositiveIntegerField(default=0)
+    comment_count = models.PositiveIntegerField(default=0)
+    hit_count_generic = GenericRelation(
+        HitCount,
+        object_id_field="object_pk",
+        related_query_name="hit_count_generic_relation",
+    )
+
+    modified_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
 class CardInDeck(models.Model):
     deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
