@@ -5,7 +5,7 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.db.models import Exists, F, OuterRef, Q, Subquery
+from django.db.models import Exists, F, OuterRef, Q
 from django.db.models.functions import Coalesce
 from django.db.models.manager import Manager
 from django.db.models.query import QuerySet
@@ -696,19 +696,11 @@ class CardListView(ListView):
                 # Due to the unique 1-to-1 relationship of the Card types, it is needed
                 # to use Coalesce to try and order by different fields
                 if clean_order_param == "mana":
-                    fields = (
-                        "character__main_cost",
-                        "spell__main_cost",
-                        "permanent__main_cost",
-                    )
+                    fields = "stats__main_cost"
                 else:
-                    fields = (
-                        "character__recall_cost",
-                        "spell__recall_cost",
-                        "permanent__recall_cost",
-                    )
+                    fields = "stats__recall_cost"
 
-                mana_order = Coalesce(*fields)
+                mana_order = F(fields)
                 if desc:
                     mana_order = mana_order.desc()
                 query_order = [mana_order]

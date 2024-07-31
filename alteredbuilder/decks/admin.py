@@ -7,15 +7,11 @@ from django.http import HttpRequest
 from .models import (
     Card,
     CardInDeck,
-    Character,
     Comment,
     Deck,
-    Hero,
     LovePoint,
-    Permanent,
     PrivateLink,
     Set,
-    Spell,
 )
 
 
@@ -119,14 +115,13 @@ class DeckAdmin(admin.ModelAdmin):
             )
 
 
-@admin.register(Character)
-@admin.register(Hero)
-@admin.register(Permanent)
-@admin.register(Spell)
+@admin.register(Card)
 class CardAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
     list_display = ["reference", "name", "rarity", "faction", "set"]
     search_fields = ["reference", "name"]
     list_display_links = ["reference", "name"]
+    list_filter = ["type", "faction", "rarity", "set"]
+    show_facets = admin.ShowFacets.ALWAYS
 
     def get_fieldsets(
         self, request: HttpRequest, obj: Card
@@ -140,20 +135,18 @@ class CardAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
             "type",
             "rarity",
             "image_url",
+            "stats",
         ]
-        i18n_fields = ["name", "image_url", "main_effect"]
+        i18n_fields = ["name", "image_url", "main_effect_temp"]
 
         if obj.type == Card.Type.HERO:
-            base_fieldset += [("reserve_count", "permanent_count"), "main_effect"]
+            base_fieldset += ["main_effect_temp"]
         else:
-            if obj.type == Card.Type.CHARACTER:
-                base_fieldset += [("forest_power", "mountain_power", "ocean_power")]
             base_fieldset += [
-                ("main_cost", "recall_cost"),
-                "main_effect",
-                "echo_effect",
+                "main_effect_temp",
+                "echo_effect_temp",
             ]
-            i18n_fields += ["echo_effect"]
+            i18n_fields += ["echo_effect_temp"]
 
         fieldsets = [
             (
@@ -194,7 +187,7 @@ class PrivateLinkAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
 
 
 @admin.register(Set)
-class SetAdmin(admin.ModelAdmin):
+class SetAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
     list_display = ["name", "short_name", "code", "reference_code"]
 
 

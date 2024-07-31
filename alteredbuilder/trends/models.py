@@ -1,6 +1,6 @@
 from django.db import models
 
-from decks.models import Card, Hero
+from decks.models import Card
 
 
 class FactionTrend(models.Model):
@@ -15,7 +15,7 @@ class FactionTrend(models.Model):
 
 
 class HeroTrend(models.Model):
-    hero = models.ForeignKey(Hero, on_delete=models.CASCADE)
+    hero = models.ForeignKey(Card, on_delete=models.CASCADE)
 
     count = models.PositiveIntegerField(default=0)
     day_count = models.PositiveIntegerField(default=7)

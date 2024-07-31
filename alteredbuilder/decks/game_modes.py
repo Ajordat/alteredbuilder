@@ -194,9 +194,7 @@ def update_deck_legality(deck: Deck) -> None:
     factions = [deck.hero.faction] if deck.hero else []
     family_count = defaultdict(int)
 
-    decklist = (
-        deck.cardindeck_set.select_related("card").order_by("card__reference").all()
-    )
+    decklist = deck.cardindeck_set.select_related("card").all()
 
     for cid in decklist:
         total_count += cid.quantity

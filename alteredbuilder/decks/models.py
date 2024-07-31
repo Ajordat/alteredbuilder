@@ -9,6 +9,69 @@ from hitcount.models import HitCount, HitCountMixin
 ALTERED_TCG_URL = "https://www.altered.gg"
 
 
+class CardManager(models.Manager):
+    def create_hero(
+        self,
+        reference,
+        name,
+        faction,
+        image_url=None,
+        card_set=None,
+        main_effect=None,
+        reserve_count=2,
+        permanent_count=2,
+    ):
+        return self.create(
+            reference=reference,
+            name=name,
+            faction=faction,
+            type=Card.Type.HERO,
+            image_url=image_url,
+            set=card_set,
+            main_effect_temp=main_effect,
+            stats={"reserve_count": reserve_count, "permanent_count": permanent_count},
+        )
+
+    def create_card(
+        self,
+        reference,
+        name,
+        type,
+        faction,
+        rarity,
+        image_url=None,
+        card_set=None,
+        main_effect=None,
+        echo_effect=None,
+        main_cost=0,
+        recall_cost=0,
+        forest_power=0,
+        mountain_power=0,
+        ocean_power=0,
+    ):
+        stats = {"main_cost": main_cost, "recall_cost": recall_cost}
+        if type == Card.Type.CHARACTER:
+            stats.update(
+                {
+                    "forest_power": forest_power,
+                    "mountain_power": mountain_power,
+                    "ocean_power": ocean_power,
+                }
+            )
+        return self.create(
+            reference=reference,
+            name=name,
+            faction=faction,
+            type=type,
+            rarity=rarity,
+            image_url=image_url,
+            set=card_set,
+            main_effect_temp=main_effect,
+            echo_effect_temp=echo_effect,
+            stats=stats,
+        )
+
+
 class Set(models.Model):
     name = models.CharField(null=False, blank=False, unique=True)
     short_name = models.CharField(null=False, blank=False, unique=True)
@@ -37,15 +100,6 @@ class Card(models.Model):
         HERO = "hero"
         TOKEN_MANA = "token_mana"
 
-        @staticmethod
-        def to_class(type):
-            return {
-                Card.Type.HERO: Hero,
-                Card.Type.CHARACTER: Character,
-                Card.Type.SPELL: Spell,
-                Card.Type.PERMANENT: Permanent,
-            }[type]
-
     class Rarity(models.TextChoices):
         COMMON = "C", "common"
         RARE = "R", "rare"
@@ -59,6 +113,13 @@ class Card(models.Model):
     image_url = models.URLField(null=False, blank=True)
     set = models.ForeignKey(Set, null=True, on_delete=models.SET_NULL)
 
+    main_effect_temp = models.TextField(blank=True)
+    echo_effect_temp = models.TextField(blank=True)
+
+    stats = models.JSONField(blank=True, default=dict)
+
+    objects = CardManager()
+
     def __str__(self) -> str:
         return f"[{self.faction}] - {self.name} ({self.rarity})"
 
@@ -68,51 +129,11 @@ class Card(models.Model):
     def get_family_code(self):
         return "_".join(self.reference.split("_")[3:5])
 
-    class Meta:
-        ordering = ["reference"]
-
-
-class Hero(Card):
-    reserve_count = models.SmallIntegerField(default=2)
-    permanent_count = models.SmallIntegerField(default=2)
-    main_effect = models.TextField(blank=True)
-
-    def is_promo(self) -> bool:
-        return "_P_" in self.reference
-
-    def __str__(self) -> str:
-        return f"{self.reference} - {self.name}"
-
-    class Meta:
-        verbose_name_plural = "heroes"
-
-
-class PlayableCard(Card):
-    class Meta:
-        abstract = True
-
-    main_cost = models.SmallIntegerField()
-    recall_cost = models.SmallIntegerField()
-
-    main_effect = models.TextField(blank=True)
-    echo_effect = models.TextField(blank=True)
-
-
-class Character(PlayableCard):
-    forest_power = models.SmallIntegerField()
-    mountain_power = models.SmallIntegerField()
-    ocean_power = models.SmallIntegerField()
-
     def is_oof(self) -> bool:
         return f"_{self.faction}_" not in self.reference
 
-
-class Spell(PlayableCard):
-    pass
-
-
-class Permanent(PlayableCard):
-    pass
+    class Meta:
+        ordering = ["reference"]
 
 
 class Deck(models.Model, HitCountMixin):
@@ -120,7 +141,7 @@ class Deck(models.Model, HitCountMixin):
     name = models.CharField(max_length=50)
     description = models.TextField(blank=True, max_length=2500)
     cards = models.ManyToManyField(Card, through="CardInDeck", related_name="decks")
-    hero = models.ForeignKey(Hero, blank=True, null=True, on_delete=models.SET_NULL)
+    hero = models.ForeignKey(Card, blank=True, null=True, on_delete=models.SET_NULL)
     is_public = models.BooleanField(default=False)
 
     is_standard_legal = models.BooleanField(null=True)

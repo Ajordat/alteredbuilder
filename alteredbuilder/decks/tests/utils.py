@@ -3,7 +3,6 @@ from contextlib import contextmanager
 from http import HTTPStatus
 import logging
 from random import randint
-from typing import Union
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -11,7 +10,7 @@ from django.http import HttpResponse
 from django.test import TestCase
 from django.urls import reverse
 
-from decks.models import Card, CardInDeck, Character, Deck, Hero, Permanent, Spell
+from decks.models import Card, CardInDeck, Deck
 
 
 def get_id() -> Generator[int, None, None]:
@@ -30,8 +29,10 @@ get_id = get_id()
 
 
 def generate_card(
-    faction: Card.Faction, card_type: Card.Type, rarity: Card.Rarity
-) -> Union[Hero, Character, Spell, Permanent]:
+    faction: Card.Faction,
+    card_type: Card.Type,
+    rarity: Card.Rarity = Card.Rarity.COMMON,
+) -> Card:
     """Generate a new card from a Faction, Type and Rarity.
 
     Args:
@@ -40,9 +41,11 @@ def generate_card(
         rarity (Card.Rarity): Rarity of the card.
 
     Returns:
-        Union[Hero, Character, Spell, Permanent]: Created card.
+        Card: Created card.
     """
     card_id = next(get_id)
+    if card_type == Card.Type.HERO:
+        rarity = Card.Rarity.COMMON
     data = {
         "reference": f"ALT_CORE_B_{faction.value}_{card_id}_{rarity.value}",
         "name": f"{card_type.value} card {card_id}",
@@ -56,19 +59,19 @@ def generate_card(
     }
     match card_type:
         case Card.Type.HERO:
-            card = Hero.objects.create(**data)
+            card = Card.objects.create_hero(
+                reference=data["reference"], name=data["name"], faction=faction
+            )
         case Card.Type.CHARACTER:
-            card = Character.objects.create(
+            card = Card.objects.create_card(
                 **data,
                 **cost,
                 forest_power=randint(0, 10),
                 mountain_power=randint(0, 10),
                 ocean_power=randint(0, 10),
             )
-        case Card.Type.SPELL:
-            card = Spell.objects.create(**data, **cost)
-        case Card.Type.PERMANENT:
-            card = Permanent.objects.create(**data, **cost)
+        case Card.Type.SPELL | Card.Type.PERMANENT:
+            card = Card.objects.create_card(**data, **cost)
 
     return card
 
@@ -237,12 +240,12 @@ class BaseViewTestCase(TestCase):
         cls.create_decks_for_user(cls.other_user, hero, [character, spell, permanent])
 
     @classmethod
-    def create_decks_for_user(cls, user: User, hero: Hero, cards: list[Card]):
+    def create_decks_for_user(cls, user: User, hero: Card, cards: list[Card]):
         """Create a public and a private deck based on the received parameters.
 
         Args:
             user (User): The owner of the decks.
-            hero (Hero): The Deck's Hero.
+            hero (Card): The Deck's Hero.
             cards (list[Card]): The Deck's cards.
         """
         public_deck = Deck.objects.create(
@@ -278,7 +281,7 @@ class BaseFormTestCase(TestCase):
         cls.user = User.objects.create_user(username=cls.USER_NAME)
         other_user = User.objects.create_user(username=cls.OTHER_USER)
 
-        Hero.objects.create(
+        Card.objects.create(
             reference=cls.HERO_REFERENCE,
             name="Sierra & Oddball",
             faction=Card.Faction.AXIOM,
@@ -286,7 +289,7 @@ class BaseFormTestCase(TestCase):
             rarity=Card.Rarity.COMMON,
         )
         generate_card(Card.Faction.AXIOM, Card.Type.HERO, Card.Rarity.COMMON)
-        Character.objects.create(
+        Card.objects.create_card(
             reference=cls.CHARACTER_REFERENCE,
             name="Yzmir Stargazer",
             faction=Card.Faction.AXIOM,
@@ -295,7 +298,7 @@ class BaseFormTestCase(TestCase):
             main_cost=1,
             recall_cost=1,
             forest_power=1,
-            mountain_power=2,
+            mountain_power=1,
             ocean_power=1,
         )
         Deck.objects.create(owner=cls.user, name=cls.DECK_NAME)

@@ -29,32 +29,6 @@ def get_row_color_from_rarity(rarity: str) -> str:
 
 
 @register.simple_tag
-def get_main_cost(card: Card) -> int:
-    """Receive a Card object and return its hand cost.
-
-    Args:
-        card (Card): Card to retrieve the hand cost from.
-
-    Returns:
-        int: The Card's hand cost.
-    """
-    return getattr(card, card.type).main_cost
-
-
-@register.simple_tag
-def get_recall_cost(card: Card) -> int:
-    """Receive a Card object and return its reserve cost.
-
-    Args:
-        card (Card): Card to retrieve the reserve cost from.
-
-    Returns:
-        int: The Card's reserve cost.
-    """
-    return getattr(card, card.type).recall_cost
-
-
-@register.simple_tag
 def inject_params(get_params: dict, **kwargs) -> str:
     """Receives the parameters of a GET request, filters them and injects the values
     received as named parameters and returns a string to be used as GET params.
