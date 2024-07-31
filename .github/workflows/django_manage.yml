@@ -4,15 +4,19 @@ on:
   workflow_dispatch:
     inputs:
       collectstatic:
-        description: Force the deployment of the static files to GCS
+        description: Force static collection
         required: true
         type: boolean
         default: false
       migrate:
-        description: Force the DB migration
+        description: Force DB migration
         required: true
         type: boolean
         default: false
+      migration_params:
+        description: Specify the app and migration number
+        required: false
+        type: string
 
 env:
   DEBUG: False
