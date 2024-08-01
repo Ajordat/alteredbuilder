@@ -2,8 +2,8 @@ name: Nginx CICD
 
 on:
   push:
-    branches:
-    - master
+    # branches:
+    # - master
     paths:
     - "nginx/**"
     - ".github/workflows/nginx_cicd.yml"
@@ -16,12 +16,36 @@ defaults:
     working-directory: ./nginx
 
 jobs:
-  build_and_push_image:
-    name: Build and push the image
+  build_image:
+    name: Build the image
     runs-on: ubuntu-22.04
     steps:
+
     - name: Checkout
       uses: actions/checkout@v4
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    - name: Build and export
+      uses: docker/build-push-action@v6
+      with:
+        tags: ${{ vars.NGINX_AR_REPOSITORY }}/${{ env.IMAGE_NAME }}
+        outputs: type=docker,dest=/tmp/${{ env.IMAGE_NAME }}.tar
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.IMAGE_NAME }}
+        path: /tmp/${{ env.IMAGE_NAME }}.tar
+  
+  push_image:
+    name: Push the image
+    needs: build_image
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.IMAGE_NAME }}
+        path: /tmp
     - name: Authenticate into GCP
       id: auth
       uses: google-github-actions/auth@v2
@@ -31,37 +55,58 @@ jobs:
       uses: google-github-actions/setup-gcloud@v2
     - name: Set up docker
       run: gcloud auth configure-docker ${{ vars.NGINX_REGION }}-docker.pkg.dev --quiet
-    - name: Build image
-      run: docker build . --tag ${{ vars.NGINX_AR_REPOSITORY }}/${{ env.IMAGE_NAME }}
-    - name: Push image
-      run: docker push ${{ vars.NGINX_AR_REPOSITORY }}/${{ env.IMAGE_NAME }}
+    - name: Load image
+      run: |
+        docker load --input /tmp/${{ env.IMAGE_NAME }}.tar
+        docker push ${{ vars.NGINX_AR_REPOSITORY }}/${{ env.IMAGE_NAME }}
+        
+      
+  # build_and_push_image:
+  #   name: Build and push the image
+  #   runs-on: ubuntu-22.04
+  #   steps:
+  #   - name: Checkout
+  #     uses: actions/checkout@v4
+  #   - name: Authenticate into GCP
+  #     id: auth
+  #     uses: google-github-actions/auth@v2
+  #     with:
+  #       credentials_json: ${{ secrets.GCP_GITHUB_SA }}
+  #   - name: Set up gcloud
+  #     uses: google-github-actions/setup-gcloud@v2
+  #   - name: Set up docker
+  #     run: gcloud auth configure-docker ${{ vars.NGINX_REGION }}-docker.pkg.dev --quiet
+  #   - name: Build image
+  #     run: docker build . --tag ${{ vars.NGINX_AR_REPOSITORY }}/${{ env.IMAGE_NAME }}
+  #   - name: Push image
+  #     run: docker push ${{ vars.NGINX_AR_REPOSITORY }}/${{ env.IMAGE_NAME }}
 
-  deploy:
-    name: Deploy to Cloud Run
-    needs: [build_and_push_image]
-    runs-on: ubuntu-22.04
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Authenticate into GCP
-      id: auth
-      uses: google-github-actions/auth@v2
-      with:
-        credentials_json: ${{ secrets.GCP_GITHUB_SA }}
-    - name: Deploy to Cloud Run
-      uses: google-github-actions/deploy-cloudrun@v2
-      with:
-        project_id: ${{ vars.GCP_PROJECT }}
-        region: ${{ vars.NGINX_REGION }}
-        service: ${{ vars.CLOUD_RUN_SERVICE_NAME }}
-        image: ${{ vars.NGINX_AR_REPOSITORY }}/${{ env.IMAGE_NAME }}
-        flags: |
-          --platform=managed
-          --port=8000
-          --allow-unauthenticated
-          --service-account=${{ vars.CLOUD_RUN_SA_NAME }}
-          --cpu=1000m
-          --memory=128Mi
+  # deploy:
+  #   name: Deploy to Cloud Run
+  #   needs: [build_and_push_image]
+  #   runs-on: ubuntu-22.04
+  #   permissions:
+  #     contents: 'read'
+  #     id-token: 'write'
+  #   steps:
+  #   - name: Checkout
+  #     uses: actions/checkout@v4
+  #   - name: Authenticate into GCP
+  #     id: auth
+  #     uses: google-github-actions/auth@v2
+  #     with:
+  #       credentials_json: ${{ secrets.GCP_GITHUB_SA }}
+  #   - name: Deploy to Cloud Run
+  #     uses: google-github-actions/deploy-cloudrun@v2
+  #     with:
+  #       project_id: ${{ vars.GCP_PROJECT }}
+  #       region: ${{ vars.NGINX_REGION }}
+  #       service: ${{ vars.CLOUD_RUN_SERVICE_NAME }}
+  #       image: ${{ vars.NGINX_AR_REPOSITORY }}/${{ env.IMAGE_NAME }}
+  #       flags: |
+  #         --platform=managed
+  #         --port=8000
+  #         --allow-unauthenticated
+  #         --service-account=${{ vars.CLOUD_RUN_SA_NAME }}
+  #         --cpu=1000m
+  #         --memory=128Mi
