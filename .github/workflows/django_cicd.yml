@@ -52,7 +52,7 @@ jobs:
     - name: Build and export
       uses: docker/build-push-action@v6
       with:
-        # context: nginx
+        context: alteredbuilder
         tags: ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
         outputs: type=docker,dest=/tmp/${{ vars.CLOUD_RUN_SERVICE_NAME }}.tar
     - name: Upload artifact
