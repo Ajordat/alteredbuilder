@@ -9,6 +9,7 @@ def init_models(apps):
 
 
 def link_cards_to_sets(apps, schema_editor):
+    init_models(apps)
 
     card_set = Set.objects.get(code="COREP")
 
