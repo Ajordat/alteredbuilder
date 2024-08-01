@@ -627,8 +627,7 @@ class CardListView(ListView):
         # Retrieve the text query and search by name
         query = self.request.GET.get("query")
         if query:
-            query_filters, query_tags = parse_query_syntax(query)
-            filters &= query_filters
+            qs, query_tags = parse_query_syntax(qs, query)
             self.query_tags = query_tags
         else:
             self.query_tags = None

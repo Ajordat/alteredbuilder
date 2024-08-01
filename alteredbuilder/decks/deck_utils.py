@@ -3,11 +3,11 @@ import re
 
 from django.contrib.auth.models import User
 from django.db import transaction
-from django.db.models import F, Q
+from django.db.models import Exists, F, OuterRef, Q
 from django.utils.translation import gettext_lazy as _
 
 from .game_modes import DraftGameMode, GameMode, StandardGameMode, update_deck_legality
-from .models import Card, CardInDeck, Deck
+from .models import Card, CardInDeck, Deck, Subtype
 from .exceptions import MalformedDeckException
 
 
@@ -212,7 +212,7 @@ def remove_card_from_deck(deck, reference):
         cid.delete()
 
 
-def parse_query_syntax(query):
+def parse_query_syntax(qs, query):
     filters = Q()
     hc_regex = r"hc(?P<hc_op>:|=|>|>=|<|<=)(?P<hc>\d+)"
     tags = []
@@ -260,11 +260,22 @@ def parse_query_syntax(query):
     if matches := re.finditer(x_regex, query, re.ASCII):
         for re_match in matches:
             value = re_match.group("effect")
-            filters &= Q(main_effect__icontains=value) | Q(
-                echo_effect__icontains=value
-            )
+            filters &= Q(main_effect__icontains=value) | Q(echo_effect__icontains=value)
             tags.append((_("ability"), ":", value))
         query = re.sub(x_regex, "", query)
+
+    st_regex = r"st:(?P<subtype>\w+)"
+
+    if matches := re.finditer(st_regex, query, re.ASCII):
+        for re_match in matches:
+            value = re_match.group("subtype")
+            qs = qs.filter(
+                Exists(
+                    Subtype.objects.filter(card=OuterRef("pk"), name__icontains=value)
+                )
+            )
+            tags.append((_("subtype"), ":", value))
+        query = re.sub(st_regex, "", query)
 
     t_regex = r"t:(?P<trigger>\w+)"
 
@@ -283,8 +294,9 @@ def parse_query_syntax(query):
         query = re.sub(t_regex, "", query)
 
     query = query.strip()
+    # print(qs)
     if query:
         tags.append((_("query"), ":", query))
-        return filters & Q(name__icontains=query), tags
+        return qs.filter(filters & Q(name__icontains=query)), tags
     else:
-        return filters, tags
+        return qs.filter(filters), tags
