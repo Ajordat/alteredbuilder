@@ -25,7 +25,7 @@ jobs:
     - name: Build and export
       uses: docker/build-push-action@v6
       with:
-        context: .
+        context: ${{ github.workspace }}
         tags: ${{ vars.NGINX_AR_REPOSITORY }}/${{ env.IMAGE_NAME }}
         outputs: type=docker,dest=/tmp/${{ env.IMAGE_NAME }}.tar
     - name: Upload artifact
