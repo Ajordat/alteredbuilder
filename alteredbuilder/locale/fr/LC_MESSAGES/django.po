@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-31 23:25+0200\n"
+"POT-Creation-Date: 2024-08-01 12:31+0200\n"
 "PO-Revision-Date: 2024-05-22 18:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -69,7 +69,7 @@ msgstr "coût de main"
 msgid "reserve cost"
 msgstr "coût de réserve"
 
-#: decks/deck_utils.py:266
+#: decks/deck_utils.py:264
 msgid "ability"
 msgstr "capacité"
 
@@ -143,18 +143,18 @@ msgstr "Recherche de cartes"
 
 #: decks/templates/decks/card_list.html:32
 #: decks/templates/decks/card_list.html:82
-#: decks/templates/decks/deck_list.html:23
-#: decks/templates/decks/deck_list.html:69
+#: decks/templates/decks/deck_list.html:25
+#: decks/templates/decks/deck_list.html:71
 msgid "Search"
 msgstr "Rechercher"
 
 #: decks/templates/decks/card_list.html:41
-#: decks/templates/decks/deck_list.html:30
+#: decks/templates/decks/deck_list.html:32
 msgid "Filters"
 msgstr "Filtres"
 
 #: decks/templates/decks/card_list.html:49
-#: decks/templates/decks/deck_list.html:38
+#: decks/templates/decks/deck_list.html:40
 msgid "Factions"
 msgstr "Factions"
 
@@ -345,7 +345,7 @@ msgstr "Decklist"
 #: decks/templates/decks/snippets/public_deck_table.html:11
 #: decks/templates/forms/submit_deck_metadata.html:8
 #: decks/templates/forms/submit_decklist.html:7
-#: trends/templates/trends/home.html:36
+#: trends/templates/trends/home.html:35
 msgid "Name"
 msgstr "Nom"
 
@@ -434,7 +434,7 @@ msgid "Notes"
 msgstr "Notes"
 
 #: decks/templates/decks/deck_detail.html:248
-#: decks/templates/decks/deck_list.html:48
+#: decks/templates/decks/deck_list.html:50
 #: decks/templates/decks/tooltips/legality.html:5
 msgid "Standard"
 msgstr ""
@@ -465,7 +465,7 @@ msgstr ""
 "3 uniques par 3 rares supplémentaires."
 
 #: decks/templates/decks/deck_detail.html:272
-#: decks/templates/decks/deck_list.html:50
+#: decks/templates/decks/deck_list.html:52
 msgid "Draft"
 msgstr ""
 
@@ -542,39 +542,35 @@ msgid "%(time_since)s ago"
 msgstr "Il y a %(time_since)s"
 
 #: decks/templates/decks/deck_list.html:7
-#: decks/templates/decks/deck_list.html:8 templates/base.html:53
-#: trends/templates/trends/home.html:7 trends/templates/trends/home.html:8
-msgid "Home"
-msgstr "Accueil"
-
-#: decks/templates/decks/deck_list.html:18
+#: decks/templates/decks/deck_list.html:8
+#: decks/templates/decks/deck_list.html:20
 msgid "Latest decks"
 msgstr "Derniers decks"
 
-#: decks/templates/decks/deck_list.html:22
+#: decks/templates/decks/deck_list.html:24
 msgid "Search by deck or hero name"
 msgstr "Rechercher par deck ou héros"
 
-#: decks/templates/decks/deck_list.html:47
+#: decks/templates/decks/deck_list.html:49
 #: decks/templates/decks/own_deck_list.html:27
 #: decks/templates/decks/snippets/public_deck_table.html:16
 msgid "Legality"
 msgstr "Légalité"
 
-#: decks/templates/decks/deck_list.html:49
+#: decks/templates/decks/deck_list.html:51
 msgid "ExAlts"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:53
+#: decks/templates/decks/deck_list.html:55
 msgid "Other"
 msgstr "Autre"
 
-#: decks/templates/decks/deck_list.html:57
-#: decks/templates/decks/deck_list.html:61
+#: decks/templates/decks/deck_list.html:59
+#: decks/templates/decks/deck_list.html:63
 msgid "Loved"
 msgstr "Adoré"
 
-#: decks/templates/decks/deck_list.html:59
+#: decks/templates/decks/deck_list.html:61
 msgid "Login to save your loved decks!"
 msgstr "Connectez-vous pour sauvegarder<br> vos decks préférés !"
 
@@ -649,12 +645,14 @@ msgstr "Coût de main :"
 #: decks/templates/decks/tooltips/query_search.html:13
 #: decks/templates/decks/tooltips/query_search.html:17
 #: decks/templates/decks/tooltips/query_search.html:21
+#: decks/templates/decks/tooltips/query_search.html:25
 msgid "Operators:"
 msgstr "Opérateurs :"
 
 #: decks/templates/decks/tooltips/query_search.html:10
 #: decks/templates/decks/tooltips/query_search.html:14
 #: decks/templates/decks/tooltips/query_search.html:18
+#: decks/templates/decks/tooltips/query_search.html:26
 msgid "Value:"
 msgstr "Valeur :"
 
@@ -672,6 +670,7 @@ msgid "Abilities:"
 msgstr "Capacités :"
 
 #: decks/templates/decks/tooltips/query_search.html:18
+#: decks/templates/decks/tooltips/query_search.html:26
 msgid "Single word"
 msgstr "Un seul mot"
 
@@ -683,15 +682,23 @@ msgstr "Déclencheurs :"
 msgid "Values:"
 msgstr "Valeurs :"
 
-#: decks/templates/decks/tooltips/query_search.html:25
+#: decks/templates/decks/tooltips/query_search.html:24
+msgid "Subtypes:"
+msgstr "Sous-types :"
+
+#: decks/templates/decks/tooltips/query_search.html:29
 msgid "Examples:"
 msgstr "Exemples :"
 
-#: decks/templates/decks/tooltips/query_search.html:27
-msgid "Search cards that cost <span class=\"altered-3\"></span>:"
-msgstr "Chercher des cartes qui coûtent <span class=\"altered-3\"></span> :"
+#: decks/templates/decks/tooltips/query_search.html:31
+msgid "Search bureaucrat cards that cost <span class=\"altered-3\"></span>:"
+msgstr "Recherchez les cartes de bureaucrates qui coûtent <span class=\"altered-3\"></span> :"
 
-#: decks/templates/decks/tooltips/query_search.html:30
+#: decks/templates/decks/tooltips/query_search.html:32
+msgid "st:bureaucrat hc=3"
+msgstr "st:bureaucrate hc=3"
+
+#: decks/templates/decks/tooltips/query_search.html:34
 msgid ""
 "Search cards with `training` in their name that cost <span "
 "class=\"altered-2\"></span>:"
@@ -699,11 +706,11 @@ msgstr ""
 "Chercher les cartes avec « scarabot » dans leur nom qui coûtent <span "
 "class=\"altered-2\"></span> :"
 
-#: decks/templates/decks/tooltips/query_search.html:31
+#: decks/templates/decks/tooltips/query_search.html:35
 msgid "training"
 msgstr "scarabot"
 
-#: decks/templates/decks/tooltips/query_search.html:33
+#: decks/templates/decks/tooltips/query_search.html:37
 msgid ""
 "Search cards that cost between <span class=\"altered-3\"></span> and <span "
 "class=\"altered-5\"></span> (inclusive):"
@@ -711,11 +718,11 @@ msgstr ""
 "Rechercher les cartes dont le coût est compris entre <span "
 "class=\"altered-3\"></span> et <span class=\"altered-5\"></span> (inclus) :"
 
-#: decks/templates/decks/tooltips/query_search.html:34
+#: decks/templates/decks/tooltips/query_search.html:38
 msgid "OR"
 msgstr "OU"
 
-#: decks/templates/decks/tooltips/query_search.html:36
+#: decks/templates/decks/tooltips/query_search.html:40
 msgid ""
 "Search cards with `anchor` abilities that cost <span class=\"altered-3\"></"
 "span> or less from reserve:"
@@ -723,11 +730,11 @@ msgstr ""
 "Chercher des cartes avec des capacités « sabotez » avec un coût de réserve "
 "de <span class=\"altered-3\"></span> ou moins :"
 
-#: decks/templates/decks/tooltips/query_search.html:37
+#: decks/templates/decks/tooltips/query_search.html:41
 msgid "anchor"
 msgstr "sabotez"
 
-#: decks/templates/decks/tooltips/query_search.html:39
+#: decks/templates/decks/tooltips/query_search.html:43
 msgid ""
 "Search cards that trigger when played from the hand (<span class=\"altered-"
 "hand\"></span>) and that can be discarded (<span class=\"altered-discard\"></"
@@ -808,6 +815,10 @@ msgstr "Carte non trouvée"
 #: decks/views.py:459 decks/views.py:486
 msgid "Comment not found"
 msgstr "Commentaire non trouvé"
+
+#: templates/base.html:53
+msgid "Home"
+msgstr "Accueil"
 
 #: templates/base.html:57
 msgid "Decks"
@@ -907,11 +918,11 @@ msgid ""
 "An error occurred while attempting to login via your third-party account."
 msgstr ""
 
-#: trends/templates/trends/home.html:19
+#: trends/templates/trends/home.html:18
 msgid "Trends from the last 7 days"
 msgstr "Tendances des 7 derniers jours"
 
-#: trends/templates/trends/home.html:20
+#: trends/templates/trends/home.html:19
 msgid ""
 "The statistics are extracted daily from the public legal decks modified "
 "within the last 7 days.<br>Click on the faction and hero pie charts to "
@@ -921,19 +932,19 @@ msgstr ""
 "valides des 7 derniers jours.<br>Cliquez sur le graphique circulaire de "
 "faction ou de héros pour affiner les résultats !"
 
-#: trends/templates/trends/home.html:23
+#: trends/templates/trends/home.html:22
 msgid "Popular Factions"
 msgstr "Factions Populaires"
 
-#: trends/templates/trends/home.html:27
+#: trends/templates/trends/home.html:26
 msgid "Popular Heroes"
 msgstr "Héros Populaires"
 
-#: trends/templates/trends/home.html:31
+#: trends/templates/trends/home.html:30
 msgid "Popular Cards"
 msgstr "Cartes populaires"
 
-#: trends/templates/trends/home.html:65
+#: trends/templates/trends/home.html:64
 msgid "Trending decks"
 msgstr "Decks tendances"
 

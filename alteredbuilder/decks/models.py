@@ -89,6 +89,9 @@ class Subtype(models.Model):
     def __str__(self) -> str:
         return self.reference
 
+    class Meta:
+        ordering = ["name"]
+
 
 # Create your models here.
 class Card(models.Model):

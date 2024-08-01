@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-31 23:25+0200\n"
+"POT-Creation-Date: 2024-08-01 12:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -68,7 +68,7 @@ msgstr ""
 msgid "reserve cost"
 msgstr ""
 
-#: decks/deck_utils.py:266
+#: decks/deck_utils.py:264
 msgid "ability"
 msgstr ""
 
@@ -140,18 +140,18 @@ msgstr ""
 
 #: decks/templates/decks/card_list.html:32
 #: decks/templates/decks/card_list.html:82
-#: decks/templates/decks/deck_list.html:23
-#: decks/templates/decks/deck_list.html:69
+#: decks/templates/decks/deck_list.html:25
+#: decks/templates/decks/deck_list.html:71
 msgid "Search"
 msgstr ""
 
 #: decks/templates/decks/card_list.html:41
-#: decks/templates/decks/deck_list.html:30
+#: decks/templates/decks/deck_list.html:32
 msgid "Filters"
 msgstr ""
 
 #: decks/templates/decks/card_list.html:49
-#: decks/templates/decks/deck_list.html:38
+#: decks/templates/decks/deck_list.html:40
 msgid "Factions"
 msgstr ""
 
@@ -342,7 +342,7 @@ msgstr ""
 #: decks/templates/decks/snippets/public_deck_table.html:11
 #: decks/templates/forms/submit_deck_metadata.html:8
 #: decks/templates/forms/submit_decklist.html:7
-#: trends/templates/trends/home.html:36
+#: trends/templates/trends/home.html:35
 msgid "Name"
 msgstr ""
 
@@ -431,7 +431,7 @@ msgid "Notes"
 msgstr ""
 
 #: decks/templates/decks/deck_detail.html:248
-#: decks/templates/decks/deck_list.html:48
+#: decks/templates/decks/deck_list.html:50
 #: decks/templates/decks/tooltips/legality.html:5
 msgid "Standard"
 msgstr ""
@@ -460,7 +460,7 @@ msgid ""
 msgstr ""
 
 #: decks/templates/decks/deck_detail.html:272
-#: decks/templates/decks/deck_list.html:50
+#: decks/templates/decks/deck_list.html:52
 msgid "Draft"
 msgstr ""
 
@@ -537,39 +537,35 @@ msgid "%(time_since)s ago"
 msgstr ""
 
 #: decks/templates/decks/deck_list.html:7
-#: decks/templates/decks/deck_list.html:8 templates/base.html:53
-#: trends/templates/trends/home.html:7 trends/templates/trends/home.html:8
-msgid "Home"
-msgstr ""
-
-#: decks/templates/decks/deck_list.html:18
+#: decks/templates/decks/deck_list.html:8
+#: decks/templates/decks/deck_list.html:20
 msgid "Latest decks"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:22
+#: decks/templates/decks/deck_list.html:24
 msgid "Search by deck or hero name"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:47
+#: decks/templates/decks/deck_list.html:49
 #: decks/templates/decks/own_deck_list.html:27
 #: decks/templates/decks/snippets/public_deck_table.html:16
 msgid "Legality"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:49
+#: decks/templates/decks/deck_list.html:51
 msgid "ExAlts"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:53
+#: decks/templates/decks/deck_list.html:55
 msgid "Other"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:57
-#: decks/templates/decks/deck_list.html:61
+#: decks/templates/decks/deck_list.html:59
+#: decks/templates/decks/deck_list.html:63
 msgid "Loved"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:59
+#: decks/templates/decks/deck_list.html:61
 msgid "Login to save your loved decks!"
 msgstr ""
 
@@ -644,12 +640,14 @@ msgstr ""
 #: decks/templates/decks/tooltips/query_search.html:13
 #: decks/templates/decks/tooltips/query_search.html:17
 #: decks/templates/decks/tooltips/query_search.html:21
+#: decks/templates/decks/tooltips/query_search.html:25
 msgid "Operators:"
 msgstr ""
 
 #: decks/templates/decks/tooltips/query_search.html:10
 #: decks/templates/decks/tooltips/query_search.html:14
 #: decks/templates/decks/tooltips/query_search.html:18
+#: decks/templates/decks/tooltips/query_search.html:26
 msgid "Value:"
 msgstr ""
 
@@ -667,6 +665,7 @@ msgid "Abilities:"
 msgstr ""
 
 #: decks/templates/decks/tooltips/query_search.html:18
+#: decks/templates/decks/tooltips/query_search.html:26
 msgid "Single word"
 msgstr ""
 
@@ -678,45 +677,53 @@ msgstr ""
 msgid "Values:"
 msgstr ""
 
-#: decks/templates/decks/tooltips/query_search.html:25
+#: decks/templates/decks/tooltips/query_search.html:24
+msgid "Subtypes:"
+msgstr ""
+
+#: decks/templates/decks/tooltips/query_search.html:29
 msgid "Examples:"
 msgstr ""
 
-#: decks/templates/decks/tooltips/query_search.html:27
-msgid "Search cards that cost <span class=\"altered-3\"></span>:"
+#: decks/templates/decks/tooltips/query_search.html:31
+msgid "Search bureaucrat cards that cost <span class=\"altered-3\"></span>:"
 msgstr ""
 
-#: decks/templates/decks/tooltips/query_search.html:30
+#: decks/templates/decks/tooltips/query_search.html:32
+msgid "st:bureaucrat hc=3"
+msgstr ""
+
+#: decks/templates/decks/tooltips/query_search.html:34
 msgid ""
 "Search cards with `training` in their name that cost <span "
 "class=\"altered-2\"></span>:"
 msgstr ""
 
-#: decks/templates/decks/tooltips/query_search.html:31
+#: decks/templates/decks/tooltips/query_search.html:35
 msgid "training"
 msgstr ""
 
-#: decks/templates/decks/tooltips/query_search.html:33
+#: decks/templates/decks/tooltips/query_search.html:37
 msgid ""
 "Search cards that cost between <span class=\"altered-3\"></span> and <span "
 "class=\"altered-5\"></span> (inclusive):"
 msgstr ""
 
-#: decks/templates/decks/tooltips/query_search.html:34
+#: decks/templates/decks/tooltips/query_search.html:38
 msgid "OR"
 msgstr ""
 
-#: decks/templates/decks/tooltips/query_search.html:36
+#: decks/templates/decks/tooltips/query_search.html:40
 msgid ""
 "Search cards with `anchor` abilities that cost <span class=\"altered-3\"></"
 "span> or less from reserve:"
 msgstr ""
 
-#: decks/templates/decks/tooltips/query_search.html:37
+#: decks/templates/decks/tooltips/query_search.html:41
 msgid "anchor"
 msgstr ""
 
-#: decks/templates/decks/tooltips/query_search.html:39
+#: decks/templates/decks/tooltips/query_search.html:43
 msgid ""
 "Search cards that trigger when played from the hand (<span class=\"altered-"
 "hand\"></span>) and that can be discarded (<span class=\"altered-discard\"></"
@@ -791,6 +798,10 @@ msgstr ""
 
 #: decks/views.py:459 decks/views.py:486
 msgid "Comment not found"
+msgstr ""
+
+#: templates/base.html:53
+msgid "Home"
 msgstr ""
 
 #: templates/base.html:57
@@ -887,29 +898,29 @@ msgid ""
 "An error occurred while attempting to login via your third-party account."
 msgstr ""
 
-#: trends/templates/trends/home.html:19
+#: trends/templates/trends/home.html:18
 msgid "Trends from the last 7 days"
 msgstr ""
 
-#: trends/templates/trends/home.html:20
+#: trends/templates/trends/home.html:19
 msgid ""
 "The statistics are extracted daily from the public legal decks modified "
 "within the last 7 days.<br>Click on the faction and hero pie charts to "
 "narrow down the results!"
 msgstr ""
 
-#: trends/templates/trends/home.html:23
+#: trends/templates/trends/home.html:22
 msgid "Popular Factions"
 msgstr ""
 
-#: trends/templates/trends/home.html:27
+#: trends/templates/trends/home.html:26
 msgid "Popular Heroes"
 msgstr ""
 
-#: trends/templates/trends/home.html:31
+#: trends/templates/trends/home.html:30
 msgid "Popular Cards"
 msgstr ""
 
-#: trends/templates/trends/home.html:65
+#: trends/templates/trends/home.html:64
 msgid "Trending decks"
 msgstr ""

@@ -21,11 +21,15 @@
             {% translate "Operators:" %} <code class="inline">:</code><br>
             {% translate "Values:" %} <code class="inline">etb</code>(<span class="altered-etb"></span>), <code class="inline">hand</code>(<span class="altered-hand"></span>), <code class="inline">reserve</code>(<span class="altered-reserve"></span>), <code class="inline">discard</code>(<span class="altered-discard"></span>), <code class="inline">exhaust</code>(<span class="altered-exhaust"></span>)
         </li>
+        <li>{% translate "Subtypes:" %} <code class="inline">st</code><br>
+            {% translate "Operators:" %} <code class="inline">:</code><br>
+            {% translate "Value:" %} <code class="inline">{% translate "Single word" %}</code>
+        </li>
     </ul>
     {% translate "Examples:" %}
     <ul>
-        <li>{% translate 'Search cards that cost <span class="altered-3"></span>:' %}<br>
-            <code class="inline">hc=3</code>
+        <li>{% translate 'Search bureaucrat cards that cost <span class="altered-3"></span>:' %}<br>
+            <code class="inline">{% translate "st:bureaucrat hc=3" %}</code>
         </li>
         <li>{% translate 'Search cards with `training` in their name that cost <span class="altered-2"></span>:' %}<br>
             <code class="inline">{% translate "training" %} hc=2</code>

@@ -214,6 +214,7 @@ def remove_card_from_deck(deck, reference):
 
 def parse_query_syntax(qs, query):
     filters = Q()
+
     hc_regex = r"hc(?P<hc_op>:|=|>|>=|<|<=)(?P<hc>\d+)"
     tags = []
 
@@ -257,7 +258,7 @@ def parse_query_syntax(qs, query):
 
     x_regex = r"x:(?P<effect>\w+)"
 
-    if matches := re.finditer(x_regex, query, re.ASCII):
+    if matches := re.finditer(x_regex, query):
         for re_match in matches:
             value = re_match.group("effect")
             filters &= Q(main_effect__icontains=value) | Q(echo_effect__icontains=value)
@@ -266,7 +267,7 @@ def parse_query_syntax(qs, query):
 
     st_regex = r"st:(?P<subtype>\w+)"
 
-    if matches := re.finditer(st_regex, query, re.ASCII):
+    if matches := re.finditer(st_regex, query):
         for re_match in matches:
             value = re_match.group("subtype")
             qs = qs.filter(
@@ -279,7 +280,7 @@ def parse_query_syntax(qs, query):
 
     t_regex = r"t:(?P<trigger>\w+)"
 
-    if matches := re.finditer(t_regex, query, re.ASCII):
+    if matches := re.finditer(t_regex, query):
         for re_match in matches:
             try:
                 trigger = re_match.group("trigger")
