@@ -85,7 +85,7 @@ jobs:
         docker load --input /tmp/${{ vars.CLOUD_RUN_SERVICE_NAME }}.tar
         docker image ls -a
     - name: Run Tests
-      run: docker run ${{ vars.CLOUD_RUN_SERVICE_NAME }} python manage.py test
+      run: docker run ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }} python manage.py test
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
