@@ -113,8 +113,8 @@ class Command(BaseCommand):
             else:
                 card_dict.update(
                     {
-                        "main_cost": card["elements"]["MAIN_COST"],
-                        "recall_cost": card["elements"]["RECALL_COST"],
+                        "main_cost": int(card["elements"]["MAIN_COST"]),
+                        "recall_cost": int(card["elements"]["RECALL_COST"]),
                     }
                 )
 
@@ -123,9 +123,9 @@ class Command(BaseCommand):
             if card_dict["type"] == "CHARACTER":
                 card_dict.update(
                     {
-                        "forest_power": card["elements"]["FOREST_POWER"],
-                        "mountain_power": card["elements"]["MOUNTAIN_POWER"],
-                        "ocean_power": card["elements"]["OCEAN_POWER"],
+                        "forest_power": int(card["elements"]["FOREST_POWER"]),
+                        "mountain_power": int(card["elements"]["MOUNTAIN_POWER"]),
+                        "ocean_power": int(card["elements"]["OCEAN_POWER"]),
                     }
                 )
         return card_dict
@@ -134,10 +134,12 @@ class Command(BaseCommand):
         card_dict["faction"] = Card.Faction(card_dict["faction"])
         card_dict["type"] = getattr(Card.Type, card_dict["type"])
         card_dict["rarity"] = getattr(Card.Rarity, card_dict["rarity"])
-        if "_CORE_" in card_dict["reference"]:
-            card_dict["set"] = Set.objects.get(reference_code="_CORE_")
+        if "_CORE_P_" in card_dict["reference"]:
+            card_dict["set"] = Set.objects.get(code="COREP")
+        elif "_CORE_" in card_dict["reference"]:
+            card_dict["set"] = Set.objects.get(code="CORE")
         elif "_COREKS_" in card_dict["reference"]:
-            card_dict["set"] = Set.objects.get(reference_code="_COREKS_")
+            card_dict["set"] = Set.objects.get(code="COREKS")
 
     def create_card(self, card_dict: dict) -> None:
         try:
