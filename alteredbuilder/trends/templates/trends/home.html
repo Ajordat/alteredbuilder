@@ -4,8 +4,6 @@
 {% load i18n %}
 {% load deck_styles %}
 
-{% block title %}{% translate "Home" %}{% endblock %}
-{% block meta_title %}{% translate "Home" %}{% endblock %}
 
 {% block head %}
     {{ block.super }}
@@ -14,6 +12,7 @@
     <link rel="stylesheet" href="{% static 'css/trends.css' %}">
     <link rel="stylesheet" href="{% static 'css/deck-list.css' %}">
 {% endblock %}
+
 
 {% block content %}
     <h3>{% translate "Trends from the last 7 days" %}</h3>

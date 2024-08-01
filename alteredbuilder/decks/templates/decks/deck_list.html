@@ -4,8 +4,9 @@
 {% load i18n %}
 {% load deck_styles %}
 
-{% block title %}{% translate "Home" %}{% endblock %}
-{% block meta_title %}{% translate "Home" %}{% endblock %}
+{% block title %}{% translate "Latest decks" %}{% endblock %}
+{% block meta_title %}{% translate "Latest decks" %}{% endblock %}
+
 
 {% block head %}
     {{ block.super }}
@@ -13,6 +14,7 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/deck-list.css' %}">
 {% endblock %}
+
 
 {% block content %}
     <h3>{% translate "Latest decks" %}</h3>
