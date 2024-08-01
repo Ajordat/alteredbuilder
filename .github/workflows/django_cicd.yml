@@ -14,6 +14,7 @@ env:
   DEBUG: False
   USE_GCS_STATICS: False
 
+
 defaults:
   run:
     working-directory: ./alteredbuilder
@@ -83,9 +84,11 @@ jobs:
     - name: Load image
       run: |
         docker load --input /tmp/${{ vars.CLOUD_RUN_SERVICE_NAME }}.tar
-        docker image ls -a
     - name: Run Tests
-      run: docker run ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }} python manage.py test
+      run: |
+        docker image ls -a
+        docker run ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }} ls
+        docker run ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }} python manage.py test
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
