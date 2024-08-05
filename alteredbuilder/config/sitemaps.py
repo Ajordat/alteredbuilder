@@ -23,25 +23,36 @@ class StaticViewSitemap(Sitemap):
         return reverse(item)
 
 
-class LocalizedStaticViewSitemap(Sitemap):
-    priority = 1
+class DailyLocalizedStaticViewSitemap(Sitemap):
+    priority = 0.8
     changefreq = "daily"
     i18n = True
 
     def items(self):
-        return ["home", "about", "deck-list", "cards"]
+        return ["home", "deck-list"]
+
+    def location(self, item):
+        return reverse(item)
+
+
+class MonthlyLocalizedStaticViewSitemap(Sitemap):
+    priority = 0.6
+    changefreq = "monthly"
+    i18n = True
+
+    def items(self):
+        return ["about", "cards"]
 
     def location(self, item):
         return reverse(item)
 
 
 class DeckSitemap(Sitemap):
-    priority = 0.5
+    priority = 0.7
     changefreq = "weekly"
-    # limit = 200
 
     def items(self):
-        return Deck.objects.filter(is_public=True)
+        return Deck.objects.filter(is_public=True).exclude(description="")
 
     def lastmod(self, obj):
         return obj.modified_at
