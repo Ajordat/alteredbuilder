@@ -307,7 +307,7 @@ def parse_deck_query_syntax(qs, query):
     filters = Q()
     tags = []
 
-    t_regex = r"u:(?P<username>\w+)"
+    t_regex = r"u:(?P<username>[\w\.-@]+)"
 
     if matches := re.finditer(t_regex, query):
         for re_match in matches:
