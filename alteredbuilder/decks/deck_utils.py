@@ -313,7 +313,7 @@ def parse_deck_query_syntax(qs, query):
         for re_match in matches:
             try:
                 username = re_match.group("username")
-                filters &= Q(owner__username=username)
+                filters &= Q(owner__username__iexact=username)
                 tags.append((_("user"), ":", username))
             except KeyError:
                 continue
