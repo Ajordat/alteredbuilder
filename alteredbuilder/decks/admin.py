@@ -192,14 +192,14 @@ class CardInDeckAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
 class LovePointAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
     list_display = ["user", "deck", "created_at"]
     fields = list_display
-    search_fields = ["user", "deck"]
+    search_fields = ["user__username", "deck__name"]
 
 
 @admin.register(PrivateLink)
 class PrivateLinkAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
     list_display = ["code", "deck", "last_accessed_at", "created_at"]
     fields = list_display
-    search_fields = ["deck"]
+    search_fields = ["deck__name"]
 
 
 @admin.register(Set)
