@@ -1,0 +1,27 @@
+
+{% load i18n %}
+
+
+<div class="text-start">
+    {% translate "Advanced search filters" %}:
+    <ul>
+        <li>{% translate "Hero:" %} <code class="inline">h</code><br>
+            {% translate "Operators:" %} <code class="inline">:</code><br>
+            {% translate "Value:" %} <code class="inline">{% translate "Single word" %}</code>
+        </li>
+        <li>{% translate "User:" %} <code class="inline">u</code><br>
+            {% translate "Operators:" %} <code class="inline">:</code><br>
+            {% translate "Value:" %} <code class="inline">{% translate "Single word" %}</code>
+        </li>
+    </ul>
+    {% translate "Examples:" %}
+    <ul>
+        {% firstof user.username "admin" as username %}
+        <li>{% blocktranslate %}Search decks created by the user "{{ username }}":{% endblocktranslate %}<br>
+            <code class="inline">u:{{ username }}</code>
+        </li>
+        <li>{% translate 'Search decks with the hero "Teija" created by the user "admin":' %}<br>
+            <code class="inline">h:teija u:admin</code>
+        </li>
+    </ul>
+</div>

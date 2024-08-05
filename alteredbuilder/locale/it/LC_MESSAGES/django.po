@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-05 13:26+0200\n"
+"POT-Creation-Date: 2024-08-06 01:17+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: api/utils.py:17 decks/views.py:427
+#: api/utils.py:17 decks/views.py:432
 msgid "Invalid payload"
 msgstr "Carico utile non valido"
 
-#: api/utils.py:19 api/utils.py:21 decks/views.py:514
+#: api/utils.py:19 api/utils.py:21 decks/views.py:519
 msgid "Invalid request"
 msgstr "Richiesta non valida"
 
@@ -80,9 +80,17 @@ msgstr "sottotipo"
 msgid "trigger"
 msgstr "innesco"
 
-#: decks/deck_utils.py:300
+#: decks/deck_utils.py:299 decks/deck_utils.py:336
 msgid "query"
 msgstr "consultazione"
+
+#: decks/deck_utils.py:317
+msgid "user"
+msgstr "utente"
+
+#: decks/deck_utils.py:329
+msgid "hero"
+msgstr "eroe"
 
 #: decks/forms.py:25 decks/forms.py:55
 msgid "description"
@@ -142,18 +150,18 @@ msgstr "Ricerca schede"
 
 #: decks/templates/decks/card_list.html:32
 #: decks/templates/decks/card_list.html:82
-#: decks/templates/decks/deck_list.html:25
-#: decks/templates/decks/deck_list.html:71
+#: decks/templates/decks/deck_list.html:29
+#: decks/templates/decks/deck_list.html:76
 msgid "Search"
 msgstr "Cerca"
 
 #: decks/templates/decks/card_list.html:41
-#: decks/templates/decks/deck_list.html:32
+#: decks/templates/decks/deck_list.html:37
 msgid "Filters"
 msgstr "Filtri"
 
 #: decks/templates/decks/card_list.html:49
-#: decks/templates/decks/deck_list.html:40
+#: decks/templates/decks/deck_list.html:45
 msgid "Factions"
 msgstr "Fazioni"
 
@@ -267,6 +275,7 @@ msgid "Deck"
 msgstr "Mazzo"
 
 #: decks/templates/decks/card_list.html:175
+#: decks/templates/decks/tooltips/deck_query_search.html:8
 msgid "Hero:"
 msgstr "Eroe:"
 
@@ -433,7 +442,7 @@ msgid "Notes"
 msgstr "Note"
 
 #: decks/templates/decks/deck_detail.html:248
-#: decks/templates/decks/deck_list.html:50
+#: decks/templates/decks/deck_list.html:55
 #: decks/templates/decks/tooltips/legality.html:5
 msgid "Standard"
 msgstr ""
@@ -464,7 +473,7 @@ msgstr ""
 "con 3 carte rare extra."
 
 #: decks/templates/decks/deck_detail.html:272
-#: decks/templates/decks/deck_list.html:52
+#: decks/templates/decks/deck_list.html:57
 msgid "Draft"
 msgstr ""
 
@@ -546,30 +555,30 @@ msgstr "%(time_since)s fa"
 msgid "Latest decks"
 msgstr "Ultimi mazzi"
 
-#: decks/templates/decks/deck_list.html:24
-msgid "Search by deck or hero name"
-msgstr "Cerca per mazzo o nome dell'eroe"
+#: decks/templates/decks/deck_list.html:25
+msgid "Search by deck name"
+msgstr "Ricerca per nome del mazzo"
 
-#: decks/templates/decks/deck_list.html:49
+#: decks/templates/decks/deck_list.html:54
 #: decks/templates/decks/own_deck_list.html:27
 #: decks/templates/decks/snippets/public_deck_table.html:16
 msgid "Legality"
 msgstr "Legalità"
 
-#: decks/templates/decks/deck_list.html:51
+#: decks/templates/decks/deck_list.html:56
 msgid "ExAlts"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:55
+#: decks/templates/decks/deck_list.html:60
 msgid "Other"
 msgstr "Altro"
 
-#: decks/templates/decks/deck_list.html:59
-#: decks/templates/decks/deck_list.html:63
+#: decks/templates/decks/deck_list.html:64
+#: decks/templates/decks/deck_list.html:68
 msgid "Loved"
 msgstr "Amato"
 
-#: decks/templates/decks/deck_list.html:61
+#: decks/templates/decks/deck_list.html:66
 msgid "Login to save your loved decks!"
 msgstr "Accedi per salvare i tuoi amati mazzi!"
 
@@ -623,82 +632,81 @@ msgstr "Proprietario"
 msgid "No decks were found with the current filters"
 msgstr "Nessun mazzo trovato con i filtri attuali"
 
-#: decks/templates/decks/tooltips/deck_timestamps.html:3
-#, python-format
-msgid "Created: %(creation)s<br>Last modified: %(modification)s"
-msgstr "Creazione: %(creation)s<br>Ultima modifica: %(modification)s"
-
-#: decks/templates/decks/tooltips/legality.html:7
-msgid "Illegal"
-msgstr "Illegal?"
-
-#: decks/templates/decks/tooltips/query_search.html:6
+#: decks/templates/decks/tooltips/card_query_search.html:6
+#: decks/templates/decks/tooltips/deck_query_search.html:6
 msgid "Advanced search filters"
 msgstr "Filtri di ricerca avanzati"
 
-#: decks/templates/decks/tooltips/query_search.html:8
+#: decks/templates/decks/tooltips/card_query_search.html:8
 msgid "Hand cost:"
 msgstr "Costo della mano:"
 
-#: decks/templates/decks/tooltips/query_search.html:9
-#: decks/templates/decks/tooltips/query_search.html:13
-#: decks/templates/decks/tooltips/query_search.html:17
-#: decks/templates/decks/tooltips/query_search.html:21
-#: decks/templates/decks/tooltips/query_search.html:25
+#: decks/templates/decks/tooltips/card_query_search.html:9
+#: decks/templates/decks/tooltips/card_query_search.html:13
+#: decks/templates/decks/tooltips/card_query_search.html:17
+#: decks/templates/decks/tooltips/card_query_search.html:21
+#: decks/templates/decks/tooltips/card_query_search.html:25
+#: decks/templates/decks/tooltips/deck_query_search.html:9
+#: decks/templates/decks/tooltips/deck_query_search.html:13
 msgid "Operators:"
 msgstr "Operatori:"
 
-#: decks/templates/decks/tooltips/query_search.html:10
-#: decks/templates/decks/tooltips/query_search.html:14
-#: decks/templates/decks/tooltips/query_search.html:18
-#: decks/templates/decks/tooltips/query_search.html:26
+#: decks/templates/decks/tooltips/card_query_search.html:10
+#: decks/templates/decks/tooltips/card_query_search.html:14
+#: decks/templates/decks/tooltips/card_query_search.html:18
+#: decks/templates/decks/tooltips/card_query_search.html:26
+#: decks/templates/decks/tooltips/deck_query_search.html:10
+#: decks/templates/decks/tooltips/deck_query_search.html:14
 msgid "Value:"
 msgstr "Valore:"
 
-#: decks/templates/decks/tooltips/query_search.html:10
-#: decks/templates/decks/tooltips/query_search.html:14
+#: decks/templates/decks/tooltips/card_query_search.html:10
+#: decks/templates/decks/tooltips/card_query_search.html:14
 msgid "Number"
 msgstr "Numero"
 
-#: decks/templates/decks/tooltips/query_search.html:12
+#: decks/templates/decks/tooltips/card_query_search.html:12
 msgid "Reserve cost:"
 msgstr "Costo della riserva:"
 
-#: decks/templates/decks/tooltips/query_search.html:16
+#: decks/templates/decks/tooltips/card_query_search.html:16
 msgid "Abilities:"
 msgstr "Abilità:"
 
-#: decks/templates/decks/tooltips/query_search.html:18
-#: decks/templates/decks/tooltips/query_search.html:26
+#: decks/templates/decks/tooltips/card_query_search.html:18
+#: decks/templates/decks/tooltips/card_query_search.html:26
+#: decks/templates/decks/tooltips/deck_query_search.html:10
+#: decks/templates/decks/tooltips/deck_query_search.html:14
 msgid "Single word"
 msgstr "Una sola parola"
 
-#: decks/templates/decks/tooltips/query_search.html:20
+#: decks/templates/decks/tooltips/card_query_search.html:20
 msgid "Triggers:"
 msgstr ""
 
-#: decks/templates/decks/tooltips/query_search.html:22
+#: decks/templates/decks/tooltips/card_query_search.html:22
 msgid "Values:"
 msgstr "Valori:"
 
-#: decks/templates/decks/tooltips/query_search.html:24
+#: decks/templates/decks/tooltips/card_query_search.html:24
 msgid "Subtypes:"
 msgstr "Sottotipi:"
 
-#: decks/templates/decks/tooltips/query_search.html:29
+#: decks/templates/decks/tooltips/card_query_search.html:29
+#: decks/templates/decks/tooltips/deck_query_search.html:17
 msgid "Examples:"
 msgstr "Esempi:"
 
-#: decks/templates/decks/tooltips/query_search.html:31
+#: decks/templates/decks/tooltips/card_query_search.html:31
 msgid "Search bureaucrat cards that cost <span class=\"altered-3\"></span>:"
 msgstr ""
 "Cercare carte di burocrati che costano <span class=\"altered-3\"></span>:"
 
-#: decks/templates/decks/tooltips/query_search.html:32
+#: decks/templates/decks/tooltips/card_query_search.html:32
 msgid "st:bureaucrat hc=3"
 msgstr "st:burocrate hc=3"
 
-#: decks/templates/decks/tooltips/query_search.html:34
+#: decks/templates/decks/tooltips/card_query_search.html:34
 msgid ""
 "Search cards with `training` in their name that cost <span "
 "class=\"altered-2\"></span>:"
@@ -706,11 +714,11 @@ msgstr ""
 "Cerca le carte con `addestramento` nel loro nome che costano <span "
 "class=\"altered-2\"></span>:"
 
-#: decks/templates/decks/tooltips/query_search.html:35
+#: decks/templates/decks/tooltips/card_query_search.html:35
 msgid "training"
 msgstr "addestramento"
 
-#: decks/templates/decks/tooltips/query_search.html:37
+#: decks/templates/decks/tooltips/card_query_search.html:37
 msgid ""
 "Search cards that cost between <span class=\"altered-3\"></span> and <span "
 "class=\"altered-5\"></span> (inclusive):"
@@ -718,11 +726,11 @@ msgstr ""
 "Cerca le carte che costano tra <span class=\"altered-3\"></span> e <span "
 "class=\"altered-5\"></span> (inclusi):"
 
-#: decks/templates/decks/tooltips/query_search.html:38
+#: decks/templates/decks/tooltips/card_query_search.html:38
 msgid "OR"
 msgstr "O"
 
-#: decks/templates/decks/tooltips/query_search.html:40
+#: decks/templates/decks/tooltips/card_query_search.html:40
 msgid ""
 "Search cards with `anchor` abilities that cost <span class=\"altered-3\"></"
 "span> or less from reserve:"
@@ -730,11 +738,11 @@ msgstr ""
 "Cerca carte con abilità `ancorato` che abbiano un costo di riserva di <span "
 "class=\"altered-3\"></span> o meno:"
 
-#: decks/templates/decks/tooltips/query_search.html:41
+#: decks/templates/decks/tooltips/card_query_search.html:41
 msgid "anchor"
 msgstr "ancorato"
 
-#: decks/templates/decks/tooltips/query_search.html:43
+#: decks/templates/decks/tooltips/card_query_search.html:43
 msgid ""
 "Search cards that trigger when played from the hand (<span class=\"altered-"
 "hand\"></span>) and that can be discarded (<span class=\"altered-discard\"></"
@@ -743,6 +751,28 @@ msgstr ""
 "Cerca carte che si attivano quando vengono giocate dalla mano (<span "
 "class=\"altered-hand\"></span>) e che possono essere scartate (<span "
 "class=\"altered-discard\"></span>):"
+
+#: decks/templates/decks/tooltips/deck_query_search.html:12
+msgid "User:"
+msgstr "Utente:"
+
+#: decks/templates/decks/tooltips/deck_query_search.html:20
+#, python-format
+msgid "Search decks created by the user \"%(username)s\":"
+msgstr "Cerca i mazzi creati dall&#39;utente \"%(username)s\":"
+
+#: decks/templates/decks/tooltips/deck_query_search.html:23
+msgid "Search decks with the hero \"Teija\" created by the user \"admin\":"
+msgstr "Cerca i mazzi con l&#39;eroe \"Teija\" creati dall&#39;utente \"admin\":"
+
+#: decks/templates/decks/tooltips/deck_timestamps.html:3
+#, python-format
+msgid "Created: %(creation)s<br>Last modified: %(modification)s"
+msgstr "Creazione: %(creation)s<br>Ultima modifica: %(modification)s"
+
+#: decks/templates/decks/tooltips/legality.html:7
+msgid "Illegal"
+msgstr "Illegal?"
 
 #: decks/templates/forms/submit_comment.html:7
 msgid "Write your comment"
@@ -800,19 +830,19 @@ msgstr "Vuoi che il tuo mazzo sia pubblico?"
 msgid "Import"
 msgstr "Importa"
 
-#: decks/views.py:407
+#: decks/views.py:412
 msgid "The deck must have a name"
 msgstr "Il mazzo deve avere un nome"
 
-#: decks/views.py:423 decks/views.py:457 decks/views.py:488 decks/views.py:529
+#: decks/views.py:428 decks/views.py:462 decks/views.py:493 decks/views.py:534
 msgid "Deck not found"
 msgstr "Mazzo non trovato"
 
-#: decks/views.py:425
+#: decks/views.py:430
 msgid "Card not found"
 msgstr "Carta non trovata"
 
-#: decks/views.py:459 decks/views.py:486
+#: decks/views.py:464 decks/views.py:491
 msgid "Comment not found"
 msgstr "Commento non trovato"
 
@@ -916,11 +946,11 @@ msgstr ""
 msgid "New features:"
 msgstr "Nuove funzionalità:"
 
-#: templates/releases/1.8.3.html:14 templates/releases/release_template.html:10
+#: templates/releases/1.8.3.html:15 templates/releases/release_template.html:10
 msgid "Fixes:"
 msgstr "Correzioni:"
 
-#: templates/releases/1.8.3.html:22 templates/releases/release_template.html:16
+#: templates/releases/1.8.3.html:23 templates/releases/release_template.html:16
 msgid "Other:"
 msgstr "Altri:"
 
@@ -969,8 +999,8 @@ msgstr "Carte popolari"
 msgid "Trending decks"
 msgstr "Mazzi di tendenza"
 
-#~ msgid "Search by name"
-#~ msgstr "Cerca per nome"
+#~ msgid "Search by deck or hero name"
+#~ msgstr "Cerca per mazzo o nome dell'eroe"
 
 #~ msgid "This feature is only for public decks"
 #~ msgstr "Questa funzione è solo per i mazzo pubblici."

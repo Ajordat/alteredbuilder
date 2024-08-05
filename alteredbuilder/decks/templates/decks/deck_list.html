@@ -21,8 +21,13 @@
     <div class="row row-cols-auto">
         <div class="col-xs-12 col-sm-9 col-md-7 col-lg-5 col-xl-4 col-xxl-4">
             <form class="d-flex" role="search" id="querySearchForm">
-                <input class="form-control me-2" type="search" aria-label="Search" id="querySearch" value="{{ query }}" placeholder="{% translate 'Search by deck or hero name' %}">
-                <button class="btn btn-outline-secondary" type="submit">{% translate "Search" %}</button>
+                <div class="input-group">
+                    <input class="form-control" type="search" aria-label="Search" id="querySearch" value="{{ query }}" placeholder="{% translate 'Search by deck name' %}">
+                    <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title='{% include "decks/tooltips/deck_query_search.html" %}' data-bs-html="true">
+                        <i class="fa-regular fa-question"></i>
+                    </span>
+                    <button class="btn btn-outline-secondary" type="submit">{% translate "Search" %}</button>
+                </div>
             </form>
         </div>
         <div class="accordion col" id="filterAccordion">
@@ -76,6 +81,11 @@
                 </div>
             </div>
         </div>
+    {% for tag, op, value in query_tags %}
+        <div class="col px-0 d-flex align-items-center">
+            <span class="badge text-bg-secondary">{% translate tag %}{{ op }} {% translate value %}</span>&nbsp;
+        </div>
+    {% endfor %}
     {% with request.GET|deck_params_to_filter_tag as tags %}
         {% for tag, value in tags %}
         <div class="col px-0 d-flex align-items-center">

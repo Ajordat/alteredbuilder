@@ -212,7 +212,7 @@ def remove_card_from_deck(deck, reference):
         cid.delete()
 
 
-def parse_query_syntax(qs, query):
+def parse_card_query_syntax(qs, query):
     filters = Q()
 
     hc_regex = r"hc(?P<hc_op>:|=|>|>=|<|<=)(?P<hc>\d+)"
@@ -295,7 +295,43 @@ def parse_query_syntax(qs, query):
         query = re.sub(t_regex, "", query)
 
     query = query.strip()
-    # print(qs)
+    if query:
+        tags.append((_("query"), ":", query))
+        return qs.filter(filters & Q(name__icontains=query)), tags
+    else:
+        return qs.filter(filters), tags
+
+
+
+def parse_deck_query_syntax(qs, query):
+    filters = Q()
+    tags = []
+
+    t_regex = r"u:(?P<username>\w+)"
+
+    if matches := re.finditer(t_regex, query):
+        for re_match in matches:
+            try:
+                username = re_match.group("username")
+                filters &= Q(owner__username=username)
+                tags.append((_("user"), ":", username))
+            except KeyError:
+                continue
+        query = re.sub(t_regex, "", query)
+
+    h_regex = r"h:(?P<hero>\w+)"
+
+    if matches := re.finditer(h_regex, query):
+        for re_match in matches:
+            try:
+                hero = re_match.group("hero")
+                filters &= Q(hero__name__icontains=hero)
+                tags.append((_("hero"), ":", hero))
+            except KeyError:
+                continue
+        query = re.sub(h_regex, "", query)
+
+    query = query.strip()
     if query:
         tags.append((_("query"), ":", query))
         return qs.filter(filters & Q(name__icontains=query)), tags

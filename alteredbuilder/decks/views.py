@@ -6,7 +6,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db.models import Exists, F, OuterRef, Q
-from django.db.models.functions import Coalesce
 from django.db.models.manager import Manager
 from django.db.models.query import QuerySet
 from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
@@ -22,7 +21,8 @@ from api.utils import ajax_request, ApiJsonResponse
 from .deck_utils import (
     create_new_deck,
     get_deck_details,
-    parse_query_syntax,
+    parse_card_query_syntax,
+    parse_deck_query_syntax,
     patch_deck,
     remove_card_from_deck,
 )
@@ -66,7 +66,10 @@ class DeckListView(ListView):
         # Retrieve the query and search by deck name or hero name
         query = self.request.GET.get("query")
         if query:
-            filters &= Q(name__icontains=query) | Q(hero__name__icontains=query)
+            qs, query_tags = parse_deck_query_syntax(qs, query)
+            self.query_tags = query_tags
+        else:
+            self.query_tags = None
 
         # Extract the faction filter
         factions = self.request.GET.get("faction")
@@ -138,8 +141,10 @@ class DeckListView(ListView):
             if filter in self.request.GET:
                 checked_filters += self.request.GET[filter].split(",")
         context["checked_filters"] = checked_filters
+
         if "query" in self.request.GET:
             context["query"] = self.request.GET.get("query")
+            context["query_tags"] = self.query_tags
 
         return context
 
@@ -627,7 +632,7 @@ class CardListView(ListView):
         # Retrieve the text query and search by name
         query = self.request.GET.get("query")
         if query:
-            qs, query_tags = parse_query_syntax(qs, query)
+            qs, query_tags = parse_card_query_syntax(qs, query)
             self.query_tags = query_tags
         else:
             self.query_tags = None
