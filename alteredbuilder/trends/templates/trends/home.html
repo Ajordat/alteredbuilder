@@ -15,6 +15,26 @@
 
 
 {% block content %}
+
+    <div class="container mt-3" id="release-container">
+        <div class="accordion my-3" id="releaseAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button id="releaseButton" class="accordion-button bg-info-subtle collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#releaseDescription" aria-expanded="true" aria-controls="collapseOne">
+                        {% blocktranslate %}Release notes {{ current_version }}{% endblocktranslate %}
+                    </button>
+                </h2>
+                <div id="releaseDescription" class="accordion-collapse collapse bg-info-subtle" data-bs-parent="#releaseAccordion" data-release="{{ current_version }}">
+                    <div class="accordion-body">
+                        <ul class="list-group list-group-flush">
+                            {% include "releases/"|add:current_version|add:".html" %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <h3>{% translate "Trends from the last 7 days" %}</h3>
     <p>{% translate "The statistics are extracted daily from the public legal decks modified within the last 7 days.<br>Click on the faction and hero pie charts to narrow down the results!" %}</p>
     <div class="row mt-4">
@@ -63,6 +83,30 @@
     </div>
     <h3>{% translate "Trending decks" %}</h3>
     {% include "decks/snippets/public_deck_table.html" with table_id="trendingDecksTable" deck_list=trending %}
+    <script>
+        function showReleaseDescription() {
+            document.getElementById("releaseButton").classList.remove("collapsed");
+            document.getElementById("releaseDescription").classList.add("show");
+        }
+        document.addEventListener("DOMContentLoaded", function() {
+            let lastMinimizedRelease = localStorage.getItem("releaseMinimized");
+            if (lastMinimizedRelease === null) {
+                showReleaseDescription();
+                return;
+            }
+            if (lastMinimizedRelease !== document.getElementById("releaseDescription").dataset.release) {
+                showReleaseDescription();
+                localStorage.removeItem("releaseMinimized");
+                return;
+            }
+        });
+        document.getElementById("releaseDescription").addEventListener("hidden.bs.collapse", event => {
+            localStorage.setItem("releaseMinimized", event.currentTarget.dataset.release);
+        });
+        document.getElementById("releaseDescription").addEventListener("shown.bs.collapse", event => {
+            localStorage.removeItem("releaseMinimized");
+        });
+    </script>
 
     {{ faction_trends|json_script:"faction-trends"}}
     {{ hero_trends|json_script:"hero-trends"}}

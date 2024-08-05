@@ -1,0 +1,29 @@
+{% load i18n %}
+
+
+<li><strong>{% translate "New features:" %}</strong>
+    <ul>
+        <li>This banner!</li>
+        <li>Card filtering by subtype in the advanced search mode (e.g. <a href="{% url 'cards' %}?query=st%3Arobot"><code>st:robot</code></a>).</li>
+        <li>New logo.</li>
+        <li>Comment section in decks.</li>
+        <li>Deck filtering by ExAlts championship legality (<a href="{% url 'deck-list' %}?legality=exalts">link</a>).</li>
+    </ul>
+</li>
+
+<li><strong>{% translate "Fixes:" %}</strong>
+    <ul>
+        <li>Bug where the name was lost when changing the filters if the name hadn't been saved.</li>
+        <li>Bug where decks with no hits would appear on the trending leaderboard.</li>
+        <li>Added missing accessibility descriptions on a few elements.</li>
+    </ul>
+</li>
+
+<li><strong>{% translate "Other:" %}</strong>
+    <ul>
+        <li>Refactored database to improve query efficiency.</li>
+        <li>Improved the performance of the query to retrieve the loved decks.</li>
+        <li>Display the faction's full name on the trending view.</li>
+        <li>Added links to <a href="http://www.patreon.com/Ajordat" target="_blank">Patreon</a> and <a href="https://buymeacoffee.com/ajordat" target="_blank">Buy me a coffe</a> to support the project.</li>
+    </ul>
+</li>

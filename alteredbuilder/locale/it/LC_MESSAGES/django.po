@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-01 12:31+0200\n"
+"POT-Creation-Date: 2024-08-05 13:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,27 +60,27 @@ msgstr "La carta '%(reference)s' non esiste"
 msgid "Multiple heroes present in the decklist"
 msgstr "Più eroi presenti nella lista del mazzo"
 
-#: decks/deck_utils.py:235
+#: decks/deck_utils.py:236
 msgid "hand cost"
 msgstr "costo della mano"
 
-#: decks/deck_utils.py:255
+#: decks/deck_utils.py:256
 msgid "reserve cost"
 msgstr "costo della riserva"
 
-#: decks/deck_utils.py:264
+#: decks/deck_utils.py:265
 msgid "ability"
 msgstr "capacità"
 
-#: decks/deck_utils.py:277
+#: decks/deck_utils.py:278
 msgid "subtype"
 msgstr "sottotipo"
 
-#: decks/deck_utils.py:291
+#: decks/deck_utils.py:292
 msgid "trigger"
 msgstr "innesco"
 
-#: decks/deck_utils.py:299
+#: decks/deck_utils.py:300
 msgid "query"
 msgstr "consultazione"
 
@@ -344,7 +344,7 @@ msgstr "Elenco dei mazzi"
 #: decks/templates/decks/snippets/public_deck_table.html:11
 #: decks/templates/forms/submit_deck_metadata.html:8
 #: decks/templates/forms/submit_decklist.html:7
-#: trends/templates/trends/home.html:35
+#: trends/templates/trends/home.html:55
 msgid "Name"
 msgstr "Nome"
 
@@ -691,7 +691,8 @@ msgstr "Esempi:"
 
 #: decks/templates/decks/tooltips/query_search.html:31
 msgid "Search bureaucrat cards that cost <span class=\"altered-3\"></span>:"
-msgstr "Cercare carte di burocrati che costano <span class=\"altered-3\"></span>:"
+msgstr ""
+"Cercare carte di burocrati che costano <span class=\"altered-3\"></span>:"
 
 #: decks/templates/decks/tooltips/query_search.html:32
 msgid "st:bureaucrat hc=3"
@@ -884,6 +885,10 @@ msgid "Terms and conditions"
 msgstr "Termini e condizioni"
 
 #: templates/base.html:172
+msgid "Support the project"
+msgstr "Aiutare il progetto"
+
+#: templates/base.html:179
 msgid "Get in touch"
 msgstr "Contattaci"
 
@@ -907,6 +912,18 @@ msgstr ""
 "Sembra che il server abbia riscontrato un problema nel tentativo di "
 "elaborare la tua richiesta. "
 
+#: templates/releases/1.8.3.html:4 templates/releases/release_template.html:4
+msgid "New features:"
+msgstr "Nuove funzionalità:"
+
+#: templates/releases/1.8.3.html:14 templates/releases/release_template.html:10
+msgid "Fixes:"
+msgstr "Correzioni:"
+
+#: templates/releases/1.8.3.html:22 templates/releases/release_template.html:16
+msgid "Other:"
+msgstr "Altri:"
+
 #: templates/socialaccount/authentication_error.html:5
 #: templates/socialaccount/authentication_error.html:9
 msgid "Third-Party Login Failure"
@@ -917,11 +934,16 @@ msgid ""
 "An error occurred while attempting to login via your third-party account."
 msgstr ""
 
-#: trends/templates/trends/home.html:18
+#: trends/templates/trends/home.html:24
+#, python-format
+msgid "Release notes %(current_version)s"
+msgstr ""
+
+#: trends/templates/trends/home.html:38
 msgid "Trends from the last 7 days"
 msgstr "Tendenze degli ultimi 7 giorni"
 
-#: trends/templates/trends/home.html:19
+#: trends/templates/trends/home.html:39
 msgid ""
 "The statistics are extracted daily from the public legal decks modified "
 "within the last 7 days.<br>Click on the faction and hero pie charts to "
@@ -931,19 +953,19 @@ msgstr ""
 "modificati negli ultimi 7 giorni.<br>Clicca sui grafici a torta delle "
 "fazioni e degli eroi per restringere i risultati!"
 
-#: trends/templates/trends/home.html:22
+#: trends/templates/trends/home.html:42
 msgid "Popular Factions"
 msgstr "Fazioni popolari"
 
-#: trends/templates/trends/home.html:26
+#: trends/templates/trends/home.html:46
 msgid "Popular Heroes"
 msgstr "Eroi popolari"
 
-#: trends/templates/trends/home.html:30
+#: trends/templates/trends/home.html:50
 msgid "Popular Cards"
 msgstr "Carte popolari"
 
-#: trends/templates/trends/home.html:64
+#: trends/templates/trends/home.html:84
 msgid "Trending decks"
 msgstr "Mazzi di tendenza"
 

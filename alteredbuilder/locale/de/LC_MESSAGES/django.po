@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-01 12:31+0200\n"
+"POT-Creation-Date: 2024-08-05 13:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,27 +60,27 @@ msgstr "Karte „%(reference)s“ existiert nicht"
 msgid "Multiple heroes present in the decklist"
 msgstr "Mehrere Helden in der Deckliste vorhanden"
 
-#: decks/deck_utils.py:235
+#: decks/deck_utils.py:236
 msgid "hand cost"
 msgstr "Handkosten"
 
-#: decks/deck_utils.py:255
+#: decks/deck_utils.py:256
 msgid "reserve cost"
 msgstr "Reservekosten"
 
-#: decks/deck_utils.py:264
+#: decks/deck_utils.py:265
 msgid "ability"
 msgstr "Fähigkeit"
 
-#: decks/deck_utils.py:277
+#: decks/deck_utils.py:278
 msgid "subtype"
 msgstr "Subtyp"
 
-#: decks/deck_utils.py:291
+#: decks/deck_utils.py:292
 msgid "trigger"
 msgstr "Auslöser"
 
-#: decks/deck_utils.py:299
+#: decks/deck_utils.py:300
 msgid "query"
 msgstr "Abfrage"
 
@@ -345,7 +345,7 @@ msgstr "Deckliste"
 #: decks/templates/decks/snippets/public_deck_table.html:11
 #: decks/templates/forms/submit_deck_metadata.html:8
 #: decks/templates/forms/submit_decklist.html:7
-#: trends/templates/trends/home.html:35
+#: trends/templates/trends/home.html:55
 msgid "Name"
 msgstr "Name"
 
@@ -885,6 +885,10 @@ msgid "Terms and conditions"
 msgstr "Allgemeine Geschäftsbedingungen"
 
 #: templates/base.html:172
+msgid "Support the project"
+msgstr "Unterstützung des Projekts"
+
+#: templates/base.html:179
 msgid "Get in touch"
 msgstr "Nehmen Sie Kontakt auf"
 
@@ -908,6 +912,18 @@ msgstr ""
 "Es scheint, dass der Server beim Versuch, Ihre Anfrage zu verarbeiten, auf "
 "ein Problem gestoßen ist. "
 
+#: templates/releases/1.8.3.html:4 templates/releases/release_template.html:4
+msgid "New features:"
+msgstr "Neue Funktionen:"
+
+#: templates/releases/1.8.3.html:14 templates/releases/release_template.html:10
+msgid "Fixes:"
+msgstr "Korrekturen:"
+
+#: templates/releases/1.8.3.html:22 templates/releases/release_template.html:16
+msgid "Other:"
+msgstr "Sonstiges:"
+
 #: templates/socialaccount/authentication_error.html:5
 #: templates/socialaccount/authentication_error.html:9
 msgid "Third-Party Login Failure"
@@ -918,11 +934,16 @@ msgid ""
 "An error occurred while attempting to login via your third-party account."
 msgstr ""
 
-#: trends/templates/trends/home.html:18
+#: trends/templates/trends/home.html:24
+#, python-format
+msgid "Release notes %(current_version)s"
+msgstr "Versionshinweise %(current_version)s"
+
+#: trends/templates/trends/home.html:38
 msgid "Trends from the last 7 days"
 msgstr "Trends der letzten 7 Tage"
 
-#: trends/templates/trends/home.html:19
+#: trends/templates/trends/home.html:39
 msgid ""
 "The statistics are extracted daily from the public legal decks modified "
 "within the last 7 days.<br>Click on the faction and hero pie charts to "
@@ -932,19 +953,19 @@ msgstr ""
 "extrahiert, die innerhalb der letzten 7 Tage geändert wurden.<br>Klickt auf "
 "die Fraktions- und Heldentortendiagramme, um die Ergebnisse einzugrenzen!"
 
-#: trends/templates/trends/home.html:22
+#: trends/templates/trends/home.html:42
 msgid "Popular Factions"
 msgstr "Beliebte Fraktionen"
 
-#: trends/templates/trends/home.html:26
+#: trends/templates/trends/home.html:46
 msgid "Popular Heroes"
 msgstr "Beliebte Helden"
 
-#: trends/templates/trends/home.html:30
+#: trends/templates/trends/home.html:50
 msgid "Popular Cards"
 msgstr "Beliebte Karten"
 
-#: trends/templates/trends/home.html:64
+#: trends/templates/trends/home.html:84
 msgid "Trending decks"
 msgstr "Angesagte Decks"
 
