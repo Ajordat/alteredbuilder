@@ -1,5 +1,4 @@
 from django.contrib.sitemaps import Sitemap
-from django.core.paginator import Paginator
 from django.urls import reverse
 
 from decks.models import Deck

@@ -302,7 +302,6 @@ def parse_card_query_syntax(qs, query):
         return qs.filter(filters), tags
 
 
-
 def parse_deck_query_syntax(qs, query):
     filters = Q()
     tags = []

@@ -2,8 +2,6 @@ from http import HTTPStatus
 from urllib.parse import quote
 import uuid
 
-from django.db.models import Q
-from django.db.models.functions import Coalesce
 from django.http import HttpResponse
 from django.urls import reverse
 

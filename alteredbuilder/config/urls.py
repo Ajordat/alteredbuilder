@@ -25,7 +25,12 @@ from django.views.generic import RedirectView, TemplateView
 from django.views.i18n import JavaScriptCatalog
 
 from . import __version__
-from .sitemaps import DeckSitemap, DailyLocalizedStaticViewSitemap, MonthlyLocalizedStaticViewSitemap, StaticViewSitemap
+from .sitemaps import (
+    DeckSitemap,
+    DailyLocalizedStaticViewSitemap,
+    MonthlyLocalizedStaticViewSitemap,
+    StaticViewSitemap,
+)
 
 
 sitemaps = {

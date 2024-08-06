@@ -3,7 +3,6 @@ from typing import Any
 
 from django.db.models import Count, Exists, F, OuterRef, Q, Subquery
 from django.utils.timezone import localdate
-from django.utils.translation import gettext_lazy as _
 from django.views.generic.base import TemplateView
 from hitcount.models import Hit
 
