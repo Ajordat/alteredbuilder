@@ -1,0 +1,7 @@
+*/.coverage
+*/.venv/*
+*/__pycache__/*
+*/img/logo-og-circle.png
+*/img/logo-og-full.png
+*/img/logo-og.png
+*/img/logo-min.png

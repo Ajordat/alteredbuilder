@@ -13,7 +13,8 @@ WORKDIR /code
 
 # Install pip requirements
 COPY requirements.txt .
-RUN pip3 install -r requirements.txt --no-cache-dir
+RUN pip3 install -r requirements.txt --no-cache-dir 
+# && find /usr/local/lib/python3.12/ \( -type d -a -name test -o -name tests \) -o \( -type f -a -name '*.pyc' -o -name '*.pyo' \) -exec rm -rf '{}' \+
 
 # Copy the source code into the container
 COPY . .
