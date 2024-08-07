@@ -77,6 +77,8 @@ jobs:
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
     steps:
+    - name: Checkout
+      uses: actions/checkout@v4
     - name: Download artifact
       uses: actions/download-artifact@v4
       with:
