@@ -4,8 +4,8 @@ from django.test import RequestFactory
 from django.urls import reverse
 
 from config.tests.utils import get_login_url, silence_logging
-from decks.forms import DecklistForm, DeckMetadataForm
-from decks.models import Card, Deck
+from decks.forms import CommentForm, DecklistForm, DeckMetadataForm
+from decks.models import Card, Comment, Deck
 from decks.tests.utils import BaseFormTestCase
 from decks.views import NewDeckFormView
 
@@ -55,6 +55,25 @@ class CreateDeckFormTestCase(BaseFormTestCase):
         response = self.client.post(reverse("new-deck"), form_data)
         self.assertRedirects(
             response, get_login_url("new-deck"), status_code=HTTPStatus.FOUND
+        )
+
+    def test_get_params(self):
+        """Request the view of a new deck with prefilled values from GET params."""
+        initial_value = "testtesttest"
+        self.client.force_login(self.user)
+
+        # Test the `decklist` parameter
+        response = self.client.get(reverse("new-deck") + f"?decklist={initial_value}")
+
+        self.assertDictEqual(
+            response.context["form"].initial, {"decklist": initial_value}
+        )
+
+        # Test the `hero` parameter
+        response = self.client.get(reverse("new-deck") + f"?hero={initial_value}")
+
+        self.assertDictEqual(
+            response.context["form"].initial, {"decklist": f"1 {initial_value}"}
         )
 
     def test_valid_deck_authenticated(self):
@@ -234,8 +253,8 @@ class UpdateDeckMetadataFormTestCase(BaseFormTestCase):
         # For an unknown reason, this is returning 405 instead of 403
         self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
 
-    def test_valid_non_existent_deck(self):
-        """Attempt to submit a form updating the metadata of a non-existent Deck."""
+    def test_valid_nonexistent_deck(self):
+        """Attempt to submit a form updating the metadata of a nonexistent Deck."""
         form_data = {"name": "new name", "description": "new description"}
 
         self.client.force_login(self.user)
@@ -263,6 +282,73 @@ class UpdateDeckMetadataFormTestCase(BaseFormTestCase):
         deck.refresh_from_db()
         self.assertEqual(deck.name, form_data["name"])
         self.assertEqual(deck.description, form_data["description"])
+        self.assertRedirects(
+            response,
+            reverse("deck-detail", kwargs={"pk": deck.id}),
+            status_code=HTTPStatus.FOUND,
+        )
+
+
+class CreateCommentFormTestCase(BaseFormTestCase):
+    """Test case focusing on the form to create a Comment."""
+
+    def test_invalid_no_body(self):
+        """Validate a form providing no body field."""
+        form_data = {}
+        form = CommentForm(data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertFormError(form, "body", "This field is required.")
+
+        form_data = {"body": ""}
+        form = CommentForm(data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertFormError(form, "body", "This field is required.")
+
+    def test_valid_comment_unauthenticated(self):
+        """Attempt to submit a form creating a Comment while unauthenticated."""
+        deck = Deck.objects.first()
+        form_data = {"body": "comment text"}
+
+        response = self.client.post(
+            reverse("create-deck-comment", kwargs={"pk": deck.id}), form_data
+        )
+
+        self.assertRedirects(
+            response,
+            get_login_url("create-deck-comment", pk=deck.id),
+            status_code=HTTPStatus.FOUND,
+        )
+
+    def test_valid_nonexistent_deck(self):
+        """Attempt to submit a form creating a Comment on a nonexistent Deck."""
+        form_data = {"body": "comment text"}
+
+        self.client.force_login(self.user)
+        with silence_logging():
+            response = self.client.post(
+                reverse("create-deck-comment", kwargs={"pk": 100_000}), form_data
+            )
+
+        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
+
+    def test_valid_submission(self):
+        """Submit a form creating a Comment."""
+        deck = Deck.objects.filter(owner=self.other_user, is_public=True).first()
+        form_data = {"body": "comment text"}
+
+        self.client.force_login(self.user)
+        response = self.client.post(
+            reverse("create-deck-comment", kwargs={"pk": deck.id}), form_data
+        )
+
+        comment_count = deck.comment_count
+        deck.refresh_from_db()
+        self.assertEqual(comment_count + 1, deck.comment_count)
+        self.assertTrue(
+            Comment.objects.filter(
+                user=self.user, deck=deck, body=form_data["body"]
+            ).exists()
+        )
         self.assertRedirects(
             response,
             reverse("deck-detail", kwargs={"pk": deck.id}),

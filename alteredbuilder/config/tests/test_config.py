@@ -31,7 +31,10 @@ class RouterTestCase(TestCase):
         # `config.sitemaps.DeckSitemap`
         user = User.objects.create_user(username="test_user")
         Deck.objects.create(
-            owner=user, name="public deck", is_public=True, description="cool description"
+            owner=user,
+            name="public deck",
+            is_public=True,
+            description="cool description",
         )
         response = self.client.get(reverse("django.contrib.sitemaps.views.sitemap"))
 
@@ -59,4 +62,3 @@ class RouterTestCase(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
         self.assertTemplateNotUsed("errors/404.html")
         self.assertIn("reason", response.context)
-        

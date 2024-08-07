@@ -3,7 +3,7 @@ from http import HTTPStatus
 from django.urls import reverse
 
 from config.tests.utils import get_login_url, silence_logging
-from decks.models import Card, CardInDeck, Deck
+from decks.models import Card, CardInDeck, Comment, CommentVote, Deck
 from decks.tests.utils import AjaxTestCase, BaseViewTestCase
 
 
@@ -70,7 +70,7 @@ class UpdateDeckViewTestCase(BaseViewTestCase, AjaxTestCase):
         data = {"card_reference": card.reference, "action": "delete"}
         self.client.force_login(self.user)
 
-        # Test a request targeting a non-existent deck id
+        # Test a request targeting a nonexistent deck id
         with silence_logging():
             response = self.client.post(
                 reverse("update-deck-id", kwargs={"pk": 100_000}), **headers, data=data
@@ -155,7 +155,7 @@ class UpdateDeckViewTestCase(BaseViewTestCase, AjaxTestCase):
             response, HTTPStatus.UNPROCESSABLE_ENTITY, "The deck must have a name"
         )
 
-        # Test a request targeting a non-existent deck id
+        # Test a request targeting a nonexistent deck id
         with silence_logging():
             response = self.client.post(
                 reverse("update-deck-id", kwargs={"pk": 100_000}), **headers, data=data
@@ -243,7 +243,6 @@ class UpdateDeckViewTestCase(BaseViewTestCase, AjaxTestCase):
         deck.refresh_from_db()
         response_data = response.json()["data"]
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertIn("data", response.json())
         self.assertTrue(response_data["patched"])
         self.assertEqual(response_data["deck"], deck.id)
         self.assertEqual(deck.hero, hero)
@@ -339,3 +338,215 @@ class LoveDeckViewTestCase(BaseViewTestCase):
             reverse("deck-detail", kwargs={"pk": deck.id}),
             status_code=HTTPStatus.FOUND,
         )
+
+
+class VoteCommentViewTestCase(BaseViewTestCase, AjaxTestCase):
+    """Test case focusing on the view that votes for a Comment in a Deck."""
+
+    def test_ajax_request(self):
+        deck = Deck.objects.get(owner=self.user, name=self.PUBLIC_DECK_NAME)
+        comment = Comment.objects.get(user=self.user, deck=deck)
+        test_url = reverse(
+            "vote-comment", kwargs={"pk": deck.id, "comment_pk": comment.id}
+        )
+
+        self.assert_ajax_protocol(test_url, self.user)
+
+    def test_vote_comment_unauthenticated(self):
+        """Test the view to vote a Comment with an unauthenticated user."""
+        deck = Deck.objects.get(owner=self.user, name=self.PUBLIC_DECK_NAME)
+        comment = Comment.objects.get(user=self.user, deck=deck)
+        test_url = reverse(
+            "vote-comment", kwargs={"pk": deck.id, "comment_pk": comment.id}
+        )
+        headers = {
+            "HTTP_X_REQUESTED_WITH": "XMLHttpRequest",
+            "content_type": "application/json",
+        }
+
+        response = self.client.post(test_url, **headers)
+
+        self.assertRedirects(
+            response, get_login_url(next=test_url), status_code=HTTPStatus.FOUND
+        )
+
+    def test_vote_comment_authenticated(self):
+        """Test the view to vote a Comment with an authenticated user."""
+        deck = Deck.objects.get(owner=self.user, name=self.PUBLIC_DECK_NAME)
+        comment = Comment.objects.get(user=self.user, deck=deck)
+        test_url = reverse(
+            "vote-comment", kwargs={"pk": deck.id, "comment_pk": comment.id}
+        )
+        headers = {
+            "HTTP_X_REQUESTED_WITH": "XMLHttpRequest",
+            "content_type": "application/json",
+        }
+
+        # Vote a Comment, which will increase its vote_count and create a CommentVote
+        self.client.force_login(self.other_user)
+        response = self.client.post(test_url, **headers)
+
+        response_data = response.json()["data"]
+        comment_vote_count = comment.vote_count
+        comment.refresh_from_db()
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertEqual(comment_vote_count + 1, comment.vote_count)
+        self.assertTrue(response_data["created"])
+        self.assertTrue(
+            CommentVote.objects.filter(user=self.other_user, comment=comment).exists()
+        )
+
+        # Vote the same Comment again, which will decrease its vote_count and delete
+        # the CommentVote
+        response = self.client.post(test_url, **headers)
+
+        response_data = response.json()["data"]
+        comment_vote_count = comment.vote_count
+        comment.refresh_from_db()
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertEqual(comment_vote_count - 1, comment.vote_count)
+        self.assertTrue(response_data["deleted"])
+        self.assertFalse(
+            CommentVote.objects.filter(user=self.other_user, comment=comment).exists()
+        )
+
+    def test_vote_comment_nonexistent_deck(self):
+        """Attempt to vote a Comment from a nonexistent Deck."""
+        comment = Comment.objects.first()
+        test_url = reverse(
+            "vote-comment", kwargs={"pk": 100_000, "comment_pk": comment.id}
+        )
+        headers = {
+            "HTTP_X_REQUESTED_WITH": "XMLHttpRequest",
+            "content_type": "application/json",
+        }
+
+        self.client.force_login(self.user)
+        with silence_logging():
+            response = self.client.post(test_url, **headers)
+
+        self.assert_ajax_error(response, HTTPStatus.NOT_FOUND, "Comment not found")
+
+    def test_vote_nonexistent_comment(self):
+        """Attempt to vote a nonexistent Comment."""
+        deck = Deck.objects.get(owner=self.user, name=self.PUBLIC_DECK_NAME)
+        test_url = reverse(
+            "vote-comment", kwargs={"pk": deck.id, "comment_pk": 100_000}
+        )
+        headers = {
+            "HTTP_X_REQUESTED_WITH": "XMLHttpRequest",
+            "content_type": "application/json",
+        }
+
+        self.client.force_login(self.user)
+        with silence_logging():
+            response = self.client.post(test_url, **headers)
+
+        self.assert_ajax_error(response, HTTPStatus.NOT_FOUND, "Comment not found")
+
+
+class DeleteCommentViewTestCase(BaseViewTestCase, AjaxTestCase):
+    """Test case focusing on the view that deletes a Comment from a Deck."""
+
+    def test_ajax_request(self):
+        deck = Deck.objects.get(owner=self.user, name=self.PUBLIC_DECK_NAME)
+        comment = Comment.objects.get(user=self.user, deck=deck)
+        test_url = reverse(
+            "delete-comment", kwargs={"pk": deck.id, "comment_pk": comment.id}
+        )
+
+        self.assert_ajax_protocol(test_url, self.user)
+
+    def test_delete_comment_unauthenticated(self):
+        """Test the view to delete a Comment with an unauthenticated user."""
+        deck = Deck.objects.get(owner=self.user, name=self.PUBLIC_DECK_NAME)
+        comment = Comment.objects.get(user=self.user, deck=deck)
+        test_url = reverse(
+            "delete-comment", kwargs={"pk": deck.id, "comment_pk": comment.id}
+        )
+        headers = {
+            "HTTP_X_REQUESTED_WITH": "XMLHttpRequest",
+            "content_type": "application/json",
+        }
+
+        response = self.client.post(test_url, **headers)
+
+        self.assertRedirects(
+            response, get_login_url(next=test_url), status_code=HTTPStatus.FOUND
+        )
+
+    def test_delete_comment_nonexistent_deck(self):
+        """Attempt to delete a Comment from a nonexistent Deck."""
+        comment = Comment.objects.first()
+        test_url = reverse(
+            "delete-comment", kwargs={"pk": 100_000, "comment_pk": comment.id}
+        )
+        headers = {
+            "HTTP_X_REQUESTED_WITH": "XMLHttpRequest",
+            "content_type": "application/json",
+        }
+
+        self.client.force_login(self.user)
+        with silence_logging():
+            response = self.client.post(test_url, **headers)
+
+        self.assert_ajax_error(response, HTTPStatus.NOT_FOUND, "Deck not found")
+
+    def test_delete_nonexistent_comment(self):
+        """Attempt to delete a nonexistent Comment."""
+        deck = Deck.objects.get(owner=self.user, name=self.PUBLIC_DECK_NAME)
+        test_url = reverse(
+            "delete-comment", kwargs={"pk": deck.id, "comment_pk": 100_000}
+        )
+        headers = {
+            "HTTP_X_REQUESTED_WITH": "XMLHttpRequest",
+            "content_type": "application/json",
+        }
+
+        self.client.force_login(self.user)
+        with silence_logging():
+            response = self.client.post(test_url, **headers)
+
+        self.assert_ajax_error(response, HTTPStatus.NOT_FOUND, "Comment not found")
+
+    def test_delete_not_owned_comment(self):
+        """Test the view to delete a Comment with an authenticated user that didn't create it."""
+        deck = Deck.objects.get(owner=self.user, name=self.PUBLIC_DECK_NAME)
+        comment = Comment.objects.get(user=self.user, deck=deck)
+        test_url = reverse(
+            "delete-comment", kwargs={"pk": deck.id, "comment_pk": comment.id}
+        )
+        headers = {
+            "HTTP_X_REQUESTED_WITH": "XMLHttpRequest",
+            "content_type": "application/json",
+        }
+
+        self.client.force_login(self.other_user)
+        with silence_logging():
+            response = self.client.post(test_url, **headers)
+
+        self.assert_ajax_error(response, HTTPStatus.NOT_FOUND, "Comment not found")
+
+    def test_delete_owned_comment(self):
+        """Test the view to delete a Comment with the authenticated user that created it."""
+        deck = Deck.objects.get(owner=self.user, name=self.PUBLIC_DECK_NAME)
+        comment = Comment.objects.get(user=self.user, deck=deck)
+        test_url = reverse(
+            "delete-comment", kwargs={"pk": deck.id, "comment_pk": comment.id}
+        )
+        headers = {
+            "HTTP_X_REQUESTED_WITH": "XMLHttpRequest",
+            "content_type": "application/json",
+        }
+
+        self.client.force_login(self.user)
+        response = self.client.post(test_url, **headers)
+
+        response_data = response.json()["data"]
+        comment_count = deck.comment_count
+        deck.refresh_from_db()
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertEqual(comment_count - 1, deck.comment_count)
+        self.assertTrue(response_data["deleted"])
+        with self.assertRaises(Comment.DoesNotExist):
+            comment.refresh_from_db()

@@ -458,8 +458,6 @@ def vote_comment(request: HttpRequest, pk: int, comment_pk: int) -> HttpResponse
         comment.vote_count = F("vote_count") + 1
         comment.save()
         status = {"created": True}
-    except Deck.DoesNotExist:
-        return ApiJsonResponse(_("Deck not found"), HTTPStatus.NOT_FOUND)
     except Comment.DoesNotExist:
         return ApiJsonResponse(_("Comment not found"), HTTPStatus.NOT_FOUND)
 
@@ -594,15 +592,18 @@ class CreateCommentFormView(LoginRequiredMixin, FormView):
             HttpResponse: The response.
         """
         # Retrieve the Deck by ID and the user, to ensure ownership
-        deck = Deck.objects.get(pk=self.kwargs["pk"])
-        Comment.objects.create(
-            user=self.request.user, deck=deck, body=form.cleaned_data["body"]
-        )
-        deck.comment_count = F("comment_count") + 1
+        try:
+            deck = Deck.objects.get(pk=self.kwargs["pk"])
+            Comment.objects.create(
+                user=self.request.user, deck=deck, body=form.cleaned_data["body"]
+            )
+            deck.comment_count = F("comment_count") + 1
 
-        deck.save(update_fields=["comment_count"])
+            deck.save(update_fields=["comment_count"])
 
-        return super().form_valid(form)
+            return super().form_valid(form)
+        except Deck.DoesNotExist:
+            raise Http404
 
     def get_success_url(self) -> str:
         """Return the redirect URL for a successful update.

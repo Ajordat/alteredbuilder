@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from django.test import TestCase
 
 from config.tests.utils import silence_logging
-from decks.models import Card, CardInDeck, Deck, Set
+from decks.models import Card, CardInDeck, Comment, Deck, Set
 
 
 def get_id() -> Generator[int, None, None]:
@@ -207,6 +207,7 @@ class BaseViewTestCase(TestCase):
         * 1 Spell
         * 1 Permanent
         * 4 Deck
+        * 2 Comment
         """
         hero = generate_card(Card.Faction.AXIOM, Card.Type.HERO, Card.Rarity.COMMON)
         character = generate_card(
@@ -232,7 +233,14 @@ class BaseViewTestCase(TestCase):
             cards (list[Card]): The Deck's cards.
         """
         public_deck = Deck.objects.create(
-            owner=user, name=cls.PUBLIC_DECK_NAME, hero=hero, is_public=True
+            owner=user,
+            name=cls.PUBLIC_DECK_NAME,
+            hero=hero,
+            is_public=True,
+            comment_count=1,
+        )
+        Comment.objects.create(
+            user=user, deck=public_deck, body="comment on public deck"
         )
         private_deck = Deck.objects.create(
             owner=user, name=cls.PRIVATE_DECK_NAME, hero=hero, is_public=False
@@ -262,7 +270,7 @@ class BaseFormTestCase(TestCase):
         * 2 Deck
         """
         cls.user = User.objects.create_user(username=cls.USER_NAME)
-        other_user = User.objects.create_user(username=cls.OTHER_USER)
+        cls.other_user = User.objects.create_user(username=cls.OTHER_USER)
 
         Card.objects.create(
             reference=cls.HERO_REFERENCE,
@@ -285,4 +293,4 @@ class BaseFormTestCase(TestCase):
             ocean_power=1,
         )
         Deck.objects.create(owner=cls.user, name=cls.DECK_NAME)
-        Deck.objects.create(owner=other_user, name=cls.DECK_NAME)
+        Deck.objects.create(owner=cls.other_user, name=cls.DECK_NAME, is_public=True)

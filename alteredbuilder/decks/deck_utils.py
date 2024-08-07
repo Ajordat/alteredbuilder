@@ -310,24 +310,18 @@ def parse_deck_query_syntax(qs, query):
 
     if matches := re.finditer(t_regex, query):
         for re_match in matches:
-            try:
-                username = re_match.group("username")
-                filters &= Q(owner__username__iexact=username)
-                tags.append((_("user"), ":", username))
-            except KeyError:
-                continue
+            username = re_match.group("username")
+            filters &= Q(owner__username__iexact=username)
+            tags.append((_("user"), ":", username))
         query = re.sub(t_regex, "", query)
 
     h_regex = r"h:(?P<hero>\w+)"
 
     if matches := re.finditer(h_regex, query):
         for re_match in matches:
-            try:
-                hero = re_match.group("hero")
-                filters &= Q(hero__name__icontains=hero)
-                tags.append((_("hero"), ":", hero))
-            except KeyError:
-                continue
+            hero = re_match.group("hero")
+            filters &= Q(hero__name__icontains=hero)
+            tags.append((_("hero"), ":", hero))
         query = re.sub(h_regex, "", query)
 
     query = query.strip()
