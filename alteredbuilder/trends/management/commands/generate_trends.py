@@ -93,7 +93,7 @@ class Command(BaseCommand):
 
         card_trends = (
             CardInDeck.objects.filter(*legality_filter, **base_filter)
-            .annotate(name=F(f"card__name_en"))
+            .annotate(name=F("card__name_en"))
             .values("name", "card__faction", "card__rarity")
             .alias(count=Count("name"))
             .order_by("-count")[:CARD_RANKING_LIMIT]
@@ -122,7 +122,7 @@ class Command(BaseCommand):
             card_trends = (
                 CardInDeck.objects.filter(*legality_filter, **base_filter)
                 .filter(card__faction=faction)
-                .annotate(name=F(f"card__name_en"))
+                .annotate(name=F("card__name_en"))
                 .values("name", "card__faction", "card__rarity")
                 .alias(count=Count("name"))
                 .order_by("-count")[:CARD_RANKING_LIMIT]
@@ -148,7 +148,7 @@ class Command(BaseCommand):
             card_trends = (
                 CardInDeck.objects.filter(*legality_filter, **base_filter)
                 .filter(deck__hero__name_en=hero_trend.hero.name)
-                .annotate(name=F(f"card__name_en"))
+                .annotate(name=F("card__name_en"))
                 .values("name", "card__faction", "card__rarity")
                 .alias(count=Count("name"))
                 .order_by("-count")[:CARD_RANKING_LIMIT]

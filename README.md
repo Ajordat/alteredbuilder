@@ -79,7 +79,27 @@ gcloud sql import sql <cloud-sql-instance-name> <cloud-storage-bucket-uri> --dat
 ```
 
 
-## Testing
+## Development
+
+### Code format and style
+
+This code base uses `black` to enforce formatting rules of PEP8.
+
+```bash
+docker compose run web black .
+```
+
+This code base uses `flake8` to highlight broken styling rules of PEP8.
+
+```bash
+flake8 alteredbuilder --ignore=E501,W503
+```
+
+The above rules are ignored:
+
+* [E501](https://www.flake8rules.com/rules/E501.html): Line too long. I prefer to use `black`'s preference for 88 character lines; and ignore those lines that `black` doesn't fix.
+* [W503](https://www.flake8rules.com/rules/W503.html): Line break occurred before a binary operator. Currently `flake8` considers it an anti-pattern, but in future versions it will be considered the best practice. This warning is ignored as `black` already enforces this as the best practice.
+
 
 ### Run unittests
 ```bash
@@ -102,6 +122,7 @@ docker compose run web python manage.py test <app>.tests.<test_file>.<class_name
 ### Run unittests and view coverage
 ```bash
 # Discover and run all tests and generate a test coverage report
+# The above test selection also applies to `coverage`
 docker compose run web coverage run manage.py test
 # View coverage report
 docker compose run web coverage report -m

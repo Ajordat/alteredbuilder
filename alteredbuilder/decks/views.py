@@ -6,7 +6,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db.models import Exists, F, OuterRef, Q
-from django.db.models.functions import Coalesce
 from django.db.models.manager import Manager
 from django.db.models.query import QuerySet
 from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
@@ -22,7 +21,8 @@ from api.utils import ajax_request, ApiJsonResponse
 from .deck_utils import (
     create_new_deck,
     get_deck_details,
-    parse_query_syntax,
+    parse_card_query_syntax,
+    parse_deck_query_syntax,
     patch_deck,
     remove_card_from_deck,
 )
@@ -66,7 +66,10 @@ class DeckListView(ListView):
         # Retrieve the query and search by deck name or hero name
         query = self.request.GET.get("query")
         if query:
-            filters &= Q(name__icontains=query) | Q(hero__name__icontains=query)
+            qs, query_tags = parse_deck_query_syntax(qs, query)
+            self.query_tags = query_tags
+        else:
+            self.query_tags = None
 
         # Extract the faction filter
         factions = self.request.GET.get("faction")
@@ -138,8 +141,10 @@ class DeckListView(ListView):
             if filter in self.request.GET:
                 checked_filters += self.request.GET[filter].split(",")
         context["checked_filters"] = checked_filters
+
         if "query" in self.request.GET:
             context["query"] = self.request.GET.get("query")
+            context["query_tags"] = self.query_tags
 
         return context
 
@@ -453,8 +458,6 @@ def vote_comment(request: HttpRequest, pk: int, comment_pk: int) -> HttpResponse
         comment.vote_count = F("vote_count") + 1
         comment.save()
         status = {"created": True}
-    except Deck.DoesNotExist:
-        return ApiJsonResponse(_("Deck not found"), HTTPStatus.NOT_FOUND)
     except Comment.DoesNotExist:
         return ApiJsonResponse(_("Comment not found"), HTTPStatus.NOT_FOUND)
 
@@ -589,15 +592,18 @@ class CreateCommentFormView(LoginRequiredMixin, FormView):
             HttpResponse: The response.
         """
         # Retrieve the Deck by ID and the user, to ensure ownership
-        deck = Deck.objects.get(pk=self.kwargs["pk"])
-        Comment.objects.create(
-            user=self.request.user, deck=deck, body=form.cleaned_data["body"]
-        )
-        deck.comment_count = F("comment_count") + 1
+        try:
+            deck = Deck.objects.get(pk=self.kwargs["pk"])
+            Comment.objects.create(
+                user=self.request.user, deck=deck, body=form.cleaned_data["body"]
+            )
+            deck.comment_count = F("comment_count") + 1
 
-        deck.save(update_fields=["comment_count"])
+            deck.save(update_fields=["comment_count"])
 
-        return super().form_valid(form)
+            return super().form_valid(form)
+        except Deck.DoesNotExist:
+            raise Http404
 
     def get_success_url(self) -> str:
         """Return the redirect URL for a successful update.
@@ -627,7 +633,7 @@ class CardListView(ListView):
         # Retrieve the text query and search by name
         query = self.request.GET.get("query")
         if query:
-            qs, query_tags = parse_query_syntax(qs, query)
+            qs, query_tags = parse_card_query_syntax(qs, query)
             self.query_tags = query_tags
         else:
             self.query_tags = None

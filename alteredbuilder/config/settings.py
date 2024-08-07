@@ -23,6 +23,10 @@ import google.auth
 from google.cloud import secretmanager
 from google.oauth2 import service_account
 
+from . import __version__
+
+
+VERSION = __version__
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -103,6 +107,7 @@ if SERVICE_PUBLIC_URL := env("SERVICE_PUBLIC_URL"):
 else:
     # If we're in a local environment, we only allow the localhost
     ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0", "localhost"]
+    CSRF_TRUSTED_ORIGINS = ["http://" + host for host in ALLOWED_HOSTS]
 
 SESSION_COOKIE_NAME = "__session"
 CSRF_USE_SESSIONS = True

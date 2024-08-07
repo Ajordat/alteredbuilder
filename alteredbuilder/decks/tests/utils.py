@@ -1,16 +1,13 @@
 from collections.abc import Generator
-from contextlib import contextmanager
 from http import HTTPStatus
-import logging
 from random import randint
 
-from django.conf import settings
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.test import TestCase
-from django.urls import reverse
 
-from decks.models import Card, CardInDeck, Deck
+from config.tests.utils import silence_logging
+from decks.models import Card, CardInDeck, Comment, Deck, Set
 
 
 def get_id() -> Generator[int, None, None]:
@@ -32,6 +29,7 @@ def generate_card(
     faction: Card.Faction,
     card_type: Card.Type,
     rarity: Card.Rarity = Card.Rarity.COMMON,
+    card_set: str = None,
 ) -> Card:
     """Generate a new card from a Faction, Type and Rarity.
 
@@ -57,10 +55,19 @@ def generate_card(
         "main_cost": randint(1, 10),
         "recall_cost": randint(1, 10),
     }
+
+    if card_set:
+        data["card_set"] = Set.objects.get_or_create(
+            name=card_set, short_name=card_set, code=card_set, reference_code=card_set
+        )[0]
+
     match card_type:
         case Card.Type.HERO:
             card = Card.objects.create_hero(
-                reference=data["reference"], name=data["name"], faction=faction
+                reference=data["reference"],
+                name=data["name"],
+                faction=faction,
+                card_set=data["card_set"] if card_set else None,
             )
         case Card.Type.CHARACTER:
             card = Card.objects.create_card(
@@ -105,30 +112,6 @@ def create_cid(
             quantity=quantity,
             card=generate_card(faction, type, rarity),
         )
-
-
-def get_login_url(template: str = None, next: str = None, **kwargs) -> str:
-    """Return the login URL with the received template as the `next` parameter.
-
-    Args:
-        template (str): Name of the URL to be added on the `next` parameter.
-
-    Returns:
-        str: The built login URL.
-    """
-    if next:
-        return f"{settings.LOGIN_URL}?next={next}"
-    return f"{settings.LOGIN_URL}?next={reverse(template, kwargs=kwargs)}"
-
-
-@contextmanager
-def silence_logging():
-    """Context manager to silence the logging for a given block. Useful to disable
-    request's error messages logged into the console while testing failing requests.
-    """
-    logging.disable(logging.CRITICAL)
-    yield
-    logging.disable(logging.NOTSET)
 
 
 def get_detail_card_list(deck: Deck, card_type: Card.Type) -> list[int, Card]:
@@ -224,6 +207,7 @@ class BaseViewTestCase(TestCase):
         * 1 Spell
         * 1 Permanent
         * 4 Deck
+        * 2 Comment
         """
         hero = generate_card(Card.Faction.AXIOM, Card.Type.HERO, Card.Rarity.COMMON)
         character = generate_card(
@@ -249,7 +233,14 @@ class BaseViewTestCase(TestCase):
             cards (list[Card]): The Deck's cards.
         """
         public_deck = Deck.objects.create(
-            owner=user, name=cls.PUBLIC_DECK_NAME, hero=hero, is_public=True
+            owner=user,
+            name=cls.PUBLIC_DECK_NAME,
+            hero=hero,
+            is_public=True,
+            comment_count=1,
+        )
+        Comment.objects.create(
+            user=user, deck=public_deck, body="comment on public deck"
         )
         private_deck = Deck.objects.create(
             owner=user, name=cls.PRIVATE_DECK_NAME, hero=hero, is_public=False
@@ -279,7 +270,7 @@ class BaseFormTestCase(TestCase):
         * 2 Deck
         """
         cls.user = User.objects.create_user(username=cls.USER_NAME)
-        other_user = User.objects.create_user(username=cls.OTHER_USER)
+        cls.other_user = User.objects.create_user(username=cls.OTHER_USER)
 
         Card.objects.create(
             reference=cls.HERO_REFERENCE,
@@ -302,4 +293,4 @@ class BaseFormTestCase(TestCase):
             ocean_power=1,
         )
         Deck.objects.create(owner=cls.user, name=cls.DECK_NAME)
-        Deck.objects.create(owner=other_user, name=cls.DECK_NAME)
+        Deck.objects.create(owner=cls.other_user, name=cls.DECK_NAME, is_public=True)

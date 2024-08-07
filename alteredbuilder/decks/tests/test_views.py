@@ -2,19 +2,17 @@ from http import HTTPStatus
 from urllib.parse import quote
 import uuid
 
-from django.db.models import Q
-from django.db.models.functions import Coalesce
+from django.db.models import Exists, OuterRef, Q
 from django.http import HttpResponse
 from django.urls import reverse
 
-from decks.models import Card, CardInDeck, Deck, LovePoint, PrivateLink
-from .utils import (
+from config.tests.utils import get_login_url, silence_logging
+from decks.models import Card, CardInDeck, Deck, LovePoint, PrivateLink, Subtype
+from decks.tests.utils import (
     AjaxTestCase,
     BaseViewTestCase,
     generate_card,
     get_detail_card_list,
-    get_login_url,
-    silence_logging,
 )
 
 
@@ -152,6 +150,37 @@ class DeckListViewTestCase(BaseViewTestCase):
             query_decks, response.context["deck_list"], ordered=False
         )
 
+    def test_deck_list_u_advanced_filters(self):
+        """Test the view of all the public Decks after filtering the query by user."""
+        # Search all the decks with the given name
+        deck = Deck.objects.filter(is_public=True).first()
+        response = self.client.get(
+            reverse("deck-list") + f"?query=u:{deck.owner.username}"
+        )
+
+        query_decks = Deck.objects.filter(
+            is_public=True, owner__username__iexact=deck.owner.username
+        )
+        self.assertQuerySetEqual(
+            query_decks, response.context["deck_list"], ordered=False
+        )
+
+    def test_deck_list_h_advanced_filters(self):
+        """Test the view of all the public Decks after filtering the query by hero."""
+        # Search all the decks with the given name
+        deck = Deck.objects.filter(is_public=True, hero__isnull=False).first()
+
+        response = self.client.get(
+            reverse("deck-list") + f"?query=h:{deck.hero.name.split(" ")[-1]}"
+        )
+
+        query_decks = Deck.objects.filter(
+            is_public=True, hero__name__icontains=deck.hero.name
+        )
+        self.assertQuerySetEqual(
+            query_decks, response.context["deck_list"], ordered=False
+        )
+
 
 class DeckDetailViewTestCase(BaseViewTestCase):
     """Test case focusing on the Deck DetailView."""
@@ -222,10 +251,13 @@ class DeckDetailViewTestCase(BaseViewTestCase):
         """
         self.client.force_login(self.user)
         private_deck = Deck.objects.filter(is_public=False, owner=self.other_user).get()
-        response = self.client.get(
-            reverse("deck-detail", kwargs={"pk": private_deck.id})
-        )
 
+        with silence_logging():
+            response = self.client.get(
+                reverse("deck-detail", kwargs={"pk": private_deck.id})
+            )
+
+        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
         self.assertTemplateUsed(response, "errors/404.html")
 
     def test_public_deck_detail_unauthenticated(self):
@@ -240,10 +272,12 @@ class DeckDetailViewTestCase(BaseViewTestCase):
     def test_private_deck_detail_unauthenticated(self):
         """Test the deck detail page of an unauthenticated user to a private deck."""
         private_deck = Deck.objects.filter(is_public=False, owner=self.other_user).get()
-        response = self.client.get(
-            reverse("deck-detail", kwargs={"pk": private_deck.id})
-        )
+        with silence_logging():
+            response = self.client.get(
+                reverse("deck-detail", kwargs={"pk": private_deck.id})
+            )
 
+        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
         self.assertTemplateUsed(response, "errors/404.html")
 
 
@@ -550,6 +584,105 @@ class CardListViewTestCase(BaseViewTestCase):
             query_cards, response.context["card_list"], ordered=False
         )
 
+    def test_card_list_x_advanced_filters(self):
+        """Test the view of all the Cards after applying a filter on the query to find
+        the Cards with a specific word in its effects.
+        """
+        value = "findme"
+        character = Card.objects.filter(type=Card.Type.CHARACTER).first()
+        spell = Card.objects.filter(type=Card.Type.SPELL).first()
+        character.main_effect = value
+        character.save()
+        spell.echo_effect = value
+        spell.save()
+
+        response = self.client.get(reverse("cards") + f"?query=x:{value}")
+
+        query_cards = Card.objects.filter(
+            Q(main_effect__icontains=value) | Q(echo_effect__icontains=value)
+        )
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+    def test_card_list_st_advanced_filters(self):
+        """Test the view of all the Cards after applying a filter on the query to find
+        the Cards with a subtype with a specific word in its name.
+        """
+
+        value = "findme"
+        subtype = Subtype.objects.create(reference=value, name=value)
+        character = Card.objects.filter(type=Card.Type.CHARACTER).first()
+        spell = Card.objects.filter(type=Card.Type.SPELL).first()
+        character.subtypes.add(subtype)
+        spell.subtypes.add(subtype)
+
+        response = self.client.get(reverse("cards") + f"?query=st:{value}")
+        query_cards = Card.objects.filter(
+            Exists(Subtype.objects.filter(card=OuterRef("pk"), name__icontains=value))
+        )
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+    def test_card_list_t_advanced_filters(self):
+        """Test the view of all the Cards after applying a filter on the query to find
+        the Cards with specific triggers.
+        """
+
+        character = Card.objects.filter(type=Card.Type.CHARACTER).first()
+        character.main_effect = "{J} I trigger when played"
+        character.save()
+        permanent = Card.objects.filter(type=Card.Type.PERMANENT).first()
+        permanent.main_effect = "{H} I trigger from hand {T} You can exhaust me"
+        permanent.save()
+        spell = Card.objects.filter(type=Card.Type.SPELL).first()
+        spell.main_effect = "{R} I trigger from reserve"
+        spell.echo_effect = "{D} You can discard me"
+        spell.save()
+
+        # Search for Cards that trigger when they enter the battlefield
+        response = self.client.get(reverse("cards") + "?query=t:etb")
+        query_cards = Card.objects.filter(main_effect__contains="{J}")
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+        # Search for Cards that trigger when they are cast form the hand
+        response = self.client.get(reverse("cards") + "?query=t:hand")
+        query_cards = Card.objects.filter(main_effect__contains="{H}")
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+        # Search for Cards that trigger when they are cast from the reserve
+        response = self.client.get(reverse("cards") + "?query=t:reserve")
+        query_cards = Card.objects.filter(main_effect__contains="{R}")
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+        # Search for Cards that trigger by discarding them from the reserve
+        response = self.client.get(reverse("cards") + "?query=t:discard")
+        query_cards = Card.objects.filter(echo_effect__contains="{D}")
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+        # Search for Cards that trigger when they get exhausted
+        response = self.client.get(reverse("cards") + "?query=t:exhaust")
+        query_cards = Card.objects.filter(main_effect__contains="{T}")
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
+        # Search for a trigger than doesn't exist
+        response = self.client.get(reverse("cards") + "?query=t:dontexist")
+        query_cards = Card.objects.all()
+        self.assertQuerySetEqual(
+            query_cards, response.context["card_list"], ordered=False
+        )
+
 
 class AccessPrivateLinkViewTestCase(BaseViewTestCase):
     """Test case focusing on the view to access a Deck through a PrivateLink."""
@@ -588,8 +721,10 @@ class AccessPrivateLinkViewTestCase(BaseViewTestCase):
             kwargs={"pk": another_deck.id, "code": self.pl.code},
         )
         self.client.force_login(self.other_user)
-        response = self.client.get(url)
+        with silence_logging():
+            response = self.client.get(url)
 
+        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
         self.assertTemplateUsed(response, "errors/404.html")
 
     def test_authenticated_code_mismatch(self):
@@ -602,8 +737,10 @@ class AccessPrivateLinkViewTestCase(BaseViewTestCase):
             kwargs={"pk": self.pl_deck.id, "code": code},
         )
         self.client.force_login(self.other_user)
-        response = self.client.get(url)
+        with silence_logging():
+            response = self.client.get(url)
 
+        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
         self.assertTemplateUsed(response, "errors/404.html")
 
     def test_authenticated_by_another_user(self):
@@ -695,7 +832,7 @@ class CreatePrivateLinkViewTestCase(BaseViewTestCase, AjaxTestCase):
         }
         self.client.force_login(self.user)
 
-        # Test a request targeting a non-existent deck id
+        # Test a request targeting a nonexistent deck id
         wrong_url = reverse("create-private-link", kwargs={"pk": 100_000})
         with silence_logging():
             response = self.client.post(wrong_url, **headers)

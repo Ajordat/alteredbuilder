@@ -1,13 +1,15 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 
-from decks.models import Card, Deck
+from decks.models import Card, Deck, Set, Subtype
 
 
-class DecksViewsTestCase(TestCase):
+class DecksModelsTestCase(TestCase):
     """Test case focusing on the Models."""
 
     TEST_USER = "test_user"
+    SET_CODE = "SET CODE"
+    SUBTYPE_REFERENCE = "ENGINEER"
     HERO_REFERENCE = "ALT_CORE_B_AX_01_C"
     PROMO_HERO_REFERENCE = "ALT_CORE_P_AX_01_C"
     CHARACTER_REFERENCE = "ALT_CORE_B_YZ_08_C"
@@ -29,6 +31,15 @@ class DecksViewsTestCase(TestCase):
         * 1 Deck
         """
         cls.user = User.objects.create_user(username=cls.TEST_USER)
+        Set.objects.create(
+            name=cls.SET_CODE,
+            short_name=cls.SET_CODE,
+            code=cls.SET_CODE,
+            reference_code=cls.SET_CODE,
+        )
+        Subtype.objects.create(
+            reference=cls.SUBTYPE_REFERENCE, name=cls.SUBTYPE_REFERENCE
+        )
         hero = Card.objects.create_hero(
             reference=cls.HERO_REFERENCE,
             name="Sierra & Oddball",
@@ -87,12 +98,16 @@ class DecksViewsTestCase(TestCase):
 
     def test_to_string(self):
         """Test the string representations of all models."""
+        card_set = Set.objects.get(code=self.SET_CODE)
+        subtype = Subtype.objects.get(reference=self.SUBTYPE_REFERENCE)
         hero = Card.objects.get(reference=self.HERO_REFERENCE)
         character = Card.objects.get(reference=self.CHARACTER_REFERENCE)
         spell = Card.objects.get(reference=self.SPELL_REFERENCE)
         permanent = Card.objects.get(reference=self.PERMANENT_REFERENCE)
         deck = Deck.objects.get(name=self.DECK_NAME)
 
+        self.assertEqual(str(card_set), card_set.name)
+        self.assertEqual(str(subtype), subtype.reference)
         self.assertEqual(str(hero), f"[{hero.faction}] - {hero.name} ({hero.rarity})")
         self.assertEqual(
             str(character),
