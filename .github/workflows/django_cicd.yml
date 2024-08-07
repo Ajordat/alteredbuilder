@@ -13,6 +13,7 @@ on:
 env:
   DEBUG: False
   USE_GCS_STATICS: False
+  IMAGE_NAME: ${{ vars.CLOUD_RUN_SERVICE_NAME }}
 
 
 defaults:
@@ -20,27 +21,28 @@ defaults:
     working-directory: ./alteredbuilder
 
 jobs:
-  # changes:
-  #   name: Parse the changed files
-  #   runs-on: ubuntu-22.04
-  #   outputs:
-  #     statics: ${{ steps.filter.outputs.statics }}
-  #     migrations: ${{ steps.filter.outputs.migrations }}
-  #   steps:
-  #   - name: Checkout
-  #     uses: actions/checkout@v4
-  #   - name: Filter changed files
-  #     uses: dorny/paths-filter@v3
-  #     id: filter
-  #     with:
-  #       filters: |
-  #         statics:
-  #         - "**/static/**"
-  #         - "**/statics/**"
-  #         - "alteredbuilder/requirements.txt"
-  #         migrations:
-  #         - "**/migrations/**"
-  #         - "alteredbuilder/requirements.txt"
+  changes:
+    name: Parse the changed files
+    runs-on: ubuntu-22.04
+    outputs:
+      statics: ${{ steps.filter.outputs.statics }}
+      migrations: ${{ steps.filter.outputs.migrations }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Filter changed files
+      uses: dorny/paths-filter@v3
+      id: filter
+      with:
+        filters: |
+          statics:
+          - "**/static/**"
+          - "**/statics/**"
+          - "alteredbuilder/requirements.txt"
+          migrations:
+          - "**/migrations/**"
+          - "alteredbuilder/requirements.txt"
+
   build_image:
     name: Build the image
     runs-on: ubuntu-22.04
@@ -54,12 +56,13 @@ jobs:
       with:
         context: alteredbuilder
         tags: ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
-        outputs: type=docker,dest=/tmp/${{ vars.CLOUD_RUN_SERVICE_NAME }}.tar
+        outputs: type=docker,dest=/tmp/${{ env.IMAGE_NAME }}.tar
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ vars.CLOUD_RUN_SERVICE_NAME }}
-        path: /tmp/${{ vars.CLOUD_RUN_SERVICE_NAME }}.tar
+        name: ${{ env.IMAGE_NAME }}
+        path: /tmp/${{ env.IMAGE_NAME }}.tar
+
   unittests:
     name: Run unittests
     needs: build_image
@@ -74,16 +77,14 @@ jobs:
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
     - name: Download artifact
       uses: actions/download-artifact@v4
       with:
-        name: ${{ vars.CLOUD_RUN_SERVICE_NAME }}
+        name: ${{ env.IMAGE_NAME }}
         path: /tmp
     - name: Load image
       run: |
-        docker load --input /tmp/${{ vars.CLOUD_RUN_SERVICE_NAME }}.tar
+        docker load --input /tmp/${{ env.IMAGE_NAME }}.tar
     - name: Run Tests
       uses: addnab/docker-run-action@v3
       with:
@@ -92,63 +93,59 @@ jobs:
         options: |
           -e SECRET_KEY=${{ secrets.SECRET_KEY }}
           -e DATABASE_URL=psql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD}}@db:5432/${{ secrets.POSTGRES_DB }}
-    # - name: Run Tests
-    #   run: |
-    #     docker image ls -a
-    #     docker run ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }} ls
-    #     docker run ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }} python manage.py test
-    #   env:
-    #     SECRET_KEY: ${{ secrets.SECRET_KEY }}
-    #     DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
 
-  # push_image:
-  #   name: Build and push the image
-  #   needs: unittests
-  #   runs-on: ubuntu-22.04
-  #   steps:
-  #   - name: Checkout
-  #     uses: actions/checkout@v4
-  #   - name: Authenticate into GCP
-  #     id: auth
-  #     uses: google-github-actions/auth@v2
-  #     with:
-  #       credentials_json: ${{ secrets.GCP_GITHUB_SA }}
-  #   - name: Set up gcloud
-  #     uses: google-github-actions/setup-gcloud@v2
-  #   - name: Set up docker
-  #     run: gcloud auth configure-docker ${{ vars.REGION }}-docker.pkg.dev --quiet
-  #   - name: Build image
-  #     run: docker build . --tag ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
-  #   - name: Push image
-  #     run: docker push ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
+  push_image:
+    name: Push the image
+    needs: unittests
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.IMAGE_NAME }}
+        path: /tmp
+    - name: Load image
+      run: docker load --input /tmp/${{ env.IMAGE_NAME }}.tar
+    - name: Authenticate into GCP
+      id: auth
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_GITHUB_SA }}
+    - name: Set up gcloud
+      uses: google-github-actions/setup-gcloud@v2
+    - name: Set up docker
+      run: gcloud auth configure-docker ${{ vars.REGION }}-docker.pkg.dev --quiet
+    - name: Push image
+      run: docker push ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
 
-  # migrate_db:
-  #   name: Perform db migrations
-  #   needs: [changes, build_and_push_image]
-  #   if: needs.changes.outputs.migrations == 'true'
-  #   runs-on: ubuntu-22.04
-  #   steps:
-  #   - name: Checkout
-  #     uses: actions/checkout@v4
-  #   - name: Set up Python 3.12
-  #     uses: actions/setup-python@v5
-  #     with:
-  #       python-version: 3.12
-  #   - name: Install Dependencies
-  #     run: |
-  #       python -m pip install --upgrade pip
-  #       pip install -r requirements.txt
-  #   - name: Configure Google Cloud SQL Auth Proxy
-  #     uses: mattes/gce-cloudsql-proxy-action@v1
-  #     with:
-  #       creds: ${{ secrets.GCP_GITHUB_SA }}
-  #       instance: ${{ vars.CLOUD_SQL_INSTANCE }}
-  #       port: 5432
-  #   - name: Run migrations
-  #     run: python manage.py migrate --no-input
-  #     env:
-  #       SECRET_KEY: ${{ secrets.SECRET_KEY }}
-  #       DATABASE_URL: ${{ secrets.MIGRATION_DATABASE_URL }}
+  migrate_db:
+    name: Perform db migrations
+    needs: [changes, unittests]
+    # if: needs.changes.outputs.migrations == 'true'
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.IMAGE_NAME }}
+        path: /tmp
+    - name: Load image
+      run: |
+        docker load --input /tmp/${{ env.IMAGE_NAME }}.tar
+    - name: Configure Google Cloud SQL Auth Proxy
+      uses: mattes/gce-cloudsql-proxy-action@v1
+      with:
+        creds: ${{ secrets.GCP_GITHUB_SA }}
+        instance: ${{ vars.CLOUD_SQL_INSTANCE }}
+        port: 5432
+    - name: Run Tests
+      uses: addnab/docker-run-action@v3
+      with:
+        image: ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
+        run: python manage.py migrate --no-input
+        options: |
+          -e SECRET_KEY=${{ secrets.SECRET_KEY }}
+          -e DATABASE_URL=${{ secrets.MIGRATION_DATABASE_URL }}
 
   # collect_statics:
   #   name: Collect static files into GCS
