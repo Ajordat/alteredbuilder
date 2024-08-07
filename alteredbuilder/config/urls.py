@@ -1,30 +1,17 @@
-"""
-URL configuration for alteredbuilder project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
+from http import HTTPStatus
+import sys
 
 from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.contrib.sitemaps import views as sitemap_views
+from django.shortcuts import render
 from django.urls import include, path, reverse_lazy
+from django.views.debug import technical_404_response, technical_500_response
 from django.views.decorators.cache import cache_page
 from django.views.generic import RedirectView, TemplateView
 from django.views.i18n import JavaScriptCatalog
 
-from . import __version__
 from .sitemaps import (
     DeckSitemap,
     DailyLocalizedStaticViewSitemap,
@@ -55,6 +42,7 @@ urlpatterns = [
     path(
         "robots.txt",
         TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
+        name="robots.txt",
     ),
     path(
         "sitemap.xml",
@@ -62,8 +50,6 @@ urlpatterns = [
         {"sitemaps": sitemaps},
         name="django.contrib.sitemaps.views.sitemap",
     ),
-    # path("sitemap.xml", sitemap_views.index, {"sitemaps": sitemaps}, name="django.contrib.sitemaps.views.index"),
-    # path("sitemap-<section>.xml", sitemap_views.sitemap, {"sitemaps": sitemaps}, name="django.contrib.sitemaps.views.sitemap",),
 ]
 
 urlpatterns += i18n_patterns(
@@ -71,7 +57,7 @@ urlpatterns += i18n_patterns(
     path("trends/", include("trends.urls")),
     path(
         "jsi18n/",
-        cache_page(3600, key_prefix="jsi18n-%s" % __version__)(
+        cache_page(3600, key_prefix="jsi18n-%s" % settings.VERSION)(
             JavaScriptCatalog.as_view()
         ),
         name="javascript-catalog",
@@ -118,19 +104,15 @@ handler403 = TemplateView.as_view(template_name="errors/403.html")
 
 def handler404(request, exception):
     if request.user.is_superuser:
-        from django.views.debug import technical_404_response
-
-        print(f"404: {exception}")
         return technical_404_response(request, exception)
     else:
-        return TemplateView.as_view(template_name="errors/404.html")(request, exception)
+        return render(request, "errors/404.html", status=HTTPStatus.NOT_FOUND)
 
 
 def handler500(request):
     if request.user.is_superuser:
-        import sys
-        from django.views.debug import technical_500_response
-
         return technical_500_response(request, *sys.exc_info())
     else:
-        return TemplateView.as_view(template_name="errors/500.html")(request)
+        return render(
+            request, "errors/500.html", status=HTTPStatus.INTERNAL_SERVER_ERROR
+        )
