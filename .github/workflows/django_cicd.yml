@@ -160,7 +160,7 @@ jobs:
         docker network create sql_network
     - name: Configure Google Cloud SQL Auth Proxy
       run: |
-        docker run --network=sql_network --name db -d -v cloud_sql_credentials.json:/cloud_sql_credentials.json -p 127.0.0.1:5432:5432 gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.12.0 --address 0.0.0.0 --credentials-file /cloud_sql_credentials.json ${{ vars.CLOUD_SQL_INSTANCE }}
+        docker run --network=sql_network --name db -d -v cloud_sql_credentials.json:/cloud_sql_credentials.json -p 5432:5432 gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.12.0 --address 0.0.0.0 --credentials-file /cloud_sql_credentials.json ${{ vars.CLOUD_SQL_INSTANCE }}
     - name: Run migrations
       run: |
         docker run --network=sql_network -e SECRET_KEY=${{ secrets.SECRET_KEY }} -e DATABASE_URL=psql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD}}@db:5432/${{ secrets.POSTGRES_DB }} ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }} python manage.py migrate --no-input
