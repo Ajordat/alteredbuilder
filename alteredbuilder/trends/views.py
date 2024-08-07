@@ -6,7 +6,6 @@ from django.utils.timezone import localdate
 from django.views.generic.base import TemplateView
 from hitcount.models import Hit
 
-from config import __version__
 from decks.models import Card, Deck, LovePoint
 from .models import CardTrend, FactionTrend, HeroTrend
 
@@ -17,8 +16,6 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-
-        context["current_version"] = __version__
 
         yesterday = localdate() - timedelta(days=1)
 
