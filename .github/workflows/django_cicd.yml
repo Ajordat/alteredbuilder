@@ -161,8 +161,8 @@ jobs:
       uses: addnab/docker-run-action@v3
       with:
         image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.12.0
-        shell: /cloud-sql-proxy
-        run: /cloud_sql_credentials.json --address 0.0.0.0 ${{ vars.CLOUD_SQL_INSTANCE }}
+        # shell: 
+        run: /cloud-sql-proxy --address 0.0.0.0 --credentials-file /cloud_sql_credentials.json ${{ vars.CLOUD_SQL_INSTANCE }}
         options: -v cloud_sql_credentials.json:/cloud_sql_credentials.json -p 127.0.0.1:5432:5432
     - name: Run migrations
       uses: addnab/docker-run-action@v3
