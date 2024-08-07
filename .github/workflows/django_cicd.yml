@@ -96,31 +96,31 @@ jobs:
   #         -e SECRET_KEY=${{ secrets.SECRET_KEY }}
   #         -e DATABASE_URL=psql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD}}@db:5432/${{ secrets.POSTGRES_DB }}
 
-  push_image:
-    name: Push the image
-    needs: build_image
-    runs-on: ubuntu-22.04
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Download artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: ${{ env.IMAGE_NAME }}
-        path: /tmp
-    - name: Load image
-      run: docker load --input /tmp/${{ env.IMAGE_NAME }}.tar
-    - name: Authenticate into GCP
-      id: auth
-      uses: google-github-actions/auth@v2
-      with:
-        credentials_json: ${{ secrets.GCP_GITHUB_SA }}
-    - name: Set up gcloud
-      uses: google-github-actions/setup-gcloud@v2
-    - name: Set up docker
-      run: gcloud auth configure-docker ${{ vars.REGION }}-docker.pkg.dev --quiet
-    - name: Push image
-      run: docker push ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
+  # push_image:
+  #   name: Push the image
+  #   needs: build_image
+  #   runs-on: ubuntu-22.04
+  #   steps:
+  #   - name: Checkout
+  #     uses: actions/checkout@v4
+  #   - name: Download artifact
+  #     uses: actions/download-artifact@v4
+  #     with:
+  #       name: ${{ env.IMAGE_NAME }}
+  #       path: /tmp
+  #   - name: Load image
+  #     run: docker load --input /tmp/${{ env.IMAGE_NAME }}.tar
+  #   - name: Authenticate into GCP
+  #     id: auth
+  #     uses: google-github-actions/auth@v2
+  #     with:
+  #       credentials_json: ${{ secrets.GCP_GITHUB_SA }}
+  #   - name: Set up gcloud
+  #     uses: google-github-actions/setup-gcloud@v2
+  #   - name: Set up docker
+  #     run: gcloud auth configure-docker ${{ vars.REGION }}-docker.pkg.dev --quiet
+  #   - name: Push image
+  #     run: docker push ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
 
   migrate_db:
     name: Perform db migrations
@@ -158,8 +158,12 @@ jobs:
       run: |
         echo $GCP_GITHUB_SA > cloud_sql_credentials.json
     - name: Configure Google Cloud SQL Auth Proxy
-      run: |
-        docker run -d -v cloud_sql_credentials.json:/cloud_sql_credentials.json -p 127.0.0.1:5432:5432 gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.12.0 --address 0.0.0.0 --credentials-file /cloud_sql_credentials.json ${{ vars.CLOUD_SQL_INSTANCE }}
+      uses: addnab/docker-run-action@v3
+      with:
+        registry: gcr.io
+        image: cloud-sql-connectors/cloud-sql-proxy:2.12.0
+        run: --address 0.0.0.0 --credentials-file /cloud_sql_credentials.json ${{ vars.CLOUD_SQL_INSTANCE }}
+        options: -v cloud_sql_credentials.json:/cloud_sql_credentials.json -p 127.0.0.1:5432:5432
     - name: Run migrations
       uses: addnab/docker-run-action@v3
       with:
@@ -237,3 +241,12 @@ jobs:
   #         --service-account=${{ vars.CLOUD_RUN_SA_NAME }}
   #         --cpu=1000m
   #         --memory=256Mi
+  remove-image:
+    name: Delete Github artifact
+    if: always()
+    runs-on: ubuntu-latest
+    needs: [ collect_statics, migrate_db ]
+    steps:
+      - uses: geekyeggo/delete-artifact@v2
+        with:
+          name: ${{ env.IMAGE_NAME }}
