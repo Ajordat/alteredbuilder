@@ -91,7 +91,7 @@ jobs:
         run: python manage.py test
         options: |
           -e SECRET_KEY=${{ secrets.SECRET_KEY }}
-          -e DATABASE_URL=${{ secrets.TEST_DATABASE_URL }}
+          -e DATABASE_URL=${{ vars.TEST_DATABASE_URL }}
     # - name: Run Tests
     #   run: |
     #     docker image ls -a
