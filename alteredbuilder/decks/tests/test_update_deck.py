@@ -2,8 +2,9 @@ from http import HTTPStatus
 
 from django.urls import reverse
 
+from config.tests.utils import get_login_url, silence_logging
 from decks.models import Card, CardInDeck, Deck
-from .utils import AjaxTestCase, BaseViewTestCase, get_login_url, silence_logging
+from decks.tests.utils import AjaxTestCase, BaseViewTestCase
 
 
 class UpdateDeckViewTestCase(BaseViewTestCase, AjaxTestCase):

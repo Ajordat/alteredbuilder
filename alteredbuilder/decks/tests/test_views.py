@@ -5,14 +5,13 @@ import uuid
 from django.http import HttpResponse
 from django.urls import reverse
 
+from config.tests.utils import get_login_url, silence_logging
 from decks.models import Card, CardInDeck, Deck, LovePoint, PrivateLink
-from .utils import (
+from decks.tests.utils import (
     AjaxTestCase,
     BaseViewTestCase,
     generate_card,
     get_detail_card_list,
-    get_login_url,
-    silence_logging,
 )
 
 
@@ -220,10 +219,13 @@ class DeckDetailViewTestCase(BaseViewTestCase):
         """
         self.client.force_login(self.user)
         private_deck = Deck.objects.filter(is_public=False, owner=self.other_user).get()
-        response = self.client.get(
-            reverse("deck-detail", kwargs={"pk": private_deck.id})
-        )
 
+        with silence_logging():
+            response = self.client.get(
+                reverse("deck-detail", kwargs={"pk": private_deck.id})
+            )
+
+        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
         self.assertTemplateUsed(response, "errors/404.html")
 
     def test_public_deck_detail_unauthenticated(self):
@@ -238,10 +240,12 @@ class DeckDetailViewTestCase(BaseViewTestCase):
     def test_private_deck_detail_unauthenticated(self):
         """Test the deck detail page of an unauthenticated user to a private deck."""
         private_deck = Deck.objects.filter(is_public=False, owner=self.other_user).get()
-        response = self.client.get(
-            reverse("deck-detail", kwargs={"pk": private_deck.id})
-        )
+        with silence_logging():
+            response = self.client.get(
+                reverse("deck-detail", kwargs={"pk": private_deck.id})
+            )
 
+        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
         self.assertTemplateUsed(response, "errors/404.html")
 
 
@@ -586,8 +590,10 @@ class AccessPrivateLinkViewTestCase(BaseViewTestCase):
             kwargs={"pk": another_deck.id, "code": self.pl.code},
         )
         self.client.force_login(self.other_user)
-        response = self.client.get(url)
+        with silence_logging():
+            response = self.client.get(url)
 
+        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
         self.assertTemplateUsed(response, "errors/404.html")
 
     def test_authenticated_code_mismatch(self):
@@ -600,8 +606,10 @@ class AccessPrivateLinkViewTestCase(BaseViewTestCase):
             kwargs={"pk": self.pl_deck.id, "code": code},
         )
         self.client.force_login(self.other_user)
-        response = self.client.get(url)
+        with silence_logging():
+            response = self.client.get(url)
 
+        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
         self.assertTemplateUsed(response, "errors/404.html")
 
     def test_authenticated_by_another_user(self):

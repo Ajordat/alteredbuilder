@@ -3,10 +3,11 @@ from http import HTTPStatus
 from django.test import RequestFactory
 from django.urls import reverse
 
+from config.tests.utils import get_login_url, silence_logging
 from decks.forms import DecklistForm, DeckMetadataForm
 from decks.models import Card, Deck
+from decks.tests.utils import BaseFormTestCase
 from decks.views import NewDeckFormView
-from .utils import BaseFormTestCase, get_login_url, silence_logging
 
 
 class CreateDeckFormTestCase(BaseFormTestCase):
