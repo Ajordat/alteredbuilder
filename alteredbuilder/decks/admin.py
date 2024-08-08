@@ -110,11 +110,11 @@ class DeckAdmin(admin.ModelAdmin):
         updated = queryset.update(is_public=True)
         if updated == 1:
             self.message_user(
-                request, f"{updated} deck was successfully marked as public."
+                request, f"{updated} deck was marked as public."
             )
         else:
             self.message_user(
-                request, f"{updated} decks were successfully marked as public."
+                request, f"{updated} decks were marked as public."
             )
 
     @admin.action(description="Mark selected Decks as private")
@@ -122,11 +122,11 @@ class DeckAdmin(admin.ModelAdmin):
         updated = queryset.update(is_public=False)
         if updated == 1:
             self.message_user(
-                request, f"{updated} deck was successfully marked as private."
+                request, f"{updated} deck was marked as private."
             )
         else:
             self.message_user(
-                request, f"{updated} decks were successfully marked as private."
+                request, f"{updated} decks were marked as private."
             )
 
 
