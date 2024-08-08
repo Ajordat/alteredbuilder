@@ -137,6 +137,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "hitcount",
     "trends.apps.TrendsConfig",
+    "notifications.apps.NotificationsConfig",
 ]
 
 MIDDLEWARE = [
@@ -167,6 +168,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "config.context_processors.add_version",
+                "notifications.context_processors.add_notifications",
             ],
         },
     },

@@ -106,7 +106,33 @@
 {% endfor %}
                             </ul>
                         </li>
-
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle position-relative text-info-emphasis" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-bell"></i>
+{% if notifications %}
+                                <span class="position-absolute top-10 start-80 translate-middle p-1 bg-danger border border-light rounded-circle">
+                                    {% comment %} <span class="visually-hidden">Notifications</span> {% endcomment %}
+                                </span>
+{% endif %}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
+{% if notifications %}
+    {% for notification in notifications %}
+                                        <li>
+                                            <a href="{% url 'notification-detail' pk=notification.id %}" class="dropdown-item d-block">
+                                                {{ notification }}
+                                                <br><small class="text-muted">{{ notification.timestamp }}</small>
+                                            </a>
+                                        </li>
+        {% if forloop.last == False %}
+                                        <li><hr class="dropdown-divider"></li>
+        {% endif %}
+    {% endfor %}
+{% else %}
+                                    <li class="dropdown-item text-muted disabled">No notifications</li>
+{% endif %}
+                            </ul>
+                        </li>
 {% if user.is_authenticated %}
     {% if user.is_superuser %}
                         <li class="nav-item">
@@ -125,6 +151,7 @@
                             <a class="nav-link active dropdown-toggle text-info-emphasis" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user"></i> {{ user.username }}</a>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item disabled" href="#">{% translate "Profile" %}</a></li>
+                                <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="{% url 'account_email' %}?next={{ request.path }}">{% translate "Update email" %}</a></li>
                                 <li><a class="dropdown-item" href="{% url 'account_change_password' %}?next={{ request.path }}">{% translate "Update password" %}</a></li>
                                 <li><hr class="dropdown-divider"></li>
