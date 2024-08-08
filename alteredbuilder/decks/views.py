@@ -5,6 +5,7 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
+from django.db import transaction
 from django.db.models import Exists, F, OuterRef, Q
 from django.db.models.manager import Manager
 from django.db.models.query import QuerySet
@@ -370,14 +371,16 @@ def love_deck(request: HttpRequest, pk: int) -> HttpResponse:
         # If the LovePoint does not exist, create it and increase the `love_count`
         LovePoint.objects.create(deck=deck, user=request.user)
         deck.love_count = F("love_count") + 1
+        deck.save(update_fields=["love_count"])
     except Deck.DoesNotExist:
         # If the Deck is not found (private and not owned), raise a permission error
         raise PermissionDenied
     else:
         # If the LovePoint exists, delete it and decrease the `love_count`
-        love_point.delete()
-        deck.love_count = F("love_count") - 1
-    deck.save(update_fields=["love_count"])
+        with transaction.atomic():
+            love_point.delete()
+            deck.love_count = F("love_count") - 1
+            deck.save(update_fields=["love_count"])
     return redirect(reverse("deck-detail", kwargs={"pk": deck.id}))
 
 
