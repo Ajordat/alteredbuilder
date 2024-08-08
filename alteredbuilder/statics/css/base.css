@@ -38,3 +38,11 @@ footer a.no-underline {
 html[data-bs-theme="light"] .navbar img.logo {
     filter: drop-shadow(0 0 5px #175457);
 }
+
+html[data-bs-theme="light"] .new-notification {
+    background-color: var(--bs-info-bg-subtle); /* bg-info-subtle */
+}
+
+html[data-bs-theme="dark"] .new-notification {
+    background-color: rgba(var(--bs-secondary-rgb), 1); /* bg-secondary */
+}
