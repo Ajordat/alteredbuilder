@@ -1,7 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import redirect, get_object_or_404
-from django.urls import reverse
 
 from notifications.models import Notification, NotificationType
 

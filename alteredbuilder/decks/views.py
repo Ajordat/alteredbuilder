@@ -525,7 +525,7 @@ def create_private_link(request: HttpRequest, pk: int) -> HttpResponse:
 
         pl, created = PrivateLink.objects.get_or_create(deck=deck)
         status = {"created": created, "link": pl.get_absolute_url()}
-        
+
     except Deck.DoesNotExist:
         return JsonResponse(
             {"error": {"code": HTTPStatus.NOT_FOUND, "message": _("Deck not found")}},

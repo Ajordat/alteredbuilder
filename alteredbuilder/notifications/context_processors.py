@@ -1,4 +1,4 @@
-from notifications.models import Notification, NotificationType
+from notifications.models import Notification
 
 
 def add_notifications(request):

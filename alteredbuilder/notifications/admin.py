@@ -23,22 +23,14 @@ class NotificationAdmin(admin.ModelAdmin):
     def mark_read(self, request, queryset):
         updated = queryset.update(read=True)
         if updated == 1:
-            self.message_user(
-                request, f"{updated} notification was marked as read."
-            )
+            self.message_user(request, f"{updated} notification was marked as read.")
         else:
-            self.message_user(
-                request, f"{updated} notifications were marked as read."
-            )
+            self.message_user(request, f"{updated} notifications were marked as read.")
 
     @admin.action(description="Mark selected notifications as new")
     def mark_new(self, request, queryset):
         updated = queryset.update(read=False)
         if updated == 1:
-            self.message_user(
-                request, f"{updated} notification was marked as new."
-            )
+            self.message_user(request, f"{updated} notification was marked as new.")
         else:
-            self.message_user(
-                request, f"{updated} notifications were marked as new."
-            )
+            self.message_user(request, f"{updated} notifications were marked as new.")

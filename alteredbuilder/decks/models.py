@@ -176,10 +176,9 @@ class Deck(models.Model, HitCountMixin):
 
     def __str__(self) -> str:
         return f"{self.owner.username} - {self.name}"
-    
+
     def get_absolute_url(self):
         return reverse("deck-detail", kwargs={"pk": self.pk})
-    
 
     class Meta:
         ordering = ["-modified_at"]
@@ -211,8 +210,10 @@ class PrivateLink(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def get_absolute_url(self):
-        return reverse("private-url-deck-detail", kwargs={"pk": self.deck.pk, "code": self.code})
-    
+        return reverse(
+            "private-url-deck-detail", kwargs={"pk": self.deck.pk, "code": self.code}
+        )
+
     class Meta:
         ordering = ["-created_at"]
 

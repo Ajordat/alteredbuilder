@@ -276,7 +276,9 @@ class UpdateDeckMetadataFormTestCase(BaseFormTestCase):
         deck.refresh_from_db()
         self.assertEqual(deck.name, form_data["name"])
         self.assertEqual(deck.description, form_data["description"])
-        self.assertRedirects(response, deck.get_absolute_url(), status_code=HTTPStatus.FOUND)
+        self.assertRedirects(
+            response, deck.get_absolute_url(), status_code=HTTPStatus.FOUND
+        )
 
 
 class CreateCommentFormTestCase(BaseFormTestCase):
@@ -339,4 +341,6 @@ class CreateCommentFormTestCase(BaseFormTestCase):
                 user=self.user, deck=deck, body=form_data["body"]
             ).exists()
         )
-        self.assertRedirects(response, deck.get_absolute_url(), status_code=HTTPStatus.FOUND)
+        self.assertRedirects(
+            response, deck.get_absolute_url(), status_code=HTTPStatus.FOUND
+        )

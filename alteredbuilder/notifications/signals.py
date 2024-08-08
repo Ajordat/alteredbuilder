@@ -51,4 +51,5 @@ def delete_love_notification(sender, instance: LovePoint, **kwargs):
                 notification.delete()
         except Notification.DoesNotExist:
             pass
+
     transaction.on_commit(consider_delete_notification)

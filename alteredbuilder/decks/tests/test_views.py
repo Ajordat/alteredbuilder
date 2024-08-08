@@ -743,7 +743,9 @@ class AccessPrivateLinkViewTestCase(BaseViewTestCase):
         self.client.force_login(self.user)
         response = self.client.get(self.pl.get_absolute_url())
 
-        self.assertRedirects(response, self.pl_deck.get_absolute_url(), status_code=HTTPStatus.FOUND)
+        self.assertRedirects(
+            response, self.pl_deck.get_absolute_url(), status_code=HTTPStatus.FOUND
+        )
 
     def test_authenticated_to_public_deck(self):
         """Test the view of a public Deck through a PrivateLink."""
@@ -753,7 +755,9 @@ class AccessPrivateLinkViewTestCase(BaseViewTestCase):
         self.client.force_login(self.user)
         response = self.client.get(pl.get_absolute_url())
 
-        self.assertRedirects(response, public_deck.get_absolute_url(), status_code=HTTPStatus.FOUND)
+        self.assertRedirects(
+            response, public_deck.get_absolute_url(), status_code=HTTPStatus.FOUND
+        )
 
 
 class CreatePrivateLinkViewTestCase(BaseViewTestCase, AjaxTestCase):
