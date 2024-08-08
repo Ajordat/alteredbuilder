@@ -7,16 +7,16 @@ from notifications.models import Notification, NotificationType
 
 
 @receiver(post_save, sender=Comment)
-def create_comment_notification(sender, comment: Comment, created: bool, **kwargs):
+def create_comment_notification(sender, instance: Comment, created: bool, **kwargs):
     if created:
-        deck = comment.deck
+        deck = instance.deck
         recipient = deck.owner
 
-        if recipient != comment.user:
+        if recipient != instance.user:
             Notification.objects.create(
                 recipient=recipient,
                 verb=NotificationType.COMMENT,
-                actor=comment.user,
-                content_type=ContentType.objects.get_for_model(comment),
-                object_id=comment.id,
+                actor=instance.user,
+                content_type=ContentType.objects.get_for_model(instance),
+                object_id=instance.id,
             )

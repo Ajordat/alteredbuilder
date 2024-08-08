@@ -18,5 +18,7 @@ def notification_detail(request, pk: int):
                         kwargs={"pk": notification.content_object.deck.id},
                     )
                 )
+            case _:
+                raise Http404("Notification does not exist")
     except Notification.DoesNotExist:
         raise Http404("Notification does not exist")

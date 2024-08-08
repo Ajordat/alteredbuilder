@@ -34,3 +34,6 @@ class Notification(models.Model):
                 return _("New notification by %(actor)s") % {
                     "actor": self.actor.username
                 }
+
+    class Meta:
+        ordering = ["-created_at"]
