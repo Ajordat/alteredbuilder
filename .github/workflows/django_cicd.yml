@@ -167,7 +167,7 @@ jobs:
         docker run --net host --name db -d --expose 5432 gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.12.0 --address 0.0.0.0 -t ${{steps.auth.outputs.access_token}} --run-connection-test ${{ vars.CLOUD_SQL_INSTANCE }}
     - name: Run migrations
       run: |
-        docker run --net host -e SECRET_KEY=${{ secrets.SECRET_KEY }} -e DATABASE_URL=psql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD}}@localhost:5432/${{ secrets.POSTGRES_DB }} ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }} python manage.py migrate --no-input
+        docker run --net host -e SECRET_KEY=${{ secrets.SECRET_KEY }} -e DATABASE_URL=${{ secrets.MIGRATION_DATABASE_URL }} ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }} python manage.py migrate --no-input
     - name: sql logs
       if: ${{ always() }}
       run: docker logs db
