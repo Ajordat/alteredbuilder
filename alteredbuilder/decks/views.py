@@ -251,7 +251,7 @@ class PrivateLinkDeckDetailView(LoginRequiredMixin, DeckDetailView):
         if self.object.owner == request.user or self.object.is_public:
             # If the owner is accessing with the private link or the Deck is public,
             # redirect to the official one
-            return redirect(reverse("deck-detail", kwargs={"pk": self.object.id}))
+            return redirect(self.object.get_absolute_url())
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
 
@@ -324,7 +324,7 @@ class NewDeckFormView(LoginRequiredMixin, FormView):
         Returns:
             str: The Deck's detail endpoint.
         """
-        return reverse("deck-detail", kwargs={"pk": self.deck.id})
+        return self.deck.get_absolute_url()
 
 
 @login_required
@@ -381,7 +381,7 @@ def love_deck(request: HttpRequest, pk: int) -> HttpResponse:
             love_point.delete()
             deck.love_count = F("love_count") - 1
             deck.save(update_fields=["love_count"])
-    return redirect(reverse("deck-detail", kwargs={"pk": deck.id}))
+    return redirect(deck.get_absolute_url())
 
 
 @login_required
@@ -524,12 +524,8 @@ def create_private_link(request: HttpRequest, pk: int) -> HttpResponse:
             )
 
         pl, created = PrivateLink.objects.get_or_create(deck=deck)
-        status = {
-            "created": created,
-            "link": reverse(
-                "private-url-deck-detail", kwargs={"pk": pk, "code": pl.code}
-            ),
-        }
+        status = {"created": created, "link": pl.get_absolute_url()}
+        
     except Deck.DoesNotExist:
         return JsonResponse(
             {"error": {"code": HTTPStatus.NOT_FOUND, "message": _("Deck not found")}},

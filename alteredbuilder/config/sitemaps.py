@@ -56,5 +56,5 @@ class DeckSitemap(Sitemap):
     def lastmod(self, obj):
         return obj.modified_at
 
-    def location(self, item):
-        return reverse("deck-detail", kwargs={"pk": item.pk})
+    def location(self, item: Deck):
+        return item.get_absolute_url()
