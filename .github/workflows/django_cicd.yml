@@ -152,15 +152,19 @@ jobs:
     #   with:
     #     creds: ${{ secrets.GCP_GITHUB_SA }}
     #     instance: ${{ vars.CLOUD_SQL_INSTANCE }}
-    - name: Store secret in filesystem
-      env:
-        GCP_GITHUB_SA: ${{ secrets.GCP_GITHUB_SA }}
-      run: |
-        echo $GCP_GITHUB_SA > cloud_sql_credentials.json
-        docker network create sql_network
+    
+    - name: Google auth
+      id: auth
+      uses: google-github-actions/auth@v1
+      with:
+        token_format: 'access_token'
+        access_token_lifetime: '120s'
+        create_credentials_file: true
+        credentials_json:  '${{ secrets.GCP_GITHUB_SA_JSON }}'
+        service_account:  '${{ secrets.GCP_GITHUB_SA_NAME }}'
     - name: Configure Google Cloud SQL Auth Proxy
       run: |
-        docker run --network=sql_network --name db -d -v cloud_sql_credentials.json:/cloud_sql_credentials.json --expose 5432 gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.12.0 --address 0.0.0.0 --credentials-file /cloud_sql_credentials.json ${{ vars.CLOUD_SQL_INSTANCE }}
+        docker run --network=sql_network --name db -d --expose 5432 gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.12.0 --address 0.0.0.0 -t ${{steps.auth.outputs.access_token}} --run-connection-test ${{ vars.CLOUD_SQL_INSTANCE }}
     - name: Run migrations
       run: |
         docker run --network=sql_network -e SECRET_KEY=${{ secrets.SECRET_KEY }} -e DATABASE_URL=psql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD}}@localhost:5432/${{ secrets.POSTGRES_DB }} ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }} python manage.py migrate --no-input
