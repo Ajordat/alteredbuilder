@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-06 01:17+0200\n"
+"POT-Creation-Date: 2024-08-08 16:56+0200\n"
 "PO-Revision-Date: 2024-05-22 18:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -23,27 +23,27 @@ msgstr ""
 msgid "Invalid payload"
 msgstr "Contenu invalide"
 
-#: api/utils.py:19 api/utils.py:21 decks/views.py:519
+#: api/utils.py:19 api/utils.py:21 decks/views.py:517
 msgid "Invalid request"
 msgstr "Requête invalide"
 
-#: config/settings.py:263
+#: config/settings.py:270
 msgid "Deutsch"
 msgstr "Allemand"
 
-#: config/settings.py:264
+#: config/settings.py:271
 msgid "English"
 msgstr "Anglais"
 
-#: config/settings.py:265
+#: config/settings.py:272
 msgid "Spanish"
 msgstr "Espagnol"
 
-#: config/settings.py:266
+#: config/settings.py:273
 msgid "French"
 msgstr "Français"
 
-#: config/settings.py:267
+#: config/settings.py:274
 msgid "Italian"
 msgstr "Italien"
 
@@ -81,15 +81,15 @@ msgstr "sous-type"
 msgid "trigger"
 msgstr "déclencher"
 
-#: decks/deck_utils.py:299 decks/deck_utils.py:336
+#: decks/deck_utils.py:299 decks/deck_utils.py:329
 msgid "query"
 msgstr "requête"
 
-#: decks/deck_utils.py:317
+#: decks/deck_utils.py:315
 msgid "user"
 msgstr "utilisateur"
 
-#: decks/deck_utils.py:329
+#: decks/deck_utils.py:324
 msgid "hero"
 msgstr "héros"
 
@@ -539,7 +539,7 @@ msgstr "Commentaires"
 msgid "Login to use this feature!"
 msgstr "Connectez-vous pour utiliser cette fonction !"
 
-#: decks/templates/decks/deck_detail.html:381 templates/base.html:137
+#: decks/templates/decks/deck_detail.html:381 templates/base.html:165
 msgid "Login"
 msgstr "Se connecter"
 
@@ -838,7 +838,7 @@ msgstr "Importer"
 msgid "The deck must have a name"
 msgstr "Le deck doit avoir un nom"
 
-#: decks/views.py:428 decks/views.py:462 decks/views.py:493 decks/views.py:534
+#: decks/views.py:428 decks/views.py:491 decks/views.py:532
 msgid "Deck not found"
 msgstr "Deck non trouvé"
 
@@ -846,9 +846,19 @@ msgstr "Deck non trouvé"
 msgid "Card not found"
 msgstr "Carte non trouvée"
 
-#: decks/views.py:464 decks/views.py:491
+#: decks/views.py:462 decks/views.py:489
 msgid "Comment not found"
 msgstr "Commentaire non trouvé"
+
+#: notifications/models.py:29
+#, python-format
+msgid "%(actor)s commented on deck '%(deck_name)s'"
+msgstr "%(actor)s a commenté le deck '%(deck_name)s'"
+
+#: notifications/models.py:34
+#, python-format
+msgid "New notification by %(actor)s"
+msgstr "Nouvelle notification par %(actor)s"
 
 #: templates/base.html:53
 msgid "Home"
@@ -878,51 +888,51 @@ msgstr "Sombre"
 msgid "Auto"
 msgstr ""
 
-#: templates/base.html:128
+#: templates/base.html:155
 msgid "Profile"
 msgstr "Profil"
 
-#: templates/base.html:129
+#: templates/base.html:157
 msgid "Update email"
 msgstr "Changer l'e-mail"
 
-#: templates/base.html:130
+#: templates/base.html:158
 msgid "Update password"
 msgstr "Changer le mot de passe"
 
-#: templates/base.html:132
+#: templates/base.html:160
 msgid "Logout"
 msgstr "Se déconnecter"
 
-#: templates/base.html:152
+#: templates/base.html:180
 msgid "Links"
 msgstr "Liens"
 
-#: templates/base.html:155
+#: templates/base.html:183
 msgid "About the project"
 msgstr "À propos du projet"
 
-#: templates/base.html:158
+#: templates/base.html:186
 msgid "About the author"
 msgstr "À propos de l'auteur"
 
-#: templates/base.html:161
+#: templates/base.html:189
 msgid "Collaborators"
 msgstr "Collaborateurs"
 
-#: templates/base.html:164
+#: templates/base.html:192
 msgid "Privacy policy"
 msgstr "Politique de confidentialité"
 
-#: templates/base.html:167
+#: templates/base.html:195
 msgid "Terms and conditions"
 msgstr "Conditions générales"
 
-#: templates/base.html:172
+#: templates/base.html:200
 msgid "Support the project"
 msgstr "Contribuer au projet"
 
-#: templates/base.html:179
+#: templates/base.html:207
 msgid "Get in touch"
 msgstr "Contacter"
 
@@ -969,9 +979,8 @@ msgid ""
 msgstr ""
 
 #: trends/templates/trends/home.html:24
-#, python-format
-msgid "Release notes %(current_version)s"
-msgstr "Notes de version %(current_version)s"
+msgid "Release notes %(version)s"
+msgstr "Notes de version %(version)s"
 
 #: trends/templates/trends/home.html:38
 msgid "Trends from the last 7 days"

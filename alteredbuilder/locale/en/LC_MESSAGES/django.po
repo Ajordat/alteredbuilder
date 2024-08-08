@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-06 01:17+0200\n"
+"POT-Creation-Date: 2024-08-08 16:56+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,27 +22,27 @@ msgstr ""
 msgid "Invalid payload"
 msgstr ""
 
-#: api/utils.py:19 api/utils.py:21 decks/views.py:519
+#: api/utils.py:19 api/utils.py:21 decks/views.py:517
 msgid "Invalid request"
 msgstr ""
 
-#: config/settings.py:263
+#: config/settings.py:270
 msgid "Deutsch"
 msgstr ""
 
-#: config/settings.py:264
+#: config/settings.py:271
 msgid "English"
 msgstr ""
 
-#: config/settings.py:265
+#: config/settings.py:272
 msgid "Spanish"
 msgstr ""
 
-#: config/settings.py:266
+#: config/settings.py:273
 msgid "French"
 msgstr ""
 
-#: config/settings.py:267
+#: config/settings.py:274
 msgid "Italian"
 msgstr ""
 
@@ -80,15 +80,15 @@ msgstr ""
 msgid "trigger"
 msgstr ""
 
-#: decks/deck_utils.py:299 decks/deck_utils.py:336
+#: decks/deck_utils.py:299 decks/deck_utils.py:329
 msgid "query"
 msgstr ""
 
-#: decks/deck_utils.py:317
+#: decks/deck_utils.py:315
 msgid "user"
 msgstr ""
 
-#: decks/deck_utils.py:329
+#: decks/deck_utils.py:324
 msgid "hero"
 msgstr ""
 
@@ -534,7 +534,7 @@ msgstr ""
 msgid "Login to use this feature!"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:381 templates/base.html:137
+#: decks/templates/decks/deck_detail.html:381 templates/base.html:165
 msgid "Login"
 msgstr ""
 
@@ -818,7 +818,7 @@ msgstr ""
 msgid "The deck must have a name"
 msgstr ""
 
-#: decks/views.py:428 decks/views.py:462 decks/views.py:493 decks/views.py:534
+#: decks/views.py:428 decks/views.py:491 decks/views.py:532
 msgid "Deck not found"
 msgstr ""
 
@@ -826,8 +826,18 @@ msgstr ""
 msgid "Card not found"
 msgstr ""
 
-#: decks/views.py:464 decks/views.py:491
+#: decks/views.py:462 decks/views.py:489
 msgid "Comment not found"
+msgstr ""
+
+#: notifications/models.py:29
+#, python-format
+msgid "%(actor)s commented on deck '%(deck_name)s'"
+msgstr ""
+
+#: notifications/models.py:34
+#, python-format
+msgid "New notification by %(actor)s"
 msgstr ""
 
 #: templates/base.html:53
@@ -858,51 +868,51 @@ msgstr ""
 msgid "Auto"
 msgstr ""
 
-#: templates/base.html:128
+#: templates/base.html:155
 msgid "Profile"
 msgstr ""
 
-#: templates/base.html:129
+#: templates/base.html:157
 msgid "Update email"
 msgstr ""
 
-#: templates/base.html:130
+#: templates/base.html:158
 msgid "Update password"
 msgstr ""
 
-#: templates/base.html:132
+#: templates/base.html:160
 msgid "Logout"
 msgstr ""
 
-#: templates/base.html:152
+#: templates/base.html:180
 msgid "Links"
 msgstr ""
 
-#: templates/base.html:155
+#: templates/base.html:183
 msgid "About the project"
 msgstr ""
 
-#: templates/base.html:158
+#: templates/base.html:186
 msgid "About the author"
 msgstr ""
 
-#: templates/base.html:161
+#: templates/base.html:189
 msgid "Collaborators"
 msgstr ""
 
-#: templates/base.html:164
+#: templates/base.html:192
 msgid "Privacy policy"
 msgstr ""
 
-#: templates/base.html:167
+#: templates/base.html:195
 msgid "Terms and conditions"
 msgstr ""
 
-#: templates/base.html:172
+#: templates/base.html:200
 msgid "Support the project"
 msgstr ""
 
-#: templates/base.html:179
+#: templates/base.html:207
 msgid "Get in touch"
 msgstr ""
 
@@ -946,7 +956,7 @@ msgstr ""
 
 #: trends/templates/trends/home.html:24
 #, python-format
-msgid "Release notes %(current_version)s"
+msgid "Release notes %(version)s"
 msgstr ""
 
 #: trends/templates/trends/home.html:38
