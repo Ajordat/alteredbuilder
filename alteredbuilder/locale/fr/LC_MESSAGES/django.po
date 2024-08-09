@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-09 11:04+0200\n"
+"POT-Creation-Date: 2024-08-09 12:13+0200\n"
 "PO-Revision-Date: 2024-05-22 18:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -857,6 +857,7 @@ msgid "%(actor)s commented on deck '%(deck_name)s'"
 msgstr "%(actor)s a commenté le deck '%(deck_name)s'"
 
 #: notifications/models.py:37
+#, python-format
 msgid "%(love_count)s user liked your deck '%(deck_name)s'"
 msgid_plural "%(love_count)s users liked your deck '%(deck_name)s'"
 msgstr[0] "%(love_count)s utilisateur a apprécié votre deck '%(deck_name)s'"
@@ -975,10 +976,17 @@ msgstr "Nouvelles fonctionnalités :"
 msgid "Fixes:"
 msgstr "Corrections :"
 
-#: templates/releases/1.8.3.html:23 templates/releases/1.9.0.html:11
-#: templates/releases/release_template.html:16
+#: templates/releases/1.8.3.html:23 templates/releases/release_template.html:16
 msgid "Other:"
 msgstr "Autre :"
+
+#: templates/releases/1.9.0.html:11
+msgid "Other changes:"
+msgstr "Autres modifications :"
+
+#: templates/releases/1.9.0.html:20
+msgid "Announcements:"
+msgstr "Annonces :"
 
 #: templates/socialaccount/authentication_error.html:5
 #: templates/socialaccount/authentication_error.html:9

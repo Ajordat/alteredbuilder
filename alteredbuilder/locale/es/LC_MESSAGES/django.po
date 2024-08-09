@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-09 11:04+0200\n"
+"POT-Creation-Date: 2024-08-09 12:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -852,6 +852,7 @@ msgid "%(actor)s commented on deck '%(deck_name)s'"
 msgstr "%(actor)s ha comentado en el mazo '%(deck_name)s'"
 
 #: notifications/models.py:37
+#, python-format
 msgid "%(love_count)s user liked your deck '%(deck_name)s'"
 msgid_plural "%(love_count)s users liked your deck '%(deck_name)s'"
 msgstr[0] "A %(love_count)s usuario le gusta tu mazo '%(deck_name)s'"
@@ -968,10 +969,17 @@ msgstr "Nuevas funcionalidades:"
 msgid "Fixes:"
 msgstr "Correcciones:"
 
-#: templates/releases/1.8.3.html:23 templates/releases/1.9.0.html:11
-#: templates/releases/release_template.html:16
+#: templates/releases/1.8.3.html:23 templates/releases/release_template.html:16
 msgid "Other:"
 msgstr "Otros:"
+
+#: templates/releases/1.9.0.html:11
+msgid "Other changes:"
+msgstr "Otros cambios:"
+
+#: templates/releases/1.9.0.html:20
+msgid "Announcements:"
+msgstr "Novedades:"
 
 #: templates/socialaccount/authentication_error.html:5
 #: templates/socialaccount/authentication_error.html:9

@@ -3,15 +3,24 @@
 
 <li><strong>{% translate "New features:" %}</strong>
     <ul>
-        <li>Notifications</li>
-        <li>Advanced filters on deck search</li>
+        <li>Notifications for likes and comments on your decks.</li>
+        <li>Deck search with advanced filters (e.g. <a href="{% url 'deck-list' %}?query=u%3Aadmin"><code>u:admin</code></a>, <a href="{% url 'deck-list' %}?query=h%3Ateija"><code>h:teija</code></a>).</li>
     </ul>
 </li>
 
-<li><strong>{% translate "Other:" %}</strong>
+<li><strong>{% translate "Other changes:" %}</strong>
     <ul>
-        <li>Minor usability improvements</li>
-        <li>Expanded test suite. Current code coverage is at 95%</li>
-        <li>Decrease docker image size to improve speed of horizontal scaling</li>
+        <li>Minor usability improvements.</li>
+        <li>Expanded test suite to guarantee stability of new releases. Code coverage was raised from 92% to 96%.</li>
+        <li>Decrease docker image size to improve speed of horizontal scaling.</li>
+    </ul>
+</li>
+
+
+<li><strong>{% translate "Announcements:" %}</strong>
+    <ul>
+        <li>The next updates will be centered around user profiles, individual statistics and followers.</li>
+        <li>Consider reaching me out on Discord at <a href="https://discordapp.com/users/501840797159653389" target="_blank" class="no-underline">Ajordat</a> to report any bugs or suggest ideas.</li>
+        <li>Consider supporting the project on <a href="http://www.patreon.com/Ajordat" target="_blank">Patreon</a> or <a href="https://buymeacoffee.com/ajordat" target="_blank">Buy me a coffe</a> if you enjoy using the platform.</li>
     </ul>
 </li>
