@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-08 16:56+0200\n"
+"POT-Creation-Date: 2024-08-09 11:04+0200\n"
 "PO-Revision-Date: 2024-05-22 18:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,11 +19,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 3.4.4\n"
 
-#: api/utils.py:17 decks/views.py:432
+#: api/utils.py:17 decks/views.py:435
 msgid "Invalid payload"
 msgstr "Contenu invalide"
 
-#: api/utils.py:19 api/utils.py:21 decks/views.py:517
+#: api/utils.py:19 api/utils.py:21 decks/views.py:520
 msgid "Invalid request"
 msgstr "Requête invalide"
 
@@ -546,6 +546,7 @@ msgstr "Se connecter"
 #: decks/templates/decks/deck_detail.html:404
 #: decks/templates/decks/own_deck_list.html:56
 #: decks/templates/decks/snippets/public_deck_table.html:54
+#: templates/base.html:126
 #, python-format
 msgid "%(time_since)s ago"
 msgstr "Il y a %(time_since)s"
@@ -834,31 +835,36 @@ msgstr "Voulez-vous que votre deck soit public ?"
 msgid "Import"
 msgstr "Importer"
 
-#: decks/views.py:412
+#: decks/views.py:415
 msgid "The deck must have a name"
 msgstr "Le deck doit avoir un nom"
 
-#: decks/views.py:428 decks/views.py:491 decks/views.py:532
+#: decks/views.py:431 decks/views.py:494 decks/views.py:531
 msgid "Deck not found"
 msgstr "Deck non trouvé"
 
-#: decks/views.py:430
+#: decks/views.py:433
 msgid "Card not found"
 msgstr "Carte non trouvée"
 
-#: decks/views.py:462 decks/views.py:489
+#: decks/views.py:465 decks/views.py:492
 msgid "Comment not found"
 msgstr "Commentaire non trouvé"
 
-#: notifications/models.py:29
+#: notifications/models.py:31
 #, python-format
 msgid "%(actor)s commented on deck '%(deck_name)s'"
 msgstr "%(actor)s a commenté le deck '%(deck_name)s'"
 
-#: notifications/models.py:34
-#, python-format
-msgid "New notification by %(actor)s"
-msgstr "Nouvelle notification par %(actor)s"
+#: notifications/models.py:37
+msgid "%(love_count)s user liked your deck '%(deck_name)s'"
+msgid_plural "%(love_count)s users liked your deck '%(deck_name)s'"
+msgstr[0] "%(love_count)s utilisateur a apprécié votre deck '%(deck_name)s'"
+msgstr[1] "%(love_count)s utilisateurs ont apprécié votre deck '%(deck_name)s'"
+
+#: notifications/models.py:45
+msgid "New notification"
+msgstr "Nouvelle notification"
 
 #: templates/base.html:53
 msgid "Home"
@@ -887,6 +893,10 @@ msgstr "Sombre"
 #: templates/base.html:91
 msgid "Auto"
 msgstr ""
+
+#: templates/base.html:134
+msgid "No notifications"
+msgstr "Pas de notifications"
 
 #: templates/base.html:155
 msgid "Profile"
@@ -956,7 +966,8 @@ msgstr ""
 "Il semble que le serveur a rencontré un problème en essayant de traiter "
 "votre requête. Réessayez plus tard."
 
-#: templates/releases/1.8.3.html:4 templates/releases/release_template.html:4
+#: templates/releases/1.8.3.html:4 templates/releases/1.9.0.html:4
+#: templates/releases/release_template.html:4
 msgid "New features:"
 msgstr "Nouvelles fonctionnalités :"
 
@@ -964,7 +975,8 @@ msgstr "Nouvelles fonctionnalités :"
 msgid "Fixes:"
 msgstr "Corrections :"
 
-#: templates/releases/1.8.3.html:23 templates/releases/release_template.html:16
+#: templates/releases/1.8.3.html:23 templates/releases/1.9.0.html:11
+#: templates/releases/release_template.html:16
 msgid "Other:"
 msgstr "Autre :"
 
@@ -979,6 +991,7 @@ msgid ""
 msgstr ""
 
 #: trends/templates/trends/home.html:24
+#, python-format
 msgid "Release notes %(version)s"
 msgstr "Notes de version %(version)s"
 

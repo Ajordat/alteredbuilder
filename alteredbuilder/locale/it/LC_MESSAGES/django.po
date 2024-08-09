@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-08 16:56+0200\n"
+"POT-Creation-Date: 2024-08-09 11:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: api/utils.py:17 decks/views.py:432
+#: api/utils.py:17 decks/views.py:435
 msgid "Invalid payload"
 msgstr "Carico utile non valido"
 
-#: api/utils.py:19 api/utils.py:21 decks/views.py:517
+#: api/utils.py:19 api/utils.py:21 decks/views.py:520
 msgid "Invalid request"
 msgstr "Richiesta non valida"
 
@@ -545,6 +545,7 @@ msgstr "Accedi"
 #: decks/templates/decks/deck_detail.html:404
 #: decks/templates/decks/own_deck_list.html:56
 #: decks/templates/decks/snippets/public_deck_table.html:54
+#: templates/base.html:126
 #, python-format
 msgid "%(time_since)s ago"
 msgstr "%(time_since)s fa"
@@ -831,31 +832,36 @@ msgstr "Vuoi che il tuo mazzo sia pubblico?"
 msgid "Import"
 msgstr "Importa"
 
-#: decks/views.py:412
+#: decks/views.py:415
 msgid "The deck must have a name"
 msgstr "Il mazzo deve avere un nome"
 
-#: decks/views.py:428 decks/views.py:491 decks/views.py:532
+#: decks/views.py:431 decks/views.py:494 decks/views.py:531
 msgid "Deck not found"
 msgstr "Mazzo non trovato"
 
-#: decks/views.py:430
+#: decks/views.py:433
 msgid "Card not found"
 msgstr "Carta non trovata"
 
-#: decks/views.py:462 decks/views.py:489
+#: decks/views.py:465 decks/views.py:492
 msgid "Comment not found"
 msgstr "Commento non trovato"
 
-#: notifications/models.py:29
+#: notifications/models.py:31
 #, python-format
 msgid "%(actor)s commented on deck '%(deck_name)s'"
 msgstr "%(actor)s ha commentato il mazzo '%(deck_name)s'"
 
-#: notifications/models.py:34
-#, python-format
-msgid "New notification by %(actor)s"
-msgstr "Nuova notifica da parte di %(actor)s"
+#: notifications/models.py:37
+msgid "%(love_count)s user liked your deck '%(deck_name)s'"
+msgid_plural "%(love_count)s users liked your deck '%(deck_name)s'"
+msgstr[0] "A %(love_count)s utente è piaciuto il tuo mazzo '%(deck_name)s'"
+msgstr[1] "A %(love_count)s utenti è piaciuto il tuo mazzo '%(deck_name)s'"
+
+#: notifications/models.py:45
+msgid "New notification"
+msgstr "Nuova notifica"
 
 #: templates/base.html:53
 msgid "Home"
@@ -884,6 +890,10 @@ msgstr "Buio"
 #: templates/base.html:91
 msgid "Auto"
 msgstr "Automatico"
+
+#: templates/base.html:134
+msgid "No notifications"
+msgstr "Nessuna notifica"
 
 #: templates/base.html:155
 msgid "Profile"
@@ -953,7 +963,8 @@ msgstr ""
 "Sembra che il server abbia riscontrato un problema nel tentativo di "
 "elaborare la tua richiesta. "
 
-#: templates/releases/1.8.3.html:4 templates/releases/release_template.html:4
+#: templates/releases/1.8.3.html:4 templates/releases/1.9.0.html:4
+#: templates/releases/release_template.html:4
 msgid "New features:"
 msgstr "Nuove funzionalità:"
 
@@ -961,7 +972,8 @@ msgstr "Nuove funzionalità:"
 msgid "Fixes:"
 msgstr "Correzioni:"
 
-#: templates/releases/1.8.3.html:23 templates/releases/release_template.html:16
+#: templates/releases/1.8.3.html:23 templates/releases/1.9.0.html:11
+#: templates/releases/release_template.html:16
 msgid "Other:"
 msgstr "Altri:"
 
