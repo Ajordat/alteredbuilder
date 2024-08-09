@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext as _, ngettext
 
 
@@ -41,9 +42,10 @@ class Notification(models.Model):
                     "deck_name": self.content_object.name,
                 }
             case _:
-                return _("New notification by %(actor)s") % {
-                    "actor": self.actor.username
-                }
+                return _("New notification")
+
+    def get_absolute_url(self):
+        return reverse("notification-detail", kwargs={"pk": self.pk})
 
     class Meta:
         ordering = ["-created_at"]

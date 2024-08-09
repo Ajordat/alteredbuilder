@@ -117,7 +117,7 @@
 {% if notifications %}
     {% for notification in notifications %}
                                 <li class="{% if not notification.read %}new-notification{% endif %}">
-                                    <a href="{% url 'notification-detail' pk=notification.id %}" class="dropdown-item d-block">
+                                    <a href="{{ notification.get_absolute_url }}" class="dropdown-item d-block">
         {% if not notification.read %}
                                         <span class="position-absolute p-1 bg-danger border border-light rounded-circle"></span>&nbsp;
         {% endif %}
