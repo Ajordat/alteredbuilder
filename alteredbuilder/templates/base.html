@@ -106,7 +106,34 @@
 {% endfor %}
                             </ul>
                         </li>
-
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle position-relative text-info-emphasis" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-bell"></i>
+{% if has_unread_notifications %}
+                                <span class="position-absolute translate-middle p-1 bg-danger border border-light rounded-circle"></span>
+{% endif %}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end bg-light-subtle" aria-labelledby="notificationDropdown">
+{% if notifications %}
+    {% for notification in notifications %}
+                                <li class="{% if not notification.read %}new-notification{% endif %}">
+                                    <a href="{{ notification.get_absolute_url }}" class="dropdown-item d-block">
+        {% if not notification.read %}
+                                        <span class="position-absolute p-1 bg-danger border border-light rounded-circle"></span>&nbsp;
+        {% endif %}
+                                                {{ notification }}
+                                        <br><small class="text-muted">{% blocktranslate with time_since=notification.created_at|timesince %}{{ time_since }} ago{% endblocktranslate %}</small>
+                                    </a>
+                                </li>
+        {% if forloop.last == False %}
+                                <li><hr class="dropdown-divider my-0"></li>
+        {% endif %}
+    {% endfor %}
+{% else %}
+                                <li class="dropdown-item text-muted disabled">{% translate "No notifications" %}</li>
+{% endif %}
+                            </ul>
+                        </li>
 {% if user.is_authenticated %}
     {% if user.is_superuser %}
                         <li class="nav-item">
@@ -125,6 +152,7 @@
                             <a class="nav-link active dropdown-toggle text-info-emphasis" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user"></i> {{ user.username }}</a>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item disabled" href="#">{% translate "Profile" %}</a></li>
+                                <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="{% url 'account_email' %}?next={{ request.path }}">{% translate "Update email" %}</a></li>
                                 <li><a class="dropdown-item" href="{% url 'account_change_password' %}?next={{ request.path }}">{% translate "Update password" %}</a></li>
                                 <li><hr class="dropdown-divider"></li>

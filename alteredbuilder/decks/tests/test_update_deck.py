@@ -323,9 +323,7 @@ class LoveDeckViewTestCase(BaseViewTestCase):
         new_deck = Deck.objects.get(pk=deck.id)
         self.assertEqual(old_love_count + 1, new_deck.love_count)
         self.assertRedirects(
-            response,
-            reverse("deck-detail", kwargs={"pk": deck.id}),
-            status_code=HTTPStatus.FOUND,
+            response, deck.get_absolute_url(), status_code=HTTPStatus.FOUND
         )
 
         # Un-love the same Deck
@@ -334,9 +332,7 @@ class LoveDeckViewTestCase(BaseViewTestCase):
         new_deck = Deck.objects.get(pk=deck.id)
         self.assertEqual(old_love_count, new_deck.love_count)
         self.assertRedirects(
-            response,
-            reverse("deck-detail", kwargs={"pk": deck.id}),
-            status_code=HTTPStatus.FOUND,
+            response, deck.get_absolute_url(), status_code=HTTPStatus.FOUND
         )
 
 

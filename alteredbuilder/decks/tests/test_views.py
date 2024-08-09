@@ -219,9 +219,7 @@ class DeckDetailViewTestCase(BaseViewTestCase):
         """Test the deck detail page of an authenticated user to its own public deck."""
         self.client.force_login(self.user)
         public_deck = Deck.objects.filter(is_public=True, owner=self.user).get()
-        response = self.client.get(
-            reverse("deck-detail", kwargs={"pk": public_deck.id})
-        )
+        response = self.client.get(public_deck.get_absolute_url())
 
         self.assert_deck_detail(public_deck, response)
 
@@ -229,9 +227,7 @@ class DeckDetailViewTestCase(BaseViewTestCase):
         """Test the deck detail page of an unauthenticated user to a public deck."""
         self.client.force_login(self.user)
         public_deck = Deck.objects.filter(is_public=True, owner=self.other_user).get()
-        response = self.client.get(
-            reverse("deck-detail", kwargs={"pk": public_deck.id})
-        )
+        response = self.client.get(public_deck.get_absolute_url())
 
         self.assert_deck_detail(public_deck, response)
 
@@ -239,9 +235,7 @@ class DeckDetailViewTestCase(BaseViewTestCase):
         """Test the deck detail page of an authenticated user to its own private deck."""
         self.client.force_login(self.user)
         public_deck = Deck.objects.filter(is_public=False, owner=self.user).get()
-        response = self.client.get(
-            reverse("deck-detail", kwargs={"pk": public_deck.id})
-        )
+        response = self.client.get(public_deck.get_absolute_url())
 
         self.assert_deck_detail(public_deck, response)
 
@@ -253,9 +247,7 @@ class DeckDetailViewTestCase(BaseViewTestCase):
         private_deck = Deck.objects.filter(is_public=False, owner=self.other_user).get()
 
         with silence_logging():
-            response = self.client.get(
-                reverse("deck-detail", kwargs={"pk": private_deck.id})
-            )
+            response = self.client.get(private_deck.get_absolute_url())
 
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
         self.assertTemplateUsed(response, "errors/404.html")
@@ -263,9 +255,7 @@ class DeckDetailViewTestCase(BaseViewTestCase):
     def test_public_deck_detail_unauthenticated(self):
         """Test the deck detail page of an unauthenticated user to a public deck."""
         public_deck = Deck.objects.filter(is_public=True, owner=self.other_user).get()
-        response = self.client.get(
-            reverse("deck-detail", kwargs={"pk": public_deck.id})
-        )
+        response = self.client.get(public_deck.get_absolute_url())
 
         self.assert_deck_detail(public_deck, response)
 
@@ -273,9 +263,7 @@ class DeckDetailViewTestCase(BaseViewTestCase):
         """Test the deck detail page of an unauthenticated user to a private deck."""
         private_deck = Deck.objects.filter(is_public=False, owner=self.other_user).get()
         with silence_logging():
-            response = self.client.get(
-                reverse("deck-detail", kwargs={"pk": private_deck.id})
-            )
+            response = self.client.get(private_deck.get_absolute_url())
 
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
         self.assertTemplateUsed(response, "errors/404.html")
@@ -697,10 +685,7 @@ class AccessPrivateLinkViewTestCase(BaseViewTestCase):
         """Test the view of a Deck through a PrivateLink when requested by an
         unauthenticated user.
         """
-        url = reverse(
-            "private-url-deck-detail",
-            kwargs={"pk": self.pl_deck.id, "code": self.pl.code},
-        )
+        url = self.pl.get_absolute_url()
         response = self.client.get(url)
 
         self.assertRedirects(
@@ -748,12 +733,7 @@ class AccessPrivateLinkViewTestCase(BaseViewTestCase):
         authenticated user other than the owner.
         """
         self.client.force_login(self.other_user)
-        response = self.client.get(
-            reverse(
-                "private-url-deck-detail",
-                kwargs={"pk": self.pl_deck.id, "code": self.pl.code},
-            )
-        )
+        response = self.client.get(self.pl.get_absolute_url())
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed("decks/deck_detail.html")
@@ -761,17 +741,10 @@ class AccessPrivateLinkViewTestCase(BaseViewTestCase):
     def test_authenticated_by_owner(self):
         """Test the view of a Deck through a PrivateLink when requested by the owner."""
         self.client.force_login(self.user)
-        response = self.client.get(
-            reverse(
-                "private-url-deck-detail",
-                kwargs={"pk": self.pl_deck.id, "code": self.pl.code},
-            )
-        )
+        response = self.client.get(self.pl.get_absolute_url())
 
         self.assertRedirects(
-            response,
-            reverse("deck-detail", kwargs={"pk": self.pl_deck.id}),
-            status_code=HTTPStatus.FOUND,
+            response, self.pl_deck.get_absolute_url(), status_code=HTTPStatus.FOUND
         )
 
     def test_authenticated_to_public_deck(self):
@@ -780,17 +753,10 @@ class AccessPrivateLinkViewTestCase(BaseViewTestCase):
         pl = PrivateLink.objects.create(deck=public_deck)
 
         self.client.force_login(self.user)
-        response = self.client.get(
-            reverse(
-                "private-url-deck-detail",
-                kwargs={"pk": public_deck.id, "code": pl.code},
-            )
-        )
+        response = self.client.get(pl.get_absolute_url())
 
         self.assertRedirects(
-            response,
-            reverse("deck-detail", kwargs={"pk": public_deck.id}),
-            status_code=HTTPStatus.FOUND,
+            response, public_deck.get_absolute_url(), status_code=HTTPStatus.FOUND
         )
 
 
@@ -843,24 +809,18 @@ class CreatePrivateLinkViewTestCase(BaseViewTestCase, AjaxTestCase):
 
         pl = PrivateLink.objects.get(deck=deck)
         response_data = response.json()["data"]
-        created_url = reverse(
-            "private-url-deck-detail", kwargs={"pk": deck.id, "code": pl.code}
-        )
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTrue(response_data["created"])
-        self.assertEqual(response_data["link"], created_url)
+        self.assertEqual(response_data["link"], pl.get_absolute_url())
 
         # Test a request with valid data, which will not create the link
         response = self.client.post(test_url, **headers)
 
         pl.refresh_from_db()
-        created_url = reverse(
-            "private-url-deck-detail", kwargs={"pk": deck.id, "code": pl.code}
-        )
         response_data = response.json()["data"]
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertFalse(response_data["created"])
-        self.assertEqual(response_data["link"], created_url)
+        self.assertEqual(response_data["link"], pl.get_absolute_url())
         self.assertEqual(PrivateLink.objects.filter(deck=deck).count(), 1)
 
         # Test a request with valid data and a public deck

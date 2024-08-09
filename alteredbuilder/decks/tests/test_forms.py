@@ -91,9 +91,7 @@ class CreateDeckFormTestCase(BaseFormTestCase):
         character = Card.objects.get(reference=self.CHARACTER_REFERENCE)
         deck_cards = new_deck.cardindeck_set.all()
 
-        self.assertRedirects(
-            response, reverse("deck-detail", kwargs={"pk": new_deck.id})
-        )
+        self.assertRedirects(response, new_deck.get_absolute_url())
         self.assertFalse(new_deck.is_public)
         self.assertEqual(new_deck.hero, hero)
         self.assertEqual(len(deck_cards), 1)
@@ -175,9 +173,7 @@ class CreateDeckFormTestCase(BaseFormTestCase):
         character = Card.objects.get(reference=self.CHARACTER_REFERENCE)
         deck_cards = new_deck.cardindeck_set.all()
 
-        self.assertRedirects(
-            response, reverse("deck-detail", kwargs={"pk": new_deck.id})
-        )
+        self.assertRedirects(response, new_deck.get_absolute_url())
         self.assertFalse(new_deck.is_public)
         self.assertEqual(new_deck.hero, None)
         self.assertEqual(len(deck_cards), 1)
@@ -200,9 +196,7 @@ class CreateDeckFormTestCase(BaseFormTestCase):
         character = Card.objects.get(reference=self.CHARACTER_REFERENCE)
         deck_cards = new_deck.cardindeck_set.all()
 
-        self.assertRedirects(
-            response, reverse("deck-detail", kwargs={"pk": new_deck.id})
-        )
+        self.assertRedirects(response, new_deck.get_absolute_url())
         self.assertFalse(new_deck.is_public)
         self.assertEqual(new_deck.hero, None)
         self.assertEqual(len(deck_cards), 1)
@@ -283,9 +277,7 @@ class UpdateDeckMetadataFormTestCase(BaseFormTestCase):
         self.assertEqual(deck.name, form_data["name"])
         self.assertEqual(deck.description, form_data["description"])
         self.assertRedirects(
-            response,
-            reverse("deck-detail", kwargs={"pk": deck.id}),
-            status_code=HTTPStatus.FOUND,
+            response, deck.get_absolute_url(), status_code=HTTPStatus.FOUND
         )
 
 
@@ -350,7 +342,5 @@ class CreateCommentFormTestCase(BaseFormTestCase):
             ).exists()
         )
         self.assertRedirects(
-            response,
-            reverse("deck-detail", kwargs={"pk": deck.id}),
-            status_code=HTTPStatus.FOUND,
+            response, deck.get_absolute_url(), status_code=HTTPStatus.FOUND
         )

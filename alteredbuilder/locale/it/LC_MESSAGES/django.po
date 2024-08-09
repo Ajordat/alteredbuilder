@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-06 01:17+0200\n"
+"POT-Creation-Date: 2024-08-09 12:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: api/utils.py:17 decks/views.py:432
+#: api/utils.py:17 decks/views.py:435
 msgid "Invalid payload"
 msgstr "Carico utile non valido"
 
-#: api/utils.py:19 api/utils.py:21 decks/views.py:519
+#: api/utils.py:19 api/utils.py:21 decks/views.py:520
 msgid "Invalid request"
 msgstr "Richiesta non valida"
 
-#: config/settings.py:263
+#: config/settings.py:270
 msgid "Deutsch"
 msgstr "Tedesco"
 
-#: config/settings.py:264
+#: config/settings.py:271
 msgid "English"
 msgstr "Inglese"
 
-#: config/settings.py:265
+#: config/settings.py:272
 msgid "Spanish"
 msgstr "Spagnolo"
 
-#: config/settings.py:266
+#: config/settings.py:273
 msgid "French"
 msgstr "Francese"
 
-#: config/settings.py:267
+#: config/settings.py:274
 msgid "Italian"
 msgstr "Italiano"
 
@@ -80,15 +80,15 @@ msgstr "sottotipo"
 msgid "trigger"
 msgstr "innesco"
 
-#: decks/deck_utils.py:299 decks/deck_utils.py:336
+#: decks/deck_utils.py:299 decks/deck_utils.py:329
 msgid "query"
 msgstr "consultazione"
 
-#: decks/deck_utils.py:317
+#: decks/deck_utils.py:315
 msgid "user"
 msgstr "utente"
 
-#: decks/deck_utils.py:329
+#: decks/deck_utils.py:324
 msgid "hero"
 msgstr "eroe"
 
@@ -538,13 +538,14 @@ msgstr "Commenti"
 msgid "Login to use this feature!"
 msgstr "Effettuare il login per utilizzare questa funzione!"
 
-#: decks/templates/decks/deck_detail.html:381 templates/base.html:137
+#: decks/templates/decks/deck_detail.html:381 templates/base.html:165
 msgid "Login"
 msgstr "Accedi"
 
 #: decks/templates/decks/deck_detail.html:404
 #: decks/templates/decks/own_deck_list.html:56
 #: decks/templates/decks/snippets/public_deck_table.html:54
+#: templates/base.html:126
 #, python-format
 msgid "%(time_since)s ago"
 msgstr "%(time_since)s fa"
@@ -763,7 +764,8 @@ msgstr "Cerca i mazzi creati dall&#39;utente \"%(username)s\":"
 
 #: decks/templates/decks/tooltips/deck_query_search.html:23
 msgid "Search decks with the hero \"Teija\" created by the user \"admin\":"
-msgstr "Cerca i mazzi con l&#39;eroe \"Teija\" creati dall&#39;utente \"admin\":"
+msgstr ""
+"Cerca i mazzi con l&#39;eroe \"Teija\" creati dall&#39;utente \"admin\":"
 
 #: decks/templates/decks/tooltips/deck_timestamps.html:3
 #, python-format
@@ -830,21 +832,37 @@ msgstr "Vuoi che il tuo mazzo sia pubblico?"
 msgid "Import"
 msgstr "Importa"
 
-#: decks/views.py:412
+#: decks/views.py:415
 msgid "The deck must have a name"
 msgstr "Il mazzo deve avere un nome"
 
-#: decks/views.py:428 decks/views.py:462 decks/views.py:493 decks/views.py:534
+#: decks/views.py:431 decks/views.py:494 decks/views.py:531
 msgid "Deck not found"
 msgstr "Mazzo non trovato"
 
-#: decks/views.py:430
+#: decks/views.py:433
 msgid "Card not found"
 msgstr "Carta non trovata"
 
-#: decks/views.py:464 decks/views.py:491
+#: decks/views.py:465 decks/views.py:492
 msgid "Comment not found"
 msgstr "Commento non trovato"
+
+#: notifications/models.py:31
+#, python-format
+msgid "%(actor)s commented on deck '%(deck_name)s'"
+msgstr "%(actor)s ha commentato il mazzo '%(deck_name)s'"
+
+#: notifications/models.py:37
+#, python-format
+msgid "%(love_count)s user liked your deck '%(deck_name)s'"
+msgid_plural "%(love_count)s users liked your deck '%(deck_name)s'"
+msgstr[0] "A %(love_count)s utente è piaciuto il tuo mazzo '%(deck_name)s'"
+msgstr[1] "A %(love_count)s utenti è piaciuto il tuo mazzo '%(deck_name)s'"
+
+#: notifications/models.py:45
+msgid "New notification"
+msgstr "Nuova notifica"
 
 #: templates/base.html:53
 msgid "Home"
@@ -874,51 +892,55 @@ msgstr "Buio"
 msgid "Auto"
 msgstr "Automatico"
 
-#: templates/base.html:128
+#: templates/base.html:134
+msgid "No notifications"
+msgstr "Nessuna notifica"
+
+#: templates/base.html:155
 msgid "Profile"
 msgstr "Profilo"
 
-#: templates/base.html:129
+#: templates/base.html:157
 msgid "Update email"
 msgstr "Aggiorna e-mail"
 
-#: templates/base.html:130
+#: templates/base.html:158
 msgid "Update password"
 msgstr "Aggiorna password"
 
-#: templates/base.html:132
+#: templates/base.html:160
 msgid "Logout"
 msgstr "Esci"
 
-#: templates/base.html:152
+#: templates/base.html:180
 msgid "Links"
 msgstr "Collegamenti"
 
-#: templates/base.html:155
+#: templates/base.html:183
 msgid "About the project"
 msgstr "Informazioni sul progetto"
 
-#: templates/base.html:158
+#: templates/base.html:186
 msgid "About the author"
 msgstr "Informazioni sull'autore"
 
-#: templates/base.html:161
+#: templates/base.html:189
 msgid "Collaborators"
 msgstr "Collaboratori"
 
-#: templates/base.html:164
+#: templates/base.html:192
 msgid "Privacy policy"
 msgstr "Informativa sulla privacy"
 
-#: templates/base.html:167
+#: templates/base.html:195
 msgid "Terms and conditions"
 msgstr "Termini e condizioni"
 
-#: templates/base.html:172
+#: templates/base.html:200
 msgid "Support the project"
 msgstr "Aiutare il progetto"
 
-#: templates/base.html:179
+#: templates/base.html:207
 msgid "Get in touch"
 msgstr "Contattaci"
 
@@ -942,7 +964,8 @@ msgstr ""
 "Sembra che il server abbia riscontrato un problema nel tentativo di "
 "elaborare la tua richiesta. "
 
-#: templates/releases/1.8.3.html:4 templates/releases/release_template.html:4
+#: templates/releases/1.8.3.html:4 templates/releases/1.9.0.html:4
+#: templates/releases/release_template.html:4
 msgid "New features:"
 msgstr "Nuove funzionalità:"
 
@@ -953,6 +976,14 @@ msgstr "Correzioni:"
 #: templates/releases/1.8.3.html:23 templates/releases/release_template.html:16
 msgid "Other:"
 msgstr "Altri:"
+
+#: templates/releases/1.9.0.html:11
+msgid "Other changes:"
+msgstr "Altre modifiche:"
+
+#: templates/releases/1.9.0.html:20
+msgid "Announcements:"
+msgstr "Annunci:"
 
 #: templates/socialaccount/authentication_error.html:5
 #: templates/socialaccount/authentication_error.html:9
@@ -966,8 +997,8 @@ msgstr ""
 
 #: trends/templates/trends/home.html:24
 #, python-format
-msgid "Release notes %(current_version)s"
-msgstr ""
+msgid "Release notes %(version)s"
+msgstr "Note di lancio %(version)s"
 
 #: trends/templates/trends/home.html:38
 msgid "Trends from the last 7 days"
