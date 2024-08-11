@@ -69,7 +69,7 @@
                         </li>
                         {% url 'profile-list' as item_url %}
                         <li class="nav-item {% if request.path == item_url or request.GET.next == item_url %}{{ tab_selected_class }}{% endif %}">
-                            <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-square-plus"></i> {% translate "Builders" %}</a>
+                            <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-people-group"></i> {% translate "Builders" %}</a>
                         </li>
                     </ul>
 {% endwith %}

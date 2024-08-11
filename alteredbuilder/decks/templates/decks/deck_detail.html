@@ -28,7 +28,7 @@
     </div>
     <div class="row row-cols-auto gx-2">
         <div class="col">
-            <i class="fa-solid fa-user"></i> {{ object.owner.username|safe_username }}
+            <a href="{{ object.owner.profile.get_absolute_url }}"><i class="fa-solid fa-user"></i> {{ object.owner.username|safe_username }}</a>
         </div>
         <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% include 'decks/tooltips/deck_timestamps.html' with deck=object %}" data-bs-html="true">
             <i class="fa-regular fa-calendar"></i> <small>{{ object.modified_at|date:"SHORT_DATE_FORMAT" }}</small>
@@ -384,7 +384,7 @@
         {% for comment in comments %}
                         <div class="media comment-body">
                             <div class="media-body">
-                                <h4 class="media-heading">{{ comment.user.username|safe_username }}
+                                <h4 class="media-heading"><a href="{{ comment.user.profile.get_absolute_url }}">{{ comment.user.username|safe_username }}</a>
                                     <span class="float-end">
             {% if comment.user == request.user %}
                                         <a role="button" class="btn btn-sm btn-outline-danger delete-comment" href="{% url 'delete-comment' pk=object.id comment_pk=comment.id %}">
