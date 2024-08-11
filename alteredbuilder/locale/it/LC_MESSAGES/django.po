@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-09 12:13+0200\n"
+"POT-Creation-Date: 2024-08-11 22:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: api/utils.py:17 decks/views.py:435
+#: api/utils.py:17 decks/views.py:439
 msgid "Invalid payload"
 msgstr "Carico utile non valido"
 
-#: api/utils.py:19 api/utils.py:21 decks/views.py:520
+#: api/utils.py:19 api/utils.py:21 decks/views.py:524
 msgid "Invalid request"
 msgstr "Richiesta non valida"
 
@@ -151,7 +151,7 @@ msgstr "Ricerca schede"
 #: decks/templates/decks/card_list.html:32
 #: decks/templates/decks/card_list.html:82
 #: decks/templates/decks/deck_list.html:29
-#: decks/templates/decks/deck_list.html:76
+#: decks/templates/decks/deck_list.html:77
 msgid "Search"
 msgstr "Cerca"
 
@@ -583,6 +583,12 @@ msgstr "Amato"
 msgid "Login to save your loved decks!"
 msgstr "Accedi per salvare i tuoi amati mazzi!"
 
+#: decks/templates/decks/deck_list.html:72
+#: decks/templates/forms/submit_deck_metadata.html:22
+#: decks/templates/forms/submit_decklist.html:22
+msgid "Description"
+msgstr "Descrizione"
+
 #: decks/templates/decks/new_deck.html:6 decks/templates/decks/new_deck.html:7
 msgid "New Deck"
 msgstr "Nuovo mazzo"
@@ -789,11 +795,6 @@ msgstr "Invia"
 msgid "Please name your deck"
 msgstr "Per favore dai un nome al tuo mazzo"
 
-#: decks/templates/forms/submit_deck_metadata.html:22
-#: decks/templates/forms/submit_decklist.html:22
-msgid "Description"
-msgstr "Descrizione"
-
 #: decks/templates/forms/submit_deck_metadata.html:31
 msgid "Visibility"
 msgstr "Visibilità"
@@ -832,19 +833,19 @@ msgstr "Vuoi che il tuo mazzo sia pubblico?"
 msgid "Import"
 msgstr "Importa"
 
-#: decks/views.py:415
+#: decks/views.py:419
 msgid "The deck must have a name"
 msgstr "Il mazzo deve avere un nome"
 
-#: decks/views.py:431 decks/views.py:494 decks/views.py:531
+#: decks/views.py:435 decks/views.py:498 decks/views.py:535
 msgid "Deck not found"
 msgstr "Mazzo non trovato"
 
-#: decks/views.py:433
+#: decks/views.py:437
 msgid "Card not found"
 msgstr "Carta non trovata"
 
-#: decks/views.py:465 decks/views.py:492
+#: decks/views.py:469 decks/views.py:496
 msgid "Comment not found"
 msgstr "Commento non trovato"
 
@@ -1026,7 +1027,7 @@ msgstr "Eroi popolari"
 msgid "Popular Cards"
 msgstr "Carte popolari"
 
-#: trends/templates/trends/home.html:84
+#: trends/templates/trends/home.html:82
 msgid "Trending decks"
 msgstr "Mazzi di tendenza"
 

@@ -50,7 +50,7 @@ function searchCards(e) {
     }
 
     // Retrieve the OTHER filters
-    let other = parseFilter(["Loved"]);
+    let other = parseFilter(["Loved", "Description"]);
     if (other.length > 0) {
         params.append("other", other.join(","));
     }

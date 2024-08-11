@@ -93,15 +93,19 @@ class DeckListView(ListView):
             if "exalts" in legality:
                 filters &= Q(is_exalts_legal=True)
 
-        # Extract the other filters, which currently it's simply if the deck is loved
-        other = self.request.GET.get("other")
-        if other:
-            if "loved" in other.split(","):
-                try:
-                    lp = LovePoint.objects.filter(user=self.request.user)
-                    filters &= Q(id__in=lp.values_list("deck_id", flat=True))
-                except TypeError:
-                    pass
+        # Extract the other filters
+        other_filters = self.request.GET.get("other")
+        if other_filters:
+            for other in other_filters.split(","):
+                print(other)
+                if other == "loved":
+                    try:
+                        lp = LovePoint.objects.filter(user=self.request.user)
+                        filters &= Q(id__in=lp.values_list("deck_id", flat=True))
+                    except TypeError:
+                        pass
+                elif other == "description":
+                    qs = qs.exclude(description="")
 
         if self.request.user.is_authenticated:
             qs = qs.annotate(

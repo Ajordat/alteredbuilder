@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-09 12:13+0200\n"
+"POT-Creation-Date: 2024-08-11 22:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: api/utils.py:17 decks/views.py:435
+#: api/utils.py:17 decks/views.py:439
 msgid "Invalid payload"
 msgstr "Ungültige Nutzlast"
 
-#: api/utils.py:19 api/utils.py:21 decks/views.py:520
+#: api/utils.py:19 api/utils.py:21 decks/views.py:524
 msgid "Invalid request"
 msgstr "Ungültige Anfrage"
 
@@ -152,7 +152,7 @@ msgstr "Suche nach Karten"
 #: decks/templates/decks/card_list.html:32
 #: decks/templates/decks/card_list.html:82
 #: decks/templates/decks/deck_list.html:29
-#: decks/templates/decks/deck_list.html:76
+#: decks/templates/decks/deck_list.html:77
 msgid "Search"
 msgstr "Suchen"
 
@@ -584,6 +584,12 @@ msgstr "Geliebt"
 msgid "Login to save your loved decks!"
 msgstr "Melden Sie sich an, um Ihre geliebten Decks zu speichern!"
 
+#: decks/templates/decks/deck_list.html:72
+#: decks/templates/forms/submit_deck_metadata.html:22
+#: decks/templates/forms/submit_decklist.html:22
+msgid "Description"
+msgstr "Beschreibung"
+
 #: decks/templates/decks/new_deck.html:6 decks/templates/decks/new_deck.html:7
 msgid "New Deck"
 msgstr "Neues Deck"
@@ -790,11 +796,6 @@ msgstr "Einreichen"
 msgid "Please name your deck"
 msgstr "Bitte benennen Sie Ihr Deck"
 
-#: decks/templates/forms/submit_deck_metadata.html:22
-#: decks/templates/forms/submit_decklist.html:22
-msgid "Description"
-msgstr "Beschreibung"
-
 #: decks/templates/forms/submit_deck_metadata.html:31
 msgid "Visibility"
 msgstr "Sichtbarkeit"
@@ -833,19 +834,19 @@ msgstr "Möchten Sie, dass Ihr Deck öffentlich ist?"
 msgid "Import"
 msgstr "Importieren"
 
-#: decks/views.py:415
+#: decks/views.py:419
 msgid "The deck must have a name"
 msgstr "Das Deck muss einen Namen haben"
 
-#: decks/views.py:431 decks/views.py:494 decks/views.py:531
+#: decks/views.py:435 decks/views.py:498 decks/views.py:535
 msgid "Deck not found"
 msgstr "Deck nicht gefunden"
 
-#: decks/views.py:433
+#: decks/views.py:437
 msgid "Card not found"
 msgstr "Karte nicht gefunden"
 
-#: decks/views.py:465 decks/views.py:492
+#: decks/views.py:469 decks/views.py:496
 msgid "Comment not found"
 msgstr "Kommentar nicht gefunden"
 
@@ -1027,7 +1028,7 @@ msgstr "Beliebte Helden"
 msgid "Popular Cards"
 msgstr "Beliebte Karten"
 
-#: trends/templates/trends/home.html:84
+#: trends/templates/trends/home.html:82
 msgid "Trending decks"
 msgstr "Angesagte Decks"
 
