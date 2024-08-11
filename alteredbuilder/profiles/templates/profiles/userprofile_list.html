@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Latest Users{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <h1>Latest Users</h1>
+    <ul class="list-group">
+        {% for profile in userprofile_list %}
+            <li class="list-group-item">
+                <a href="{{ profile.get_absolute_url }}">{{ profile.user.username }}</a>
+                <small class="text-muted">Joined on {{ profile.user.date_joined|date:"F j, Y" }}</small>
+            </li>
+        {% empty %}
+            <li class="list-group-item">No users found.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
