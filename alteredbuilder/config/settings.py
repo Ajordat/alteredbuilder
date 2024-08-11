@@ -138,6 +138,7 @@ INSTALLED_APPS = [
     "hitcount",
     "trends.apps.TrendsConfig",
     "notifications.apps.NotificationsConfig",
+    "profiles.apps.ProfilesConfig",
 ]
 
 MIDDLEWARE = [

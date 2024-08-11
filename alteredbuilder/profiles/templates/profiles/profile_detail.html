@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% translate "Profile of " %}{{ user.username }}{% endblock %}
+
+{% block meta_title %}{% translate "Profile of " %}{{ user.username }}{% endblock %}
+
+{% block content-div %}
+<div class="container px-5 mt-3 mb-5">
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-3">
+            <!-- Profile Picture -->
+            <div class="text-center">
+                <img src="{{ user.profile.image.url }}" alt="{% translate 'Profile picture of ' %}{{ user.username }}" class="rounded-circle img-thumbnail" width="150" height="150">
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <h2>{{ user.username }}</h2>
+            <p class="text-muted">{{ user.email }}</p>
+
+            <!-- Optional: Display additional profile information -->
+            {% if user.profile.bio %}
+            <h5>{% translate "Bio" %}</h5>
+            <p>{{ user.profile.bio }}</p>
+            {% endif %}
+
+            <!-- Optional: Display social media links -->
+            {% if user.profile.website %}
+            <p><a href="{{ user.profile.website }}" target="_blank" class="btn btn-outline-primary"><i class="fa-solid fa-globe"></i> {% translate "Website" %}</a></p>
+            {% endif %}
+
+            {% if user.profile.twitter %}
+            <p><a href="https://twitter.com/{{ user.profile.twitter }}" target="_blank" class="btn btn-outline-primary"><i class="fa-brands fa-twitter"></i> Twitter</a></p>
+            {% endif %}
+
+            {% if user.profile.github %}
+            <p><a href="https://github.com/{{ user.profile.github }}" target="_blank" class="btn btn-outline-primary"><i class="fa-brands fa-github"></i> GitHub</a></p>
+            {% endif %}
+
+            {% if user.profile.discord %}
+            <p><a href="https://discordapp.com/users/{{ user.profile.discord }}" target="_blank" class="btn btn-outline-primary"><i class="fa-brands fa-discord"></i> Discord</a></p>
+            {% endif %}
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Display user's decks or recent activity -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <h4>{% translate "Recent Decks by " %}{{ user.username }}</h4>
+            <div class="list-group">
+                {% for deck in deck_list %}
+                    <a href="{{ deck.get_absolute_url }}" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{ deck.name }}</h5>
+                            <small class="text-muted">{{ deck.created_at|date:"M d, Y" }}</small>
+                        </div>
+                        <p class="mb-1">{{ deck.description|truncatewords:20 }}</p>
+                        <small class="text-muted">{% translate "Last updated" %} {{ deck.modified_at|timesince }} ago</small>
+                    </a>
+                {% empty %}
+                    <p class="text-muted">{% translate "No decks created yet." %}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block bodyscripts %}
+    <script>
+        // Additional JavaScript for the profile page if needed
+    </script>
+{% endblock %}
