@@ -15,5 +15,6 @@ class ProfileDetailView(DetailView):
         context = super().get_context_data(**kwargs)
 
         context["deck_list"] = Deck.objects.filter(owner=self.object.user, is_public=True)
+        # context["discord_handle"] = 
 
         return context

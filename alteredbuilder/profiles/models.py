@@ -11,7 +11,6 @@ class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
     # image = models.ImageField(_("Profile Picture"), upload_to='profile_pics/', null=True, blank=True)
     bio = models.TextField(_("Biography"), blank=True)
-    discord = models.CharField(_("Discord Tag"), blank=True)
 
 
     def get_absolute_url(self):

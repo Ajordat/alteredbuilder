@@ -29,19 +29,6 @@
             <p>{{ user.profile.bio }}</p>
             {% endif %}
 
-            <!-- Optional: Display social media links -->
-            {% if user.profile.website %}
-            <p><a href="{{ user.profile.website }}" target="_blank" class="btn btn-outline-primary"><i class="fa-solid fa-globe"></i> {% translate "Website" %}</a></p>
-            {% endif %}
-
-            {% if user.profile.twitter %}
-            <p><a href="https://twitter.com/{{ user.profile.twitter }}" target="_blank" class="btn btn-outline-primary"><i class="fa-brands fa-twitter"></i> Twitter</a></p>
-            {% endif %}
-
-            {% if user.profile.github %}
-            <p><a href="https://github.com/{{ user.profile.github }}" target="_blank" class="btn btn-outline-primary"><i class="fa-brands fa-github"></i> GitHub</a></p>
-            {% endif %}
-
             {% if user.profile.discord %}
             <p><a href="https://discordapp.com/users/{{ user.profile.discord }}" target="_blank" class="btn btn-outline-primary"><i class="fa-brands fa-discord"></i> Discord</a></p>
             {% endif %}
