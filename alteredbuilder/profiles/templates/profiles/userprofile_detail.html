@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 
 {% load i18n %}
+{% load static %}
+{% load deck_styles %}
 
 
-{% block title %}{% translate "Profile of " %}{{ user.username }}{% endblock %}
+{% block title %}{% translate "Profile of " %}{{ builder.username|safe_username }}{% endblock %}
 
-{% block meta_title %}{% translate "Profile of " %}{{ user.username }}{% endblock %}
+{% block meta_title %}{% translate "Profile of " %}{{ builder.username|safe_username }}{% endblock %}
 
 {% block content-div %}
 class="container px-5 mt-3 mb-5"
@@ -15,20 +17,23 @@ class="container px-5 mt-3 mb-5"
     <div class="row">
 
         <div class="col-md-9">
-            <h2>{{ profile.user.username }}</h2>
-            <p class="text-muted">{{ profile.user.email }}</p>
+            <h2>{{ builder.username|safe_username }}</h2>
+            <p class="text-muted">{% blocktranslate with date_joined=builder.date_joined|date:"F j, Y" %}Member since {{ date_joined }}{% endblocktranslate %}</p>
 
+    {% if builder.profile.altered_handle %}
+            <p><img class="logo" src="{% static "img/altered.webp" %}" alt="logo" width="20px"><a href="https://www.altered.gg/profile/{{ builder.profile.altered_handle }}" target="_blank">Altered Profile</a></p>
+    {% endif %}
             <h5>{% translate "Bio" %}</h5>
-    {% if profile.bio %}
-            <p>{{ profile.bio }}</p>
+    {% if builder.profile.bio %}
+            <p>{{ builder.profile.bio }}</p>
     {% else %}
-            <i>Empty bio</i>
+            <p><i>{% translate "Empty bio" %}</i></p>
     {% endif %}
-    {% if profile.discord %}
-            <p><a href="https://discordapp.com/users/{{ profile.discord }}" target="_blank" class="btn btn-outline-primary"><i class="fa-brands fa-discord"></i> Discord</a></p>
+    {% if builder.profile.discord_public %}
+            <p><a href="https://discordapp.com/users/{{ builder.profile.discord }}" target="_blank" class="btn btn-outline-primary"><i class="fa-brands fa-discord"></i> Discord</a></p>
     {% endif %}
-    {% if request.user == profile.user %}
-                <a href="{% url 'profile-edit' %}" class="btn btn-secondary mt-3">Edit Profile</a>
+    {% if request.user == builder %}
+            <a href="{% url 'profile-edit' %}" class="btn btn-secondary mt-3">{% translate "Edit Profile" %}</a>
     {% endif %}
         </div>
     </div>
@@ -38,7 +43,7 @@ class="container px-5 mt-3 mb-5"
     <!-- Display user's decks or recent activity -->
     <div class="row mt-4">
         <div class="col-12">
-            <h4>{% translate "Recent Decks by " %}{{ profile.user.username }}</h4>
+            <h4>{% translate "Recent Decks by " %}{{ builder.username|safe_username }}</h4>
             <div class="list-group">
     {% for deck in deck_list %}
                     <a href="{{ deck.get_absolute_url }}" class="list-group-item list-group-item-action">
@@ -47,7 +52,7 @@ class="container px-5 mt-3 mb-5"
                             <small class="text-muted">{{ deck.created_at|date:"M d, Y" }}</small>
                         </div>
                         <p class="mb-1">{{ deck.description|truncatewords:20 }}</p>
-                        <small class="text-muted">{% translate "Last updated" %} {{ deck.modified_at|timesince }} ago</small>
+                        <small class="text-muted">{% blocktranslate with modified_at=deck.modified_at|timesince %}Last updated {{ modified_at }} ago{% endblocktranslate %}</small>
                     </a>
     {% empty %}
                     <p class="text-muted">{% translate "No decks created yet." %}</p>

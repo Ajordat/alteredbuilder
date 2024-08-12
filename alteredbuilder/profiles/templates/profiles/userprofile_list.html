@@ -1,19 +1,22 @@
 {% extends "base.html" %}
 
-{% block title %}Latest Users{% endblock %}
+{% load i18n %}
+{% load deck_styles %}
 
+
+{% block title %}{% translate "Builders" %}{% endblock %}
 
 {% block content %}
 <div class="container">
-    <h1>Latest Users</h1>
+    <h1>{% translate "New builders" %}</h1>
     <ul class="list-group">
         {% for profile in userprofile_list %}
             <li class="list-group-item">
-                <a href="{{ profile.get_absolute_url }}">{{ profile.user.username }}</a>
-                <small class="text-muted">Joined on {{ profile.user.date_joined|date:"F j, Y" }}</small>
+                <a href="{{ profile.get_absolute_url }}">{{ profile.user.username|safe_username }}</a>
+                <small class="text-muted">{% blocktranslate with date_joined=profile.user.date_joined|date:"F j, Y" %}Joined on {{ date_joined }}{% endblocktranslate %}</small>
             </li>
         {% empty %}
-            <li class="list-group-item">No users found.</li>
+            <li class="list-group-item">{% translate "No users found." %}</li>
         {% endfor %}
     </ul>
 </div>
