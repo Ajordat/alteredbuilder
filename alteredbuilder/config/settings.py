@@ -261,6 +261,8 @@ if SENDGRID_API_KEY := env("SENDGRID_API_KEY", default=None):
 else:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
+# Only keep the hits for 30d on the database
+HITCOUNT_KEEP_HIT_IN_DATABASE = {"days": 30}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
