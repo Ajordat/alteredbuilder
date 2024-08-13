@@ -143,7 +143,6 @@ class CardAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
             "subtypes",
             "rarity",
             "image_url",
-            "stats",
         ]
         i18n_fields = ["name", "image_url", "main_effect"]
 
@@ -163,6 +162,19 @@ class CardAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
             ),
         ]
 
+        match obj.type:
+            case Card.Type.HERO:
+                card_stats_fields = ["reserve_count", "permanent_count"]
+            case Card.Type.CHARACTER:
+                card_stats_fields = ["mana_cost", "power"]
+            case Card.Type.SPELL | Card.Type.PERMANENT:
+                card_stats_fields = ["mana_cost"]
+            case _:
+                card_stats_fields = None
+
+        if card_stats_fields:
+            fieldsets.append(("Stats", {"fields": card_stats_fields}))
+
         for code, name in settings.LANGUAGES:
             lang_fieldset = (
                 name,
@@ -173,6 +185,26 @@ class CardAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
             )
             fieldsets.append(lang_fieldset)
         return fieldsets
+
+    @admin.display
+    def reserve_count(self, obj: Card):
+        return obj.stats["reserve_count"]
+
+    @admin.display
+    def permanent_count(self, obj: Card):
+        return obj.stats["permanent_count"]
+
+    @admin.display
+    def mana_cost(self, obj: Card):
+        return obj.stats["main_cost"], obj.stats["recall_cost"]
+
+    @admin.display
+    def power(self, obj: Card):
+        return (
+            obj.stats["forest_power"],
+            obj.stats["mountain_power"],
+            obj.stats["ocean_power"],
+        )
 
 
 @admin.register(CardInDeck)

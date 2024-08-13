@@ -23,10 +23,12 @@ class UserProfile(models.Model):
 
     def get_absolute_url(self):
         return reverse("profile-detail", kwargs={"code": self.code})
-    
+
     def discord_handle(self):
         try:
-            social_account = SocialAccount.objects.get(user=self.user, provider="discord")
+            social_account = SocialAccount.objects.get(
+                user=self.user, provider="discord"
+            )
             extra_data = social_account.extra_data
             discord_username = extra_data.get("username", "")
             discord_discriminator = extra_data.get("discriminator", "")
