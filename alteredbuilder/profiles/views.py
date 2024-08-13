@@ -38,9 +38,6 @@ class ProfileDetailView(HitCountDetailView):
 
         context["deck_list"] = Deck.objects.filter(owner=self.object, is_public=True)
 
-        if self.object.profile.discord_public:
-            context["discord_handle"] = get_discord_handle(self.object)
-
         if self.request.user.is_authenticated:
             context["is_followed"] = Follow.objects.filter(
                 follower=self.request.user, followed=self.object

@@ -30,7 +30,7 @@ class="container px-5 mt-3 mb-5"
             <p><i>{% translate "Empty bio" %}</i></p>
     {% endif %}
     {% if builder.profile.discord_public %}
-            <p><a href="https://discordapp.com/users/{{ builder.profile.discord }}" target="_blank" class="btn btn-outline-primary"><i class="fa-brands fa-discord"></i> Discord</a></p>
+            <p><a href="https://discordapp.com/users/{{ builder.profile.discord_handle }}" target="_blank" class="btn btn-outline-primary"><i class="fa-brands fa-discord"></i> Discord</a></p>
     {% endif %}
     {% if request.user == builder %}
             <a href="{% url 'profile-edit' %}" class="btn btn-secondary mt-3">{% translate "Edit Profile" %}</a>
@@ -46,7 +46,6 @@ class="container px-5 mt-3 mb-5"
 
     <hr>
 
-    <!-- Display user's decks or recent activity -->
     <div class="row mt-4">
         <div class="col-12">
             <h4>{% translate "Recent Decks by " %}{{ builder.username|safe_username }}</h4>
