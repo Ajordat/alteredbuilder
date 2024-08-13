@@ -112,15 +112,8 @@
     </div>
     <div class="row">
         <div class="col-3 mb-5">
-    {% if object.hero %}
-            <img class="img-fluid rounded-4" id="card-showcase" src="{{ object.hero.image_url }}">
-    {% elif character_list %}
-            <img class="img-fluid rounded-4" id="card-showcase" src="{{ character_list.0.1.image_url}}">
-    {% elif spell_list %}
-            <img class="img-fluid rounded-4" id="card-showcase" src="{{ spell_list.0.1.image_url}}">
-    {% elif permanent_list %}
-            <img class="img-fluid rounded-4" id="card-showcase" src="{{ permanent_list.0.1.image_url}}">
-    {% endif %}
+            {% firstof object.hero.image_url character_list.0.1.image_url spell_list.0.1.image_url permanent_list.0.1.image_url "" as display_image %}
+            <img class="img-fluid rounded-4" id="card-showcase" src="{{ display_image }}">
         </div>
         <div class="col">
             <div class="row">
