@@ -10,6 +10,8 @@
 
 #card-showcase {
     max-height: 500px;
+    position: sticky;
+    top: 60px;
 }
 
 #deck-qr-code{
