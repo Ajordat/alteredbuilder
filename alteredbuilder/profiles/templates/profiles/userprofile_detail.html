@@ -34,6 +34,12 @@ class="container px-5 mt-3 mb-5"
     {% endif %}
     {% if request.user == builder %}
             <a href="{% url 'profile-edit' %}" class="btn btn-secondary mt-3">{% translate "Edit Profile" %}</a>
+    {% else %}
+        {% if is_followed %}
+            <a href="{% url 'profile-unfollow' builder.profile.code %}" class="btn btn-danger">{% translate "Unfollow" %}</a>
+        {% else %}
+            <a href="{% url 'profile-follow' builder.profile.code %}" class="btn btn-primary">{% translate "Follow" %}</a>
+        {% endif %}
     {% endif %}
         </div>
     </div>

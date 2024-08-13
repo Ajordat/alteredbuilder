@@ -8,6 +8,7 @@ from django.utils.translation import gettext as _, ngettext
 
 class NotificationType(models.TextChoices):
     COMMENT = "comment"
+    DECK = "deck"
     LOVE = "love"
 
 
@@ -39,6 +40,11 @@ class Notification(models.Model):
                     self.content_object.love_count,
                 ) % {
                     "love_count": self.content_object.love_count,
+                    "deck_name": self.content_object.name,
+                }
+            case NotificationType.DECK:
+                return _("%(owner)s created deck '%(deck_name)s'") % {
+                    "owner": self.content_object.owner,
                     "deck_name": self.content_object.name,
                 }
             case _:

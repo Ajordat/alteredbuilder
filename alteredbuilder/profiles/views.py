@@ -4,14 +4,14 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.base import Model as Model
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 from hitcount.views import HitCountDetailView
 
 from decks.models import Deck
 from profiles.forms import UserProfileForm
-from profiles.models import UserProfile
+from profiles.models import Follow, UserProfile
 from profiles.utils import get_discord_handle
 
 
@@ -41,6 +41,11 @@ class ProfileDetailView(HitCountDetailView):
         if self.object.profile.discord_public:
             context["discord_handle"] = get_discord_handle(self.object)
 
+        if self.request.user.is_authenticated:
+            context["is_followed"] = Follow.objects.filter(
+                follower=self.request.user, followed=self.object
+            ).exists()
+
         return context
 
 
@@ -60,6 +65,24 @@ class EditProfileFormView(LoginRequiredMixin, FormView):
             setattr(profile, attr, form.cleaned_data[attr])
         profile.save()
         return super().form_valid(form)
-    
+
     def get_success_url(self) -> str:
         return self.request.user.profile.get_absolute_url()
+
+
+@login_required
+def follow_user(request, code):
+    builder_profile = get_object_or_404(UserProfile, code=code)
+    Follow.objects.get_or_create(follower=request.user, followed=builder_profile.user)
+    return redirect(builder_profile.get_absolute_url())
+
+
+@login_required
+def unfollow_user(request, code):
+    builder_profile = get_object_or_404(UserProfile, code=code)
+    follow = Follow.objects.filter(
+        follower=request.user, followed=builder_profile.user
+    ).first()
+    if follow:
+        follow.delete()
+    return redirect(builder_profile.get_absolute_url())

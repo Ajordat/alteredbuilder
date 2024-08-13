@@ -22,3 +22,19 @@ class UserProfile(models.Model):
 
     def get_absolute_url(self):
         return reverse("profile-detail", kwargs={"code": self.code})
+
+
+class Follow(models.Model):
+    follower = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name="following", on_delete=models.CASCADE
+    )
+    followed = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name="followers", on_delete=models.CASCADE
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f"{self.follower} follows {self.followed}"
+
+    class Meta:
+        unique_together = ["follower", "followed"]

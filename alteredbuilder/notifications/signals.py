@@ -3,8 +3,9 @@ from django.db import transaction
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 
-from decks.models import Comment, LovePoint
+from decks.models import Comment, Deck, LovePoint
 from notifications.models import Notification, NotificationType
+from profiles.models import Follow
 
 
 @receiver(post_save, sender=Comment)
@@ -53,3 +54,24 @@ def delete_love_notification(sender, instance: LovePoint, **kwargs):
             pass
 
     transaction.on_commit(consider_delete_notification)
+
+
+@receiver(post_save, sender=Deck)
+def create_deck_notification(sender, instance: Deck, created, **kwargs):
+    if created and instance.is_public:
+        creator = instance.owner
+        content_type = ContentType.objects.get_for_model(instance)
+        follows = Follow.objects.filter(followed=creator)
+        notifications = []
+
+        for follow in follows:
+            notifications.append(
+                Notification(
+                    recipient=follow.follower,
+                    verb=NotificationType.DECK,
+                    actor=creator,
+                    content_type=content_type,
+                    object_id=instance.id,
+                )
+            )
+        Notification.objects.bulk_create(notifications)

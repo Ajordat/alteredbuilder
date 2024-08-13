@@ -24,7 +24,7 @@ def notification_detail(request: HttpRequest, pk: int) -> HttpResponse:
     notification = get_object_or_404(Notification, pk=pk, recipient=request.user)
 
     match notification.verb:
-        case NotificationType.COMMENT | NotificationType.LOVE:
+        case NotificationType.COMMENT | NotificationType.LOVE | NotificationType.DECK:
             redirect_url = notification.content_object.get_absolute_url()
             Notification.objects.filter(
                 recipient=request.user,
