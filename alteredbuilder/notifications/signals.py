@@ -1,9 +1,9 @@
 from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
-from django.db.models.signals import post_delete, post_save
+from django.db.models.signals import post_delete, post_save, pre_delete
 from django.dispatch import receiver
 
-from decks.models import Comment, LovePoint
+from decks.models import Comment, Deck, LovePoint
 from notifications.models import Notification, NotificationType
 
 
@@ -44,12 +44,20 @@ def delete_love_notification(sender, instance: LovePoint, **kwargs):
             notification = Notification.objects.get(
                 recipient=instance.deck.owner,
                 verb=NotificationType.LOVE,
+                content_type=ContentType.objects.get_for_model(instance.deck),
                 object_id=instance.deck.id,
             )
 
             if notification.content_object.love_count == 0:
                 notification.delete()
-        except Notification.DoesNotExist:
+        except (Notification.DoesNotExist, Deck.DoesNotExist):
             pass
 
     transaction.on_commit(consider_delete_notification)
+
+
+@receiver(pre_delete, sender=Deck)
+def delete_notifications(sender, instance: Deck, **kwargs):
+    Notification.objects.filter(
+        content_type=ContentType.objects.get_for_model(instance), object_id=instance.id
+    ).delete()
