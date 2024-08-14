@@ -11,6 +11,5 @@ class UserProfileForm(forms.Form):
         widget=forms.Textarea(attrs={"cols": 40, "rows": 10}),
         required=False,
     )
-    # bio = forms.Textarea(validators=[MaxLengthValidator(UserProfile._meta.get_field("bio").max_length)], attrs={"cols": 40, "rows": 10}, required=False)
-    altered_handle = forms.CharField(required=False, validators=[])
+    altered_handle = forms.CharField(required=False, validators=[RegexValidator(r".+_\d{4}$")])
     discord_public = forms.BooleanField(required=False)
