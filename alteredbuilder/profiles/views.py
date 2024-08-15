@@ -4,9 +4,9 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
-from hitcount.views import HitCountDetailView
 
 from decks.models import Deck
 from profiles.forms import UserProfileForm
@@ -22,14 +22,13 @@ class ProfileListView(ListView):
         return context
 
 
-class ProfileDetailView(HitCountDetailView):
+class ProfileDetailView(DetailView):
 
     queryset = get_user_model().objects.select_related("profile")
     context_object_name = "builder"
     slug_field = "profile__code"
     slug_url_kwarg = "code"
     template_name = "profiles/userprofile_detail.html"
-    count_hit = True
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
