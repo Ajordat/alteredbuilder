@@ -11,60 +11,68 @@
 {% block meta_title %}{% translate "Profile of " %}{{ builder.username|safe_username }}{% endblock %}
 
 {% block content-div %}
-class="container px-5 mt-3 mb-5"
+class="container mt-5"
 {% endblock %}
 
 {% block content %}
     <div class="row">
-
-        <div class="col-md-9">
-            <h2>{{ builder.username|safe_username }}</h2>
-            <p class="text-muted">{% blocktranslate with date_joined=builder.date_joined|date:"F j, Y" %}Member since {{ date_joined }}{% endblocktranslate %}</p>
-
-    {% if builder.profile.altered_handle %}
-            <p><img class="logo" src="{% static "img/altered.webp" %}" alt="logo" width="20px">{% translate "Altered Profile:" %} <a href="https://www.altered.gg/profile/{{ builder.profile.altered_handle }}" target="_blank" class="link-underline link-underline-opacity-0">{{ builder.profile.altered_handle }}</a></p>
-    {% endif %}
-    
-            <h5>{% translate "Bio" %}</h5>
-    {% if builder.profile.bio %}
-            <p>{{ builder.profile.bio | escape | markdown | safe }}</p>
-    {% else %}
-            <p><i>{% translate "Empty bio" %}</i></p>
-    {% endif %}
-
-    {% if builder.profile.discord_public %}
-            <p><a href="https://discordapp.com/users/{{ builder.profile.discord_handle }}" target="_blank" class="btn btn-outline-primary"><i class="fa-brands fa-discord"></i> Discord</a></p>
-    {% endif %}
-
+        <!-- User Info -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h2 class="card-title">{{ builder.username|safe_username }}</h2>
+                    <p class="text-muted">Joined on: {{ builder.date_joined|date:"F j, Y" }}</p>
+                    <p class="mb-0">{{ builder.follower_count }} Followers</p>
+                    <p>{{ builder.following_count }} Following</p>
     {% if request.user == builder %}
-            <a href="{% url 'profile-edit' %}" class="btn btn-secondary mt-3">{% translate "Edit Profile" %}</a>
-    {% elif is_followed %}
-            <a href="{% url 'profile-unfollow' builder.profile.code %}" class="btn btn-danger">{% translate "Unfollow" %}</a>
+                    <a href="{% url 'profile-edit' %}" class="btn btn-primary btn-block mt-2">{% translate "Edit Profile" %}</a>
+    {% elif builder.is_followed %}
+                    <a href="{% url 'profile-unfollow' builder.profile.code %}" class="btn btn-primary btn-block mt-2">{% translate "Unfollow" %}</a>
     {% else %}
-            <a href="{% url 'profile-follow' builder.profile.code %}" class="btn btn-primary">{% translate "Follow" %}</a>
+                    <a href="{% url 'profile-follow' builder.profile.code %}" class="btn btn-primary btn-block mt-2">{% translate "Follow" %}</a>
     {% endif %}
+    {% if builder.profile.altered_handle %}
+                    <a href="https://www.altered.gg/profile/{{ builder.profile.altered_handle }}" class="btn btn-dark btn-block mt-2" target="_blank"><img src="{% static "img/altered.webp" %}" alt="altered logo" width="20px"> {{ builder.profile.altered_handle }}</a>
+    {% endif %}
+                </div>
+            </div>
         </div>
-    </div>
 
-    <hr>
+        <!-- Bio and Decks -->
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">{% translate "Bio" %}</h5>
+                </div>
+                <div class="card-body">
+                    <p>{{ builder.profile.bio | escape | markdown | safe }}</p>
+                </div>
+            </div>
 
-    <div class="row mt-4">
-        <div class="col-12">
-            <h4>{% translate "Recent Decks by " %}{{ builder.username|safe_username }}</h4>
-            <div class="list-group">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">{% blocktranslate with username=builder.username|safe_username %}Decks by {{ username }}{% endblocktranslate %}</h5>
+                </div>
+                <ul class="list-group list-group-flush">
     {% for deck in deck_list %}
-                    <a href="{{ deck.get_absolute_url }}" class="list-group-item list-group-item-action">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">{{ deck.name }}</h5>
-                            <small class="text-muted">{{ deck.created_at|date:"M d, Y" }}</small>
-                        </div>
-                        <p class="mb-1">{{ deck.description|truncatewords:20 }}</p>
-                        <small class="text-muted">{% blocktranslate with modified_at=deck.modified_at|timesince %}Last updated {{ modified_at }} ago{% endblocktranslate %}</small>
+                    <a href="{{ deck.get_absolute_url }}" class="text-decoration-none text-dark">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">{{ deck.name }}</h6>
+                                <p class="small mb-0">{{ deck.description|truncatechars:85 }}</p>
+                            </div>
+                            <div class="text-end">
+                                    {% comment %} <span class="badge bg-primary rounded-pill">{{ deck.hit_count_generic.first.hits }} views</span> {% endcomment %}
+                                <p class="small text-muted mb-0">{{ deck.modified_at|date:"F j, Y" }}</p>
+                            </div>
+                        </li>
                     </a>
     {% empty %}
-                    <p class="text-muted">{% translate "No decks created yet." %}</p>
+                    <li class="list-group-item">{% translate "No decks found." %}</li>
     {% endfor %}
+                </ul>
             </div>
         </div>
     </div>
+
 {% endblock %}

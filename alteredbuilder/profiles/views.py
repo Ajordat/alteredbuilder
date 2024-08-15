@@ -3,7 +3,7 @@ from typing import Any
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Count, F, Q, Sum
+from django.db.models import Count, Exists, F, OuterRef, Q, Sum
 from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic.detail import DetailView
@@ -50,21 +50,36 @@ class ProfileListView(ListView):
 
 class ProfileDetailView(DetailView):
 
-    queryset = get_user_model().objects.select_related("profile")
     context_object_name = "builder"
     slug_field = "profile__code"
     slug_url_kwarg = "code"
     template_name = "profiles/userprofile_detail.html"
 
+    def get_queryset(self) -> QuerySet[Any]:
+        qs = (
+            get_user_model()
+            .objects.select_related("profile")
+            .annotate(
+                follower_count=Count("followers", distinct=True),
+                following_count=Count("following", distinct=True),
+            )
+        )
+
+        if self.request.user.is_authenticated:
+            qs = qs.annotate(
+                is_followed=Exists(
+                    Follow.objects.filter(
+                        follower=self.request.user, followed=OuterRef("pk")
+                    )
+                )
+            )
+
+        return qs
+
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
 
         context["deck_list"] = Deck.objects.filter(owner=self.object, is_public=True)
-
-        if self.request.user.is_authenticated:
-            context["is_followed"] = Follow.objects.filter(
-                follower=self.request.user, followed=self.object
-            ).exists()
 
         return context
 
