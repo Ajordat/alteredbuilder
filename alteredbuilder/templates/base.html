@@ -21,7 +21,6 @@
         <meta property="og:image:type" content="image/png"/>
         <meta property="og:description" content="The place to build, analyze and share Altered TCG decks."/>
         <meta name="description" content="The place to build, analyze and share Altered TCG decks."/>
-        {% comment %} <meta name="viewport" content="width=device-width, initial-scale=1"/> {% endcomment %}
     {% for lang, _ in AVAILABLE_LANGUAGES %}
         <link rel="alternate" hreflang="{{ lang }}" href="{{ request.scheme}}://{{ request.get_host }}{% change_lang lang %}" />
     {% endfor %}
@@ -204,6 +203,7 @@
                         <ul class="list-unstyled mb-0">
                             <li class="mb-1"><a href="https://www.patreon.com/Ajordat" target="_blank" class="no-underline"><i class="fa-brands fa-patreon"></i> <u>Patreon</u></a></li>
                             <li class="mb-1"><a href="https://buymeacoffee.com/ajordat" target="_blank" class="no-underline"><i class="fa-solid fa-mug-hot"></i> <u>Buy me a coffee</u></a></li>
+                            <li class="mb-1"><a href="https://fr.tipeee.com/ajordat/" target="_blank" class="no-underline"><img src="{% static "img/tipeee.png" %}" height="16px"> <u>Tipeee</u></a></li>
                         </ul>
                     </div>
                     <div class="col">
