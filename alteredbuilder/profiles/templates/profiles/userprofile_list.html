@@ -1,23 +1,92 @@
 {% extends "base.html" %}
 
 {% load i18n %}
+{% load static %}
 {% load deck_styles %}
 
 
 {% block title %}{% translate "Builders" %}{% endblock %}
 
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content-div %}
+class="container py-5"
+{% endblock %}
+
 {% block content %}
-<div class="container">
-    <h1>{% translate "New builders" %}</h1>
-    <ul class="list-group">
-        {% for profile in userprofile_list %}
-            <li class="list-group-item">
-                <a href="{{ profile.get_absolute_url }}">{{ profile.user.username|safe_username }}</a>
-                <small class="text-muted">{% blocktranslate with date_joined=profile.user.date_joined|date:"F j, Y" %}Joined on {{ date_joined }}{% endblocktranslate %}</small>
-            </li>
-        {% empty %}
-            <li class="list-group-item">{% translate "No users found." %}</li>
-        {% endfor %}
-    </ul>
-</div>
+    <h1 class="mb-4 text-center">{% translate "Builders Listings" %}</h1>
+
+    <div class="row">
+        <!-- Latest Users -->
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="h5 mb-0">{% translate "Latest Users" %}</h2>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+    {% for user in latest_users %}
+                            <li class="list-group-item">
+                                <a href="{{ user.profile.get_absolute_url }}">
+                                    <strong>{{ user.username|safe_username }}</strong><br>
+                                    <small>{% blocktranslate with date_joined=user.date_joined|date:"M d, Y" %}Joined on {{ date_joined }}{% endblocktranslate %}</small>
+                                </a>
+                            </li>
+    {% empty %}
+                            <li class="list-group-item">{% translate "No users found." %}</li>
+    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Most Viewed Users -->
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h2 class="h5 mb-0">{% translate "Most Viewed Users" %}</h2>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+    {% for user in most_viewed_users %}
+                            <li class="list-group-item">
+                                <a href="{{ user.profile.get_absolute_url }}">
+                                    <strong>{{ user.username|safe_username }}</strong><br>
+                                    <small>{% blocktranslate count deck_count=user.deck_count %}{{ deck_count }} deck{% plural %}{{ deck_count }} decks{% endblocktranslate %}</small>
+                                </a>
+                            </li>
+    {% empty %}
+                            <li class="list-group-item">{% translate "No users found." %}</li>
+    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Most Followed Users -->
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-warning text-white">
+                    <h2 class="h5 mb-0">{% translate "Most Followed Users" %}</h2>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+    {% for user in most_followed_users %}
+                            <li class="list-group-item">
+                                <a href="{{ user.profile.get_absolute_url }}">
+                                    <strong>{{ user.username }}</strong><br>
+                                    <small>{% blocktranslate count follower_count=user.follower_count%}{{ follower_count }} follower{% plural %}{{ follower_count }} followers{% endblocktranslate%}</small>
+                                </a>
+                            </li>
+    {% empty %}
+                            <li class="list-group-item">{% translate "No users found." %}</li>
+    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

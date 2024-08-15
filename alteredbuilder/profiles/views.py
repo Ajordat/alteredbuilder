@@ -3,6 +3,8 @@ from typing import Any
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Count, F, Q, Sum
+from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
@@ -14,11 +16,35 @@ from profiles.models import Follow, UserProfile
 
 
 class ProfileListView(ListView):
-    queryset = UserProfile.objects.select_related("user").order_by("-created_at")[:5]
+    template_name = "profiles/userprofile_list.html"
+    context_object_name = "latest_users"
+    USER_COUNT_DISPLAY = 10
+
+    def get_queryset(self) -> QuerySet[Any]:
+        return (
+            get_user_model()
+            .objects.select_related("profile")
+            .order_by("-date_joined")[: self.USER_COUNT_DISPLAY]
+        )
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
 
+        context["most_viewed_users"] = (
+            get_user_model()
+            .objects.alias(total_hits=Sum("deck__hit_count_generic__hits"))
+            .annotate(deck_count=Count("deck", filter=Q(deck__is_public=True)))
+            .select_related("profile")
+            .order_by(F("total_hits").desc(nulls_last=True))[: self.USER_COUNT_DISPLAY]
+        )
+
+        context["most_followed_users"] = (
+            get_user_model()
+            .objects.annotate(follower_count=Count("followers"))
+            .filter(follower_count__gt=0)
+            .select_related("profile")
+            .order_by("-follower_count")[: self.USER_COUNT_DISPLAY]
+        )
         return context
 
 

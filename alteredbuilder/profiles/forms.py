@@ -1,6 +1,5 @@
 from django import forms
 from django.core.validators import RegexValidator
-from django.utils.translation import gettext_lazy as _
 
 from profiles.models import UserProfile
 
@@ -12,5 +11,7 @@ class UserProfileForm(forms.Form):
         widget=forms.Textarea(attrs={"cols": 40, "rows": 10}),
         required=False,
     )
-    altered_handle = forms.CharField(required=False, validators=[RegexValidator(r".+_\d{4}$")])
+    altered_handle = forms.CharField(
+        required=False, validators=[RegexValidator(r".+_\d{4}$")]
+    )
     discord_public = forms.BooleanField(required=False)
