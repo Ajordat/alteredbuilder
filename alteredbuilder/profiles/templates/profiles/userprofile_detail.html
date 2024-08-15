@@ -3,6 +3,7 @@
 {% load i18n %}
 {% load static %}
 {% load deck_styles %}
+{% load markdown_extras %}
 
 
 {% block title %}{% translate "Profile of " %}{{ builder.username|safe_username }}{% endblock %}
@@ -21,25 +22,26 @@ class="container px-5 mt-3 mb-5"
             <p class="text-muted">{% blocktranslate with date_joined=builder.date_joined|date:"F j, Y" %}Member since {{ date_joined }}{% endblocktranslate %}</p>
 
     {% if builder.profile.altered_handle %}
-            <p><img class="logo" src="{% static "img/altered.webp" %}" alt="logo" width="20px"><a href="https://www.altered.gg/profile/{{ builder.profile.altered_handle }}" target="_blank">Altered Profile</a></p>
+            <p><img class="logo" src="{% static "img/altered.webp" %}" alt="logo" width="20px">{% translate "Altered Profile:" %} <a href="https://www.altered.gg/profile/{{ builder.profile.altered_handle }}" target="_blank" class="link-underline link-underline-opacity-0">{{ builder.profile.altered_handle }}</a></p>
     {% endif %}
+    
             <h5>{% translate "Bio" %}</h5>
     {% if builder.profile.bio %}
-            <p>{{ builder.profile.bio }}</p>
+            <p>{{ builder.profile.bio | escape | markdown | safe }}</p>
     {% else %}
             <p><i>{% translate "Empty bio" %}</i></p>
     {% endif %}
+
     {% if builder.profile.discord_public %}
             <p><a href="https://discordapp.com/users/{{ builder.profile.discord_handle }}" target="_blank" class="btn btn-outline-primary"><i class="fa-brands fa-discord"></i> Discord</a></p>
     {% endif %}
+
     {% if request.user == builder %}
             <a href="{% url 'profile-edit' %}" class="btn btn-secondary mt-3">{% translate "Edit Profile" %}</a>
-    {% else %}
-        {% if is_followed %}
+    {% elif is_followed %}
             <a href="{% url 'profile-unfollow' builder.profile.code %}" class="btn btn-danger">{% translate "Unfollow" %}</a>
-        {% else %}
+    {% else %}
             <a href="{% url 'profile-follow' builder.profile.code %}" class="btn btn-primary">{% translate "Follow" %}</a>
-        {% endif %}
     {% endif %}
         </div>
     </div>

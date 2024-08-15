@@ -4,7 +4,6 @@ from allauth.socialaccount.models import SocialAccount
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
-from django.utils.translation import gettext_lazy as _
 
 
 class UserProfile(models.Model):
@@ -12,12 +11,10 @@ class UserProfile(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="profile"
     )
-    bio = models.TextField(_("Biography"), blank=True)
+    bio = models.TextField(max_length=1000, blank=True)
 
     altered_handle = models.CharField(null=True)
-    discord_public = models.BooleanField(
-        _("Show Discord Handle Publicly"), default=False
-    )
+    discord_public = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
 
