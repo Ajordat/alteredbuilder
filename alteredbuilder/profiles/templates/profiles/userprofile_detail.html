@@ -6,9 +6,9 @@
 {% load markdown_extras %}
 
 
-{% block title %}{% translate "Profile of " %}{{ builder.username|safe_username }}{% endblock %}
+{% block title %}{% blocktranslate with username=builder.username|safe_username %}Profile of {{ username }}{% endblocktranslate %}{% endblock %}
 
-{% block meta_title %}{% translate "Profile of " %}{{ builder.username|safe_username }}{% endblock %}
+{% block meta_title %}{% blocktranslate with username=builder.username|safe_username %}Profile of {{ username }}{% endblocktranslate %}{% endblock %}
 
 {% block head %}
     {{ block.super }}
@@ -79,10 +79,10 @@ class="container my-5"
                             <thead>
                                 <tr>
                                     <th scope="col"></th>
-                                    <th scope="col">{% translate "Deck Name" %}</th>
+                                    <th scope="col">{% translate "Name" %}</th>
                                     <th scope="col">{% translate "Faction" %}</th>
                                     <th scope="col">{% translate "Hero" %}</th>
-                                    <th scope="col" class="text-end">{% translate "Last Modified" %}</th>
+                                    <th scope="col" class="text-end">{% translate "Last updated" %}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -119,7 +119,7 @@ class="container my-5"
                                 </tr>
     {% empty %}
                                 <tr>
-                                    <td colspan="6" class="text-center">{% translate "No decks found." %}</td>
+                                    <td colspan="5" class="text-center">{% translate "No decks found" %}</td>
                                 </tr>
     {% endfor %}
                             </tbody>

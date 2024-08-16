@@ -17,7 +17,6 @@ class="container py-5"
 {% endblock %}
 
 {% block content %}
-    <h1 class="mb-4 text-center">{% translate "Builders Listings" %}</h1>
 
     <div class="row">
         <!-- Latest Users -->
@@ -36,7 +35,7 @@ class="container py-5"
                                 </a>
                             </li>
     {% empty %}
-                            <li class="list-group-item">{% translate "No users found." %}</li>
+                            <li class="list-group-item">{% translate "No users found" %}</li>
     {% endfor %}
                     </ul>
                 </div>
@@ -59,7 +58,7 @@ class="container py-5"
                                 </a>
                             </li>
     {% empty %}
-                            <li class="list-group-item">{% translate "No users found." %}</li>
+                            <li class="list-group-item">{% translate "No users found" %}</li>
     {% endfor %}
                     </ul>
                 </div>
@@ -78,11 +77,11 @@ class="container py-5"
                             <li class="list-group-item">
                                 <a href="{{ user.profile.get_absolute_url }}">
                                     <strong>{{ user.username }}</strong><br>
-                                    <small>{% blocktranslate count follower_count=user.follower_count%}{{ follower_count }} follower{% plural %}{{ follower_count }} followers{% endblocktranslate%}</small>
+                                    <small>{% blocktranslate count follower_count=user.follower_count%}{{ follower_count }} Follower{% plural %}{{ follower_count }} Followers{% endblocktranslate%}</small>
                                 </a>
                             </li>
     {% empty %}
-                            <li class="list-group-item">{% translate "No users found." %}</li>
+                            <li class="list-group-item">{% translate "No users found" %}</li>
     {% endfor %}
                     </ul>
                 </div>
