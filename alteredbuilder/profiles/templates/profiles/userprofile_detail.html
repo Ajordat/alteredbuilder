@@ -13,10 +13,11 @@
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'css/altered-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 {% endblock %}
 
 {% block content-div %}
-class="container mt-5"
+class="container my-5"
 {% endblock %}
 
 {% block content %}
@@ -26,13 +27,13 @@ class="container mt-5"
             <div class="card">
                 <div class="card-body text-center">
                     <h2 class="card-title">{{ builder.username|safe_username }}</h2>
-                    <p class="text-muted">Joined on: {{ builder.date_joined|date:"F j, Y" }}</p>
-                    <p class="mb-0">{{ builder.follower_count }} Followers</p>
-                    <p>{{ builder.following_count }} Following</p>
+                    <p class="text-muted">{% blocktranslate with date_joined=builder.date_joined|date:"F j, Y" %}Joined on: {{ date_joined }}{% endblocktranslate %}</p>
+                    <p class="mb-0">{% blocktranslate count follower_count=builder.follower_count %}{{ follower_count }} Follower{% plural %}{{ follower_count }} Followers{% endblocktranslate %}</p>
+                    <p>{% blocktranslate count following_count=builder.following_count %}{{ following_count }} Following{% plural %}{{ following_count }} Following{% endblocktranslate %}</p>
     {% if request.user == builder %}
                     <a href="{% url 'profile-edit' %}" class="btn btn-primary btn-block mt-2">{% translate "Edit Profile" %}</a>
     {% elif builder.is_followed %}
-                    <a href="{% url 'profile-unfollow' builder.profile.code %}" class="btn btn-primary btn-block mt-2">{% translate "Unfollow" %}</a>
+                    <a href="{% url 'profile-unfollow' builder.profile.code %}" class="btn btn-danger btn-block mt-2">{% translate "Unfollow" %}</a>
     {% else %}
                     <a href="{% url 'profile-follow' builder.profile.code %}" class="btn btn-primary btn-block mt-2">{% translate "Follow" %}</a>
     {% endif %}
@@ -50,7 +51,11 @@ class="container mt-5"
                     <h5 class="mb-0">{% translate "Bio" %}</h5>
                 </div>
                 <div class="card-body">
+    {% if builder.profile.bio %}
                     <p>{{ builder.profile.bio | escape | markdown | safe }}</p>
+    {% else %}
+                    <i>{% translate "Empty bio" %}</i>
+    {% endif %}
                 </div>
             </div>
 
@@ -64,15 +69,15 @@ class="container mt-5"
                             <thead>
                                 <tr>
                                     <th scope="col"></th>
-                                    <th scope="col">Deck Name</th>
-                                    <th scope="col">Faction</th>
-                                    <th scope="col">Hero</th>
-                                    <th scope="col" class="text-end">Last Modified</th>
+                                    <th scope="col">{% translate "Deck Name" %}</th>
+                                    <th scope="col">{% translate "Faction" %}</th>
+                                    <th scope="col">{% translate "Hero" %}</th>
+                                    <th scope="col" class="text-end">{% translate "Last Modified" %}</th>
                                 </tr>
                             </thead>
                             <tbody>
     {% for deck in deck_list %}
-                                <tr onclick="window.location='{{ deck.get_absolute_url }}';" style="cursor:pointer;">
+                                <tr class="align-middle" onclick="window.location='{{ deck.get_absolute_url }}';" style="cursor:pointer;">
                                         <!-- Deck Name -->
                                     <td class="text-center">
                                         <a role="button" href="#" class="btn btn-sm btn-outline-danger {% if deck.is_loved %}active{% else %}disabled{% endif %}">
@@ -104,7 +109,7 @@ class="container mt-5"
                                 </tr>
     {% empty %}
                                 <tr>
-                                    <td colspan="6" class="text-center">No decks found.</td>
+                                    <td colspan="6" class="text-center">{% translate "No decks found." %}</td>
                                 </tr>
     {% endfor %}
                             </tbody>
@@ -115,4 +120,8 @@ class="container mt-5"
         </div>
     </div>
 
+{% endblock %}
+
+{% block bodyscripts %}
+    <script src="{% static 'js/tooltip-enable.js' %}"></script>
 {% endblock %}
