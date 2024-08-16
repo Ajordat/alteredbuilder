@@ -10,11 +10,11 @@ class Command(BaseCommand):
         User = get_user_model()
         users_without_profiles = User.objects.filter(profile__isnull=True)
 
+        profiles = []
         for user in users_without_profiles:
-            UserProfile.objects.create(user=user)
-            self.stdout.write(
-                self.style.SUCCESS(f"Created profile for {user.username}")
-            )
+            profiles.append(UserProfile(user=user))
+
+        UserProfile.objects.bulk_create(profiles)
 
         self.stdout.write(
             self.style.SUCCESS("Finished creating profiles for all users.")
