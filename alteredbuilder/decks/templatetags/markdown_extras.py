@@ -46,11 +46,11 @@ class InlineCardReferenceProcessor(InlineProcessor):
         else:
             try:
                 element = Element("a", href=ALTERED_API + reference, target="_blank")
-                card = Card.objects.get(reference=reference)
-                element.text = card.name
+                card = Card.objects.values("name", "image_url").get(reference=reference)
+                element.text = card["name"]
                 element.attrib["class"] = "card-hover"
-                element.attrib["data-image-url"] = card.image_url
-                prefetch = Element("link", rel="prefetch", href=card.image_url)
+                element.attrib["data-image-url"] = card["image_url"]
+                prefetch = Element("link", rel="prefetch", href=card["image_url"])
                 element.append(prefetch)
             except Card.DoesNotExist:
                 element = None
