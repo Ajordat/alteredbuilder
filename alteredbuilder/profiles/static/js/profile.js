@@ -8,10 +8,10 @@ const factionColors = {
     "yzmir": "#483b66",
 }
 
-let deckStats = JSON.parse(document.getElementById('faction-distribution').textContent);
-deckStats = Object.entries(deckStats).sort((a, b) => b[1] - a[1]);
-let labels = deckStats.map((dataPoint) => dataPoint[0]);
-let data = deckStats.map((dataPoint) => dataPoint[1]);
+let factionStats = JSON.parse(document.getElementById('faction-distribution').textContent);
+factionStats = Object.entries(factionStats).sort((a, b) => b[1] - a[1]);
+let labels = factionStats.map((dataPoint) => dataPoint[0]);
+let data = factionStats.map((dataPoint) => dataPoint[1]);
 
 let ctx = document.getElementById('deckPieChart').getContext('2d');
 let deckPieChart = new Chart(ctx, {
