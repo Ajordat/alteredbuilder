@@ -3,7 +3,7 @@ from django.db import transaction
 from django.db.models.signals import post_delete, post_save, pre_delete
 from django.dispatch import receiver
 
-from decks.models import Comment, Deck, Deck, LovePoint
+from decks.models import Comment, Deck, LovePoint
 from notifications.models import Notification, NotificationType
 from profiles.models import Follow
 
