@@ -79,7 +79,9 @@ class ProfileDetailView(DetailView):
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
 
-        deck_list = Deck.objects.filter(owner=self.object, is_public=True).select_related("hero")
+        deck_list = Deck.objects.filter(
+            owner=self.object, is_public=True
+        ).select_related("hero")
 
         if self.request.user.is_authenticated:
             deck_list = deck_list.annotate(
@@ -91,7 +93,7 @@ class ProfileDetailView(DetailView):
             )
 
         context["deck_list"] = deck_list
-        
+
         return context
 
 
