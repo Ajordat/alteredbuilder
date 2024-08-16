@@ -52,7 +52,7 @@ class="container my-5"
                 </div>
                 <div class="card-body">
     {% if builder.profile.bio %}
-                    <p>{{ builder.profile.bio | escape | markdown | safe }}</p>
+                    {{ builder.profile.bio | escape | markdown | safe }}
     {% else %}
                     <i>{% translate "Empty bio" %}</i>
     {% endif %}

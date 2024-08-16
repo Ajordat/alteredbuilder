@@ -21,6 +21,16 @@
     background-color: #fff;
 }
 
+span.bio {
+    font-weight: bold;
+    /* color: #333; */
+    background-color: var(--bs-info-bg-subtle); 
+    display: block;
+    text-align: left;
+    margin-top: 0.25rem;
+    max-width: 160px;
+}
+
 .card-table tr span.hand-mana {
     color: #5095c9;
 }

@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from django.db.models import Exists, F, OuterRef, Q
+from django.db.models import Count, Exists, F, OuterRef, Q
 from django.db.models.manager import Manager
 from django.db.models.query import QuerySet
 from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
@@ -212,10 +212,11 @@ class DeckDetailView(HitCountDetailView):
                     )
                 )
             )
-        return (
-            qs.filter(filter).select_related("hero", "owner")
-            # .prefetch_related("comment_set", "comment_set__user")
+        qs = qs.annotate(
+            follower_count=Count("owner__followers", distinct=True),
+            following_count=Count("owner__following", distinct=True),
         )
+        return qs.filter(filter).select_related("hero", "owner", "owner__profile")
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         """Add metadata of the Deck to the context.
@@ -234,7 +235,7 @@ class DeckDetailView(HitCountDetailView):
             }
         )
         context["comment_form"] = CommentForm()
-        comments_qs = Comment.objects.filter(deck=self.object).select_related("user")
+        comments_qs = Comment.objects.filter(deck=self.object).select_related("user", "user__profile")
         if self.request.user.is_authenticated:
             comments_qs = comments_qs.annotate(
                 is_upvoted=Exists(

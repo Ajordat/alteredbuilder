@@ -27,10 +27,10 @@
         <div class="col">{{ object.description | escape | markdown | safe }}</div>
     </div>
     <div class="row row-cols-auto gx-2">
-        <div class="col">
+        <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title='{% include 'profiles/tooltips/user_profile.html' %}' data-bs-html="true">
             <a href="{{ object.owner.profile.get_absolute_url }}"><i class="fa-solid fa-user"></i> {{ object.owner.username|safe_username }}</a>
         </div>
-        <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% include 'decks/tooltips/deck_timestamps.html' with deck=object %}" data-bs-html="true">
+        <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% include 'decks/tooltips/deck_timestamps.html' %}" data-bs-html="true">
             <i class="fa-regular fa-calendar"></i> <small>{{ object.modified_at|date:"SHORT_DATE_FORMAT" }}</small>
         </div>
         <div class="col">
