@@ -25,7 +25,10 @@ def create_profiles(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("profiles", "0005_remove_userprofile_created_at_alter_userprofile_bio_and_more"),
+        (
+            "profiles",
+            "0005_remove_userprofile_created_at_alter_userprofile_bio_and_more",
+        ),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
