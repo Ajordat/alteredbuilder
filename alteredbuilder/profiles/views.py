@@ -10,7 +10,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 
-from decks.models import Deck
+from decks.models import Deck, LovePoint
 from profiles.forms import UserProfileForm
 from profiles.models import Follow, UserProfile
 
@@ -79,8 +79,19 @@ class ProfileDetailView(DetailView):
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
 
-        context["deck_list"] = Deck.objects.filter(owner=self.object, is_public=True)
+        deck_list = Deck.objects.filter(owner=self.object, is_public=True).select_related("hero")
 
+        if self.request.user.is_authenticated:
+            deck_list = deck_list.annotate(
+                is_loved=Exists(
+                    LovePoint.objects.filter(
+                        deck=OuterRef("pk"), user=self.request.user
+                    )
+                )
+            )
+
+        context["deck_list"] = deck_list
+        
         return context
 
 

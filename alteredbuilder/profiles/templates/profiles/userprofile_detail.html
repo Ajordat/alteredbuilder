@@ -10,6 +10,11 @@
 
 {% block meta_title %}{% translate "Profile of " %}{{ builder.username|safe_username }}{% endblock %}
 
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/altered-icons.css' %}">
+{% endblock %}
+
 {% block content-div %}
 class="container mt-5"
 {% endblock %}
@@ -49,28 +54,63 @@ class="container mt-5"
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card mt-4">
                 <div class="card-header bg-success text-white">
                     <h5 class="mb-0">{% blocktranslate with username=builder.username|safe_username %}Decks by {{ username }}{% endblocktranslate %}</h5>
                 </div>
-                <ul class="list-group list-group-flush">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Deck Name</th>
+                                    <th scope="col">Faction</th>
+                                    <th scope="col">Hero</th>
+                                    <th scope="col" class="text-end">Last Modified</th>
+                                </tr>
+                            </thead>
+                            <tbody>
     {% for deck in deck_list %}
-                    <a href="{{ deck.get_absolute_url }}" class="text-decoration-none text-dark">
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6 class="mb-1">{{ deck.name }}</h6>
-                                <p class="small mb-0">{{ deck.description|truncatechars:85 }}</p>
-                            </div>
-                            <div class="text-end">
-                                    {% comment %} <span class="badge bg-primary rounded-pill">{{ deck.hit_count_generic.first.hits }} views</span> {% endcomment %}
-                                <p class="small text-muted mb-0">{{ deck.modified_at|date:"F j, Y" }}</p>
-                            </div>
-                        </li>
-                    </a>
+                                <tr onclick="window.location='{{ deck.get_absolute_url }}';" style="cursor:pointer;">
+                                        <!-- Deck Name -->
+                                    <td class="text-center">
+                                        <a role="button" href="#" class="btn btn-sm btn-outline-danger {% if deck.is_loved %}active{% else %}disabled{% endif %}">
+                                            <i class="fa-solid fa-heart"></i> {{ deck.love_count }}
+                                        </a>
+                                        <a role="button" href="#" class="btn btn-sm btn-outline-secondary {% if deck.comment_count > 0 %}active{% else %}disabled{% endif %}">
+                                            <i class="fa-solid fa-comment"></i> {{ deck.comment_count }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <h6 class="mb-1">{{ deck.name|truncatechars:29 }}</h6>
+                                    </td>
+        {% if deck.hero %}
+                                    <td>
+                                        {% include "decks/snippets/picture_webp.html" with img_name=deck.hero.faction width=20 height=20 %} {{ deck.hero.get_faction_display.title }}
+                                    </td>
+                                    <td>
+                                        <link rel="prefetch" href="{{ deck.hero.image_url }}"/>
+                                        <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-title="<img src='{{ deck.hero.image_url }}'/>" data-bs-html="true" data-bs-placement="right">{{ deck.hero.name }}</span>
+                                    </td>
+        {% else %}
+                                    <td>-</td><td>-</td>
+        {% endif %}
+                                    <!-- Last Modified Date -->
+                                    <td class="text-end">
+                                        {% comment %} <span class="badge bg-primary rounded-pill">{{ deck.hit_count_generic.first.hits }} views</span> {% endcomment %}
+                                        <p class="small text-muted mb-0">{{ deck.modified_at|date:"F j, Y" }}</p>
+                                    </td>
+                                </tr>
     {% empty %}
-                    <li class="list-group-item">{% translate "No decks found." %}</li>
+                                <tr>
+                                    <td colspan="6" class="text-center">No decks found.</td>
+                                </tr>
     {% endfor %}
-                </ul>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
