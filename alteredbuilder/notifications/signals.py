@@ -75,3 +75,11 @@ def create_deck_notification(sender, instance: Deck, created, **kwargs):
                 )
             )
         Notification.objects.bulk_create(notifications)
+
+
+@receiver(post_delete, sender=Deck)
+def delete_deck_notification(sender, instance: Deck, **kwargs):
+    Notification.objects.filter(
+        content_type=ContentType.objects.get_for_model(instance),
+        object_id=instance.id,
+    ).delete()
