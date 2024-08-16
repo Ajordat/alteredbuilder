@@ -16,8 +16,6 @@ class UserProfile(models.Model):
     altered_handle = models.CharField(null=True)
     discord_public = models.BooleanField(default=False)
 
-    created_at = models.DateTimeField(auto_now_add=True)
-
     def get_absolute_url(self):
         return reverse("profile-detail", kwargs={"code": self.code})
 
