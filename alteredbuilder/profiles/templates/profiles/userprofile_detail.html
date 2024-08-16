@@ -42,6 +42,16 @@ class="container my-5"
     {% endif %}
                 </div>
             </div>
+            
+            <!-- Pie Chart Card -->
+            <div class="card mt-4">
+                <div class="card-header bg-info-subtle">
+                    <h5 class="mb-0">{% translate "Faction Distribution" %}</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="deckPieChart"></canvas>
+                </div>
+            </div>
         </div>
 
         <!-- Bio and Decks -->
@@ -120,8 +130,11 @@ class="container my-5"
         </div>
     </div>
 
+    {{ faction_distribution|json_script:"faction-distribution" }}
 {% endblock %}
 
 {% block bodyscripts %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{% static 'js/tooltip-enable.js' %}"></script>
+    <script src="{% static 'js/profile.js' %}"></script>
 {% endblock %}

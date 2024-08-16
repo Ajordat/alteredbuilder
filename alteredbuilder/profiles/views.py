@@ -1,3 +1,4 @@
+from collections import defaultdict
 from typing import Any
 
 from django.contrib.auth import get_user_model
@@ -93,6 +94,13 @@ class ProfileDetailView(DetailView):
             )
 
         context["deck_list"] = deck_list
+
+        faction_distribution = defaultdict(int)
+        for deck in deck_list:
+            if deck.hero:
+                faction_distribution[deck.hero.get_faction_display()] += 1
+
+        context["faction_distribution"] = faction_distribution
 
         return context
 
