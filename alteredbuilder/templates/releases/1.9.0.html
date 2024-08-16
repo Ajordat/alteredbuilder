@@ -5,12 +5,14 @@
     <ul>
         <li>Notifications for likes and comments on your decks.</li>
         <li>Deck search with advanced filters (e.g. <a href="{% url 'deck-list' %}?query=u%3Aadmin"><code>u:admin</code></a>, <a href="{% url 'deck-list' %}?query=h%3Ateija"><code>h:teija</code></a>).</li>
+        <li>Deck search can now filter by the existence of a description. <a href="{% url 'deck-list' %}?other=description">Filter decks that contain a description.</a></li>
     </ul>
 </li>
 
 <li><strong>{% translate "Other changes:" %}</strong>
     <ul>
         <li>Minor usability improvements.</li>
+        <li>Deleted the equals sign symbol (<i class="fa-solid fa-equals"></i>) for trending cards that stay in the same ranking position relative to the previous day.</li>
         <li>Expanded test suite to guarantee stability of new releases. Code coverage was raised from 92% to 96%.</li>
         <li>Decrease docker image size to improve speed of horizontal scaling.</li>
     </ul>
