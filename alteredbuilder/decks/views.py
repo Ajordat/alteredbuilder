@@ -97,7 +97,6 @@ class DeckListView(ListView):
         other_filters = self.request.GET.get("other")
         if other_filters:
             for other in other_filters.split(","):
-                print(other)
                 if other == "loved":
                     try:
                         lp = LovePoint.objects.filter(user=self.request.user)
@@ -275,7 +274,14 @@ class PrivateLinkDeckDetailView(LoginRequiredMixin, DeckDetailView):
             link = PrivateLink.objects.get(code=code, deck__id=deck_id)
             link.last_accessed_at = timezone.now()
             link.save(update_fields=["last_accessed_at"])
-            return Deck.objects.filter(id=deck_id).select_related("hero", "owner")
+            return (
+                Deck.objects.filter(id=deck_id)
+                .select_related("hero", "owner", "owner__profile")
+                .annotate(
+                    follower_count=Count("owner__followers", distinct=True),
+                    following_count=Count("owner__following", distinct=True),
+                )
+            )
         except PrivateLink.DoesNotExist:
             raise Http404("Private link does not exist")
 
