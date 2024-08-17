@@ -37,7 +37,7 @@
                     <i class="fa-solid fa-comment"></i> {{ deck.comment_count }}
                 </a>
             </td>
-            <td>{{ deck.owner.username|safe_username }}</td>
+            <td>{% if deck.is_followed %}<i class="fa-solid fa-star"></i> {% endif %}{{ deck.owner.username|safe_username }}</td>
             <td>{{ deck.name }}</td>
     {% if deck.hero %}
             <td>

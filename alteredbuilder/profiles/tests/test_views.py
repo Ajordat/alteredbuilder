@@ -5,7 +5,6 @@ from django.db.models import Count
 from django.test import TestCase
 from django.urls import reverse
 
-from decks.models import Deck
 from profiles.models import Follow
 from profiles.views import ProfileListView
 

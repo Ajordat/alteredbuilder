@@ -28,7 +28,7 @@
     </div>
     <div class="row row-cols-auto gx-2 mb-2">
         <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title='{% include 'profiles/tooltips/user_profile.html' %}' data-bs-html="true">
-            <a href="{{ object.owner.profile.get_absolute_url }}"><i class="fa-solid fa-user"></i> {{ object.owner.username|safe_username }}</a>
+            {% if deck.is_followed %}<i class="fa-solid fa-star"></i>{% else %}<i class="fa-regular fa-star"></i>{% endif %} <a href="{{ object.owner.profile.get_absolute_url }}" class="link-opacity-50-hover link-offset-3"><i class="fa-solid fa-user"></i> {{ object.owner.username|safe_username }}</a>
         </div>
         <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% include 'decks/tooltips/deck_timestamps.html' %}" data-bs-html="true">
             <i class="fa-regular fa-calendar"></i> <small>{{ object.modified_at|date:"SHORT_DATE_FORMAT" }}</small>

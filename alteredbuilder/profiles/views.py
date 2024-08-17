@@ -25,6 +25,13 @@ class ProfileListView(ListView):
         return (
             get_user_model()
             .objects.select_related("profile")
+            .annotate(
+                is_followed=Exists(
+                    Follow.objects.filter(
+                        followed=OuterRef("pk"), follower=self.request.user
+                    )
+                )
+            )
             .order_by("-date_joined")[: self.USER_COUNT_DISPLAY]
         )
 
@@ -34,14 +41,28 @@ class ProfileListView(ListView):
         context["most_viewed_users"] = (
             get_user_model()
             .objects.alias(total_hits=Sum("deck__hit_count_generic__hits"))
-            .annotate(deck_count=Count("deck", filter=Q(deck__is_public=True)))
+            .annotate(
+                deck_count=Count("deck", filter=Q(deck__is_public=True)),
+                is_followed=Exists(
+                    Follow.objects.filter(
+                        followed=OuterRef("pk"), follower=self.request.user
+                    )
+                ),
+            )
             .select_related("profile")
             .order_by(F("total_hits").desc(nulls_last=True))[: self.USER_COUNT_DISPLAY]
         )
 
         context["most_followed_users"] = (
             get_user_model()
-            .objects.annotate(follower_count=Count("followers"))
+            .objects.annotate(
+                follower_count=Count("followers"),
+                is_followed=Exists(
+                    Follow.objects.filter(
+                        followed=OuterRef("pk"), follower=self.request.user
+                    )
+                ),
+            )
             .filter(follower_count__gt=0)
             .select_related("profile")
             .order_by("-follower_count")[: self.USER_COUNT_DISPLAY]

@@ -17,7 +17,6 @@ class="container py-5"
 {% endblock %}
 
 {% block content %}
-
     <div class="row">
         <!-- Latest Users -->
         <div class="col-lg-4 col-md-6 mb-4">
@@ -30,7 +29,7 @@ class="container py-5"
     {% for user in latest_users %}
                             <li class="list-group-item">
                                 <a href="{{ user.profile.get_absolute_url }}">
-                                    <strong>{{ user.username|safe_username }}</strong><br>
+                                    {% if user.is_followed %}<i class="fa-solid fa-star"></i>{% endif %} <strong>{{ user.username|safe_username }}</strong><br>
                                     <small>{% blocktranslate with date_joined=user.date_joined|date:"M d, Y" %}Joined on {{ date_joined }}{% endblocktranslate %}</small>
                                 </a>
                             </li>
@@ -53,7 +52,7 @@ class="container py-5"
     {% for user in most_viewed_users %}
                             <li class="list-group-item">
                                 <a href="{{ user.profile.get_absolute_url }}">
-                                    <strong>{{ user.username|safe_username }}</strong><br>
+                                    {% if user.is_followed %}<i class="fa-solid fa-star"></i>{% endif %} <strong>{{ user.username|safe_username }}</strong><br>
                                     <small>{% blocktranslate count deck_count=user.deck_count %}{{ deck_count }} deck{% plural %}{{ deck_count }} decks{% endblocktranslate %}</small>
                                 </a>
                             </li>
@@ -76,7 +75,7 @@ class="container py-5"
     {% for user in most_followed_users %}
                             <li class="list-group-item">
                                 <a href="{{ user.profile.get_absolute_url }}">
-                                    <strong>{{ user.username }}</strong><br>
+                                    {% if user.is_followed %}<i class="fa-solid fa-star"></i>{% endif %} <strong>{{ user.username }}</strong><br>
                                     <small>{% blocktranslate count follower_count=user.follower_count%}{{ follower_count }} Follower{% plural %}{{ follower_count }} Followers{% endblocktranslate%}</small>
                                 </a>
                             </li>

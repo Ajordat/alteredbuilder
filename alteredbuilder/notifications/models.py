@@ -43,8 +43,8 @@ class Notification(models.Model):
                     "deck_name": self.content_object.name,
                 }
             case NotificationType.DECK:
-                return _("%(owner)s created deck '%(deck_name)s'") % {
-                    "owner": self.content_object.owner,
+                return _("%(actor)s created deck '%(deck_name)s'") % {
+                    "actor": self.actor.username,
                     "deck_name": self.content_object.name,
                 }
             case _:

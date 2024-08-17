@@ -19,7 +19,7 @@ from django.views.generic.list import ListView
 from hitcount.views import HitCountDetailView
 
 from api.utils import ajax_request, ApiJsonResponse
-from .deck_utils import (
+from decks.deck_utils import (
     create_new_deck,
     get_deck_details,
     parse_card_query_syntax,
@@ -27,8 +27,8 @@ from .deck_utils import (
     patch_deck,
     remove_card_from_deck,
 )
-from .game_modes import update_deck_legality
-from .models import (
+from decks.game_modes import update_deck_legality
+from decks.models import (
     Card,
     CardInDeck,
     Comment,
@@ -38,8 +38,9 @@ from .models import (
     PrivateLink,
     Set,
 )
-from .forms import CommentForm, DecklistForm, DeckMetadataForm
-from .exceptions import MalformedDeckException
+from decks.forms import CommentForm, DecklistForm, DeckMetadataForm
+from decks.exceptions import MalformedDeckException
+from profiles.models import Follow
 
 
 class DeckListView(ListView):
@@ -112,7 +113,12 @@ class DeckListView(ListView):
                     LovePoint.objects.filter(
                         deck=OuterRef("pk"), user=self.request.user
                     )
-                )
+                ),
+                is_followed=Exists(
+                    Follow.objects.filter(
+                        followed=OuterRef("owner"), follower=self.request.user
+                    )
+                ),
             )
 
         # In the deck list view there's no need for these fields, which might be
@@ -209,7 +215,12 @@ class DeckDetailView(HitCountDetailView):
                     LovePoint.objects.filter(
                         deck=OuterRef("pk"), user=self.request.user
                     )
-                )
+                ),
+                is_followed=Exists(
+                    Follow.objects.filter(
+                        followed=OuterRef("owner"), follower=self.request.user
+                    )
+                ),
             )
         qs = qs.annotate(
             follower_count=Count("owner__followers", distinct=True),
