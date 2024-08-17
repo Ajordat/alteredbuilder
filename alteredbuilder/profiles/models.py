@@ -19,7 +19,7 @@ class UserProfile(models.Model):
     def get_absolute_url(self):
         return reverse("profile-detail", kwargs={"code": self.code})
 
-    def discord_handle(self):
+    def discord_handle(self):  # pragma: no cover
         try:
             social_account = SocialAccount.objects.get(
                 user=self.user, provider="discord"

@@ -83,7 +83,7 @@ except google.auth.exceptions.DefaultCredentialsError:
     pass
 
 else:
-    if GCP_PROJECT_ID := env("GOOGLE_CLOUD_PROJECT", default=None):
+    if GCP_PROJECT_ID := env("GOOGLE_CLOUD_PROJECT", default=None):  # pragma: no cover
         # Pull environment variables from Secret Manager
         client = secretmanager.SecretManagerServiceClient()
         settings_name = env("SETTINGS_NAME")
@@ -94,7 +94,7 @@ else:
 DEBUG = env("DEBUG")
 SECRET_KEY = env("SECRET_KEY")
 
-if SERVICE_PUBLIC_URL := env("SERVICE_PUBLIC_URL"):
+if SERVICE_PUBLIC_URL := env("SERVICE_PUBLIC_URL"):  # pragma: no cover
     # If SERVICE_PUBLIC_URL is set it means we're serving publicly
 
     ALLOWED_HOSTS = [urlparse(url).netloc for url in SERVICE_PUBLIC_URL.split(",")]
@@ -231,7 +231,7 @@ AUTHENTICATION_BACKENDS = [
 
 if DEBUG or not SERVICE_PUBLIC_URL:
     SITE_ID = 1
-else:
+else:  # pragma: no cover
     SITE_ID = 4
 
 LOGIN_URL = reverse_lazy("account_login")
