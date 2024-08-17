@@ -22,51 +22,58 @@ class ProfileListView(ListView):
     USER_COUNT_DISPLAY = 10
 
     def get_queryset(self) -> QuerySet[Any]:
-        return (
+        qs = (
             get_user_model()
             .objects.select_related("profile")
-            .annotate(
+            .order_by("-date_joined")[: self.USER_COUNT_DISPLAY]
+        )
+
+        if self.request.user.is_authenticated:
+            qs = qs.annotate(
                 is_followed=Exists(
                     Follow.objects.filter(
                         followed=OuterRef("pk"), follower=self.request.user
                     )
                 )
             )
-            .order_by("-date_joined")[: self.USER_COUNT_DISPLAY]
-        )
+        return qs
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
 
-        context["most_viewed_users"] = (
+        most_viewed_users = (
             get_user_model()
             .objects.alias(total_hits=Sum("deck__hit_count_generic__hits"))
-            .annotate(
-                deck_count=Count("deck", filter=Q(deck__is_public=True)),
-                is_followed=Exists(
-                    Follow.objects.filter(
-                        followed=OuterRef("pk"), follower=self.request.user
-                    )
-                ),
-            )
+            .annotate(deck_count=Count("deck", filter=Q(deck__is_public=True)))
             .select_related("profile")
             .order_by(F("total_hits").desc(nulls_last=True))[: self.USER_COUNT_DISPLAY]
         )
 
-        context["most_followed_users"] = (
+        most_followed_users = (
             get_user_model()
-            .objects.annotate(
-                follower_count=Count("followers"),
-                is_followed=Exists(
-                    Follow.objects.filter(
-                        followed=OuterRef("pk"), follower=self.request.user
-                    )
-                ),
-            )
+            .objects.annotate(follower_count=Count("followers"))
             .filter(follower_count__gt=0)
             .select_related("profile")
             .order_by("-follower_count")[: self.USER_COUNT_DISPLAY]
         )
+
+        if self.request.user.is_authenticated:
+            most_viewed_users = most_viewed_users.annotate(
+                is_followed=Exists(
+                    Follow.objects.filter(
+                        followed=OuterRef("pk"), follower=self.request.user
+                    )
+                )
+            )
+            most_followed_users = most_followed_users.annotate(
+                is_followed=Exists(
+                    Follow.objects.filter(
+                        followed=OuterRef("pk"), follower=self.request.user
+                    )
+                )
+            )
+        context["most_viewed_users"] = most_viewed_users
+        context["most_followed_users"] = most_followed_users
         return context
 
 
@@ -157,9 +164,5 @@ def follow_user(request, code):
 @login_required
 def unfollow_user(request, code):
     builder_profile = get_object_or_404(UserProfile, code=code)
-    follow = Follow.objects.filter(
-        follower=request.user, followed=builder_profile.user
-    ).first()
-    if follow:
-        follow.delete()
+    Follow.objects.filter(follower=request.user, followed=builder_profile.user).delete()
     return redirect(builder_profile.get_absolute_url())
