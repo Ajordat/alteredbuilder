@@ -49,11 +49,14 @@ def fetch_notifications(request: HttpRequest):
 
     data = []
     for notification in notifications:
-        data.append({
-            "id": notification.pk,
-            "message": str(notification),
-            "read": notification.read,
-            "timestamp": _("%(time_since)s ago") % {"time_since": timesince(notification.created_at)},
-        })
-    
+        data.append(
+            {
+                "id": notification.pk,
+                "message": str(notification),
+                "read": notification.read,
+                "timestamp": _("%(time_since)s ago")
+                % {"time_since": timesince(notification.created_at)},
+            }
+        )
+
     return ApiJsonResponse({"notifications": data}, HTTPStatus.OK)

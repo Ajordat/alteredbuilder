@@ -15,12 +15,16 @@ def ajax_request(methods=None):
                     try:
                         return func(request, *args, **kwargs)
                     except json.decoder.JSONDecodeError:
-                        return ApiJsonResponse(_("Invalid payload"), HTTPStatus.BAD_REQUEST)
+                        return ApiJsonResponse(
+                            _("Invalid payload"), HTTPStatus.BAD_REQUEST
+                        )
                 else:
                     return ApiJsonResponse(_("Invalid request"), HTTPStatus.BAD_REQUEST)
             else:
                 return HttpResponse(_("Invalid request"), status=HTTPStatus.BAD_REQUEST)
+
         return inner
+
     return wrap
 
 
