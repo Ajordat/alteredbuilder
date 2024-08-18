@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-16 18:50+0200\n"
+"POT-Creation-Date: 2024-08-18 18:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: api/utils.py:17 decks/views.py:442
+#: api/utils.py:17 decks/views.py:459
 msgid "Invalid payload"
 msgstr "Carico utile non valido"
 
-#: api/utils.py:19 api/utils.py:21 decks/views.py:527
+#: api/utils.py:19 api/utils.py:21 decks/views.py:544
 msgid "Invalid request"
 msgstr "Richiesta non valida"
 
@@ -200,7 +200,7 @@ msgstr "Carattere"
 #: decks/templates/decks/deck_detail.html:123
 #: decks/templates/decks/own_deck_list.html:24
 #: decks/templates/decks/snippets/public_deck_table.html:13
-#: profiles/templates/profiles/userprofile_detail.html:84
+#: profiles/templates/profiles/userprofile_detail.html:94
 msgid "Hero"
 msgstr "Eroe"
 
@@ -354,7 +354,7 @@ msgstr "Elenco dei mazzi"
 #: decks/templates/decks/snippets/public_deck_table.html:11
 #: decks/templates/forms/submit_deck_metadata.html:8
 #: decks/templates/forms/submit_decklist.html:7
-#: profiles/templates/profiles/userprofile_detail.html:82
+#: profiles/templates/profiles/userprofile_detail.html:92
 #: trends/templates/trends/home.html:55
 msgid "Name"
 msgstr "Nome"
@@ -362,7 +362,7 @@ msgstr "Nome"
 #: decks/templates/decks/deck_detail.html:128
 #: decks/templates/decks/own_deck_list.html:23
 #: decks/templates/decks/snippets/public_deck_table.html:12
-#: profiles/templates/profiles/userprofile_detail.html:83
+#: profiles/templates/profiles/userprofile_detail.html:93
 msgid "Faction"
 msgstr "Fazione"
 
@@ -608,7 +608,7 @@ msgstr "È pubblico?"
 
 #: decks/templates/decks/own_deck_list.html:31
 #: decks/templates/decks/snippets/public_deck_table.html:19
-#: profiles/templates/profiles/userprofile_detail.html:85
+#: profiles/templates/profiles/userprofile_detail.html:95
 msgid "Last updated"
 msgstr "Ultimo aggiornamento"
 
@@ -837,19 +837,19 @@ msgstr "Vuoi che il tuo mazzo sia pubblico?"
 msgid "Import"
 msgstr "Importa"
 
-#: decks/views.py:422
+#: decks/views.py:439
 msgid "The deck must have a name"
 msgstr "Il mazzo deve avere un nome"
 
-#: decks/views.py:438 decks/views.py:501 decks/views.py:538
+#: decks/views.py:455 decks/views.py:518 decks/views.py:555
 msgid "Deck not found"
 msgstr "Mazzo non trovato"
 
-#: decks/views.py:440
+#: decks/views.py:457
 msgid "Card not found"
 msgstr "Carta non trovata"
 
-#: decks/views.py:472 decks/views.py:499
+#: decks/views.py:489 decks/views.py:516
 msgid "Comment not found"
 msgstr "Commento non trovato"
 
@@ -866,48 +866,51 @@ msgstr[0] "A %(love_count)s utente è piaciuto il tuo mazzo '%(deck_name)s'"
 msgstr[1] "A %(love_count)s utenti è piaciuto il tuo mazzo '%(deck_name)s'"
 
 #: notifications/models.py:46
-msgid "%(owner)s created deck '%(deck_name)s'"
-msgstr "%(owner)s ha creato il mazzo '%(deck_name)s'"
+#, python-format
+msgid "%(actor)s created deck '%(deck_name)s'"
+msgstr "%(actor)s ha creato il mazzo '%(deck_name)s'"
 
 #: notifications/models.py:51
 msgid "New notification"
 msgstr "Nuova notifica"
 
-#: profiles/templates/profiles/edit_profile.html:6
-#: profiles/templates/profiles/edit_profile.html:10
-#: profiles/templates/profiles/userprofile_detail.html:34
+#: profiles/templates/profiles/edit_profile.html:7
+#: profiles/templates/profiles/edit_profile.html:11
+#: profiles/templates/profiles/userprofile_detail.html:36
 msgid "Edit Profile"
 msgstr "Modifica il profilo"
 
-#: profiles/templates/profiles/edit_profile.html:14
-#, fuzzy, python-format
-#| msgid ""
-#| "Optionally, add a description/explanation of your deck (feel free to use "
-#| "<a href=\"%(md_url)s\">markdown</a>): "
+#: profiles/templates/profiles/edit_profile.html:15
+#, python-format
 msgid "Biography (feel free to use <a href=\"%(md_url)s\">markdown</a>):"
-msgstr "Biografia (sentiti libero di utilizzare <a href=\"%(md_url)s\">markdown</a>):"
+msgstr ""
+"Biografia (sentiti libero di utilizzare <a href=\"%(md_url)s\">markdown</a>):"
 
-#: profiles/templates/profiles/edit_profile.html:24
+#: profiles/templates/profiles/edit_profile.html:23
+msgid "Social accounts"
+msgstr "Account social"
+
+#: profiles/templates/profiles/edit_profile.html:25
 msgid "Altered handle:"
 msgstr "Profilo di Altered:"
 
-#: profiles/templates/profiles/edit_profile.html:38
+#: profiles/templates/profiles/edit_profile.html:40
 msgid "Make your Discord handle public?"
 msgstr "Rendere pubblico il profilo di Discord?"
 
-#: profiles/templates/profiles/edit_profile.html:44
+#: profiles/templates/profiles/edit_profile.html:46
 msgid "Save Changes"
 msgstr "Salva le modifiche"
 
 #: profiles/templates/profiles/tooltips/user_profile.html:10
-#: profiles/templates/profiles/userprofile_detail.html:30
+#: profiles/templates/profiles/userprofile_detail.html:31
 #, python-format
 msgid "Joined on: %(date_joined)s"
 msgstr "Iscritto il: %(date_joined)s"
 
 #: profiles/templates/profiles/tooltips/user_profile.html:11
-#: profiles/templates/profiles/userprofile_detail.html:31
-#: profiles/templates/profiles/userprofile_list.html:80
+#: profiles/templates/profiles/userprofile_detail.html:32
+#: profiles/templates/profiles/userprofile_list.html:92
 #, python-format
 msgid "%(follower_count)s Follower"
 msgid_plural "%(follower_count)s Followers"
@@ -915,44 +918,45 @@ msgstr[0] "%(follower_count)s Follower"
 msgstr[1] "%(follower_count)s Followers"
 
 #: profiles/templates/profiles/tooltips/user_profile.html:12
-#: profiles/templates/profiles/userprofile_detail.html:32
+#: profiles/templates/profiles/userprofile_detail.html:33
 #, python-format
 msgid "%(following_count)s Following"
 msgid_plural "%(following_count)s Following"
 msgstr[0] "%(following_count)s Seguiti"
 msgstr[1] "%(following_count)s Seguiti"
 
-#: profiles/templates/profiles/userprofile_detail.html:9
-#: profiles/templates/profiles/userprofile_detail.html:11
+#: profiles/templates/profiles/userprofile_detail.html:10
+#: profiles/templates/profiles/userprofile_detail.html:12
+#, python-format
 msgid "Profile of %(username)s"
 msgstr "Profilo di %(username)s"
 
-#: profiles/templates/profiles/userprofile_detail.html:36
+#: profiles/templates/profiles/userprofile_detail.html:38
 msgid "Unfollow"
 msgstr "Unfollow"
 
-#: profiles/templates/profiles/userprofile_detail.html:38
+#: profiles/templates/profiles/userprofile_detail.html:40
 msgid "Follow"
 msgstr "Seguire"
 
-#: profiles/templates/profiles/userprofile_detail.html:49
+#: profiles/templates/profiles/userprofile_detail.html:58
 msgid "Faction Distribution"
 msgstr "Distribuzione delle fazioni"
 
-#: profiles/templates/profiles/userprofile_detail.html:61
+#: profiles/templates/profiles/userprofile_detail.html:71
 msgid "Bio"
 msgstr "Bio"
 
-#: profiles/templates/profiles/userprofile_detail.html:67
+#: profiles/templates/profiles/userprofile_detail.html:77
 msgid "Empty bio"
 msgstr "Nessuna bio"
 
-#: profiles/templates/profiles/userprofile_detail.html:74
+#: profiles/templates/profiles/userprofile_detail.html:84
 #, python-format
 msgid "Decks by %(username)s"
 msgstr "Mazzi di %(username)s"
 
-#: profiles/templates/profiles/userprofile_detail.html:123
+#: profiles/templates/profiles/userprofile_detail.html:133
 msgid "No decks found"
 msgstr "Nessun mazzo trovato"
 
@@ -960,33 +964,59 @@ msgstr "Nessun mazzo trovato"
 msgid "Builders"
 msgstr "Utenti"
 
-#: profiles/templates/profiles/userprofile_list.html:26
+#: profiles/templates/profiles/userprofile_list.html:25
+msgid "Discover Our Community"
+msgstr "Scopri la Nostra Comunità"
+
+#: profiles/templates/profiles/userprofile_list.html:27
+msgid ""
+"Welcome to the community hub! Here, you'll find a curated selection of users "
+"who are making waves in our platform. Whether you're looking for the latest "
+"members, the most popular content creators, or the most followed "
+"personalities, you'll find them all here."
+msgstr ""
+"Benvenuto nel centro della comunità! Qui troverai una selezione curata di "
+"utenti che stanno facendo parlare di sé sulla nostra piattaforma. Che tu "
+"stia cercando i membri più recenti, i creatori di contenuti più popolari o "
+"le personalità più seguite, li troverai tutti qui."
+
+#: profiles/templates/profiles/userprofile_list.html:30
+msgid ""
+"Explore these lists to connect with others, get inspired, and see what's "
+"trending. Join the conversation and become a part of the vibrant community "
+"that powers our platform."
+msgstr ""
+"Esplora queste liste per connetterti con gli altri, trovare ispirazione e "
+"vedere cosa è in tendenza. Unisciti alla conversazione e diventa parte della "
+"vibrante comunità che alimenta la nostra piattaforma."
+
+#: profiles/templates/profiles/userprofile_list.html:38
 msgid "Latest Users"
 msgstr "Ultimi utenti"
 
-#: profiles/templates/profiles/userprofile_list.html:34
+#: profiles/templates/profiles/userprofile_list.html:46
 #, python-format
 msgid "Joined on %(date_joined)s"
 msgstr "Iscritto il %(date_joined)s"
 
-#: profiles/templates/profiles/userprofile_list.html:38
-#: profiles/templates/profiles/userprofile_list.html:61
-#: profiles/templates/profiles/userprofile_list.html:84
+#: profiles/templates/profiles/userprofile_list.html:50
+#: profiles/templates/profiles/userprofile_list.html:73
+#: profiles/templates/profiles/userprofile_list.html:96
 msgid "No users found"
 msgstr "Nessun utente trovato"
 
-#: profiles/templates/profiles/userprofile_list.html:49
+#: profiles/templates/profiles/userprofile_list.html:61
 msgid "Most Viewed Users"
 msgstr "Utenti più visti"
 
-#: profiles/templates/profiles/userprofile_list.html:57
+#: profiles/templates/profiles/userprofile_list.html:69
 #, python-format
 msgid "%(deck_count)s deck"
 msgid_plural "%(deck_count)s decks"
 msgstr[0] "%(deck_count)s mazzo"
 msgstr[1] "%(deck_count)s mazzi"
 
-#: profiles/templates/profiles/userprofile_list.html:72
+#: profiles/templates/profiles/userprofile_list.html:84
 msgid "Most Followed Users"
 msgstr "Utenti più seguiti"
 

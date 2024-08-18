@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-16 18:50+0200\n"
+"POT-Creation-Date: 2024-08-18 18:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: api/utils.py:17 decks/views.py:442
+#: api/utils.py:17 decks/views.py:459
 msgid "Invalid payload"
 msgstr "Mensaje inválido"
 
-#: api/utils.py:19 api/utils.py:21 decks/views.py:527
+#: api/utils.py:19 api/utils.py:21 decks/views.py:544
 msgid "Invalid request"
 msgstr "Petición inválida"
 
@@ -199,7 +199,7 @@ msgstr "Personaje"
 #: decks/templates/decks/deck_detail.html:123
 #: decks/templates/decks/own_deck_list.html:24
 #: decks/templates/decks/snippets/public_deck_table.html:13
-#: profiles/templates/profiles/userprofile_detail.html:84
+#: profiles/templates/profiles/userprofile_detail.html:94
 msgid "Hero"
 msgstr "Héroe"
 
@@ -353,7 +353,7 @@ msgstr "Decklist"
 #: decks/templates/decks/snippets/public_deck_table.html:11
 #: decks/templates/forms/submit_deck_metadata.html:8
 #: decks/templates/forms/submit_decklist.html:7
-#: profiles/templates/profiles/userprofile_detail.html:82
+#: profiles/templates/profiles/userprofile_detail.html:92
 #: trends/templates/trends/home.html:55
 msgid "Name"
 msgstr "Nombre"
@@ -361,7 +361,7 @@ msgstr "Nombre"
 #: decks/templates/decks/deck_detail.html:128
 #: decks/templates/decks/own_deck_list.html:23
 #: decks/templates/decks/snippets/public_deck_table.html:12
-#: profiles/templates/profiles/userprofile_detail.html:83
+#: profiles/templates/profiles/userprofile_detail.html:93
 msgid "Faction"
 msgstr "Facción"
 
@@ -607,7 +607,7 @@ msgstr "¿Es público?"
 
 #: decks/templates/decks/own_deck_list.html:31
 #: decks/templates/decks/snippets/public_deck_table.html:19
-#: profiles/templates/profiles/userprofile_detail.html:85
+#: profiles/templates/profiles/userprofile_detail.html:95
 msgid "Last updated"
 msgstr "Última actualización"
 
@@ -835,19 +835,19 @@ msgstr "¿Quieres que sea un mazo público?"
 msgid "Import"
 msgstr "Importar"
 
-#: decks/views.py:422
+#: decks/views.py:439
 msgid "The deck must have a name"
 msgstr "El mazo necesita un nombre"
 
-#: decks/views.py:438 decks/views.py:501 decks/views.py:538
+#: decks/views.py:455 decks/views.py:518 decks/views.py:555
 msgid "Deck not found"
 msgstr "No se ha encontrado el mazo"
 
-#: decks/views.py:440
+#: decks/views.py:457
 msgid "Card not found"
 msgstr "Carta no encontrada"
 
-#: decks/views.py:472 decks/views.py:499
+#: decks/views.py:489 decks/views.py:516
 msgid "Comment not found"
 msgstr "No se ha encontrado el comentario"
 
@@ -865,45 +865,49 @@ msgstr[1] "A %(love_count)s usuarios les gusta tu mazo '%(deck_name)s'"
 
 #: notifications/models.py:46
 #, python-format
-msgid "%(owner)s created deck '%(deck_name)s'"
-msgstr "%(owner)s ha creado el mazo '%(deck_name)s'"
+msgid "%(actor)s created deck '%(deck_name)s'"
+msgstr "%(actor)s ha creado el mazo '%(deck_name)s'"
 
 #: notifications/models.py:51
 msgid "New notification"
 msgstr "Nueva notificación"
 
-#: profiles/templates/profiles/edit_profile.html:6
-#: profiles/templates/profiles/edit_profile.html:10
-#: profiles/templates/profiles/userprofile_detail.html:34
+#: profiles/templates/profiles/edit_profile.html:7
+#: profiles/templates/profiles/edit_profile.html:11
+#: profiles/templates/profiles/userprofile_detail.html:36
 msgid "Edit Profile"
 msgstr "Editar perfil"
 
-#: profiles/templates/profiles/edit_profile.html:14
+#: profiles/templates/profiles/edit_profile.html:15
 #, python-format
 msgid "Biography (feel free to use <a href=\"%(md_url)s\">markdown</a>):"
 msgstr "Biografía (puedes usar <a href=\"%(md_url)s\">markdown</a>):"
 
-#: profiles/templates/profiles/edit_profile.html:24
+#: profiles/templates/profiles/edit_profile.html:23
+msgid "Social accounts"
+msgstr "Cuentas sociales"
+
+#: profiles/templates/profiles/edit_profile.html:25
 msgid "Altered handle:"
 msgstr "Perfil de Altered:"
 
-#: profiles/templates/profiles/edit_profile.html:38
+#: profiles/templates/profiles/edit_profile.html:40
 msgid "Make your Discord handle public?"
 msgstr "Hacer tu perfil de Discord público?"
 
-#: profiles/templates/profiles/edit_profile.html:44
+#: profiles/templates/profiles/edit_profile.html:46
 msgid "Save Changes"
 msgstr "Guardar cambios"
 
 #: profiles/templates/profiles/tooltips/user_profile.html:10
-#: profiles/templates/profiles/userprofile_detail.html:30
+#: profiles/templates/profiles/userprofile_detail.html:31
 #, python-format
 msgid "Joined on: %(date_joined)s"
 msgstr "Se unió el: %(date_joined)s"
 
 #: profiles/templates/profiles/tooltips/user_profile.html:11
-#: profiles/templates/profiles/userprofile_detail.html:31
-#: profiles/templates/profiles/userprofile_list.html:80
+#: profiles/templates/profiles/userprofile_detail.html:32
+#: profiles/templates/profiles/userprofile_list.html:92
 #, python-format
 msgid "%(follower_count)s Follower"
 msgid_plural "%(follower_count)s Followers"
@@ -911,45 +915,45 @@ msgstr[0] "%(follower_count)s Seguidor"
 msgstr[1] "%(follower_count)s Seguidores"
 
 #: profiles/templates/profiles/tooltips/user_profile.html:12
-#: profiles/templates/profiles/userprofile_detail.html:32
+#: profiles/templates/profiles/userprofile_detail.html:33
 #, python-format
 msgid "%(following_count)s Following"
 msgid_plural "%(following_count)s Following"
 msgstr[0] "%(following_count)s Siguiendo"
 msgstr[1] "%(following_count)s Siguiendo"
 
-#: profiles/templates/profiles/userprofile_detail.html:9
-#: profiles/templates/profiles/userprofile_detail.html:11
+#: profiles/templates/profiles/userprofile_detail.html:10
+#: profiles/templates/profiles/userprofile_detail.html:12
 #, python-format
 msgid "Profile of %(username)s"
 msgstr "Perfil de %(username)s"
 
-#: profiles/templates/profiles/userprofile_detail.html:36
+#: profiles/templates/profiles/userprofile_detail.html:38
 msgid "Unfollow"
 msgstr "Dejar de seguir"
 
-#: profiles/templates/profiles/userprofile_detail.html:38
+#: profiles/templates/profiles/userprofile_detail.html:40
 msgid "Follow"
 msgstr "Seguir"
 
-#: profiles/templates/profiles/userprofile_detail.html:49
+#: profiles/templates/profiles/userprofile_detail.html:58
 msgid "Faction Distribution"
 msgstr "Distribución por facción"
 
-#: profiles/templates/profiles/userprofile_detail.html:61
+#: profiles/templates/profiles/userprofile_detail.html:71
 msgid "Bio"
 msgstr "Bio"
 
-#: profiles/templates/profiles/userprofile_detail.html:67
+#: profiles/templates/profiles/userprofile_detail.html:77
 msgid "Empty bio"
 msgstr "Sin biografía"
 
-#: profiles/templates/profiles/userprofile_detail.html:74
+#: profiles/templates/profiles/userprofile_detail.html:84
 #, python-format
 msgid "Decks by %(username)s"
 msgstr "Mazos de %(username)s"
 
-#: profiles/templates/profiles/userprofile_detail.html:123
+#: profiles/templates/profiles/userprofile_detail.html:133
 msgid "No decks found"
 msgstr "No se han encontrado mazos"
 
@@ -957,33 +961,59 @@ msgstr "No se han encontrado mazos"
 msgid "Builders"
 msgstr "Usuarios"
 
-#: profiles/templates/profiles/userprofile_list.html:26
+#: profiles/templates/profiles/userprofile_list.html:25
+msgid "Discover Our Community"
+msgstr "Descubre Nuestra Comunidad"
+
+#: profiles/templates/profiles/userprofile_list.html:27
+msgid ""
+"Welcome to the community hub! Here, you'll find a curated selection of users "
+"who are making waves in our platform. Whether you're looking for the latest "
+"members, the most popular content creators, or the most followed "
+"personalities, you'll find them all here."
+msgstr ""
+"¡Bienvenido al centro de la comunidad! Aquí encontrarás una selección de "
+"usuarios destacados que están causando sensación en nuestra plataforma. Ya "
+"sea que busques a los miembros más recientes, los creadores de contenido más "
+"populares o las personalidades más seguidas, los encontrarás todos aquí."
+
+#: profiles/templates/profiles/userprofile_list.html:30
+msgid ""
+"Explore these lists to connect with others, get inspired, and see what's "
+"trending. Join the conversation and become a part of the vibrant community "
+"that powers our platform."
+msgstr ""
+"Explora estas listas para conectarte con otros, inspirarte y ver qué es lo "
+"que está en tendencia. Únete a la conversación y forma parte de la vibrante "
+"comunidad que impulsa nuestra plataforma."
+
+#: profiles/templates/profiles/userprofile_list.html:38
 msgid "Latest Users"
 msgstr "Nuevos usuarios"
 
-#: profiles/templates/profiles/userprofile_list.html:34
+#: profiles/templates/profiles/userprofile_list.html:46
 #, python-format
 msgid "Joined on %(date_joined)s"
 msgstr "Se unió el %(date_joined)s"
 
-#: profiles/templates/profiles/userprofile_list.html:38
-#: profiles/templates/profiles/userprofile_list.html:61
-#: profiles/templates/profiles/userprofile_list.html:84
+#: profiles/templates/profiles/userprofile_list.html:50
+#: profiles/templates/profiles/userprofile_list.html:73
+#: profiles/templates/profiles/userprofile_list.html:96
 msgid "No users found"
 msgstr "No se han encontrado usuarios"
 
-#: profiles/templates/profiles/userprofile_list.html:49
+#: profiles/templates/profiles/userprofile_list.html:61
 msgid "Most Viewed Users"
 msgstr "Usuarios con más visitas"
 
-#: profiles/templates/profiles/userprofile_list.html:57
+#: profiles/templates/profiles/userprofile_list.html:69
 #, python-format
 msgid "%(deck_count)s deck"
 msgid_plural "%(deck_count)s decks"
 msgstr[0] "%(deck_count)s mazo"
 msgstr[1] "%(deck_count)s mazos"
 
-#: profiles/templates/profiles/userprofile_list.html:72
+#: profiles/templates/profiles/userprofile_list.html:84
 msgid "Most Followed Users"
 msgstr "Usuarios con más seguidores"
 
