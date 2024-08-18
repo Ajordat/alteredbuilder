@@ -50,7 +50,6 @@ urlpatterns = [
         {"sitemaps": sitemaps},
         name="django.contrib.sitemaps.views.sitemap",
     ),
-    path("notifications/", include("notifications.urls")),
 ]
 
 urlpatterns += i18n_patterns(
@@ -66,6 +65,7 @@ urlpatterns += i18n_patterns(
     path("accounts/", include("allauth.account.urls")),
     path("accounts/", include("allauth.socialaccount.urls")),
     path("profiles/", include("profiles.urls")),
+    path("notifications/", include("notifications.urls")),
     path("about/", TemplateView.as_view(template_name="about.html"), name="about"),
     path(
         "collaborators/",

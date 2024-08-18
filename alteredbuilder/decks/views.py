@@ -222,6 +222,8 @@ class DeckDetailView(HitCountDetailView):
                     )
                 ),
             )
+        # I don't fancy making these queries here. Maybe I could store that information
+        # on the UserProfile model
         qs = qs.annotate(
             follower_count=Count("owner__followers", distinct=True),
             following_count=Count("owner__following", distinct=True),
@@ -409,7 +411,7 @@ def love_deck(request: HttpRequest, pk: int) -> HttpResponse:
 
 
 @login_required
-@ajax_request
+@ajax_request()
 def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
     """Function to update a deck with AJAX.
 
@@ -461,7 +463,7 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
 
 
 @login_required
-@ajax_request
+@ajax_request()
 def vote_comment(request: HttpRequest, pk: int, comment_pk: int) -> HttpResponse:
     """Function to upvote a Comment with AJAX.
 
@@ -492,7 +494,7 @@ def vote_comment(request: HttpRequest, pk: int, comment_pk: int) -> HttpResponse
 
 
 @login_required
-@ajax_request
+@ajax_request()
 def delete_comment(request: HttpRequest, pk: int, comment_pk: int) -> HttpResponse:
     """Function to delete a Comment with AJAX.
 
@@ -521,7 +523,7 @@ def delete_comment(request: HttpRequest, pk: int, comment_pk: int) -> HttpRespon
 
 
 @login_required
-@ajax_request
+@ajax_request()
 def create_private_link(request: HttpRequest, pk: int) -> HttpResponse:
     """Function to create a PrivateLink with AJAX.
     Ideally it should be moved to the API app.

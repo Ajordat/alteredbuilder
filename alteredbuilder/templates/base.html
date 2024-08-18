@@ -116,25 +116,8 @@
                                 <span class="position-absolute translate-middle p-1 bg-danger border border-light rounded-circle"></span>
 {% endif %}
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end bg-light-subtle" aria-labelledby="notificationDropdown">
-{% if notifications %}
-    {% for notification in notifications %}
-                                <li class="{% if not notification.read %}new-notification{% endif %}">
-                                    <a href="{{ notification.get_absolute_url }}" class="dropdown-item d-block">
-        {% if not notification.read %}
-                                        <span class="position-absolute p-1 bg-danger border border-light rounded-circle"></span>&nbsp;
-        {% endif %}
-                                                {{ notification }}
-                                        <br><small class="text-muted">{% blocktranslate with time_since=notification.created_at|timesince %}{{ time_since }} ago{% endblocktranslate %}</small>
-                                    </a>
-                                </li>
-        {% if forloop.last == False %}
-                                <li><hr class="dropdown-divider my-0"></li>
-        {% endif %}
-    {% endfor %}
-{% else %}
+                            <ul id="notificationList" class="dropdown-menu dropdown-menu-end bg-light-subtle" aria-labelledby="notificationDropdown">
                                 <li class="dropdown-item text-muted disabled">{% translate "No notifications" %}</li>
-{% endif %}
                             </ul>
                         </li>
 {% if user.is_authenticated %}
@@ -228,6 +211,7 @@
                 </div>
             </div>
         </footer>
+        <script src="{% static 'js/notifications.js' %}"></script>
 {% block bodyscripts %}{% endblock %}
     </body>
 </html>
