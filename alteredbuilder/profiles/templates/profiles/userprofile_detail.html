@@ -30,6 +30,7 @@ class="container my-5"
                     <p class="text-muted">{% blocktranslate with date_joined=builder.date_joined|date:"F j, Y" %}Joined on: {{ date_joined }}{% endblocktranslate %}</p>
                     <p class="mb-0">{% blocktranslate count follower_count=builder.follower_count %}{{ follower_count }} Follower{% plural %}{{ follower_count }} Followers{% endblocktranslate %}</p>
                     <p>{% blocktranslate count following_count=builder.following_count %}{{ following_count }} Following{% plural %}{{ following_count }} Following{% endblocktranslate %}</p>
+                    <p>
     {% if request.user == builder %}
                     <a href="{% url 'profile-edit' %}" class="btn btn-primary btn-block mt-2">{% translate "Edit Profile" %}</a>
     {% elif builder.is_followed %}
@@ -37,8 +38,14 @@ class="container my-5"
     {% else %}
                     <a href="{% url 'profile-follow' builder.profile.code %}" class="btn btn-primary btn-block mt-2">{% translate "Follow" %}</a>
     {% endif %}
+                    </p>
     {% if builder.profile.altered_handle %}
-                    <a href="https://www.altered.gg/profile/{{ builder.profile.altered_handle }}" class="btn btn-dark btn-block mt-2" target="_blank"><img src="{% static "img/altered.webp" %}" alt="altered logo" width="20px"> {{ builder.profile.altered_handle }}</a>
+                    <a href="https://www.altered.gg/profile/{{ builder.profile.altered_handle }}" class="btn btn-secondary btn-block mt-2" target="_blank"><img src="{% static "img/altered.webp" %}" alt="altered logo" width="20px"> {{ builder.profile.altered_handle }}</a>
+    {% endif %}
+    {% if builder.profile.discord_public %}
+        {% with discord_handle=builder.profile.discord_handle %}
+                    <a href="https://discordapp.com/users/{{ discord_handle }}" class="btn btn-secondary btn-block mt-2"><i class="fa-brands fa-discord"></i> {{ discord_handle }}</a>
+        {% endwith %}
     {% endif %}
                 </div>
             </div>
