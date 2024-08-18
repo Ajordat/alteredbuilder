@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-18 18:16+0200\n"
+"POT-Creation-Date: 2024-08-19 00:20+0200\n"
 "PO-Revision-Date: 2024-05-22 18:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,11 +19,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 3.4.4\n"
 
-#: api/utils.py:17 decks/views.py:459
+#: api/utils.py:19 decks/views.py:461
 msgid "Invalid payload"
 msgstr "Contenu invalide"
 
-#: api/utils.py:19 api/utils.py:21 decks/views.py:544
+#: api/utils.py:22 api/utils.py:24 decks/views.py:546
 msgid "Invalid request"
 msgstr "Requête invalide"
 
@@ -542,14 +542,14 @@ msgstr "Commentaires"
 msgid "Login to use this feature!"
 msgstr "Connectez-vous pour utiliser cette fonction !"
 
-#: decks/templates/decks/deck_detail.html:376 templates/base.html:167
+#: decks/templates/decks/deck_detail.html:376 templates/base.html:150
 msgid "Login"
 msgstr "Se connecter"
 
 #: decks/templates/decks/deck_detail.html:399
 #: decks/templates/decks/own_deck_list.html:56
 #: decks/templates/decks/snippets/public_deck_table.html:54
-#: templates/base.html:128
+#: notifications/views.py:57
 #, python-format
 msgid "%(time_since)s ago"
 msgstr "Il y a %(time_since)s"
@@ -840,19 +840,19 @@ msgstr "Voulez-vous que votre deck soit public ?"
 msgid "Import"
 msgstr "Importer"
 
-#: decks/views.py:439
+#: decks/views.py:441
 msgid "The deck must have a name"
 msgstr "Le deck doit avoir un nom"
 
-#: decks/views.py:455 decks/views.py:518 decks/views.py:555
+#: decks/views.py:457 decks/views.py:520 decks/views.py:557
 msgid "Deck not found"
 msgstr "Deck non trouvé"
 
-#: decks/views.py:457
+#: decks/views.py:459
 msgid "Card not found"
 msgstr "Carte non trouvée"
 
-#: decks/views.py:489 decks/views.py:516
+#: decks/views.py:491 decks/views.py:518
 msgid "Comment not found"
 msgstr "Commentaire non trouvé"
 
@@ -914,7 +914,7 @@ msgstr "Inscrit le : %(date_joined)s"
 
 #: profiles/templates/profiles/tooltips/user_profile.html:11
 #: profiles/templates/profiles/userprofile_detail.html:32
-#: profiles/templates/profiles/userprofile_list.html:92
+#: profiles/templates/profiles/userprofile_list.html:97
 #, python-format
 msgid "%(follower_count)s Follower"
 msgid_plural "%(follower_count)s Followers"
@@ -995,33 +995,38 @@ msgstr ""
 "devenez partie intégrante de la communauté dynamique qui anime notre "
 "plateforme."
 
-#: profiles/templates/profiles/userprofile_list.html:38
+#: profiles/templates/profiles/userprofile_list.html:33
+#, python-format
+msgid "New users in the last 24 hours: %(recent_users_count)s users"
+msgstr "Nouveaux utilisateurs au cours des dernières 24 heures : %(recent_users_count)s utilisateurs"
+
+#: profiles/templates/profiles/userprofile_list.html:43
 msgid "Latest Users"
 msgstr "Derniers Utilisateurs"
 
-#: profiles/templates/profiles/userprofile_list.html:46
+#: profiles/templates/profiles/userprofile_list.html:51
 #, python-format
 msgid "Joined on %(date_joined)s"
 msgstr "Inscrit en %(date_joined)s"
 
-#: profiles/templates/profiles/userprofile_list.html:50
-#: profiles/templates/profiles/userprofile_list.html:73
-#: profiles/templates/profiles/userprofile_list.html:96
+#: profiles/templates/profiles/userprofile_list.html:55
+#: profiles/templates/profiles/userprofile_list.html:78
+#: profiles/templates/profiles/userprofile_list.html:101
 msgid "No users found"
 msgstr "Pas d'utilisateurs trouvés"
 
-#: profiles/templates/profiles/userprofile_list.html:61
+#: profiles/templates/profiles/userprofile_list.html:66
 msgid "Most Viewed Users"
 msgstr "Utilisateurs les plus consultés"
 
-#: profiles/templates/profiles/userprofile_list.html:69
+#: profiles/templates/profiles/userprofile_list.html:74
 #, python-format
 msgid "%(deck_count)s deck"
 msgid_plural "%(deck_count)s decks"
 msgstr[0] "%(deck_count)s deck"
 msgstr[1] "%(deck_count)s decks"
 
-#: profiles/templates/profiles/userprofile_list.html:84
+#: profiles/templates/profiles/userprofile_list.html:89
 msgid "Most Followed Users"
 msgstr "Utilisateurs les plus suivis"
 
@@ -1053,55 +1058,55 @@ msgstr "Sombre"
 msgid "Auto"
 msgstr ""
 
-#: templates/base.html:136
+#: templates/base.html:120
 msgid "No notifications"
 msgstr "Pas de notifications"
 
-#: templates/base.html:157
+#: templates/base.html:140
 msgid "Profile"
 msgstr "Profil"
 
-#: templates/base.html:159
+#: templates/base.html:142
 msgid "Update email"
 msgstr "Changer l'e-mail"
 
-#: templates/base.html:160
+#: templates/base.html:143
 msgid "Update password"
 msgstr "Changer le mot de passe"
 
-#: templates/base.html:162
+#: templates/base.html:145
 msgid "Logout"
 msgstr "Se déconnecter"
 
-#: templates/base.html:182
+#: templates/base.html:165
 msgid "Links"
 msgstr "Liens"
 
-#: templates/base.html:185
+#: templates/base.html:168
 msgid "About the project"
 msgstr "À propos du projet"
 
-#: templates/base.html:188
+#: templates/base.html:171
 msgid "About the author"
 msgstr "À propos de l'auteur"
 
-#: templates/base.html:191
+#: templates/base.html:174
 msgid "Collaborators"
 msgstr "Collaborateurs"
 
-#: templates/base.html:194
+#: templates/base.html:177
 msgid "Privacy policy"
 msgstr "Politique de confidentialité"
 
-#: templates/base.html:197
+#: templates/base.html:180
 msgid "Terms and conditions"
 msgstr "Conditions générales"
 
-#: templates/base.html:202
+#: templates/base.html:185
 msgid "Support the project"
 msgstr "Contribuer au projet"
 
-#: templates/base.html:210
+#: templates/base.html:193
 msgid "Get in touch"
 msgstr "Contacter"
 
@@ -1125,26 +1130,28 @@ msgstr ""
 "Il semble que le serveur a rencontré un problème en essayant de traiter "
 "votre requête. Réessayez plus tard."
 
-#: templates/releases/1.8.3.html:4 templates/releases/1.9.0.html:4
-#: templates/releases/release_template.html:4
+#: templates/releases/1.10.0.html:12 templates/releases/1.8.3.html:4
+#: templates/releases/1.9.0.html:4 templates/releases/release_template.html:4
 msgid "New features:"
 msgstr "Nouvelles fonctionnalités :"
+
+#: templates/releases/1.10.0.html:26 templates/releases/1.9.0.html:12
+#: templates/releases/release_template.html:16
+msgid "Other changes:"
+msgstr "Autres modifications :"
+
+#: templates/releases/1.10.0.html:34 templates/releases/1.9.0.html:22
+#: templates/releases/release_template.html:23
+msgid "Announcements:"
+msgstr "Annonces :"
 
 #: templates/releases/1.8.3.html:15 templates/releases/release_template.html:10
 msgid "Fixes:"
 msgstr "Corrections :"
 
-#: templates/releases/1.8.3.html:23 templates/releases/release_template.html:16
+#: templates/releases/1.8.3.html:23
 msgid "Other:"
 msgstr "Autre :"
-
-#: templates/releases/1.9.0.html:12
-msgid "Other changes:"
-msgstr "Autres modifications :"
-
-#: templates/releases/1.9.0.html:22
-msgid "Announcements:"
-msgstr "Annonces :"
 
 #: templates/socialaccount/authentication_error.html:5
 #: templates/socialaccount/authentication_error.html:9

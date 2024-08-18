@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-18 17:56+0200\n"
+"POT-Creation-Date: 2024-08-19 00:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: api/utils.py:17 decks/views.py:459
+#: api/utils.py:19 decks/views.py:461
 msgid "Invalid payload"
 msgstr ""
 
-#: api/utils.py:19 api/utils.py:21 decks/views.py:544
+#: api/utils.py:22 api/utils.py:24 decks/views.py:546
 msgid "Invalid request"
 msgstr ""
 
@@ -537,14 +537,14 @@ msgstr ""
 msgid "Login to use this feature!"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:376 templates/base.html:167
+#: decks/templates/decks/deck_detail.html:376 templates/base.html:150
 msgid "Login"
 msgstr ""
 
 #: decks/templates/decks/deck_detail.html:399
 #: decks/templates/decks/own_deck_list.html:56
 #: decks/templates/decks/snippets/public_deck_table.html:54
-#: templates/base.html:128
+#: notifications/views.py:57
 #, python-format
 msgid "%(time_since)s ago"
 msgstr ""
@@ -820,19 +820,19 @@ msgstr ""
 msgid "Import"
 msgstr ""
 
-#: decks/views.py:439
+#: decks/views.py:441
 msgid "The deck must have a name"
 msgstr ""
 
-#: decks/views.py:455 decks/views.py:518 decks/views.py:555
+#: decks/views.py:457 decks/views.py:520 decks/views.py:557
 msgid "Deck not found"
 msgstr ""
 
-#: decks/views.py:457
+#: decks/views.py:459
 msgid "Card not found"
 msgstr ""
 
-#: decks/views.py:489 decks/views.py:516
+#: decks/views.py:491 decks/views.py:518
 msgid "Comment not found"
 msgstr ""
 
@@ -892,7 +892,7 @@ msgstr ""
 
 #: profiles/templates/profiles/tooltips/user_profile.html:11
 #: profiles/templates/profiles/userprofile_detail.html:32
-#: profiles/templates/profiles/userprofile_list.html:92
+#: profiles/templates/profiles/userprofile_list.html:97
 #, python-format
 msgid "%(follower_count)s Follower"
 msgid_plural "%(follower_count)s Followers"
@@ -965,33 +965,38 @@ msgid ""
 "that powers our platform."
 msgstr ""
 
-#: profiles/templates/profiles/userprofile_list.html:38
+#: profiles/templates/profiles/userprofile_list.html:33
+#, python-format
+msgid "New users in the last 24 hours: %(recent_users_count)s users"
+msgstr ""
+
+#: profiles/templates/profiles/userprofile_list.html:43
 msgid "Latest Users"
 msgstr ""
 
-#: profiles/templates/profiles/userprofile_list.html:46
+#: profiles/templates/profiles/userprofile_list.html:51
 #, python-format
 msgid "Joined on %(date_joined)s"
 msgstr ""
 
-#: profiles/templates/profiles/userprofile_list.html:50
-#: profiles/templates/profiles/userprofile_list.html:73
-#: profiles/templates/profiles/userprofile_list.html:96
+#: profiles/templates/profiles/userprofile_list.html:55
+#: profiles/templates/profiles/userprofile_list.html:78
+#: profiles/templates/profiles/userprofile_list.html:101
 msgid "No users found"
 msgstr ""
 
-#: profiles/templates/profiles/userprofile_list.html:61
+#: profiles/templates/profiles/userprofile_list.html:66
 msgid "Most Viewed Users"
 msgstr ""
 
-#: profiles/templates/profiles/userprofile_list.html:69
+#: profiles/templates/profiles/userprofile_list.html:74
 #, python-format
 msgid "%(deck_count)s deck"
 msgid_plural "%(deck_count)s decks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: profiles/templates/profiles/userprofile_list.html:84
+#: profiles/templates/profiles/userprofile_list.html:89
 msgid "Most Followed Users"
 msgstr ""
 
@@ -1023,55 +1028,55 @@ msgstr ""
 msgid "Auto"
 msgstr ""
 
-#: templates/base.html:136
+#: templates/base.html:120
 msgid "No notifications"
 msgstr ""
 
-#: templates/base.html:157
+#: templates/base.html:140
 msgid "Profile"
 msgstr ""
 
-#: templates/base.html:159
+#: templates/base.html:142
 msgid "Update email"
 msgstr ""
 
-#: templates/base.html:160
+#: templates/base.html:143
 msgid "Update password"
 msgstr ""
 
-#: templates/base.html:162
+#: templates/base.html:145
 msgid "Logout"
 msgstr ""
 
-#: templates/base.html:182
+#: templates/base.html:165
 msgid "Links"
 msgstr ""
 
-#: templates/base.html:185
+#: templates/base.html:168
 msgid "About the project"
 msgstr ""
 
-#: templates/base.html:188
+#: templates/base.html:171
 msgid "About the author"
 msgstr ""
 
-#: templates/base.html:191
+#: templates/base.html:174
 msgid "Collaborators"
 msgstr ""
 
-#: templates/base.html:194
+#: templates/base.html:177
 msgid "Privacy policy"
 msgstr ""
 
-#: templates/base.html:197
+#: templates/base.html:180
 msgid "Terms and conditions"
 msgstr ""
 
-#: templates/base.html:202
+#: templates/base.html:185
 msgid "Support the project"
 msgstr ""
 
-#: templates/base.html:210
+#: templates/base.html:193
 msgid "Get in touch"
 msgstr ""
 
@@ -1091,25 +1096,27 @@ msgid ""
 "again later."
 msgstr ""
 
-#: templates/releases/1.8.3.html:4 templates/releases/1.9.0.html:4
-#: templates/releases/release_template.html:4
+#: templates/releases/1.10.0.html:12 templates/releases/1.8.3.html:4
+#: templates/releases/1.9.0.html:4 templates/releases/release_template.html:4
 msgid "New features:"
+msgstr ""
+
+#: templates/releases/1.10.0.html:26 templates/releases/1.9.0.html:12
+#: templates/releases/release_template.html:16
+msgid "Other changes:"
+msgstr ""
+
+#: templates/releases/1.10.0.html:34 templates/releases/1.9.0.html:22
+#: templates/releases/release_template.html:23
+msgid "Announcements:"
 msgstr ""
 
 #: templates/releases/1.8.3.html:15 templates/releases/release_template.html:10
 msgid "Fixes:"
 msgstr ""
 
-#: templates/releases/1.8.3.html:23 templates/releases/release_template.html:16
+#: templates/releases/1.8.3.html:23
 msgid "Other:"
-msgstr ""
-
-#: templates/releases/1.9.0.html:12
-msgid "Other changes:"
-msgstr ""
-
-#: templates/releases/1.9.0.html:22
-msgid "Announcements:"
 msgstr ""
 
 #: templates/socialaccount/authentication_error.html:5

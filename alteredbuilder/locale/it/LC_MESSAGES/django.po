@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-18 18:16+0200\n"
+"POT-Creation-Date: 2024-08-19 00:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: api/utils.py:17 decks/views.py:459
+#: api/utils.py:19 decks/views.py:461
 msgid "Invalid payload"
 msgstr "Carico utile non valido"
 
-#: api/utils.py:19 api/utils.py:21 decks/views.py:544
+#: api/utils.py:22 api/utils.py:24 decks/views.py:546
 msgid "Invalid request"
 msgstr "Richiesta non valida"
 
@@ -541,14 +541,14 @@ msgstr "Commenti"
 msgid "Login to use this feature!"
 msgstr "Effettuare il login per utilizzare questa funzione!"
 
-#: decks/templates/decks/deck_detail.html:376 templates/base.html:167
+#: decks/templates/decks/deck_detail.html:376 templates/base.html:150
 msgid "Login"
 msgstr "Accedi"
 
 #: decks/templates/decks/deck_detail.html:399
 #: decks/templates/decks/own_deck_list.html:56
 #: decks/templates/decks/snippets/public_deck_table.html:54
-#: templates/base.html:128
+#: notifications/views.py:57
 #, python-format
 msgid "%(time_since)s ago"
 msgstr "%(time_since)s fa"
@@ -837,19 +837,19 @@ msgstr "Vuoi che il tuo mazzo sia pubblico?"
 msgid "Import"
 msgstr "Importa"
 
-#: decks/views.py:439
+#: decks/views.py:441
 msgid "The deck must have a name"
 msgstr "Il mazzo deve avere un nome"
 
-#: decks/views.py:455 decks/views.py:518 decks/views.py:555
+#: decks/views.py:457 decks/views.py:520 decks/views.py:557
 msgid "Deck not found"
 msgstr "Mazzo non trovato"
 
-#: decks/views.py:457
+#: decks/views.py:459
 msgid "Card not found"
 msgstr "Carta non trovata"
 
-#: decks/views.py:489 decks/views.py:516
+#: decks/views.py:491 decks/views.py:518
 msgid "Comment not found"
 msgstr "Commento non trovato"
 
@@ -910,7 +910,7 @@ msgstr "Iscritto il: %(date_joined)s"
 
 #: profiles/templates/profiles/tooltips/user_profile.html:11
 #: profiles/templates/profiles/userprofile_detail.html:32
-#: profiles/templates/profiles/userprofile_list.html:92
+#: profiles/templates/profiles/userprofile_list.html:97
 #, python-format
 msgid "%(follower_count)s Follower"
 msgid_plural "%(follower_count)s Followers"
@@ -990,33 +990,38 @@ msgstr ""
 "vedere cosa è in tendenza. Unisciti alla conversazione e diventa parte della "
 "vibrante comunità che alimenta la nostra piattaforma."
 
-#: profiles/templates/profiles/userprofile_list.html:38
+#: profiles/templates/profiles/userprofile_list.html:33
+#, python-format
+msgid "New users in the last 24 hours: %(recent_users_count)s users"
+msgstr "Nuovi utenti nelle ultime 24 ore: %(recent_users_count)s utenti"
+
+#: profiles/templates/profiles/userprofile_list.html:43
 msgid "Latest Users"
 msgstr "Ultimi utenti"
 
-#: profiles/templates/profiles/userprofile_list.html:46
+#: profiles/templates/profiles/userprofile_list.html:51
 #, python-format
 msgid "Joined on %(date_joined)s"
 msgstr "Iscritto il %(date_joined)s"
 
-#: profiles/templates/profiles/userprofile_list.html:50
-#: profiles/templates/profiles/userprofile_list.html:73
-#: profiles/templates/profiles/userprofile_list.html:96
+#: profiles/templates/profiles/userprofile_list.html:55
+#: profiles/templates/profiles/userprofile_list.html:78
+#: profiles/templates/profiles/userprofile_list.html:101
 msgid "No users found"
 msgstr "Nessun utente trovato"
 
-#: profiles/templates/profiles/userprofile_list.html:61
+#: profiles/templates/profiles/userprofile_list.html:66
 msgid "Most Viewed Users"
 msgstr "Utenti più visti"
 
-#: profiles/templates/profiles/userprofile_list.html:69
+#: profiles/templates/profiles/userprofile_list.html:74
 #, python-format
 msgid "%(deck_count)s deck"
 msgid_plural "%(deck_count)s decks"
 msgstr[0] "%(deck_count)s mazzo"
 msgstr[1] "%(deck_count)s mazzi"
 
-#: profiles/templates/profiles/userprofile_list.html:84
+#: profiles/templates/profiles/userprofile_list.html:89
 msgid "Most Followed Users"
 msgstr "Utenti più seguiti"
 
@@ -1048,55 +1053,55 @@ msgstr "Buio"
 msgid "Auto"
 msgstr "Automatico"
 
-#: templates/base.html:136
+#: templates/base.html:120
 msgid "No notifications"
 msgstr "Nessuna notifica"
 
-#: templates/base.html:157
+#: templates/base.html:140
 msgid "Profile"
 msgstr "Profilo"
 
-#: templates/base.html:159
+#: templates/base.html:142
 msgid "Update email"
 msgstr "Aggiorna e-mail"
 
-#: templates/base.html:160
+#: templates/base.html:143
 msgid "Update password"
 msgstr "Aggiorna password"
 
-#: templates/base.html:162
+#: templates/base.html:145
 msgid "Logout"
 msgstr "Esci"
 
-#: templates/base.html:182
+#: templates/base.html:165
 msgid "Links"
 msgstr "Collegamenti"
 
-#: templates/base.html:185
+#: templates/base.html:168
 msgid "About the project"
 msgstr "Informazioni sul progetto"
 
-#: templates/base.html:188
+#: templates/base.html:171
 msgid "About the author"
 msgstr "Informazioni sull'autore"
 
-#: templates/base.html:191
+#: templates/base.html:174
 msgid "Collaborators"
 msgstr "Collaboratori"
 
-#: templates/base.html:194
+#: templates/base.html:177
 msgid "Privacy policy"
 msgstr "Informativa sulla privacy"
 
-#: templates/base.html:197
+#: templates/base.html:180
 msgid "Terms and conditions"
 msgstr "Termini e condizioni"
 
-#: templates/base.html:202
+#: templates/base.html:185
 msgid "Support the project"
 msgstr "Aiutare il progetto"
 
-#: templates/base.html:210
+#: templates/base.html:193
 msgid "Get in touch"
 msgstr "Contattaci"
 
@@ -1120,26 +1125,28 @@ msgstr ""
 "Sembra che il server abbia riscontrato un problema nel tentativo di "
 "elaborare la tua richiesta. "
 
-#: templates/releases/1.8.3.html:4 templates/releases/1.9.0.html:4
-#: templates/releases/release_template.html:4
+#: templates/releases/1.10.0.html:12 templates/releases/1.8.3.html:4
+#: templates/releases/1.9.0.html:4 templates/releases/release_template.html:4
 msgid "New features:"
 msgstr "Nuove funzionalità:"
+
+#: templates/releases/1.10.0.html:26 templates/releases/1.9.0.html:12
+#: templates/releases/release_template.html:16
+msgid "Other changes:"
+msgstr "Altre modifiche:"
+
+#: templates/releases/1.10.0.html:34 templates/releases/1.9.0.html:22
+#: templates/releases/release_template.html:23
+msgid "Announcements:"
+msgstr "Annunci:"
 
 #: templates/releases/1.8.3.html:15 templates/releases/release_template.html:10
 msgid "Fixes:"
 msgstr "Correzioni:"
 
-#: templates/releases/1.8.3.html:23 templates/releases/release_template.html:16
+#: templates/releases/1.8.3.html:23
 msgid "Other:"
 msgstr "Altri:"
-
-#: templates/releases/1.9.0.html:12
-msgid "Other changes:"
-msgstr "Altre modifiche:"
-
-#: templates/releases/1.9.0.html:22
-msgid "Announcements:"
-msgstr "Annunci:"
 
 #: templates/socialaccount/authentication_error.html:5
 #: templates/socialaccount/authentication_error.html:9

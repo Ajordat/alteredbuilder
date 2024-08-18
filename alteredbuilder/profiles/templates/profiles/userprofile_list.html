@@ -29,6 +29,10 @@ class="container py-5"
                 <p class="card-text">
                     {% translate "Explore these lists to connect with others, get inspired, and see what's trending. Join the conversation and become a part of the vibrant community that powers our platform." %}
                 </p>
+                <p>
+                    <small>{% blocktranslate %}New users in the last 24 hours: {{ recent_users_count }} users{% endblocktranslate %}</small>
+                    {% comment %}<br><small>{% blocktranslate %}New decks in the last 24 hours: {{ new_deck_count }} decks, of which {{ public_new_deck_count }} are public{% endblocktranslate %}</small> {% endcomment %}
+                </p>
             </div>
         </div>
         <!-- Latest Users -->

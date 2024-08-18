@@ -1,4 +1,5 @@
 from collections import defaultdict
+from datetime import timedelta
 from typing import Any
 
 from django.contrib.auth import get_user_model
@@ -7,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Exists, F, OuterRef, Q, Sum
 from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, redirect
+from django.utils.timezone import localtime
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
@@ -74,6 +76,11 @@ class ProfileListView(ListView):
             )
         context["most_viewed_users"] = most_viewed_users
         context["most_followed_users"] = most_followed_users
+        timelapse = localtime() - timedelta(days=1)
+        context["recent_users_count"] = (
+            get_user_model().objects.filter(date_joined__gte=timelapse).count()
+        )
+
         return context
 
 
