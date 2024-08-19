@@ -59,9 +59,9 @@ def delete_love_notification(sender, instance: LovePoint, **kwargs):
 
 @receiver(post_save, sender=Deck)
 def create_deck_notification(sender, instance: Deck, created, **kwargs):
+    content_type = ContentType.objects.get_for_model(instance)
     if created and instance.is_public:
         creator = instance.owner
-        content_type = ContentType.objects.get_for_model(instance)
         follows = Follow.objects.filter(followed=creator)
         notifications = []
 
@@ -76,6 +76,12 @@ def create_deck_notification(sender, instance: Deck, created, **kwargs):
                 )
             )
         Notification.objects.bulk_create(notifications)
+    elif not instance.is_public:
+        # This is useful for the case where a user makes their Deck private. I'd prefer
+        # it if it wasn't needed to perform a db operation every time, but it seems to
+        # be the fastest way right now
+        # https://medium.com/@mmzeynalli/how-to-detect-field-changes-in-django-ae4bc719aea2
+        Notification.objects.filter(content_type=content_type, object_id=instance.id).delete()
 
 
 @receiver(pre_delete, sender=Deck)
