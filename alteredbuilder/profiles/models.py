@@ -18,6 +18,15 @@ class UserProfile(models.Model):
     def get_absolute_url(self):
         return reverse("profile-detail", kwargs={"code": self.code})
 
+    def get_followers_url(self):
+        return reverse("follow-list", kwargs={"code": self.code})
+
+    def get_follow_url(self):
+        return reverse("profile-follow", kwargs={"code": self.code})
+
+    def get_unfollow_url(self):
+        return reverse("profile-unfollow", kwargs={"code": self.code})
+
 
 class Follow(models.Model):
     follower = models.ForeignKey(
@@ -26,10 +35,11 @@ class Follow(models.Model):
     followed = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name="followers", on_delete=models.CASCADE
     )
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateField(auto_now_add=True)
 
     def __str__(self) -> str:
         return f"{self.follower} follows {self.followed}"
 
     class Meta:
         unique_together = ["follower", "followed"]
+        ordering = ["-created_at"]

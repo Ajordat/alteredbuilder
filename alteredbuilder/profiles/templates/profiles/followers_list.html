@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+
+{% load i18n %}
+{% load deck_styles %}
+
+
+{% block title %}{% blocktranslate with username=builder.username|safe_username %}Followers of {{ username }}{% endblocktranslate %}{% endblock %}
+
+
+{% block meta_title %}{% blocktranslate with username=builder.username|safe_username %}Followers of {{ username }}{% endblocktranslate %}{% endblock %}
+
+
+{% block content-div %}
+class="container my-5"
+{% endblock %}
+
+
+{% block content %}
+    <h1 class="mb-4">{% blocktranslate with username=builder.username|safe_username %}Followers of {{ username }}{% endblocktranslate %}</h1>
+    <!-- Followed Users Section -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">{% translate "Followed Users" %}</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    {% for follow in followed_users %}
+                        <a href="{{ follow.followed.profile.get_absolute_url }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <h6 class="mb-0">{{ follow.followed.username|safe_username }}</h6>
+                                    <small class="text-muted">{% blocktranslate with created_at=follow.created_at %}Since: {{ created_at }}{% endblocktranslate %}</small>
+                                </div>
+                            </div>
+                            <div>
+                                {% if follow.is_followed %}
+                                    <form method="post" action="{{ follow.follower.profile.get_unfollow_url }}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-user-minus"></i>&nbsp;{% translate "Unfollow" %}</button>
+                                    </form>
+                                {% else %}
+                                    <form method="post" action="{{ follow.follower.profile.get_follow_url }}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-user-plus"></i>&nbsp;{% translate "Follow" %}</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </a>
+                    {% empty %}
+                        <div class="list-group-item">
+                            <p class="mb-0 text-muted">{% blocktranslate with username=builder.username|safe_username %}{{ username }} doesn't follow anyone yet.{% endblocktranslate %}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Followers Section -->
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">{% translate "Followers" %}</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    {% for follow in followers %}
+                        <a href="{{ follow.follower.profile.get_absolute_url }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <h6 class="mb-0">{{ follow.follower.username|safe_username }}</h6>
+                                    <small class="text-muted">{% blocktranslate with created_at=follow.created_at %}Since: {{ created_at }}{% endblocktranslate %}</small>
+                                </div>
+                            </div>
+                            <div>
+                                {% if follow.is_followed %}
+                                    <form method="post" action="{{ follow.follower.profile.get_unfollow_url }}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Unsubscribe</button>
+                                    </form>
+                                {% elif follow.follower != request.user %}
+                                    <form method="post" action="{{ follow.follower.profile.get_follow_url }}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-outline-primary">Subscribe</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                            {% comment %} <span class="badge bg-secondary rounded-pill">{{ follow.follower.following_count }} Following</span> {% endcomment %}
+                        </a>
+                    {% empty %}
+                        <div class="list-group-item">
+                            <p class="mb-0 text-muted">{% blocktranslate with username=builder.username|safe_username %}{{ username }} doesn't have any followers yet. You can be the first!{% endblocktranslate %}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -31,13 +31,14 @@ class="container my-5"
                     <p class="text-muted">{% blocktranslate with date_joined=builder.date_joined|date:"F j, Y" %}Joined on: {{ date_joined }}{% endblocktranslate %}</p>
                     <p class="mb-0">{% blocktranslate count follower_count=builder.follower_count %}{{ follower_count }} Follower{% plural %}{{ follower_count }} Followers{% endblocktranslate %}</p>
                     <p>{% blocktranslate count following_count=builder.following_count %}{{ following_count }} Following{% plural %}{{ following_count }} Following{% endblocktranslate %}</p>
+                    <p><a class="btn btn-primary btn-block mt-3" href="{{ builder.profile.get_followers_url }}">View followers</a></p>
                     <p>
     {% if request.user == builder %}
                     <a href="{% url 'profile-edit' %}" class="btn btn-primary btn-block mt-2">{% translate "Edit Profile" %}</a>
     {% elif builder.is_followed %}
-                    <a href="{% url 'profile-unfollow' builder.profile.code %}" class="btn btn-danger btn-block mt-2">{% translate "Unfollow" %}</a>
+                    <a href="{% url 'profile-unfollow' builder.profile.code %}" class="btn btn-danger btn-block mt-2"><i class="fa-solid fa-user-minus"></i>&nbsp;{% translate "Unfollow" %}</a>
     {% else %}
-                    <a href="{% url 'profile-follow' builder.profile.code %}" class="btn btn-primary btn-block mt-2">{% translate "Follow" %}</a>
+                    <a href="{% url 'profile-follow' builder.profile.code %}" class="btn btn-primary btn-block mt-2"><i class="fa-solid fa-user-plus"></i>&nbsp;{% translate "Follow" %}</a>
     {% endif %}
                     </p>
     {% if builder.profile.altered_handle %}

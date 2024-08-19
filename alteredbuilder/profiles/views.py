@@ -84,6 +84,48 @@ class ProfileListView(ListView):
         return context
 
 
+class FollowersListView(ListView):
+    template_name = "profiles/followers_list.html"
+    context_object_name = "followers"
+    paginate_by = 10
+
+    def get_queryset(self) -> QuerySet[Any]:
+        self.builder = get_user_model().objects.get(profile__code=self.kwargs["code"])
+        qs = Follow.objects.filter(followed=self.builder).select_related(
+            "follower__profile"
+        )
+
+        if self.request.user.is_authenticated:
+            qs = qs.annotate(
+                is_followed=Exists(
+                    Follow.objects.filter(
+                        followed=OuterRef("follower"), follower=self.request.user
+                    )
+                )
+            )
+
+        return qs
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+
+        context["builder"] = self.builder
+
+        followed_users = Follow.objects.filter(follower=self.builder).select_related(
+            "followed__profile", "follower__profile"
+        )
+        if self.request.user.is_authenticated:
+            followed_users = followed_users.annotate(
+                is_followed=Exists(
+                    Follow.objects.filter(
+                        followed=OuterRef("followed"), follower=self.request.user
+                    )
+                )
+            )
+        context["followed_users"] = followed_users
+        return context
+
+
 class ProfileDetailView(DetailView):
 
     context_object_name = "builder"
@@ -164,7 +206,10 @@ class EditProfileFormView(LoginRequiredMixin, FormView):
 @login_required
 def follow_user(request, code):
     builder_profile = get_object_or_404(UserProfile, code=code)
-    Follow.objects.get_or_create(follower=request.user, followed=builder_profile.user)
+    if request.user != builder_profile.user:
+        Follow.objects.get_or_create(
+            follower=request.user, followed=builder_profile.user
+        )
     return redirect(builder_profile.get_absolute_url())
 
 
