@@ -67,7 +67,7 @@ docker compose run web python manage.py migrate <migration_number>
 
 If it was manual, delete the record of the migration from the database and manually reverse the changes made by the migration:
 ```bash
-DELETE FROM django_migrations WHERE name=<migration_name>
+DELETE FROM django_migrations WHERE name='<migration_name>';
 ```
 
 ### Import and export

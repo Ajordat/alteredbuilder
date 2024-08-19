@@ -83,7 +83,7 @@ except google.auth.exceptions.DefaultCredentialsError:
     pass
 
 else:
-    if GCP_PROJECT_ID := env("GOOGLE_CLOUD_PROJECT", default=None):
+    if GCP_PROJECT_ID := env("GOOGLE_CLOUD_PROJECT", default=None):  # pragma: no cover
         # Pull environment variables from Secret Manager
         client = secretmanager.SecretManagerServiceClient()
         settings_name = env("SETTINGS_NAME")
@@ -94,7 +94,7 @@ else:
 DEBUG = env("DEBUG")
 SECRET_KEY = env("SECRET_KEY")
 
-if SERVICE_PUBLIC_URL := env("SERVICE_PUBLIC_URL"):
+if SERVICE_PUBLIC_URL := env("SERVICE_PUBLIC_URL"):  # pragma: no cover
     # If SERVICE_PUBLIC_URL is set it means we're serving publicly
 
     ALLOWED_HOSTS = [urlparse(url).netloc for url in SERVICE_PUBLIC_URL.split(",")]
@@ -138,6 +138,7 @@ INSTALLED_APPS = [
     "hitcount",
     "trends.apps.TrendsConfig",
     "notifications.apps.NotificationsConfig",
+    "profiles.apps.ProfilesConfig",
 ]
 
 MIDDLEWARE = [
@@ -230,7 +231,7 @@ AUTHENTICATION_BACKENDS = [
 
 if DEBUG or not SERVICE_PUBLIC_URL:
     SITE_ID = 1
-else:
+else:  # pragma: no cover
     SITE_ID = 4
 
 LOGIN_URL = reverse_lazy("account_login")
@@ -247,7 +248,7 @@ ACCOUNT_EMAIL_NOTIFICATIONS = True
 ACCOUNT_MAX_EMAIL_ADDRESSES = 3
 
 # Email settings
-if SENDGRID_API_KEY := env("SENDGRID_API_KEY", default=None):
+if SENDGRID_API_KEY := env("SENDGRID_API_KEY", default=None):  # pragma: no cover
     EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
     SENDGRID_SANDBOX_MODE_IN_DEBUG = True
 
@@ -260,6 +261,8 @@ if SENDGRID_API_KEY := env("SENDGRID_API_KEY", default=None):
 else:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
+# Only keep the hits for 30d on the database
+HITCOUNT_KEEP_HIT_IN_DATABASE = {"days": 30}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
@@ -285,7 +288,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-if env("USE_GCS_STATICS") and (statics_bucket := env("GCS_BUCKET_STATICS")):
+if env("USE_GCS_STATICS") and (
+    statics_bucket := env("GCS_BUCKET_STATICS")
+):  # pragma: no cover
     STORAGES = {
         "default": {
             "BACKEND": "django.core.files.storage.FileSystemStorage",

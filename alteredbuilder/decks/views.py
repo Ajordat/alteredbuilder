@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from django.db.models import Exists, F, OuterRef, Q
+from django.db.models import Count, Exists, F, OuterRef, Q
 from django.db.models.manager import Manager
 from django.db.models.query import QuerySet
 from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
@@ -19,7 +19,7 @@ from django.views.generic.list import ListView
 from hitcount.views import HitCountDetailView
 
 from api.utils import ajax_request, ApiJsonResponse
-from .deck_utils import (
+from decks.deck_utils import (
     create_new_deck,
     get_deck_details,
     parse_card_query_syntax,
@@ -27,8 +27,8 @@ from .deck_utils import (
     patch_deck,
     remove_card_from_deck,
 )
-from .game_modes import update_deck_legality
-from .models import (
+from decks.game_modes import update_deck_legality
+from decks.models import (
     Card,
     CardInDeck,
     Comment,
@@ -38,8 +38,9 @@ from .models import (
     PrivateLink,
     Set,
 )
-from .forms import CommentForm, DecklistForm, DeckMetadataForm
-from .exceptions import MalformedDeckException
+from decks.forms import CommentForm, DecklistForm, DeckMetadataForm
+from decks.exceptions import MalformedDeckException
+from profiles.models import Follow
 
 
 class DeckListView(ListView):
@@ -97,7 +98,6 @@ class DeckListView(ListView):
         other_filters = self.request.GET.get("other")
         if other_filters:
             for other in other_filters.split(","):
-                print(other)
                 if other == "loved":
                     try:
                         lp = LovePoint.objects.filter(user=self.request.user)
@@ -113,7 +113,12 @@ class DeckListView(ListView):
                     LovePoint.objects.filter(
                         deck=OuterRef("pk"), user=self.request.user
                     )
-                )
+                ),
+                is_followed=Exists(
+                    Follow.objects.filter(
+                        followed=OuterRef("owner"), follower=self.request.user
+                    )
+                ),
             )
 
         # In the deck list view there's no need for these fields, which might be
@@ -210,12 +215,20 @@ class DeckDetailView(HitCountDetailView):
                     LovePoint.objects.filter(
                         deck=OuterRef("pk"), user=self.request.user
                     )
-                )
+                ),
+                is_followed=Exists(
+                    Follow.objects.filter(
+                        followed=OuterRef("owner"), follower=self.request.user
+                    )
+                ),
             )
-        return (
-            qs.filter(filter).select_related("hero", "owner")
-            # .prefetch_related("comment_set", "comment_set__user")
+        # I don't fancy making these queries here. Maybe I could store that information
+        # on the UserProfile model
+        qs = qs.annotate(
+            follower_count=Count("owner__followers", distinct=True),
+            following_count=Count("owner__following", distinct=True),
         )
+        return qs.filter(filter).select_related("hero", "owner", "owner__profile")
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         """Add metadata of the Deck to the context.
@@ -234,7 +247,9 @@ class DeckDetailView(HitCountDetailView):
             }
         )
         context["comment_form"] = CommentForm()
-        comments_qs = Comment.objects.filter(deck=self.object).select_related("user")
+        comments_qs = Comment.objects.filter(deck=self.object).select_related(
+            "user", "user__profile"
+        )
         if self.request.user.is_authenticated:
             comments_qs = comments_qs.annotate(
                 is_upvoted=Exists(
@@ -272,7 +287,14 @@ class PrivateLinkDeckDetailView(LoginRequiredMixin, DeckDetailView):
             link = PrivateLink.objects.get(code=code, deck__id=deck_id)
             link.last_accessed_at = timezone.now()
             link.save(update_fields=["last_accessed_at"])
-            return Deck.objects.filter(id=deck_id).select_related("hero", "owner")
+            return (
+                Deck.objects.filter(id=deck_id)
+                .select_related("hero", "owner", "owner__profile")
+                .annotate(
+                    follower_count=Count("owner__followers", distinct=True),
+                    following_count=Count("owner__following", distinct=True),
+                )
+            )
         except PrivateLink.DoesNotExist:
             raise Http404("Private link does not exist")
 
@@ -389,7 +411,7 @@ def love_deck(request: HttpRequest, pk: int) -> HttpResponse:
 
 
 @login_required
-@ajax_request
+@ajax_request()
 def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
     """Function to update a deck with AJAX.
 
@@ -441,7 +463,7 @@ def update_deck(request: HttpRequest, pk: int) -> HttpResponse:
 
 
 @login_required
-@ajax_request
+@ajax_request()
 def vote_comment(request: HttpRequest, pk: int, comment_pk: int) -> HttpResponse:
     """Function to upvote a Comment with AJAX.
 
@@ -472,7 +494,7 @@ def vote_comment(request: HttpRequest, pk: int, comment_pk: int) -> HttpResponse
 
 
 @login_required
-@ajax_request
+@ajax_request()
 def delete_comment(request: HttpRequest, pk: int, comment_pk: int) -> HttpResponse:
     """Function to delete a Comment with AJAX.
 
@@ -501,7 +523,7 @@ def delete_comment(request: HttpRequest, pk: int, comment_pk: int) -> HttpRespon
 
 
 @login_required
-@ajax_request
+@ajax_request()
 def create_private_link(request: HttpRequest, pk: int) -> HttpResponse:
     """Function to create a PrivateLink with AJAX.
     Ideally it should be moved to the API app.

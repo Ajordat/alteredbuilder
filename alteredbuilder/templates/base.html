@@ -21,7 +21,6 @@
         <meta property="og:image:type" content="image/png"/>
         <meta property="og:description" content="The place to build, analyze and share Altered TCG decks."/>
         <meta name="description" content="The place to build, analyze and share Altered TCG decks."/>
-        {% comment %} <meta name="viewport" content="width=device-width, initial-scale=1"/> {% endcomment %}
     {% for lang, _ in AVAILABLE_LANGUAGES %}
         <link rel="alternate" hreflang="{{ lang }}" href="{{ request.scheme}}://{{ request.get_host }}{% change_lang lang %}" />
     {% endfor %}
@@ -66,6 +65,10 @@
                         {% url 'new-deck' as item_url %}
                         <li class="nav-item {% if request.path == item_url or request.GET.next == item_url %}{{ tab_selected_class }}{% endif %}">
                             <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-square-plus"></i> {% translate "Import deck" %}</a>
+                        </li>
+                        {% url 'profile-list' as item_url %}
+                        <li class="nav-item {% if request.path == item_url or request.GET.next == item_url %}{{ tab_selected_class }}{% endif %}">
+                            <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-people-group"></i> {% translate "Builders" %}</a>
                         </li>
                     </ul>
 {% endwith %}
@@ -113,25 +116,8 @@
                                 <span class="position-absolute translate-middle p-1 bg-danger border border-light rounded-circle"></span>
 {% endif %}
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end bg-light-subtle" aria-labelledby="notificationDropdown">
-{% if notifications %}
-    {% for notification in notifications %}
-                                <li class="{% if not notification.read %}new-notification{% endif %}">
-                                    <a href="{{ notification.get_absolute_url }}" class="dropdown-item d-block">
-        {% if not notification.read %}
-                                        <span class="position-absolute p-1 bg-danger border border-light rounded-circle"></span>&nbsp;
-        {% endif %}
-                                                {{ notification }}
-                                        <br><small class="text-muted">{% blocktranslate with time_since=notification.created_at|timesince %}{{ time_since }} ago{% endblocktranslate %}</small>
-                                    </a>
-                                </li>
-        {% if forloop.last == False %}
-                                <li><hr class="dropdown-divider my-0"></li>
-        {% endif %}
-    {% endfor %}
-{% else %}
+                            <ul id="notificationList" class="dropdown-menu dropdown-menu-end bg-light-subtle" aria-labelledby="notificationDropdown">
                                 <li class="dropdown-item text-muted disabled">{% translate "No notifications" %}</li>
-{% endif %}
                             </ul>
                         </li>
 {% if user.is_authenticated %}
@@ -151,7 +137,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link active dropdown-toggle text-info-emphasis" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user"></i> {{ user.username }}</a>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item disabled" href="#">{% translate "Profile" %}</a></li>
+                                <li><a class="dropdown-item" href="{{ user.profile.get_absolute_url }}">{% translate "Profile" %}</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="{% url 'account_email' %}?next={{ request.path }}">{% translate "Update email" %}</a></li>
                                 <li><a class="dropdown-item" href="{% url 'account_change_password' %}?next={{ request.path }}">{% translate "Update password" %}</a></li>
@@ -200,6 +186,7 @@
                         <ul class="list-unstyled mb-0">
                             <li class="mb-1"><a href="https://www.patreon.com/Ajordat" target="_blank" class="no-underline"><i class="fa-brands fa-patreon"></i> <u>Patreon</u></a></li>
                             <li class="mb-1"><a href="https://buymeacoffee.com/ajordat" target="_blank" class="no-underline"><i class="fa-solid fa-mug-hot"></i> <u>Buy me a coffee</u></a></li>
+                            <li class="mb-1"><a href="https://fr.tipeee.com/ajordat/" target="_blank" class="no-underline"><img src="{% static "img/tipeeetip.png" %}" height="16px"> <u>Tipeee</u></a></li>
                         </ul>
                     </div>
                     <div class="col">
@@ -224,6 +211,7 @@
                 </div>
             </div>
         </footer>
+        <script src="{% static 'js/notifications.js' %}"></script>
 {% block bodyscripts %}{% endblock %}
     </body>
 </html>

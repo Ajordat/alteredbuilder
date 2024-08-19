@@ -5,22 +5,27 @@ from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.utils.translation import gettext_lazy as _
 
 
-def ajax_request(func):
-    def inner(request: HttpRequest, *args, **kwargs):
+def ajax_request(methods=None):
+    def wrap(func):
+        def inner(request: HttpRequest, *args, **kwargs):
 
-        is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
-        if is_ajax:
-            if request.method == "POST":
-                try:
-                    return func(request, *args, **kwargs)
-                except json.decoder.JSONDecodeError:
-                    return ApiJsonResponse(_("Invalid payload"), HTTPStatus.BAD_REQUEST)
+            is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+            if is_ajax:
+                if request.method in (methods or ["POST"]):
+                    try:
+                        return func(request, *args, **kwargs)
+                    except json.decoder.JSONDecodeError:
+                        return ApiJsonResponse(
+                            _("Invalid payload"), HTTPStatus.BAD_REQUEST
+                        )
+                else:
+                    return ApiJsonResponse(_("Invalid request"), HTTPStatus.BAD_REQUEST)
             else:
-                return ApiJsonResponse(_("Invalid request"), HTTPStatus.BAD_REQUEST)
-        else:
-            return HttpResponse(_("Invalid request"), status=HTTPStatus.BAD_REQUEST)
+                return HttpResponse(_("Invalid request"), status=HTTPStatus.BAD_REQUEST)
 
-    return inner
+        return inner
+
+    return wrap
 
 
 class ApiJsonResponse(JsonResponse):

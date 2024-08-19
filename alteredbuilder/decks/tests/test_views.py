@@ -499,7 +499,6 @@ class CardListViewTestCase(BaseViewTestCase):
         # Search all the cards with a hand cost greater than 2
         value = 2
         response = self.client.get(reverse("cards") + f"?query={quote('hc>')}{value}")
-        # print(response.context)
         query_cards = Card.objects.filter(stats__main_cost__gt=value)
         self.assertQuerySetEqual(
             query_cards, response.context["card_list"], ordered=False
@@ -542,7 +541,6 @@ class CardListViewTestCase(BaseViewTestCase):
         # Search all the cards with a reserve cost greater than 2
         value = 2
         response = self.client.get(reverse("cards") + f"?query={quote('rc>')}{value}")
-        # print(response.context)
         query_cards = Card.objects.filter(stats__recall_cost__gt=value)
         self.assertQuerySetEqual(
             query_cards, response.context["card_list"], ordered=False

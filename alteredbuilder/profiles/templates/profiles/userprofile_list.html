@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load static %}
+{% load deck_styles %}
+
+
+{% block title %}{% translate "Builders" %}{% endblock %}
+
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content-div %}
+class="container py-5"
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+
+        <!-- Introduction Section -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">{% translate "Discover Our Community" %}</h2>
+                <p class="card-text">
+                    {% translate "Welcome to the community hub! Here, you'll find a curated selection of users who are making waves in our platform. Whether you're looking for the latest members, the most popular content creators, or the most followed personalities, you'll find them all here." %}
+                </p>
+                <p class="card-text">
+                    {% translate "Explore these lists to connect with others, get inspired, and see what's trending. Join the conversation and become a part of the vibrant community that powers our platform." %}
+                </p>
+                <p>
+                    <small>{% blocktranslate %}New users in the last 24 hours: {{ recent_users_count }} users{% endblocktranslate %}</small>
+                    {% comment %}<br><small>{% blocktranslate %}New decks in the last 24 hours: {{ new_deck_count }} decks, of which {{ public_new_deck_count }} are public{% endblocktranslate %}</small> {% endcomment %}
+                </p>
+            </div>
+        </div>
+        <!-- Latest Users -->
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="h5 mb-0">{% translate "Latest Users" %}</h2>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+    {% for user in latest_users %}
+                            <li class="list-group-item">
+                                <a href="{{ user.profile.get_absolute_url }}">
+                                    {% if user.is_followed %}<i class="fa-solid fa-star"></i>{% endif %} <strong>{{ user.username|safe_username }}</strong><br>
+                                    <small>{% blocktranslate with date_joined=user.date_joined|date:"M d, Y" %}Joined on {{ date_joined }}{% endblocktranslate %}</small>
+                                </a>
+                            </li>
+    {% empty %}
+                            <li class="list-group-item">{% translate "No users found" %}</li>
+    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Most Viewed Users -->
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h2 class="h5 mb-0">{% translate "Most Viewed Users" %}</h2>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+    {% for user in most_viewed_users %}
+                            <li class="list-group-item">
+                                <a href="{{ user.profile.get_absolute_url }}">
+                                    {% if user.is_followed %}<i class="fa-solid fa-star"></i>{% endif %} <strong>{{ user.username|safe_username }}</strong><br>
+                                    <small>{% blocktranslate count deck_count=user.deck_count %}{{ deck_count }} deck{% plural %}{{ deck_count }} decks{% endblocktranslate %}</small>
+                                </a>
+                            </li>
+    {% empty %}
+                            <li class="list-group-item">{% translate "No users found" %}</li>
+    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Most Followed Users -->
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h2 class="h5 mb-0">{% translate "Most Followed Users" %}</h2>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+    {% for user in most_followed_users %}
+                            <li class="list-group-item">
+                                <a href="{{ user.profile.get_absolute_url }}">
+                                    {% if user.is_followed %}<i class="fa-solid fa-star"></i>{% endif %} <strong>{{ user.username }}</strong><br>
+                                    <small>{% blocktranslate count follower_count=user.follower_count%}{{ follower_count }} Follower{% plural %}{{ follower_count }} Followers{% endblocktranslate%}</small>
+                                </a>
+                            </li>
+    {% empty %}
+                            <li class="list-group-item">{% translate "No users found" %}</li>
+    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

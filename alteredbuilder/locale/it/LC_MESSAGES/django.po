@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-11 22:45+0200\n"
+"POT-Creation-Date: 2024-08-19 20:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: api/utils.py:17 decks/views.py:439
+#: api/utils.py:19 decks/views.py:461
 msgid "Invalid payload"
 msgstr "Carico utile non valido"
 
-#: api/utils.py:19 api/utils.py:21 decks/views.py:524
+#: api/utils.py:22 api/utils.py:24 decks/views.py:546
 msgid "Invalid request"
 msgstr "Richiesta non valida"
 
-#: config/settings.py:270
+#: config/settings.py:273
 msgid "Deutsch"
 msgstr "Tedesco"
 
-#: config/settings.py:271
+#: config/settings.py:274
 msgid "English"
 msgstr "Inglese"
 
-#: config/settings.py:272
+#: config/settings.py:275
 msgid "Spanish"
 msgstr "Spagnolo"
 
-#: config/settings.py:273
+#: config/settings.py:276
 msgid "French"
 msgstr "Francese"
 
-#: config/settings.py:274
+#: config/settings.py:277
 msgid "Italian"
 msgstr "Italiano"
 
@@ -168,27 +168,27 @@ msgstr "Fazioni"
 #: decks/templates/decks/card_list.html:58
 #: decks/templates/decks/card_list.html:99
 #: decks/templates/decks/card_list.html:129
-#: decks/templates/decks/deck_detail.html:191
+#: decks/templates/decks/deck_detail.html:186
 msgid "Rarity"
 msgstr "Rarità"
 
 #: decks/templates/decks/card_list.html:59
-#: decks/templates/decks/deck_detail.html:197
+#: decks/templates/decks/deck_detail.html:192
 msgid "Common"
 msgstr "Comune"
 
 #: decks/templates/decks/card_list.html:60
-#: decks/templates/decks/deck_detail.html:201
+#: decks/templates/decks/deck_detail.html:196
 msgid "Rare"
 msgstr "Rara"
 
 #: decks/templates/decks/card_list.html:61
-#: decks/templates/decks/deck_detail.html:205
+#: decks/templates/decks/deck_detail.html:200
 msgid "Unique"
 msgstr "Unica"
 
 #: decks/templates/decks/card_list.html:64
-#: decks/templates/decks/deck_detail.html:214
+#: decks/templates/decks/deck_detail.html:209
 msgid "Type"
 msgstr "Tipo"
 
@@ -197,9 +197,10 @@ msgid "Character"
 msgstr "Carattere"
 
 #: decks/templates/decks/card_list.html:66
-#: decks/templates/decks/deck_detail.html:128
+#: decks/templates/decks/deck_detail.html:123
 #: decks/templates/decks/own_deck_list.html:24
 #: decks/templates/decks/snippets/public_deck_table.html:13
+#: profiles/templates/profiles/userprofile_detail.html:102
 msgid "Hero"
 msgstr "Eroe"
 
@@ -292,179 +293,181 @@ msgstr "Salvare"
 msgid "Login to share your love!"
 msgstr "Accedi per condividere il tuo amore!"
 
-#: decks/templates/decks/deck_detail.html:61
+#: decks/templates/decks/deck_detail.html:63
 msgid "Share"
 msgstr "Condividi"
 
-#: decks/templates/decks/deck_detail.html:64
+#: decks/templates/decks/deck_detail.html:66
 msgid "Copy link"
 msgstr "Copia collegamento"
 
-#: decks/templates/decks/deck_detail.html:65
+#: decks/templates/decks/deck_detail.html:67
 msgid "Copy decklist"
 msgstr "Copia l'elenco del mazzo"
 
-#: decks/templates/decks/deck_detail.html:67
+#: decks/templates/decks/deck_detail.html:69
 msgid "QR Code"
 msgstr "Codice QR"
 
-#: decks/templates/decks/deck_detail.html:73
+#: decks/templates/decks/deck_detail.html:75
 msgid "Create private link"
 msgstr "Creare un link privato"
 
-#: decks/templates/decks/deck_detail.html:82
+#: decks/templates/decks/deck_detail.html:84
 msgid "Options"
 msgstr "Opzioni"
 
-#: decks/templates/decks/deck_detail.html:85
+#: decks/templates/decks/deck_detail.html:87
 msgid "Edit deck fields"
 msgstr "Modifica campi mazzo"
 
-#: decks/templates/decks/deck_detail.html:86
-#: decks/templates/decks/deck_detail.html:327
+#: decks/templates/decks/deck_detail.html:88
+#: decks/templates/decks/deck_detail.html:322
 msgid "Delete deck"
 msgstr "Elimina mazzo"
 
-#: decks/templates/decks/deck_detail.html:92
+#: decks/templates/decks/deck_detail.html:94
 msgid "This feature cannot be used with unique cards"
 msgstr "Questa funzionalità non può essere utilizzata con carte uniche"
 
-#: decks/templates/decks/deck_detail.html:94
-#: decks/templates/decks/deck_detail.html:100
+#: decks/templates/decks/deck_detail.html:96
+#: decks/templates/decks/deck_detail.html:102
 msgid "Playtest!"
 msgstr "Prova di gioco!"
 
-#: decks/templates/decks/deck_detail.html:98
+#: decks/templates/decks/deck_detail.html:100
 msgid "Try it in Exalts Table"
 msgstr "Provalo nella Tabella degli Esalti"
 
-#: decks/templates/decks/deck_detail.html:106
+#: decks/templates/decks/deck_detail.html:108
 msgid "Copy deck"
 msgstr "Copia mazzo"
 
-#: decks/templates/decks/deck_detail.html:111
+#: decks/templates/decks/deck_detail.html:113
 #: decks/templates/forms/submit_decklist.html:33
 msgid "Decklist"
 msgstr "Elenco dei mazzi"
 
-#: decks/templates/decks/deck_detail.html:132
+#: decks/templates/decks/deck_detail.html:127
 #: decks/templates/decks/own_deck_list.html:22
 #: decks/templates/decks/snippets/card_table.html:9
 #: decks/templates/decks/snippets/public_deck_table.html:11
 #: decks/templates/forms/submit_deck_metadata.html:8
 #: decks/templates/forms/submit_decklist.html:7
+#: profiles/templates/profiles/userprofile_detail.html:100
 #: trends/templates/trends/home.html:55
 msgid "Name"
 msgstr "Nome"
 
-#: decks/templates/decks/deck_detail.html:133
+#: decks/templates/decks/deck_detail.html:128
 #: decks/templates/decks/own_deck_list.html:23
 #: decks/templates/decks/snippets/public_deck_table.html:12
+#: profiles/templates/profiles/userprofile_detail.html:101
 msgid "Faction"
 msgstr "Fazione"
 
-#: decks/templates/decks/deck_detail.html:145
+#: decks/templates/decks/deck_detail.html:140
 #: decks/templates/decks/snippets/card_table.html:25
 msgid "Go to details"
 msgstr "Vai ai dettagli"
 
-#: decks/templates/decks/deck_detail.html:146
+#: decks/templates/decks/deck_detail.html:141
 #: decks/templates/decks/snippets/card_table.html:26
 msgid "Copy card reference"
 msgstr "Copiare il riferimento della scheda"
 
-#: decks/templates/decks/deck_detail.html:148
+#: decks/templates/decks/deck_detail.html:143
 #: decks/templates/decks/snippets/card_table.html:28
 msgid "Remove card"
 msgstr "Rimuovi scheda"
 
-#: decks/templates/decks/deck_detail.html:155
+#: decks/templates/decks/deck_detail.html:150
 msgid "No hero"
 msgstr "Nessun eroe"
 
-#: decks/templates/decks/deck_detail.html:162
-#: decks/templates/decks/deck_detail.html:221
+#: decks/templates/decks/deck_detail.html:157
+#: decks/templates/decks/deck_detail.html:216
 msgid "Characters"
 msgstr "Personaggi"
 
-#: decks/templates/decks/deck_detail.html:167
-#: decks/templates/decks/deck_detail.html:226
+#: decks/templates/decks/deck_detail.html:162
+#: decks/templates/decks/deck_detail.html:221
 msgid "Spells"
 msgstr "Incantesimi"
 
-#: decks/templates/decks/deck_detail.html:172
-#: decks/templates/decks/deck_detail.html:231
+#: decks/templates/decks/deck_detail.html:167
+#: decks/templates/decks/deck_detail.html:226
 msgid "Permanents"
 msgstr "Permanenti"
 
-#: decks/templates/decks/deck_detail.html:180
+#: decks/templates/decks/deck_detail.html:175
 msgid "Stats"
 msgstr "Statistiche"
 
-#: decks/templates/decks/deck_detail.html:183
+#: decks/templates/decks/deck_detail.html:178
 msgid "Card Type Distribution"
 msgstr "Distribuzione del tipo di carta"
 
-#: decks/templates/decks/deck_detail.html:187
+#: decks/templates/decks/deck_detail.html:182
 msgid "Rarity distribution"
 msgstr "Distribuzione delle rarità"
 
-#: decks/templates/decks/deck_detail.html:192
+#: decks/templates/decks/deck_detail.html:187
 msgid "Count"
 msgstr "Conteggio"
 
-#: decks/templates/decks/deck_detail.html:210
+#: decks/templates/decks/deck_detail.html:205
 msgid "Probability of drawing"
 msgstr "Probabilità di pareggio"
 
-#: decks/templates/decks/deck_detail.html:215
+#: decks/templates/decks/deck_detail.html:210
 msgid "Anytime"
 msgstr "In qualsiasi momento"
 
-#: decks/templates/decks/deck_detail.html:216
+#: decks/templates/decks/deck_detail.html:211
 msgid "Initial hand"
 msgstr "Mano iniziale"
 
-#: decks/templates/decks/deck_detail.html:237
+#: decks/templates/decks/deck_detail.html:232
 msgid "Format legality"
 msgstr "Legittimità del formato"
 
-#: decks/templates/decks/deck_detail.html:241
+#: decks/templates/decks/deck_detail.html:236
 msgid "Format"
 msgstr "Formato"
 
-#: decks/templates/decks/deck_detail.html:242
+#: decks/templates/decks/deck_detail.html:237
 msgid "Is it legal?"
 msgstr "È legale?"
 
-#: decks/templates/decks/deck_detail.html:243
+#: decks/templates/decks/deck_detail.html:238
 msgid "Notes"
 msgstr "Note"
 
-#: decks/templates/decks/deck_detail.html:248
+#: decks/templates/decks/deck_detail.html:243
 #: decks/templates/decks/deck_list.html:55
 #: decks/templates/decks/tooltips/legality.html:5
 msgid "Standard"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:250
-#: decks/templates/decks/deck_detail.html:264
-#: decks/templates/decks/deck_detail.html:274
+#: decks/templates/decks/deck_detail.html:245
+#: decks/templates/decks/deck_detail.html:259
+#: decks/templates/decks/deck_detail.html:269
 msgid "Yes"
 msgstr "Sì"
 
-#: decks/templates/decks/deck_detail.html:253
-#: decks/templates/decks/deck_detail.html:267
-#: decks/templates/decks/deck_detail.html:277
+#: decks/templates/decks/deck_detail.html:248
+#: decks/templates/decks/deck_detail.html:262
+#: decks/templates/decks/deck_detail.html:272
 msgid "No"
 msgstr "No"
 
-#: decks/templates/decks/deck_detail.html:262
+#: decks/templates/decks/deck_detail.html:257
 #: decks/templates/decks/tooltips/legality.html:6
 msgid "ExAlts Championship"
 msgstr "Campionato ExAlts"
 
-#: decks/templates/decks/deck_detail.html:268
+#: decks/templates/decks/deck_detail.html:263
 msgid ""
 "This mode works the same as Standard but replaces the 3 uniques with 3 extra "
 "rares."
@@ -472,80 +475,80 @@ msgstr ""
 "Questa modalità funziona come la Standard, ma sostituisce le 3 carte uniche "
 "con 3 carte rare extra."
 
-#: decks/templates/decks/deck_detail.html:272
+#: decks/templates/decks/deck_detail.html:267
 #: decks/templates/decks/deck_list.html:57
 msgid "Draft"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:289
+#: decks/templates/decks/deck_detail.html:284
 msgid "Mana curve"
 msgstr "Curva di mana"
 
-#: decks/templates/decks/deck_detail.html:307
+#: decks/templates/decks/deck_detail.html:302
 msgid "Edit deck"
 msgstr "Modifica mazzo"
 
-#: decks/templates/decks/deck_detail.html:317
+#: decks/templates/decks/deck_detail.html:312
 msgid "Cancel"
 msgstr "Annulla"
 
-#: decks/templates/decks/deck_detail.html:318
+#: decks/templates/decks/deck_detail.html:313
 msgid "Apply"
 msgstr "Applica"
 
-#: decks/templates/decks/deck_detail.html:331
+#: decks/templates/decks/deck_detail.html:326
 msgid "Are you sure you want to delete this deck?"
 msgstr "Sei sicuro di voler eliminare questo mazzo?"
 
-#: decks/templates/decks/deck_detail.html:331
+#: decks/templates/decks/deck_detail.html:326
 msgid "It won't be possible to recover it later."
 msgstr "Non sarà possibile recuperarlo in seguito."
 
-#: decks/templates/decks/deck_detail.html:334
-#: decks/templates/decks/deck_detail.html:353
+#: decks/templates/decks/deck_detail.html:329
+#: decks/templates/decks/deck_detail.html:348
 msgid "Close"
 msgstr "Chiudi"
 
-#: decks/templates/decks/deck_detail.html:335
-#: decks/templates/decks/deck_detail.html:391
+#: decks/templates/decks/deck_detail.html:330
+#: decks/templates/decks/deck_detail.html:386
 msgid "Delete"
 msgstr "Elimina"
 
-#: decks/templates/decks/deck_detail.html:346
+#: decks/templates/decks/deck_detail.html:341
 msgid "Deck QR Code"
 msgstr "Codice QR del ponte"
 
-#: decks/templates/decks/deck_detail.html:354
+#: decks/templates/decks/deck_detail.html:349
 msgid "Copy"
 msgstr "Copia"
 
-#: decks/templates/decks/deck_detail.html:355
+#: decks/templates/decks/deck_detail.html:350
 msgid "Download"
 msgstr "Scarica"
 
-#: decks/templates/decks/deck_detail.html:363
+#: decks/templates/decks/deck_detail.html:358
 #, python-format
 msgid "%(comment_count)s comment"
 msgid_plural "%(comment_count)s comments"
 msgstr[0] "%(comment_count)s commento"
 msgstr[1] "%(comment_count)s commenti"
 
-#: decks/templates/decks/deck_detail.html:366
+#: decks/templates/decks/deck_detail.html:361
 msgid "Comments"
 msgstr "Commenti"
 
-#: decks/templates/decks/deck_detail.html:380
+#: decks/templates/decks/deck_detail.html:375
 msgid "Login to use this feature!"
 msgstr "Effettuare il login per utilizzare questa funzione!"
 
-#: decks/templates/decks/deck_detail.html:381 templates/base.html:165
+#: decks/templates/decks/deck_detail.html:376 templates/base.html:150
 msgid "Login"
 msgstr "Accedi"
 
-#: decks/templates/decks/deck_detail.html:404
+#: decks/templates/decks/deck_detail.html:399
 #: decks/templates/decks/own_deck_list.html:56
 #: decks/templates/decks/snippets/public_deck_table.html:54
-#: templates/base.html:126
+#: notifications/views.py:57
 #, python-format
 msgid "%(time_since)s ago"
 msgstr "%(time_since)s fa"
@@ -595,7 +598,7 @@ msgstr "Nuovo mazzo"
 
 #: decks/templates/decks/own_deck_list.html:6
 #: decks/templates/decks/own_deck_list.html:7
-#: decks/templates/decks/own_deck_list.html:17 templates/base.html:65
+#: decks/templates/decks/own_deck_list.html:17 templates/base.html:63
 msgid "My decks"
 msgstr "I miei mazzi"
 
@@ -605,6 +608,7 @@ msgstr "È pubblico?"
 
 #: decks/templates/decks/own_deck_list.html:31
 #: decks/templates/decks/snippets/public_deck_table.html:19
+#: profiles/templates/profiles/userprofile_detail.html:103
 msgid "Last updated"
 msgstr "Ultimo aggiornamento"
 
@@ -833,115 +837,308 @@ msgstr "Vuoi che il tuo mazzo sia pubblico?"
 msgid "Import"
 msgstr "Importa"
 
-#: decks/views.py:419
+#: decks/views.py:441
 msgid "The deck must have a name"
 msgstr "Il mazzo deve avere un nome"
 
-#: decks/views.py:435 decks/views.py:498 decks/views.py:535
+#: decks/views.py:457 decks/views.py:520 decks/views.py:557
 msgid "Deck not found"
 msgstr "Mazzo non trovato"
 
-#: decks/views.py:437
+#: decks/views.py:459
 msgid "Card not found"
 msgstr "Carta non trovata"
 
-#: decks/views.py:469 decks/views.py:496
+#: decks/views.py:491 decks/views.py:518
 msgid "Comment not found"
 msgstr "Commento non trovato"
 
-#: notifications/models.py:31
+#: notifications/models.py:32
 #, python-format
 msgid "%(actor)s commented on deck '%(deck_name)s'"
 msgstr "%(actor)s ha commentato il mazzo '%(deck_name)s'"
 
-#: notifications/models.py:37
+#: notifications/models.py:38
 #, python-format
 msgid "%(love_count)s user liked your deck '%(deck_name)s'"
 msgid_plural "%(love_count)s users liked your deck '%(deck_name)s'"
 msgstr[0] "A %(love_count)s utente è piaciuto il tuo mazzo '%(deck_name)s'"
 msgstr[1] "A %(love_count)s utenti è piaciuto il tuo mazzo '%(deck_name)s'"
 
-#: notifications/models.py:45
+#: notifications/models.py:46
+#, python-format
+msgid "%(actor)s created deck '%(deck_name)s'"
+msgstr "%(actor)s ha creato il mazzo '%(deck_name)s'"
+
+#: notifications/models.py:51
 msgid "New notification"
 msgstr "Nuova notifica"
 
-#: templates/base.html:53
+#: profiles/templates/profiles/edit_profile.html:7
+#: profiles/templates/profiles/edit_profile.html:11
+#: profiles/templates/profiles/userprofile_detail.html:44
+msgid "Edit Profile"
+msgstr "Modifica il profilo"
+
+#: profiles/templates/profiles/edit_profile.html:15
+#, python-format
+msgid "Biography (feel free to use <a href=\"%(md_url)s\">markdown</a>):"
+msgstr ""
+"Biografia (sentiti libero di utilizzare <a href=\"%(md_url)s\">markdown</a>):"
+
+#: profiles/templates/profiles/edit_profile.html:23
+msgid "Social accounts"
+msgstr "Account social"
+
+#: profiles/templates/profiles/edit_profile.html:25
+msgid "Altered handle:"
+msgstr "Profilo di Altered:"
+
+#: profiles/templates/profiles/edit_profile.html:40
+msgid "Make your Discord handle public?"
+msgstr "Rendere pubblico il profilo di Discord?"
+
+#: profiles/templates/profiles/edit_profile.html:46
+msgid "Save Changes"
+msgstr "Salva le modifiche"
+
+#: profiles/templates/profiles/followers_list.html:8
+#: profiles/templates/profiles/followers_list.html:11
+#: profiles/templates/profiles/followers_list.html:20
+msgid "Followers of %(username)s"
+msgstr "Seguaci di %(username)s"
+
+#: profiles/templates/profiles/followers_list.html:26
+msgid "Followed Users"
+msgstr "Utenti seguiti"
+
+#: profiles/templates/profiles/followers_list.html:34
+#: profiles/templates/profiles/followers_list.html:72
+#, python-format
+msgid "Since: %(created_at)s"
+msgstr "Da: %(created_at)s"
+
+#: profiles/templates/profiles/followers_list.html:41
+#: profiles/templates/profiles/userprofile_detail.html:46
+msgid "Unfollow"
+msgstr "Unfollow"
+
+#: profiles/templates/profiles/followers_list.html:46
+#: profiles/templates/profiles/userprofile_detail.html:48
+msgid "Follow"
+msgstr "Seguire"
+
+#: profiles/templates/profiles/followers_list.html:53
+#, python-format
+msgid "%(username)s doesn't follow anyone yet."
+msgstr "%(username)s non segue ancora nessuno."
+
+#: profiles/templates/profiles/followers_list.html:64
+msgid "Followers"
+msgstr "Seguaci"
+
+#: profiles/templates/profiles/followers_list.html:93
+#, python-format
+msgid "%(username)s doesn't have any followers yet. You can be the first!"
+msgstr "%(username)s non ha ancora nessun follower. Puoi essere il primo!"
+
+#: profiles/templates/profiles/tooltips/user_profile.html:10
+#: profiles/templates/profiles/userprofile_detail.html:31
+#, python-format
+msgid "Joined on: %(date_joined)s"
+msgstr "Iscritto il: %(date_joined)s"
+
+#: profiles/templates/profiles/tooltips/user_profile.html:11
+#: profiles/templates/profiles/userprofile_detail.html:34
+#: profiles/templates/profiles/userprofile_list.html:97
+#, python-format
+msgid "%(follower_count)s Follower"
+msgid_plural "%(follower_count)s Followers"
+msgstr[0] "%(follower_count)s Follower"
+msgstr[1] "%(follower_count)s Followers"
+
+#: profiles/templates/profiles/tooltips/user_profile.html:12
+#: profiles/templates/profiles/userprofile_detail.html:35
+#, python-format
+msgid "%(following_count)s Following"
+msgid_plural "%(following_count)s Following"
+msgstr[0] "%(following_count)s Seguiti"
+msgstr[1] "%(following_count)s Seguiti"
+
+#: profiles/templates/profiles/userprofile_detail.html:10
+#: profiles/templates/profiles/userprofile_detail.html:12
+#, python-format
+msgid "Profile of %(username)s"
+msgstr "Profilo di %(username)s"
+
+#: profiles/templates/profiles/userprofile_detail.html:39
+msgid "View"
+msgstr "Vedere"
+
+#: profiles/templates/profiles/userprofile_detail.html:66
+msgid "Faction Distribution"
+msgstr "Distribuzione delle fazioni"
+
+#: profiles/templates/profiles/userprofile_detail.html:79
+msgid "Bio"
+msgstr "Bio"
+
+#: profiles/templates/profiles/userprofile_detail.html:85
+msgid "Empty bio"
+msgstr "Nessuna bio"
+
+#: profiles/templates/profiles/userprofile_detail.html:92
+#, python-format
+msgid "Decks by %(username)s"
+msgstr "Mazzi di %(username)s"
+
+#: profiles/templates/profiles/userprofile_detail.html:141
+msgid "No decks found"
+msgstr "Nessun mazzo trovato"
+
+#: profiles/templates/profiles/userprofile_list.html:8 templates/base.html:71
+#: templates/releases/1.10.0.html:17
+msgid "Builders"
+msgstr "Utenti"
+
+#: profiles/templates/profiles/userprofile_list.html:25
+msgid "Discover Our Community"
+msgstr "Scopri la Nostra Comunità"
+
+#: profiles/templates/profiles/userprofile_list.html:27
+msgid ""
+"Welcome to the community hub! Here, you'll find a curated selection of users "
+"who are making waves in our platform. Whether you're looking for the latest "
+"members, the most popular content creators, or the most followed "
+"personalities, you'll find them all here."
+msgstr ""
+"Benvenuto nel centro della comunità! Qui troverai una selezione curata di "
+"utenti che stanno facendo parlare di sé sulla nostra piattaforma. Che tu "
+"stia cercando i membri più recenti, i creatori di contenuti più popolari o "
+"le personalità più seguite, li troverai tutti qui."
+
+#: profiles/templates/profiles/userprofile_list.html:30
+msgid ""
+"Explore these lists to connect with others, get inspired, and see what's "
+"trending. Join the conversation and become a part of the vibrant community "
+"that powers our platform."
+msgstr ""
+"Esplora queste liste per connetterti con gli altri, trovare ispirazione e "
+"vedere cosa è in tendenza. Unisciti alla conversazione e diventa parte della "
+"vibrante comunità che alimenta la nostra piattaforma."
+
+#: profiles/templates/profiles/userprofile_list.html:33
+#, python-format
+msgid "New users in the last 24 hours: %(recent_users_count)s users"
+msgstr "Nuovi utenti nelle ultime 24 ore: %(recent_users_count)s utenti"
+
+#: profiles/templates/profiles/userprofile_list.html:43
+msgid "Latest Users"
+msgstr "Ultimi utenti"
+
+#: profiles/templates/profiles/userprofile_list.html:51
+#, python-format
+msgid "Joined on %(date_joined)s"
+msgstr "Iscritto il %(date_joined)s"
+
+#: profiles/templates/profiles/userprofile_list.html:55
+#: profiles/templates/profiles/userprofile_list.html:78
+#: profiles/templates/profiles/userprofile_list.html:101
+msgid "No users found"
+msgstr "Nessun utente trovato"
+
+#: profiles/templates/profiles/userprofile_list.html:66
+msgid "Most Viewed Users"
+msgstr "Utenti più visti"
+
+#: profiles/templates/profiles/userprofile_list.html:74
+#, python-format
+msgid "%(deck_count)s deck"
+msgid_plural "%(deck_count)s decks"
+msgstr[0] "%(deck_count)s mazzo"
+msgstr[1] "%(deck_count)s mazzi"
+
+#: profiles/templates/profiles/userprofile_list.html:89
+msgid "Most Followed Users"
+msgstr "Utenti più seguiti"
+
+#: templates/base.html:51
 msgid "Home"
 msgstr "Casa"
 
-#: templates/base.html:57
+#: templates/base.html:55
 msgid "Decks"
 msgstr "Mazzi"
 
-#: templates/base.html:61
+#: templates/base.html:59
 msgid "Cards"
 msgstr "Carte"
 
-#: templates/base.html:69
+#: templates/base.html:67
 msgid "Import deck"
 msgstr "Importa un mazzo"
 
-#: templates/base.html:81
+#: templates/base.html:83
 msgid "Light"
 msgstr "Luce"
 
-#: templates/base.html:86
+#: templates/base.html:88
 msgid "Dark"
 msgstr "Buio"
 
-#: templates/base.html:91
+#: templates/base.html:93
 msgid "Auto"
 msgstr "Automatico"
 
-#: templates/base.html:134
+#: templates/base.html:120
 msgid "No notifications"
 msgstr "Nessuna notifica"
 
-#: templates/base.html:155
+#: templates/base.html:140
 msgid "Profile"
 msgstr "Profilo"
 
-#: templates/base.html:157
+#: templates/base.html:142
 msgid "Update email"
 msgstr "Aggiorna e-mail"
 
-#: templates/base.html:158
+#: templates/base.html:143
 msgid "Update password"
 msgstr "Aggiorna password"
 
-#: templates/base.html:160
+#: templates/base.html:145
 msgid "Logout"
 msgstr "Esci"
 
-#: templates/base.html:180
+#: templates/base.html:165
 msgid "Links"
 msgstr "Collegamenti"
 
-#: templates/base.html:183
+#: templates/base.html:168
 msgid "About the project"
 msgstr "Informazioni sul progetto"
 
-#: templates/base.html:186
+#: templates/base.html:171
 msgid "About the author"
 msgstr "Informazioni sull'autore"
 
-#: templates/base.html:189
+#: templates/base.html:174
 msgid "Collaborators"
 msgstr "Collaboratori"
 
-#: templates/base.html:192
+#: templates/base.html:177
 msgid "Privacy policy"
 msgstr "Informativa sulla privacy"
 
-#: templates/base.html:195
+#: templates/base.html:180
 msgid "Terms and conditions"
 msgstr "Termini e condizioni"
 
-#: templates/base.html:200
+#: templates/base.html:185
 msgid "Support the project"
 msgstr "Aiutare il progetto"
 
-#: templates/base.html:207
+#: templates/base.html:193
 msgid "Get in touch"
 msgstr "Contattaci"
 
@@ -965,26 +1162,28 @@ msgstr ""
 "Sembra che il server abbia riscontrato un problema nel tentativo di "
 "elaborare la tua richiesta. "
 
-#: templates/releases/1.8.3.html:4 templates/releases/1.9.0.html:4
-#: templates/releases/release_template.html:4
+#: templates/releases/1.10.0.html:12 templates/releases/1.8.3.html:4
+#: templates/releases/1.9.0.html:4 templates/releases/release_template.html:4
 msgid "New features:"
 msgstr "Nuove funzionalità:"
+
+#: templates/releases/1.10.0.html:25 templates/releases/1.9.0.html:12
+#: templates/releases/release_template.html:16
+msgid "Other changes:"
+msgstr "Altre modifiche:"
+
+#: templates/releases/1.10.0.html:32 templates/releases/1.9.0.html:22
+#: templates/releases/release_template.html:23
+msgid "Announcements:"
+msgstr "Annunci:"
 
 #: templates/releases/1.8.3.html:15 templates/releases/release_template.html:10
 msgid "Fixes:"
 msgstr "Correzioni:"
 
-#: templates/releases/1.8.3.html:23 templates/releases/release_template.html:16
+#: templates/releases/1.8.3.html:23
 msgid "Other:"
 msgstr "Altri:"
-
-#: templates/releases/1.9.0.html:11
-msgid "Other changes:"
-msgstr "Altre modifiche:"
-
-#: templates/releases/1.9.0.html:20
-msgid "Announcements:"
-msgstr "Annunci:"
 
 #: templates/socialaccount/authentication_error.html:5
 #: templates/socialaccount/authentication_error.html:9
@@ -1031,6 +1230,12 @@ msgstr "Carte popolari"
 msgid "Trending decks"
 msgstr "Mazzi di tendenza"
 
+#~ msgid "Deck Name"
+#~ msgstr "Nome del mazzo:"
+
+#~ msgid "Last Modified"
+#~ msgstr "Ultimo aggiornamento"
+
 #~ msgid "Search by deck or hero name"
 #~ msgstr "Cerca per mazzo o nome dell'eroe"
 
@@ -1051,9 +1256,6 @@ msgstr "Mazzi di tendenza"
 
 #~ msgid "Card"
 #~ msgstr "Carta"
-
-#~ msgid "No decks found"
-#~ msgstr "Nessun mazzo trovato"
 
 #~ msgid "Add"
 #~ msgstr "Aggiungi"

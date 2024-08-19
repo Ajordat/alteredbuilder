@@ -10,6 +10,8 @@
 
 #card-showcase {
     max-height: 500px;
+    position: sticky;
+    top: 60px;
 }
 
 #deck-qr-code{
@@ -17,6 +19,16 @@
     height: 200px;
     margin: auto;
     background-color: #fff;
+}
+
+span.bio {
+    font-weight: bold;
+    /* color: #333; */
+    background-color: var(--bs-info-bg-subtle); 
+    display: block;
+    text-align: left;
+    margin-top: 0.25rem;
+    max-width: 160px;
 }
 
 .card-table tr span.hand-mana {

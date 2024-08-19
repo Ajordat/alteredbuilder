@@ -46,3 +46,7 @@ html[data-bs-theme="light"] .new-notification {
 html[data-bs-theme="dark"] .new-notification {
     background-color: rgba(var(--bs-secondary-rgb), 1); /* bg-secondary */
 }
+
+i.fa-star {
+    color: rgb(255, 193, 7); /* text-warning */
+}

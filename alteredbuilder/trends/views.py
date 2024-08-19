@@ -7,7 +7,8 @@ from django.views.generic.base import TemplateView
 from hitcount.models import Hit
 
 from decks.models import Card, Deck, LovePoint
-from .models import CardTrend, FactionTrend, HeroTrend
+from profiles.models import Follow
+from trends.models import CardTrend, FactionTrend, HeroTrend
 
 
 class HomeView(TemplateView):
@@ -67,7 +68,12 @@ class HomeView(TemplateView):
                     LovePoint.objects.filter(
                         deck=OuterRef("pk"), user=self.request.user
                     )
-                )
+                ),
+                is_followed=Exists(
+                    Follow.objects.filter(
+                        followed=OuterRef("owner"), follower=self.request.user
+                    )
+                ),
             )
         context["trending"] = trending_decks
 
