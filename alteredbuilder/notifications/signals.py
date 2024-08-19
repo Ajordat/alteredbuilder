@@ -60,8 +60,8 @@ def delete_love_notification(sender, instance: LovePoint, **kwargs):
 @receiver(post_save, sender=Deck)
 def create_deck_notification(sender, instance: Deck, created, **kwargs):
     content_type = ContentType.objects.get_for_model(instance)
+    creator = instance.owner
     if created and instance.is_public:
-        creator = instance.owner
         follows = Follow.objects.filter(followed=creator)
         notifications = []
 
@@ -81,7 +81,7 @@ def create_deck_notification(sender, instance: Deck, created, **kwargs):
         # it if it wasn't needed to perform a db operation every time, but it seems to
         # be the fastest way right now
         # https://medium.com/@mmzeynalli/how-to-detect-field-changes-in-django-ae4bc719aea2
-        Notification.objects.filter(content_type=content_type, object_id=instance.id).delete()
+        Notification.objects.filter(content_type=content_type, object_id=instance.id).exclude(recipient=creator).delete()
 
 
 @receiver(pre_delete, sender=Deck)
