@@ -75,14 +75,15 @@ class ProfilesViewsTestCase(TestCase):
         user_decks = Deck.objects.filter(owner=user, is_public=True)
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, "profiles/userprofile_detail.html")
-        self.assertIn("builder", response.context)
+
         self.assertEqual(response.context["builder"], user)
         with self.assertRaises(AttributeError):
             response.context["builder"].is_followed
+
         self.assertQuerySetEqual(response.context["deck_list"], user_decks)
         with self.assertRaises(AttributeError):
             response.context["deck_list"][0].is_loved
-        self.assertIn("faction_distribution", response.context)
+
         self.assertDictEqual(
             dict(response.context["faction_distribution"]),
             {user_decks[0].hero.get_faction_display(): 1},
@@ -111,7 +112,7 @@ class ProfilesViewsTestCase(TestCase):
     def test_follow_user_unauthenticated(self):
         followed = User.objects.get(username="user1")
 
-        url = reverse("profile-follow", kwargs={"code": followed.profile.code})
+        url = followed.profile.get_follow_url()
         response = self.client.get(url)
 
         self.assertRedirects(
@@ -136,7 +137,7 @@ class ProfilesViewsTestCase(TestCase):
         Follow.objects.filter(follower=follower, followed=followed).delete()
 
         self.client.force_login(follower)
-        url = reverse("profile-follow", kwargs={"code": followed.profile.code})
+        url = followed.profile.get_follow_url()
         response = self.client.get(url)
 
         self.assertRedirects(
@@ -159,7 +160,7 @@ class ProfilesViewsTestCase(TestCase):
     def test_unfollow_user_unauthenticated(self):
         followed = User.objects.get(username="user3")
 
-        url = reverse("profile-unfollow", kwargs={"code": followed.profile.code})
+        url = followed.profile.get_unfollow_url()
         response = self.client.get(url)
 
         self.assertRedirects(
@@ -186,7 +187,7 @@ class ProfilesViewsTestCase(TestCase):
         )
 
         self.client.force_login(follower)
-        url = reverse("profile-unfollow", kwargs={"code": followed.profile.code})
+        url = followed.profile.get_unfollow_url()
         response = self.client.get(url)
 
         self.assertRedirects(
@@ -205,3 +206,48 @@ class ProfilesViewsTestCase(TestCase):
         self.assertFalse(
             Follow.objects.filter(follower=follower, followed=followed).exists()
         )
+
+    def test_follow_list_view_unauthenticated(self):
+        user = User.objects.get(username="user2")
+
+        response = self.client.get(user.profile.get_followers_url())
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, "profiles/followers_list.html")
+        self.assertEqual(response.context["builder"], user)
+
+        followers = Follow.objects.filter(followed=user)
+        self.assertQuerySetEqual(
+            response.context["followers"], followers, ordered=False
+        )
+        with self.assertRaises(AttributeError):
+            response.context["followers"][0].is_followed
+
+        followed = Follow.objects.filter(follower=user)
+        self.assertQuerySetEqual(
+            response.context["followed_users"], followed, ordered=False
+        )
+        with self.assertRaises(AttributeError):
+            response.context["followed_users"][0].is_followed
+
+    def test_follow_list_view_authenticated(self):
+        user = User.objects.get(username="user2")
+
+        self.client.force_login(User.objects.get(username="user3"))
+        response = self.client.get(user.profile.get_followers_url())
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, "profiles/followers_list.html")
+        self.assertEqual(response.context["builder"], user)
+
+        followers = Follow.objects.filter(followed=user)
+        self.assertQuerySetEqual(
+            response.context["followers"], followers, ordered=False
+        )
+        self.assertIsInstance(response.context["followers"][0].is_followed, bool)
+
+        followed = Follow.objects.filter(follower=user)
+        self.assertQuerySetEqual(
+            response.context["followed_users"], followed, ordered=False
+        )
+        self.assertIsInstance(response.context["followed_users"][0].is_followed, bool)

@@ -20,7 +20,7 @@ class NotificationAdmin(admin.ModelAdmin):
     actions = ["mark_read", "mark_new"]
 
     @admin.action(description="Mark selected notifications as read")
-    def mark_read(self, request, queryset):  # pragma: no cover
+    def mark_read(self, request, queryset):
         updated = queryset.update(read=True)
         if updated == 1:
             self.message_user(request, f"{updated} notification was marked as read.")
@@ -28,7 +28,7 @@ class NotificationAdmin(admin.ModelAdmin):
             self.message_user(request, f"{updated} notifications were marked as read.")
 
     @admin.action(description="Mark selected notifications as new")
-    def mark_new(self, request, queryset):  # pragma: no cover
+    def mark_new(self, request, queryset):
         updated = queryset.update(read=False)
         if updated == 1:
             self.message_user(request, f"{updated} notification was marked as new.")

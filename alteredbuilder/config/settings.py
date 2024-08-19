@@ -288,7 +288,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-if env("USE_GCS_STATICS") and (statics_bucket := env("GCS_BUCKET_STATICS")):  # pragma: no cover
+if env("USE_GCS_STATICS") and (
+    statics_bucket := env("GCS_BUCKET_STATICS")
+):  # pragma: no cover
     STORAGES = {
         "default": {
             "BACKEND": "django.core.files.storage.FileSystemStorage",

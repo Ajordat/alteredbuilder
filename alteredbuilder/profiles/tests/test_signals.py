@@ -13,7 +13,4 @@ class ProfilesSignalsTestCase(TestCase):
         user.refresh_from_db()
 
         self.assertIsNotNone(user.profile)
-        try:
-            UserProfile.objects.get(user=user)
-        except UserProfile.DoesNotExist:  # pragma: no cover
-            self.fail("UserProfile was not created")
+        self.assertTrue(UserProfile.objects.filter(user=user).exists())

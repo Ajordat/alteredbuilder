@@ -87,7 +87,7 @@ class ProfileListView(ListView):
 class FollowersListView(ListView):
     template_name = "profiles/followers_list.html"
     context_object_name = "followers"
-    paginate_by = 10
+    paginate_by = 20
 
     def get_queryset(self) -> QuerySet[Any]:
         self.builder = get_user_model().objects.get(profile__code=self.kwargs["code"])
