@@ -95,7 +95,7 @@ urlpatterns += i18n_patterns(
     ),
 )
 
-if settings.DEBUG:
+if settings.DEBUG:  # pragma: no cover
     # Only include django-debug-toolbar in debug mode
     urlpatterns += [path("__debug__/", include("debug_toolbar.urls"))]
 

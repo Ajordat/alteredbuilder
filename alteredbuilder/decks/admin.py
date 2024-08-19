@@ -22,13 +22,9 @@ class ReadOnlyAdminMixin(object):
 
     def __init__(self, *args, **kwargs):
         super(ReadOnlyAdminMixin, self).__init__(*args, **kwargs)
-        # self.readonly_fields = [f.name for f in self.model._meta.get_fields()]
 
     def get_actions(self, request: HttpRequest) -> OrderedDict[Any, Any]:
         actions = super(ReadOnlyAdminMixin, self).get_actions(request)
-        # del_action = "delete_selected"
-        # if del_action in actions:
-        #     del actions[del_action]
         return actions
 
     def has_add_permission(self, request: HttpRequest) -> bool:

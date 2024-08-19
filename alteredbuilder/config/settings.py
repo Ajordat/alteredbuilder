@@ -248,7 +248,7 @@ ACCOUNT_EMAIL_NOTIFICATIONS = True
 ACCOUNT_MAX_EMAIL_ADDRESSES = 3
 
 # Email settings
-if SENDGRID_API_KEY := env("SENDGRID_API_KEY", default=None):
+if SENDGRID_API_KEY := env("SENDGRID_API_KEY", default=None):  # pragma: no cover
     EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
     SENDGRID_SANDBOX_MODE_IN_DEBUG = True
 
@@ -288,7 +288,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-if env("USE_GCS_STATICS") and (statics_bucket := env("GCS_BUCKET_STATICS")):
+if env("USE_GCS_STATICS") and (statics_bucket := env("GCS_BUCKET_STATICS")):  # pragma: no cover
     STORAGES = {
         "default": {
             "BACKEND": "django.core.files.storage.FileSystemStorage",
