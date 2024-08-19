@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-19 00:20+0200\n"
+"POT-Creation-Date: 2024-08-19 20:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -198,7 +198,7 @@ msgstr ""
 #: decks/templates/decks/deck_detail.html:123
 #: decks/templates/decks/own_deck_list.html:24
 #: decks/templates/decks/snippets/public_deck_table.html:13
-#: profiles/templates/profiles/userprofile_detail.html:94
+#: profiles/templates/profiles/userprofile_detail.html:102
 msgid "Hero"
 msgstr ""
 
@@ -352,7 +352,7 @@ msgstr ""
 #: decks/templates/decks/snippets/public_deck_table.html:11
 #: decks/templates/forms/submit_deck_metadata.html:8
 #: decks/templates/forms/submit_decklist.html:7
-#: profiles/templates/profiles/userprofile_detail.html:92
+#: profiles/templates/profiles/userprofile_detail.html:100
 #: trends/templates/trends/home.html:55
 msgid "Name"
 msgstr ""
@@ -360,7 +360,7 @@ msgstr ""
 #: decks/templates/decks/deck_detail.html:128
 #: decks/templates/decks/own_deck_list.html:23
 #: decks/templates/decks/snippets/public_deck_table.html:12
-#: profiles/templates/profiles/userprofile_detail.html:93
+#: profiles/templates/profiles/userprofile_detail.html:101
 msgid "Faction"
 msgstr ""
 
@@ -604,7 +604,7 @@ msgstr ""
 
 #: decks/templates/decks/own_deck_list.html:31
 #: decks/templates/decks/snippets/public_deck_table.html:19
-#: profiles/templates/profiles/userprofile_detail.html:95
+#: profiles/templates/profiles/userprofile_detail.html:103
 msgid "Last updated"
 msgstr ""
 
@@ -859,7 +859,7 @@ msgstr ""
 
 #: profiles/templates/profiles/edit_profile.html:7
 #: profiles/templates/profiles/edit_profile.html:11
-#: profiles/templates/profiles/userprofile_detail.html:36
+#: profiles/templates/profiles/userprofile_detail.html:44
 msgid "Edit Profile"
 msgstr ""
 
@@ -884,6 +884,47 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
+#: profiles/templates/profiles/followers_list.html:8
+#: profiles/templates/profiles/followers_list.html:11
+#: profiles/templates/profiles/followers_list.html:20
+#, python-format
+msgid "Followers of %(username)s"
+msgstr ""
+
+#: profiles/templates/profiles/followers_list.html:26
+msgid "Followed Users"
+msgstr ""
+
+#: profiles/templates/profiles/followers_list.html:34
+#: profiles/templates/profiles/followers_list.html:72
+#, python-format
+msgid "Since: %(created_at)s"
+msgstr ""
+
+#: profiles/templates/profiles/followers_list.html:41
+#: profiles/templates/profiles/userprofile_detail.html:46
+msgid "Unfollow"
+msgstr ""
+
+#: profiles/templates/profiles/followers_list.html:46
+#: profiles/templates/profiles/userprofile_detail.html:48
+msgid "Follow"
+msgstr ""
+
+#: profiles/templates/profiles/followers_list.html:53
+#, python-format
+msgid "%(username)s doesn't follow anyone yet."
+msgstr ""
+
+#: profiles/templates/profiles/followers_list.html:64
+msgid "Followers"
+msgstr ""
+
+#: profiles/templates/profiles/followers_list.html:93
+#, python-format
+msgid "%(username)s doesn't have any followers yet. You can be the first!"
+msgstr ""
+
 #: profiles/templates/profiles/tooltips/user_profile.html:10
 #: profiles/templates/profiles/userprofile_detail.html:31
 #, python-format
@@ -891,7 +932,7 @@ msgid "Joined on: %(date_joined)s"
 msgstr ""
 
 #: profiles/templates/profiles/tooltips/user_profile.html:11
-#: profiles/templates/profiles/userprofile_detail.html:32
+#: profiles/templates/profiles/userprofile_detail.html:34
 #: profiles/templates/profiles/userprofile_list.html:97
 #, python-format
 msgid "%(follower_count)s Follower"
@@ -900,7 +941,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: profiles/templates/profiles/tooltips/user_profile.html:12
-#: profiles/templates/profiles/userprofile_detail.html:33
+#: profiles/templates/profiles/userprofile_detail.html:35
 #, python-format
 msgid "%(following_count)s Following"
 msgid_plural "%(following_count)s Following"
@@ -913,36 +954,33 @@ msgstr[1] ""
 msgid "Profile of %(username)s"
 msgstr ""
 
-#: profiles/templates/profiles/userprofile_detail.html:38
-msgid "Unfollow"
+#: profiles/templates/profiles/userprofile_detail.html:39
+msgid "View"
 msgstr ""
 
-#: profiles/templates/profiles/userprofile_detail.html:40
-msgid "Follow"
-msgstr ""
-
-#: profiles/templates/profiles/userprofile_detail.html:58
+#: profiles/templates/profiles/userprofile_detail.html:66
 msgid "Faction Distribution"
 msgstr ""
 
-#: profiles/templates/profiles/userprofile_detail.html:71
+#: profiles/templates/profiles/userprofile_detail.html:79
 msgid "Bio"
 msgstr ""
 
-#: profiles/templates/profiles/userprofile_detail.html:77
+#: profiles/templates/profiles/userprofile_detail.html:85
 msgid "Empty bio"
 msgstr ""
 
-#: profiles/templates/profiles/userprofile_detail.html:84
+#: profiles/templates/profiles/userprofile_detail.html:92
 #, python-format
 msgid "Decks by %(username)s"
 msgstr ""
 
-#: profiles/templates/profiles/userprofile_detail.html:133
+#: profiles/templates/profiles/userprofile_detail.html:141
 msgid "No decks found"
 msgstr ""
 
 #: profiles/templates/profiles/userprofile_list.html:8 templates/base.html:71
+#: templates/releases/1.10.0.html:17
 msgid "Builders"
 msgstr ""
 
@@ -1101,12 +1139,12 @@ msgstr ""
 msgid "New features:"
 msgstr ""
 
-#: templates/releases/1.10.0.html:26 templates/releases/1.9.0.html:12
+#: templates/releases/1.10.0.html:25 templates/releases/1.9.0.html:12
 #: templates/releases/release_template.html:16
 msgid "Other changes:"
 msgstr ""
 
-#: templates/releases/1.10.0.html:34 templates/releases/1.9.0.html:22
+#: templates/releases/1.10.0.html:32 templates/releases/1.9.0.html:22
 #: templates/releases/release_template.html:23
 msgid "Announcements:"
 msgstr ""
