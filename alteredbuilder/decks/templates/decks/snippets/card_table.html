@@ -2,8 +2,10 @@
 {% load i18n %}
 {% load deck_styles %}
 
+<!-- Display a list of Card objects -->
 <table class="table table-hover card-table" id="{{ type }}-table" aria-describedby="Available {{ type }}s">
     <thead>
+        <!-- Each card simply displays its quantity, name and mana cost -->
         <tr>
             <th scope="col">Q</th>
             <th scope="col">{% translate "Name" %}</th>
@@ -32,7 +34,7 @@
             </td>
         </tr>
 {% empty %}
-        <tr><td colspan="3" class="text-center">{% blocktranslate %}No {{ type }}s{% endblocktranslate %}</td></tr>
+        <tr><td colspan="4" class="text-center">{% blocktranslate %}No {{ type }}s{% endblocktranslate %}</td></tr>
 {% endfor %}
     </tbody>
 </table>

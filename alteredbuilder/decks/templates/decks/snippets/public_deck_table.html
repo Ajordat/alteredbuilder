@@ -3,9 +3,11 @@
 {% load static %}
 {% load deck_styles %}
 
+<!-- Display a list of Decks -->
 <table class="table table-hover table-clickable" id="{{ table_id }}" aria-describedby="Public decks">
     <thead>
         <tr>
+            <!-- Each Deck displays its social interaction, its owner, its name, its faction (if hero), its hero (if any), its legality and when it was last updated -->
             <th scope="col" style="width: 8%"></th>
             <th scope="col" style="width: 10%">{% translate "Owner" %}</th>
             <th scope="col">{% translate "Name" %}</th>
@@ -24,33 +26,43 @@
         <tr {% if table_id == 'publicDecksTable' %}class="infinite-item"{% endif %} data-href="{{ deck.get_absolute_url }}">
             <td>
     {% if user.is_superuser %}
+                <!-- If superuser, display the amount of hits -->
         {% with hits=deck.hit_count_generic.first.hits %}
                 <a role="button" href="#" class="btn btn-sm btn-outline-secondary disabled {% if hits < 10 %}me-3{% else %}me-2{% endif %}">
                     <i class="fa-solid fa-eye"></i> {{ hits }}
                 </a>
         {% endwith %}
     {% endif %}
+                <!-- Amount of likes -->
                 <a role="button" href="#" class="btn btn-sm btn-outline-danger {% if deck.is_loved %}active{% else %}disabled{% endif %}">
                     <i class="fa-solid fa-heart"></i> {{ deck.love_count }}
                 </a>
+                <!-- Amount of comments -->
                 <a role="button" href="#" class="btn btn-sm btn-outline-secondary {% if deck.comment_count > 0 %}active{% else %}disabled{% endif %}">
                     <i class="fa-solid fa-comment"></i> {{ deck.comment_count }}
                 </a>
             </td>
+            <!-- Owner's username -->
             <td>{% if deck.is_followed %}<i class="fa-solid fa-star"></i> {% endif %}{{ deck.owner.username|safe_username }}</td>
+            <!-- Deck's name -->
             <td>{{ deck.name }}</td>
     {% if deck.hero %}
+            <!-- Faction icon and name -->
             <td>
                 {% include "decks/snippets/picture_webp.html" with img_name=deck.hero.faction width=20 height=20 %} {{ deck.hero.get_faction_display.title }}
             </td>
+            <!-- Hero name with tooltip on hover that displays the card image -->
             <td>
                 <link rel="prefetch" href="{{ deck.hero.image_url }}"/>
                 <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-title="<img src='{{ deck.hero.image_url }}'/>" data-bs-html="true" data-bs-placement="right">{{ deck.hero.name }}</span>
             </td>
     {% else %}
+            <!-- No hero -->
             <td>-</td><td>-</td>
     {% endif %}
+            <!-- Legality -->
             <td class="text-center">{% if deck.is_standard_legal %}<i class="fa-regular fa-circle-check"></i>{% elif deck.is_exalts_legal %}<i class="fa-regular fa-circle-check exalts-legal"></i>{% else %}<i class="fa-regular fa-circle-xmark"></i>{% endif %}</td>
+            <!-- Last modified -->
             <td>{% blocktranslate with time_since=deck.modified_at|timesince %}{{ time_since }} ago{% endblocktranslate %}</td>
         </tr>
 {% empty %}

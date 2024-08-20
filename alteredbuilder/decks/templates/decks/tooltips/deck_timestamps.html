@@ -1,3 +1,4 @@
 {% load i18n %}
 
+<!-- Tooltip showcasing the creation and modification dates of a Deck -->
 {% blocktranslate with creation=deck.created_at|date:'DATE_FORMAT' modification=deck.modified_at|date:'DATE_FORMAT' %}Created: {{ creation }}<br>Last modified: {{ modification }}{% endblocktranslate %}

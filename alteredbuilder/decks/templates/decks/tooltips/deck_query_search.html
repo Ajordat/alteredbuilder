@@ -2,19 +2,23 @@
 {% load i18n %}
 
 
+<!-- Advanced Deck filtering instructions -->
 <div class="text-start">
     {% translate "Advanced search filters" %}:
     <ul>
+        <!-- Hero -->
         <li>{% translate "Hero:" %} <code class="inline">h</code><br>
             {% translate "Operators:" %} <code class="inline">:</code><br>
             {% translate "Value:" %} <code class="inline">{% translate "Single word" %}</code>
         </li>
+        <!-- Creator -->
         <li>{% translate "User:" %} <code class="inline">u</code><br>
             {% translate "Operators:" %} <code class="inline">:</code><br>
             {% translate "Value:" %} <code class="inline">{% translate "Single word" %}</code>
         </li>
     </ul>
     {% translate "Examples:" %}
+    <!-- Examples -->
     <ul>
         {% firstof user.username "admin" as username %}
         <li>{% blocktranslate %}Search decks created by the user "{{ username }}":{% endblocktranslate %}<br>

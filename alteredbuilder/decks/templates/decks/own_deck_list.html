@@ -3,8 +3,10 @@
 {% load static %}
 {% load i18n %}
 
+
 {% block title %}{% translate "My decks" %}{% endblock %}
 {% block meta_title %}{% translate "My decks" %}{% endblock %}
+
 
 {% block head %}
     {{ block.super }}
@@ -12,12 +14,15 @@
     <link rel="stylesheet" href="{% static 'css/deck-list.css' %}">
 {% endblock %}
 
+
 {% block content %}
     <div>
         <h3>{% translate "My decks" %}</h3>
+        <!-- Display a the list with a user's own Decks -->
         <table class="table table-hover table-clickable" id="ownDecksTable" aria-describedby="Own decks">
             <thead>
                 <tr>
+                    <!-- Each Deck displays its social interaction, its name, its faction (if hero), its hero (if any), its legality, if it's public and when it was last updated -->
                     <th scope="col"></th>
                     <th scope="col">{% translate "Name" %}</th>
                     <th scope="col">{% translate "Faction" %}</th>
@@ -35,24 +40,33 @@
     {% for deck in deck_list %}
                 <tr data-href="{{ deck.get_absolute_url }}">
                     <td>
+                        <!-- Amount of likes -->
                         <a role="button" href="#" class="btn btn-sm btn-outline-danger {%if deck.is_loved %}active{% else %}disabled{% endif %}">
                             <i class="fa-solid fa-heart"></i> {{ deck.love_count }}
                         </a>
         {% if deck.is_public %}
+                        <!-- Amount of comments -->
                         <a role="button" href="#" class="btn btn-sm btn-outline-secondary {% if deck.comment_count > 0 %}active{% else %}disabled{% endif %}">
                             <i class="fa-solid fa-comment"></i> {{ deck.comment_count }}
                         </a>
         {% endif %}
                     </td>
+                    <!-- Deck's name -->
                     <td>{{ deck.name }}</td>
         {% if deck.hero %}
+                    <!-- Faction icon and name -->
                     <td>{% include "decks/snippets/picture_webp.html" with img_name=deck.hero.faction width=20 height=20 %} {{ deck.hero.get_faction_display.title }}</td>
+                    <!-- Hero name with tooltip on hover that displays the card image -->
                     <td><link rel="prefetch" href="{{ deck.hero.image_url }}"/><span class="d-inline-block" data-bs-toggle="tooltip" data-bs-title="<img src='{{ deck.hero.image_url }}'/>" data-bs-html="true" data-bs-placement="right">{{ deck.hero.name }}</span></td>
         {% else %}
+                    <!-- No hero -->
                     <td>-</td><td>-</td>
         {% endif %}
+                    <!-- Legality -->
                     <td class="text-center">{% if deck.is_standard_legal %}<i class="fa-regular fa-circle-check"></i>{% elif deck.is_exalts_legal %}<i class="fa-regular fa-circle-check exalts-legal"></i>{% else %}<i class="fa-regular fa-circle-xmark"></i>{% endif %}</td>
-                    <td class="text-center">{% if deck.is_public %}<i class="fa-regular fa-circle-check"></i>{% endif %}</td>
+                    <!-- Is it public? -->
+                     <td class="text-center">{% if deck.is_public %}<i class="fa-regular fa-circle-check"></i>{% endif %}</td>
+                     <!-- Last modified -->
                     <td>{% blocktranslate with time_since=deck.modified_at|timesince %}{{ time_since }} ago{% endblocktranslate %}</td>
                 </tr>
     {% empty %}
@@ -65,6 +79,8 @@
 {% endblock %}
 
 {% block bodyscripts %}
+    <!-- The view's functionalities -->
     <script src="{% static 'js/deck-list.js' %}"></script>
+    <!-- Enable the tooltips -->
     <script src="{% static 'js/tooltip-enable.js' %}"></script>
 {% endblock %}

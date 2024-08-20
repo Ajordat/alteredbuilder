@@ -5,59 +5,77 @@
 {% load deck_styles %}
 {% load markdown_extras %}
 
-{% block title %}{{ object.name }}{% endblock %}
-{% block meta_title %}{{ object.name }} | {{ block.super }}{% endblock %}
-{% block meta_image %}{{ object.hero.image_url }}{% endblock %}
+
+{% block title %}{{ deck.name }}{% endblock %}
+{% block meta_title %}{{ deck.name }} | {{ block.super }}{% endblock %}
+{% block meta_image %}{{ deck.hero.image_url }}{% endblock %}
+
 
 {% block head %}
     {{ block.super }}
+    <!-- Script to render pie charts. I'd like to use Chart.js instead -->
     <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <!-- utils script to display a toast -->
     <script src="{% static 'js/utils.js' %}"></script>
+    <!-- Script to generate a QR code image, copy it into the clipboard and download it -->
     <script src="https://unpkg.com/@bitjson/qr-code@1.0.2/dist/qr-code.js"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script src="https://superal.github.io/canvas2image/canvas2image.js"></script>
+    <!-- Base styles of this app -->
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <!-- Styles adding the fonts used to display the Altered icons -->
     <link rel="stylesheet" href="{% static 'css/altered-icons.css' %}">
+    <!-- Scripts for this view -->
     <link rel="stylesheet" href="{% static 'css/deck-detail.css' %}">
 {% endblock %}
 
+
 {% block content %}
-    <h1>{{ object.name }}</h1>
+    <!-- Deck's name -->
+    <h1>{{ deck.name }}</h1>
+    <!-- Deck's description -->
     <div class="row">
-        <div class="col">{{ object.description | escape | markdown | safe }}</div>
+        <div class="col">{{ deck.description | escape | markdown | safe }}</div>
     </div>
+    <!-- Metadata row -->
     <div class="row row-cols-auto gx-2 mb-2">
+        <!-- Creator's details -->
         <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title='{% include 'profiles/tooltips/user_profile.html' %}' data-bs-html="true">
-            {% if deck.is_followed %}<i class="fa-solid fa-star"></i>{% else %}<i class="fa-regular fa-star"></i>{% endif %} <a href="{{ object.owner.profile.get_absolute_url }}" class="link-opacity-50-hover link-offset-3"><i class="fa-solid fa-user"></i> {{ object.owner.username|safe_username }}</a>
+            {% if deck.is_followed %}<i class="fa-solid fa-star"></i>{% else %}<i class="fa-regular fa-star"></i>{% endif %} <a href="{{ deck.owner.profile.get_absolute_url }}" class="link-opacity-50-hover link-offset-3"><i class="fa-solid fa-user"></i> {{ deck.owner.username|safe_username }}</a>
         </div>
+        <!-- Creation and modification times -->
         <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% include 'decks/tooltips/deck_timestamps.html' %}" data-bs-html="true">
-            <i class="fa-regular fa-calendar"></i> <small>{{ object.modified_at|date:"SHORT_DATE_FORMAT" }}</small>
+            <i class="fa-regular fa-calendar"></i> <small>{{ deck.modified_at|date:"SHORT_DATE_FORMAT" }}</small>
         </div>
         <div class="col">
-    {% if object.is_public or object.owner == user %}
+    {% if deck.is_public or deck.owner == user %}
         {% if user.is_authenticated %}
-            <a role="button" href="{% url 'love-deck-id' pk=object.id %}" class="btn btn-sm {% if deck.is_loved %}btn-danger{% else %}btn-outline-danger{% endif %}">
-                <i class="fa-solid fa-heart"></i> {{ object.love_count }}
+            <!-- Love count and button -->
+            <a role="button" href="{% url 'love-deck-id' pk=deck.id %}" class="btn btn-sm {% if deck.is_loved %}btn-danger{% else %}btn-outline-danger{% endif %}">
+                <i class="fa-solid fa-heart"></i> {{ deck.love_count }}
             </a>
         {% else %}
             <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'Login to share your love!' %}" data-bs-html="true">
                 <a role="button" href="#" class="btn btn-sm btn-outline-danger disabled" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'Login to share your love!' %}" data-bs-html="true">
-                    <i class="fa-solid fa-heart"></i> {{ object.love_count }}
+                    <i class="fa-solid fa-heart"></i> {{ deck.love_count }}
                 </a>
             </div>
         {% endif %}
     {% endif %}
         </div>
-    {% if object.is_public %}
+    {% if deck.is_public %}
+        <!-- Comment count and button -->
         <div class="col me-3">
             <a role="button" class="btn btn-sm {% if deck.comment_count > 0 %}btn-secondary{% else %}btn-outline-secondary{% endif %}" data-bs-toggle="offcanvas" data-bs-target="#commentsOffcanvas" aria-controls="commentsOffcanvas">
-                <i class="fa-solid fa-comment"></i> <span id="comment-count-total">{{ object.comment_count }}</span>
+                <i class="fa-solid fa-comment"></i> <span id="comment-count-total">{{ deck.comment_count }}</span>
             </a>
         </div>
     {% endif %}
     </div>
+    <!-- Interaction row -->
     <div class="row row-cols-auto gx-2">
         <div class="col">
+            <!-- Share dropdown -->
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa-solid fa-share-nodes"></i> {% translate "Share" %}
@@ -65,20 +83,21 @@
                 <ul class="dropdown-menu">
                     <li id="copy-self-link"><a class="dropdown-item" href="#"><i class="fa-regular fa-copy"></i> {% translate "Copy link" %}</a></li>
                     <li id="copy-decklist"><a class="dropdown-item" href="#"><i class="fa-regular fa-copy"></i> {% translate "Copy decklist" %}</a></li>
-    {% if object.is_public %}
+    {% if deck.is_public %}
                     <li id="share-qr-code"><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#qr-code-modal"><i class="fa-solid fa-qrcode"></i> {% translate "QR Code" %}</a></li>
                     <li id="share-facebook"><a class="dropdown-item" href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-facebook"></i> Facebook</a></li>
                     <li id="share-telegram"><a class="dropdown-item" href="https://telegram.me/share/url?url={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram</a></li>
                     <li id="share-twitter"><a class="dropdown-item" href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-twitter"></i> Twitter</a></li>
                     <li id="share-whatsapp"><a class="dropdown-item" href="https://wa.me/?text={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-whatsapp"></i> Whatsapp</a></li>
-    {% elif object.owner == user %}
+    {% elif deck.owner == user %}
                     <li id="create-private-link"><a class="dropdown-item" href="#"><i class="fa-solid fa-link"></i> {% translate "Create private link" %}</a></li>
     {% endif %}
                 </ul>
             </div>
         </div>
-    {% if object.owner == user %}
+    {% if deck.owner == user %}
         <div class="col">
+            <!-- Options dropdown -->
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa-solid fa-gears"></i> {% translate "Options" %}
@@ -90,6 +109,7 @@
             </div>
         </div>
     {% endif %}
+        <!-- Goldfishing access -->
     {% if stats.rarity_distribution.unique %}
         <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'This feature cannot be used with unique cards' %}">
             <button type="button" class="btn btn-outline-primary btn-sm" disabled>
@@ -104,6 +124,7 @@
         </div>
     {% endif %}
         <div class="col">
+            <!-- Copy Deck button-->
             <a type="button" class="btn btn-outline-primary btn-sm" href="{% url 'new-deck' %}?decklist={{ decklist|urlencode }}">
                 <i class="fa-solid fa-square-plus"></i> {% translate "Copy deck" %}
             </a>
@@ -114,33 +135,40 @@
     </div>
     <div class="row">
         <div class="col-3 mb-5">
-            {% firstof object.hero.image_url character_list.0.1.image_url spell_list.0.1.image_url permanent_list.0.1.image_url "" as display_image %}
+            <!-- Card display -->
+            <!-- It will show the first image available in this order: hero, characters, spells, permanents -->
+            {% firstof deck.hero.image_url character_list.0.1.image_url spell_list.0.1.image_url permanent_list.0.1.image_url "" as display_image %}
             <img class="img-fluid rounded-4" id="card-showcase" src="{{ display_image }}">
         </div>
         <div class="col">
             <div class="row">
                 <div class="col">
+                    <!-- Hero table -->
                     <p><i class="fa-solid fa-person-hiking"></i> {% translate "Hero" %}</p>
                     <table class="table table-striped table-hover card-table" id="hero-table" aria-describedby="Deck hero">
                         <thead>
                             <tr>
+                                <!-- Show name and faction -->
                                 <th scope="col">{% translate "Name" %}</th>
                                 <th scope="col">{% translate "Faction" %}</th>
                             </tr>
                         </thead>
                         <tbody class="table-group-divider">
-    {% if object.hero %}
-                            <tr class="table-light card-hover" data-image-url="{{ object.hero.image_url }}">
-                                <td>{{ object.hero.name }}</td>
-                                <td>{% include "decks/snippets/picture_webp.html" with img_name=object.hero.faction width=20 height=20 %} {{ object.hero.get_faction_display|title }}</td>
+    {% if deck.hero %}
+                            <tr class="table-light card-hover" data-image-url="{{ deck.hero.image_url }}">
+                                <!-- Hero name -->
+                                <td>{{ deck.hero.name }}</td>
+                                <!-- Hero faction -->
+                                <td>{% include "decks/snippets/picture_webp.html" with img_name=deck.hero.faction width=20 height=20 %} {{ deck.hero.get_faction_display|title }}</td>
+                                <!-- Hero options -->
                                 <td>
                                     <div class="dropdown">
                                         <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>
                                         <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="{{ object.hero.get_official_link }}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> {% translate "Go to details" %}</a></li>
-                                            <li><a class="dropdown-item card-reference-container" href="#" data-card-reference="{{ object.hero.reference }}"><i class="fa-regular fa-copy"></i> {% translate "Copy card reference" %}</a></li>
-        {% if object.owner == user %}
-                                            <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ object.hero.reference }}"><i class="fa-solid fa-trash"></i> {% translate "Remove card" %}</a></li>
+                                            <li><a class="dropdown-item" href="{{ deck.hero.get_official_link }}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> {% translate "Go to details" %}</a></li>
+                                            <li><a class="dropdown-item card-reference-container" href="#" data-card-reference="{{ deck.hero.reference }}"><i class="fa-regular fa-copy"></i> {% translate "Copy card reference" %}</a></li>
+        {% if deck.owner == user %}
+                                            <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ deck.hero.reference }}"><i class="fa-solid fa-trash"></i> {% translate "Remove card" %}</a></li>
         {% endif %}
                                         </ul>
                                     </div>
@@ -154,16 +182,19 @@
                 </div>
 
                 <div class="col">
+                    <!-- Card table of characters -->
                     <p><i class="fa-solid fa-people-group"></i> {% translate "Characters" %}</p>
                     {% include "decks/snippets/card_table.html" with type="character" card_list=character_list %}
                 </div>
 
                 <div class="col">
+                    <!-- Card table of spells -->
                     <p><i class="fa-solid fa-hat-wizard"></i> {% translate "Spells" %}</p>
                     {% include "decks/snippets/card_table.html" with type="spell" card_list=spell_list %}
                 </div>
 
                 <div class="col">
+                    <!-- Card table of permanents -->
                     <p><i class="fa-solid fa-landmark"></i> {% translate "Permanents" %}</p>
                     {% include "decks/snippets/card_table.html" with type="permanent" card_list=permanent_list %}
                 </div>
@@ -171,14 +202,17 @@
         </div>
     </div>
     <div class="row">
+        <!-- Stats row -->
         <div class="border-bottom mb-4">
             <h3>{% translate "Stats" %}</h3>
         </div>
         <div class="col">
+            <!-- Pie chart -->
             <h5>{% translate "Card Type Distribution" %}</h5>
             <div id="distribution-pie-chart"></div>
         </div>
         <div class="col">
+            <!-- Rarity distribution -->
             <h5>{% translate "Rarity distribution" %}</h5>
             <table class="table table-striped table-sm mb-5" aria-describedby="Rarity distribution">
                 <thead>
@@ -202,6 +236,7 @@
                     </tr>
                 </tbody>
             </table>
+            <!-- Probability of drawing cards -->
             <h5>{% translate "Probability of drawing" %}</h5>
             <table class="table table-striped table-sm mb-5" id="probability-table" aria-describedby="Probability to draw">
                 <thead>
@@ -229,6 +264,7 @@
                     </tr>
                 </tbody>
             </table>
+            <!-- Deck's legality on different formats -->
             <h5>{% translate "Format legality" %}</h5>
             <table class="table table-striped table-sm" id="probability-table" aria-describedby="Probability to draw">
                 <thead>
@@ -241,7 +277,7 @@
                 <tbody class="table-group-divider">
                     <tr>
                         <td>{% translate "Standard" %}</td>
-    {% if object.is_standard_legal %}
+    {% if deck.is_standard_legal %}
                         <td>{% translate "Yes" %}</td>
                         <td></td>
     {% else %}
@@ -255,7 +291,7 @@
                     </tr>
                     <tr>
                         <td>{% translate "ExAlts Championship" %}</td>
-    {% if object.is_exalts_legal %}
+    {% if deck.is_exalts_legal %}
                         <td>{% translate "Yes" %}</td>
                         <td></td>
     {% else %}
@@ -265,7 +301,7 @@
                     </tr>
                     <tr>
                         <td>{% translate "Draft" %}</td>
-    {% if object.is_draft_legal %}
+    {% if deck.is_draft_legal %}
                         <td>{% translate "Yes" %}</td>
                         <td></td>
     {% else %}
@@ -281,10 +317,12 @@
             </table>
         </div>
         <div class="col">
+            <!-- Mana curve bar chart -->
             <h5>{% translate "Mana curve" %}</h5>
             <div id="mana-curve-chart" class="mt-4"></div>
         </div>
     </div>
+    <!-- Simple toast -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="simple-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-body d-flex">
@@ -294,7 +332,8 @@
         </div>
     </div>
     
-    {% if object.owner == user %}
+    {% if deck.owner == user %}
+    <!-- Modal to edit the Deck's metadata -->
     <div class="modal fade" id="deck-metadata-modal" tabindex="-1" aria-labelledby="deck-metadata-modalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -303,7 +342,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{% url 'update-deck-metadata' pk=object.id %}" method="post" id="update-deck-metadata-form">
+                    <form action="{% url 'update-deck-metadata' pk=deck.id %}" method="post" id="update-deck-metadata-form">
                         {% csrf_token %}
                         {{ metadata_form }}
                     </form>
@@ -315,6 +354,7 @@
             </div>
         </div>
     </div>
+    <!-- Modal to confirm the deletion of the Deck -->
     <div class="modal fade" id="delete-deck-modal" tabindex="-1" aria-labelledby="delete-deck-modalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -327,13 +367,14 @@
                 </div>
                 <div class="modal-footer">
                     <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Close" %}</a>
-                    <a type="button" class="btn btn-danger" href="{% url 'delete-deck-id' pk=object.id %}">{% translate "Delete" %}</a>
+                    <a type="button" class="btn btn-danger" href="{% url 'delete-deck-id' pk=deck.id %}">{% translate "Delete" %}</a>
                 </div>
             </div>
         </div>
     </div>
     {% endif %}
-    {% if object.is_public %}
+    {% if deck.is_public %}
+    <!-- Modal to show the Deck's QR code -->
     <div class="modal fade" id="qr-code-modal" tabindex="-1" aria-labelledby="qr-code-modalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-sm">
             <div class="modal-content">
@@ -352,10 +393,11 @@
             </div>
         </div>
     </div>
+    <!-- Sidebar with the Deck's comments -->
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="commentsOffcanvas" aria-labelledby="commentsOffcanvasLabel">
         
-        <button class="btn btn-sm btn-secondary offcanvas-btn position-absolute mt-2 {% if object.comment_count %}animate{% endif %}" type="button" data-bs-toggle="offcanvas" data-bs-target="#commentsOffcanvas">
-            <span>{% blocktranslate count comment_count=object.comment_count %}{{ comment_count }} comment{% plural %}{{ comment_count }} comments{% endblocktranslate%}</span>
+        <button class="btn btn-sm btn-secondary offcanvas-btn position-absolute mt-2 {% if deck.comment_count %}animate{% endif %}" type="button" data-bs-toggle="offcanvas" data-bs-target="#commentsOffcanvas">
+            <span>{% blocktranslate count comment_count=deck.comment_count %}{{ comment_count }} comment{% plural %}{{ comment_count }} comments{% endblocktranslate%}</span>
         </button>
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="commentsOffcanvasLabel">{% translate "Comments" %}</h5>
@@ -366,7 +408,8 @@
                 <div class="container">
                     <div class="col">
         {% if user.is_authenticated %}
-                        <form action="{% url 'create-deck-comment' pk=object.id %}" method="post" id="create-deck-comment-form">
+                        <!-- Create a comment form -->
+                        <form action="{% url 'create-deck-comment' pk=deck.id %}" method="post" id="create-deck-comment-form">
                             {% csrf_token %}
                             {{ comment_form }}
                         </form>
@@ -376,25 +419,30 @@
                             <a role="button" class="btn active text-info-emphasis" href="{% url 'account_login' %}?next={{ request.path }}"><i class="fa-solid fa-user"></i> {% translate "Login" %}</a></p>
                         </div>
         {% endif %}
+                        <!-- Display all comments -->
         {% for comment in comments %}
                         <div class="media comment-body">
                             <div class="media-body">
                                 <h4 class="media-heading"><a href="{{ comment.user.profile.get_absolute_url }}">{{ comment.user.username|safe_username }}</a>
                                     <span class="float-end">
             {% if comment.user == request.user %}
-                                        <a role="button" class="btn btn-sm btn-outline-danger delete-comment" href="{% url 'delete-comment' pk=object.id comment_pk=comment.id %}">
+                                        <!-- The writer of the Comment can delete it -->
+                                        <a role="button" class="btn btn-sm btn-outline-danger delete-comment" href="{% url 'delete-comment' pk=deck.id comment_pk=comment.id %}">
                                             <i class="fa-solid fa-trash"></i> {% translate "Delete" %}
                                         </a>
             {% endif %}
                                     </span>
                                 </h4>
+                                <!-- Comment body -->
                                 <p>{{ comment.body }}</p>
                                 <ul class="list-unstyled list-inline media-detail">
+                                    <!-- Vote Comment button -->
                                     <li class="list-inline-item float-end">
-                                        <a role="button" class="btn btn-sm upvote-comment {% if comment.is_upvoted %}btn-primary{% else %}btn-outline-primary{% endif %} {% if not user.is_authenticated %}disabled{% endif %}" href="{% url 'vote-comment' pk=object.id comment_pk=comment.id %}">
+                                        <a role="button" class="btn btn-sm upvote-comment {% if comment.is_upvoted %}btn-primary{% else %}btn-outline-primary{% endif %} {% if not user.is_authenticated %}disabled{% endif %}" href="{% url 'vote-comment' pk=deck.id comment_pk=comment.id %}">
                                             <i class="fa-solid fa-thumbs-up"></i> <span class="comment-count">{{ comment.vote_count }}</span>
                                         </a>
                                     </li>
+                                    <!-- Creation date -->
                                     <li class="list-inline-item">
                                         <i class="fa fa-calendar"></i> {% blocktranslate with time_since=comment.created_at|timesince %}{{ time_since }} ago{% endblocktranslate %}
                                     </li>
@@ -409,13 +457,18 @@
     </div>
     {% endif %}
 
+    <!-- Decklist data -->
     <article id="decklist-text" data-decklist="{{ decklist }}"></article>
     {% csrf_token %}
+    <!-- Deck statistics to be picked up by JS -->
     {{ stats|json_script:"deck-stats" }}
 {% endblock %}
 
 {% block bodyscripts %}
+    <!-- Script to interact with the Deck -->
     <script src="{% static 'js/deck-detail.js' %}"></script>
+    <!-- Script to display the Deck's stats -->
     <script src="{% static 'js/deck-stats.js' %}"></script>
+    <!-- Enable tooltips -->
     <script src="{% static 'js/tooltip-enable.js' %}"></script>
 {% endblock %}

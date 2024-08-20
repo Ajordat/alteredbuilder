@@ -5,6 +5,7 @@
 {{ form.non_field_errors  }}
 
 <div class="row mb-3">
+    <!-- Modify Deck's name -->
     <label for="{{ form.name.id_for_label }}" class="col-sm-2 col-form-label">{% translate "Name" %}</label>
     <div class="col-auto has-validation">
         <input id="{{ form.name.auto_id }}" type="text" name="{{ form.name.name }}" maxlength="{{ form.fields.name.max_length }}" class="form-control{% if form.name.errors %} is-invalid{% endif %}" aria-describedby="{{ form.name.name }}-validation" required value="{{ form.name.initial }}">
@@ -19,6 +20,7 @@
 </div>
 
 <div class="mb-3">
+    <!-- Modify Deck's description -->
     <label for="{{ form.description.id_for_label }}" class="col-form-label">{% translate "Description" %} (<a href="{% url 'markdown' %}">markdown</a>)</label>
     <textarea class="form-control{% if form.description.errors %} is-invalid{% endif %}" id="{{ form.description.auto_id }}" cols="10" rows="5" maxlength="{{ form.fields.description.max_length }}" name="{{ form.description.name }}" aria-describedby="{{ form.description.name }}-validation">{{ form.description.initial }}</textarea>
     <div id="{{ form.description.name }}-validation" class="invalid-feedback">
@@ -30,6 +32,7 @@
 
 <p>{% translate "Visibility" %}</p>
 <div class="row mb-2">
+    <!-- Modify Deck's visibility -->
     <div class="col-sm-10 offset-sm-1">
         <div class="form-check">
             <input id="{{ form.is_public.auto_id }}" class="form-check-input" type="checkbox" name="{{ form.is_public.name }}" {% if form.is_public.initial %}checked{% endif %}>

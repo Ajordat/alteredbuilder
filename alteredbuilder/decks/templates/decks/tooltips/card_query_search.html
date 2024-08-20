@@ -1,32 +1,38 @@
 
 {% load i18n %}
 
-
+<!-- Advanced Card filtering instructions -->
 <div class="text-start">
     {% translate "Advanced search filters" %}:
     <ul>
+        <!-- Hand cost -->
         <li>{% translate "Hand cost:" %} <code class="inline">hc</code><br>
             {% translate "Operators:" %} <code class="inline">=</code>, <code class="inline">></code>, <code class="inline">>=</code>, <code class="inline"><</code>, <code class="inline"><=</code></code><br>
             {% translate "Value:" %} <code class="inline">{% translate "Number" %}</code>
         </li>
+        <!-- Reserve cost -->
         <li>{% translate "Reserve cost:" %} <code class="inline">rc</code><br>
             {% translate "Operators:" %} <code class="inline">=</code>, <code class="inline">></code>, <code class="inline">>=</code>, <code class="inline"><</code>, <code class="inline"><=</code></code><br>
             {% translate "Value:" %} <code class="inline">{% translate "Number" %}</code>
         </li>
+        <!-- Abilities -->
         <li>{% translate "Abilities:" %} <code class="inline">x</code><br>
             {% translate "Operators:" %} <code class="inline">:</code><br>
             {% translate "Value:" %} <code class="inline">{% translate "Single word" %}</code>
         </li>
+        <!-- Triggers -->
         <li>{% translate "Triggers:" %} <code class="inline">t</code><br>
             {% translate "Operators:" %} <code class="inline">:</code><br>
             {% translate "Values:" %} <code class="inline">etb</code>(<span class="altered-etb"></span>), <code class="inline">hand</code>(<span class="altered-hand"></span>), <code class="inline">reserve</code>(<span class="altered-reserve"></span>), <code class="inline">discard</code>(<span class="altered-discard"></span>), <code class="inline">exhaust</code>(<span class="altered-exhaust"></span>)
         </li>
+        <!-- Subtypes -->
         <li>{% translate "Subtypes:" %} <code class="inline">st</code><br>
             {% translate "Operators:" %} <code class="inline">:</code><br>
             {% translate "Value:" %} <code class="inline">{% translate "Single word" %}</code>
         </li>
     </ul>
     {% translate "Examples:" %}
+    <!-- Examples -->
     <ul>
         <li>{% translate 'Search bureaucrat cards that cost <span class="altered-3"></span>:' %}<br>
             <code class="inline">{% translate "st:bureaucrat hc=3" %}</code>
