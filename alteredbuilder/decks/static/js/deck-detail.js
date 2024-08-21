@@ -1,4 +1,4 @@
-// Retrieve all the rows of the tables containing cards
+// When a card's row is hovered, change the card display to show the hovered card
 let deckRows = document.querySelectorAll(".card-hover");
 deckRows.forEach(function(element) {
     element.addEventListener("mouseover", function() {
@@ -9,6 +9,7 @@ deckRows.forEach(function(element) {
     });
 });
 
+// Functionality to save the link of a deck into the clipboard 
 let copyLinkElement = document.getElementById("copy-self-link");
 copyLinkElement.onclick = function() {
     // Retrieve self-link and write it into the clipboard
@@ -21,6 +22,7 @@ copyLinkElement.onclick = function() {
     return false;
 }
 
+// Functionality to save the decklist of a deck into the clipboard
 let copyDecklistElement = document.getElementById("copy-decklist");
 copyDecklistElement.onclick = function() {
     // Retrieve self-link and write it into the clipboard
@@ -34,7 +36,7 @@ copyDecklistElement.onclick = function() {
     return false;
 }
 
-
+// Functionality to download a QR with a link of the deck
 let downloadQRElement = document.getElementById("download-qr-svg");
 if (downloadQRElement) {
     downloadQRElement.addEventListener("click", () => {
@@ -49,7 +51,7 @@ if (downloadQRElement) {
     });
 }
 
-
+// Functionality to save a QR with a link of the deck into the clipboard
 let copyQRElement = document.getElementById("copy-qr-svg");
 if (copyQRElement) {
     copyQRElement.addEventListener("click", () => {
@@ -67,7 +69,7 @@ if (copyQRElement) {
     });
 }
 
-
+// Functionality to remove all copies of a Card from the deck
 let removeCardEls = document.getElementsByClassName("remove-card-trigger");
 for (let element of removeCardEls) {
     
@@ -99,7 +101,7 @@ for (let element of removeCardEls) {
     });
 };
 
-
+// Functionality to save the reference of a Card into to clipboard
 let copyReferenceEls = document.getElementsByClassName("card-reference-container");
 for (let element of copyReferenceEls) {
     element.addEventListener("click", (event) => {
@@ -115,7 +117,7 @@ for (let element of copyReferenceEls) {
     });
 };
 
-
+// Functionality to request a private link for a Deck and save it into the clipboard
 let createPrivateLink = document.getElementById("create-private-link");
 if (createPrivateLink) {
     createPrivateLink.addEventListener("click", (event) => {
@@ -144,7 +146,7 @@ if (createPrivateLink) {
     });
 }
 
-
+// Functionality to upvote/downvote a Comment on the comments section
 let upvoteCommentsEls = document.getElementsByClassName("upvote-comment");
 for (let element of upvoteCommentsEls) {
     
@@ -182,7 +184,7 @@ for (let element of upvoteCommentsEls) {
     });
 };
 
-
+// Functionality to delete a Comment on the comments section
 let deleteCommentsEls = document.getElementsByClassName("delete-comment");
 for (let element of deleteCommentsEls) {
     
