@@ -12,7 +12,6 @@ def fix_stats_values(apps, schema_editor):
     updated_cards = []
     for card in Card.objects.all():
         for field, value in card.stats.items():
-            # if "#" in str(value):
             card.stats[field] = int(value)
             updated_cards.append(card)
     Card.objects.bulk_update(updated_cards, ["stats"])
