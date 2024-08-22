@@ -15,7 +15,7 @@ If you're logged in with a Discord account, it is possible to make it public.
         <li>Added user profiles</li>
         <ul>
             <li><a href="{% url "profile-list" %}">List of users</a> (most recent, most viewed and most followed) accessible from the tab "<i class="fa-solid fa-people-group"></i> {% translate "Builders" %}"</li>
-            <li>Profile page for each user displaying a custom bio, public decks and its faction distribution</li>
+            <li>Profile page for each user displaying a custom bio, public decks and its faction distribution. For example: <a href="{% url "profile-detail" code="dbda1189-b17c-4d6e-806d-8ac7cb9fc85c" %}">Equinox</a></li>
             <li>List of followers and following users</li>
             <li>Access the profile of a deck's creator by clicking on their username</li>
         </ul>
@@ -25,7 +25,7 @@ If you're logged in with a Discord account, it is possible to make it public.
 <li><strong>{% translate "Other changes:" %}</strong>
     <ul>
         <li>The notifications are now retrieved strictly when opening the dropdown. It used to be rendered along the whole page, but this method grants better performance.</li>
-        <li>When viewing the detail of a deck, the card display is now kept on screen when scrolling through the page.</li>
+        <li>When viewing the detail of a deck, the card display is now kept on screen while scrolling through the page.</li>
     </ul>
 </li>
 
