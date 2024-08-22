@@ -1,8 +1,8 @@
 FROM python:3.12-alpine
 
-# Keeps Python from generating .pyc files in the container
+# Keep Python from generating .pyc files in the container
 ENV PYTHONDONTWRITEBYTECODE=1
-# Turns off buffering for easier container logging
+# Turn off buffering for easier container logging
 ENV PYTHONUNBUFFERED=1
 
 # Install the gettext to translate to different locales

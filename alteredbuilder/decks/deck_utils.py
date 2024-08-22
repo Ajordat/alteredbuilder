@@ -356,7 +356,7 @@ def import_unique_card(reference) -> Card:
     # Fetch the card data from the official API
     api_url = f"{ALTERED_TCG_API_URL}/{reference}/"
     response = requests.get(api_url)
-
+    
     if response.status_code == HTTPStatus.OK:
         card_data = response.json()
         family = "_".join(reference.split("_")[:-2])
@@ -408,11 +408,11 @@ def import_unique_card(reference) -> Card:
         return card
 
     else:
-        if response.status_code == HTTPStatus.UNAUTHORIZED:
-            raise AlteredAPIError(
-                f"The card {reference} is not public", status_code=response.status_code
-            )
-        print(response.content)
-        raise AlteredAPIError(
-            "Could access the Altered API", status_code=response.status_code
-        )
+        match response.status_code:
+            case HTTPStatus.UNAUTHORIZED:
+                msg = f"The card {reference} is not public"
+            case HTTPStatus.NOT_FOUND:
+                msg = f"The card {reference} does not exist"
+            case _:
+                msg = "Couldn't access the Altered API"
+        raise AlteredAPIError(msg, status_code=response.status_code)

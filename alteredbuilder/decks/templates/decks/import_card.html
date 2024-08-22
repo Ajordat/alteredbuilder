@@ -5,18 +5,25 @@
 
 {% block content %}
     <h2>{% translate "Import Unique Card" %}</h2>
-    <form id="import-card-form" method="post" class="mb-3">
+    <form id="import-card-form" method="post" class="needs-validation mb-3" novalidate>
         {% csrf_token %}
-        <p>
+        <div class="has-validation mb-3">
             <label for="{{ form.reference.auto_id }}">{% translate "Card Reference:" %}</label>
-            <input type="text" name="{{ form.reference.name }}" maxlength="{{ form.fields.reference.max_length }}" required="" id="{{ form.reference.auto_id }}" style="width: 300px;">
-        </p>
-        <button id="import-button" type="submit" class="btn btn-primary" onclick="importCard()">{% translate "Import Card" %}</button>
+            <input type="text" name="{{ form.reference.name }}" value="{% firstof form.reference.value form.reference.initial '' %}" maxlength="{{ form.fields.reference.max_length }}" required id="{{ form.reference.auto_id }}" style="width: 300px;" class="form-control{% if form.reference.errors %} is-invalid{% endif %}" aria-describedby="{{ form.reference.name }}-validation">
+            <div id="{{ form.reference.name }}-validation" class="invalid-feedback">
+                {% for error in form.reference.errors %}
+                    {{error}}<br>
+                {% empty %}
+                    {% translate "Please provide a card reference." %}<br>
+                {% endfor %}
+            </div>
+        </div>
+        <button id="import-button" type="submit" class="btn btn-primary">{% translate "Import Card" %}</button>
         <div id="loading-message" class="alert alert-info d-none d-flex align-items-center" role="alert">
             <div id="spinner" class="spinner-border text-primary me-2" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
-            Importing card, please wait...<span id="longtime-msg" class="d-none"> This will take a while, I've seen it take up to 2 minutes...</span>
+            Importing card, please wait...<span id="longtime-msg" class="d-none">&nbsp;This will take a while, I've seen it take up to 2 minutes...</span>
         </div>
     </form>
     <p>{% translate "Please note that:" %}
@@ -28,31 +35,39 @@
             <li>{% translate "The Unique card <strong>needs to be public</strong> so that it can be imported. Once the process is finished, the card can be made private again." %}</li>
         </ul>
     </p>
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
+    <div id="result">
+    {% if message %}
+        <div class="alert alert-primary" role="alert">
+            {{ message }}
+        </div>
     {% endif %}
+
     {% if card %}
-    <div class="col-auto">
-        <img src="{{ card.image_url }}" class="img-fluid rounded-3" alt="Card Image" style="height: 500px; width: auto;">
-    </div>
+        <div class="col-auto">
+            <img src="{{ card.image_url }}" class="img-fluid rounded-3" alt="Card Image" style="height: 500px; width: auto;">
+        </div>
     {% endif %}
+    </div>
 {% endblock %}
 
 
 {% block bodyscripts %}
     <script>
-        function importCard() {
-            document.getElementById('loading-message').classList.remove('d-none');
-            document.getElementById('import-button').classList.add('d-none');
-            document.getElementById('import-card-form').submit();
-            
-            setTimeout(function() {
-                document.getElementById('longtime-msg').classList.remove('d-none');
-            }, 20000);
-        }
+        form = document.getElementById('import-card-form');
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+                document.getElementById('result').classList.add('d-none');
+                document.getElementById('loading-message').classList.remove('d-none');
+                document.getElementById('import-button').classList.add('d-none');
+                setTimeout(function() {
+                    document.getElementById('longtime-msg').classList.remove('d-none');
+                }, 20000);
+            }
+    
+            form.classList.add('was-validated');
+        }, false);
     </script>
 {% endblock %}
