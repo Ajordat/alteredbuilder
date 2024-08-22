@@ -7,7 +7,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import transaction
 from django.db.models import Exists, F, OuterRef, Q
-from django.utils.translation import activate, get_language, gettext_lazy as _
+from django.utils.translation import activate, gettext_lazy as _
 
 from api.utils import locale_agnostic
 from decks.game_modes import (
@@ -356,7 +356,7 @@ def import_unique_card(reference) -> Card:
     # Fetch the card data from the official API
     api_url = f"{ALTERED_TCG_API_URL}/{reference}/"
     response = requests.get(api_url)
-    
+
     if response.status_code == HTTPStatus.OK:
         card_data = response.json()
         family = "_".join(reference.split("_")[:-2])
@@ -387,7 +387,7 @@ def import_unique_card(reference) -> Card:
         card = Card.objects.create(**card_dict)
         card.subtypes.add(*og_card.subtypes.all())
 
-        for language, _ in settings.LANGUAGES:
+        for language, _ in settings.LANGUAGES:  # noqa: F402
             if language == settings.LANGUAGE_CODE:
                 continue
             activate(language)

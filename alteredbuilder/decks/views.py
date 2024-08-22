@@ -2,7 +2,6 @@ from http import HTTPStatus
 from typing import Any
 import json
 
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
@@ -802,20 +801,34 @@ def import_card(request):
             reference = form.cleaned_data["reference"]
             try:
                 card = import_unique_card(reference)
-                context["message"] = _("The card '%(card_name)s' (%(reference)s) was successfully imported.") % {"card_name": card.name, "reference": reference}
+                context["message"] = _(
+                    "The card '%(card_name)s' (%(reference)s) was successfully imported."
+                ) % {"card_name": card.name, "reference": reference}
                 form = None
                 context["card"] = card
             except CardAlreadyExists:
                 card = Card.objects.get(reference=reference)
-                context["message"] = _("This unique version of '%(card_name)s' (%(reference)s) already exists in the database.") % {"card_name": card.name, "reference": reference}
+                context["message"] = _(
+                    "This unique version of '%(card_name)s' (%(reference)s) already exists in the database."
+                ) % {"card_name": card.name, "reference": reference}
                 form = None
                 context["card"] = card
             except AlteredAPIError as e:
                 if e.status_code == HTTPStatus.UNAUTHORIZED:
-                    form.add_error("reference", _("The card '%(reference)s' is not public") % {"reference": reference})
+                    form.add_error(
+                        "reference",
+                        _("The card '%(reference)s' is not public")
+                        % {"reference": reference},
+                    )
                 else:
-                    form.add_error("reference", _("Failed to fetch the card on the official API."))
+                    form.add_error(
+                        "reference", _("Failed to fetch the card on the official API.")
+                    )
 
-    context["form"] = form if form else CardImportForm(initial={"reference":request.GET.get("reference")})
+    context["form"] = (
+        form
+        if form
+        else CardImportForm(initial={"reference": request.GET.get("reference")})
+    )
 
     return render(request, "decks/import_card.html", context)

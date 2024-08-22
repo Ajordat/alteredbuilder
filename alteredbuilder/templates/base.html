@@ -63,14 +63,14 @@
                             <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-inbox"></i> {% translate "My decks" %}</a>
                         </li>
 
-                        <li class="nav-item dropdown {% if request.path == item_url or request.GET.next == item_url %}{{ tab_selected_class }}{% endif %}">
+                        <li class="nav-item dropdown">
                             <a class="nav-link active dropdown-toggle text-info-emphasis" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-file-import"></i> Import</a>
-                            <ul class="dropdown-menu dropdown-menu-end">
+                            <ul class="dropdown-menu dropdown-menu-end py-1">
                                 {% url 'new-deck' as item_url %}
-                                <li><a class="dropdown-item" href="{{ item_url }}"><i class="fa-solid fa-layer-group"></i> {% translate "Deck" %}</a></li>
-                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item py-2" href="{{ item_url }}"><i class="fa-solid fa-layer-group"></i> {% translate "Deck" %}</a></li>
+                                <li><hr class="dropdown-divider my-0"></li>
                                 {% url 'import-card' as item_url %}
-                                <li><a class="dropdown-item" href="{{ item_url }}"><i class="fa-solid fa-puzzle-piece"></i> {% translate "Unique card" %}</a></li>
+                                <li><a class="dropdown-item py-2" href="{{ item_url }}"><i class="fa-solid fa-puzzle-piece"></i> {% translate "Unique card" %}</a></li>
                             </ul>
                         </li>
 

@@ -4,7 +4,8 @@
 {% load static %}
 
 
-{% block content-div %}class="container mb-3"{% endblock %}
+{% block content-div %}class="container my-3"{% endblock %}
+
 {% block content %}
     <h2>{% translate "Import a Unique Card" %}</h2>
     
@@ -12,7 +13,7 @@
         {% csrf_token %}
         <div class="has-validation mb-3">
             <label for="{{ form.reference.auto_id }}">{% translate "Card Reference:" %}</label>
-            <input type="text" name="{{ form.reference.name }}" value="{% firstof form.reference.value form.reference.initial '' %}" maxlength="{{ form.fields.reference.max_length }}" required id="{{ form.reference.auto_id }}" style="width: 300px;" class="form-control{% if form.reference.errors %} is-invalid{% endif %}" aria-describedby="{{ form.reference.name }}-validation">
+            <input type="text" name="{{ form.reference.name }}" value="{% firstof form.reference.value form.reference.initial '' %}" maxlength="{{ form.fields.reference.max_length }}" required id="{{ form.reference.auto_id }}" style="width: 320px;" class="form-control{% if form.reference.errors %} is-invalid{% endif %}" aria-describedby="{{ form.reference.name }}-validation">
             <div id="{{ form.reference.name }}-validation" class="invalid-feedback">
                 {% for error in form.reference.errors %}
                     {{error}}<br>
