@@ -802,12 +802,12 @@ def import_card(request):
             reference = form.cleaned_data["reference"]
             try:
                 card = import_unique_card(reference)
-                context["message"] = _("The card '%(card_name)s' was successfully imported.") % {"card_name": card.name}
+                context["message"] = _("The card '%(card_name)s' (%(reference)s) was successfully imported.") % {"card_name": card.name, "reference": reference}
                 form = None
                 context["card"] = card
             except CardAlreadyExists:
                 card = Card.objects.get(reference=reference)
-                context["message"] = _("This unique version of '%(card_name)s' already exists in the database.") % {"card_name": card.name}
+                context["message"] = _("This unique version of '%(card_name)s' (%(reference)s) already exists in the database.") % {"card_name": card.name, "reference": reference}
                 form = None
                 context["card"] = card
             except AlteredAPIError as e:

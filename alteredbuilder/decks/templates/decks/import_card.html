@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
 
 {% load i18n %}
+{% load static %}
 
 
+{% block content-div %}class="container mb-3"{% endblock %}
 {% block content %}
-    <h2>{% translate "Import Unique Card" %}</h2>
+    <h2>{% translate "Import a Unique Card" %}</h2>
+    
     <form id="import-card-form" method="post" class="needs-validation mb-3" novalidate>
         {% csrf_token %}
         <div class="has-validation mb-3">
@@ -21,32 +24,62 @@
         <button id="import-button" type="submit" class="btn btn-primary">{% translate "Import Card" %}</button>
         <div id="loading-message" class="alert alert-info d-none d-flex align-items-center" role="alert">
             <div id="spinner" class="spinner-border text-primary me-2" role="status">
-                <span class="visually-hidden">Loading...</span>
+                <span class="visually-hidden">Importing...</span>
             </div>
-            Importing card, please wait...<span id="longtime-msg" class="d-none">&nbsp;This will take a while, I've seen it take up to 2 minutes...</span>
+            {% translate "Importing card, please wait..." %}<span id="longtime-msg" class="d-none">&nbsp;{% translate "This will take a while, I've seen it take up to 2 minutes..." %}</span>
         </div>
     </form>
-    <p>{% translate "Please note that:" %}
-        <ul>
-            <li>{% translate "Currently, the official Altered website only displays the Unique cards in English and French." %}</li>
-            <li>{% url "cards" as cards_tab_url %}{% blocktranslate %}The imported Unique card will appear on the '<a href="{{ cards_tab_url }}">Cards</a>' tab and it'll be possible to search for it in all languages, but the image will be strictly in English or French.{% endblocktranslate %}</li>
-            <li>{% translate "All users will be able to find and see the imported card." %}</li>
-            <li>{% translate "The communication with the Altered website is occasionally slow, so please <strong>be patient</strong>." %}</li>
-            <li>{% translate "The Unique card <strong>needs to be public</strong> so that it can be imported. Once the process is finished, the card can be made private again." %}</li>
-        </ul>
-    </p>
-    <div id="result">
-    {% if message %}
-        <div class="alert alert-primary" role="alert">
-            {{ message }}
-        </div>
-    {% endif %}
+    
+    <div id="result" class="mb-3">
+        {% if message %}
+            <div class="alert alert-primary" role="alert">
+                {{ message }}
+            </div>
+        {% endif %}
+    
+        {% if card %}
+            <div class="col-auto">
+                <img src="{{ card.image_url }}" class="img-fluid rounded-3" alt="Card Image" style="height: 400px; width: auto;">
+            </div>
+        {% endif %}
+    </div>
 
-    {% if card %}
-        <div class="col-auto">
-            <img src="{{ card.image_url }}" class="img-fluid rounded-3" alt="Card Image" style="height: 500px; width: auto;">
+    <div class="d-flex align-items-center">
+        <div class="accordion" id="tutorial-accordion" style="margin: 0 auto; width: 75%;">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#reference-tutorial" aria-expanded="false" aria-controls="reference-tutorial">
+                        {% translate "How can I get the reference of a card?" %}
+                    </button>
+                </h2>
+                <div id="reference-tutorial" class="accordion-collapse collapse">
+                    <div class="accordion-body p-0">
+                        <figure class="m-0">
+                            <img class="border-bottom img-fluid" src="{% static "img/ref_guide.png"%}">
+                            <figcaption class="pb-2 text-center text-muted">{% blocktranslate %}Image provided by <a href="https://discordapp.com/users/134357944178442240">Tristan</a>, check <a href="https://uniquesranking.onrender.com/">Uniques Ranking</a>!{% endblocktranslate %}</figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#disclaimer" aria-expanded="true" aria-controls="disclaimer">
+                        {% translate "Disclaimers" %}
+                    </button>
+                </h2>
+                <div id="disclaimer" class="accordion-collapse collapse show">
+                    <div class="accordion-body">
+                        <ul>
+                            <li>{% translate "Currently, the official Altered website only displays the Unique cards in English and French." %}</li>
+                            <li>{% url "cards" as cards_tab_url %}{% blocktranslate %}The imported Unique card will appear on the '<a href="{{ cards_tab_url }}">Cards</a>' tab and it'll be possible to search for it in all languages, but the image will be strictly in English or French.{% endblocktranslate %}</li>
+                            <li>{% translate "All users will be able to find and see the imported card." %}</li>
+                            <li>{% translate "The communication with the Altered website is occasionally slow, so please <strong>be patient</strong>." %}</li>
+                            <li>{% translate "The Unique card <strong>needs to be public</strong> so that it can be imported. Once the process is finished, the card can be made private again." %}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-    {% endif %}
     </div>
 {% endblock %}
 
