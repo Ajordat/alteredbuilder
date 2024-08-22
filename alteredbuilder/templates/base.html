@@ -19,8 +19,8 @@
         <meta property="og:url" content="{{ request.build_absolute_uri }}"/>
         <meta property="og:image" content="{% block meta_image %}{% static 'img/logo-og-fade.png' %}{% endblock %}"/>
         <meta property="og:image:type" content="image/png"/>
-        <meta property="og:description" content="The place to build, analyze and share Altered TCG decks."/>
-        <meta name="description" content="The place to build, analyze and share Altered TCG decks."/>
+        <meta property="og:description" content="{% translate "The place to build, analyze and share Altered TCG decks." %}"/>
+        <meta name="description" content="{% translate "The place to build, analyze and share Altered TCG decks." %}"/>
     {% for lang, _ in AVAILABLE_LANGUAGES %}
         <link rel="alternate" hreflang="{{ lang }}" href="{{ request.scheme}}://{{ request.get_host }}{% change_lang lang %}" />
     {% endfor %}
