@@ -205,6 +205,7 @@ class CardAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
 @admin.register(CardInDeck)
 class CardInDeckAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
     list_display = ["deck", "card"]
+    search_fields = ["card__reference"]
 
 
 @admin.register(LovePoint)

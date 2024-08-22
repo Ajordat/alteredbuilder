@@ -7,7 +7,8 @@ from profiles.models import Follow, UserProfile
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ["user"]
     search_fields = ["user__username"]
-    readonly_fields = ["user", "altered_handle"]
+    readonly_fields = ["user", "code", "altered_handle", "discord_public"]
+    fieldsets = [(None, {"fields": ["user", "code", "bio"]}), ("Social accounts", {"fields": ["altered_handle", "discord_public"]})]
 
 
 @admin.register(Follow)
