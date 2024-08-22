@@ -302,7 +302,7 @@ if env("USE_GCS_STATICS") and (
                 "default_acl": None,
                 "querystring_auth": False,
                 "gzip": True,
-                "object_parameters": {"cache_control": "private, max-age=3600"},
+                "object_parameters": {"cache_control": "public, max-age=120"},
             },
         },
     }
