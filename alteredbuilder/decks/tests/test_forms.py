@@ -1,13 +1,14 @@
 from http import HTTPStatus
 
-from django.test import RequestFactory
+from django.contrib.auth.models import User
+from django.test import RequestFactory, TestCase
 from django.urls import reverse
 
 from config.tests.utils import get_login_url, silence_logging
-from decks.forms import CommentForm, DecklistForm, DeckMetadataForm
+from decks.forms import CardImportForm, CommentForm, DecklistForm, DeckMetadataForm
 from decks.models import Card, Comment, Deck
 from decks.tests.utils import BaseFormTestCase
-from decks.views import NewDeckFormView
+from decks.views import import_card, NewDeckFormView
 
 
 class CreateDeckFormTestCase(BaseFormTestCase):
@@ -344,3 +345,71 @@ class CreateCommentFormTestCase(BaseFormTestCase):
         self.assertRedirects(
             response, deck.get_absolute_url(), status_code=HTTPStatus.FOUND
         )
+
+
+class ImportCardFormTestCase(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = User.objects.create_user(username="user")
+
+    def test_form_invalid_reference(self):
+        form = CardImportForm(data={"reference": "asdf"})
+
+        self.assertFalse(form.is_valid())
+        self.assertFormError(form, "reference", "Enter a valid value.")
+
+    def test_form_valid_references(self):
+        references = [
+            "ALT_CORE_B_LY_04_U_1",
+            "ALT_COREKS_B_LY_04_U_125",
+            "ALT_CORE_P_MU_52_U_14",
+        ]
+
+        for reference in references:
+            form = CardImportForm(data={"reference": reference})
+
+            self.assertTrue(form.is_valid())
+
+    def test_get_unauthenticated(self):
+        response = self.client.get(reverse("import-card"))
+
+        self.assertRedirects(
+            response, get_login_url("import-card"), status_code=HTTPStatus.FOUND
+        )
+
+    def test_get_authenticated(self):
+        self.client.force_login(self.user)
+
+        response = self.client.get(reverse("import-card"))
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, "decks/import_card.html")
+        self.assertIn("form", response.context)
+        self.assertIsInstance(response.context["form"], CardImportForm)
+        self.assertIsNone(response.context["form"].initial["reference"])
+
+    def test_get_authenticated_with_params(self):
+        test_reference = "real_reference"
+        self.client.force_login(self.user)
+
+        response = self.client.get(
+            reverse("import-card") + "?reference=" + test_reference
+        )
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, "decks/import_card.html")
+        self.assertIn("form", response.context)
+        self.assertIsInstance(response.context["form"], CardImportForm)
+        self.assertEqual(response.context["form"].initial["reference"], test_reference)
+
+    # def test_invalid_card_wrong_reference(self):
+    #     form_data = {"reference": "asdf"}
+    #     request = RequestFactory().post(reverse("import-card"), form_data)
+    #     request.user = self.user
+
+    #     response = import_card(request)
+
+    #     self.assertTrue(form.has_error("decklist"))
+    #     self.assertFormError(form, "reference", "Enter a valid value.")
+    #     self.assertEqual(response.status_code, HTTPStatus.OK)

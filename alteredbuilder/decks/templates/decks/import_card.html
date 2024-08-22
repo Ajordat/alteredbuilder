@@ -13,7 +13,7 @@
         {% csrf_token %}
         <div class="has-validation mb-3">
             <label for="{{ form.reference.auto_id }}">{% translate "Card Reference:" %}</label>
-            <input type="text" name="{{ form.reference.name }}" value="{% firstof form.reference.value form.reference.initial '' %}" maxlength="{{ form.fields.reference.max_length }}" required id="{{ form.reference.auto_id }}" style="width: 320px;" class="form-control{% if form.reference.errors %} is-invalid{% endif %}" aria-describedby="{{ form.reference.name }}-validation">
+            <input type="text" name="{{ form.reference.name }}" value="{% firstof form.reference.value form.reference.initial '' %}" maxlength="{{ form.fields.reference.max_length }}" required id="{{ form.reference.auto_id }}" style="width: 320px;" class="form-control{% if form.reference.errors %} is-invalid{% endif %}" aria-describedby="{{ form.reference.name }}-validation" placeholder="ALT_COREKS_B_OR_21_U_2139">
             <div id="{{ form.reference.name }}-validation" class="invalid-feedback">
                 {% for error in form.reference.errors %}
                     {{error}}<br>

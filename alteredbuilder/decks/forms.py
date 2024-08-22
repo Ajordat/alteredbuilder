@@ -6,11 +6,6 @@ from django.utils.translation import gettext_lazy as _
 
 from .models import Card, Comment, Deck
 
-# Form definitions
-
-# Regex to validate whether at least one line follows the correct format
-decklist_validator = RegexValidator(r"^\d+ \w+$", flags=re.MULTILINE)
-
 
 class DecklistForm(forms.Form):
     """Form to validate the creation of a Deck."""
@@ -32,7 +27,7 @@ class DecklistForm(forms.Form):
         widget=forms.Textarea,
         max_length=2000,
         required=True,
-        validators=[decklist_validator],
+        validators=[RegexValidator(r"^\d+ \w+$", flags=re.MULTILINE)],
         error_messages={
             "invalid": _(
                 "Each line should be a quantity (1, 2 or 3) and a card reference."
@@ -75,4 +70,10 @@ class CardImportForm(forms.Form):
     reference = forms.CharField(
         label=_("Card Reference"),
         max_length=Card._meta.get_field("reference").max_length,
+        validators=[
+            RegexValidator(
+                r"^ALT_[A-Z]{4,6}_(?:B|P)_[A-Z]{2}_\d{2}_U_\d+$",
+                _("The reference should look similar to 'ALT_COREKS_B_OR_21_U_2139'"),
+            )
+        ],
     )
