@@ -18,7 +18,7 @@ ITEMS_PER_PAGE = 2000
 # If True, retrieve the unique cards
 UPDATE_UNIQUES = False
 # The API currently returns a private image link for unique cards in these languages
-IMAGE_ERROR_LOCALES = ["es", "fr", "de"]
+IMAGE_ERROR_LOCALES = ["es", "it", "de"]
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0",
     "Origin": "https://www.altered.gg",

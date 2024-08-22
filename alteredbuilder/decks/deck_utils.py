@@ -1,15 +1,29 @@
 from collections import defaultdict
+from http import HTTPStatus
 import re
+import requests
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import transaction
 from django.db.models import Exists, F, OuterRef, Q
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import activate, get_language, gettext_lazy as _
 
-from .game_modes import DraftGameMode, GameMode, StandardGameMode, update_deck_legality
-from .models import Card, CardInDeck, Deck, Subtype
-from .exceptions import MalformedDeckException
+from api.utils import locale_agnostic
+from decks.game_modes import (
+    DraftGameMode,
+    GameMode,
+    StandardGameMode,
+    update_deck_legality,
+)
+from decks.models import Card, CardInDeck, Deck, Subtype
+from decks.exceptions import AlteredAPIError, CardAlreadyExists, MalformedDeckException
 
+
+# Altered's API endpoint
+ALTERED_TCG_API_URL = "https://api.altered.gg/cards"
+# The API currently returns a private image link for unique cards in these languages
+IMAGE_ERROR_LOCALES = ["es", "it", "de"]
 
 OPERATOR_TO_HTML = {
     ":": ":",
@@ -330,3 +344,75 @@ def parse_deck_query_syntax(qs, query):
         return qs.filter(filters & Q(name__icontains=query)), tags
     else:
         return qs.filter(filters), tags
+
+
+@locale_agnostic
+def import_unique_card(reference) -> Card:
+
+    # Check if the card already exists in the database
+    if Card.objects.filter(reference=reference).exists():
+        raise CardAlreadyExists
+
+    # Fetch the card data from the official API
+    api_url = f"{ALTERED_TCG_API_URL}/{reference}/"
+    response = requests.get(api_url)
+
+    if response.status_code == HTTPStatus.OK:
+        card_data = response.json()
+        family = "_".join(reference.split("_")[:-2])
+        og_card = Card.objects.filter(
+            reference__startswith=family, rarity=Card.Rarity.COMMON
+        ).get()
+        card_dict = {
+            "reference": reference,
+            "name": og_card.name,
+            "faction": card_data["mainFaction"]["reference"],
+            "type": Card.Type.CHARACTER,
+            "rarity": Card.Rarity.UNIQUE,
+            "image_url": card_data["imagePath"],
+            "set": og_card.set,
+            "stats": {
+                "main_cost": card_data["elements"]["MAIN_COST"],
+                "recall_cost": card_data["elements"]["RECALL_COST"],
+                "forest_power": card_data["elements"]["FOREST_POWER"],
+                "mountain_power": card_data["elements"]["MOUNTAIN_POWER"],
+                "ocean_power": card_data["elements"]["OCEAN_POWER"],
+            },
+        }
+        if "MAIN_EFFECT" in card_data["elements"]:
+            card_dict["main_effect"] = card_data["elements"]["MAIN_EFFECT"]
+        if "ECHO_EFFECT" in card_data["elements"]:
+            card_dict["echo_effect"] = card_data["elements"]["ECHO_EFFECT"]
+
+        card = Card.objects.create(**card_dict)
+        card.subtypes.add(*og_card.subtypes.all())
+
+        for language, _ in settings.LANGUAGES:
+            if language == settings.LANGUAGE_CODE:
+                continue
+            activate(language)
+            headers = {"Accept-Language": f"{language}-{language}"}
+            response = requests.get(api_url, headers=headers)
+            card_data = response.json()
+            card.name = og_card.name
+
+            card.main_effect
+            if "MAIN_EFFECT" in card_data["elements"]:
+                card.main_effect = card_data["elements"]["MAIN_EFFECT"]
+            if "ECHO_EFFECT" in card_data["elements"]:
+                card.echo_effect = card_data["elements"]["ECHO_EFFECT"]
+            if language not in IMAGE_ERROR_LOCALES:
+                card.image_url = card_data["imagePath"]
+
+        card.save()
+        return card
+
+    else:
+        if response.status_code == HTTPStatus.UNAUTHORIZED:
+            raise AlteredAPIError(
+                f"The card {reference} is not public", status_code=response.status_code
+            )
+        print(response.content)
+        raise AlteredAPIError(
+            "Could access the Altered API", status_code=response.status_code
+        )

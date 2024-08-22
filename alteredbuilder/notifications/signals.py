@@ -81,7 +81,9 @@ def create_deck_notification(sender, instance: Deck, created, **kwargs):
         # it if it wasn't needed to perform a db operation every time, but it seems to
         # be the fastest way right now
         # https://medium.com/@mmzeynalli/how-to-detect-field-changes-in-django-ae4bc719aea2
-        Notification.objects.filter(content_type=content_type, object_id=instance.id).exclude(recipient=creator).delete()
+        Notification.objects.filter(
+            content_type=content_type, object_id=instance.id
+        ).exclude(recipient=creator).delete()
 
 
 @receiver(pre_delete, sender=Deck)

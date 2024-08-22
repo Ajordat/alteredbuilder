@@ -41,4 +41,5 @@ urlpatterns = [
         views.delete_comment,
         name="delete-comment",
     ),
+    path("import-unique-card/", views.import_card, name="import-unique-card"),
 ]

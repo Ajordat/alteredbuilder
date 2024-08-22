@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+
+{% block content %}
+    <h2>{% translate "Import Unique Card" %}</h2>
+    <form id="import-card-form" method="post" class="mb-3">
+        {% csrf_token %}
+        <p>
+            <label for="{{ form.reference.auto_id }}">{% translate "Card Reference:" %}</label>
+            <input type="text" name="{{ form.reference.name }}" maxlength="{{ form.fields.reference.max_length }}" required="" id="{{ form.reference.auto_id }}" style="width: 300px;">
+        </p>
+        <button id="import-button" type="submit" class="btn btn-primary" onclick="importCard()">{% translate "Import Card" %}</button>
+        <div id="loading-message" class="alert alert-info d-none d-flex align-items-center" role="alert">
+            <div id="spinner" class="spinner-border text-primary me-2" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            Importing card, please wait...<span id="longtime-msg" class="d-none"> This will take a while, I've seen it take up to 2 minutes...</span>
+        </div>
+    </form>
+    <p>{% translate "Please note that:" %}
+        <ul>
+            <li>{% translate "Currently, the official Altered website only displays the Unique cards in English and French." %}</li>
+            <li>{% url "cards" as cards_tab_url %}{% blocktranslate %}The imported Unique card will appear on the '<a href="{{ cards_tab_url }}">Cards</a>' tab and it'll be possible to search for it in all languages, but the image will be strictly in English or French.{% endblocktranslate %}</li>
+            <li>{% translate "All users will be able to find and see the imported card." %}</li>
+            <li>{% translate "The communication with the Altered website is occasionally slow, so please <strong>be patient</strong>." %}</li>
+            <li>{% translate "The Unique card <strong>needs to be public</strong> so that it can be imported. Once the process is finished, the card can be made private again." %}</li>
+        </ul>
+    </p>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% if card %}
+    <div class="col-auto">
+        <img src="{{ card.image_url }}" class="img-fluid rounded-3" alt="Card Image" style="height: 500px; width: auto;">
+    </div>
+    {% endif %}
+{% endblock %}
+
+
+{% block bodyscripts %}
+    <script>
+        function importCard() {
+            document.getElementById('loading-message').classList.remove('d-none');
+            document.getElementById('import-button').classList.add('d-none');
+            document.getElementById('import-card-form').submit();
+            
+            setTimeout(function() {
+                document.getElementById('longtime-msg').classList.remove('d-none');
+            }, 20000);
+        }
+    </script>
+{% endblock %}

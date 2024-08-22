@@ -1,8 +1,9 @@
 from http import HTTPStatus
 import json
 
+from django.conf import settings
 from django.http import HttpRequest, HttpResponse, JsonResponse
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import activate, get_language, gettext_lazy as _
 
 
 def ajax_request(methods=None):
@@ -26,6 +27,19 @@ def ajax_request(methods=None):
         return inner
 
     return wrap
+
+
+def locale_agnostic(func):
+    def inner(*args, **kwargs):
+        current_language = get_language()
+        try:
+            activate(settings.LANGUAGE_CODE)
+            result = func(*args, **kwargs)
+        finally:
+            activate(current_language)
+        return result
+
+    return inner
 
 
 class ApiJsonResponse(JsonResponse):

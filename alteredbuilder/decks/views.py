@@ -2,6 +2,7 @@ from http import HTTPStatus
 from typing import Any
 import json
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
@@ -10,7 +11,7 @@ from django.db.models import Count, Exists, F, OuterRef, Q
 from django.db.models.manager import Manager
 from django.db.models.query import QuerySet
 from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -22,6 +23,7 @@ from api.utils import ajax_request, ApiJsonResponse
 from decks.deck_utils import (
     create_new_deck,
     get_deck_details,
+    import_unique_card,
     parse_card_query_syntax,
     parse_deck_query_syntax,
     patch_deck,
@@ -38,8 +40,8 @@ from decks.models import (
     PrivateLink,
     Set,
 )
-from decks.forms import CommentForm, DecklistForm, DeckMetadataForm
-from decks.exceptions import MalformedDeckException
+from decks.forms import CardImportForm, CommentForm, DecklistForm, DeckMetadataForm
+from decks.exceptions import AlteredAPIError, CardAlreadyExists, MalformedDeckException
 from profiles.models import Follow
 
 
@@ -788,3 +790,49 @@ class CardListView(ListView):
             context["query_tags"] = self.query_tags
 
         return context
+
+
+@login_required
+def import_card(request):
+    context = {}
+    if request.method == "POST":
+        form = CardImportForm(request.POST)
+        if form.is_valid():
+            reference = form.cleaned_data["reference"]
+            storage = messages.get_messages(request)
+            storage.used = True
+            try:
+                card = import_unique_card(reference)
+                messages.success(
+                    request,
+                    _("The card '%(card_name)s' was successfully imported.")
+                    % {"card_name": card.name},
+                )
+                context["form"] = CardImportForm()
+                context["card"] = card
+            except CardAlreadyExists:
+                card = Card.objects.get(reference=reference)
+                messages.warning(
+                    request,
+                    _(
+                        "This unique version of '%(card_name)s' already exists in the database."
+                    )
+                    % {"card_name": card.name},
+                )
+                context["form"] = CardImportForm()
+                context["card"] = card
+            except AlteredAPIError as e:
+                if e.status_code == HTTPStatus.UNAUTHORIZED:
+                    messages.error(
+                        request,
+                        _("The card '%(reference)s' is not public")
+                        % {"reference": reference},
+                    )
+                else:
+                    messages.error(
+                        request, _("Failed to fetch card data from the official API.")
+                    )
+    else:
+        context["form"] = CardImportForm()
+
+    return render(request, "decks/import_card.html", context)

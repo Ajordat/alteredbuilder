@@ -4,7 +4,7 @@ from django import forms
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
 
-from .models import Comment, Deck
+from .models import Card, Comment, Deck
 
 # Form definitions
 
@@ -68,4 +68,11 @@ class CommentForm(forms.Form):
         label="body",
         max_length=Comment._meta.get_field("body").max_length,
         required=True,
+    )
+
+
+class CardImportForm(forms.Form):
+    reference = forms.CharField(
+        label=_("Card Reference"),
+        max_length=Card._meta.get_field("reference").max_length,
     )

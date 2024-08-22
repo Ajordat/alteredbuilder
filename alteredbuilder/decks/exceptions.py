@@ -5,6 +5,10 @@ from api.exceptions import AlteredBuilderAPIException
 # Custom exceptions inheriting from the base exception defined on the API app
 
 
+class AlteredAPIError(AlteredBuilderAPIException):
+    pass
+
+
 class DeckException(AlteredBuilderAPIException):
     pass
 
@@ -19,4 +23,8 @@ class AlteredBuilderException(Exception):
 
 
 class IgnoreCardType(AlteredBuilderException):
+    pass
+
+
+class CardAlreadyExists(AlteredBuilderException):
     pass

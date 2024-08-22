@@ -38,12 +38,11 @@ class ReadOnlyAdminMixin(object):
     def has_delete_permission(
         self, request: HttpRequest, obj: Any | None = ...
     ) -> bool:
+        if isinstance(obj, Card):
+            return obj.rarity == Card.Rarity.UNIQUE
         return False
 
     def save_model(self, request: Any, obj: Any, form: Any, change: Any) -> None:
-        pass
-
-    def delete_model(self, request: HttpRequest, obj: Any) -> None:
         pass
 
     def save_related(self, request: Any, form: Any, formsets: Any, change: Any) -> None:
