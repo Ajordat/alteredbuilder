@@ -129,17 +129,17 @@
                             </ul>
                         </li>
 {% if user.is_authenticated %}
-    {% if user.is_superuser %}
-                        <li class="nav-item">
-                            <a class="nav-link active text-info-emphasis" href="{% url 'troubleshoot:session' %}">Sessions</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active text-info-emphasis" href="{% url 'troubleshoot:deck_descriptions' %}">Decks</a>
-                        </li>
-    {% endif %}
-    {% if user.is_staff %}
-                        <li class="nav-item">
-                            <a class="nav-link active text-info-emphasis" href="{% url 'admin:index' %}"><i class="fa-solid fa-gears"></i> Django Admin</a>
+    {% if user.is_superuser or user.is_staff %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link active dropdown-toggle text-info-emphasis" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-gears"></i> Admin</a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+        {% if user.is_staff %}
+                                <li><a class="dropdown-item" href="{% url 'admin:index' %}"><i class="fa-solid fa-gears"></i> Admin Panel</a></li>
+                                <li><hr class="dropdown-divider"></li>
+        {% endif %}
+                                <li><a class="dropdown-item" href="{% url 'troubleshoot:session' %}">Sessions</a></li>
+                                <li><a class="dropdown-item" href="{% url 'troubleshoot:deck_descriptions' %}">Decks</a></li>
+                            </ul>
                         </li>
     {% endif %}
                         <li class="nav-item dropdown">
