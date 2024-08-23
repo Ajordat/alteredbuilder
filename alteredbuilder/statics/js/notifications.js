@@ -22,20 +22,30 @@ function fetchNotifications() {
         notificationDropdown.innerHTML = '';
         notifications = data.data.notifications;
         if (notifications.length > 0) {
+            // If there are notifications, render each of them
             notifications.forEach(notification => {
+                // <li> element will contain the notification
                 let notificationItem = document.createElement('li');
+                // <a> element has to be clickable and needs to go to the notification detail view
                 let anchor = document.createElement("a");
                 anchor.href = `${currentLanguage}/notifications/${notification.id}/`;
                 anchor.classList.add("dropdown-item", "d-block");
-                if (!notification.read) {
-                    notificationItem.classList.add("new-notification");
-                    let span = document.createElement("span");
-                    span.classList.add("position-absolute", "p-1", "bg-danger", "border", "border-light", "rounded-circle");
-                    anchor.appendChild(span);
-                }
+                // <span> will contain the notification text
                 let span = document.createElement("span");
-                span.innerHTML = "&nbsp;&nbsp;" + notification.message;
+
+                if (!notification.read) {
+                    // If it's a new notification, create a red dot in a <span> and add 2 whitespaces
+                    // to the message text to avoid overlap
+                    notificationItem.classList.add("new-notification");
+                    let redDotSpan = document.createElement("span");
+                    redDotSpan.classList.add("position-absolute", "p-1", "bg-danger", "border", "border-light", "rounded-circle");
+                    anchor.appendChild(redDotSpan);
+                    span.innerHTML = "&nbsp;&nbsp;";
+                }
+                // Insert the notification text into the <span>
+                span.innerHTML += notification.message;
                 anchor.appendChild(span);
+                // Break the line with <br> and create a <small> element with the date
                 anchor.appendChild(document.createElement("br"));
                 let small = document.createElement("small");
                 small.classList.add("text-muted");
