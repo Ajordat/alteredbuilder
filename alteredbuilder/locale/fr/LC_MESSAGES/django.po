@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-23 16:41+0200\n"
+"POT-Creation-Date: 2024-08-23 17:10+0200\n"
 "PO-Revision-Date: 2024-05-22 18:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -1089,6 +1089,10 @@ msgid "%(username)s doesn't have any followers yet. You can be the first!"
 msgstr ""
 "%(username)s n'a pas encore de followers. Vous pouvez être le premier !"
 
+#: profiles/templates/profiles/followers_list.html:95
+msgid "You don't have any followers yet. Start sharing your decks!"
+msgstr "Vous n'avez pas encore de followers. Commencez à partager vos decks !"
+
 #: profiles/templates/profiles/tooltips/user_profile.html:10
 #: profiles/templates/profiles/userprofile_detail.html:31
 #, python-format
@@ -1323,12 +1327,12 @@ msgstr ""
 msgid "New features:"
 msgstr "Nouvelles fonctionnalités :"
 
-#: templates/releases/1.10.0.html:25 templates/releases/1.10.1.html:26
+#: templates/releases/1.10.0.html:25 templates/releases/1.10.1.html:32
 #: templates/releases/1.9.0.html:12 templates/releases/release_template.html:16
 msgid "Other changes:"
 msgstr "Autres modifications :"
 
-#: templates/releases/1.10.0.html:32 templates/releases/1.10.1.html:33
+#: templates/releases/1.10.0.html:32 templates/releases/1.10.1.html:39
 #: templates/releases/1.9.0.html:22 templates/releases/release_template.html:23
 msgid "Announcements:"
 msgstr "Annonces :"
