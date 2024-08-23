@@ -222,7 +222,7 @@ class Comment(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True
     )
-    deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
+    deck = models.ForeignKey(Deck, on_delete=models.CASCADE, related_name="comments")
     body = models.TextField(blank=False, max_length=280)
     vote_count = models.PositiveIntegerField(default=0)
 

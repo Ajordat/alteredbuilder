@@ -12,14 +12,24 @@ from profiles.models import Follow
 def create_comment_notification(sender, instance: Comment, created: bool, **kwargs):
     if created:
         deck = instance.deck
-        recipient = deck.owner
+        content_type = ContentType.objects.get_for_model(deck)
 
-        if recipient != instance.user:
+        # Retrieve all users that Commented in a Deck
+        users = list(deck.comments.values_list("user__id", flat=True))
+        # Add the owner of the Deck
+        users.append(deck.owner.id)
+        # Make it unique
+        users = list(set(users))
+        # Remove the creator of the Comment
+        users.remove(instance.user.id)
+
+        # Create a Notification to each of the users
+        for user in users:
             Notification.objects.create(
-                recipient=recipient,
+                recipient_id=user,
                 verb=NotificationType.COMMENT,
                 actor=instance.user,
-                content_type=ContentType.objects.get_for_model(deck),
+                content_type=content_type,
                 object_id=deck.id,
             )
 
