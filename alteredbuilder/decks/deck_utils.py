@@ -347,7 +347,7 @@ def parse_deck_query_syntax(qs, query):
 
 
 @locale_agnostic
-def import_unique_card(reference) -> Card:
+def import_unique_card(reference) -> Card:  # pragma: no cover
 
     # Check if the card already exists in the database
     if Card.objects.filter(reference=reference).exists():

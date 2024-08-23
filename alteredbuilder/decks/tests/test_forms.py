@@ -357,7 +357,7 @@ class ImportCardFormTestCase(TestCase):
         form = CardImportForm(data={"reference": "asdf"})
 
         self.assertFalse(form.is_valid())
-        self.assertFormError(form, "reference", "Enter a valid value.")
+        self.assertFormError(form, "reference", "Invalid value. The reference should look similar to 'ALT_COREKS_B_OR_21_U_2139'.")
 
     def test_form_valid_references(self):
         references = [
