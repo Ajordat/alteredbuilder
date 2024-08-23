@@ -30,6 +30,11 @@
             {% translate "Operators:" %} <code class="inline">:</code><br>
             {% translate "Value:" %} <code class="inline">{% translate "Single word" %}</code>
         </li>
+        <!-- Reference -->
+        <li>{% translate "Reference:" %} <code class="inline">ref</code><br>
+            {% translate "Operators:" %} <code class="inline">:</code><br>
+            {% translate "Value:" %} <code class="inline">{% translate "Card Reference" %}</code>
+        </li>
     </ul>
     {% translate "Examples:" %}
     <!-- Examples -->
@@ -48,6 +53,9 @@
         </li>
         <li>{% translate 'Search cards that trigger when played from the hand (<span class="altered-hand"></span>) and that can be discarded (<span class="altered-discard"></span>):' %}<br>
             <code class="inline">t:hand t:discard</code>
+        </li>
+        <li>{% translate 'Search the card with the reference `ALT_COREKS_B_OR_21_U_2139`:' %}<br>
+            <code class="inline">ref:ALT_COREKS_B_OR_21_U_2139</code>
         </li>
     </ul>
 </div>

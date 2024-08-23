@@ -228,9 +228,18 @@ def remove_card_from_deck(deck, reference):
 
 def parse_card_query_syntax(qs, query):
     filters = Q()
+    tags = []
+
+    ref_regex = r"ref:(?P<reference>\w+)"
+
+    if matches := re.finditer(ref_regex, query, re.ASCII):
+        for re_match in matches:
+            reference = re_match.group("reference")
+            tags.append((_("reference"), ":", reference))
+            return qs.filter(reference=reference), tags, True
+
 
     hc_regex = r"hc(?P<hc_op>:|=|>|>=|<|<=)(?P<hc>\d+)"
-    tags = []
 
     if matches := re.finditer(hc_regex, query, re.ASCII):
         for re_match in matches:
@@ -311,9 +320,9 @@ def parse_card_query_syntax(qs, query):
     query = query.strip()
     if query:
         tags.append((_("query"), ":", query))
-        return qs.filter(filters & Q(name__icontains=query)), tags
+        return qs.filter(filters & Q(name__icontains=query)), tags, False
     else:
-        return qs.filter(filters), tags
+        return qs.filter(filters), tags, False
 
 
 def parse_deck_query_syntax(qs, query):

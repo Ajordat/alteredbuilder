@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-23 11:28+0200\n"
+"POT-Creation-Date: 2024-08-23 13:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,35 +60,39 @@ msgstr "La carta '%(reference)s' non esiste"
 msgid "Multiple heroes present in the decklist"
 msgstr "Più eroi presenti nella lista del mazzo"
 
-#: decks/deck_utils.py:250
+#: decks/deck_utils.py:238
+msgid "reference"
+msgstr "riferimento"
+
+#: decks/deck_utils.py:259
 msgid "hand cost"
 msgstr "costo della mano"
 
-#: decks/deck_utils.py:270
+#: decks/deck_utils.py:279
 msgid "reserve cost"
 msgstr "costo della riserva"
 
-#: decks/deck_utils.py:279
+#: decks/deck_utils.py:288
 msgid "ability"
 msgstr "capacità"
 
-#: decks/deck_utils.py:292
+#: decks/deck_utils.py:301
 msgid "subtype"
 msgstr "sottotipo"
 
-#: decks/deck_utils.py:306
+#: decks/deck_utils.py:315
 msgid "trigger"
 msgstr "innesco"
 
-#: decks/deck_utils.py:313 decks/deck_utils.py:343
+#: decks/deck_utils.py:322 decks/deck_utils.py:352
 msgid "query"
 msgstr "consultazione"
 
-#: decks/deck_utils.py:329
+#: decks/deck_utils.py:338
 msgid "user"
 msgstr "utente"
 
-#: decks/deck_utils.py:338
+#: decks/deck_utils.py:347
 msgid "hero"
 msgstr "eroe"
 
@@ -105,7 +109,7 @@ msgid "Each line should be a quantity (1, 2 or 3) and a card reference."
 msgstr ""
 "Ogni riga deve contenere una quantità (1, 2 o 3) e un riferimento alla carta."
 
-#: decks/forms.py:71
+#: decks/forms.py:71 decks/templates/decks/tooltips/card_query_search.html:36
 msgid "Card Reference"
 msgstr "Riferimento della carta"
 
@@ -751,6 +755,7 @@ msgstr "Costo della mano:"
 #: decks/templates/decks/tooltips/card_query_search.html:20
 #: decks/templates/decks/tooltips/card_query_search.html:25
 #: decks/templates/decks/tooltips/card_query_search.html:30
+#: decks/templates/decks/tooltips/card_query_search.html:35
 #: decks/templates/decks/tooltips/deck_query_search.html:11
 #: decks/templates/decks/tooltips/deck_query_search.html:16
 msgid "Operators:"
@@ -760,6 +765,7 @@ msgstr "Operatori:"
 #: decks/templates/decks/tooltips/card_query_search.html:16
 #: decks/templates/decks/tooltips/card_query_search.html:21
 #: decks/templates/decks/tooltips/card_query_search.html:31
+#: decks/templates/decks/tooltips/card_query_search.html:36
 #: decks/templates/decks/tooltips/deck_query_search.html:12
 #: decks/templates/decks/tooltips/deck_query_search.html:17
 msgid "Value:"
@@ -798,20 +804,24 @@ msgid "Subtypes:"
 msgstr "Sottotipi:"
 
 #: decks/templates/decks/tooltips/card_query_search.html:34
+msgid "Reference:"
+msgstr "Riferimento:"
+
+#: decks/templates/decks/tooltips/card_query_search.html:39
 #: decks/templates/decks/tooltips/deck_query_search.html:20
 msgid "Examples:"
 msgstr "Esempi:"
 
-#: decks/templates/decks/tooltips/card_query_search.html:37
+#: decks/templates/decks/tooltips/card_query_search.html:42
 msgid "Search bureaucrat cards that cost <span class=\"altered-3\"></span>:"
 msgstr ""
 "Cercare carte di burocrati che costano <span class=\"altered-3\"></span>:"
 
-#: decks/templates/decks/tooltips/card_query_search.html:38
+#: decks/templates/decks/tooltips/card_query_search.html:43
 msgid "st:bureaucrat hc=3"
 msgstr "st:burocrate hc=3"
 
-#: decks/templates/decks/tooltips/card_query_search.html:40
+#: decks/templates/decks/tooltips/card_query_search.html:45
 msgid ""
 "Search cards with `training` in their name that cost <span "
 "class=\"altered-2\"></span>:"
@@ -819,11 +829,11 @@ msgstr ""
 "Cerca le carte con `addestramento` nel loro nome che costano <span "
 "class=\"altered-2\"></span>:"
 
-#: decks/templates/decks/tooltips/card_query_search.html:41
+#: decks/templates/decks/tooltips/card_query_search.html:46
 msgid "training"
 msgstr "addestramento"
 
-#: decks/templates/decks/tooltips/card_query_search.html:43
+#: decks/templates/decks/tooltips/card_query_search.html:48
 msgid ""
 "Search cards that cost between <span class=\"altered-3\"></span> and <span "
 "class=\"altered-5\"></span> (inclusive):"
@@ -831,11 +841,11 @@ msgstr ""
 "Cerca le carte che costano tra <span class=\"altered-3\"></span> e <span "
 "class=\"altered-5\"></span> (inclusi):"
 
-#: decks/templates/decks/tooltips/card_query_search.html:44
+#: decks/templates/decks/tooltips/card_query_search.html:49
 msgid "OR"
 msgstr "O"
 
-#: decks/templates/decks/tooltips/card_query_search.html:46
+#: decks/templates/decks/tooltips/card_query_search.html:51
 msgid ""
 "Search cards with `anchor` abilities that cost <span class=\"altered-3\"></"
 "span> or less from reserve:"
@@ -843,11 +853,11 @@ msgstr ""
 "Cerca carte con abilità `ancorato` che abbiano un costo di riserva di <span "
 "class=\"altered-3\"></span> o meno:"
 
-#: decks/templates/decks/tooltips/card_query_search.html:47
+#: decks/templates/decks/tooltips/card_query_search.html:52
 msgid "anchor"
 msgstr "ancorato"
 
-#: decks/templates/decks/tooltips/card_query_search.html:49
+#: decks/templates/decks/tooltips/card_query_search.html:54
 msgid ""
 "Search cards that trigger when played from the hand (<span class=\"altered-"
 "hand\"></span>) and that can be discarded (<span class=\"altered-discard\"></"
@@ -856,6 +866,10 @@ msgstr ""
 "Cerca carte che si attivano quando vengono giocate dalla mano (<span "
 "class=\"altered-hand\"></span>) e che possono essere scartate (<span "
 "class=\"altered-discard\"></span>):"
+
+#: decks/templates/decks/tooltips/card_query_search.html:57
+msgid "Search the card with the reference `ALT_COREKS_B_OR_21_U_2139`:"
+msgstr "Cercare la carta con il riferimento `ALT_COREKS_B_OR_21_U_2139`:"
 
 #: decks/templates/decks/tooltips/deck_query_search.html:15
 msgid "User:"
@@ -947,13 +961,13 @@ msgstr "Carta non trovata"
 msgid "Comment not found"
 msgstr "Commento non trovato"
 
-#: decks/views.py:805
+#: decks/views.py:806
 #, python-format
 msgid "The card '%(card_name)s' (%(reference)s) was successfully imported."
 msgstr ""
 "La carta “%(card_name)s” (%(reference)s) è stata importata con successo."
 
-#: decks/views.py:812
+#: decks/views.py:813
 #, python-format
 msgid ""
 "This unique version of '%(card_name)s' (%(reference)s) already exists in the "
@@ -962,12 +976,12 @@ msgstr ""
 "Questa versione unica di '%(card_name)s' (%(reference)s) esiste già nel "
 "database."
 
-#: decks/views.py:820
+#: decks/views.py:821
 #, python-format
 msgid "The card '%(reference)s' is not public"
 msgstr "La carta “%(reference)s” non è pubblica"
 
-#: decks/views.py:825
+#: decks/views.py:826
 msgid "Failed to fetch the card on the official API."
 msgstr "Impossibile trovare la carta nell'API ufficiale."
 
@@ -1118,7 +1132,7 @@ msgid "No decks found"
 msgstr "Nessun mazzo trovato"
 
 #: profiles/templates/profiles/userprofile_list.html:8 templates/base.html:79
-#: templates/releases/1.10.0.html:17
+#: templates/releases/1.10.0.html:17 templates/releases/1.10.1.html:11
 msgid "Builders"
 msgstr "Utenti"
 
@@ -1288,18 +1302,19 @@ msgstr ""
 "Sembra che il server abbia riscontrato un problema nel tentativo di "
 "elaborare la tua richiesta. "
 
-#: templates/releases/1.10.0.html:12 templates/releases/1.8.3.html:4
-#: templates/releases/1.9.0.html:4 templates/releases/release_template.html:4
+#: templates/releases/1.10.0.html:12 templates/releases/1.10.1.html:6
+#: templates/releases/1.8.3.html:4 templates/releases/1.9.0.html:4
+#: templates/releases/release_template.html:4
 msgid "New features:"
 msgstr "Nuove funzionalità:"
 
-#: templates/releases/1.10.0.html:25 templates/releases/1.9.0.html:12
-#: templates/releases/release_template.html:16
+#: templates/releases/1.10.0.html:25 templates/releases/1.10.1.html:26
+#: templates/releases/1.9.0.html:12 templates/releases/release_template.html:16
 msgid "Other changes:"
 msgstr "Altre modifiche:"
 
-#: templates/releases/1.10.0.html:32 templates/releases/1.9.0.html:22
-#: templates/releases/release_template.html:23
+#: templates/releases/1.10.0.html:32 templates/releases/1.10.1.html:33
+#: templates/releases/1.9.0.html:22 templates/releases/release_template.html:23
 msgid "Announcements:"
 msgstr "Annunci:"
 

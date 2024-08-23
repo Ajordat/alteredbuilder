@@ -655,12 +655,15 @@ class CardListView(ListView):
         """
         qs = super().get_queryset()
         filters = Q()
+        self.filter_sets = None
 
         # Retrieve the text query and search by name
         query = self.request.GET.get("query")
         if query:
-            qs, query_tags = parse_card_query_syntax(qs, query)
+            qs, query_tags, has_reference = parse_card_query_syntax(qs, query)
             self.query_tags = query_tags
+            if has_reference:
+                return qs
         else:
             self.query_tags = None
 
@@ -707,8 +710,6 @@ class CardListView(ListView):
         if card_sets:
             self.filter_sets = Set.objects.filter(code__in=card_sets.split(","))
             filters &= Q(set__in=self.filter_sets)
-        else:
-            self.filter_sets = None
 
         query_order = []
         order_param = self.request.GET.get("order")

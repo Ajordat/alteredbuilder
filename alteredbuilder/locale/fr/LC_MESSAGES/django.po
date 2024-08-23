@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-23 11:28+0200\n"
+"POT-Creation-Date: 2024-08-23 13:07+0200\n"
 "PO-Revision-Date: 2024-05-22 18:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -61,35 +61,39 @@ msgstr "La carte '%(reference)s' n'existe pas"
 msgid "Multiple heroes present in the decklist"
 msgstr "Plusieurs héros présents dans la decklist"
 
-#: decks/deck_utils.py:250
+#: decks/deck_utils.py:238
+msgid "reference"
+msgstr "référence"
+
+#: decks/deck_utils.py:259
 msgid "hand cost"
 msgstr "coût de main"
 
-#: decks/deck_utils.py:270
+#: decks/deck_utils.py:279
 msgid "reserve cost"
 msgstr "coût de réserve"
 
-#: decks/deck_utils.py:279
+#: decks/deck_utils.py:288
 msgid "ability"
 msgstr "capacité"
 
-#: decks/deck_utils.py:292
+#: decks/deck_utils.py:301
 msgid "subtype"
 msgstr "sous-type"
 
-#: decks/deck_utils.py:306
+#: decks/deck_utils.py:315
 msgid "trigger"
 msgstr "déclencher"
 
-#: decks/deck_utils.py:313 decks/deck_utils.py:343
+#: decks/deck_utils.py:322 decks/deck_utils.py:352
 msgid "query"
 msgstr "requête"
 
-#: decks/deck_utils.py:329
+#: decks/deck_utils.py:338
 msgid "user"
 msgstr "utilisateur"
 
-#: decks/deck_utils.py:338
+#: decks/deck_utils.py:347
 msgid "hero"
 msgstr "héros"
 
@@ -106,7 +110,7 @@ msgid "Each line should be a quantity (1, 2 or 3) and a card reference."
 msgstr ""
 "Chaque ligne doit être une quantité (1, 2 ou 3) et une référence de carte."
 
-#: decks/forms.py:71
+#: decks/forms.py:71 decks/templates/decks/tooltips/card_query_search.html:36
 msgid "Card Reference"
 msgstr "Référence de la carte"
 
@@ -755,6 +759,7 @@ msgstr "Coût de main :"
 #: decks/templates/decks/tooltips/card_query_search.html:20
 #: decks/templates/decks/tooltips/card_query_search.html:25
 #: decks/templates/decks/tooltips/card_query_search.html:30
+#: decks/templates/decks/tooltips/card_query_search.html:35
 #: decks/templates/decks/tooltips/deck_query_search.html:11
 #: decks/templates/decks/tooltips/deck_query_search.html:16
 msgid "Operators:"
@@ -764,6 +769,7 @@ msgstr "Opérateurs :"
 #: decks/templates/decks/tooltips/card_query_search.html:16
 #: decks/templates/decks/tooltips/card_query_search.html:21
 #: decks/templates/decks/tooltips/card_query_search.html:31
+#: decks/templates/decks/tooltips/card_query_search.html:36
 #: decks/templates/decks/tooltips/deck_query_search.html:12
 #: decks/templates/decks/tooltips/deck_query_search.html:17
 msgid "Value:"
@@ -802,21 +808,25 @@ msgid "Subtypes:"
 msgstr "Sous-types :"
 
 #: decks/templates/decks/tooltips/card_query_search.html:34
+msgid "Reference:"
+msgstr "Référence :"
+
+#: decks/templates/decks/tooltips/card_query_search.html:39
 #: decks/templates/decks/tooltips/deck_query_search.html:20
 msgid "Examples:"
 msgstr "Exemples :"
 
-#: decks/templates/decks/tooltips/card_query_search.html:37
+#: decks/templates/decks/tooltips/card_query_search.html:42
 msgid "Search bureaucrat cards that cost <span class=\"altered-3\"></span>:"
 msgstr ""
 "Recherchez les cartes de bureaucrates qui coûtent <span "
 "class=\"altered-3\"></span> :"
 
-#: decks/templates/decks/tooltips/card_query_search.html:38
+#: decks/templates/decks/tooltips/card_query_search.html:43
 msgid "st:bureaucrat hc=3"
 msgstr "st:bureaucrate hc=3"
 
-#: decks/templates/decks/tooltips/card_query_search.html:40
+#: decks/templates/decks/tooltips/card_query_search.html:45
 msgid ""
 "Search cards with `training` in their name that cost <span "
 "class=\"altered-2\"></span>:"
@@ -824,11 +834,11 @@ msgstr ""
 "Chercher les cartes avec « scarabot » dans leur nom qui coûtent <span "
 "class=\"altered-2\"></span> :"
 
-#: decks/templates/decks/tooltips/card_query_search.html:41
+#: decks/templates/decks/tooltips/card_query_search.html:46
 msgid "training"
 msgstr "scarabot"
 
-#: decks/templates/decks/tooltips/card_query_search.html:43
+#: decks/templates/decks/tooltips/card_query_search.html:48
 msgid ""
 "Search cards that cost between <span class=\"altered-3\"></span> and <span "
 "class=\"altered-5\"></span> (inclusive):"
@@ -836,11 +846,11 @@ msgstr ""
 "Rechercher les cartes dont le coût est compris entre <span "
 "class=\"altered-3\"></span> et <span class=\"altered-5\"></span> (inclus) :"
 
-#: decks/templates/decks/tooltips/card_query_search.html:44
+#: decks/templates/decks/tooltips/card_query_search.html:49
 msgid "OR"
 msgstr "OU"
 
-#: decks/templates/decks/tooltips/card_query_search.html:46
+#: decks/templates/decks/tooltips/card_query_search.html:51
 msgid ""
 "Search cards with `anchor` abilities that cost <span class=\"altered-3\"></"
 "span> or less from reserve:"
@@ -848,11 +858,11 @@ msgstr ""
 "Chercher des cartes avec des capacités « sabotez » avec un coût de réserve "
 "de <span class=\"altered-3\"></span> ou moins :"
 
-#: decks/templates/decks/tooltips/card_query_search.html:47
+#: decks/templates/decks/tooltips/card_query_search.html:52
 msgid "anchor"
 msgstr "sabotez"
 
-#: decks/templates/decks/tooltips/card_query_search.html:49
+#: decks/templates/decks/tooltips/card_query_search.html:54
 msgid ""
 "Search cards that trigger when played from the hand (<span class=\"altered-"
 "hand\"></span>) and that can be discarded (<span class=\"altered-discard\"></"
@@ -861,6 +871,10 @@ msgstr ""
 "Recherche les cartes qui se déclenchent lorsqu&#39;elles sont jouées depuis "
 "la main (<span class=\"altered-hand\"></span>) et qui peuvent être "
 "défaussées (<span class=\"altered-discard\"></span>) :"
+
+#: decks/templates/decks/tooltips/card_query_search.html:57
+msgid "Search the card with the reference `ALT_COREKS_B_OR_21_U_2139`:"
+msgstr "Recherchez la carte avec la référence `ALT_COREKS_B_OR_21_U_2139` :"
 
 #: decks/templates/decks/tooltips/deck_query_search.html:15
 msgid "User:"
@@ -953,12 +967,12 @@ msgstr "Carte non trouvée"
 msgid "Comment not found"
 msgstr "Commentaire non trouvé"
 
-#: decks/views.py:805
+#: decks/views.py:806
 #, python-format
 msgid "The card '%(card_name)s' (%(reference)s) was successfully imported."
 msgstr "La carte '%(card_name)s' (%(reference)s) a été importée avec succès."
 
-#: decks/views.py:812
+#: decks/views.py:813
 #, python-format
 msgid ""
 "This unique version of '%(card_name)s' (%(reference)s) already exists in the "
@@ -967,12 +981,12 @@ msgstr ""
 "Cette version unique de '%(card_name)s' (%(reference)s) existe déjà dans la "
 "base de données."
 
-#: decks/views.py:820
+#: decks/views.py:821
 #, python-format
 msgid "The card '%(reference)s' is not public"
 msgstr "La carte '%(reference)s' n'est pas publique."
 
-#: decks/views.py:825
+#: decks/views.py:826
 msgid "Failed to fetch the card on the official API."
 msgstr "Échec de la récupération de la carte sur l'API officielle."
 
@@ -1125,7 +1139,7 @@ msgid "No decks found"
 msgstr "Aucun deck trouvé"
 
 #: profiles/templates/profiles/userprofile_list.html:8 templates/base.html:79
-#: templates/releases/1.10.0.html:17
+#: templates/releases/1.10.0.html:17 templates/releases/1.10.1.html:11
 msgid "Builders"
 msgstr "Utilisateurs"
 
@@ -1298,18 +1312,19 @@ msgstr ""
 "Il semble que le serveur a rencontré un problème en essayant de traiter "
 "votre requête. Réessayez plus tard."
 
-#: templates/releases/1.10.0.html:12 templates/releases/1.8.3.html:4
-#: templates/releases/1.9.0.html:4 templates/releases/release_template.html:4
+#: templates/releases/1.10.0.html:12 templates/releases/1.10.1.html:6
+#: templates/releases/1.8.3.html:4 templates/releases/1.9.0.html:4
+#: templates/releases/release_template.html:4
 msgid "New features:"
 msgstr "Nouvelles fonctionnalités :"
 
-#: templates/releases/1.10.0.html:25 templates/releases/1.9.0.html:12
-#: templates/releases/release_template.html:16
+#: templates/releases/1.10.0.html:25 templates/releases/1.10.1.html:26
+#: templates/releases/1.9.0.html:12 templates/releases/release_template.html:16
 msgid "Other changes:"
 msgstr "Autres modifications :"
 
-#: templates/releases/1.10.0.html:32 templates/releases/1.9.0.html:22
-#: templates/releases/release_template.html:23
+#: templates/releases/1.10.0.html:32 templates/releases/1.10.1.html:33
+#: templates/releases/1.9.0.html:22 templates/releases/release_template.html:23
 msgid "Announcements:"
 msgstr "Annonces :"
 
@@ -1365,16 +1380,6 @@ msgstr "Cartes populaires"
 #: trends/templates/trends/home.html:82
 msgid "Trending decks"
 msgstr "Decks tendances"
-
-#, fuzzy
-#~| msgid "Deck name:"
-#~ msgid "Deck Name"
-#~ msgstr "Nom du deck :"
-
-#, fuzzy
-#~| msgid "Last updated"
-#~ msgid "Last Modified"
-#~ msgstr "Dernière mise à jour"
 
 #~ msgid "Search by deck or hero name"
 #~ msgstr "Rechercher par deck ou héros"
