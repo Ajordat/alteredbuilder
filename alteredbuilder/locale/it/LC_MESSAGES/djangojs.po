@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-29 17:23+0200\n"
+"POT-Creation-Date: 2024-08-23 00:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,39 +18,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: decks/static/js/deck-detail.js:18 decks/static/js/deck-detail.js:139
+#: decks/static/js/deck-detail.js:19 decks/static/js/deck-detail.js:141
 msgid "Link copied into clipboard!"
 msgstr "Link copiato negli appunti!"
 
-#: decks/static/js/deck-detail.js:31
+#: decks/static/js/deck-detail.js:33
 msgid "Decklist copied into clipboard!"
 msgstr "Lista dei mazzi copiata negli appunti!"
 
-#: decks/static/js/deck-detail.js:44
+#: decks/static/js/deck-detail.js:46
 msgid "QR downloaded!"
 msgstr "QR scaricato!"
 
-#: decks/static/js/deck-detail.js:61
+#: decks/static/js/deck-detail.js:63
 msgid "QR copied into clipboard!"
 msgstr "QR copiato negli appunti!"
 
-#: decks/static/js/deck-detail.js:89
+#: decks/static/js/deck-detail.js:91
 msgid "Unable to delete card from deck"
 msgstr "Impossibile eliminare la carta dal mazzo"
 
-#: decks/static/js/deck-detail.js:111
+#: decks/static/js/deck-detail.js:113
 msgid "Card reference copied into clipboard!"
 msgstr "Link copiato negli appunti!"
 
-#: decks/static/js/deck-detail.js:130
+#: decks/static/js/deck-detail.js:132
 msgid "Cannot create a private link"
 msgstr "Cannot create a private link"
 
-#: decks/static/js/deck-detail.js:162
+#: decks/static/js/deck-detail.js:164
 msgid "Unable to upvote the comment"
 msgstr "Impossibile votare il commento"
 
-#: decks/static/js/deck-detail.js:201
+#: decks/static/js/deck-detail.js:203
 msgid "Unable to delete the comment"
 msgstr "Impossibile eliminare il commento"
 

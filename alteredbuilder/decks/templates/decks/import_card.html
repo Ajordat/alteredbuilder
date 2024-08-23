@@ -65,7 +65,7 @@
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#disclaimer" aria-expanded="true" aria-controls="disclaimer">
-                        {% translate "Disclaimers" %}
+                        {% translate "Notes on Functionality and Usage" %}
                     </button>
                 </h2>
                 <div id="disclaimer" class="accordion-collapse collapse show">
@@ -73,7 +73,7 @@
                         <ul>
                             <li>{% translate "Currently, the official Altered website only displays the Unique cards in English and French." %}</li>
                             <li>{% url "cards" as cards_tab_url %}{% blocktranslate %}The imported Unique card will appear on the '<a href="{{ cards_tab_url }}">Cards</a>' tab and it'll be possible to search for it in all languages, but the image will be strictly in English or French.{% endblocktranslate %}</li>
-                            <li>{% translate "All users will be able to find and see the imported card." %}</li>
+                            <li>{% translate "All users will be able to search and find the imported card." %}</li>
                             <li>{% translate "The communication with the Altered website is occasionally slow, so please <strong>be patient</strong>." %}</li>
                             <li>{% translate "The Unique card <strong>needs to be public</strong> so that it can be imported. Once the process is finished, the card can be made private again." %}</li>
                         </ul>
