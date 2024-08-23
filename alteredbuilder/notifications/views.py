@@ -28,18 +28,16 @@ def notification_detail(request: HttpRequest, pk: int) -> HttpResponse:
     """
     notification = get_object_or_404(Notification, pk=pk, recipient=request.user)
 
-    match notification.verb:
-        case NotificationType.COMMENT | NotificationType.LOVE | NotificationType.DECK:
-            redirect_url = notification.content_object.get_absolute_url()
-            Notification.objects.filter(
-                recipient=request.user,
-                content_type=notification.content_type,
-                object_id=notification.object_id,
-            ).update(read=True)
-        case _:
-            raise Http404("Notification does not exist")
+    if not notification.verb:
+        raise Http404("Notification does not exist")
 
-    return redirect(redirect_url)
+    Notification.objects.filter(
+        recipient=request.user,
+        content_type=notification.content_type,
+        object_id=notification.object_id,
+    ).update(read=True)
+
+    return redirect(notification.content_object.get_absolute_url())
 
 
 @login_required

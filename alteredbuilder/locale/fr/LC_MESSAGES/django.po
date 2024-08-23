@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-23 13:07+0200\n"
+"POT-Creation-Date: 2024-08-23 16:41+0200\n"
 "PO-Revision-Date: 2024-05-22 18:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -565,7 +565,7 @@ msgstr "Se connecter"
 #: decks/templates/decks/deck_detail.html:447
 #: decks/templates/decks/own_deck_list.html:70
 #: decks/templates/decks/snippets/public_deck_table.html:66
-#: notifications/views.py:57
+#: notifications/views.py:55
 #, python-format
 msgid "%(time_since)s ago"
 msgstr "Il y a %(time_since)s"
@@ -990,24 +990,29 @@ msgstr "La carte '%(reference)s' n'est pas publique."
 msgid "Failed to fetch the card on the official API."
 msgstr "Échec de la récupération de la carte sur l'API officielle."
 
-#: notifications/models.py:32
+#: notifications/models.py:33
 #, python-format
 msgid "%(actor)s commented on deck '%(deck_name)s'"
 msgstr "%(actor)s a commenté le deck '%(deck_name)s'"
 
-#: notifications/models.py:38
+#: notifications/models.py:39
 #, python-format
 msgid "%(love_count)s user liked your deck '%(deck_name)s'"
 msgid_plural "%(love_count)s users liked your deck '%(deck_name)s'"
 msgstr[0] "%(love_count)s utilisateur a apprécié votre deck '%(deck_name)s'"
 msgstr[1] "%(love_count)s utilisateurs ont apprécié votre deck '%(deck_name)s'"
 
-#: notifications/models.py:46
+#: notifications/models.py:47
 #, python-format
 msgid "%(actor)s created deck '%(deck_name)s'"
 msgstr "%(actor)s a créé le deck '%(deck_name)s'"
 
-#: notifications/models.py:51
+#: notifications/models.py:52
+#, python-format
+msgid "%(actor)s started following you"
+msgstr "%(actor)s a commencé à vous suivre"
+
+#: notifications/models.py:54
 msgid "New notification"
 msgstr "Nouvelle notification"
 

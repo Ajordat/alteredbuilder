@@ -34,6 +34,28 @@ def create_comment_notification(sender, instance: Comment, created: bool, **kwar
             )
 
 
+@receiver(post_save, sender=Follow)
+def create_follow_notifications(sender, instance: Follow, created: bool, **kwargs):
+    if created:
+        follower = instance.follower
+        Notification.objects.create(
+            recipient=instance.followed,
+            verb=NotificationType.FOLLOW,
+            actor=follower,
+            content_type=ContentType.objects.get_for_model(follower.profile),
+            object_id=follower.profile.id
+        )
+
+
+@receiver(pre_delete, sender=Follow)
+def delete_follow_notification(sender, instance: Follow, **kwargs):
+    profile = instance.follower.profile
+    Notification.objects.filter(
+        content_type=ContentType.objects.get_for_model(profile),
+        object_id=profile.id,
+    ).delete()
+
+
 @receiver(post_save, sender=LovePoint)
 def create_love_notification(sender, instance: LovePoint, created: bool, **kwargs):
     if created:

@@ -9,6 +9,7 @@ from django.utils.translation import gettext as _, ngettext
 class NotificationType(models.TextChoices):
     COMMENT = "comment"
     DECK = "deck"
+    FOLLOW = "follow"
     LOVE = "love"
 
 
@@ -47,6 +48,8 @@ class Notification(models.Model):
                     "actor": self.actor.username,
                     "deck_name": self.content_object.name,
                 }
+            case NotificationType.FOLLOW:
+                return _("%(actor)s started following you") % {"actor": self.actor}
             case _:
                 return _("New notification")
 

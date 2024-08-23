@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-23 13:07+0200\n"
+"POT-Creation-Date: 2024-08-23 16:41+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -558,7 +558,7 @@ msgstr ""
 #: decks/templates/decks/deck_detail.html:447
 #: decks/templates/decks/own_deck_list.html:70
 #: decks/templates/decks/snippets/public_deck_table.html:66
-#: notifications/views.py:57
+#: notifications/views.py:55
 #, python-format
 msgid "%(time_since)s ago"
 msgstr ""
@@ -950,24 +950,29 @@ msgstr ""
 msgid "Failed to fetch the card on the official API."
 msgstr ""
 
-#: notifications/models.py:32
+#: notifications/models.py:33
 #, python-format
 msgid "%(actor)s commented on deck '%(deck_name)s'"
 msgstr ""
 
-#: notifications/models.py:38
+#: notifications/models.py:39
 #, python-format
 msgid "%(love_count)s user liked your deck '%(deck_name)s'"
 msgid_plural "%(love_count)s users liked your deck '%(deck_name)s'"
 msgstr[0] ""
 msgstr[1] ""
 
-#: notifications/models.py:46
+#: notifications/models.py:47
 #, python-format
 msgid "%(actor)s created deck '%(deck_name)s'"
 msgstr ""
 
-#: notifications/models.py:51
+#: notifications/models.py:52
+#, python-format
+msgid "%(actor)s started following you"
+msgstr ""
+
+#: notifications/models.py:54
 msgid "New notification"
 msgstr ""
 
