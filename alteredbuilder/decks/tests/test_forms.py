@@ -8,7 +8,7 @@ from config.tests.utils import get_login_url, silence_logging
 from decks.forms import CardImportForm, CommentForm, DecklistForm, DeckMetadataForm
 from decks.models import Card, Comment, Deck
 from decks.tests.utils import BaseFormTestCase
-from decks.views import import_card, NewDeckFormView
+from decks.views import NewDeckFormView
 
 
 class CreateDeckFormTestCase(BaseFormTestCase):
@@ -357,7 +357,11 @@ class ImportCardFormTestCase(TestCase):
         form = CardImportForm(data={"reference": "asdf"})
 
         self.assertFalse(form.is_valid())
-        self.assertFormError(form, "reference", "Invalid value. The reference should look similar to 'ALT_COREKS_B_OR_21_U_2139'.")
+        self.assertFormError(
+            form,
+            "reference",
+            "Invalid value. The reference should look similar to 'ALT_COREKS_B_OR_21_U_2139'.",
+        )
 
     def test_form_valid_references(self):
         references = [

@@ -238,7 +238,6 @@ def parse_card_query_syntax(qs, query):
             tags.append((_("reference"), ":", reference))
             return qs.filter(reference=reference), tags, True
 
-
     hc_regex = r"hc(?P<hc_op>:|=|>|>=|<|<=)(?P<hc>\d+)"
 
     if matches := re.finditer(hc_regex, query, re.ASCII):

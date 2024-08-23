@@ -43,7 +43,7 @@ def create_follow_notifications(sender, instance: Follow, created: bool, **kwarg
             verb=NotificationType.FOLLOW,
             actor=follower,
             content_type=ContentType.objects.get_for_model(follower.profile),
-            object_id=follower.profile.id
+            object_id=follower.profile.id,
         )
 
 

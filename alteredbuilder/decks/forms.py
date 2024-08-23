@@ -73,7 +73,9 @@ class CardImportForm(forms.Form):
         validators=[
             RegexValidator(
                 r"^ALT_[A-Z]{4,6}_(?:B|P)_[A-Z]{2}_\d{2}_U_\d+$",
-                _("Invalid value. The reference should look similar to 'ALT_COREKS_B_OR_21_U_2139'."),
+                _(
+                    "Invalid value. The reference should look similar to 'ALT_COREKS_B_OR_21_U_2139'."
+                ),
             )
         ],
     )

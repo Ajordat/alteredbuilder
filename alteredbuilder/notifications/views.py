@@ -28,7 +28,7 @@ def notification_detail(request: HttpRequest, pk: int) -> HttpResponse:
     """
     notification = get_object_or_404(Notification, pk=pk, recipient=request.user)
 
-    if not notification.verb:
+    if notification.verb not in NotificationType:
         raise Http404("Notification does not exist")
 
     Notification.objects.filter(
