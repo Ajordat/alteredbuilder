@@ -31,7 +31,15 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/regular.min.css" integrity="sha512-KYEnM30Gjf5tMbgsrQJsR0FSpufP9S4EiAYi168MvTjK6E83x3r6PTvLPlXYX350/doBXmTFUEnJr/nCsDovuw==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/brands.min.css" integrity="sha512-DJLNx+VLY4aEiEQFjiawXaiceujj5GA7lIY8CHCIGQCBPfsEG0nGz1edb4Jvw1LR7q031zS5PpPqFuPA8ihlRA==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
-        <link rel="icon" type="image/x-icon" href="{% static "img/logo.ico" %}">
+        <link rel="apple-touch-icon" sizes="180x180" href="/static/img/logos/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/static/img/logos/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/static/img/logos/favicon-16x16.png">
+        <link rel="manifest" href="/static/img/logos/site.webmanifest">
+        <link rel="mask-icon" href="/static/img/logos/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="shortcut icon" href="/static/img/logos/favicon.ico">
+        <meta name="msapplication-TileColor" content="#00aba9">
+        <meta name="msapplication-config" content="/static/img/logos/browserconfig.xml">
+        <meta name="theme-color" content="#ffffff">
         <script src="{% static 'js/theme-mode.js' %}"></script>
         <script src="{% url 'javascript-catalog' %}"></script>
 {% endblock %}
