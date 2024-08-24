@@ -131,6 +131,8 @@ class Card(models.Model):
 
     stats = models.JSONField(blank=True, default=dict)
 
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+
     objects = CardManager()
 
     def __str__(self) -> str:
