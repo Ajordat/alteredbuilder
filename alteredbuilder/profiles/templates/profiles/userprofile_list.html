@@ -19,20 +19,57 @@ class="container py-5"
 {% block content %}
     <div class="row">
 
-        <!-- Introduction Section -->
-        <div class="card mb-4">
-            <div class="card-body">
-                <h2 class="card-title">{% translate "Discover Our Community" %}</h2>
-                <p class="card-text">
-                    {% translate "Welcome to the community hub! Here, you'll find a curated selection of users who are making waves in our platform. Whether you're looking for the latest members, the most popular content creators, or the most followed personalities, you'll find them all here." %}
-                </p>
-                <p class="card-text">
-                    {% translate "Explore these lists to connect with others, get inspired, and see what's trending. Join the conversation and become a part of the vibrant community that powers our platform." %}
-                </p>
-                <p>
-                    <small>{% blocktranslate %}New users in the last 24 hours: {{ recent_users_count }} users{% endblocktranslate %}</small>
-                    {% comment %}<br><small>{% blocktranslate %}New decks in the last 24 hours: {{ new_deck_count }} decks, of which {{ public_new_deck_count }} are public{% endblocktranslate %}</small> {% endcomment %}
-                </p>
+        <!-- Introduction -->
+        <div class="mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">{% translate "Discover Our Community" %}</h2>
+                    <p class="card-text">
+                        {% translate "Welcome to the community hub! Here, you'll find a curated selection of users who are making waves in our platform. Whether you're looking for the latest members, the most popular content creators, or the most followed personalities, you'll find them all here." %}
+                    </p>
+                    <p class="card-text">
+                        {% translate "Explore these lists to connect with others, get inspired, and see what's trending. Join the conversation and become a part of the vibrant community that powers our platform." %}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- User Stats -->
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">{% translate "User Engagement" %}</h2>
+                    <p class="card-text">
+                        {% blocktranslate %}Stay informed about our community's growth! Take a look at the latest user activity, including the number of new members who joined and the <abbr title="Single visit by a user, counted only once">unique views</abbr> to decks we received in the last seven days.{% endblocktranslate %}
+                    </p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            {% blocktranslate %}<strong>New Users in the Last Week:</strong> {{ last_week_user_count }} out of {{ total_user_count }}{% endblocktranslate %}
+                        </li>
+                        <li class="list-group-item">
+                            {% blocktranslate %}<strong>Unique Views in the Last Week:</strong> {{ last_week_hits }}{% endblocktranslate %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- Deck Stats -->
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">{% translate "Deck Building Highlights" %}</h2>
+                    <p class="card-text">
+                        {% blocktranslate %}Explore the latest content additions to our platform! Look at the numbers for the new <abbr title="Roughly 40% of total">public decks</abbr> created and the imported cards added by users in the last week.{% endblocktranslate %}
+                        <!-- Dive into the freshest content our community has to offer. -->
+                    </p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            {% blocktranslate %}<strong>New Unique Cards in the Last Week:</strong> {{ last_week_unique_card_count }} out of {{ total_unique_card_count }}{% endblocktranslate %}
+                        </li>
+                        <li class="list-group-item">
+                            {% blocktranslate %}<strong>New Public Decks in the Last Week:</strong> {{ last_week_deck_count }} out of {{ total_deck_count }}{% endblocktranslate %}
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
         <!-- Latest Users -->

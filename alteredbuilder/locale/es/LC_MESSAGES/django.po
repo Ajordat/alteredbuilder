@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-23 17:10+0200\n"
+"POT-Creation-Date: 2024-08-25 21:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -64,35 +64,35 @@ msgstr "Hay múltiples héroes en la decklist"
 msgid "reference"
 msgstr "referencia"
 
-#: decks/deck_utils.py:259
+#: decks/deck_utils.py:258
 msgid "hand cost"
 msgstr "coste de mano"
 
-#: decks/deck_utils.py:279
+#: decks/deck_utils.py:278
 msgid "reserve cost"
 msgstr "coste de reserva"
 
-#: decks/deck_utils.py:288
+#: decks/deck_utils.py:287
 msgid "ability"
 msgstr "habilidad"
 
-#: decks/deck_utils.py:301
+#: decks/deck_utils.py:300
 msgid "subtype"
 msgstr "subtipo"
 
-#: decks/deck_utils.py:315
+#: decks/deck_utils.py:314
 msgid "trigger"
 msgstr "activación"
 
-#: decks/deck_utils.py:322 decks/deck_utils.py:352
+#: decks/deck_utils.py:321 decks/deck_utils.py:351
 msgid "query"
 msgstr "consulta"
 
-#: decks/deck_utils.py:338
+#: decks/deck_utils.py:337
 msgid "user"
 msgstr "usuario"
 
-#: decks/deck_utils.py:347
+#: decks/deck_utils.py:346
 msgid "hero"
 msgstr "héroe"
 
@@ -113,7 +113,7 @@ msgstr ""
 msgid "Card Reference"
 msgstr "Referencia de la carta"
 
-#: decks/forms.py:76
+#: decks/forms.py:77
 msgid ""
 "Invalid value. The reference should look similar to "
 "'ALT_COREKS_B_OR_21_U_2139'."
@@ -286,7 +286,7 @@ msgstr "Mazo nuevo"
 msgid "Deck name:"
 msgstr "Nombre del mazo:"
 
-#: decks/templates/decks/card_list.html:198 templates/base.html:70
+#: decks/templates/decks/card_list.html:198 templates/base.html:81
 msgid "Deck"
 msgstr "Mazo"
 
@@ -370,7 +370,7 @@ msgstr "Decklist"
 #: decks/templates/forms/submit_deck_metadata.html:9
 #: decks/templates/forms/submit_decklist.html:8
 #: profiles/templates/profiles/userprofile_detail.html:100
-#: trends/templates/trends/home.html:55
+#: trends/templates/trends/home.html:60
 msgid "Name"
 msgstr "Nombre"
 
@@ -556,7 +556,7 @@ msgstr "Comentarios"
 msgid "Login to use this feature!"
 msgstr "¡Inicia sesión para escribir comentarios!"
 
-#: decks/templates/decks/deck_detail.html:419 templates/base.html:158
+#: decks/templates/decks/deck_detail.html:419 templates/base.html:169
 msgid "Login"
 msgstr "Entrar"
 
@@ -616,8 +616,6 @@ msgid "Card Reference:"
 msgstr "Referencia de la carta:"
 
 #: decks/templates/decks/import_card.html:21
-#, fuzzy
-#| msgid "Copy card reference"
 msgid "Please provide a card reference."
 msgstr "Por favor introduce una referencia a una carta."
 
@@ -696,7 +694,7 @@ msgstr "Mazo nuevo"
 
 #: decks/templates/decks/own_deck_list.html:7
 #: decks/templates/decks/own_deck_list.html:8
-#: decks/templates/decks/own_deck_list.html:20 templates/base.html:63
+#: decks/templates/decks/own_deck_list.html:20 templates/base.html:74
 msgid "My decks"
 msgstr "Mis mazos"
 
@@ -1081,7 +1079,8 @@ msgstr "%(username)s aun no tiene ningún seguidor. ¡Tú puedes ser el primero!
 
 #: profiles/templates/profiles/followers_list.html:95
 msgid "You don't have any followers yet. Start sharing your decks!"
-msgstr "Por el momento no tienes ningún seguidor. ¡Empieza a compartir tus mazos!"
+msgstr ""
+"Por el momento no tienes ningún seguidor. ¡Empieza a compartir tus mazos!"
 
 #: profiles/templates/profiles/tooltips/user_profile.html:10
 #: profiles/templates/profiles/userprofile_detail.html:31
@@ -1091,7 +1090,7 @@ msgstr "Se unió en: %(date_joined)s"
 
 #: profiles/templates/profiles/tooltips/user_profile.html:11
 #: profiles/templates/profiles/userprofile_detail.html:34
-#: profiles/templates/profiles/userprofile_list.html:97
+#: profiles/templates/profiles/userprofile_list.html:133
 #, python-format
 msgid "%(follower_count)s Follower"
 msgid_plural "%(follower_count)s Followers"
@@ -1137,16 +1136,16 @@ msgstr "Mazos de %(username)s"
 msgid "No decks found"
 msgstr "No se han encontrado mazos"
 
-#: profiles/templates/profiles/userprofile_list.html:8 templates/base.html:79
+#: profiles/templates/profiles/userprofile_list.html:8
 #: templates/releases/1.10.0.html:17 templates/releases/1.10.1.html:11
 msgid "Builders"
 msgstr "Usuarios"
 
-#: profiles/templates/profiles/userprofile_list.html:25
+#: profiles/templates/profiles/userprofile_list.html:26
 msgid "Discover Our Community"
 msgstr "Descubre Nuestra Comunidad"
 
-#: profiles/templates/profiles/userprofile_list.html:27
+#: profiles/templates/profiles/userprofile_list.html:28
 msgid ""
 "Welcome to the community hub! Here, you'll find a curated selection of users "
 "who are making waves in our platform. Whether you're looking for the latest "
@@ -1158,7 +1157,7 @@ msgstr ""
 "sea que busques a los miembros más recientes, los creadores de contenido más "
 "populares o las personalidades más seguidas, los encontrarás todos aquí."
 
-#: profiles/templates/profiles/userprofile_list.html:30
+#: profiles/templates/profiles/userprofile_list.html:31
 msgid ""
 "Explore these lists to connect with others, get inspired, and see what's "
 "trending. Join the conversation and become a part of the vibrant community "
@@ -1168,123 +1167,186 @@ msgstr ""
 "que está en tendencia. Únete a la conversación y forma parte de la vibrante "
 "comunidad que impulsa nuestra plataforma."
 
-#: profiles/templates/profiles/userprofile_list.html:33
-#, python-format
-msgid "New users in the last 24 hours: %(recent_users_count)s users"
-msgstr ""
-"Nuevos usuarios en las últimas 24 horas: %(recent_users_count)s usuarios"
+#: profiles/templates/profiles/userprofile_list.html:40
+msgid "User Engagement"
+msgstr "Participación de Usuarios"
 
-#: profiles/templates/profiles/userprofile_list.html:43
+#: profiles/templates/profiles/userprofile_list.html:42
+msgid ""
+"Stay informed about our community's growth! Take a look at the latest user "
+"activity, including the number of new members who joined and the <abbr "
+"title=\"Single visit by a user, counted only once\">unique views</abbr> to "
+"decks we received in the last seven days."
+msgstr ""
+"¡Mantente informado sobre el crecimiento de nuestra comunidad! Echa un "
+"vistazo a la actividad más reciente de los usuarios, incluyendo el número de "
+"nuevos miembros que se unieron y las <abbr title=\"Visita única de un "
+"usuario, contada solo una vez\">visitas únicas</abbr> a los mazos que "
+"recibimos en los últimos siete días."
+
+#: profiles/templates/profiles/userprofile_list.html:46
+#, python-format
+msgid ""
+"<strong>New Users in the Last Week:</strong> %(last_week_user_count)s out of "
+"%(total_user_count)s"
+msgstr ""
+"<strong>Usuarios Registrados la Última Semana:</strong> "
+"%(last_week_user_count)s de %(total_user_count)s"
+
+#: profiles/templates/profiles/userprofile_list.html:49
+#, python-format
+msgid "<strong>Unique Views in the Last Week:</strong> %(last_week_hits)s"
+msgstr "<strong>Visitas Únicas la Última Semana:</strong> %(last_week_hits)s"
+
+#: profiles/templates/profiles/userprofile_list.html:59
+msgid "Deck Building Highlights"
+msgstr "Construcción de Mazos"
+
+#: profiles/templates/profiles/userprofile_list.html:61
+#, python-format
+msgid ""
+"Explore the latest content additions to our platform! Look at the numbers "
+"for the new <abbr title=\"Roughly 40%% of total\">public decks</abbr> "
+"created and the imported cards added by users in the last week."
+msgstr ""
+"¡Explora las últimas adiciones de contenido a nuestra plataforma! Mira los "
+"números de los nuevos <abbr title=\"Aproximadamente el 40%% del "
+"total\">mazos públicos</abbr> creados y las cartas importadas añadidas por "
+"los usuarios en la última semana."
+
+#: profiles/templates/profiles/userprofile_list.html:66
+#, python-format
+msgid ""
+"<strong>New Unique Cards in the Last Week:</strong> "
+"%(last_week_unique_card_count)s out of %(total_unique_card_count)s"
+msgstr ""
+"<strong>Nuevas Cartas Únicas en la Última Semana:</strong> "
+"%(last_week_unique_card_count)s de %(total_unique_card_count)s"
+
+#: profiles/templates/profiles/userprofile_list.html:69
+#, python-format
+msgid ""
+"<strong>New Public Decks in the Last Week:</strong> %(last_week_deck_count)s "
+"out of %(total_deck_count)s"
+msgstr ""
+"<strong>Nuevos Mazos Públicos en la Última Semana:</strong> "
+"%(last_week_deck_count)s de %(total_deck_count)s"
+
+#: profiles/templates/profiles/userprofile_list.html:79
 msgid "Latest Users"
 msgstr "Nuevos usuarios"
 
-#: profiles/templates/profiles/userprofile_list.html:51
+#: profiles/templates/profiles/userprofile_list.html:87
 #, python-format
 msgid "Joined on %(date_joined)s"
 msgstr "Se unió el %(date_joined)s"
 
-#: profiles/templates/profiles/userprofile_list.html:55
-#: profiles/templates/profiles/userprofile_list.html:78
-#: profiles/templates/profiles/userprofile_list.html:101
+#: profiles/templates/profiles/userprofile_list.html:91
+#: profiles/templates/profiles/userprofile_list.html:114
+#: profiles/templates/profiles/userprofile_list.html:137
 msgid "No users found"
 msgstr "No se han encontrado usuarios"
 
-#: profiles/templates/profiles/userprofile_list.html:66
+#: profiles/templates/profiles/userprofile_list.html:102
 msgid "Most Viewed Users"
 msgstr "Usuarios con más visitas"
 
-#: profiles/templates/profiles/userprofile_list.html:74
+#: profiles/templates/profiles/userprofile_list.html:110
 #, python-format
 msgid "%(deck_count)s deck"
 msgid_plural "%(deck_count)s decks"
 msgstr[0] "%(deck_count)s mazo"
 msgstr[1] "%(deck_count)s mazos"
 
-#: profiles/templates/profiles/userprofile_list.html:89
+#: profiles/templates/profiles/userprofile_list.html:125
 msgid "Most Followed Users"
 msgstr "Usuarios con más seguidores"
 
-#: templates/base.html:22 templates/base.html:23
+#: templates/base.html:24 templates/base.html:25
 msgid "The place to build, analyze and share Altered TCG decks."
 msgstr "Tu web para construir, analizar y compartir mazos de Altered TCG."
 
-#: templates/base.html:51
+#: templates/base.html:62
 msgid "Home"
 msgstr "Inicio"
 
-#: templates/base.html:55
+#: templates/base.html:66
 msgid "Decks"
 msgstr "Mazos"
 
-#: templates/base.html:59
+#: templates/base.html:70
 msgid "Cards"
 msgstr "Cartas"
 
-#: templates/base.html:73
+#: templates/base.html:84
 msgid "Unique card"
 msgstr "Carta única"
 
-#: templates/base.html:91
+#: templates/base.html:90
+msgid "Community"
+msgstr "Comunidad"
+
+#: templates/base.html:102
 msgid "Light"
 msgstr "Claro"
 
-#: templates/base.html:96
+#: templates/base.html:107
 msgid "Dark"
 msgstr "Oscuro"
 
-#: templates/base.html:101
+#: templates/base.html:112
 msgid "Auto"
 msgstr "Automático"
 
-#: templates/base.html:128
+#: templates/base.html:139
 msgid "No notifications"
 msgstr "Sin notificaciones"
 
-#: templates/base.html:148
+#: templates/base.html:159
 msgid "Profile"
 msgstr "Perfil"
 
-#: templates/base.html:150
+#: templates/base.html:161
 msgid "Update email"
 msgstr "Actualizar correo"
 
-#: templates/base.html:151
+#: templates/base.html:162
 msgid "Update password"
 msgstr "Actualizar contraseña"
 
-#: templates/base.html:153
+#: templates/base.html:164
 msgid "Logout"
 msgstr "Desconnectar"
 
-#: templates/base.html:173
+#: templates/base.html:184
 msgid "Links"
 msgstr "Enlaces"
 
-#: templates/base.html:176
+#: templates/base.html:187
 msgid "About the project"
 msgstr "Sobre el proyecto"
 
-#: templates/base.html:179
+#: templates/base.html:190
 msgid "About the author"
 msgstr "Sobre el autor"
 
-#: templates/base.html:182
+#: templates/base.html:193
 msgid "Collaborators"
 msgstr "Colaboradores"
 
-#: templates/base.html:185
+#: templates/base.html:196
 msgid "Privacy policy"
 msgstr "Política de privacidad"
 
-#: templates/base.html:188
+#: templates/base.html:199
 msgid "Terms and conditions"
 msgstr "Términos y condiciones"
 
-#: templates/base.html:193
+#: templates/base.html:204
 msgid "Support the project"
 msgstr "Ayuda al proyecto"
 
-#: templates/base.html:201
+#: templates/base.html:212
 msgid "Get in touch"
 msgstr "Ponte en contacto"
 
@@ -1340,16 +1402,16 @@ msgid ""
 "An error occurred while attempting to login via your third-party account."
 msgstr ""
 
-#: trends/templates/trends/home.html:24
+#: trends/templates/trends/home.html:28
 #, python-format
 msgid "Release notes %(version)s"
 msgstr "Notas de la versión %(version)s"
 
-#: trends/templates/trends/home.html:38
+#: trends/templates/trends/home.html:42
 msgid "Trends from the last 7 days"
 msgstr "Tendencias de los últimos 7 días"
 
-#: trends/templates/trends/home.html:39
+#: trends/templates/trends/home.html:43
 msgid ""
 "The statistics are extracted daily from the public legal decks modified "
 "within the last 7 days.<br>Click on the faction and hero pie charts to "
@@ -1359,21 +1421,26 @@ msgstr ""
 "modificados en los últimos 7 días.<br>Haz click en una facción o un héroe de "
 "los gráficos para acotar los resultados!"
 
-#: trends/templates/trends/home.html:42
+#: trends/templates/trends/home.html:46
 msgid "Popular Factions"
 msgstr "Facciones Populares"
 
-#: trends/templates/trends/home.html:46
+#: trends/templates/trends/home.html:50
 msgid "Popular Heroes"
 msgstr "Héroes Populares"
 
-#: trends/templates/trends/home.html:50
+#: trends/templates/trends/home.html:55
 msgid "Popular Cards"
 msgstr "Cartas Populares"
 
-#: trends/templates/trends/home.html:82
+#: trends/templates/trends/home.html:88
 msgid "Trending decks"
 msgstr "Mazos populares"
+
+#, python-format
+#~ msgid "New users in the last 24 hours: %(recent_users_count)s users"
+#~ msgstr ""
+#~ "Nuevos usuarios en las últimas 24 horas: %(recent_users_count)s usuarios"
 
 #~ msgid "Deck Name"
 #~ msgstr "Nombre del mazo"

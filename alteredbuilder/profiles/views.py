@@ -12,8 +12,9 @@ from django.utils.timezone import localtime
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
+from hitcount.models import Hit
 
-from decks.models import Deck, LovePoint
+from decks.models import Card, Deck, LovePoint
 from profiles.forms import UserProfileForm
 from profiles.models import Follow, UserProfile
 
@@ -76,11 +77,27 @@ class ProfileListView(ListView):
             )
         context["most_viewed_users"] = most_viewed_users
         context["most_followed_users"] = most_followed_users
-        timelapse = localtime() - timedelta(days=1)
-        context["recent_users_count"] = (
+
+        timelapse = localtime() - timedelta(days=7)
+
+        context["total_user_count"] = get_user_model().objects.count()
+        context["last_week_user_count"] = (
             get_user_model().objects.filter(date_joined__gte=timelapse).count()
         )
 
+        context["total_deck_count"] = Deck.objects.filter(is_public=True).count()
+        context["last_week_deck_count"] = Deck.objects.filter(
+            is_public=True, created_at__gte=timelapse
+        ).count()
+
+        context["total_unique_card_count"] = Card.objects.filter(
+            rarity=Card.Rarity.UNIQUE
+        ).count()
+        context["last_week_unique_card_count"] = Card.objects.filter(
+            rarity=Card.Rarity.UNIQUE, created_at__gte=timelapse
+        ).count()
+
+        context["last_week_hits"] = Hit.objects.filter(created__gte=timelapse).count()
         return context
 
 
