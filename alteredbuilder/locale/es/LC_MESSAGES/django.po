@@ -1087,7 +1087,7 @@ msgstr "Por el momento no tienes ningún seguidor. ¡Empieza a compartir tus maz
 #: profiles/templates/profiles/userprofile_detail.html:31
 #, python-format
 msgid "Joined on: %(date_joined)s"
-msgstr "Se unió el: %(date_joined)s"
+msgstr "Se unió en: %(date_joined)s"
 
 #: profiles/templates/profiles/tooltips/user_profile.html:11
 #: profiles/templates/profiles/userprofile_detail.html:34
