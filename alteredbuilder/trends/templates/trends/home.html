@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 
+{% load cache %}
 {% load static %}
 {% load i18n %}
 {% load deck_styles %}
+
+
 
 
 {% block head %}
@@ -15,6 +18,7 @@
 
 
 {% block content %}
+    {% get_current_language as LANGUAGE_CODE %}
 
     <div class="container mt-3" id="release-container">
         <div class="accordion my-3" id="releaseAccordion">
@@ -43,9 +47,10 @@
             <div id="faction-pie-chart" style="min-height: 300px"></div>
         </div>
         <div class="col">
-            <h5>{% translate "Popular Heroes" %}</h5>
+            <h5>{% translate "Popular Heroes" %}{{LANGUAGE_CODE}}</h5>
             <div id="hero-pie-chart" style="min-height: 300px"></div>
         </div>
+    {% cache 600 card_trends LANGUAGE_CODE request.GET %}
         <div class="col">
             <h5>{% translate "Popular Cards" %}</h5>
             <table>
@@ -78,6 +83,7 @@
                 </tbody>
             </table>
         </div>
+    {% endcache %}
     </div>
     <h3>{% translate "Trending decks" %}</h3>
     {% include "decks/snippets/public_deck_table.html" with table_id="trendingDecksTable" deck_list=trending %}

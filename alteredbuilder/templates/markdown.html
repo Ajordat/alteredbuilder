@@ -28,12 +28,11 @@
                         <th>Effect</th>
                     </tr>
                 </thead>
-                <tbody class="table-group-divider">              
+                <tbody class="table-group-divider">
                     <tr>
                         <td>Heading</td>
                         <td># title1<br>## title2<br>### title3</td>
                         <td><code>&lt;h1&gt;title1&lt;/h1&gt;<br>&lt;h2&gt;title2&lt;/h2&gt;<br>&lt;h3&gt;title3&lt;/h3&gt;</code></td>
-                        <!-- <td><h1>title1</h1><br><h2>title2</h2><br><h3>title3</h3></td> -->
                         <td class="table-active"></td>
                     </tr>
                     <tr>
@@ -129,25 +128,25 @@
                     <tr>
                         <td>Mana icons</td>
                         <td>[[x]] [[1]] ... [[9]]</td>
-                        <td>{{ "[[x]] [[1]] ... [[9]]" | markdown | safe }}</td>
+                        <td><p><span class="altered-x"></span> <span class="altered-1"></span> ... <span class="altered-9"></span></p></td>
                         <td>All the mana numbers in between are included as well.</td>
                     </tr>
                     <tr>
                         <td>Region icons</td>
                         <td>[[forest]] [[mountain]] [[water]]</td>
-                        <td>{{ "[[forest]] [[mountain]] [[water]]" | markdown | safe }}</td>
+                        <td><p><span class="altered-forest"></span> <span class="altered-mountain"></span> <span class="altered-water"></span></p></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Trigger icons</td>
                         <td>[[etb]] [[hand]] [[reserve]]</td>
-                        <td>{{ "[[etb]] [[hand]] [[reserve]]" | markdown | safe }}</td>
+                        <td><p><span class="altered-etb"></span> <span class="altered-hand"></span> <span class="altered-reserve"></span></p></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Activate icons</td>
                         <td>[[discard]] [[exhaust]]</td>
-                        <td>{{ "[[discard]] [[exhaust]]" | markdown | safe }}</td>
+                        <td><p><span class="altered-discard"></span> <span class="altered-exhaust"></span></p></td>
                         <td></td>
                     </tr>
                 </tbody>
