@@ -43,7 +43,7 @@ def notification_detail(request: HttpRequest, pk: int) -> HttpResponse:
 @login_required
 @ajax_request(methods=["GET"])
 def fetch_notifications(request: HttpRequest):
-    notifications = Notification.objects.filter(recipient=request.user)
+    notifications = Notification.objects.filter(recipient=request.user)[:10]
 
     data = []
     for notification in notifications:
