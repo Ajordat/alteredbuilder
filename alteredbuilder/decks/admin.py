@@ -14,6 +14,7 @@ from .models import (
     PrivateLink,
     Set,
     Subtype,
+    Tag,
 )
 
 
@@ -79,6 +80,7 @@ class DeckAdmin(admin.ModelAdmin):
                     "name",
                     "description",
                     "hero",
+                    "tags",
                     ("created_at", "modified_at"),
                 ]
             },
@@ -255,3 +257,9 @@ class SubtypeAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
             lang_fieldset = (name, {"fields": [f"name_{code}"]})
             fieldsets.append(lang_fieldset)
         return fieldsets
+
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ["name"]
+    search_fields = ["name"]
