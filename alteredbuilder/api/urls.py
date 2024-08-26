@@ -1,6 +1,6 @@
 from rest_framework import routers
 
-from . import views
+from api import views
 
 # Register the available views
 

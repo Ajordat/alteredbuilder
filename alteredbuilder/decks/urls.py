@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import views
+from decks import views
 
 # Endpoints for this app
 

@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.http import HttpRequest
 
-from .models import (
+from decks.models import (
     Card,
     CardInDeck,
     Comment,

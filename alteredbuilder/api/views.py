@@ -4,7 +4,7 @@ from rest_framework import permissions, viewsets
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from . import serializers as serial
+from api.serializers import CardSerializer, GroupSerializer, UserSerializer
 from decks.models import Card
 
 
@@ -14,7 +14,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
 
     queryset = User.objects.all().order_by("-date_joined")
-    serializer_class = serial.UserSerializer
+    serializer_class = UserSerializer
     permission_classes = [permissions.IsAdminUser]
 
 
@@ -24,7 +24,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
 
     queryset = Group.objects.all()
-    serializer_class = serial.GroupSerializer
+    serializer_class = GroupSerializer
     permission_classes = [permissions.IsAdminUser]
 
 
@@ -42,7 +42,7 @@ class CardViewSet(AdminWriteOrAuthenticatedGetViewSet):
     """API endpoint that allows to view all the cards."""
 
     queryset = Card.objects.all().order_by("reference")
-    serializer_class = serial.CardSerializer
+    serializer_class = CardSerializer
 
     def retrieve(self, request: Request, pk=None) -> Response:
         """Retrieve the information of a card.
@@ -56,6 +56,6 @@ class CardViewSet(AdminWriteOrAuthenticatedGetViewSet):
         """
         card = get_object_or_404(Card, pk=pk)
         context = {"request": request}
-        serializer = serial.CardSerializer(card, context=context)
+        serializer = CardSerializer(card, context=context)
 
         return Response(serializer.data)

@@ -1,6 +1,6 @@
 from modeltranslation.translator import register, TranslationOptions
 
-from .models import Card, Subtype
+from decks.models import Card, Subtype
 
 
 @register(Card)

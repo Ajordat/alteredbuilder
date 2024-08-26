@@ -4,7 +4,7 @@ from django import forms
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
 
-from .models import Card, Comment, Deck
+from decks.models import Card, Comment, Deck, Tag
 
 
 class DecklistForm(forms.Form):

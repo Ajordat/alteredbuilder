@@ -9,7 +9,7 @@ from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 
 from decks.models import Deck
-from .forms import SubmitSessionForm
+from troubleshoot.forms import SubmitSessionForm
 
 # Create your views here.
 

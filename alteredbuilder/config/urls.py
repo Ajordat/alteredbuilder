@@ -12,7 +12,7 @@ from django.views.decorators.cache import cache_page
 from django.views.generic import RedirectView, TemplateView
 from django.views.i18n import JavaScriptCatalog
 
-from .sitemaps import (
+from config.sitemaps import (
     DeckSitemap,
     DailyLocalizedStaticViewSitemap,
     MonthlyLocalizedStaticViewSitemap,
