@@ -37,6 +37,7 @@ from decks.models import (
     LovePoint,
     PrivateLink,
     Set,
+    Tag,
 )
 from decks.forms import (
     CardImportForm,
@@ -234,7 +235,11 @@ class DeckDetailView(HitCountDetailView):
             follower_count=Count("owner__followers", distinct=True),
             following_count=Count("owner__following", distinct=True),
         )
-        return qs.filter(filter).select_related("hero", "owner", "owner__profile")
+        return (
+            qs.filter(filter)
+            .select_related("hero", "owner", "owner__profile")
+            .prefetch_related("tags")
+        )
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         """Add metadata of the Deck to the context.
@@ -253,6 +258,8 @@ class DeckDetailView(HitCountDetailView):
             }
         )
         context["tags_form"] = DeckTagsForm(initial={"tags": self.object.tags.all()})
+        context["tags_type"] = Tag.objects.filter(type=Tag.Type.TYPE)
+        context["tags_subtype"] = Tag.objects.filter(type=Tag.Type.SUBTYPE)
         context["comment_form"] = CommentForm()
         comments_qs = Comment.objects.filter(deck=self.object).select_related(
             "user", "user__profile"

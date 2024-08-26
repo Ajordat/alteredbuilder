@@ -152,10 +152,19 @@ class Card(models.Model):
 
 
 class Tag(models.Model):
+    class Type(models.TextChoices):
+        TYPE = "TY", "type"
+        SUBTYPE = "SU", "subtype"
+
     name = models.CharField(unique=True)
+    description = models.CharField(blank=True)
+    type = models.CharField(max_length=2, choices=Type)
 
     def __str__(self) -> str:
         return self.name
+
+    class Meta:
+        ordering = ["-type", "name"]
 
 
 class Deck(models.Model, HitCountMixin):
