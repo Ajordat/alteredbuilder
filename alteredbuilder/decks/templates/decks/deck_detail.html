@@ -71,6 +71,11 @@
             </a>
         </div>
     {% endif %}
+    {% for tag in deck.tags.all %}
+        <div class="col d-flex align-items-center">
+            <span class="badge bg-primary">{{ tag.name }}</span>
+        </div>
+    {% endfor %}
     </div>
     <!-- Interaction row -->
     <div class="row row-cols-auto gx-2">
@@ -103,7 +108,8 @@
                     <i class="fa-solid fa-gears"></i> {% translate "Options" %}
                 </button>
                 <ul class="dropdown-menu">
-                    <li id="edit-deck-metadata"><a class="dropdown-item edit-deck-metadata-trigger" href="#" data-bs-toggle="modal" data-bs-target="#deck-metadata-modal"><i class="fa-solid fa-pen"></i> {% translate "Edit deck fields" %}</a></li>
+                    <li id="edit-deck-tags"><a class="dropdown-item edit-deck-tags-trigger" href="#" data-bs-toggle="modal" data-bs-target="#deck-tags-modal"><i class="fa-solid fa-tags"></i> {% translate "Edit tags" %}</a></li>
+                    <li id="edit-deck-metadata"><a class="dropdown-item edit-deck-metadata-trigger" href="#" data-bs-toggle="modal" data-bs-target="#deck-metadata-modal"><i class="fa-solid fa-pen"></i> {% translate "Edit metadata" %}</a></li>
                     <li id="delete-deck"><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete-deck-modal"><i class="fa-solid fa-trash"></i> {% translate "Delete deck" %}</a></li>
                 </ul>
             </div>
@@ -338,7 +344,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="deck-metadata-modalLabel">{% translate "Edit deck" %}</h1>
+                    <h1 class="modal-title fs-5" id="deck-metadata-modalLabel">{% translate "Edit metadata" %}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -350,6 +356,27 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
                     <button type="submit" class="btn btn-primary" form="update-deck-metadata-form">{% translate "Apply" %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal to edit the Deck's tags -->
+    <div class="modal fade" id="deck-tags-modal" tabindex="-1" aria-labelledby="deck-tags-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deck-tags-modalLabel">{% translate "Edit tags" %}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'update-deck-tags' pk=deck.id %}" method="post" id="update-deck-tags-form">
+                        {% csrf_token %}
+                        {{ tags_form }}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
+                    <button type="submit" class="btn btn-primary" form="update-deck-tags-form">{% translate "Apply" %}</button>
                 </div>
             </div>
         </div>

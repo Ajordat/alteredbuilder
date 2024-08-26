@@ -11,7 +11,6 @@ from django.db.models.manager import Manager
 from django.db.models.query import QuerySet
 from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
-from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic.edit import FormView
@@ -39,7 +38,13 @@ from decks.models import (
     PrivateLink,
     Set,
 )
-from decks.forms import CardImportForm, CommentForm, DecklistForm, DeckMetadataForm
+from decks.forms import (
+    CardImportForm,
+    CommentForm,
+    DecklistForm,
+    DeckMetadataForm,
+    DeckTagsForm,
+)
 from decks.exceptions import AlteredAPIError, CardAlreadyExists, MalformedDeckException
 from profiles.models import Follow
 
@@ -247,6 +252,7 @@ class DeckDetailView(HitCountDetailView):
                 "is_public": self.object.is_public,
             }
         )
+        context["tags_form"] = DeckTagsForm(initial={"tags": self.object.tags.all()})
         context["comment_form"] = CommentForm()
         comments_qs = Comment.objects.filter(deck=self.object).select_related(
             "user", "user__profile"
@@ -581,11 +587,11 @@ class UpdateDeckMetadataFormView(LoginRequiredMixin, FormView):
         """
         try:
             # Retrieve the Deck by ID and the user, to ensure ownership
-            deck = Deck.objects.get(pk=self.kwargs["pk"], owner=self.request.user)
-            deck.name = form.cleaned_data["name"]
-            deck.description = form.cleaned_data["description"]
-            deck.is_public = form.cleaned_data["is_public"]
-            deck.save()
+            self.deck = Deck.objects.get(pk=self.kwargs["pk"], owner=self.request.user)
+            self.deck.name = form.cleaned_data["name"]
+            self.deck.description = form.cleaned_data["description"]
+            self.deck.is_public = form.cleaned_data["is_public"]
+            self.deck.save()
         except Deck.DoesNotExist:
             # For some unknown reason, this is returning 405 instead of 403
             raise PermissionDenied
@@ -599,7 +605,24 @@ class UpdateDeckMetadataFormView(LoginRequiredMixin, FormView):
         Returns:
             str: The Deck's detail endpoint.
         """
-        return reverse("deck-detail", kwargs={"pk": self.kwargs["pk"]})
+        return self.deck.get_absolute_url()
+
+
+class UpdateTagsFormView(LoginRequiredMixin, FormView):
+    template_name = "decks/deck_detail.html"
+    form_class = DeckTagsForm
+
+    def form_valid(self, form: DeckTagsForm) -> HttpResponse:
+        try:
+            self.deck = Deck.objects.get(pk=self.kwargs["pk"], owner=self.request.user)
+            print(form.cleaned_data["tags"])
+            self.deck.tags.set(form.cleaned_data["tags"])
+        except Deck.DoesNotExist:
+            raise PermissionDenied
+        return super().form_valid(form)
+
+    def get_success_url(self) -> str:
+        return self.deck.get_absolute_url()
 
 
 class CreateCommentFormView(LoginRequiredMixin, FormView):
@@ -619,13 +642,13 @@ class CreateCommentFormView(LoginRequiredMixin, FormView):
         """
         # Retrieve the Deck by ID and the user, to ensure ownership
         try:
-            deck = Deck.objects.get(pk=self.kwargs["pk"])
+            self.deck = Deck.objects.get(pk=self.kwargs["pk"])
             Comment.objects.create(
-                user=self.request.user, deck=deck, body=form.cleaned_data["body"]
+                user=self.request.user, deck=self.deck, body=form.cleaned_data["body"]
             )
-            deck.comment_count = F("comment_count") + 1
+            self.deck.comment_count = F("comment_count") + 1
 
-            deck.save(update_fields=["comment_count"])
+            self.deck.save(update_fields=["comment_count"])
 
             return super().form_valid(form)
         except Deck.DoesNotExist:
@@ -638,7 +661,7 @@ class CreateCommentFormView(LoginRequiredMixin, FormView):
         Returns:
             str: The Deck's detail endpoint.
         """
-        return reverse("deck-detail", kwargs={"pk": self.kwargs["pk"]})
+        return self.deck.get_absolute_url()
 
 
 class CardListView(ListView):

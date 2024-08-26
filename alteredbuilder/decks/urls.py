@@ -25,6 +25,11 @@ urlpatterns = [
         name="update-deck-metadata",
     ),
     path(
+        "<int:pk>/update/tags/",
+        views.UpdateTagsFormView.as_view(),
+        name="update-deck-tags",
+    ),
+    path(
         "<int:pk>/comment/",
         views.CreateCommentFormView.as_view(),
         name="create-deck-comment",

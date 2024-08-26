@@ -55,6 +55,13 @@ class DeckMetadataForm(forms.Form):
     is_public = forms.BooleanField(required=False)
 
 
+class DeckTagsForm(forms.Form):
+    template_name = "forms/submit_deck_tags.html"
+    tags = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple, required=False
+    )
+
+
 class CommentForm(forms.Form):
     """Form to create a Comment on a Deck."""
 

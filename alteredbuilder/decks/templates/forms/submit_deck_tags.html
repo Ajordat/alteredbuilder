@@ -1,0 +1,18 @@
+
+{% load static %}
+{% load i18n %}
+
+
+<p>{% translate "Tags" %}</p>
+
+<div class="row mb-2">
+    <!-- Modify Deck's tags -->
+    <div id="{{ form.tags.auto_id }}">
+{% for tag in form.tags.field.queryset %}
+        <div class="form-check">
+            <input class="form-check-input" id="id_tags_{{ forloop.counter0 }}" type="checkbox" name="tags" value="{{ tag.pk }}" {% if tag.pk in form.tags.value %}checked{% endif %}>
+            <label class="form-check-label" for="id_tags_{{ forloop.counter0 }}">{{ tag.name }}</label>
+        </div>
+{% endfor %}
+    </div>
+</div>

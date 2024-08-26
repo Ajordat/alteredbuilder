@@ -156,7 +156,7 @@ class Tag(models.Model):
 
     def __str__(self) -> str:
         return self.name
-    
+
 
 class Deck(models.Model, HitCountMixin):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
