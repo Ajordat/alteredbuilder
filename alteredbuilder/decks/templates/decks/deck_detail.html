@@ -371,13 +371,10 @@
                 <div class="modal-body">
                     <form action="{% url 'update-deck-tags' pk=deck.id %}" method="post" id="update-deck-tags-form">
                         {% csrf_token %}
-                        <p>{% translate "Tags" %}</p>
-
-                        <p><strong>Select Tags for Your Deck:</strong></p>
 
                         <!-- Types Section -->
                         <div class="mb-3">
-                            <h6>Types</h6>
+                            <h5>{% translate "Playstyle" %}</h5>
         {% for tag in tags_type %}
                             <div class="form-check">
                                 <input class="form-check-input" id="id_tags_{{ tag.pk }}" type="checkbox" name="tags" value="{{ tag.pk }}" {% if tag in deck.tags.all %}checked{% endif %}>
@@ -391,7 +388,7 @@
 
                         <!-- Subtypes Section -->
                         <div class="mb-3">
-                            <h6>Subtypes</h6>
+                            <h5>{% translate "Sub-strategy" %}</h5>
         {% for tag in tags_subtype %}
                             <div class="form-check">
                                 <input class="form-check-input" id="id_tags_{{ tag.pk }}" type="checkbox" name="tags" value="{{ tag.pk }}" {% if tag in deck.tags.all %}checked{% endif %}>

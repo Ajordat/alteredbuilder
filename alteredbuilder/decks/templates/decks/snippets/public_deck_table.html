@@ -11,6 +11,7 @@
             <th scope="col" style="width: 8%"></th>
             <th scope="col" style="width: 10%">{% translate "Owner" %}</th>
             <th scope="col">{% translate "Name" %}</th>
+            <th scope="col" style="width: 2%">{% translate "Tags" %}</th>
             <th scope="col" style="width: 10%">{% translate "Faction" %}</th>
             <th scope="col" style="width: 15%">{% translate "Hero" %}</th>
             <th scope="col" style="width: 8%" class="text-center">
@@ -46,6 +47,24 @@
             <td>{% if deck.is_followed %}<i class="fa-solid fa-star"></i> {% endif %}{{ deck.owner.username|safe_username }}</td>
             <!-- Deck's name -->
             <td>{{ deck.name }}</td>
+            {% comment %} <td>
+                <div>
+    {% for tag in deck.tags.all %}
+                    <div class="col d-flex align-items-center">
+                        <span class="badge bg-primary">{{ tag.name }}</span>
+                    </div>
+    {% endfor %}
+                </div>
+            </td> {% endcomment %}
+            <td>
+                
+                <div class="d-flex flex-column tags-container">
+                    <span class="badge bg-primary mb-1">Aggro</span>
+                    <span class="badge bg-secondary mb-1">Combo</span>
+                    <span class="badge bg-info mb-1">Ramp</span>
+                    <!-- Add more tags as necessary -->
+                </div>
+            </td>
     {% if deck.hero %}
             <!-- Faction icon and name -->
             <td>
