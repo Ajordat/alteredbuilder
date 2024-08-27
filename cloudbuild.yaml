@@ -60,25 +60,6 @@ steps:
         "update_card_pool",
       ]
 
-  # - id: "print user session"
-  #   name: "gcr.io/google-appengine/exec-wrapper"
-  #   args:
-  #     [
-  #       "-i",
-  #       "${_ARTIFACT_REGISTRY_REPOSITORY}/${_SERVICE_NAME}",
-  #       "-s",
-  #       "${_CLOUD_SQL_CONNECTION_NAME}",
-  #       "-e",
-  #       "SETTINGS_NAME=${_SECRET_SETTINGS_NAME}",
-  #       "-e",
-  #       "USE_GCS_STATICS=True",
-  #       "--",
-  #       "python",
-  #       "manage.py",
-  #       "print_user_for_session",
-  #       "nhxjcdme6cgqpjht2n2f4n73bkviztm5",
-  #     ]
-
   - id: "deploy application"
     name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud

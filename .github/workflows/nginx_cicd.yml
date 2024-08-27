@@ -32,9 +32,9 @@ jobs:
     - name: Set up docker
       run: gcloud auth configure-docker ${{ vars.NGINX_REGION }}-docker.pkg.dev --quiet
     - name: Build image
-      run: docker build . --tag ${{ vars.NGINX_AR_REPOSITORY }}/${{ env.IMAGE_NAME }}
+      run: docker build . --tag ${{ secrets.NGINX_AR_REPOSITORY }}/${{ env.IMAGE_NAME }}
     - name: Push image
-      run: docker push ${{ vars.NGINX_AR_REPOSITORY }}/${{ env.IMAGE_NAME }}
+      run: docker push ${{ secrets.NGINX_AR_REPOSITORY }}/${{ env.IMAGE_NAME }}
 
   deploy:
     name: Deploy to Cloud Run
@@ -57,11 +57,11 @@ jobs:
         project_id: ${{ vars.GCP_PROJECT }}
         region: ${{ vars.NGINX_REGION }}
         service: ${{ vars.CLOUD_RUN_SERVICE_NAME }}
-        image: ${{ vars.NGINX_AR_REPOSITORY }}/${{ env.IMAGE_NAME }}
+        image: ${{ secrets.NGINX_AR_REPOSITORY }}/${{ env.IMAGE_NAME }}
         flags: |
           --platform=managed
           --port=8000
           --allow-unauthenticated
-          --service-account=${{ vars.CLOUD_RUN_SA_NAME }}
+          --service-account=${{ secrets.CLOUD_RUN_SA_NAME }}
           --cpu=1000m
           --memory=128Mi

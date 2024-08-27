@@ -70,7 +70,7 @@ jobs:
       uses: mattes/gce-cloudsql-proxy-action@v1
       with:
         creds: ${{ secrets.GCP_GITHUB_SA }}
-        instance: ${{ vars.CLOUD_SQL_INSTANCE }}
+        instance: ${{ secrets.CLOUD_SQL_INSTANCE }}
         port: 5432
     - name: Run migrations
       run: python manage.py migrate --no-input ${{ inputs.migration_params }}
