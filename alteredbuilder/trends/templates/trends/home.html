@@ -6,8 +6,6 @@
 {% load deck_styles %}
 
 
-
-
 {% block head %}
     {{ block.super }}
     <script src="https://www.gstatic.com/charts/loader.js"></script>
@@ -86,7 +84,7 @@
     {% endcache %}
     </div>
     <h3>{% translate "Trending decks" %}</h3>
-    {% include "decks/snippets/public_deck_table.html" with table_id="trendingDecksTable" deck_list=trending %}
+    {% include "decks/snippets/public_deck_table.html" with table_id="trendingDecksTable" deck_list=deck_trends %}
     <script>
         function showReleaseDescription() {
             document.getElementById("releaseButton").classList.remove("collapsed");

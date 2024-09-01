@@ -2,15 +2,17 @@ from datetime import timedelta
 from typing import Any
 
 from django.core.management.base import BaseCommand, CommandParser
-from django.db.models import Count, F, Q
+from django.db.models import Count, F, OuterRef, Q, Subquery
 from django.utils.timezone import localdate
+from hitcount.models import Hit
 
 from decks.models import Card, CardInDeck, Deck, Set
-from trends.models import FactionTrend, HeroTrend, CardTrend
+from trends.models import CardTrend, DeckTrend, FactionTrend, HeroTrend
 
 
 DEFAULT_TIME_LAPSE = 7
 CARD_RANKING_LIMIT = 10
+DECK_RANKING_LIMIT = 10
 
 
 class Command(BaseCommand):
@@ -35,6 +37,7 @@ class Command(BaseCommand):
         self.generate_faction_trends()
         self.generate_hero_trends()
         self.generate_card_trends()
+        self.generate_deck_trends()
 
     def generate_faction_trends(self):
         faction_trends = (
@@ -163,6 +166,99 @@ class Command(BaseCommand):
                 )
                 CardTrend.objects.update_or_create(
                     card=card,
+                    hero=hero_trend.hero,
+                    faction=None,
+                    ranking=rank,
+                    day_count=self.day_count,
+                    date=self.yesterday,
+                )
+
+    def generate_deck_trends(self):
+
+        legality_filter = [Q(is_standard_legal=True) | Q(is_exalts_legal=True)]
+        base_filter = {
+            "is_public": True,
+        }
+
+        deck_trends = (
+            Deck.objects.filter(*legality_filter, **base_filter)
+            .alias(
+                recent_hits=Subquery(
+                    Hit.objects.filter(
+                        created__date__gte=self.time_lapse,
+                        hitcount__object_pk=OuterRef("pk"),
+                    )
+                    .values("hitcount__object_pk")
+                    .annotate(count=Count("pk"))
+                    .values("count")
+                )
+            )
+            .order_by(F("recent_hits").desc(nulls_last=True))[:DECK_RANKING_LIMIT]
+        )
+
+        for rank, record in enumerate(deck_trends, start=1):
+            DeckTrend.objects.update_or_create(
+                deck=record,
+                hero=None,
+                faction=None,
+                ranking=rank,
+                day_count=self.day_count,
+                date=self.yesterday,
+            )
+
+        trending_factions = FactionTrend.objects.filter(
+            date=self.yesterday
+        ).values_list("faction", flat=True)
+
+        for faction in trending_factions:
+            deck_trends = (
+                Deck.objects.filter(*legality_filter, **base_filter)
+                .filter(hero__faction=faction)
+                .alias(
+                    recent_hits=Subquery(
+                        Hit.objects.filter(
+                            created__date__gte=self.time_lapse,
+                            hitcount__object_pk=OuterRef("pk"),
+                        )
+                        .values("hitcount__object_pk")
+                        .annotate(count=Count("pk"))
+                        .values("count")
+                    )
+                )
+                .order_by(F("recent_hits").desc(nulls_last=True))[:DECK_RANKING_LIMIT]
+            )
+            for rank, record in enumerate(deck_trends, start=1):
+                DeckTrend.objects.update_or_create(
+                    deck=record,
+                    hero=None,
+                    faction=faction,
+                    ranking=rank,
+                    day_count=self.day_count,
+                    date=self.yesterday,
+                )
+
+        trending_heroes = HeroTrend.objects.filter(date=self.yesterday)
+
+        for hero_trend in trending_heroes:
+            deck_trends = (
+                Deck.objects.filter(*legality_filter, **base_filter)
+                .filter(hero__name_en=hero_trend.hero.name)
+                .alias(
+                    recent_hits=Subquery(
+                        Hit.objects.filter(
+                            created__date__gte=self.time_lapse,
+                            hitcount__object_pk=OuterRef("pk"),
+                        )
+                        .values("hitcount__object_pk")
+                        .annotate(count=Count("pk"))
+                        .values("count")
+                    )
+                )
+                .order_by(F("recent_hits").desc(nulls_last=True))[:DECK_RANKING_LIMIT]
+            )
+            for rank, record in enumerate(deck_trends, start=1):
+                DeckTrend.objects.update_or_create(
+                    deck=record,
                     hero=hero_trend.hero,
                     faction=None,
                     ranking=rank,
