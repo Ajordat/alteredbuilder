@@ -99,7 +99,7 @@ class HomeView(TemplateView):
         card_trends = card_trends.filter(Q(hero=hero) & Q(faction=faction)).annotate(
             prev_ranking=CardTrend.objects.filter(
                 card=OuterRef("card_id"), date=yesterday - timedelta(days=1)
-            ).values("ranking")
+            ).filter(Q(hero=hero) & Q(faction=faction)).values("ranking")
         )
 
         context["card_trends"] = card_trends
