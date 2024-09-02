@@ -392,8 +392,7 @@ def import_unique_card(reference) -> Card:  # pragma: no cover
         if "ECHO_EFFECT" in card_data["elements"]:
             card_dict["echo_effect"] = card_data["elements"]["ECHO_EFFECT"]
 
-        card = Card.objects.create(**card_dict)
-        card.subtypes.add(*og_card.subtypes.all())
+        card = Card(**card_dict)
 
         for language, _ in settings.LANGUAGES:  # noqa: F402
             if language == settings.LANGUAGE_CODE:
@@ -412,7 +411,10 @@ def import_unique_card(reference) -> Card:  # pragma: no cover
             if language not in IMAGE_ERROR_LOCALES:
                 card.image_url = card_data["imagePath"]
 
-        card.save()
+        with transaction.atomic():
+            card.save()
+            card.subtypes.add(*og_card.subtypes.all())
+            
         return card
 
     else:
