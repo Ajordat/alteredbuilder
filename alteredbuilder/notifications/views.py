@@ -31,18 +31,32 @@ def notification_detail(request: HttpRequest, pk: int) -> HttpResponse:
     if notification.verb not in NotificationType:
         raise Http404("Notification does not exist")
 
+    # Mark the Notification as read
     Notification.objects.filter(
         recipient=request.user,
         content_type=notification.content_type,
         object_id=notification.object_id,
     ).update(read=True)
 
+    # Route the user to the relevant view
     return redirect(notification.content_object.get_absolute_url())
 
 
-@login_required
 @ajax_request(methods=["GET"])
-def fetch_notifications(request: HttpRequest):
+def fetch_notifications(request: HttpRequest) -> ApiJsonResponse:
+    """View to fetch all notifications of a given user.
+
+    Args:
+        request (HttpRequest): The HTTP request.
+
+    Returns:
+        ApiJsonResponse: A JSON with all the user's notifications.
+    """
+
+    # If the User is not authenticated, return 401
+    if not request.user.is_authenticated:
+        return ApiJsonResponse("Unauthenticated", HTTPStatus.UNAUTHORIZED)
+
     notifications = Notification.objects.filter(recipient=request.user)[:10]
 
     data = []
