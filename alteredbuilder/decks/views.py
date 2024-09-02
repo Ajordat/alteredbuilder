@@ -101,11 +101,12 @@ class DeckListView(ListView):
             if "exalts" in legality:
                 filters &= Q(is_exalts_legal=True)
 
-        # Extract the legality filter
+        # Extract the tags filter
         tags = self.request.GET.get("tag")
         if tags:
             tags = tags.split(",")
             filters &= Q(tags__name__in=tags)
+            qs = qs.distinct()
 
         # Extract the other filters
         other_filters = self.request.GET.get("other")
