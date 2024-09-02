@@ -60,6 +60,12 @@
                                     {% translate "Draft" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="draft" label="Draft" %}
                                 </div>
                                 <div class="col">
+                                    <b>{% translate "Tags" %}</b>
+    {% for type in tags %}
+                                    {% include "decks/snippets/filter_checkbox.html" with value=type label=type %}
+    {% endfor %}
+                                </div>
+                                <div class="col">
                                     <b>{% translate "Other" %}</b>
                                     <div class="form-check">
     {% if user.is_authenticated %}

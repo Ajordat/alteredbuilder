@@ -101,6 +101,12 @@ class DeckListView(ListView):
             if "exalts" in legality:
                 filters &= Q(is_exalts_legal=True)
 
+        # Extract the legality filter
+        tags = self.request.GET.get("tag")
+        if tags:
+            tags = tags.split(",")
+            filters &= Q(tags__name__in=tags)
+
         # Extract the other filters
         other_filters = self.request.GET.get("other")
         if other_filters:
@@ -154,7 +160,7 @@ class DeckListView(ListView):
         # Extract the filters applied from the GET params and add them to the context
         # to fill them into the template
         checked_filters = []
-        for filter in ["faction", "legality", "other"]:
+        for filter in ["faction", "legality", "tag", "other"]:
             if filter in self.request.GET:
                 checked_filters += self.request.GET[filter].split(",")
         context["checked_filters"] = checked_filters
@@ -162,6 +168,8 @@ class DeckListView(ListView):
         if "query" in self.request.GET:
             context["query"] = self.request.GET.get("query")
             context["query_tags"] = self.query_tags
+
+        context["tags"] = Tag.objects.order_by("-type", "name").values_list("name", flat=True)
 
         return context
 
