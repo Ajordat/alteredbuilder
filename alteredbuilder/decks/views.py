@@ -10,7 +10,7 @@ from django.db.models import Count, Exists, F, OuterRef, Q
 from django.db.models.manager import Manager
 from django.db.models.query import QuerySet
 from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -586,49 +586,40 @@ def create_private_link(request: HttpRequest, pk: int) -> HttpResponse:
     return JsonResponse({"data": status}, status=HTTPStatus.OK)
 
 
-class UpdateDeckMetadataFormView(LoginRequiredMixin, FormView):
-    """View to update the metadata fields of a Deck."""
+@login_required
+def update_deck_metadata(request: HttpRequest, pk: int) -> HttpResponse:
+    """
+    View to update the metadata fields of a Deck.
 
-    template_name = "decks/deck_detail.html"
-    form_class = DeckMetadataForm
+    Args:
+        request: The HTTP request object.
+        pk: The primary key of the Deck to update.
 
-    def form_valid(self, form: DeckMetadataForm) -> HttpResponse:
-        """If the input data is valid, replace the old data with the received values.
+    Returns:
+        HttpResponse: The response object.
+    """
+    # Retrieve the Deck by ID
+    deck = get_object_or_404(Deck, pk=pk)
 
-        Args:
-            form (DeckMetadataForm): The form filed by the user.
+    if deck.owner != request.user:
+        # For some unknown reason, this is returning 405 instead of 403
+        raise PermissionDenied
 
-        Raises:
-            PermissionDenied: If the user is not the owner.
+    if request.method == "POST":
+        # Instantiate the form with the POST data
+        form = DeckMetadataForm(request.POST)
+        if form.is_valid():
+            # Update the Deck's metadata fields with the form data
+            deck.name = form.cleaned_data["name"]
+            deck.description = form.cleaned_data["description"]
+            deck.is_public = form.cleaned_data["is_public"]
+            deck.save()
 
-        Returns:
-            HttpResponse: The response.
-        """
-        try:
-            # Retrieve the Deck by ID and the user, to ensure ownership
-            self.deck = Deck.objects.get(pk=self.kwargs["pk"], owner=self.request.user)
-            self.deck.name = form.cleaned_data["name"]
-            self.deck.description = form.cleaned_data["description"]
-            self.deck.is_public = form.cleaned_data["is_public"]
-            self.deck.save()
-        except Deck.DoesNotExist:
-            # For some unknown reason, this is returning 405 instead of 403
-            raise PermissionDenied
-
-        return super().form_valid(form)
-
-    def get_success_url(self) -> str:
-        """Return the redirect URL for a successful update.
-        Redirect to the Deck's detail view.
-
-        Returns:
-            str: The Deck's detail endpoint.
-        """
-        return self.deck.get_absolute_url()
+    return redirect(deck.get_absolute_url())
 
 
 @login_required
-def update_tags(request: HttpRequest, pk: int):
+def update_tags(request: HttpRequest, pk: int) -> HttpResponse:
     if request.method == "POST":
         form = DeckTagsForm(request.POST)
         if form.is_valid():
@@ -651,43 +642,35 @@ def update_tags(request: HttpRequest, pk: int):
     return redirect(reverse("deck-detail", kwargs={"pk": pk}))
 
 
-class CreateCommentFormView(LoginRequiredMixin, FormView):
-    """View to create a Comment for a Deck."""
+@login_required
+def create_comment(request: HttpRequest, pk: int) -> HttpResponse:
+    """
+    View to create a Comment for a Deck.
 
-    template_name = "decks/deck_detail.html"
-    form_class = CommentForm
+    Args:
+        request: The HTTP request object.
+        pk: The primary key of the Deck for which a comment is being created.
 
-    def form_valid(self, form: CommentForm) -> HttpResponse:
-        """If the input data is valid, create a new Comment.
+    Returns:
+        HttpResponse: The response object.
+    """
 
-        Args:
-            form (CommentForm): The form filed by the user.
+    deck = get_object_or_404(Deck, pk=pk, is_public=True)
 
-        Returns:
-            HttpResponse: The response.
-        """
-        # Retrieve the Deck by ID and the user, to ensure ownership
-        try:
-            self.deck = Deck.objects.get(pk=self.kwargs["pk"])
+    if request.method == "POST":
+        # Instantiate the form with the POST data
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            # Create a new comment linked to the deck and user
             Comment.objects.create(
-                user=self.request.user, deck=self.deck, body=form.cleaned_data["body"]
+                user=request.user, deck=deck, body=form.cleaned_data["body"]
             )
-            self.deck.comment_count = F("comment_count") + 1
 
-            self.deck.save(update_fields=["comment_count"])
+            # Increment the comment count on the Deck model
+            deck.comment_count = F("comment_count") + 1
+            deck.save(update_fields=["comment_count"])
 
-            return super().form_valid(form)
-        except Deck.DoesNotExist:
-            raise Http404
-
-    def get_success_url(self) -> str:
-        """Return the redirect URL for a successful update.
-        Redirect to the Deck's detail view.
-
-        Returns:
-            str: The Deck's detail endpoint.
-        """
-        return self.deck.get_absolute_url()
+    return redirect(deck.get_absolute_url())
 
 
 class CardListView(ListView):

@@ -21,19 +21,11 @@ urlpatterns = [
     ),
     path(
         "<int:pk>/update/metadata/",
-        views.UpdateDeckMetadataFormView.as_view(),
+        views.update_deck_metadata,
         name="update-deck-metadata",
     ),
-    path(
-        "<int:pk>/update/tags/",
-        views.update_tags,
-        name="update-deck-tags",
-    ),
-    path(
-        "<int:pk>/comment/",
-        views.CreateCommentFormView.as_view(),
-        name="create-deck-comment",
-    ),
+    path("<int:pk>/update/tags/", views.update_tags, name="update-deck-tags"),
+    path("<int:pk>/comment/", views.create_comment, name="create-deck-comment"),
     path("<int:pk>/delete/", views.delete_deck, name="delete-deck-id"),
     path("<int:pk>/love/", views.love_deck, name="love-deck-id"),
     path(
