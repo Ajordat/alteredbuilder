@@ -57,8 +57,16 @@ class DeckMetadataForm(forms.Form):
 
 class DeckTagsForm(forms.Form):
     template_name = "forms/submit_deck_tags.html"
-    tags = forms.ModelMultipleChoiceField(
-        queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple, required=False
+
+    primary_tags = forms.ModelChoiceField(
+        queryset=Tag.objects.filter(type=Tag.Type.TYPE),
+        widget=forms.RadioSelect,
+        required=False,
+    )
+    secondary_tags = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.filter(type=Tag.Type.SUBTYPE),
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
     )
 
 
@@ -79,7 +87,7 @@ class CardImportForm(forms.Form):
         max_length=Card._meta.get_field("reference").max_length,
         validators=[
             RegexValidator(
-                r"^ALT_[A-Z]{4,6}_(?:B|P)_[A-Z]{2}_\d{2}_U_\d+$",
+                r"^ALT_[A-Z]{4,6}_(?:B|P|A)_[A-Z]{2}_\d{2}_U_\d+$",
                 _(
                     "Invalid value. The reference should look similar to 'ALT_COREKS_B_OR_21_U_2139'."
                 ),

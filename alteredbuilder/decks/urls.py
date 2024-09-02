@@ -26,7 +26,7 @@ urlpatterns = [
     ),
     path(
         "<int:pk>/update/tags/",
-        views.UpdateTagsFormView.as_view(),
+        views.update_tags,
         name="update-deck-tags",
     ),
     path(

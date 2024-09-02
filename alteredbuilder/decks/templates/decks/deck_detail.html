@@ -212,11 +212,12 @@
         <div class="border-bottom mb-4">
             <h3>{% translate "Stats" %}</h3>
         </div>
+        <!-- Pie chart -->
         <div class="col">
-            <!-- Pie chart -->
             <h5>{% translate "Card Type Distribution" %}</h5>
             <div id="distribution-pie-chart"></div>
         </div>
+        <!-- Table stats -->
         <div class="col">
             <!-- Rarity distribution -->
             <h5>{% translate "Rarity distribution" %}</h5>
@@ -375,10 +376,11 @@
                         <!-- Types Section -->
                         <div class="mb-3">
                             <h5>{% translate "Playstyle" %}</h5>
-        {% for tag in tags_type %}
+                            
+        {% for tag in tags_form.primary_tags.field.queryset %}
                             <div class="form-check">
-                                <input class="form-check-input" id="id_tags_{{ tag.pk }}" type="checkbox" name="tags" value="{{ tag.pk }}" {% if tag in deck.tags.all %}checked{% endif %}>
-                                <label class="form-check-label" for="id_tags_{{ tag.pk }}">
+                                <input class="form-check-input" type="radio" name="{{ tags_form.primary_tags.name }}" id="{{ tags_form.primary_tags.auto_id }}_{{ tag.pk }}" value="{{ tag.pk }}" {% if tag.pk in tags_form.initial.tags %}checked{% endif %}>
+                                <label class="form-check-label" for="{{ tags_form.primary_tags.auto_id }}_{{ tag.pk }}">
                                     {{ tag.name }}
                                     <small class="text-muted"> - {{ tag.description }}</small>
                                 </label>
@@ -389,10 +391,10 @@
                         <!-- Subtypes Section -->
                         <div class="mb-3">
                             <h5>{% translate "Sub-strategy" %}</h5>
-        {% for tag in tags_subtype %}
+        {% for tag in tags_form.secondary_tags.field.queryset %}
                             <div class="form-check">
-                                <input class="form-check-input" id="id_tags_{{ tag.pk }}" type="checkbox" name="tags" value="{{ tag.pk }}" {% if tag in deck.tags.all %}checked{% endif %}>
-                                <label class="form-check-label" for="id_tags_{{ tag.pk }}">
+                                <input class="form-check-input" id="{{ tags_form.secondary_tags.auto_id }}_{{ tag.pk }}" type="checkbox" name="{{ tags_form.secondary_tags.name }}" value="{{ tag.pk }}" {% if tag.pk in tags_form.initial.tags %}checked{% endif %}>
+                                <label class="form-check-label" for="{{ tags_form.secondary_tags.auto_id }}_{{ tag.pk }}">
                                     {{ tag.name }}
                                     <small class="text-muted"> - {{ tag.description }}</small>
                                 </label>

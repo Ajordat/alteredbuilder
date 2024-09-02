@@ -11,6 +11,7 @@ from django.db.models.manager import Manager
 from django.db.models.query import QuerySet
 from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic.edit import FormView
@@ -170,7 +171,9 @@ class DeckListView(ListView):
             context["query"] = self.request.GET.get("query")
             context["query_tags"] = self.query_tags
 
-        context["tags"] = Tag.objects.order_by("-type", "name").values_list("name", flat=True)
+        context["tags"] = Tag.objects.order_by("-type", "name").values_list(
+            "name", flat=True
+        )
 
         return context
 
@@ -266,9 +269,9 @@ class DeckDetailView(HitCountDetailView):
                 "is_public": self.object.is_public,
             }
         )
-        context["tags_form"] = DeckTagsForm(initial={"tags": self.object.tags.all()})
-        context["tags_type"] = Tag.objects.filter(type=Tag.Type.TYPE)
-        context["tags_subtype"] = Tag.objects.filter(type=Tag.Type.SUBTYPE)
+        context["tags_form"] = DeckTagsForm(
+            initial={"tags": list(self.object.tags.values_list("pk", flat=True))}
+        )
         context["comment_form"] = CommentForm()
         comments_qs = Comment.objects.filter(deck=self.object).select_related(
             "user", "user__profile"
@@ -624,21 +627,28 @@ class UpdateDeckMetadataFormView(LoginRequiredMixin, FormView):
         return self.deck.get_absolute_url()
 
 
-class UpdateTagsFormView(LoginRequiredMixin, FormView):
-    template_name = "decks/deck_detail.html"
-    form_class = DeckTagsForm
+@login_required
+def update_tags(request: HttpRequest, pk: int):
+    if request.method == "POST":
+        form = DeckTagsForm(request.POST)
+        if form.is_valid():
+            try:
+                deck = Deck.objects.get(pk=pk, owner=request.user)
 
-    def form_valid(self, form: DeckTagsForm) -> HttpResponse:
-        try:
-            self.deck = Deck.objects.get(pk=self.kwargs["pk"], owner=self.request.user)
-            print(form.cleaned_data["tags"])
-            self.deck.tags.set(form.cleaned_data["tags"])
-        except Deck.DoesNotExist:
-            raise PermissionDenied
-        return super().form_valid(form)
+                primary_tag = form.cleaned_data["primary_tags"]
+                deck.tags.set([primary_tag])
 
-    def get_success_url(self) -> str:
-        return self.deck.get_absolute_url()
+                secondary_tags = form.cleaned_data["secondary_tags"]
+                deck.tags.add(*secondary_tags)
+            except Deck.DoesNotExist:
+                raise PermissionDenied
+
+            return redirect(deck.get_absolute_url())
+        else:
+            # Weird, but should be logged
+            pass
+
+    return redirect(reverse("deck-detail", kwargs={"pk": pk}))
 
 
 class CreateCommentFormView(LoginRequiredMixin, FormView):
