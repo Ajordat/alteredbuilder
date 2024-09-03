@@ -384,11 +384,11 @@
 
                         <!-- Types Section -->
                         <div class="mb-3">
-                            <h5>{% translate "Playstyle" %}</h5>
-                            <small>{% translate "Define the overall approach or strategy the deck follows." %}</small>
+                            <h5 class="mb-0">{% translate "Playstyle" %}</h5>
+                            <small>{% translate "Define the overall approach or strategy the deck follows" %}</small>
                             
         {% for tag in tags_form.primary_tags.field.queryset %}
-                            <div class="form-check primary-tag-selector">
+                            <div class="form-check primary-tag-selector {% if forloop.first %}mt-3{% endif %}">
                                 <input class="form-check-input" type="radio" name="{{ tags_form.primary_tags.name }}" id="{{ tags_form.primary_tags.auto_id }}_{{ tag.pk }}" value="{{ tag.pk }}" {% if tag.pk in tags_form.initial.tags %}checked{% endif %}>
                                 <label class="form-check-label" for="{{ tags_form.primary_tags.auto_id }}_{{ tag.pk }}">
                                     {{ tag.name }}
@@ -401,9 +401,9 @@
                         <!-- Subtypes Section -->
                         <div class="mb-3">
                             <h5 class="mb-0">{% translate "Sub-strategy" %}</h5>
-                            <small class="mb-3">{% translate "Highlight specific tactics or themes." %}</small>
+                            <small>{% translate "Highlight specific tactics or themes" %}</small>
         {% for tag in tags_form.secondary_tags.field.queryset %}
-                            <div class="form-check secondary-tag-selector">
+                            <div class="form-check secondary-tag-selector {% if forloop.first %}mt-3{% endif %}">
                                 <input class="form-check-input" id="{{ tags_form.secondary_tags.auto_id }}_{{ tag.pk }}" type="checkbox" name="{{ tags_form.secondary_tags.name }}" value="{{ tag.pk }}" {% if tag.pk in tags_form.initial.tags %}checked{% endif %}>
                                 <label class="form-check-label" for="{{ tags_form.secondary_tags.auto_id }}_{{ tag.pk }}">
                                     {{ tag.name }}
