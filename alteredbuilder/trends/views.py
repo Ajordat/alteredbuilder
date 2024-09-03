@@ -1,10 +1,9 @@
 from datetime import timedelta
 from typing import Any
 
-from django.db.models import Count, Exists, F, OuterRef, Q, Subquery
+from django.db.models import Exists, OuterRef, Q
 from django.utils.timezone import localdate
 from django.views.generic.base import TemplateView
-from hitcount.models import Hit
 
 from decks.models import Card, Deck, LovePoint
 from profiles.models import Follow
@@ -25,6 +24,7 @@ class HomeView(TemplateView):
         """
         context = super().get_context_data(**kwargs)
 
+        yesterday = localdate() - timedelta(days=1)
         try:
             # Convert the selected faction to the Card.Faction Enum
             faction = Card.Faction(self.request.GET.get("faction"))
@@ -40,39 +40,21 @@ class HomeView(TemplateView):
         except (ValueError, Card.DoesNotExist):
             hero = None
 
-        # Retrieve the most hits made in the last 7 days and sort them DESC
-        yesterday = localdate() - timedelta(days=1)
-        time_lapse = yesterday - timedelta(days=7)
-
-        # Add the most viewed decks to the context
-        trending_decks = Deck.objects.filter(is_public=True).filter(
-            Q(is_standard_legal=True) | Q(is_exalts_legal=True)
-        )
-
-        if faction:
-            trending_decks = trending_decks.filter(hero__faction=faction)
-        if hero:
-            trending_decks = trending_decks.filter(hero__name__startswith=hero_name)
-
-        trending_decks = (
-            trending_decks.annotate(
-                recent_hits=Subquery(
-                    Hit.objects.filter(
-                        created__date__gte=time_lapse,
-                        hitcount__object_pk=OuterRef("pk"),
-                    )
-                    .values("hitcount__object_pk")
-                    .annotate(count=Count("pk"))
-                    .values("count")
-                )
+        # Retrieve the trending decks
+        deck_trends = (
+            Deck.objects.filter(is_public=True)
+            .filter(Q(is_standard_legal=True) | Q(is_exalts_legal=True))
+            .filter(
+                Q(trend__date=yesterday)
+                & Q(trend__hero=hero)
+                & Q(trend__faction=faction)
             )
             .select_related("owner", "hero")
             .prefetch_related("hit_count_generic")
-            .order_by(F("recent_hits").desc(nulls_last=True))[: self.TRENDING_COUNT]
         )
 
         if self.request.user.is_authenticated:
-            trending_decks = trending_decks.annotate(
+            deck_trends = deck_trends.annotate(
                 is_loved=Exists(
                     LovePoint.objects.filter(
                         deck=OuterRef("pk"), user=self.request.user
@@ -84,7 +66,8 @@ class HomeView(TemplateView):
                     )
                 ),
             )
-        context["trending"] = trending_decks
+
+        context["deck_trends"] = deck_trends.order_by("trend__ranking")
 
         if hero:
             faction_trends = {hero.faction: 1}
@@ -120,19 +103,11 @@ class HomeView(TemplateView):
             .select_related("card")
             .order_by("ranking")
         )
-        if hero:
-            filters = Q(hero=hero)
-        elif faction:
-            filters = Q(faction=faction)
-        else:
-            filters = Q(faction__isnull=True) & Q(hero__isnull=True)
 
-        card_trends = card_trends.filter(filters).annotate(
+        card_trends = card_trends.filter(Q(hero=hero) & Q(faction=faction)).annotate(
             prev_ranking=CardTrend.objects.filter(
                 card=OuterRef("card_id"), date=yesterday - timedelta(days=1)
-            )
-            .filter(filters)
-            .values("ranking")
+            ).filter(Q(hero=hero) & Q(faction=faction)).values("ranking")
         )
 
         context["card_trends"] = card_trends

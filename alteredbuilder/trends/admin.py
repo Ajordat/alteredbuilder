@@ -7,7 +7,7 @@ from django.contrib import admin
 from django.http import HttpRequest
 from django.utils.timezone import localdate
 
-from trends.models import CardTrend, FactionTrend, HeroTrend
+from trends.models import CardTrend, DeckTrend, FactionTrend, HeroTrend
 
 
 class TrendUtilities:
@@ -41,4 +41,11 @@ class HeroTrendAdmin(TrendUtilities, admin.ModelAdmin):
 class CardTrendAdmin(TrendUtilities, admin.ModelAdmin):
     list_display = ["date", "ranking", "card", "faction", "hero"]
     search_fields = ["hero__name_en", "card__name_en"]
+    list_filter = ["faction", "ranking"]
+
+
+@admin.register(DeckTrend)
+class DeckTrendAdmin(TrendUtilities, admin.ModelAdmin):
+    list_display = ["date", "ranking", "deck", "faction", "hero"]
+    search_fields = ["hero__name_en", "deck__name"]
     list_filter = ["faction", "ranking"]

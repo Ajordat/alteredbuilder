@@ -37,11 +37,11 @@ jobs:
         project_id: ${{ vars.GCP_PROJECT }}
         region: ${{ vars.REGION }}
         job: ${{ vars.GENERATE_TRENDS_JOB_NAME }}
-        image: ${{ vars.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
+        image: ${{ secrets.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
         flags: |
           --command=python
           --args manage.py,generate_trends
-          --set-cloudsql-instances=${{ vars.CLOUD_SQL_INSTANCE }}
-          --service-account=${{ vars.CLOUD_RUN_SA_NAME }}
+          --set-cloudsql-instances=${{ secrets.CLOUD_SQL_INSTANCE }}
+          --service-account=${{ secrets.CLOUD_RUN_SA_NAME }}
           --cpu=1000m
           --memory=512Mi
