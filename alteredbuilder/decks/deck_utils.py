@@ -414,7 +414,7 @@ def import_unique_card(reference) -> Card:  # pragma: no cover
         with transaction.atomic():
             card.save()
             card.subtypes.add(*og_card.subtypes.all())
-            
+
         return card
 
     else:

@@ -56,6 +56,8 @@ class DeckMetadataForm(forms.Form):
 
 
 class DeckTagsForm(forms.Form):
+    """Form to create or modify the Tags of a Deck."""
+
     template_name = "forms/submit_deck_tags.html"
 
     primary_tags = forms.ModelChoiceField(
@@ -82,6 +84,8 @@ class CommentForm(forms.Form):
 
 
 class CardImportForm(forms.Form):
+    """Form to import a Card of unique rarity into the database."""
+
     reference = forms.CharField(
         label=_("Card Reference"),
         max_length=Card._meta.get_field("reference").max_length,

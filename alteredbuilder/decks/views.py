@@ -598,6 +598,7 @@ def update_deck_metadata(request: HttpRequest, pk: int) -> HttpResponse:
     Returns:
         HttpResponse: The response object.
     """
+
     # Retrieve the Deck by ID
     deck = get_object_or_404(Deck, pk=pk)
 
@@ -789,6 +790,8 @@ class CardListView(ListView):
         """
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
+            # If the user is authenticated, add the list of decks owned to be displayed
+            # on the sidebar
             context["own_decks"] = (
                 Deck.objects.filter(owner=self.request.user)
                 .order_by("-modified_at")
@@ -796,6 +799,7 @@ class CardListView(ListView):
             )
             edit_deck_id = self.request.GET.get("deck")
             if edit_deck_id:
+                # If a Deck is currently being edited, add its data to the context
                 try:
                     context["edit_deck"] = Deck.objects.filter(
                         pk=edit_deck_id, owner=self.request.user
@@ -808,24 +812,36 @@ class CardListView(ListView):
                 except Deck.DoesNotExist:
                     pass
 
+        # Retrieve the selected filters and structure them so that they can be marked
+        # as checked
         checked_filters = []
         for filter in ["faction", "rarity", "type", "set"]:
             if filter in self.request.GET:
                 checked_filters += self.request.GET[filter].split(",")
         context["checked_filters"] = checked_filters
         context["checked_sets"] = self.filter_sets
-        context["sets"] = Set.objects.all()
         if "order" in self.request.GET:
             context["order"] = self.request.GET["order"]
         if "query" in self.request.GET:
             context["query"] = self.request.GET.get("query")
             context["query_tags"] = self.query_tags
 
+        # Add all sets to the context
+        context["sets"] = Set.objects.all()
+
         return context
 
 
 @login_required
-def import_card(request):
+def import_card(request: HttpRequest) -> HttpResponse:
+    """Receive the reference of a unique card and import it into the database.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: The response object.
+    """
     context = {}
     form = None
     if request.method == "POST":
@@ -833,6 +849,7 @@ def import_card(request):
         if form.is_valid():
             reference = form.cleaned_data["reference"]
             try:
+                # Attempt to import a unique card
                 card = import_unique_card(reference)
                 context["message"] = _(
                     "The card '%(card_name)s' (%(reference)s) was successfully imported."
@@ -840,6 +857,7 @@ def import_card(request):
                 form = None
                 context["card"] = card
             except CardAlreadyExists:
+                # If the card already exists, inform the user
                 card = Card.objects.get(reference=reference)
                 context["message"] = _(
                     "This unique version of '%(card_name)s' (%(reference)s) already exists in the database."
@@ -847,6 +865,7 @@ def import_card(request):
                 form = None
                 context["card"] = card
             except AlteredAPIError as e:
+                # If the import operation fails, attempt to explain the failure
                 if e.status_code == HTTPStatus.UNAUTHORIZED:
                     form.add_error(
                         "reference",

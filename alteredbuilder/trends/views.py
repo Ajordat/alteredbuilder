@@ -12,20 +12,27 @@ from trends.models import CardTrend, FactionTrend, HeroTrend
 
 
 class HomeView(TemplateView):
+    """View to display the trending factions, heroes, cards and decks."""
+
     template_name = "trends/home.html"
     TRENDING_COUNT = 10
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        """Add the trends data to the context.
+
+        Returns:
+            dict[str, Any]: The view's context.
+        """
         context = super().get_context_data(**kwargs)
 
-        yesterday = localdate() - timedelta(days=1)
-
         try:
+            # Convert the selected faction to the Card.Faction Enum
             faction = Card.Faction(self.request.GET.get("faction"))
         except ValueError:
             faction = None
 
         try:
+            # Convert the selected hero to the Card in the CORE set
             hero_name = self.request.GET.get("hero")
             hero = Card.objects.filter(
                 type=Card.Type.HERO, name__startswith=hero_name, set__code="CORE"
@@ -34,7 +41,9 @@ class HomeView(TemplateView):
             hero = None
 
         # Retrieve the most hits made in the last 7 days and sort them DESC
+        yesterday = localdate() - timedelta(days=1)
         time_lapse = yesterday - timedelta(days=7)
+
         # Add the most viewed decks to the context
         trending_decks = Deck.objects.filter(is_public=True).filter(
             Q(is_standard_legal=True) | Q(is_exalts_legal=True)

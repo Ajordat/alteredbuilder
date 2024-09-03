@@ -11,7 +11,9 @@ from profiles.models import Follow
 
 
 @receiver(post_save, sender=Comment)
-def create_comment_notification(sender: Type[Comment], instance: Comment, created: bool, **kwargs):
+def create_comment_notification(
+    sender: Type[Comment], instance: Comment, created: bool, **kwargs
+):
     """Signal that triggers after saving a Comment object.
 
     When a User Comments on a Deck, create a Notification to all Users who had
@@ -47,7 +49,9 @@ def create_comment_notification(sender: Type[Comment], instance: Comment, create
 
 
 @receiver(post_save, sender=Follow)
-def create_follow_notifications(sender: Type[Follow], instance: Follow, created: bool, **kwargs):
+def create_follow_notifications(
+    sender: Type[Follow], instance: Follow, created: bool, **kwargs
+):
     """Signal that triggers after saving a Follow object.
 
     When a User starts Following another User, create a Notification for the affected
@@ -88,7 +92,9 @@ def delete_follow_notification(sender: Type[Follow], instance: Follow, **kwargs)
 
 
 @receiver(post_save, sender=LovePoint)
-def create_love_notification(sender: Type[LovePoint], instance: LovePoint, created: bool, **kwargs):
+def create_love_notification(
+    sender: Type[LovePoint], instance: LovePoint, created: bool, **kwargs
+):
     """Signal that triggers after saving a LovePoint object.
 
     When a User Loves a Deck, create a Notification for the Deck's creator. If it
@@ -135,6 +141,7 @@ def delete_love_notification(sender: Type[LovePoint], instance: LovePoint, **kwa
         sender (Type[LovePoint]): The LovePoint class.
         instance (LovePoint): The LovePoint object that triggered the signal.
     """
+
     def consider_delete_notification():
         try:
             notification = Notification.objects.get(
