@@ -61,7 +61,7 @@ class DeckTagsForm(forms.Form):
     template_name = "forms/submit_deck_tags.html"
 
     primary_tags = forms.ModelChoiceField(
-        queryset=Tag.objects.filter(type=Tag.Type.TYPE),
+        queryset=Tag.objects.filter(type=Tag.Type.TYPE).order_by("pk"),
         widget=forms.RadioSelect,
         required=False,
     )

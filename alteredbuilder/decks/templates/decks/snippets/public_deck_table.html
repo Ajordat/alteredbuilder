@@ -48,7 +48,11 @@
             <td class="tags-col">
                 <div class="tags-container">
     {% for tag in deck.tags.all %}
+        {% if tag.type == "TY" %}
                     <span class="badge bg-primary">{{ tag.name }}</span>
+        {% else %}
+                    <span class="badge bg-secondary">{{ tag.name }}</span>
+        {% endif %}
     {% endfor %}
                 </div>
             </td>

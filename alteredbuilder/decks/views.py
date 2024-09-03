@@ -60,6 +60,7 @@ class DeckListView(ListView):
     queryset = (
         Deck.objects.filter(is_public=True)
         .select_related("owner", "hero")
+        .prefetch_related("tags")
         .order_by("-modified_at")
     )
     paginate_by = 30
@@ -171,7 +172,7 @@ class DeckListView(ListView):
             context["query"] = self.request.GET.get("query")
             context["query_tags"] = self.query_tags
 
-        context["tags"] = Tag.objects.order_by("-type", "name").values_list(
+        context["tags"] = Tag.objects.order_by("-type", "pk").values_list(
             "name", flat=True
         )
 
@@ -628,10 +629,13 @@ def update_tags(request: HttpRequest, pk: int) -> HttpResponse:
                 deck = Deck.objects.get(pk=pk, owner=request.user)
 
                 primary_tag = form.cleaned_data["primary_tags"]
-                deck.tags.set([primary_tag])
-
                 secondary_tags = form.cleaned_data["secondary_tags"]
+                
+                deck.tags.clear()
+                if primary_tag:
+                    deck.tags.add(primary_tag)
                 deck.tags.add(*secondary_tags)
+
             except Deck.DoesNotExist:
                 raise PermissionDenied
 
