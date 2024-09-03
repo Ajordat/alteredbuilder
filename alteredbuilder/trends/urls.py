@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import views
+from trends import views
 
 # Endpoints for this app
 

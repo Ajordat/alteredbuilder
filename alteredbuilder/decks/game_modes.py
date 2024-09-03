@@ -4,7 +4,7 @@ from enum import StrEnum
 
 from django.utils.translation import gettext_lazy as _
 
-from .models import Deck, Card
+from decks.models import Deck, Card
 
 
 class GameMode(ABC):

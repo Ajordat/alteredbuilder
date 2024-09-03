@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.http import HttpRequest
 
-from .models import (
+from decks.models import (
     Card,
     CardInDeck,
     Comment,
@@ -14,6 +14,7 @@ from .models import (
     PrivateLink,
     Set,
     Subtype,
+    Tag,
 )
 
 
@@ -69,6 +70,7 @@ class DeckAdmin(admin.ModelAdmin):
         "comment_count",
         "created_at",
         "modified_at",
+        "tags",
     ]
     fieldsets = [
         (
@@ -79,6 +81,7 @@ class DeckAdmin(admin.ModelAdmin):
                     "name",
                     "description",
                     "hero",
+                    "tags",
                     ("created_at", "modified_at"),
                 ]
             },
@@ -255,3 +258,9 @@ class SubtypeAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
             lang_fieldset = (name, {"fields": [f"name_{code}"]})
             fieldsets.append(lang_fieldset)
         return fieldsets
+
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ["name", "type", "description"]
+    search_fields = ["name"]

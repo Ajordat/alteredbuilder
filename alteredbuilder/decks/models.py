@@ -151,6 +151,22 @@ class Card(models.Model):
         ordering = ["reference"]
 
 
+class Tag(models.Model):
+    class Type(models.TextChoices):
+        TYPE = "TY", "type"
+        SUBTYPE = "SU", "subtype"
+
+    name = models.CharField(unique=True)
+    description = models.CharField(blank=True)
+    type = models.CharField(max_length=2, choices=Type)
+
+    def __str__(self) -> str:
+        return self.name
+
+    class Meta:
+        ordering = ["-type", "name"]
+
+
 class Deck(models.Model, HitCountMixin):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
@@ -172,6 +188,7 @@ class Deck(models.Model, HitCountMixin):
         object_id_field="object_pk",
         related_query_name="hit_count_generic_relation",
     )
+    tags = models.ManyToManyField(Tag, blank=True, related_name="decks")
 
     modified_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)

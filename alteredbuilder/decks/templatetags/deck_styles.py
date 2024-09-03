@@ -65,7 +65,7 @@ def deck_params_to_filter_tag(get_params: dict) -> list[(str, str)]:
         list[(str, str)]: A list of tuple elements with the key-values of the GET
         params.
     """
-    allowed_params = ["faction", "legality", "other"]
+    allowed_params = ["faction", "legality", "tag", "other"]
     tags = []
     for param in get_params:
         if param in allowed_params:

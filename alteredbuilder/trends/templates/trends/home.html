@@ -59,14 +59,14 @@
                     </tr>
                 </thead>
                 <tbody>
-    {% for trend in card_trends %}
+        {% for trend in card_trends %}
                     <tr>
                         <td>
-        {% if trend.prev_ranking > trend.ranking or not trend.prev_ranking %}
+            {% if trend.prev_ranking > trend.ranking or not trend.prev_ranking %}
                             <i class="fa-solid fa-chevron-up"></i>
-        {% elif trend.prev_ranking < trend.ranking %}
+            {% elif trend.prev_ranking < trend.ranking %}
                             <i class="fa-solid fa-chevron-down"></i>
-        {% endif %}
+            {% endif %}
                         </td>
                         <td>
                             <span class="d-inline-block" data-bs-offset="0,30" data-bs-toggle="tooltip" data-bs-title="<img src='{{ trend.card.image_url }}'/>" data-bs-html="true" data-bs-placement="left">
@@ -77,7 +77,7 @@
                             <link rel="prefetch" href="{{ trend.card.image_url }}"/>
                         </td>
                     </tr>
-    {% endfor %}
+        {% endfor %}
                 </tbody>
             </table>
         </div>

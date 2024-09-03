@@ -71,6 +71,20 @@
             </a>
         </div>
     {% endif %}
+
+        <!-- Deck tags -->
+        <div class="col d-flex align-items-center">
+
+    {% for tag in deck.tags.all %}
+        {% if tag.type == "TY" %}
+            <span class="badge bg-primary me-2">{{ tag.name }}</span>
+        {% else %}
+            <span class="badge bg-secondary me-2">{{ tag.name }}</span>
+        {% endif %}
+    {% endfor %}
+
+        </div>
+
     </div>
     <!-- Interaction row -->
     <div class="row row-cols-auto gx-2">
@@ -103,7 +117,8 @@
                     <i class="fa-solid fa-gears"></i> {% translate "Options" %}
                 </button>
                 <ul class="dropdown-menu">
-                    <li id="edit-deck-metadata"><a class="dropdown-item edit-deck-metadata-trigger" href="#" data-bs-toggle="modal" data-bs-target="#deck-metadata-modal"><i class="fa-solid fa-pen"></i> {% translate "Edit deck fields" %}</a></li>
+                    <li id="edit-deck-tags"><a class="dropdown-item edit-deck-tags-trigger" href="#" data-bs-toggle="modal" data-bs-target="#deck-tags-modal"><i class="fa-solid fa-tags"></i> {% translate "Edit tags" %}</a></li>
+                    <li id="edit-deck-metadata"><a class="dropdown-item edit-deck-metadata-trigger" href="#" data-bs-toggle="modal" data-bs-target="#deck-metadata-modal"><i class="fa-solid fa-pen"></i> {% translate "Edit metadata" %}</a></li>
                     <li id="delete-deck"><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete-deck-modal"><i class="fa-solid fa-trash"></i> {% translate "Delete deck" %}</a></li>
                 </ul>
             </div>
@@ -206,11 +221,12 @@
         <div class="border-bottom mb-4">
             <h3>{% translate "Stats" %}</h3>
         </div>
+        <!-- Pie chart -->
         <div class="col">
-            <!-- Pie chart -->
             <h5>{% translate "Card Type Distribution" %}</h5>
             <div id="distribution-pie-chart"></div>
         </div>
+        <!-- Table stats -->
         <div class="col">
             <!-- Rarity distribution -->
             <h5>{% translate "Rarity distribution" %}</h5>
@@ -338,7 +354,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="deck-metadata-modalLabel">{% translate "Edit deck" %}</h1>
+                    <h1 class="modal-title fs-5" id="deck-metadata-modalLabel">{% translate "Edit metadata" %}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -350,6 +366,57 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
                     <button type="submit" class="btn btn-primary" form="update-deck-metadata-form">{% translate "Apply" %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal to edit the Deck's tags -->
+    <div class="modal fade" id="deck-tags-modal" tabindex="-1" aria-labelledby="deck-tags-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deck-tags-modalLabel">{% translate "Edit tags" %}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'update-deck-tags' pk=deck.id %}" method="post" id="update-deck-tags-form">
+                        {% csrf_token %}
+
+                        <!-- Types Section -->
+                        <div class="mb-3">
+                            <h5 class="mb-0">{% translate "Playstyle" %}</h5>
+                            <small>{% translate "Define the overall approach or strategy the deck follows" %}</small>
+                            
+        {% for tag in tags_form.primary_tags.field.queryset %}
+                            <div class="form-check primary-tag-selector {% if forloop.first %}mt-3{% endif %}">
+                                <input class="form-check-input" type="radio" name="{{ tags_form.primary_tags.name }}" id="{{ tags_form.primary_tags.auto_id }}_{{ tag.pk }}" value="{{ tag.pk }}" {% if tag.pk in tags_form.initial.tags %}checked{% endif %}>
+                                <label class="form-check-label" for="{{ tags_form.primary_tags.auto_id }}_{{ tag.pk }}">
+                                    {{ tag.name }}
+                                    <small class="text-muted"> - {{ tag.description }}</small>
+                                </label>
+                            </div>
+        {% endfor %}
+                        </div>
+
+                        <!-- Subtypes Section -->
+                        <div class="mb-3">
+                            <h5 class="mb-0">{% translate "Sub-strategy" %}</h5>
+                            <small>{% translate "Highlight specific tactics or themes" %}</small>
+        {% for tag in tags_form.secondary_tags.field.queryset %}
+                            <div class="form-check secondary-tag-selector {% if forloop.first %}mt-3{% endif %}">
+                                <input class="form-check-input" id="{{ tags_form.secondary_tags.auto_id }}_{{ tag.pk }}" type="checkbox" name="{{ tags_form.secondary_tags.name }}" value="{{ tag.pk }}" {% if tag.pk in tags_form.initial.tags %}checked{% endif %}>
+                                <label class="form-check-label" for="{{ tags_form.secondary_tags.auto_id }}_{{ tag.pk }}">
+                                    {{ tag.name }}
+                                    <small class="text-muted"> - {{ tag.description }}</small>
+                                </label>
+                            </div>
+        {% endfor %}
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
+                    <button type="submit" class="btn btn-primary" form="update-deck-tags-form">{% translate "Apply" %}</button>
                 </div>
             </div>
         </div>

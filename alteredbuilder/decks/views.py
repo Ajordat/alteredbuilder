@@ -10,7 +10,7 @@ from django.db.models import Count, Exists, F, OuterRef, Q
 from django.db.models.manager import Manager
 from django.db.models.query import QuerySet
 from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -38,8 +38,15 @@ from decks.models import (
     LovePoint,
     PrivateLink,
     Set,
+    Tag,
 )
-from decks.forms import CardImportForm, CommentForm, DecklistForm, DeckMetadataForm
+from decks.forms import (
+    CardImportForm,
+    CommentForm,
+    DecklistForm,
+    DeckMetadataForm,
+    DeckTagsForm,
+)
 from decks.exceptions import AlteredAPIError, CardAlreadyExists, MalformedDeckException
 from profiles.models import Follow
 
@@ -53,6 +60,7 @@ class DeckListView(ListView):
     queryset = (
         Deck.objects.filter(is_public=True)
         .select_related("owner", "hero")
+        .prefetch_related("tags")
         .order_by("-modified_at")
     )
     paginate_by = 30
@@ -94,6 +102,13 @@ class DeckListView(ListView):
                 filters &= Q(is_draft_legal=True)
             if "exalts" in legality:
                 filters &= Q(is_exalts_legal=True)
+
+        # Extract the tags filter
+        tags = self.request.GET.get("tag")
+        if tags:
+            tags = tags.split(",")
+            filters &= Q(tags__name__in=tags)
+            qs = qs.distinct()
 
         # Extract the other filters
         other_filters = self.request.GET.get("other")
@@ -148,7 +163,7 @@ class DeckListView(ListView):
         # Extract the filters applied from the GET params and add them to the context
         # to fill them into the template
         checked_filters = []
-        for filter in ["faction", "legality", "other"]:
+        for filter in ["faction", "legality", "tag", "other"]:
             if filter in self.request.GET:
                 checked_filters += self.request.GET[filter].split(",")
         context["checked_filters"] = checked_filters
@@ -156,6 +171,10 @@ class DeckListView(ListView):
         if "query" in self.request.GET:
             context["query"] = self.request.GET.get("query")
             context["query_tags"] = self.query_tags
+
+        context["tags"] = Tag.objects.order_by("-type", "pk").values_list(
+            "name", flat=True
+        )
 
         return context
 
@@ -229,7 +248,11 @@ class DeckDetailView(HitCountDetailView):
             follower_count=Count("owner__followers", distinct=True),
             following_count=Count("owner__following", distinct=True),
         )
-        return qs.filter(filter).select_related("hero", "owner", "owner__profile")
+        return (
+            qs.filter(filter)
+            .select_related("hero", "owner", "owner__profile")
+            .prefetch_related("tags")
+        )
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         """Add metadata of the Deck to the context.
@@ -246,6 +269,9 @@ class DeckDetailView(HitCountDetailView):
                 "description": self.object.description,
                 "is_public": self.object.is_public,
             }
+        )
+        context["tags_form"] = DeckTagsForm(
+            initial={"tags": list(self.object.tags.values_list("pk", flat=True))}
         )
         context["comment_form"] = CommentForm()
         comments_qs = Comment.objects.filter(deck=self.object).select_related(
@@ -561,84 +587,95 @@ def create_private_link(request: HttpRequest, pk: int) -> HttpResponse:
     return JsonResponse({"data": status}, status=HTTPStatus.OK)
 
 
-class UpdateDeckMetadataFormView(LoginRequiredMixin, FormView):
-    """View to update the metadata fields of a Deck."""
+@login_required
+def update_deck_metadata(request: HttpRequest, pk: int) -> HttpResponse:
+    """
+    View to update the metadata fields of a Deck.
 
-    template_name = "decks/deck_detail.html"
-    form_class = DeckMetadataForm
+    Args:
+        request: The HTTP request object.
+        pk: The primary key of the Deck to update.
 
-    def form_valid(self, form: DeckMetadataForm) -> HttpResponse:
-        """If the input data is valid, replace the old data with the received values.
+    Returns:
+        HttpResponse: The response object.
+    """
 
-        Args:
-            form (DeckMetadataForm): The form filed by the user.
+    # Retrieve the Deck by ID
+    deck = get_object_or_404(Deck, pk=pk)
 
-        Raises:
-            PermissionDenied: If the user is not the owner.
+    if deck.owner != request.user:
+        # For some unknown reason, this is returning 405 instead of 403
+        raise PermissionDenied
 
-        Returns:
-            HttpResponse: The response.
-        """
-        try:
-            # Retrieve the Deck by ID and the user, to ensure ownership
-            deck = Deck.objects.get(pk=self.kwargs["pk"], owner=self.request.user)
+    if request.method == "POST":
+        # Instantiate the form with the POST data
+        form = DeckMetadataForm(request.POST)
+        if form.is_valid():
+            # Update the Deck's metadata fields with the form data
             deck.name = form.cleaned_data["name"]
             deck.description = form.cleaned_data["description"]
             deck.is_public = form.cleaned_data["is_public"]
             deck.save()
-        except Deck.DoesNotExist:
-            # For some unknown reason, this is returning 405 instead of 403
-            raise PermissionDenied
 
-        return super().form_valid(form)
-
-    def get_success_url(self) -> str:
-        """Return the redirect URL for a successful update.
-        Redirect to the Deck's detail view.
-
-        Returns:
-            str: The Deck's detail endpoint.
-        """
-        return reverse("deck-detail", kwargs={"pk": self.kwargs["pk"]})
+    return redirect(deck.get_absolute_url())
 
 
-class CreateCommentFormView(LoginRequiredMixin, FormView):
-    """View to create a Comment for a Deck."""
+@login_required
+def update_tags(request: HttpRequest, pk: int) -> HttpResponse:
+    if request.method == "POST":
+        form = DeckTagsForm(request.POST)
+        if form.is_valid():
+            try:
+                deck = Deck.objects.get(pk=pk, owner=request.user)
 
-    template_name = "decks/deck_detail.html"
-    form_class = CommentForm
+                primary_tag = form.cleaned_data["primary_tags"]
+                secondary_tags = form.cleaned_data["secondary_tags"]
+                
+                deck.tags.clear()
+                if primary_tag:
+                    deck.tags.add(primary_tag)
+                deck.tags.add(*secondary_tags)
 
-    def form_valid(self, form: CommentForm) -> HttpResponse:
-        """If the input data is valid, create a new Comment.
+            except Deck.DoesNotExist:
+                raise PermissionDenied
 
-        Args:
-            form (CommentForm): The form filed by the user.
+            return redirect(deck.get_absolute_url())
+        else:
+            # Weird, but should be logged
+            pass
 
-        Returns:
-            HttpResponse: The response.
-        """
-        # Retrieve the Deck by ID and the user, to ensure ownership
-        try:
-            deck = Deck.objects.get(pk=self.kwargs["pk"])
+    return redirect(reverse("deck-detail", kwargs={"pk": pk}))
+
+
+@login_required
+def create_comment(request: HttpRequest, pk: int) -> HttpResponse:
+    """
+    View to create a Comment for a Deck.
+
+    Args:
+        request: The HTTP request object.
+        pk: The primary key of the Deck for which a comment is being created.
+
+    Returns:
+        HttpResponse: The response object.
+    """
+
+    deck = get_object_or_404(Deck, pk=pk, is_public=True)
+
+    if request.method == "POST":
+        # Instantiate the form with the POST data
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            # Create a new comment linked to the deck and user
             Comment.objects.create(
-                user=self.request.user, deck=deck, body=form.cleaned_data["body"]
+                user=request.user, deck=deck, body=form.cleaned_data["body"]
             )
-            deck.comment_count = F("comment_count") + 1
 
+            # Increment the comment count on the Deck model
+            deck.comment_count = F("comment_count") + 1
             deck.save(update_fields=["comment_count"])
 
-            return super().form_valid(form)
-        except Deck.DoesNotExist:
-            raise Http404
-
-    def get_success_url(self) -> str:
-        """Return the redirect URL for a successful update.
-        Redirect to the Deck's detail view.
-
-        Returns:
-            str: The Deck's detail endpoint.
-        """
-        return reverse("deck-detail", kwargs={"pk": self.kwargs["pk"]})
+    return redirect(deck.get_absolute_url())
 
 
 class CardListView(ListView):
@@ -757,6 +794,8 @@ class CardListView(ListView):
         """
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
+            # If the user is authenticated, add the list of decks owned to be displayed
+            # on the sidebar
             context["own_decks"] = (
                 Deck.objects.filter(owner=self.request.user)
                 .order_by("-modified_at")
@@ -764,6 +803,7 @@ class CardListView(ListView):
             )
             edit_deck_id = self.request.GET.get("deck")
             if edit_deck_id:
+                # If a Deck is currently being edited, add its data to the context
                 try:
                     context["edit_deck"] = Deck.objects.filter(
                         pk=edit_deck_id, owner=self.request.user
@@ -776,24 +816,36 @@ class CardListView(ListView):
                 except Deck.DoesNotExist:
                     pass
 
+        # Retrieve the selected filters and structure them so that they can be marked
+        # as checked
         checked_filters = []
         for filter in ["faction", "rarity", "type", "set"]:
             if filter in self.request.GET:
                 checked_filters += self.request.GET[filter].split(",")
         context["checked_filters"] = checked_filters
         context["checked_sets"] = self.filter_sets
-        context["sets"] = Set.objects.all()
         if "order" in self.request.GET:
             context["order"] = self.request.GET["order"]
         if "query" in self.request.GET:
             context["query"] = self.request.GET.get("query")
             context["query_tags"] = self.query_tags
 
+        # Add all sets to the context
+        context["sets"] = Set.objects.all()
+
         return context
 
 
 @login_required
-def import_card(request):
+def import_card(request: HttpRequest) -> HttpResponse:
+    """Receive the reference of a unique card and import it into the database.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: The response object.
+    """
     context = {}
     form = None
     if request.method == "POST":
@@ -801,6 +853,7 @@ def import_card(request):
         if form.is_valid():
             reference = form.cleaned_data["reference"]
             try:
+                # Attempt to import a unique card
                 card = import_unique_card(reference)
                 context["message"] = _(
                     "The card '%(card_name)s' (%(reference)s) was successfully imported."
@@ -808,6 +861,7 @@ def import_card(request):
                 form = None
                 context["card"] = card
             except CardAlreadyExists:
+                # If the card already exists, inform the user
                 card = Card.objects.get(reference=reference)
                 context["message"] = _(
                     "This unique version of '%(card_name)s' (%(reference)s) already exists in the database."
@@ -815,6 +869,7 @@ def import_card(request):
                 form = None
                 context["card"] = card
             except AlteredAPIError as e:
+                # If the import operation fails, attempt to explain the failure
                 if e.status_code == HTTPStatus.UNAUTHORIZED:
                     form.add_error(
                         "reference",

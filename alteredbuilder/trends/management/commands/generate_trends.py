@@ -16,9 +16,22 @@ DECK_RANKING_LIMIT = 10
 
 
 class Command(BaseCommand):
+    """This command looks at the modified Decks within the last X days to generate some
+    statistics to generate some trends. The information is stored in the *Trend tables.
+
+    The analyzed timelapse always ends on the previous day and starts on the previous X
+    days.
+    """
+
     help = "Generates statistics for the past X (default=7) days"
 
     def add_arguments(self, parser: CommandParser) -> None:
+        """Add the `days` argument to the CLI to modify the amount of days the trends
+        look back to to generate the trends.
+
+        Args:
+            parser (CommandParser): The CLI parser.
+        """
         parser.add_argument(
             "--days",
             action="store",
@@ -27,42 +40,56 @@ class Command(BaseCommand):
             dest="day_count",
         )
 
-    def handle(self, *args: Any, **options: Any) -> str | None:
+    def handle(self, *args: Any, **options: Any) -> None:
+        """Entrypoint of the command. Generate the timelapse that will be analyzed and
+        start the trend generation.
+        """
 
+        # Calculate the time lapse
         self.day_count = options["day_count"]
-        self.yesterday = localdate() - timedelta(days=1)
+        self.end_lapse = localdate() - timedelta(days=1)
+        self.start_lapse = self.end_lapse - timedelta(days=self.day_count)
 
-        self.time_lapse = self.yesterday - timedelta(days=self.day_count)
-
+        # Generate the trends
         self.generate_faction_trends()
         self.generate_hero_trends()
         self.generate_card_trends()
         self.generate_deck_trends()
 
     def generate_faction_trends(self):
+        """Generate the faction trends."""
+
+        # Extract the faction trends
         faction_trends = (
             Deck.objects.filter(
                 Q(is_standard_legal=True) | Q(is_exalts_legal=True),
-                modified_at__date__gte=self.time_lapse,
+                modified_at__date__gte=self.start_lapse,
                 is_public=True,
             )
             .values("hero__faction")
             .annotate(count=Count("hero__faction"))
             .order_by("-count")
         )
+        # Generate a trend record for each faction
         for record in faction_trends:
             FactionTrend.objects.update_or_create(
                 faction=record["hero__faction"],
-                count=record["count"],
                 day_count=self.day_count,
-                date=self.yesterday,
+                date=self.end_lapse,
+                defaults={"count": record["count"]},
             )
 
     def generate_hero_trends(self):
+        """Generate the hero trends."""
+
+        # Extract the hero cards used in each legal public deck and sort them DESC
+        # To get the card the name is used instead of the reference. This is done to
+        # take into consideration the same hero in the different sets, such as the
+        # promotional cards and the Kickstarter
         hero_trends = (
             Deck.objects.filter(
                 Q(is_standard_legal=True) | Q(is_exalts_legal=True),
-                modified_at__date__gte=self.time_lapse,
+                modified_at__date__gte=self.start_lapse,
                 is_public=True,
             )
             .annotate(hero_name=F("hero__name_en"))
@@ -71,7 +98,9 @@ class Command(BaseCommand):
             .order_by("-count")
         )
 
+        # Use the core set version of the card
         core_set = Set.objects.get(code="CORE")
+        # Create a HeroTrend record for each hero
         for record in hero_trends:
             hero = Card.objects.get(
                 type=Card.Type.HERO, name=record["hero_name"], set=core_set
@@ -79,21 +108,39 @@ class Command(BaseCommand):
 
             HeroTrend.objects.update_or_create(
                 hero=hero,
-                count=record["count"],
                 day_count=self.day_count,
-                date=self.yesterday,
+                date=self.end_lapse,
+                defaults={"count": record["count"]},
             )
 
     def generate_card_trends(self):
+        """Generate the card trends.
 
+        There will be 10 records for:
+        * General (once)
+        * Each faction (6 factions)
+        * Each hero (18 heroes)
+        Therefore 250 records are generated each time.
+
+        A card's popularity is extracted from their inclusion in the decks modified
+        within the time lapse. The quantity is ignored, therefore having 3 or 1 copies
+        of a card in a Deck have the same weight.
+
+        The Card's name and rarity are used to identify a Card instead of its reference
+        to count the usage of the same card from a different set.
+        """
+
+        # Base filters that will be used recurrently when retrieving the cards
         legality_filter = [
             Q(deck__is_standard_legal=True) | Q(deck__is_exalts_legal=True)
         ]
         base_filter = {
-            "deck__modified_at__date__gte": self.time_lapse,
+            "deck__modified_at__date__gte": self.start_lapse,
             "deck__is_public": True,
         }
 
+        # This is the general usage, therefore no filtering based on faction or hero is
+        # applied
         card_trends = (
             CardInDeck.objects.filter(*legality_filter, **base_filter)
             .annotate(name=F("card__name_en"))
@@ -101,7 +148,10 @@ class Command(BaseCommand):
             .alias(count=Count("name"))
             .order_by("-count")[:CARD_RANKING_LIMIT]
         )
+        # Get the card from the core set
         core_set = Set.objects.get(code="CORE")
+
+        # Create a record for each card
         for rank, record in enumerate(card_trends, start=1):
             card = Card.objects.get(
                 name=record["name"],
@@ -113,15 +163,18 @@ class Command(BaseCommand):
                 card=card,
                 hero=None,
                 faction=None,
-                ranking=rank,
                 day_count=self.day_count,
-                date=self.yesterday,
+                date=self.end_lapse,
+                defaults={"ranking": rank},
             )
 
+        # Iterate the trending factions (all) and create a ranking for each
         trending_factions = FactionTrend.objects.filter(
-            date=self.yesterday
+            date=self.end_lapse
         ).values_list("faction", flat=True)
         for faction in trending_factions:
+
+            # Extract the card usage filtering by faction
             card_trends = (
                 CardInDeck.objects.filter(*legality_filter, **base_filter)
                 .filter(card__faction=faction)
@@ -130,6 +183,8 @@ class Command(BaseCommand):
                 .alias(count=Count("name"))
                 .order_by("-count")[:CARD_RANKING_LIMIT]
             )
+
+            # Create a record for each card
             for rank, record in enumerate(card_trends, start=1):
                 card = Card.objects.get(
                     name=record["name"],
@@ -141,13 +196,16 @@ class Command(BaseCommand):
                     card=card,
                     hero=None,
                     faction=faction,
-                    ranking=rank,
                     day_count=self.day_count,
-                    date=self.yesterday,
+                    date=self.end_lapse,
+                    defaults={"ranking": rank},
                 )
 
-        trending_heroes = HeroTrend.objects.filter(date=self.yesterday)
+        # Iterate the trending heroes (all) and create a ranking for each
+        trending_heroes = HeroTrend.objects.filter(date=self.end_lapse)
         for hero_trend in trending_heroes:
+
+            # Extract the card usage filtering by the hero name
             card_trends = (
                 CardInDeck.objects.filter(*legality_filter, **base_filter)
                 .filter(deck__hero__name_en=hero_trend.hero.name)
@@ -157,6 +215,7 @@ class Command(BaseCommand):
                 .order_by("-count")[:CARD_RANKING_LIMIT]
             )
 
+            # Create a record for each card
             for rank, record in enumerate(card_trends, start=1):
                 card = Card.objects.get(
                     name=record["name"],
@@ -168,18 +227,35 @@ class Command(BaseCommand):
                     card=card,
                     hero=hero_trend.hero,
                     faction=None,
-                    ranking=rank,
                     day_count=self.day_count,
-                    date=self.yesterday,
+                    date=self.end_lapse,
+                    defaults={"ranking": rank},
                 )
 
     def generate_deck_trends(self):
+        """Generate the deck trends.
 
+        There will be 10 records for:
+        * General (once)
+        * Each faction (6 factions)
+        * Each hero (18 heroes)
+        Therefore 250 records are generated each time.
+
+        A deck's popularity is extracted from their hit count within the time lapse.
+        The total hitcount is ignored, it only matters the views in the time lapse.
+
+        When generating the records for the heroes, the Card's name is used to identify
+        a Card instead of its reference to take into consideration the usage of the
+        same card from a different set.
+        """
+
+        # Base filters that will be used recurrently when retrieving the decks
         legality_filter = [Q(is_standard_legal=True) | Q(is_exalts_legal=True)]
         base_filter = {
             "is_public": True,
         }
 
+        # Extract the sorted list of Decks based on the hits created in the time lapse
         deck_trends = (
             Deck.objects.filter(*legality_filter, **base_filter)
             .alias(
@@ -196,21 +272,24 @@ class Command(BaseCommand):
             .order_by(F("recent_hits").desc(nulls_last=True))[:DECK_RANKING_LIMIT]
         )
 
+        # Create a record for each of the trending decks
         for rank, record in enumerate(deck_trends, start=1):
             DeckTrend.objects.update_or_create(
                 deck=record,
                 hero=None,
                 faction=None,
-                ranking=rank,
                 day_count=self.day_count,
                 date=self.yesterday,
+                defaults={"ranking": rank},
             )
 
+        # Iterate the trending factions (all)
         trending_factions = FactionTrend.objects.filter(
             date=self.yesterday
         ).values_list("faction", flat=True)
 
         for faction in trending_factions:
+            # Extract the decks but filter by faction
             deck_trends = (
                 Deck.objects.filter(*legality_filter, **base_filter)
                 .filter(hero__faction=faction)
@@ -227,19 +306,23 @@ class Command(BaseCommand):
                 )
                 .order_by(F("recent_hits").desc(nulls_last=True))[:DECK_RANKING_LIMIT]
             )
+
+            # Create a record for each trending deck of the faction
             for rank, record in enumerate(deck_trends, start=1):
                 DeckTrend.objects.update_or_create(
                     deck=record,
                     hero=None,
                     faction=faction,
-                    ranking=rank,
                     day_count=self.day_count,
                     date=self.yesterday,
+                    defaults={"ranking": rank},
                 )
 
+        # Iterate the trending heroes (all)
         trending_heroes = HeroTrend.objects.filter(date=self.yesterday)
 
         for hero_trend in trending_heroes:
+            # The name of the hero is used instead of its reference
             deck_trends = (
                 Deck.objects.filter(*legality_filter, **base_filter)
                 .filter(hero__name_en=hero_trend.hero.name)
@@ -256,12 +339,13 @@ class Command(BaseCommand):
                 )
                 .order_by(F("recent_hits").desc(nulls_last=True))[:DECK_RANKING_LIMIT]
             )
+            # Create a record for each trending deck of the hero
             for rank, record in enumerate(deck_trends, start=1):
                 DeckTrend.objects.update_or_create(
                     deck=record,
                     hero=hero_trend.hero,
                     faction=None,
-                    ranking=rank,
                     day_count=self.day_count,
                     date=self.yesterday,
+                    defaults={"ranking": rank},
                 )

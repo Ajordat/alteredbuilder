@@ -5,6 +5,8 @@ from profiles.models import UserProfile
 
 
 class UserProfileForm(forms.Form):
+    """Form to validate a User's profile modification."""
+
     template_name = "forms/submit_userprofile.html"
     bio = forms.CharField(
         max_length=UserProfile._meta.get_field("bio").max_length,

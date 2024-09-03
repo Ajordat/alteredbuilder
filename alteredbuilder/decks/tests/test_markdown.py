@@ -3,7 +3,7 @@ from django.test import TestCase
 from decks.models import Card
 from decks.templatetags.markdown_extras import markdown
 
-from .utils import generate_card
+from decks.tests.utils import generate_card
 
 
 class MarkdownTestCase(TestCase):

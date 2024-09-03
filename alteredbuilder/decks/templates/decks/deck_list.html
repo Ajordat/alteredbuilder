@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{% static 'css/deck-list.css' %}">
 {% endblock %}
 
+{% comment %} {% block content-div %}class="mt-5"{% endblock %} {% endcomment %}
 
 {% block content %}
     <h3>{% translate "Latest decks" %}</h3>
@@ -57,6 +58,12 @@
                                     {% translate "Standard" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="standard" label="Standard" %}
                                     {% translate "ExAlts" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="exalts" label="ExAlts" %}
                                     {% translate "Draft" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="draft" label="Draft" %}
+                                </div>
+                                <div class="col">
+                                    <b>{% translate "Tags" %}</b>
+    {% for type in tags %}
+                                    {% include "decks/snippets/filter_checkbox.html" with value=type label=type %}
+    {% endfor %}
                                 </div>
                                 <div class="col">
                                     <b>{% translate "Other" %}</b>

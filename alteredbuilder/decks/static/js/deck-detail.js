@@ -216,3 +216,67 @@ for (let element of deleteCommentsEls) {
         return false;
     });
 };
+
+// Functionality to un-select radio buttons for playstyle selection
+let primaryTagSelectors = document.getElementsByClassName("primary-tag-selector");
+for (let element of primaryTagSelectors) {
+    element.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        let radioInput = element.getElementsByClassName("form-check-input")[0];
+
+        if (radioInput.checked) {
+            element.getElementsByClassName("form-check-label")[0].classList.remove("active");
+        }
+        radioInput.checked = !radioInput.checked;
+    });
+}
+
+function disableCheckboxes(element) {
+    let notSelectedTags = element.querySelectorAll(".secondary-tag-selector .form-check-input:not(:checked)");
+    for (let tag of notSelectedTags) {
+        tag.disabled = true;
+    }
+}
+
+function enableCheckboxes(element) {
+    let disabledTags = element.querySelectorAll(".secondary-tag-selector .form-check-input:disabled");
+    for (let tag of disabledTags) {
+        tag.disabled = false;
+    }
+}
+
+function countCheckedCheckboxes(element) {
+    return element.querySelectorAll(".secondary-tag-selector .form-check-input:checked").length
+}
+
+// Functionality to limit the amount of checkbox selected as secondary tags
+let secondaryTagSelectors = document.getElementsByClassName("secondary-tag-selector");
+for (let element of secondaryTagSelectors) {
+    element.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        let parentElement = element.parentElement;
+
+        let checkbox = element.getElementsByClassName("form-check-input")[0];
+        let checkedTagsCount = countCheckedCheckboxes(parentElement);
+
+        if (checkbox.checked) {
+            checkbox.checked = false;
+            if (checkedTagsCount == 2) {
+                enableCheckboxes(parentElement);
+            }
+        } else {
+            if (checkedTagsCount == 0) {
+                checkbox.checked = true;
+            } else if (checkedTagsCount == 1) {
+                checkbox.checked = true;
+                disableCheckboxes(parentElement);
+            }
+        }
+    });
+}
+let checkedTagsCount = countCheckedCheckboxes(document);
+if (checkedTagsCount >= 2) {
+    disableCheckboxes(document);
+}

@@ -49,6 +49,12 @@ function searchCards(e) {
         params.append("legality", legality.join(","));
     }
 
+    // Retrieve the TAG filters
+    let tags = parseFilter(["Aggro", "Control", "Midrange", "Combo", "Disruption", "Ramp", "Token"]);
+    if (tags.length > 0) {
+        params.append("tag", tags.join(","));
+    }
+
     // Retrieve the OTHER filters
     let other = parseFilter(["Loved", "Description"]);
     if (other.length > 0) {

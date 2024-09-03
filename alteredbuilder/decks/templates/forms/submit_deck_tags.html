@@ -1,0 +1,88 @@
+
+{% load static %}
+{% load i18n %}
+
+
+<p>{% translate "Tags" %}</p>
+
+{% comment %} <div class="row mb-2">
+    <!-- Modify Deck's tags -->
+    <div id="{{ form.tags.auto_id }}">
+{% for tag in form.tags.field.queryset %}
+        <div class="form-check">
+            <input class="form-check-input" id="id_tags_{{ forloop.counter0 }}" type="checkbox" name="tags" value="{{ tag.pk }}" {% if tag.pk in form.tags.value %}checked{% endif %}>
+            <label class="form-check-label" for="id_tags_{{ forloop.counter0 }}">{{ tag.name }}</label>
+        </div>
+{% endfor %}
+    </div>
+</div> {% endcomment %}
+
+<p><strong>Select Tags for Your Deck:</strong></p>
+
+<!-- Types Section -->
+<div class="mb-3">
+    <h6>Types</h6>
+{% for tag in tags_type %}
+    <div class="form-check">
+        <input class="form-check-input" id="id_tags_{{ tag.pk }}" type="checkbox" name="tags" value="{{ tag.pk }}">
+        <label class="form-check-label" for="id_tags_{{ tag.pk }}">
+            {{ tag.name }}
+            <small class="text-muted"> - {{ tag.description }}</small>
+        </label>
+    </div>
+{% endfor %}
+    {% comment %} <div class="form-check">
+        <input class="form-check-input" id="id_tags_0" type="checkbox" name="tags" value="1">
+        <label class="form-check-label" for="id_tags_0">
+            Aggro
+            <small class="text-muted"> - Get an early lead and maintain pressure.</small>
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" id="id_tags_1" type="checkbox" name="tags" value="2" checked="">
+        <label class="form-check-label" for="id_tags_1">
+            Midrange
+            <small class="text-muted"> - Balance early aggression with late-game stability.</small>
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" id="id_tags_2" type="checkbox" name="tags" value="3">
+        <label class="form-check-label" for="id_tags_2">
+            Control
+            <small class="text-muted"> - Lose early to gain control and dominate late-game.</small>
+        </label>
+    </div> {% endcomment %}
+</div>
+
+<!-- Subtypes Section -->
+<div class="mb-3">
+    <h6>Subtypes</h6>
+    <div class="form-check">
+        <input class="form-check-input" id="id_tags_3" type="checkbox" name="tags" value="4">
+        <label class="form-check-label" for="id_tags_3">
+            Combo
+            <small class="text-muted"> - Use multiple cards together for a powerful effect.</small>
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" id="id_tags_4" type="checkbox" name="tags" value="5">
+        <label class="form-check-label" for="id_tags_4">
+            Token
+            <small class="text-muted"> - Generate and use tokens to overwhelm opponents.</small>
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" id="id_tags_5" type="checkbox" name="tags" value="6" checked="">
+        <label class="form-check-label" for="id_tags_5">
+            Disruption
+            <small class="text-muted"> - Deplete your opponent's resources strategically.</small>
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" id="id_tags_6" type="checkbox" name="tags" value="7" checked="">
+        <label class="form-check-label" for="id_tags_6">
+            Ramp
+            <small class="text-muted"> - Increase your mana resources to play bigger cards faster.</small>
+        </label>
+    </div>
+</div>

@@ -4,7 +4,7 @@ from django import forms
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
 
-from .models import Card, Comment, Deck
+from decks.models import Card, Comment, Deck, Tag
 
 
 class DecklistForm(forms.Form):
@@ -55,6 +55,23 @@ class DeckMetadataForm(forms.Form):
     is_public = forms.BooleanField(required=False)
 
 
+class DeckTagsForm(forms.Form):
+    """Form to create or modify the Tags of a Deck."""
+
+    template_name = "forms/submit_deck_tags.html"
+
+    primary_tags = forms.ModelChoiceField(
+        queryset=Tag.objects.filter(type=Tag.Type.TYPE).order_by("pk"),
+        widget=forms.RadioSelect,
+        required=False,
+    )
+    secondary_tags = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.filter(type=Tag.Type.SUBTYPE),
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+    )
+
+
 class CommentForm(forms.Form):
     """Form to create a Comment on a Deck."""
 
@@ -67,12 +84,14 @@ class CommentForm(forms.Form):
 
 
 class CardImportForm(forms.Form):
+    """Form to import a Card of unique rarity into the database."""
+
     reference = forms.CharField(
         label=_("Card Reference"),
         max_length=Card._meta.get_field("reference").max_length,
         validators=[
             RegexValidator(
-                r"^ALT_[A-Z]{4,6}_(?:B|P)_[A-Z]{2}_\d{2}_U_\d+$",
+                r"^ALT_[A-Z]{4,6}_(?:B|P|A)_[A-Z]{2}_\d{2}_U_\d+$",
                 _(
                     "Invalid value. The reference should look similar to 'ALT_COREKS_B_OR_21_U_2139'."
                 ),

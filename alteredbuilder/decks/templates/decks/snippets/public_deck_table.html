@@ -4,34 +4,33 @@
 {% load deck_styles %}
 
 <!-- Display a list of Decks -->
-<table class="table table-hover table-clickable" id="{{ table_id }}" aria-describedby="Public decks">
+<table class="table table-hover table-clickable table-fixed" id="{{ table_id }}" aria-describedby="Public decks">
     <thead>
         <tr>
             <!-- Each Deck displays its social interaction, its owner, its name, its faction (if hero), its hero (if any), its legality and when it was last updated -->
-            <th scope="col" style="width: 8%"></th>
-            <th scope="col" style="width: 10%">{% translate "Owner" %}</th>
+            <th scope="col" class="stats-col"></th>
+            <th scope="col" class="username-col">{% translate "Owner" %}</th>
             <th scope="col">{% translate "Name" %}</th>
-            <th scope="col" style="width: 10%">{% translate "Faction" %}</th>
-            <th scope="col" style="width: 15%">{% translate "Hero" %}</th>
-            <th scope="col" style="width: 8%" class="text-center">
+            <th scope="col" class="tags-col">{% translate "Tags" %}</th>
+            <th scope="col" class="faction-col">{% translate "Faction" %}</th>
+            <th scope="col" class="hero-col">{% translate "Hero" %}</th>
+            <th scope="col" class="legality-col text-center">
                 <a data-bs-toggle="tooltip" data-bs-title='{% include "decks/tooltips/legality.html" %}' data-bs-html="true">
                     {% translate "Legality" %} <i class="fa-regular fa-circle-question"></i>
                 </a>
             </th>
-            <th scope="col" style="width: 13%">{% translate "Last updated" %}</th>
+            <th scope="col" class="last-modified-col">{% translate "Last updated" %}</th>
         </tr>
     </thead>
     <tbody class="table-group-divider align-middle {% if table_id == 'publicDecksTable' %}infinite-container{% endif %}">
 {% for deck in deck_list %}
         <tr {% if table_id == 'publicDecksTable' %}class="infinite-item"{% endif %} data-href="{{ deck.get_absolute_url }}">
-            <td>
+            <td class="text-center">
     {% if user.is_superuser %}
                 <!-- If superuser, display the amount of hits -->
-        {% with hits=deck.hit_count_generic.first.hits %}
-                <a role="button" href="#" class="btn btn-sm btn-outline-secondary disabled {% if hits < 10 %}me-3{% else %}me-2{% endif %}">
-                    <i class="fa-solid fa-eye"></i> {{ hits }}
+                <a role="button" href="#" class="btn btn-sm btn-outline-secondary disabled">
+                    <i class="fa-solid fa-eye"></i> {{ deck.hit_count_generic.first.hits }}
                 </a>
-        {% endwith %}
     {% endif %}
                 <!-- Amount of likes -->
                 <a role="button" href="#" class="btn btn-sm btn-outline-danger {% if deck.is_loved %}active{% else %}disabled{% endif %}">
@@ -43,9 +42,29 @@
                 </a>
             </td>
             <!-- Owner's username -->
-            <td>{% if deck.is_followed %}<i class="fa-solid fa-star"></i> {% endif %}{{ deck.owner.username|safe_username }}</td>
+            <td class="username-col">{% if deck.is_followed %}<i class="fa-solid fa-star"></i> {% endif %}{{ deck.owner.username|safe_username }}</td>
             <!-- Deck's name -->
             <td>{{ deck.name }}</td>
+            <td class="tags-col">
+                <div class="tags-container">
+    {% for tag in deck.tags.all %}
+        {% if tag.type == "TY" %}
+                    <span class="badge bg-primary">{{ tag.name }}</span>
+        {% else %}
+                    <span class="badge bg-secondary">{{ tag.name }}</span>
+        {% endif %}
+    {% endfor %}
+                </div>
+            </td>
+            {% comment %} <td class="tags-col">
+                
+                <div class="tags-container">
+                    <span class="badge bg-primary mb-1">Aggro</span>
+                    <span class="badge bg-secondary mb-1">Combo</span>
+                    <span class="badge bg-info mb-1">Ramp</span>
+                    <!-- Add more tags as necessary -->
+                </div>
+            </td> {% endcomment %}
     {% if deck.hero %}
             <!-- Faction icon and name -->
             <td>
