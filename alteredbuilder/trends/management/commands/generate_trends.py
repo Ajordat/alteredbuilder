@@ -261,7 +261,7 @@ class Command(BaseCommand):
             .alias(
                 recent_hits=Subquery(
                     Hit.objects.filter(
-                        created__date__gte=self.time_lapse,
+                        created__date__gte=self.start_lapse,
                         hitcount__object_pk=OuterRef("pk"),
                     )
                     .values("hitcount__object_pk")
@@ -279,13 +279,13 @@ class Command(BaseCommand):
                 hero=None,
                 faction=None,
                 day_count=self.day_count,
-                date=self.yesterday,
+                date=self.end_lapse,
                 defaults={"ranking": rank},
             )
 
         # Iterate the trending factions (all)
         trending_factions = FactionTrend.objects.filter(
-            date=self.yesterday
+            date=self.end_lapse
         ).values_list("faction", flat=True)
 
         for faction in trending_factions:
@@ -296,7 +296,7 @@ class Command(BaseCommand):
                 .alias(
                     recent_hits=Subquery(
                         Hit.objects.filter(
-                            created__date__gte=self.time_lapse,
+                            created__date__gte=self.start_lapse,
                             hitcount__object_pk=OuterRef("pk"),
                         )
                         .values("hitcount__object_pk")
@@ -314,12 +314,12 @@ class Command(BaseCommand):
                     hero=None,
                     faction=faction,
                     day_count=self.day_count,
-                    date=self.yesterday,
+                    date=self.end_lapse,
                     defaults={"ranking": rank},
                 )
 
         # Iterate the trending heroes (all)
-        trending_heroes = HeroTrend.objects.filter(date=self.yesterday)
+        trending_heroes = HeroTrend.objects.filter(date=self.end_lapse)
 
         for hero_trend in trending_heroes:
             # The name of the hero is used instead of its reference
@@ -329,7 +329,7 @@ class Command(BaseCommand):
                 .alias(
                     recent_hits=Subquery(
                         Hit.objects.filter(
-                            created__date__gte=self.time_lapse,
+                            created__date__gte=self.start_lapse,
                             hitcount__object_pk=OuterRef("pk"),
                         )
                         .values("hitcount__object_pk")
@@ -346,6 +346,6 @@ class Command(BaseCommand):
                     hero=hero_trend.hero,
                     faction=None,
                     day_count=self.day_count,
-                    date=self.yesterday,
+                    date=self.end_lapse,
                     defaults={"ranking": rank},
                 )
