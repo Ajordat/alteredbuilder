@@ -1,0 +1,39 @@
+{% load static %}
+{% load i18n %}
+
+<p>This new release provides a way to tag your decks!</p>
+<p>
+    Tag your decks with one of the following playstyles:
+    <span class="badge bg-primary">Aggro</span>, <span class="badge bg-primary">Midrange</span> or <span class="badge bg-primary">Control</span><br>    
+    And to further expand its categorization, add up to two of these tags:
+    <span class="badge bg-secondary">Combo</span>, <span class="badge bg-secondary">Disruption</span>, <span class="badge bg-secondary">Ramp</span> and <span class="badge bg-secondary">Token</span><br>
+    It is also possible to search for decks using these tags, so make sure to categorize your creations so they are easily found!
+</p>
+
+<li><strong>{% translate "New features:" %}</strong>
+    <ul>
+        <li>New system to tag decks according to their playstyle.</li>
+        <li>Functionality to search decks by their tags. Check the dropdown of filters on the decks tab!</li>
+    </ul>
+</li>
+
+<li><strong>{% translate "Fixes:" %}</strong>
+    <ul>
+        <li>Bug where the notification fetching failed for unauthenticated users instead of displaying a custom message.</li>
+    </ul>
+</li>
+
+<li><strong>{% translate "Other changes:" %}</strong>
+    <ul>
+        <li>Added certain expensive queries to a cache to improve user experience. For example, the trending cards, the trending decks and the community statistics.</li>
+        <li>Limited the notification dropdown to the last 10 items.</li>
+        <li>Removed the limit of 20 rows when displaying the list of followers (I didn't expect to get here that soon).</li>
+    </ul>
+</li>
+
+<li><strong>{% translate "Announcements:" %}</strong>
+    <ul>
+        <li>If you're a German or Italian native speaker and would like to contribute by providing better translations, please reach me out on <a href="https://discordapp.com/users/501840797159653389" target="_blank">Discord</a>.</li>
+        <li>Consider supporting the project on <a href="http://www.patreon.com/Ajordat" target="_blank">Patreon</a>, <a href="https://buymeacoffee.com/ajordat" target="_blank">Buy me a coffe</a> or <a href="https://fr.tipeee.com/ajordat/" target="_blank">Tipeee</a> if you enjoy using the platform and consider that we're doing a good job expanding the platform.</li>
+    </ul>
+</li>
