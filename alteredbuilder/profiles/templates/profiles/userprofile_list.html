@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+{% load cache %}
 {% load i18n %}
 {% load static %}
 {% load deck_styles %}
@@ -17,6 +18,7 @@ class="container py-5"
 {% endblock %}
 
 {% block content %}
+    {% get_current_language as LANGUAGE_CODE %}
     <div class="row">
 
         <!-- Introduction -->
@@ -33,6 +35,7 @@ class="container py-5"
                 </div>
             </div>
         </div>
+    {% cache 600 community_stats LANGUAGE_CODE %}
         <!-- User Stats -->
         <div class="col-lg-6 mb-4">
             <div class="card">
@@ -72,6 +75,7 @@ class="container py-5"
                 </div>
             </div>
         </div>
+    {% endcache %}
         <!-- Latest Users -->
         <div class="col-lg-4 col-md-6 mb-4">
             <div class="card">
