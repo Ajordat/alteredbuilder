@@ -1,7 +1,7 @@
 .venv/
 .vscode/
 .env
-data/db
+data/*/
 __pycache__/
 .coverage
 *.sql

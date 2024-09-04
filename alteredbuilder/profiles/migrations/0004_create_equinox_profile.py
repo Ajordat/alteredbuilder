@@ -14,10 +14,14 @@ def init_models(apps):
 def create_equinox_profile(apps, schema_editor):
     init_models(apps)
 
-    admin_user = User.objects.get(username="admin")
-
     equinox_user = User.objects.create_user("Equinox")
-    equinox_user.date_joined = admin_user.date_joined
+    try:
+        admin_user = User.objects.get(username="admin")
+
+        equinox_user.date_joined = admin_user.date_joined
+        Deck.objects.filter(owner=admin_user, is_public=True).update(owner=equinox_user)
+    except User.DoesNotExist:
+        pass
     equinox_user.save()
     equinox_profile = UserProfile.objects.create(user=equinox_user)
 
@@ -28,7 +32,6 @@ def create_equinox_profile(apps, schema_editor):
 It is used to host the pre-constructed decks made by Equinox."""
     equinox_profile.save()
 
-    Deck.objects.filter(owner=admin_user, is_public=True).update(owner=equinox_user)
 
 
 class Migration(migrations.Migration):

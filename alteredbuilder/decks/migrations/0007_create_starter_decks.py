@@ -81,6 +81,9 @@ def init_models(apps):
 
 
 def create_starter_decks(apps, schema_editor):
+    # With the changes on Altered's API, the cards are no longer imported as part of
+    # the migration hence the starter decks can't be created at this point
+    return
     init_models(apps)
     stater_decks_dir = Path(__file__).resolve().parent / "starter-decks"
 

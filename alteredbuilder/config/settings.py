@@ -190,7 +190,7 @@ REST_FRAMEWORK = {
 
 DATABASES = {"default": env.db()}
 DATABASES["default"].update({"CONN_MAX_AGE": 10, "TEST": {"MIGRATE": False}})
-
+FIXTURE_DIRS = ["fixtures/"]
 
 if DEBUG:
     # When in debug mode, enable django-debug-toolbar

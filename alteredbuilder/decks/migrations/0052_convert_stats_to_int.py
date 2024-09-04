@@ -16,6 +16,9 @@ def fix_stats_values(apps, schema_editor):
             updated_cards.append(card)
     Card.objects.bulk_update(updated_cards, ["stats"])
 
+def empty_reverse(apps, schema_editor):
+    return
+
 
 class Migration(migrations.Migration):
 
@@ -24,5 +27,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(fix_stats_values),
+        migrations.RunPython(fix_stats_values, reverse_code=empty_reverse),
     ]

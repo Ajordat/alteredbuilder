@@ -12,19 +12,14 @@ Initialize the database container. Once the database is ready to accept connecti
 docker compose run db
 ```
 
-Apply `auth`'s migrations.
-```bash
-docker compose run web python manage.py migrate auth
-```
-
-Create the super user. Give it the username `admin` and use whatever for the other fields. Ignore the warnings of missing migrations.
-```bash
-docker compose run web python manage.py createsuperuser
-```
-
 Apply the remaining migrations:
 ```bash
 docker compose run web python manage.py migrate
+```
+
+Create the super user:
+```bash
+docker compose run web python manage.py createsuperuser
 ```
 
 Retrieve the cards from Altered's API:

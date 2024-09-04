@@ -16,6 +16,14 @@ def link_cards_to_sets(apps, schema_editor):
         set=card_set
     )
 
+def unlink_cards_to_sets(apps, schema_editor):
+    init_models(apps)
+
+    promo_set = Set.objects.get(code="COREP")
+    core_set = Set.objects.get(code="CORE")
+    Card.objects.filter(reference__contains=promo_set.reference_code).update(
+        set=core_set
+    )
 
 class Migration(migrations.Migration):
 
@@ -24,5 +32,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(link_cards_to_sets),
+        migrations.RunPython(link_cards_to_sets, reverse_code=unlink_cards_to_sets),
     ]

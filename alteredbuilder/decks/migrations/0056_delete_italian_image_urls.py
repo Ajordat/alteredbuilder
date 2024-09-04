@@ -11,6 +11,9 @@ def delete_italian_image_urls(apps, schema_editor):
 
     Card.objects.filter(rarity="U").update(image_url_it="")
 
+def empty_reverse(apps, schema_editor):
+    return
+
 
 class Migration(migrations.Migration):
 
@@ -19,5 +22,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(delete_italian_image_urls),
+        migrations.RunPython(delete_italian_image_urls, reverse_code=empty_reverse),
     ]

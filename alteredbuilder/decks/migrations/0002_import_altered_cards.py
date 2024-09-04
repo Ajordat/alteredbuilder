@@ -69,6 +69,8 @@ def convert_choices(card_object):
 
 
 def import_cards(apps, schema_editor):
+    # Altered's API has changed and this import no longer works
+    return
     Hero = apps.get_model("decks", "Hero")
     Character = apps.get_model("decks", "Character")
     Spell = apps.get_model("decks", "Spell")
