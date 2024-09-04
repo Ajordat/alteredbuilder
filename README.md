@@ -22,10 +22,8 @@ Create the super user:
 docker compose run web python manage.py createsuperuser
 ```
 
-Retrieve the cards from Altered's API:
-```bash
-docker compose run web python manage.py update_card_pool
-```
+Finally, create a copy of [`.env.example`](.env.example) and name it `.env`.
+Fill the values in the database section (make it up) and you're ready to run the platform.
 
 ## Build
 
@@ -34,6 +32,9 @@ docker compose build
 ```
 
 ## Run
+
+When a Python file is saved, Django will detect it and will update itself, creating a very fast iteration between modification and verification.
+For static files and templates, that is not the case simply because no refresh is required. Simply request the page once again and it will be updated (for static files refresh without cache).
 
 ```bash
 docker compose up
@@ -158,16 +159,20 @@ _SERVICE_NAME=<cloud_run_service_name>
 ```
 DEBUG=<debug_value>
 
+# Required
 POSTGRES_DB=<database_name>
 POSTGRES_USER=<database_user>
 POSTGRES_PASSWORD=<database_users_password>
 
+# Required
 DATABASE_URL=psql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
 SECRET_KEY=<django_secret_key>
 
+# Optional (best False)
 USE_GCS_STATICS=False
 GCS_BUCKET_STATICS=<gcs_bucket_with_static_files>
 
+# Optional (best empty)
 SENDGRID_API_KEY=<sendgrid_api_key>
 SENDGRID_FROM_EMAIL=<email_address_used_to_send_emails>
 ```
