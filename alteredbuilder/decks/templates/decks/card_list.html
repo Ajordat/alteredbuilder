@@ -113,10 +113,10 @@
                             <option {% if order == "name" %}selected{% endif %} value="name">{% translate "Name A-Z" %}</option>
                             <option {% if order == "-name" %}selected{% endif %} value="-name">{% translate "Name Z-A" %}</option>
                             <option {% if order == "rarity" %}selected{% endif %} value="rarity">{% translate "Rarity" %}</option>
-                            <option {% if order == "mana" %}selected{% endif %} value="mana">{% translate "Mana ASC" %}</option>
-                            <option {% if order == "-mana" %}selected{% endif %} value="-mana">{% translate "Mana DESC" %}</option>
-                            <option {% if order == "reserve" %}selected{% endif %} value="reserve">{% translate "Reserve ASC" %}</option>
-                            <option {% if order == "-reserve" %}selected{% endif %} value="-reserve">{% translate "Reserve DESC" %}</option>
+                            <option {% if order == "mana" %}selected{% endif %} value="mana">{% translate "Hand Cost ASC" %}</option>
+                            <option {% if order == "-mana" %}selected{% endif %} value="-mana">{% translate "Hand Cost DESC" %}</option>
+                            <option {% if order == "reserve" %}selected{% endif %} value="reserve">{% translate "Reserve Cost ASC" %}</option>
+                            <option {% if order == "-reserve" %}selected{% endif %} value="-reserve">{% translate "Reserve Cost DESC" %}</option>
                         </select>
                     </div>
                 </div>
@@ -147,10 +147,10 @@
         {% if order == "name" %}{% translate "Name A-Z" %}
         {% elif order == "-name" %}{% translate "Name Z-A" %}
         {% elif order == "rarity" %}{% translate "Rarity" %}
-        {% elif order == "mana" %}{% translate "Mana ASC" %}
-        {% elif order == "-mana" %}{% translate "Mana DESC" %}
-        {% elif order == "reserve" %}{% translate "Reserve ASC" %}
-        {% elif order == "-reserve" %}{% translate "Reserve DESC" %}
+        {% elif order == "mana" %}{% translate "Hand Cost ASC" %}
+        {% elif order == "-mana" %}{% translate "Hand Cost DESC" %}
+        {% elif order == "reserve" %}{% translate "Reserve Cost ASC" %}
+        {% elif order == "-reserve" %}{% translate "Reserve Cost DESC" %}
         {% endif %}
                     </span>&nbsp;
                 </div>

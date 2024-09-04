@@ -24,7 +24,7 @@ msgstr "Link copiato negli appunti!"
 
 #: decks/static/js/deck-detail.js:33
 msgid "Decklist copied into clipboard!"
-msgstr "Lista dei mazzi copiata negli appunti!"
+msgstr "Lista del mazzo copiata negli appunti!"
 
 #: decks/static/js/deck-detail.js:46
 msgid "QR downloaded!"
@@ -40,11 +40,11 @@ msgstr "Impossibile eliminare la carta dal mazzo"
 
 #: decks/static/js/deck-detail.js:113
 msgid "Card reference copied into clipboard!"
-msgstr "Link copiato negli appunti!"
+msgstr "Riferimento della carta copiato negli appunti!"
 
 #: decks/static/js/deck-detail.js:132
 msgid "Cannot create a private link"
-msgstr "Cannot create a private link"
+msgstr "Impossibile creare un link privato"
 
 #: decks/static/js/deck-detail.js:164
 msgid "Unable to upvote the comment"
@@ -64,13 +64,13 @@ msgstr[1] "Comuni"
 msgid "Rare"
 msgid_plural "Rares"
 msgstr[0] "Rara"
-msgstr[1] "Rari"
+msgstr[1] "Rare"
 
 #: decks/static/js/deck-sidebar.js:186
 msgid "Unique"
 msgid_plural "Uniques"
 msgstr[0] "Unica"
-msgstr[1] "Unici"
+msgstr[1] "Uniche"
 
 #: decks/static/js/deck-sidebar.js:507
 msgid "The deck must have a name"
@@ -90,7 +90,7 @@ msgstr "caratteri"
 
 #: decks/static/js/deck-stats.js:17
 msgid "spells"
-msgstr "incantesimi"
+msgstr "magie"
 
 #: decks/static/js/deck-stats.js:18
 msgid "permanents"

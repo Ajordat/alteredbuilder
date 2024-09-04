@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-03 16:43+0200\n"
+"POT-Creation-Date: 2024-09-04 14:27+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -252,23 +252,23 @@ msgstr "Nombre Z-A"
 
 #: decks/templates/decks/card_list.html:116
 #: decks/templates/decks/card_list.html:150
-msgid "Mana ASC"
-msgstr "Maná ASC"
+msgid "Hand Cost ASC"
+msgstr "Coste de mano ASC"
 
 #: decks/templates/decks/card_list.html:117
 #: decks/templates/decks/card_list.html:151
-msgid "Mana DESC"
-msgstr "Maná DESC"
+msgid "Hand Cost DESC"
+msgstr "Coste de mano DESC"
 
 #: decks/templates/decks/card_list.html:118
 #: decks/templates/decks/card_list.html:152
-msgid "Reserve ASC"
-msgstr "Reserva ASC"
+msgid "Reserve Cost ASC"
+msgstr "Coste de Reserva ASC"
 
 #: decks/templates/decks/card_list.html:119
 #: decks/templates/decks/card_list.html:153
-msgid "Reserve DESC"
-msgstr "Reserva DESC"
+msgid "Reserve Cost DESC"
+msgstr "Coste de Reserva DESC"
 
 #: decks/templates/decks/card_list.html:146
 msgid "Order"
@@ -1395,22 +1395,25 @@ msgstr ""
 "Inténtalo de nuevo más tarde."
 
 #: templates/releases/1.10.0.html:12 templates/releases/1.10.1.html:6
-#: templates/releases/1.8.3.html:4 templates/releases/1.9.0.html:4
-#: templates/releases/release_template.html:4
+#: templates/releases/1.11.0.html:13 templates/releases/1.8.3.html:4
+#: templates/releases/1.9.0.html:4 templates/releases/release_template.html:4
 msgid "New features:"
 msgstr "Nuevas funcionalidades:"
 
 #: templates/releases/1.10.0.html:25 templates/releases/1.10.1.html:32
-#: templates/releases/1.9.0.html:12 templates/releases/release_template.html:16
+#: templates/releases/1.11.0.html:26 templates/releases/1.9.0.html:12
+#: templates/releases/release_template.html:16
 msgid "Other changes:"
 msgstr "Otros cambios:"
 
 #: templates/releases/1.10.0.html:32 templates/releases/1.10.1.html:39
-#: templates/releases/1.9.0.html:22 templates/releases/release_template.html:23
+#: templates/releases/1.11.0.html:34 templates/releases/1.9.0.html:22
+#: templates/releases/release_template.html:23
 msgid "Announcements:"
 msgstr "Novedades:"
 
-#: templates/releases/1.8.3.html:15 templates/releases/release_template.html:10
+#: templates/releases/1.11.0.html:20 templates/releases/1.8.3.html:15
+#: templates/releases/release_template.html:10
 msgid "Fixes:"
 msgstr "Correcciones:"
 
@@ -1462,6 +1465,12 @@ msgstr "Cartas Populares"
 #: trends/templates/trends/home.html:86
 msgid "Trending decks"
 msgstr "Mazos populares"
+
+#~ msgid "Mana ASC"
+#~ msgstr "Maná ASC"
+
+#~ msgid "Mana DESC"
+#~ msgstr "Maná DESC"
 
 #~ msgid "Edit deck fields"
 #~ msgstr "Editar campos"
