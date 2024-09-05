@@ -38,6 +38,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("profiles", "0003_follow"),
+        ("decks", "0060_create_tags"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
