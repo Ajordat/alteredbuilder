@@ -4,7 +4,7 @@
 {% load deck_styles %}
 
 <!-- Display a list of Decks -->
-<table class="table table-hover table-clickable table-fixed" id="{{ table_id }}" aria-describedby="Public decks">
+<table class="table table-hover table-clickable table-decks-auto" id="{{ table_id }}" aria-describedby="Public decks">
     <thead>
         <tr>
             <!-- Each Deck displays its social interaction, its owner, its name, its faction (if hero), its hero (if any), its legality and when it was last updated -->
@@ -44,7 +44,7 @@
             <!-- Owner's username -->
             <td class="username-col">{% if deck.is_followed %}<i class="fa-solid fa-star"></i> {% endif %}{{ deck.owner.username|safe_username }}</td>
             <!-- Deck's name -->
-            <td>{{ deck.name }}</td>
+            <td>{{ deck.name }} </td>
             <td class="tags-col">
                 <div class="tags-container">
     {% for tag in deck.tags.all %}
