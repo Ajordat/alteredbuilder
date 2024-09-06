@@ -115,7 +115,7 @@ class DeckListView(ListView):
             case "love":
                 qs = qs.order_by("-love_count", "modified_at")
             case "views":
-                qs = qs.order_by("hit_count_generic", "modified_at")
+                qs = qs.order_by("-hit_count_generic", "modified_at")
             case _:
                 qs = qs.order_by("-modified_at")
 
@@ -739,7 +739,7 @@ class CardListView(ListView):
                 if desc:
                     mana_order = mana_order.desc()
                 query_order = [mana_order]
-                
+
                 qs = qs.exclude(type=Card.Type.HERO)
             # If the order is inversed, the "reference" used as the second clause of
             # ordering also needs to be reversed
