@@ -62,7 +62,7 @@
                                 </div>
                                 <div class="col">
                                     <b>{% translate "Tags" %}</b>
-    {% cache 600 tag_filters%}
+    {% cache 600 tag_filters request.GET %}
         {% for type in tags %}
                                     {% include "decks/snippets/filter_checkbox.html" with value=type label=type %}
         {% endfor %}
