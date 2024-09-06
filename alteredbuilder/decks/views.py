@@ -732,6 +732,8 @@ class CardListView(ListView):
                 if desc:
                     mana_order = mana_order.desc()
                 query_order = [mana_order]
+                
+                qs = qs.exclude(type=Card.Type.HERO)
             # If the order is inversed, the "reference" used as the second clause of
             # ordering also needs to be reversed
             query_order += ["-reference" if desc else "reference"]
