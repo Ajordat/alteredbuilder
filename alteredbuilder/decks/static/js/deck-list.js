@@ -67,6 +67,12 @@ function searchCards(e) {
         params.append("query", queryElement.value);
     }
 
+    // Retrieve the marked order on the dropdown
+    let orderingElement = document.getElementById("filterOrdering");
+    if (orderingElement.selectedIndex > 1) {
+        params.append("order", orderingElement.value);
+    }
+
     // Go to the built URL
     let url = window.location.pathname + "?" + params.toString();
     window.open(url, "_self");
@@ -77,3 +83,5 @@ let element = document.getElementById("filterSearchButton");
 if (element) element.addEventListener("click", searchCards);
 element = document.getElementById("querySearchForm");
 if (element) element.addEventListener("submit", searchCards);
+element = document.getElementById("filterOrdering");
+if (element) element.addEventListener("change", searchCards);

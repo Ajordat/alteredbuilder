@@ -65,7 +65,6 @@ class DeckListView(ListView):
         Deck.objects.filter(is_public=True)
         .select_related("owner", "hero")
         .prefetch_related("tags")
-        .order_by("-modified_at")
     )
     paginate_by = 30
 
@@ -111,6 +110,15 @@ class DeckListView(ListView):
                 ),
             )
 
+        order = self.request.GET.get("order")
+        match (order):
+            case "love":
+                qs = qs.order_by("-love_count", "modified_at")
+            case "views":
+                qs = qs.order_by("hit_count_generic", "modified_at")
+            case _:
+                qs = qs.order_by("-modified_at")
+
         # In the deck list view there's no need for these fields, which might be
         # expensive to fill into the model
         return qs.defer(
@@ -138,6 +146,9 @@ class DeckListView(ListView):
                 checked_filters += self.request.GET[filter].split(",")
         context["checked_filters"] = checked_filters
 
+        if "order" in self.request.GET:
+            context["order"] = self.request.GET["order"]
+
         if "query" in self.request.GET:
             context["query"] = self.request.GET.get("query")
             context["query_tags"] = self.query_tags
@@ -153,11 +164,7 @@ class OwnDeckListView(LoginRequiredMixin, DeckListView):
     """ListView to display the own decks."""
 
     model = Deck
-    queryset = (
-        Deck.objects.select_related("owner", "hero")
-        .prefetch_related("tags")
-        .order_by("-modified_at")
-    )
+    queryset = Deck.objects.select_related("owner", "hero").prefetch_related("tags")
     paginate_by = 24
     template_name = "decks/own_deck_list.html"
 

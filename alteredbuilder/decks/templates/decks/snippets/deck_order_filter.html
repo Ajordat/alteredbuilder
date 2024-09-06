@@ -1,0 +1,15 @@
+
+{% load i18n %}
+
+<div class="col">
+    <div class="input-group">
+        <!-- Ordering selector -->
+        <label class="input-group-text" for="filterOrdering"><i class="fa-solid fa-sort"></i></label>
+        <select class="form-select" aria-label="Sort by" id="filterOrdering">
+            <option {% if not order %}selected{% endif %} disabled hidden>{% translate "Sort by" %}</option>
+            <option>{% translate "Last updated" %}</option>
+            <option {% if order == "love" %}selected{% endif %} value="love">{% translate "Most loved" %}</option>
+            <option {% if order == "views" %}selected{% endif %} value="views">{% translate "Most views" %}</option>
+        </select>
+    </div>
+</div>

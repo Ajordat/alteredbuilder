@@ -94,6 +94,8 @@
                 </div>
             </div>
         </div>
+        <!-- Order dropdown -->
+        {% include "decks/snippets/deck_order_filter.html" %}
         <!-- List the badges of filters. First the query parameters and later the filter dropdown -->
     {% for tag, op, value in query_tags %}
         <div class="col px-0 d-flex align-items-center">
