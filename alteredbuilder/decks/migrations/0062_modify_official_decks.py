@@ -8,11 +8,12 @@ def init_models(apps):
     Tag = apps.get_model("decks", "Tag")
     User = get_user_model()
 
+
 def modify_official_decks(apps, schema_editor):
     init_models(apps)
 
     deck_filter = {"owner__username": "Equinox", "name__contains": "Official Starter"}
-    
+
     aggro = Tag.objects.get(name="Aggro")
     midrange = Tag.objects.get(name="Midrange")
     control = Tag.objects.get(name="Control")
@@ -20,7 +21,6 @@ def modify_official_decks(apps, schema_editor):
     token = Tag.objects.get(name="Token")
     combo = Tag.objects.get(name="Combo")
     disruption = Tag.objects.get(name="Disruption")
-
 
     axiom_deck = Deck.objects.get(**deck_filter, hero__faction="AX")
     axiom_deck.tags.add(midrange, token)

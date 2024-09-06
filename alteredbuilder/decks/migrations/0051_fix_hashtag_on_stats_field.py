@@ -17,6 +17,7 @@ def fix_stats_values(apps, schema_editor):
                 updated_cards.append(card)
     Card.objects.bulk_update(updated_cards, ["stats"])
 
+
 def empty_reverse(apps, schema_editor):
     return
 

@@ -33,7 +33,6 @@ It is used to host the pre-constructed decks made by Equinox."""
     equinox_profile.save()
 
 
-
 class Migration(migrations.Migration):
 
     dependencies = [

@@ -170,7 +170,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "config.context_processors.add_version",
                 "notifications.context_processors.add_notifications",
-                "config.context_processors.add_release_date"
+                "config.context_processors.add_release_date",
             ],
         },
     },

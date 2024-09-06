@@ -443,7 +443,7 @@ def filter_by_faction(qs: QuerySet[Deck], factions: str) -> QuerySet[Deck]:
 
 
 def filter_by_legality(qs: QuerySet[Deck], legality: str) -> QuerySet[Deck]:
-    
+
     if legality:
         legality = legality.split(",")
         if "standard" in legality:
@@ -474,4 +474,3 @@ def filter_by_other(qs: QuerySet[Deck], other_filters: str, user) -> QuerySet[De
         if "description" in other_filters:
             qs = qs.exclude(description="")
     return qs
-

@@ -11,12 +11,13 @@ def init_models(apps):
     Deck = apps.get_model("decks", "Deck")
     CardInDeck = apps.get_model("decks", "CardInDeck")
 
+
 def import_data(apps, schema_editor):
     init_models(apps)
 
     if not settings.DEBUG:
         return
-    
+
     Set.objects.all().delete()
     Subtype.objects.all().delete()
     Card.objects.all().delete()
@@ -27,6 +28,7 @@ def import_data(apps, schema_editor):
     call_command("loaddata", "cards_04092024", verbosity=0)
     call_command("loaddata", "decks_04092024", verbosity=0)
     call_command("loaddata", "cardindecks_04092024", verbosity=0)
+
 
 def delete_data(apps, schema_editor):
     init_models(apps)
@@ -39,6 +41,7 @@ def delete_data(apps, schema_editor):
     Card.objects.all().delete()
     Deck.objects.all().delete()
     CardInDeck.objects.all().delete()
+
 
 class Migration(migrations.Migration):
 
