@@ -76,7 +76,6 @@ class DeckListView(ListView):
             QuerySet[Deck]: The decks to list.
         """
         qs = super().get_queryset()
-        filters = Q()
 
         # Retrieve the query and search by deck name, hero name or owner
         query = self.request.GET.get("query")
@@ -114,16 +113,12 @@ class DeckListView(ListView):
 
         # In the deck list view there's no need for these fields, which might be
         # expensive to fill into the model
-        return (
-            qs
-            .defer(
-                "description",
-                "cards",
-                "standard_legality_errors",
-                "draft_legality_errors",
-            )
-            .prefetch_related("hit_count_generic")
-        )
+        return qs.defer(
+            "description",
+            "cards",
+            "standard_legality_errors",
+            "draft_legality_errors",
+        ).prefetch_related("hit_count_generic")
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         """If the user is authenticated, add their loved decks to the context.
@@ -154,10 +149,15 @@ class DeckListView(ListView):
         return context
 
 
-class OwnDeckListView(LoginRequiredMixin, ListView):
+class OwnDeckListView(LoginRequiredMixin, DeckListView):
     """ListView to display the own decks."""
 
     model = Deck
+    queryset = (
+        Deck.objects.select_related("owner", "hero")
+        .prefetch_related("tags")
+        .order_by("-modified_at")
+    )
     paginate_by = 24
     template_name = "decks/own_deck_list.html"
 
@@ -168,24 +168,8 @@ class OwnDeckListView(LoginRequiredMixin, ListView):
             QuerySet[Deck]: Decks created by the user.
         """
         qs = super().get_queryset()
-        return (
-            qs.filter(owner=self.request.user)
-            .annotate(
-                is_loved=Exists(
-                    LovePoint.objects.filter(
-                        deck=OuterRef("pk"), user=self.request.user
-                    )
-                )
-            )
-            .select_related("hero")
-            .defer(
-                "description",
-                "cards",
-                "standard_legality_errors",
-                "draft_legality_errors",
-            )
-            .order_by("-modified_at")
-        )
+
+        return qs.filter(owner=self.request.user)
 
 
 class DeckDetailView(HitCountDetailView):
@@ -605,7 +589,7 @@ def update_tags(request: HttpRequest, pk: int) -> HttpResponse:
 
                 primary_tag = form.cleaned_data["primary_tags"]
                 secondary_tags = form.cleaned_data["secondary_tags"]
-                
+
                 deck.tags.clear()
                 if primary_tag:
                     deck.tags.add(primary_tag)

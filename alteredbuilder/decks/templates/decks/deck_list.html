@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+{% load cache %}
 {% load static %}
 {% load i18n %}
 {% load deck_styles %}
@@ -61,9 +62,11 @@
                                 </div>
                                 <div class="col">
                                     <b>{% translate "Tags" %}</b>
-    {% for type in tags %}
+    {% cache 600 tag_filters%}
+        {% for type in tags %}
                                     {% include "decks/snippets/filter_checkbox.html" with value=type label=type %}
-    {% endfor %}
+        {% endfor %}
+    {% endcache %}
                                 </div>
                                 <div class="col">
                                     <b>{% translate "Other" %}</b>
