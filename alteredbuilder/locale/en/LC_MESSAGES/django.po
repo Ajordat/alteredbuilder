@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-06 12:10+0200\n"
+"POT-Creation-Date: 2024-09-06 14:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: api/utils.py:20 decks/views.py:447
+#: api/utils.py:20 decks/views.py:454
 msgid "Invalid payload"
 msgstr ""
 
-#: api/utils.py:23 api/utils.py:25 decks/views.py:532
+#: api/utils.py:23 api/utils.py:25 decks/views.py:539
 msgid "Invalid request"
 msgstr ""
 
@@ -216,7 +216,7 @@ msgstr ""
 
 #: decks/templates/decks/card_list.html:80
 #: decks/templates/decks/deck_detail.html:168
-#: decks/templates/decks/own_deck_list.html:120
+#: decks/templates/decks/own_deck_list.html:122
 #: decks/templates/decks/snippets/public_deck_table.html:16
 #: profiles/templates/profiles/userprofile_detail.html:102
 msgid "Hero"
@@ -236,6 +236,7 @@ msgid "Set"
 msgstr ""
 
 #: decks/templates/decks/card_list.html:111
+#: decks/templates/decks/snippets/deck_order_filter.html:9
 msgid "Sort by"
 msgstr ""
 
@@ -372,7 +373,7 @@ msgid "Decklist"
 msgstr ""
 
 #: decks/templates/decks/deck_detail.html:173
-#: decks/templates/decks/own_deck_list.html:117
+#: decks/templates/decks/own_deck_list.html:119
 #: decks/templates/decks/snippets/card_table.html:11
 #: decks/templates/decks/snippets/public_deck_table.html:13
 #: decks/templates/forms/submit_deck_metadata.html:9
@@ -383,7 +384,7 @@ msgid "Name"
 msgstr ""
 
 #: decks/templates/decks/deck_detail.html:174
-#: decks/templates/decks/own_deck_list.html:119
+#: decks/templates/decks/own_deck_list.html:121
 #: decks/templates/decks/snippets/public_deck_table.html:15
 #: profiles/templates/profiles/userprofile_detail.html:101
 msgid "Faction"
@@ -583,7 +584,7 @@ msgid "Login"
 msgstr ""
 
 #: decks/templates/decks/deck_detail.html:520
-#: decks/templates/decks/own_deck_list.html:175
+#: decks/templates/decks/own_deck_list.html:177
 #: decks/templates/decks/snippets/public_deck_table.html:76
 #: notifications/views.py:69
 #, python-format
@@ -598,7 +599,7 @@ msgstr ""
 
 #: decks/templates/decks/deck_list.html:59
 #: decks/templates/decks/own_deck_list.html:58
-#: decks/templates/decks/own_deck_list.html:123
+#: decks/templates/decks/own_deck_list.html:125
 #: decks/templates/decks/snippets/public_deck_table.html:19
 msgid "Legality"
 msgstr ""
@@ -610,7 +611,7 @@ msgstr ""
 
 #: decks/templates/decks/deck_list.html:65
 #: decks/templates/decks/own_deck_list.html:64
-#: decks/templates/decks/own_deck_list.html:118
+#: decks/templates/decks/own_deck_list.html:120
 #: decks/templates/decks/snippets/public_deck_table.html:14
 #: decks/templates/forms/submit_deck_tags.html:6
 msgid "Tags"
@@ -719,17 +720,18 @@ msgstr ""
 msgid "My decks"
 msgstr ""
 
-#: decks/templates/decks/own_deck_list.html:126
+#: decks/templates/decks/own_deck_list.html:128
 msgid "Is it public?"
 msgstr ""
 
-#: decks/templates/decks/own_deck_list.html:127
+#: decks/templates/decks/own_deck_list.html:129
+#: decks/templates/decks/snippets/deck_order_filter.html:10
 #: decks/templates/decks/snippets/public_deck_table.html:22
 #: profiles/templates/profiles/userprofile_detail.html:103
 msgid "Last updated"
 msgstr ""
 
-#: decks/templates/decks/own_deck_list.html:178
+#: decks/templates/decks/own_deck_list.html:180
 msgid "No decks created yet"
 msgstr ""
 
@@ -740,6 +742,14 @@ msgstr ""
 #: decks/templates/decks/snippets/card_table.html:37
 #, python-format
 msgid "No %(type)ss"
+msgstr ""
+
+#: decks/templates/decks/snippets/deck_order_filter.html:11
+msgid "Most loved"
+msgstr ""
+
+#: decks/templates/decks/snippets/deck_order_filter.html:12
+msgid "Most views"
 msgstr ""
 
 #: decks/templates/decks/snippets/pagination.html:9
@@ -965,40 +975,40 @@ msgstr ""
 msgid "Import"
 msgstr ""
 
-#: decks/views.py:427
+#: decks/views.py:434
 msgid "The deck must have a name"
 msgstr ""
 
-#: decks/views.py:443 decks/views.py:506 decks/views.py:543
+#: decks/views.py:450 decks/views.py:513 decks/views.py:550
 msgid "Deck not found"
 msgstr ""
 
-#: decks/views.py:445
+#: decks/views.py:452
 msgid "Card not found"
 msgstr ""
 
-#: decks/views.py:477 decks/views.py:504
+#: decks/views.py:484 decks/views.py:511
 msgid "Comment not found"
 msgstr ""
 
-#: decks/views.py:818
+#: decks/views.py:827
 #, python-format
 msgid "The card '%(card_name)s' (%(reference)s) was successfully imported."
 msgstr ""
 
-#: decks/views.py:826
+#: decks/views.py:835
 #, python-format
 msgid ""
 "This unique version of '%(card_name)s' (%(reference)s) already exists in the "
 "database."
 msgstr ""
 
-#: decks/views.py:835
+#: decks/views.py:844
 #, python-format
 msgid "The card '%(reference)s' is not public"
 msgstr ""
 
-#: decks/views.py:840
+#: decks/views.py:849
 msgid "Failed to fetch the card on the official API."
 msgstr ""
 
@@ -1371,18 +1381,18 @@ msgid "New features:"
 msgstr ""
 
 #: templates/releases/1.10.0.html:25 templates/releases/1.10.1.html:32
-#: templates/releases/1.11.0.html:26 templates/releases/1.9.0.html:12
+#: templates/releases/1.11.0.html:27 templates/releases/1.9.0.html:12
 #: templates/releases/release_template.html:16
 msgid "Other changes:"
 msgstr ""
 
 #: templates/releases/1.10.0.html:32 templates/releases/1.10.1.html:39
-#: templates/releases/1.11.0.html:34 templates/releases/1.9.0.html:22
+#: templates/releases/1.11.0.html:35 templates/releases/1.9.0.html:22
 #: templates/releases/release_template.html:23
 msgid "Announcements:"
 msgstr ""
 
-#: templates/releases/1.11.0.html:20 templates/releases/1.8.3.html:15
+#: templates/releases/1.11.0.html:21 templates/releases/1.8.3.html:15
 #: templates/releases/release_template.html:10
 msgid "Fixes:"
 msgstr ""
