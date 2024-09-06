@@ -109,6 +109,16 @@
         </div>
         {% endfor %}
     {% endwith %}
+    {% if order %}
+        <!-- Badges for ordering -->
+        <div class="col px-0 d-flex align-items-center">
+            <span class="badge text-bg-secondary">{% translate "Order" %}: 
+        {% if order == "love" %}{% translate "Most loved" %}
+        {% elif order == "views" %}{% translate "Most views" %}
+        {% endif %}
+            </span>&nbsp;
+        </div>
+    {% endif %}
     </div>
     <!-- List of public Decks -->
     {% include "decks/snippets/public_deck_table.html" with table_id="publicDecksTable" deck_list=deck_list %}
