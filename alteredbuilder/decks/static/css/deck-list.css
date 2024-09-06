@@ -51,6 +51,10 @@
     width: 114px;
 }
 
+.public-col {
+    width: 130px;
+}
+
 /* Last modified column */
 .last-modified-col {
     width: 200px;
