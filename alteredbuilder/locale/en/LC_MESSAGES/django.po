@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-04 19:50+0200\n"
+"POT-Creation-Date: 2024-09-06 12:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: api/utils.py:20 decks/views.py:488
+#: api/utils.py:20 decks/views.py:447
 msgid "Invalid payload"
 msgstr ""
 
-#: api/utils.py:23 api/utils.py:25 decks/views.py:573
+#: api/utils.py:23 api/utils.py:25 decks/views.py:532
 msgid "Invalid request"
 msgstr ""
 
@@ -46,53 +46,53 @@ msgstr ""
 msgid "Italian"
 msgstr ""
 
-#: decks/deck_utils.py:82
+#: decks/deck_utils.py:83
 #, python-format
 msgid "Failed to unpack '%(line)s'"
 msgstr ""
 
-#: decks/deck_utils.py:90
+#: decks/deck_utils.py:91
 #, python-format
 msgid "Card '%(reference)s' does not exist"
 msgstr ""
 
-#: decks/deck_utils.py:100
+#: decks/deck_utils.py:101
 msgid "Multiple heroes present in the decklist"
 msgstr ""
 
-#: decks/deck_utils.py:238
+#: decks/deck_utils.py:239
 msgid "reference"
 msgstr ""
 
-#: decks/deck_utils.py:258
+#: decks/deck_utils.py:259
 msgid "hand cost"
 msgstr ""
 
-#: decks/deck_utils.py:278
+#: decks/deck_utils.py:279
 msgid "reserve cost"
 msgstr ""
 
-#: decks/deck_utils.py:287
+#: decks/deck_utils.py:288
 msgid "ability"
 msgstr ""
 
-#: decks/deck_utils.py:300
+#: decks/deck_utils.py:301
 msgid "subtype"
 msgstr ""
 
-#: decks/deck_utils.py:314
+#: decks/deck_utils.py:315
 msgid "trigger"
 msgstr ""
 
-#: decks/deck_utils.py:321 decks/deck_utils.py:351
+#: decks/deck_utils.py:322 decks/deck_utils.py:427
 msgid "query"
 msgstr ""
 
-#: decks/deck_utils.py:337
+#: decks/deck_utils.py:413
 msgid "user"
 msgstr ""
 
-#: decks/deck_utils.py:346
+#: decks/deck_utils.py:422
 msgid "hero"
 msgstr ""
 
@@ -157,23 +157,29 @@ msgid "Card list"
 msgstr ""
 
 #: decks/templates/decks/card_list.html:38
-msgid "Card search"
+#: decks/templates/decks/deck_list.html:29
+#: decks/templates/decks/own_deck_list.html:28
+msgid "Search by name or use advanced filters"
 msgstr ""
 
 #: decks/templates/decks/card_list.html:42
 #: decks/templates/decks/card_list.html:97
-#: decks/templates/decks/deck_list.html:32
-#: decks/templates/decks/deck_list.html:87
+#: decks/templates/decks/deck_list.html:33
+#: decks/templates/decks/deck_list.html:90
+#: decks/templates/decks/own_deck_list.html:32
+#: decks/templates/decks/own_deck_list.html:89
 msgid "Search"
 msgstr ""
 
 #: decks/templates/decks/card_list.html:52
-#: decks/templates/decks/deck_list.html:41
+#: decks/templates/decks/deck_list.html:42
+#: decks/templates/decks/own_deck_list.html:41
 msgid "Filters"
 msgstr ""
 
 #: decks/templates/decks/card_list.html:61
-#: decks/templates/decks/deck_list.html:49
+#: decks/templates/decks/deck_list.html:50
+#: decks/templates/decks/own_deck_list.html:49
 msgid "Factions"
 msgstr ""
 
@@ -210,7 +216,7 @@ msgstr ""
 
 #: decks/templates/decks/card_list.html:80
 #: decks/templates/decks/deck_detail.html:168
-#: decks/templates/decks/own_deck_list.html:29
+#: decks/templates/decks/own_deck_list.html:120
 #: decks/templates/decks/snippets/public_deck_table.html:16
 #: profiles/templates/profiles/userprofile_detail.html:102
 msgid "Hero"
@@ -289,6 +295,7 @@ msgstr ""
 
 #: decks/templates/decks/card_list.html:201
 #: decks/templates/decks/tooltips/deck_query_search.html:10
+#: decks/templates/decks/tooltips/own_deck_query_search.html:10
 msgid "Hero:"
 msgstr ""
 
@@ -365,7 +372,7 @@ msgid "Decklist"
 msgstr ""
 
 #: decks/templates/decks/deck_detail.html:173
-#: decks/templates/decks/own_deck_list.html:27
+#: decks/templates/decks/own_deck_list.html:117
 #: decks/templates/decks/snippets/card_table.html:11
 #: decks/templates/decks/snippets/public_deck_table.html:13
 #: decks/templates/forms/submit_deck_metadata.html:9
@@ -376,7 +383,7 @@ msgid "Name"
 msgstr ""
 
 #: decks/templates/decks/deck_detail.html:174
-#: decks/templates/decks/own_deck_list.html:28
+#: decks/templates/decks/own_deck_list.html:119
 #: decks/templates/decks/snippets/public_deck_table.html:15
 #: profiles/templates/profiles/userprofile_detail.html:101
 msgid "Faction"
@@ -461,7 +468,8 @@ msgid "Notes"
 msgstr ""
 
 #: decks/templates/decks/deck_detail.html:301
-#: decks/templates/decks/deck_list.html:59
+#: decks/templates/decks/deck_list.html:60
+#: decks/templates/decks/own_deck_list.html:59
 #: decks/templates/decks/tooltips/legality.html:6
 msgid "Standard"
 msgstr ""
@@ -490,7 +498,8 @@ msgid ""
 msgstr ""
 
 #: decks/templates/decks/deck_detail.html:325
-#: decks/templates/decks/deck_list.html:61
+#: decks/templates/decks/deck_list.html:62
+#: decks/templates/decks/own_deck_list.html:61
 msgid "Draft"
 msgstr ""
 
@@ -574,53 +583,58 @@ msgid "Login"
 msgstr ""
 
 #: decks/templates/decks/deck_detail.html:520
-#: decks/templates/decks/own_deck_list.html:70
-#: decks/templates/decks/snippets/public_deck_table.html:86
+#: decks/templates/decks/own_deck_list.html:175
+#: decks/templates/decks/snippets/public_deck_table.html:76
 #: notifications/views.py:69
 #, python-format
 msgid "%(time_since)s ago"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:7
 #: decks/templates/decks/deck_list.html:8
-#: decks/templates/decks/deck_list.html:22
+#: decks/templates/decks/deck_list.html:9
+#: decks/templates/decks/deck_list.html:23
 msgid "Latest decks"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:28
-msgid "Search by deck name"
-msgstr ""
-
-#: decks/templates/decks/deck_list.html:58
-#: decks/templates/decks/own_deck_list.html:32
+#: decks/templates/decks/deck_list.html:59
+#: decks/templates/decks/own_deck_list.html:58
+#: decks/templates/decks/own_deck_list.html:123
 #: decks/templates/decks/snippets/public_deck_table.html:19
 msgid "Legality"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:60
+#: decks/templates/decks/deck_list.html:61
+#: decks/templates/decks/own_deck_list.html:60
 msgid "ExAlts"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:64
+#: decks/templates/decks/deck_list.html:65
+#: decks/templates/decks/own_deck_list.html:64
+#: decks/templates/decks/own_deck_list.html:118
 #: decks/templates/decks/snippets/public_deck_table.html:14
 #: decks/templates/forms/submit_deck_tags.html:6
 msgid "Tags"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:70
+#: decks/templates/decks/deck_list.html:73
+#: decks/templates/decks/own_deck_list.html:72
 msgid "Other"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:74
-#: decks/templates/decks/deck_list.html:78
+#: decks/templates/decks/deck_list.html:77
+#: decks/templates/decks/deck_list.html:81
+#: decks/templates/decks/own_deck_list.html:76
+#: decks/templates/decks/own_deck_list.html:80
 msgid "Loved"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:76
+#: decks/templates/decks/deck_list.html:79
+#: decks/templates/decks/own_deck_list.html:78
 msgid "Login to save your loved decks!"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:82
+#: decks/templates/decks/deck_list.html:85
+#: decks/templates/decks/own_deck_list.html:84
 #: decks/templates/forms/submit_deck_metadata.html:24
 #: decks/templates/forms/submit_decklist.html:24
 msgid "Description"
@@ -699,23 +713,23 @@ msgstr ""
 msgid "New Deck"
 msgstr ""
 
-#: decks/templates/decks/own_deck_list.html:7
-#: decks/templates/decks/own_deck_list.html:8
-#: decks/templates/decks/own_deck_list.html:20 templates/base.html:74
+#: decks/templates/decks/own_deck_list.html:9
+#: decks/templates/decks/own_deck_list.html:10
+#: decks/templates/decks/own_deck_list.html:22 templates/base.html:74
 msgid "My decks"
 msgstr ""
 
-#: decks/templates/decks/own_deck_list.html:35
+#: decks/templates/decks/own_deck_list.html:126
 msgid "Is it public?"
 msgstr ""
 
-#: decks/templates/decks/own_deck_list.html:36
+#: decks/templates/decks/own_deck_list.html:127
 #: decks/templates/decks/snippets/public_deck_table.html:22
 #: profiles/templates/profiles/userprofile_detail.html:103
 msgid "Last updated"
 msgstr ""
 
-#: decks/templates/decks/own_deck_list.html:73
+#: decks/templates/decks/own_deck_list.html:178
 msgid "No decks created yet"
 msgstr ""
 
@@ -742,12 +756,13 @@ msgstr ""
 msgid "Owner"
 msgstr ""
 
-#: decks/templates/decks/snippets/public_deck_table.html:89
+#: decks/templates/decks/snippets/public_deck_table.html:79
 msgid "No decks were found with the current filters"
 msgstr ""
 
 #: decks/templates/decks/tooltips/card_query_search.html:6
 #: decks/templates/decks/tooltips/deck_query_search.html:7
+#: decks/templates/decks/tooltips/own_deck_query_search.html:7
 msgid "Advanced search filters"
 msgstr ""
 
@@ -763,6 +778,7 @@ msgstr ""
 #: decks/templates/decks/tooltips/card_query_search.html:35
 #: decks/templates/decks/tooltips/deck_query_search.html:11
 #: decks/templates/decks/tooltips/deck_query_search.html:16
+#: decks/templates/decks/tooltips/own_deck_query_search.html:11
 msgid "Operators:"
 msgstr ""
 
@@ -773,6 +789,7 @@ msgstr ""
 #: decks/templates/decks/tooltips/card_query_search.html:36
 #: decks/templates/decks/tooltips/deck_query_search.html:12
 #: decks/templates/decks/tooltips/deck_query_search.html:17
+#: decks/templates/decks/tooltips/own_deck_query_search.html:12
 msgid "Value:"
 msgstr ""
 
@@ -793,6 +810,7 @@ msgstr ""
 #: decks/templates/decks/tooltips/card_query_search.html:31
 #: decks/templates/decks/tooltips/deck_query_search.html:12
 #: decks/templates/decks/tooltips/deck_query_search.html:17
+#: decks/templates/decks/tooltips/own_deck_query_search.html:12
 msgid "Single word"
 msgstr ""
 
@@ -814,6 +832,7 @@ msgstr ""
 
 #: decks/templates/decks/tooltips/card_query_search.html:39
 #: decks/templates/decks/tooltips/deck_query_search.html:20
+#: decks/templates/decks/tooltips/own_deck_query_search.html:15
 msgid "Examples:"
 msgstr ""
 
@@ -876,7 +895,12 @@ msgid "Search decks created by the user \"%(username)s\":"
 msgstr ""
 
 #: decks/templates/decks/tooltips/deck_query_search.html:27
-msgid "Search decks with the hero \"Teija\" created by the user \"admin\":"
+msgid "Search decks with the hero \"Teija\" created by the user \"Equinox\":"
+msgstr ""
+
+#: decks/templates/decks/tooltips/deck_query_search.html:30
+msgid ""
+"Search decks where its the name contains \"Starter\" with the hero \"Kojo\":"
 msgstr ""
 
 #: decks/templates/decks/tooltips/deck_timestamps.html:4
@@ -886,6 +910,10 @@ msgstr ""
 
 #: decks/templates/decks/tooltips/legality.html:8
 msgid "Illegal"
+msgstr ""
+
+#: decks/templates/decks/tooltips/own_deck_query_search.html:18
+msgid "Search decks with the hero \"Teija\":"
 msgstr ""
 
 #: decks/templates/forms/submit_comment.html:8
@@ -937,40 +965,40 @@ msgstr ""
 msgid "Import"
 msgstr ""
 
-#: decks/views.py:468
+#: decks/views.py:427
 msgid "The deck must have a name"
 msgstr ""
 
-#: decks/views.py:484 decks/views.py:547 decks/views.py:584
+#: decks/views.py:443 decks/views.py:506 decks/views.py:543
 msgid "Deck not found"
 msgstr ""
 
-#: decks/views.py:486
+#: decks/views.py:445
 msgid "Card not found"
 msgstr ""
 
-#: decks/views.py:518 decks/views.py:545
+#: decks/views.py:477 decks/views.py:504
 msgid "Comment not found"
 msgstr ""
 
-#: decks/views.py:859
+#: decks/views.py:818
 #, python-format
 msgid "The card '%(card_name)s' (%(reference)s) was successfully imported."
 msgstr ""
 
-#: decks/views.py:867
+#: decks/views.py:826
 #, python-format
 msgid ""
 "This unique version of '%(card_name)s' (%(reference)s) already exists in the "
 "database."
 msgstr ""
 
-#: decks/views.py:876
+#: decks/views.py:835
 #, python-format
 msgid "The card '%(reference)s' is not public"
 msgstr ""
 
-#: decks/views.py:881
+#: decks/views.py:840
 msgid "Failed to fetch the card on the official API."
 msgstr ""
 
