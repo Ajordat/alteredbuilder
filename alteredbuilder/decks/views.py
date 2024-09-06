@@ -115,7 +115,9 @@ class DeckListView(ListView):
             case "love":
                 qs = qs.order_by("-love_count", "-modified_at")
             case "views":
-                qs = qs.order_by(F("hit_count_generic__hits").desc(nulls_last=True), "-modified_at")
+                qs = qs.order_by(
+                    F("hit_count_generic__hits").desc(nulls_last=True), "-modified_at"
+                )
             case _:
                 qs = qs.order_by("-modified_at")
 
