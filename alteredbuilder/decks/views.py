@@ -22,9 +22,13 @@ from api.utils import ajax_request, ApiJsonResponse
 from decks.deck_utils import (
     create_new_deck,
     get_deck_details,
+    filter_by_faction,
+    filter_by_legality,
+    filter_by_other,
+    filter_by_tags,
     import_unique_card,
     parse_card_query_syntax,
-    parse_deck_query_syntax,
+    filter_by_query,
     patch_deck,
     remove_card_from_deck,
 )
@@ -74,54 +78,25 @@ class DeckListView(ListView):
         qs = super().get_queryset()
         filters = Q()
 
-        # Retrieve the query and search by deck name or hero name
+        # Retrieve the query and search by deck name, hero name or owner
         query = self.request.GET.get("query")
-        if query:
-            qs, query_tags = parse_deck_query_syntax(qs, query)
-            self.query_tags = query_tags
-        else:
-            self.query_tags = None
+        qs, self.query_tags = filter_by_query(qs, query)
 
         # Extract the faction filter
         factions = self.request.GET.get("faction")
-        if factions:
-            try:
-                factions = [Card.Faction(faction) for faction in factions.split(",")]
-            except ValueError:
-                pass
-            else:
-                filters &= Q(hero__faction__in=factions)
+        qs = filter_by_faction(qs, factions)
 
         # Extract the legality filter
         legality = self.request.GET.get("legality")
-        if legality:
-            legality = legality.split(",")
-            if "standard" in legality:
-                filters &= Q(is_standard_legal=True)
-            elif "draft" in legality:
-                filters &= Q(is_draft_legal=True)
-            if "exalts" in legality:
-                filters &= Q(is_exalts_legal=True)
+        qs = filter_by_legality(qs, legality)
 
         # Extract the tags filter
         tags = self.request.GET.get("tag")
-        if tags:
-            tags = tags.split(",")
-            filters &= Q(tags__name__in=tags)
-            qs = qs.distinct()
+        qs = filter_by_tags(qs, tags)
 
         # Extract the other filters
         other_filters = self.request.GET.get("other")
-        if other_filters:
-            for other in other_filters.split(","):
-                if other == "loved":
-                    try:
-                        lp = LovePoint.objects.filter(user=self.request.user)
-                        filters &= Q(id__in=lp.values_list("deck_id", flat=True))
-                    except TypeError:
-                        pass
-                elif other == "description":
-                    qs = qs.exclude(description="")
+        qs = filter_by_other(qs, other_filters, self.request.user)
 
         if self.request.user.is_authenticated:
             qs = qs.annotate(
@@ -140,7 +115,7 @@ class DeckListView(ListView):
         # In the deck list view there's no need for these fields, which might be
         # expensive to fill into the model
         return (
-            qs.filter(filters)
+            qs
             .defer(
                 "description",
                 "cards",

@@ -7,6 +7,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import transaction
 from django.db.models import Exists, F, OuterRef, Q
+from django.db.models.query import QuerySet
 from django.utils.translation import activate, gettext_lazy as _
 
 from api.utils import locale_agnostic
@@ -16,7 +17,7 @@ from decks.game_modes import (
     StandardGameMode,
     update_deck_legality,
 )
-from decks.models import Card, CardInDeck, Deck, Subtype
+from decks.models import Card, CardInDeck, Deck, LovePoint, Subtype
 from decks.exceptions import AlteredAPIError, CardAlreadyExists, MalformedDeckException
 
 
@@ -324,36 +325,6 @@ def parse_card_query_syntax(qs, query):
         return qs.filter(filters), tags, False
 
 
-def parse_deck_query_syntax(qs, query):
-    filters = Q()
-    tags = []
-
-    t_regex = r"u:(?P<username>[\w\.-@]+)"
-
-    if matches := re.finditer(t_regex, query):
-        for re_match in matches:
-            username = re_match.group("username")
-            filters &= Q(owner__username__iexact=username)
-            tags.append((_("user"), ":", username))
-        query = re.sub(t_regex, "", query)
-
-    h_regex = r"h:(?P<hero>\w+)"
-
-    if matches := re.finditer(h_regex, query):
-        for re_match in matches:
-            hero = re_match.group("hero")
-            filters &= Q(hero__name__icontains=hero)
-            tags.append((_("hero"), ":", hero))
-        query = re.sub(h_regex, "", query)
-
-    query = query.strip()
-    if query:
-        tags.append((_("query"), ":", query))
-        return qs.filter(filters & Q(name__icontains=query)), tags
-    else:
-        return qs.filter(filters), tags
-
-
 @locale_agnostic
 def import_unique_card(reference) -> Card:  # pragma: no cover
 
@@ -426,3 +397,81 @@ def import_unique_card(reference) -> Card:  # pragma: no cover
             case _:
                 msg = "Couldn't access the Altered API"
         raise AlteredAPIError(msg, status_code=response.status_code)
+
+
+def filter_by_query(qs: QuerySet[Deck], query: str) -> QuerySet[Deck]:
+    filters = Q()
+    tags = []
+
+    if query:
+        t_regex = r"u:(?P<username>[\w\.-@]+)"
+
+        if matches := re.finditer(t_regex, query):
+            for re_match in matches:
+                username = re_match.group("username")
+                filters &= Q(owner__username__iexact=username)
+                tags.append((_("user"), ":", username))
+            query = re.sub(t_regex, "", query)
+
+        h_regex = r"h:(?P<hero>\w+)"
+
+        if matches := re.finditer(h_regex, query):
+            for re_match in matches:
+                hero = re_match.group("hero")
+                filters &= Q(hero__name__icontains=hero)
+                tags.append((_("hero"), ":", hero))
+            query = re.sub(h_regex, "", query)
+
+        query = query.strip()
+        if query:
+            tags.append((_("query"), ":", query))
+            qs = qs.filter(filters & Q(name__icontains=query))
+        else:
+            qs = qs.filter(filters)
+
+    return qs, tags if tags else None
+
+
+def filter_by_faction(qs: QuerySet[Deck], factions: str) -> QuerySet[Deck]:
+    if factions:
+        try:
+            factions = [Card.Faction(faction) for faction in factions.split(",")]
+            qs = qs.filter(hero__faction__in=factions)
+        except ValueError:
+            pass
+    return qs
+
+
+def filter_by_legality(qs: QuerySet[Deck], legality: str) -> QuerySet[Deck]:
+    
+    if legality:
+        legality = legality.split(",")
+        if "standard" in legality:
+            qs = qs.filter(is_standard_legal=True)
+        elif "draft" in legality:
+            qs = qs.filter(is_draft_legal=True)
+        if "exalts" in legality:
+            qs = qs.filter(is_exalts_legal=True)
+
+    return qs
+
+
+def filter_by_tags(qs: QuerySet[Deck], tags: str) -> QuerySet[Deck]:
+    if tags:
+        qs = qs.filter(tags__name__in=tags.split(",")).distinct()
+    return qs
+
+
+def filter_by_other(qs: QuerySet[Deck], other_filters: str, user) -> QuerySet[Deck]:
+    if other_filters:
+        other_filters = other_filters.split(",")
+        if "loved" in other_filters:
+            try:
+                lp = LovePoint.objects.filter(user=user)
+                qs = qs.filter(id__in=lp.values_list("deck_id", flat=True))
+            except TypeError:
+                pass
+        if "description" in other_filters:
+            qs = qs.exclude(description="")
+    return qs
+
