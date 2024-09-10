@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-06 14:44+0200\n"
+"POT-Creation-Date: 2024-09-11 00:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: api/utils.py:20 decks/views.py:454
+#: api/utils.py:20 decks/views.py:457
 msgid "Invalid payload"
 msgstr "Mensaje inválido"
 
-#: api/utils.py:23 api/utils.py:25 decks/views.py:539
+#: api/utils.py:23 api/utils.py:25 decks/views.py:542
 msgid "Invalid request"
 msgstr "Petición inválida"
 
@@ -219,7 +219,7 @@ msgstr "Personaje"
 
 #: decks/templates/decks/card_list.html:80
 #: decks/templates/decks/deck_detail.html:168
-#: decks/templates/decks/own_deck_list.html:122
+#: decks/templates/decks/own_deck_list.html:132
 #: decks/templates/decks/snippets/public_deck_table.html:16
 #: profiles/templates/profiles/userprofile_detail.html:102
 msgid "Hero"
@@ -278,6 +278,8 @@ msgid "Reserve Cost DESC"
 msgstr "Coste de Reserva DESC"
 
 #: decks/templates/decks/card_list.html:146
+#: decks/templates/decks/deck_list.html:116
+#: decks/templates/decks/own_deck_list.html:115
 msgid "Order"
 msgstr "Ordenar"
 
@@ -293,7 +295,7 @@ msgstr "Mazo nuevo"
 msgid "Deck name:"
 msgstr "Nombre del mazo:"
 
-#: decks/templates/decks/card_list.html:198 templates/base.html:81
+#: decks/templates/decks/card_list.html:198 templates/base.html:82
 msgid "Deck"
 msgstr "Mazo"
 
@@ -378,18 +380,18 @@ msgid "Decklist"
 msgstr "Decklist"
 
 #: decks/templates/decks/deck_detail.html:173
-#: decks/templates/decks/own_deck_list.html:119
+#: decks/templates/decks/own_deck_list.html:129
 #: decks/templates/decks/snippets/card_table.html:11
 #: decks/templates/decks/snippets/public_deck_table.html:13
 #: decks/templates/forms/submit_deck_metadata.html:9
 #: decks/templates/forms/submit_decklist.html:8
 #: profiles/templates/profiles/userprofile_detail.html:100
-#: trends/templates/trends/home.html:58
+#: trends/templates/trends/home.html:56
 msgid "Name"
 msgstr "Nombre"
 
 #: decks/templates/decks/deck_detail.html:174
-#: decks/templates/decks/own_deck_list.html:121
+#: decks/templates/decks/own_deck_list.html:131
 #: decks/templates/decks/snippets/public_deck_table.html:15
 #: profiles/templates/profiles/userprofile_detail.html:101
 msgid "Faction"
@@ -586,12 +588,12 @@ msgstr "Comentarios"
 msgid "Login to use this feature!"
 msgstr "¡Inicia sesión para escribir comentarios!"
 
-#: decks/templates/decks/deck_detail.html:492 templates/base.html:169
+#: decks/templates/decks/deck_detail.html:492 templates/base.html:170
 msgid "Login"
 msgstr "Entrar"
 
 #: decks/templates/decks/deck_detail.html:520
-#: decks/templates/decks/own_deck_list.html:177
+#: decks/templates/decks/own_deck_list.html:187
 #: decks/templates/decks/snippets/public_deck_table.html:76
 #: notifications/views.py:69
 #, python-format
@@ -606,7 +608,7 @@ msgstr "Mazos recientes"
 
 #: decks/templates/decks/deck_list.html:59
 #: decks/templates/decks/own_deck_list.html:58
-#: decks/templates/decks/own_deck_list.html:125
+#: decks/templates/decks/own_deck_list.html:135
 #: decks/templates/decks/snippets/public_deck_table.html:19
 msgid "Legality"
 msgstr "Legalidad"
@@ -618,7 +620,7 @@ msgstr ""
 
 #: decks/templates/decks/deck_list.html:65
 #: decks/templates/decks/own_deck_list.html:64
-#: decks/templates/decks/own_deck_list.html:120
+#: decks/templates/decks/own_deck_list.html:130
 #: decks/templates/decks/snippets/public_deck_table.html:14
 #: decks/templates/forms/submit_deck_tags.html:6
 msgid "Tags"
@@ -647,6 +649,18 @@ msgstr "¡Inicia sesión para guardarte mazos!"
 #: decks/templates/forms/submit_decklist.html:24
 msgid "Description"
 msgstr "Descripción"
+
+#: decks/templates/decks/deck_list.html:117
+#: decks/templates/decks/own_deck_list.html:116
+#: decks/templates/decks/snippets/deck_order_filter.html:11
+msgid "Most loved"
+msgstr "Más queridos"
+
+#: decks/templates/decks/deck_list.html:118
+#: decks/templates/decks/own_deck_list.html:117
+#: decks/templates/decks/snippets/deck_order_filter.html:12
+msgid "Most views"
+msgstr "Más visitas"
 
 #: decks/templates/decks/import_card.html:10
 msgid "Import a Unique Card"
@@ -735,22 +749,22 @@ msgstr "Mazo nuevo"
 
 #: decks/templates/decks/own_deck_list.html:9
 #: decks/templates/decks/own_deck_list.html:10
-#: decks/templates/decks/own_deck_list.html:22 templates/base.html:74
+#: decks/templates/decks/own_deck_list.html:22 templates/base.html:75
 msgid "My decks"
 msgstr "Mis mazos"
 
-#: decks/templates/decks/own_deck_list.html:128
+#: decks/templates/decks/own_deck_list.html:138
 msgid "Is it public?"
 msgstr "¿Es público?"
 
-#: decks/templates/decks/own_deck_list.html:129
+#: decks/templates/decks/own_deck_list.html:139
 #: decks/templates/decks/snippets/deck_order_filter.html:10
 #: decks/templates/decks/snippets/public_deck_table.html:22
 #: profiles/templates/profiles/userprofile_detail.html:103
 msgid "Last updated"
 msgstr "Última actualización"
 
-#: decks/templates/decks/own_deck_list.html:180
+#: decks/templates/decks/own_deck_list.html:190
 msgid "No decks created yet"
 msgstr "No se han creado mazos todavía"
 
@@ -762,14 +776,6 @@ msgstr "Maná"
 #, python-format
 msgid "No %(type)ss"
 msgstr "No hay %(type)ss"
-
-#: decks/templates/decks/snippets/deck_order_filter.html:11
-msgid "Most loved"
-msgstr "Más queridos"
-
-#: decks/templates/decks/snippets/deck_order_filter.html:12
-msgid "Most views"
-msgstr "Más visitas"
 
 #: decks/templates/decks/snippets/pagination.html:9
 #: decks/templates/decks/snippets/pagination.html:15
@@ -1006,28 +1012,28 @@ msgstr "¿Quieres que sea un mazo público?"
 msgid "Import"
 msgstr "Importar"
 
-#: decks/views.py:434
+#: decks/views.py:437
 msgid "The deck must have a name"
 msgstr "El mazo necesita un nombre"
 
-#: decks/views.py:450 decks/views.py:513 decks/views.py:550
+#: decks/views.py:453 decks/views.py:516 decks/views.py:553
 msgid "Deck not found"
 msgstr "No se ha encontrado el mazo"
 
-#: decks/views.py:452
+#: decks/views.py:455
 msgid "Card not found"
 msgstr "Carta no encontrada"
 
-#: decks/views.py:484 decks/views.py:511
+#: decks/views.py:487 decks/views.py:514
 msgid "Comment not found"
 msgstr "No se ha encontrado el comentario"
 
-#: decks/views.py:827
+#: decks/views.py:834
 #, python-format
 msgid "The card '%(card_name)s' (%(reference)s) was successfully imported."
 msgstr "La carta '%(card_name)s' (%(reference)s) se ha importado con éxito."
 
-#: decks/views.py:835
+#: decks/views.py:846
 #, python-format
 msgid ""
 "This unique version of '%(card_name)s' (%(reference)s) already exists in the "
@@ -1036,12 +1042,12 @@ msgstr ""
 "Esta versión única de '%(card_name)s' (%(reference)s) ya existe en la base "
 "de datos."
 
-#: decks/views.py:844
+#: decks/views.py:855
 #, python-format
 msgid "The card '%(reference)s' is not public"
 msgstr "La carta '%(reference)s' no es pública"
 
-#: decks/views.py:849
+#: decks/views.py:860
 msgid "Failed to fetch the card on the official API."
 msgstr "No se ha podido encontrar la carta en la API oficial."
 
@@ -1330,87 +1336,87 @@ msgstr "Usuarios con más seguidores"
 msgid "The place to build, analyze and share Altered TCG decks."
 msgstr "Tu web para construir, analizar y compartir mazos de Altered TCG."
 
-#: templates/base.html:62
+#: templates/base.html:63
 msgid "Home"
 msgstr "Inicio"
 
-#: templates/base.html:66
+#: templates/base.html:67
 msgid "Decks"
 msgstr "Mazos"
 
-#: templates/base.html:70
+#: templates/base.html:71
 msgid "Cards"
 msgstr "Cartas"
 
-#: templates/base.html:84
+#: templates/base.html:85
 msgid "Unique card"
 msgstr "Carta única"
 
-#: templates/base.html:90 templates/releases/1.10.1.html:11
+#: templates/base.html:91 templates/releases/1.10.1.html:11
 msgid "Community"
 msgstr "Comunidad"
 
-#: templates/base.html:102
+#: templates/base.html:103
 msgid "Light"
 msgstr "Claro"
 
-#: templates/base.html:107
+#: templates/base.html:108
 msgid "Dark"
 msgstr "Oscuro"
 
-#: templates/base.html:112
+#: templates/base.html:113
 msgid "Auto"
 msgstr "Automático"
 
-#: templates/base.html:139
+#: templates/base.html:140
 msgid "No notifications"
 msgstr "Sin notificaciones"
 
-#: templates/base.html:159
+#: templates/base.html:160
 msgid "Profile"
 msgstr "Perfil"
 
-#: templates/base.html:161
+#: templates/base.html:162
 msgid "Update email"
 msgstr "Actualizar correo"
 
-#: templates/base.html:162
+#: templates/base.html:163
 msgid "Update password"
 msgstr "Actualizar contraseña"
 
-#: templates/base.html:164
+#: templates/base.html:165
 msgid "Logout"
 msgstr "Desconnectar"
 
-#: templates/base.html:184
+#: templates/base.html:185
 msgid "Links"
 msgstr "Enlaces"
 
-#: templates/base.html:187
+#: templates/base.html:188
 msgid "About the project"
 msgstr "Sobre el proyecto"
 
-#: templates/base.html:190
+#: templates/base.html:191
 msgid "About the author"
 msgstr "Sobre el autor"
 
-#: templates/base.html:193
+#: templates/base.html:194
 msgid "Collaborators"
 msgstr "Colaboradores"
 
-#: templates/base.html:196
+#: templates/base.html:197
 msgid "Privacy policy"
 msgstr "Política de privacidad"
 
-#: templates/base.html:199
+#: templates/base.html:200
 msgid "Terms and conditions"
 msgstr "Términos y condiciones"
 
-#: templates/base.html:204
+#: templates/base.html:205
 msgid "Support the project"
 msgstr "Ayuda al proyecto"
 
-#: templates/base.html:212
+#: templates/base.html:213
 msgid "Get in touch"
 msgstr "Ponte en contacto"
 
@@ -1433,25 +1439,40 @@ msgstr ""
 "Inténtalo de nuevo más tarde."
 
 #: templates/releases/1.10.0.html:12 templates/releases/1.10.1.html:6
-#: templates/releases/1.11.0.html:13 templates/releases/1.8.3.html:4
-#: templates/releases/1.9.0.html:4 templates/releases/release_template.html:4
+#: templates/releases/1.8.3.html:4 templates/releases/1.9.0.html:4
 msgid "New features:"
 msgstr "Nuevas funcionalidades:"
 
 #: templates/releases/1.10.0.html:25 templates/releases/1.10.1.html:32
-#: templates/releases/1.11.0.html:27 templates/releases/1.9.0.html:12
-#: templates/releases/release_template.html:16
+#: templates/releases/1.9.0.html:12
 msgid "Other changes:"
 msgstr "Otros cambios:"
 
 #: templates/releases/1.10.0.html:32 templates/releases/1.10.1.html:39
-#: templates/releases/1.11.0.html:35 templates/releases/1.9.0.html:22
-#: templates/releases/release_template.html:23
+#: templates/releases/1.9.0.html:22
 msgid "Announcements:"
 msgstr "Novedades:"
 
-#: templates/releases/1.11.0.html:21 templates/releases/1.8.3.html:15
-#: templates/releases/release_template.html:10
+#: templates/releases/1.11.0.html:14 templates/releases/release_template.html:6
+msgid "New features"
+msgstr "Nuevas funcionalidades"
+
+#: templates/releases/1.11.0.html:28
+#: templates/releases/release_template.html:12
+msgid "Fixes"
+msgstr "Correcciones"
+
+#: templates/releases/1.11.0.html:35
+#: templates/releases/release_template.html:18
+msgid "Other changes"
+msgstr "Otros cambios"
+
+#: templates/releases/1.11.0.html:44
+#: templates/releases/release_template.html:25
+msgid "Announcements"
+msgstr "Novedades"
+
+#: templates/releases/1.8.3.html:15
 msgid "Fixes:"
 msgstr "Correcciones:"
 
@@ -1474,11 +1495,11 @@ msgstr ""
 msgid "Release notes %(version)s"
 msgstr "Notas de la versión %(version)s"
 
-#: trends/templates/trends/home.html:40
+#: trends/templates/trends/home.html:38
 msgid "Trends from the last 7 days"
 msgstr "Tendencias de los últimos 7 días"
 
-#: trends/templates/trends/home.html:41
+#: trends/templates/trends/home.html:39
 msgid ""
 "The statistics are extracted daily from the public legal decks modified "
 "within the last 7 days.<br>Click on the faction and hero pie charts to "
@@ -1488,19 +1509,19 @@ msgstr ""
 "modificados en los últimos 7 días.<br>Haz click en una facción o un héroe de "
 "los gráficos para acotar los resultados!"
 
-#: trends/templates/trends/home.html:44
+#: trends/templates/trends/home.html:42
 msgid "Popular Factions"
 msgstr "Facciones Populares"
 
-#: trends/templates/trends/home.html:48
+#: trends/templates/trends/home.html:46
 msgid "Popular Heroes"
 msgstr "Héroes Populares"
 
-#: trends/templates/trends/home.html:53
+#: trends/templates/trends/home.html:51
 msgid "Popular Cards"
 msgstr "Cartas Populares"
 
-#: trends/templates/trends/home.html:86
+#: trends/templates/trends/home.html:84
 msgid "Trending decks"
 msgstr "Mazos populares"
 
