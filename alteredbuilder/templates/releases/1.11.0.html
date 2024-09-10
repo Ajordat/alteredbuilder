@@ -10,39 +10,41 @@
     It is also possible to search for decks using these tags, so make sure to categorize your creations so they are easily found!
 </p>
 
-<li><strong>{% translate "New features:" %}</strong>
-    <ul>
-        <li>New system to tag decks according to their playstyle.</li>
-        <li>Functionality to search decks by their tags. Check the dropdown of filters on the decks tab!</li>
-        <li>Added ordering to the lists of decks. It's now possible to sort by:
-            <ul>
-                <li>Most loved decks</li>
-                <li>Most viewed decks</li>
-            </ul>
-        </li>
-        <li>Added filtering to own decks.</li>
-    </ul>
-</li>
+<ul class="list-group bg-info-subtle">
+    <li class="list-group-item"><strong>{% translate "New features" %}</strong>
+        <ul>
+            <li>New system to tag decks according to their playstyle.</li>
+            <li>Functionality to search decks by their tags. Check the dropdown of filters on the decks tab!</li>
+            <li>Added ordering to the lists of decks. It's now possible to sort by:
+                <ul>
+                    <li>Most loved decks</li>
+                    <li>Most viewed decks</li>
+                </ul>
+            </li>
+            <li>Added filtering to own decks.</li>
+        </ul>
+    </li>
 
-<li><strong>{% translate "Fixes:" %}</strong>
-    <ul>
-        <li>Bug where the notification fetching failed for unauthenticated users instead of displaying a custom message.</li>
-        <li>Bug where client translations (e.g. popups and deck statistics) did not appear in the selected language.</li>
-    </ul>
-</li>
+    <li class="list-group-item"><strong>{% translate "Fixes" %}</strong>
+        <ul>
+            <li>Bug where the notification fetching failed for unauthenticated users instead of displaying a custom message.</li>
+            <li>Bug where client translations (e.g. popups and deck statistics) did not appear in the selected language.</li>
+        </ul>
+    </li>
 
-<li><strong>{% translate "Other changes:" %}</strong>
-    <ul>
-        <li>Added certain expensive queries to a cache to improve user experience. For example, the trending cards, the trending decks and the community statistics.</li>
-        <li>Limited the notification dropdown to the last 10 items.</li>
-        <li>Removed the limit of 20 rows when displaying the list of followers (I didn't expect to get here that soon).</li>
-    </ul>
-</li>
+    <li class="list-group-item"><strong>{% translate "Other changes" %}</strong>
+        <ul>
+            <li>Added certain expensive queries to a cache to improve user experience. For example, the trending cards, the trending decks and the community statistics.</li>
+            <li>Limited the notification dropdown to the last 10 items.</li>
+            <li>Removed the limit of 20 rows when displaying the list of followers (I didn't expect to get here that soon).</li>
+        </ul>
+    </li>
 
-<li><strong>{% translate "Announcements:" %}</strong>
-    <ul>
-        <li>As you know, the awesome website "<a href="https://exalts-table.com/" target="_blank">Exalts Table</a>" provides the playtest functionality to this site; however, Pioupiou has been asked to temporarily disable the virtual table until the 13th of September (in {{ release_date|timeuntil }}), when the game officially releases. Apologies for the inconvenience!</li>
-        <li>If you're a German native speaker and would like to contribute by providing better translations, please reach me out on <a href="https://discordapp.com/users/501840797159653389" target="_blank">Discord</a>.</li>
-        <li>Consider supporting the project on <a href="http://www.patreon.com/Ajordat" target="_blank">Patreon</a>, <a href="https://buymeacoffee.com/ajordat" target="_blank">Buy me a coffe</a> or <a href="https://fr.tipeee.com/ajordat/" target="_blank">Tipeee</a> if you enjoy using the platform and consider that we're doing a good job expanding the platform.</li>
-    </ul>
-</li>
+    <li class="list-group-item"><strong>{% translate "Announcements" %}</strong>
+        <ul>
+            <li>As you know, the awesome website "<a href="https://exalts-table.com/" target="_blank">Exalts Table</a>" provides the playtest functionality to this site; however, Pioupiou has been asked to temporarily disable the virtual table until the 13th of September (in {{ release_date|timeuntil }}), when the game officially releases. Apologies for the inconvenience!</li>
+            <li>If you're a German native speaker and would like to contribute by providing better translations, please reach me out on <a href="https://discordapp.com/users/501840797159653389" target="_blank">Discord</a>.</li>
+            <li>Consider supporting the project on <a href="http://www.patreon.com/Ajordat" target="_blank">Patreon</a>, <a href="https://buymeacoffee.com/ajordat" target="_blank">Buy me a coffe</a> or <a href="https://fr.tipeee.com/ajordat/" target="_blank">Tipeee</a> if you enjoy using the platform and consider that we're doing a good job expanding the platform.</li>
+        </ul>
+    </li>
+</ul>
