@@ -39,6 +39,7 @@ from decks.models import (
     Comment,
     CommentVote,
     Deck,
+    FavoriteCard,
     LovePoint,
     PrivateLink,
     Set,
@@ -825,6 +826,10 @@ def import_card(request: HttpRequest) -> HttpResponse:
             try:
                 # Attempt to import a unique card
                 card = import_unique_card(reference)
+                # Automatically favorite the card
+                FavoriteCard.objects.create(user=request.user, card=card)
+                
+                # Fill the context
                 context["message"] = _(
                     "The card '%(card_name)s' (%(reference)s) was successfully imported."
                 ) % {"card_name": card.name, "reference": reference}
@@ -833,6 +838,10 @@ def import_card(request: HttpRequest) -> HttpResponse:
             except CardAlreadyExists:
                 # If the card already exists, inform the user
                 card = Card.objects.get(reference=reference)
+                # Automatically favorite the card if it wasn't already
+                FavoriteCard.objects.get_or_create(user=request.user, card=card)
+
+                # Fill the context
                 context["message"] = _(
                     "This unique version of '%(card_name)s' (%(reference)s) already exists in the database."
                 ) % {"card_name": card.name, "reference": reference}

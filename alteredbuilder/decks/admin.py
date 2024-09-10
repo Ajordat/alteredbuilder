@@ -10,6 +10,7 @@ from decks.models import (
     Comment,
     CommentVote,
     Deck,
+    FavoriteCard,
     LovePoint,
     PrivateLink,
     Set,
@@ -264,3 +265,9 @@ class SubtypeAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     list_display = ["name", "type", "description"]
     search_fields = ["name"]
+
+
+@admin.register(FavoriteCard)
+class FavoriteCardAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
+    list_display = ["__str__"]
+    search_fields = ["user", "card"]
