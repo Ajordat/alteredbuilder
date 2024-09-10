@@ -22,15 +22,13 @@
         <div class="accordion my-3" id="releaseAccordion">
             <div class="accordion-item">
                 <h2 class="accordion-header">
-                    <button id="releaseButton" class="accordion-button bg-info-subtle collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#releaseDescription" aria-expanded="true" aria-controls="collapseOne">
+                    <button id="releaseButton" class="accordion-button bg-info-subtle collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#releaseDescription" aria-expanded="true" aria-controls="releaseDescription">
                         {% blocktranslate %}Release notes {{ version }}{% endblocktranslate %}
                     </button>
                 </h2>
                 <div id="releaseDescription" class="accordion-collapse collapse bg-info-subtle" data-bs-parent="#releaseAccordion" data-release="{{ version }}">
                     <div class="accordion-body">
-                        <ul class="list-group list-group-flush">
                             {% include "releases/"|add:version|add:".html" %}
-                        </ul>
                     </div>
                 </div>
             </div>
