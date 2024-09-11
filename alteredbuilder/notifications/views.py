@@ -1,13 +1,28 @@
 from http import HTTPStatus
+from typing import Any
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models.query import QuerySet
 from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.utils.timesince import timesince
 from django.utils.translation import gettext_lazy as _
+from django.views.generic.list import ListView
 
 from api.utils import ajax_request, ApiJsonResponse
 from notifications.models import Notification, NotificationType
+
+
+class NotificationListView(LoginRequiredMixin, ListView):
+    model = Notification
+
+    def get_queryset(self) -> QuerySet[Any]:
+        qs = super().get_queryset()
+
+        qs = qs.filter(recipient=self.request.user)
+
+        return qs
 
 
 @login_required
@@ -57,7 +72,7 @@ def fetch_notifications(request: HttpRequest) -> ApiJsonResponse:
     if not request.user.is_authenticated:
         return ApiJsonResponse("Unauthenticated", HTTPStatus.UNAUTHORIZED)
 
-    notifications = Notification.objects.filter(recipient=request.user)[:10]
+    notifications = Notification.objects.filter(recipient=request.user).order_by("read", "-created_at")[:10]
 
     data = []
     for notification in notifications:
