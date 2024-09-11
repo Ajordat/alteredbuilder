@@ -1,6 +1,6 @@
 /* Table */
-.table-fixed {
-    table-layout: fixed;
+.table-decks-auto {
+    table-layout: auto;
     width: 100%;
 }
 
@@ -9,53 +9,50 @@
     cursor: pointer;
 }
 
-/* Stats column */
+.faction-col, .legality-col, .public-col, .last-modified-col {
+    width: 1%;
+    white-space: nowrap;
+}
+
 .stats-col {
-    width: 132px;
+    width: 1%;
+    min-width: 8rem;
+    white-space: nowrap;
+}
+.faction-col {
+    min-width: 8rem;
+}
+.hero-col {
+    width: 1%;
+    min-width: 12rem;
+}
+.tags-col {
+    width: 12%;
+    min-width: 8rem;
 }
 
 /* Owner column */
 .username-col {
-    width: 180px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
 /* Tags column */
-.tags-col {
-    width: 131px;
+td.tags-col { /* we specify `td` here to get higher specificity than the default 0.5rem padding rule */
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
 }
 .tags-col .badge {
-    flex: 0 0 45%; /* Each tag takes up to 45% of the row, which fits two tags per row */
+    flex: 0 0 auto;
     text-align: center;
 }
 .tags-container {
     display: flex;
     flex-wrap: wrap; /* Allows the tags to wrap to the next row */
+    justify-content: start;
+    align-items: center;
     gap: 5px; /* Space between tags */
-}
-
-/* Faction column */
-.faction-col {
-    width: 114px;
-}
-
-/* Hero column */
-.hero-col {
-    width: 200px;
-}
-
-/* Legality column */
-.legality-col {
-    width: 114px;
-}
-
-.public-col {
-    width: 130px;
-}
-
-/* Last modified column */
-.last-modified-col {
-    width: 200px;
+    overflow: hidden;
+    max-height: 2.85rem;
 }

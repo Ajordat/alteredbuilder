@@ -1,0 +1,23 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+    <h1>Change the owner of the selected decks</h1>
+    <p>You are about to change the owner of the following deck(s):</p>
+    <ul>
+    {% for deck in decks %}
+            <li>{{ deck.name }} (Owner: {{ deck.owner }})</li>
+    {% endfor %}
+    </ul>
+
+    <form method="post">{% csrf_token %}
+        {{ form.as_p }}
+    {% for deck in decks %}
+        <input type="hidden" name="{{ action_checkbox_name }}" value="{{ deck.pk }}">
+    {% endfor %}
+
+        <input type="hidden" name="action" value="change_deck_owner">
+        <input type="hidden" name="apply" value="true">
+        <button type="submit" class="button default">Apply</button>
+        <a href="{% url 'admin:decks_deck_changelist' %}" class="button cancel">Cancel</a>
+    </form>
+{% endblock %}

@@ -3,7 +3,9 @@ from typing import Any
 from django.conf import settings
 from django.contrib import admin
 from django.http import HttpRequest
+from django.template.response import TemplateResponse
 
+from decks.forms import ChangeDeckOwnerForm
 from decks.models import (
     Card,
     CardInDeck,
@@ -102,23 +104,45 @@ class DeckAdmin(admin.ModelAdmin):
             },
         ),
     ]
-    actions = ["make_public", "make_private"]
+    actions = ["make_public", "make_private", "change_deck_owner"]
 
     @admin.action(description="Mark selected Decks as public")
     def make_public(self, request, queryset):
         updated = queryset.update(is_public=True)
-        if updated == 1:
-            self.message_user(request, f"{updated} deck was marked as public.")
-        else:
-            self.message_user(request, f"{updated} decks were marked as public.")
+        self.message_user(request, f"{updated} deck(s) marked as public.")
 
     @admin.action(description="Mark selected Decks as private")
     def make_private(self, request, queryset):
         updated = queryset.update(is_public=False)
-        if updated == 1:
-            self.message_user(request, f"{updated} deck was marked as private.")
-        else:
-            self.message_user(request, f"{updated} decks were marked as private.")
+        self.message_user(request, f"{updated} deck(s) marked as private.")
+
+    @admin.action(description="Change owner of selected decks")
+    def change_deck_owner(self, request, queryset):
+        form = None
+
+        if "apply" in request.POST:
+            form = ChangeDeckOwnerForm(request.POST)
+            if form.is_valid():
+                new_owner = form.cleaned_data["new_owner"]
+                count = queryset.update(owner=new_owner)
+
+                self.message_user(
+                    request, f"{count} deck(s) successfully reassigned to {new_owner}"
+                )
+                return
+
+        if not form:
+            form = ChangeDeckOwnerForm()
+
+        return TemplateResponse(
+            request,
+            "admin/change_owner_confirmation.html",
+            {
+                "decks": queryset,
+                "form": form,
+                "action_checkbox_name": admin.helpers.ACTION_CHECKBOX_NAME,
+            },
+        )
 
 
 @admin.register(Card)
