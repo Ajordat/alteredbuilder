@@ -61,7 +61,7 @@ class="container my-5"
             </div>
     {% if faction_distribution %}
             <!-- Pie Chart Card -->
-            <div class="card mt-4">
+            <div class="card my-4">
                 <div class="card-header bg-info-subtle">
                     <h5 class="mb-0">{% translate "Faction Distribution" %}</h5>
                 </div>
@@ -98,7 +98,6 @@ class="container my-5"
                                 <tr>
                                     <th scope="col"></th>
                                     <th scope="col">{% translate "Name" %}</th>
-                                    <th scope="col">{% translate "Faction" %}</th>
                                     <th scope="col">{% translate "Hero" %}</th>
                                     <th scope="col" class="text-end">{% translate "Last updated" %}</th>
                                 </tr>
@@ -120,11 +119,10 @@ class="container my-5"
                                     </td>
         {% if deck.hero %}
                                     <td>
-                                        {% include "decks/snippets/picture_webp.html" with img_name=deck.hero.faction width=20 height=20 %} {{ deck.hero.get_faction_display.title }}
-                                    </td>
-                                    <td>
                                         <link rel="prefetch" href="{{ deck.hero.image_url }}"/>
-                                        <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-title="<img src='{{ deck.hero.image_url }}'/>" data-bs-html="true" data-bs-placement="right">{{ deck.hero.name }}</span>
+                                        <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-title="<img src='{{ deck.hero.image_url }}'/>" data-bs-html="true" data-bs-placement="right">
+                                            {% include "decks/snippets/picture_webp.html" with img_name=deck.hero.faction width=20 height=20 %} {{ deck.hero.name }}
+                                        </span>
                                     </td>
         {% else %}
                                     <td>-</td><td>-</td>
