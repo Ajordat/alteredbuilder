@@ -24,6 +24,7 @@
                 <h2 class="accordion-header">
                     <button id="releaseButton" class="accordion-button bg-info-subtle collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#releaseDescription" aria-expanded="true" aria-controls="releaseDescription">
                         {% blocktranslate %}Release notes {{ version }}{% endblocktranslate %}
+                        <span id="releaseNotificationAlert" class="translate-middle p-1 bg-danger border border-light rounded-circle ms-2" hidden></span>
                     </button>
                 </h2>
                 <div id="releaseDescription" class="accordion-collapse collapse bg-info-subtle" data-bs-parent="#releaseAccordion" data-release="{{ version }}">
@@ -94,9 +95,16 @@
                 showReleaseDescription();
                 return;
             }
-            if (lastMinimizedRelease !== document.getElementById("releaseDescription").dataset.release) {
+            let currentRelease = document.getElementById("releaseDescription").dataset.release.split(".");
+            lastMinimizedRelease = lastMinimizedRelease.split(".");
+            
+            if (lastMinimizedRelease[0] !== currentRelease[0] || lastMinimizedRelease[1] !== currentRelease[1]) {
                 showReleaseDescription();
                 localStorage.removeItem("releaseMinimized");
+                return;
+            }
+            if (lastMinimizedRelease[2] !== currentRelease[2]) {
+                document.getElementById("releaseNotificationAlert").hidden = false;
                 return;
             }
         });
