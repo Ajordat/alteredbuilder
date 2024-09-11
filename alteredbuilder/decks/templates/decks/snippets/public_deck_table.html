@@ -67,11 +67,11 @@
             </td> {% endcomment %}
     {% if deck.hero %}
             <!-- Faction icon and name -->
-            <td class="d-none d-xl-table-cell">
+            <td class="faction-col d-none d-xl-table-cell">
                 {% include "decks/snippets/picture_webp.html" with img_name=deck.hero.faction width=20 height=20 %} {{ deck.hero.get_faction_display.title }}
             </td>
             <!-- Hero name with tooltip on hover that displays the card image -->
-            <td>
+            <td class="hero-col">
                 <link rel="prefetch" href="{{ deck.hero.image_url }}"/>
                 <span class="d-inline-block d-xl-none">{% include "decks/snippets/picture_webp.html" with img_name=deck.hero.faction width=20 height=20 %}</span>
                 <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-title="<img src='{{ deck.hero.image_url }}'/>" data-bs-html="true" data-bs-placement="right">{{ deck.hero.name }}</span>
