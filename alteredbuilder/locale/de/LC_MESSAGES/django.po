@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-11 00:45+0200\n"
+"POT-Creation-Date: 2024-09-11 17:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -96,24 +96,24 @@ msgstr "anmeldename"
 msgid "hero"
 msgstr "Held"
 
-#: decks/forms.py:20 decks/forms.py:50
+#: decks/forms.py:21 decks/forms.py:51
 msgid "description"
 msgstr "Beschreibung"
 
-#: decks/forms.py:26
+#: decks/forms.py:27
 msgid "decklist"
 msgstr "Deckliste"
 
-#: decks/forms.py:33
+#: decks/forms.py:34
 msgid "Each line should be a quantity (1, 2 or 3) and a card reference."
 msgstr ""
 "Jede Zeile sollte eine Menge (1, 2 oder 3) und eine Kartenreferenz enthalten."
 
-#: decks/forms.py:90 decks/templates/decks/tooltips/card_query_search.html:36
+#: decks/forms.py:91 decks/templates/decks/tooltips/card_query_search.html:36
 msgid "Card Reference"
 msgstr "Referenz der Karte"
 
-#: decks/forms.py:96
+#: decks/forms.py:97
 msgid ""
 "Invalid value. The reference should look similar to "
 "'ALT_COREKS_B_OR_21_U_2139'."
@@ -162,29 +162,29 @@ msgid "Card list"
 msgstr "Kartenliste"
 
 #: decks/templates/decks/card_list.html:38
-#: decks/templates/decks/deck_list.html:29
-#: decks/templates/decks/own_deck_list.html:28
+#: decks/templates/decks/deck_list.html:27
+#: decks/templates/decks/own_deck_list.html:29
 msgid "Search by name or use advanced filters"
 msgstr "Suche nach Namen oder mit erweiterten Filtern"
 
 #: decks/templates/decks/card_list.html:42
 #: decks/templates/decks/card_list.html:97
-#: decks/templates/decks/deck_list.html:33
-#: decks/templates/decks/deck_list.html:90
-#: decks/templates/decks/own_deck_list.html:32
-#: decks/templates/decks/own_deck_list.html:89
+#: decks/templates/decks/deck_list.html:31
+#: decks/templates/decks/deck_list.html:88
+#: decks/templates/decks/own_deck_list.html:33
+#: decks/templates/decks/own_deck_list.html:90
 msgid "Search"
 msgstr "Suchen"
 
 #: decks/templates/decks/card_list.html:52
-#: decks/templates/decks/deck_list.html:42
-#: decks/templates/decks/own_deck_list.html:41
+#: decks/templates/decks/deck_list.html:40
+#: decks/templates/decks/own_deck_list.html:42
 msgid "Filters"
 msgstr "Filter"
 
 #: decks/templates/decks/card_list.html:61
-#: decks/templates/decks/deck_list.html:50
-#: decks/templates/decks/own_deck_list.html:49
+#: decks/templates/decks/deck_list.html:48
+#: decks/templates/decks/own_deck_list.html:50
 msgid "Factions"
 msgstr "Fraktionen"
 
@@ -221,9 +221,9 @@ msgstr "Charakter"
 
 #: decks/templates/decks/card_list.html:80
 #: decks/templates/decks/deck_detail.html:168
-#: decks/templates/decks/own_deck_list.html:132
+#: decks/templates/decks/own_deck_list.html:133
 #: decks/templates/decks/snippets/public_deck_table.html:16
-#: profiles/templates/profiles/userprofile_detail.html:102
+#: profiles/templates/profiles/userprofile_detail.html:101
 msgid "Hero"
 msgstr "Held"
 
@@ -280,8 +280,8 @@ msgid "Reserve Cost DESC"
 msgstr "Reservekosten DESC"
 
 #: decks/templates/decks/card_list.html:146
-#: decks/templates/decks/deck_list.html:116
-#: decks/templates/decks/own_deck_list.html:115
+#: decks/templates/decks/deck_list.html:114
+#: decks/templates/decks/own_deck_list.html:116
 msgid "Order"
 msgstr "Bestellung"
 
@@ -382,20 +382,19 @@ msgid "Decklist"
 msgstr "Deckliste"
 
 #: decks/templates/decks/deck_detail.html:173
-#: decks/templates/decks/own_deck_list.html:129
+#: decks/templates/decks/own_deck_list.html:130
 #: decks/templates/decks/snippets/card_table.html:11
 #: decks/templates/decks/snippets/public_deck_table.html:13
 #: decks/templates/forms/submit_deck_metadata.html:9
 #: decks/templates/forms/submit_decklist.html:8
 #: profiles/templates/profiles/userprofile_detail.html:100
-#: trends/templates/trends/home.html:56
+#: trends/templates/trends/home.html:57
 msgid "Name"
 msgstr "Name"
 
 #: decks/templates/decks/deck_detail.html:174
-#: decks/templates/decks/own_deck_list.html:131
+#: decks/templates/decks/own_deck_list.html:132
 #: decks/templates/decks/snippets/public_deck_table.html:15
-#: profiles/templates/profiles/userprofile_detail.html:101
 msgid "Faction"
 msgstr "Fraktion"
 
@@ -478,8 +477,8 @@ msgid "Notes"
 msgstr "Notizen"
 
 #: decks/templates/decks/deck_detail.html:301
-#: decks/templates/decks/deck_list.html:60
-#: decks/templates/decks/own_deck_list.html:59
+#: decks/templates/decks/deck_list.html:58
+#: decks/templates/decks/own_deck_list.html:60
 #: decks/templates/decks/tooltips/legality.html:6
 msgid "Standard"
 msgstr ""
@@ -510,8 +509,8 @@ msgstr ""
 "durch 3 zusätzliche Rares."
 
 #: decks/templates/decks/deck_detail.html:325
-#: decks/templates/decks/deck_list.html:62
-#: decks/templates/decks/own_deck_list.html:61
+#: decks/templates/decks/deck_list.html:60
+#: decks/templates/decks/own_deck_list.html:62
 msgid "Draft"
 msgstr ""
 
@@ -595,8 +594,8 @@ msgid "Login"
 msgstr "Anmelden"
 
 #: decks/templates/decks/deck_detail.html:520
-#: decks/templates/decks/own_deck_list.html:187
-#: decks/templates/decks/snippets/public_deck_table.html:76
+#: decks/templates/decks/own_deck_list.html:203
+#: decks/templates/decks/snippets/public_deck_table.html:85
 #: notifications/views.py:69
 #, python-format
 msgid "%(time_since)s ago"
@@ -604,62 +603,62 @@ msgstr "%(time_since)s her"
 
 #: decks/templates/decks/deck_list.html:8
 #: decks/templates/decks/deck_list.html:9
-#: decks/templates/decks/deck_list.html:23
+#: decks/templates/decks/deck_list.html:21
 msgid "Latest decks"
 msgstr "Neueste Decks"
 
-#: decks/templates/decks/deck_list.html:59
-#: decks/templates/decks/own_deck_list.html:58
-#: decks/templates/decks/own_deck_list.html:135
+#: decks/templates/decks/deck_list.html:57
+#: decks/templates/decks/own_deck_list.html:59
+#: decks/templates/decks/own_deck_list.html:136
 #: decks/templates/decks/snippets/public_deck_table.html:19
 msgid "Legality"
 msgstr "Legalität"
 
-#: decks/templates/decks/deck_list.html:61
-#: decks/templates/decks/own_deck_list.html:60
+#: decks/templates/decks/deck_list.html:59
+#: decks/templates/decks/own_deck_list.html:61
 msgid "ExAlts"
 msgstr ""
 
-#: decks/templates/decks/deck_list.html:65
-#: decks/templates/decks/own_deck_list.html:64
-#: decks/templates/decks/own_deck_list.html:130
+#: decks/templates/decks/deck_list.html:63
+#: decks/templates/decks/own_deck_list.html:65
+#: decks/templates/decks/own_deck_list.html:131
 #: decks/templates/decks/snippets/public_deck_table.html:14
 #: decks/templates/forms/submit_deck_tags.html:6
 msgid "Tags"
 msgstr "Tags"
 
-#: decks/templates/decks/deck_list.html:73
-#: decks/templates/decks/own_deck_list.html:72
+#: decks/templates/decks/deck_list.html:71
+#: decks/templates/decks/own_deck_list.html:73
 msgid "Other"
 msgstr "Sonstiges"
 
-#: decks/templates/decks/deck_list.html:77
-#: decks/templates/decks/deck_list.html:81
-#: decks/templates/decks/own_deck_list.html:76
-#: decks/templates/decks/own_deck_list.html:80
+#: decks/templates/decks/deck_list.html:75
+#: decks/templates/decks/deck_list.html:79
+#: decks/templates/decks/own_deck_list.html:77
+#: decks/templates/decks/own_deck_list.html:81
 msgid "Loved"
 msgstr "Geliebt"
 
-#: decks/templates/decks/deck_list.html:79
-#: decks/templates/decks/own_deck_list.html:78
+#: decks/templates/decks/deck_list.html:77
+#: decks/templates/decks/own_deck_list.html:79
 msgid "Login to save your loved decks!"
 msgstr "Melden Sie sich an, um Ihre geliebten Decks zu speichern!"
 
-#: decks/templates/decks/deck_list.html:85
-#: decks/templates/decks/own_deck_list.html:84
+#: decks/templates/decks/deck_list.html:83
+#: decks/templates/decks/own_deck_list.html:85
 #: decks/templates/forms/submit_deck_metadata.html:24
 #: decks/templates/forms/submit_decklist.html:24
 msgid "Description"
 msgstr "Beschreibung"
 
-#: decks/templates/decks/deck_list.html:117
-#: decks/templates/decks/own_deck_list.html:116
+#: decks/templates/decks/deck_list.html:115
+#: decks/templates/decks/own_deck_list.html:117
 #: decks/templates/decks/snippets/deck_order_filter.html:11
 msgid "Most loved"
 msgstr "Meistgeliebt"
 
-#: decks/templates/decks/deck_list.html:118
-#: decks/templates/decks/own_deck_list.html:117
+#: decks/templates/decks/deck_list.html:116
+#: decks/templates/decks/own_deck_list.html:118
 #: decks/templates/decks/snippets/deck_order_filter.html:12
 msgid "Most views"
 msgstr "Meistbesucht"
@@ -754,22 +753,22 @@ msgstr "Neues Deck"
 
 #: decks/templates/decks/own_deck_list.html:9
 #: decks/templates/decks/own_deck_list.html:10
-#: decks/templates/decks/own_deck_list.html:22 templates/base.html:75
+#: decks/templates/decks/own_deck_list.html:23 templates/base.html:75
 msgid "My decks"
 msgstr "Meine Decks"
 
-#: decks/templates/decks/own_deck_list.html:138
+#: decks/templates/decks/own_deck_list.html:139
 msgid "Is it public?"
 msgstr "Ist es öffentlich?"
 
-#: decks/templates/decks/own_deck_list.html:139
+#: decks/templates/decks/own_deck_list.html:140
 #: decks/templates/decks/snippets/deck_order_filter.html:10
 #: decks/templates/decks/snippets/public_deck_table.html:22
-#: profiles/templates/profiles/userprofile_detail.html:103
+#: profiles/templates/profiles/userprofile_detail.html:102
 msgid "Last updated"
 msgstr "Letzte Aktualisierung"
 
-#: decks/templates/decks/own_deck_list.html:190
+#: decks/templates/decks/own_deck_list.html:206
 msgid "No decks created yet"
 msgstr "Noch keine Decks erstellt"
 
@@ -796,7 +795,7 @@ msgstr "Zuletzt"
 msgid "Owner"
 msgstr "Besitzer"
 
-#: decks/templates/decks/snippets/public_deck_table.html:79
+#: decks/templates/decks/snippets/public_deck_table.html:88
 msgid "No decks were found with the current filters"
 msgstr "Mit den aktuellen Filtern wurden keine Decks gefunden"
 
@@ -1059,31 +1058,31 @@ msgstr "Die Karte '%(reference)s' ist nicht öffentlich"
 msgid "Failed to fetch the card on the official API."
 msgstr "Die Karte konnte nicht über die offizielle API abgerufen werden."
 
-#: notifications/models.py:33
+#: notifications/models.py:32 notifications/models.py:57
+msgid "New notification"
+msgstr "Neue Meldung"
+
+#: notifications/models.py:36
 #, python-format
 msgid "%(actor)s commented on deck '%(deck_name)s'"
 msgstr "%(actor)s kommentiert Deck '%(deck_name)s'"
 
-#: notifications/models.py:39
+#: notifications/models.py:42
 #, python-format
 msgid "%(love_count)s user liked your deck '%(deck_name)s'"
 msgid_plural "%(love_count)s users liked your deck '%(deck_name)s'"
 msgstr[0] "%(love_count)s Benutzer mochte Ihr Deck '%(deck_name)s'"
 msgstr[1] "%(love_count)s Benutzer mochten Ihr Deck '%(deck_name)s'"
 
-#: notifications/models.py:47
+#: notifications/models.py:50
 #, python-format
 msgid "%(actor)s created deck '%(deck_name)s'"
 msgstr "%(actor)s erstellt Deck „%(deck_name)s“"
 
-#: notifications/models.py:52
+#: notifications/models.py:55
 #, python-format
 msgid "%(actor)s started following you"
 msgstr "%(actor)s begann Ihnen zu folgen"
-
-#: notifications/models.py:54
-msgid "New notification"
-msgstr "Neue Meldung"
 
 #: profiles/templates/profiles/edit_profile.html:7
 #: profiles/templates/profiles/edit_profile.html:11
@@ -1210,7 +1209,7 @@ msgstr "Leere Bio"
 msgid "Decks by %(username)s"
 msgstr "Decks von %(username)s"
 
-#: profiles/templates/profiles/userprofile_detail.html:141
+#: profiles/templates/profiles/userprofile_detail.html:139
 msgid "No decks found"
 msgstr "Keine Decks gefunden"
 
@@ -1428,7 +1427,11 @@ msgstr "Allgemeine Geschäftsbedingungen"
 msgid "Support the project"
 msgstr "Unterstützung des Projekts"
 
-#: templates/base.html:213
+#: templates/base.html:210
+msgid "Our Patrons"
+msgstr "Unsere Unterstützer"
+
+#: templates/base.html:214
 msgid "Get in touch"
 msgstr "Nehmen Sie Kontakt auf"
 
@@ -1467,21 +1470,22 @@ msgstr "Andere Änderungen:"
 msgid "Announcements:"
 msgstr "Ankündigungen:"
 
-#: templates/releases/1.11.0.html:14 templates/releases/release_template.html:6
+#: templates/releases/1.11.0.html:14 templates/releases/1.11.1.html:14
+#: templates/releases/release_template.html:6
 msgid "New features"
 msgstr "Neue Funktionen"
 
-#: templates/releases/1.11.0.html:28
+#: templates/releases/1.11.0.html:28 templates/releases/1.11.1.html:29
 #: templates/releases/release_template.html:12
 msgid "Fixes"
 msgstr "Korrekturen"
 
-#: templates/releases/1.11.0.html:35
+#: templates/releases/1.11.0.html:35 templates/releases/1.11.1.html:36
 #: templates/releases/release_template.html:18
 msgid "Other changes"
 msgstr "Andere Änderungen"
 
-#: templates/releases/1.11.0.html:44
+#: templates/releases/1.11.0.html:43 templates/releases/1.11.1.html:46
 #: templates/releases/release_template.html:25
 msgid "Announcements"
 msgstr "Ankündigungen"
@@ -1509,11 +1513,11 @@ msgstr ""
 msgid "Release notes %(version)s"
 msgstr "Versionshinweise %(version)s"
 
-#: trends/templates/trends/home.html:38
+#: trends/templates/trends/home.html:39
 msgid "Trends from the last 7 days"
 msgstr "Trends der letzten 7 Tage"
 
-#: trends/templates/trends/home.html:39
+#: trends/templates/trends/home.html:40
 msgid ""
 "The statistics are extracted daily from the public legal decks modified "
 "within the last 7 days.<br>Click on the faction and hero pie charts to "
@@ -1523,19 +1527,19 @@ msgstr ""
 "extrahiert, die innerhalb der letzten 7 Tage geändert wurden.<br>Klickt auf "
 "die Fraktions- und Heldentortendiagramme, um die Ergebnisse einzugrenzen!"
 
-#: trends/templates/trends/home.html:42
+#: trends/templates/trends/home.html:43
 msgid "Popular Factions"
 msgstr "Beliebte Fraktionen"
 
-#: trends/templates/trends/home.html:46
+#: trends/templates/trends/home.html:47
 msgid "Popular Heroes"
 msgstr "Beliebte Helden"
 
-#: trends/templates/trends/home.html:51
+#: trends/templates/trends/home.html:52
 msgid "Popular Cards"
 msgstr "Beliebte Karten"
 
-#: trends/templates/trends/home.html:84
+#: trends/templates/trends/home.html:85
 msgid "Trending decks"
 msgstr "Angesagte Decks"
 
