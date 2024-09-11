@@ -12,6 +12,7 @@
 
 {% block head %}
     {{ block.super }}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/deck-list.css' %}">
 {% endblock %}
@@ -139,9 +140,9 @@
                     <th scope="col" class="last-modified-col">{% translate "Last updated" %}</th>
                 </tr>
             </thead>
-            <tbody class="table-group-divider align-middle">
+            <tbody class="table-group-divider align-middle infinite-container">
     {% for deck in deck_list %}
-                <tr data-href="{{ deck.get_absolute_url }}">
+                <tr class="infinite-item" data-href="{{ deck.get_absolute_url }}">
                     <td>
                         <!-- Amount of likes -->
                         <a role="button" href="#" class="btn btn-sm btn-outline-danger {%if deck.is_loved %}active{% else %}disabled{% endif %}">
@@ -206,7 +207,11 @@
     {% endfor %}
             </tbody>
         </table>
-    {% include "decks/snippets/pagination.html" %}
+        <div class="mt-3">
+            {% if page_obj.has_next %}
+                <a class="infinite-more-link page-link" href="?{% inject_params request.GET page=page_obj.next_page_number %}"></a>
+            {% endif %}
+        </div>
     </div>
 {% endblock %}
 
@@ -215,4 +220,19 @@
     <script src="{% static 'js/deck-list.js' %}"></script>
     <!-- Enable the tooltips -->
     <script src="{% static 'js/tooltip-enable.js' %}"></script>
+    <!-- Infinite scroll scripts -->
+    <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'js/infinite.min.js' %}"></script>
+    <script>
+        var infinite = new Waypoint.Infinite({
+            element: $('.infinite-container')[0],
+            onAfterPageLoad: function ($items) {
+                let deckRows = document.querySelectorAll(".table-clickable tbody tr");
+                Array.from(deckRows).forEach(function(element) {
+                    element.addEventListener("click", openDeck);
+                });
+                enableTooltips();
+            }
+        });
+    </script>
 {% endblock %}
