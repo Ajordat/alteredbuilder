@@ -9,7 +9,7 @@
     cursor: pointer;
 }
 
-.faction-col, .legality-col, .last-modified-col {
+.faction-col, .legality-col, .public-col, .last-modified-col {
     width: 1%;
     white-space: nowrap;
 }
@@ -44,7 +44,7 @@ td.tags-col { /* we specify `td` here to get higher specificity than the default
     padding-bottom: 0.25rem;
 }
 .tags-col .badge {
-    flex: 0 0 auto; /* Each tag takes up to 45% of the row, which fits two tags per row */
+    flex: 0 0 auto;
     text-align: center;
 }
 .tags-container {

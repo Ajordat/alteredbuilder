@@ -128,14 +128,14 @@
                     <th scope="col" class="stats-col"></th>
                     <th scope="col">{% translate "Name" %}</th>
                     <th scope="col" class="tags-col">{% translate "Tags" %}</th>
-                    <th scope="col" class="faction-col">{% translate "Faction" %}</th>
+                    <th scope="col" class="faction-col d-none d-xl-block">{% translate "Faction" %}</th>
                     <th scope="col" class="hero-col">{% translate "Hero" %}</th>
-                    <th scope="col" class="legality-col text-center">
+                    <th scope="col" class="legality-col text-center ps-4">
                         <a data-bs-toggle="tooltip" data-bs-title='{% include "decks/tooltips/legality.html" %}' data-bs-html="true">
                             {% translate "Legality" %} <i class="fa-regular fa-circle-question"></i>
                         </a>
                     </th>
-                    <th scope="col" class="public-col text-center">{% translate "Is it public?" %}</th>
+                    <th scope="col" class="public-col text-center px-4">{% translate "Is it public?" %}</th>
                     <th scope="col" class="last-modified-col">{% translate "Last updated" %}</th>
                 </tr>
             </thead>
@@ -169,20 +169,35 @@
                     </td>
         {% if deck.hero %}
                     <!-- Faction icon and name -->
-                    <td>{% include "decks/snippets/picture_webp.html" with img_name=deck.hero.faction width=20 height=20 %} {{ deck.hero.get_faction_display.title }}</td>
+                    <td class="faction-col d-none d-xl-table-cell">
+                        {% include "decks/snippets/picture_webp.html" with img_name=deck.hero.faction width=20 height=20 %} {{ deck.hero.get_faction_display.title }}
+                    </td>
                     <!-- Hero name with tooltip on hover that displays the card image -->
                     <td>
                         <link rel="prefetch" href="{{ deck.hero.image_url }}"/>
+                        <span class="d-inline-block d-xl-none">{% include "decks/snippets/picture_webp.html" with img_name=deck.hero.faction width=20 height=20 %}</span>
                         <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-title="<img src='{{ deck.hero.image_url }}'/>" data-bs-html="true" data-bs-placement="right">{{ deck.hero.name }}</span>
                     </td>
         {% else %}
                     <!-- No hero -->
-                    <td>-</td><td>-</td>
+                    <td class="d-none d-xl-table-cell">-</td><td>-</td>
         {% endif %}
                     <!-- Legality -->
-                    <td class="text-center">{% if deck.is_standard_legal %}<i class="fa-regular fa-circle-check"></i>{% elif deck.is_exalts_legal %}<i class="fa-regular fa-circle-check exalts-legal"></i>{% else %}<i class="fa-regular fa-circle-xmark"></i>{% endif %}</td>
+                    <td class="text-center">
+        {% if deck.is_standard_legal %}
+                        <i class="fa-regular fa-circle-check"></i>
+        {% elif deck.is_exalts_legal %}
+                        <i class="fa-regular fa-circle-check exalts-legal"></i>
+        {% else %}
+                        <i class="fa-regular fa-circle-xmark"></i>
+        {% endif %}
+                    </td>
                     <!-- Is it public? -->
-                     <td class="text-center">{% if deck.is_public %}<i class="fa-regular fa-circle-check"></i>{% endif %}</td>
+                     <td class="text-center">
+        {% if deck.is_public %}
+                        <i class="fa-regular fa-circle-check"></i>
+        {% endif %}
+                    </td>
                      <!-- Last modified -->
                     <td>{% blocktranslate with time_since=deck.modified_at|timesince %}{{ time_since }} ago{% endblocktranslate %}</td>
                 </tr>
