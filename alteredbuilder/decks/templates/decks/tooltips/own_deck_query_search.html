@@ -1,0 +1,22 @@
+
+{% load i18n %}
+
+
+<!-- Advanced Deck filtering instructions -->
+<div class="text-start">
+    {% translate "Advanced search filters" %}:
+    <ul>
+        <!-- Hero -->
+        <li>{% translate "Hero:" %} <code class="inline">h</code><br>
+            {% translate "Operators:" %} <code class="inline">:</code><br>
+            {% translate "Value:" %} <code class="inline">{% translate "Single word" %}</code>
+        </li>
+    </ul>
+    {% translate "Examples:" %}
+    <!-- Examples -->
+    <ul>
+        <li>{% translate 'Search decks with the hero "Teija":' %}<br>
+            <code class="inline">h:teija</code>
+        </li>
+    </ul>
+</div>

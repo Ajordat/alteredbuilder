@@ -15,8 +15,10 @@ def delete_unused_unique_cards(apps, schema_editor):
         deck_count=0
     ).delete()
 
+
 def empty_reverse(apps, schema_editor):
     pass
+
 
 def assign_subtype_to_uniques(apps, schema_editor):
 
@@ -31,10 +33,12 @@ def assign_subtype_to_uniques(apps, schema_editor):
             )
     Card.subtypes.through.objects.bulk_create(subtypes_m2m)
 
+
 def unassign_subtype_to_uniques(apps, schema_editor):
     init_models(apps)
-    
+
     Card.subtypes.through.objects.filter(card__rarity="U").delete()
+
 
 class Migration(migrations.Migration):
 
@@ -44,5 +48,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunPython(delete_unused_unique_cards, reverse_code=empty_reverse),
-        migrations.RunPython(assign_subtype_to_uniques, reverse_code=unassign_subtype_to_uniques),
+        migrations.RunPython(
+            assign_subtype_to_uniques, reverse_code=unassign_subtype_to_uniques
+        ),
     ]

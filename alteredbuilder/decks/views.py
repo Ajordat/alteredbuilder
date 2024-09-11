@@ -22,9 +22,13 @@ from api.utils import ajax_request, ApiJsonResponse
 from decks.deck_utils import (
     create_new_deck,
     get_deck_details,
+    filter_by_faction,
+    filter_by_legality,
+    filter_by_other,
+    filter_by_tags,
     import_unique_card,
     parse_card_query_syntax,
-    parse_deck_query_syntax,
+    filter_by_query,
     patch_deck,
     remove_card_from_deck,
 )
@@ -35,6 +39,7 @@ from decks.models import (
     Comment,
     CommentVote,
     Deck,
+    FavoriteCard,
     LovePoint,
     PrivateLink,
     Set,
@@ -61,7 +66,6 @@ class DeckListView(ListView):
         Deck.objects.filter(is_public=True)
         .select_related("owner", "hero")
         .prefetch_related("tags")
-        .order_by("-modified_at")
     )
     paginate_by = 30
 
@@ -72,56 +76,26 @@ class DeckListView(ListView):
             QuerySet[Deck]: The decks to list.
         """
         qs = super().get_queryset()
-        filters = Q()
 
-        # Retrieve the query and search by deck name or hero name
+        # Retrieve the query and search by deck name, hero name or owner
         query = self.request.GET.get("query")
-        if query:
-            qs, query_tags = parse_deck_query_syntax(qs, query)
-            self.query_tags = query_tags
-        else:
-            self.query_tags = None
+        qs, self.query_tags = filter_by_query(qs, query)
 
         # Extract the faction filter
         factions = self.request.GET.get("faction")
-        if factions:
-            try:
-                factions = [Card.Faction(faction) for faction in factions.split(",")]
-            except ValueError:
-                pass
-            else:
-                filters &= Q(hero__faction__in=factions)
+        qs = filter_by_faction(qs, factions)
 
         # Extract the legality filter
         legality = self.request.GET.get("legality")
-        if legality:
-            legality = legality.split(",")
-            if "standard" in legality:
-                filters &= Q(is_standard_legal=True)
-            elif "draft" in legality:
-                filters &= Q(is_draft_legal=True)
-            if "exalts" in legality:
-                filters &= Q(is_exalts_legal=True)
+        qs = filter_by_legality(qs, legality)
 
         # Extract the tags filter
         tags = self.request.GET.get("tag")
-        if tags:
-            tags = tags.split(",")
-            filters &= Q(tags__name__in=tags)
-            qs = qs.distinct()
+        qs = filter_by_tags(qs, tags)
 
         # Extract the other filters
         other_filters = self.request.GET.get("other")
-        if other_filters:
-            for other in other_filters.split(","):
-                if other == "loved":
-                    try:
-                        lp = LovePoint.objects.filter(user=self.request.user)
-                        filters &= Q(id__in=lp.values_list("deck_id", flat=True))
-                    except TypeError:
-                        pass
-                elif other == "description":
-                    qs = qs.exclude(description="")
+        qs = filter_by_other(qs, other_filters, self.request.user)
 
         if self.request.user.is_authenticated:
             qs = qs.annotate(
@@ -137,18 +111,25 @@ class DeckListView(ListView):
                 ),
             )
 
+        order = self.request.GET.get("order")
+        match (order):
+            case "love":
+                qs = qs.order_by("-love_count", "-modified_at")
+            case "views":
+                qs = qs.order_by(
+                    F("hit_count_generic__hits").desc(nulls_last=True), "-modified_at"
+                )
+            case _:
+                qs = qs.order_by("-modified_at")
+
         # In the deck list view there's no need for these fields, which might be
         # expensive to fill into the model
-        return (
-            qs.filter(filters)
-            .defer(
-                "description",
-                "cards",
-                "standard_legality_errors",
-                "draft_legality_errors",
-            )
-            .prefetch_related("hit_count_generic")
-        )
+        return qs.defer(
+            "description",
+            "cards",
+            "standard_legality_errors",
+            "draft_legality_errors",
+        ).prefetch_related("hit_count_generic")
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         """If the user is authenticated, add their loved decks to the context.
@@ -168,6 +149,9 @@ class DeckListView(ListView):
                 checked_filters += self.request.GET[filter].split(",")
         context["checked_filters"] = checked_filters
 
+        if "order" in self.request.GET:
+            context["order"] = self.request.GET["order"]
+
         if "query" in self.request.GET:
             context["query"] = self.request.GET.get("query")
             context["query_tags"] = self.query_tags
@@ -179,10 +163,11 @@ class DeckListView(ListView):
         return context
 
 
-class OwnDeckListView(LoginRequiredMixin, ListView):
+class OwnDeckListView(LoginRequiredMixin, DeckListView):
     """ListView to display the own decks."""
 
     model = Deck
+    queryset = Deck.objects.select_related("owner", "hero").prefetch_related("tags")
     paginate_by = 24
     template_name = "decks/own_deck_list.html"
 
@@ -193,24 +178,8 @@ class OwnDeckListView(LoginRequiredMixin, ListView):
             QuerySet[Deck]: Decks created by the user.
         """
         qs = super().get_queryset()
-        return (
-            qs.filter(owner=self.request.user)
-            .annotate(
-                is_loved=Exists(
-                    LovePoint.objects.filter(
-                        deck=OuterRef("pk"), user=self.request.user
-                    )
-                )
-            )
-            .select_related("hero")
-            .defer(
-                "description",
-                "cards",
-                "standard_legality_errors",
-                "draft_legality_errors",
-            )
-            .order_by("-modified_at")
-        )
+
+        return qs.filter(owner=self.request.user)
 
 
 class DeckDetailView(HitCountDetailView):
@@ -630,7 +599,7 @@ def update_tags(request: HttpRequest, pk: int) -> HttpResponse:
 
                 primary_tag = form.cleaned_data["primary_tags"]
                 secondary_tags = form.cleaned_data["secondary_tags"]
-                
+
                 deck.tags.clear()
                 if primary_tag:
                     deck.tags.add(primary_tag)
@@ -773,6 +742,8 @@ class CardListView(ListView):
                 if desc:
                     mana_order = mana_order.desc()
                 query_order = [mana_order]
+
+                qs = qs.exclude(type=Card.Type.HERO)
             # If the order is inversed, the "reference" used as the second clause of
             # ordering also needs to be reversed
             query_order += ["-reference" if desc else "reference"]
@@ -855,6 +826,10 @@ def import_card(request: HttpRequest) -> HttpResponse:
             try:
                 # Attempt to import a unique card
                 card = import_unique_card(reference)
+                # Automatically favorite the card
+                FavoriteCard.objects.create(user=request.user, card=card)
+                
+                # Fill the context
                 context["message"] = _(
                     "The card '%(card_name)s' (%(reference)s) was successfully imported."
                 ) % {"card_name": card.name, "reference": reference}
@@ -863,6 +838,10 @@ def import_card(request: HttpRequest) -> HttpResponse:
             except CardAlreadyExists:
                 # If the card already exists, inform the user
                 card = Card.objects.get(reference=reference)
+                # Automatically favorite the card if it wasn't already
+                FavoriteCard.objects.get_or_create(user=request.user, card=card)
+
+                # Fill the context
                 context["message"] = _(
                     "This unique version of '%(card_name)s' (%(reference)s) already exists in the database."
                 ) % {"card_name": card.name, "reference": reference}

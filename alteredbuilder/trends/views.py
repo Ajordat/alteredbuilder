@@ -83,7 +83,7 @@ class HomeView(TemplateView):
 
     def extract_hero_trends(
         self, faction: Optional[Card.Faction], hero: Optional[Card]
-    ) -> dict[str : dict[str, Any]]:
+    ) -> dict[str : dict[str, Any]]:  # noqa: E203
         """Extract the hero trends based on the filters received.
 
         The actual trends are only necessary when not filtering by hero. That's because

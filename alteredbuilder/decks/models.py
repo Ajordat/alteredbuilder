@@ -259,3 +259,14 @@ class CommentVote(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+
+
+class FavoriteCard(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="favorite_cards")
+    card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name="favorited_by")
+
+    def __str__(self) -> str:
+        return f"{self.user.username} favorited '{self.card.reference}'"
+
+    class Meta:
+        unique_together = ("user", "card")

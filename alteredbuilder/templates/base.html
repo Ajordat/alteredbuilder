@@ -32,6 +32,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/solid.min.css" integrity="sha512-Hp+WwK4QdKZk9/W0ViDvLunYjFrGJmNDt6sCflZNkjgvNq9mY+0tMbd6tWMiAlcf1OQyqL4gn2rYp7UsfssZPA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/regular.min.css" integrity="sha512-KYEnM30Gjf5tMbgsrQJsR0FSpufP9S4EiAYi168MvTjK6E83x3r6PTvLPlXYX350/doBXmTFUEnJr/nCsDovuw==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/brands.min.css" integrity="sha512-DJLNx+VLY4aEiEQFjiawXaiceujj5GA7lIY8CHCIGQCBPfsEG0nGz1edb4Jvw1LR7q031zS5PpPqFuPA8ihlRA==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
         <link rel="apple-touch-icon" sizes="180x180" href="{% static "logos/apple-touch-icon.png" %}">
         <link rel="icon" type="image/png" sizes="32x32" href="{% static "logos/favicon-32x32.png" %}">
@@ -43,14 +44,14 @@
         <meta name="msapplication-config" content="{% static "logos/browserconfig.xml" %}">
         <meta name="theme-color" content="#ffffff">
         <script src="{% static 'js/theme-mode.js' %}"></script>
-        <script src="{% url 'javascript-catalog' %}"></script>
     {% endcache %}
+        <script src="{% url 'javascript-catalog' %}"></script>
 {% endblock %}
     </head>
     <body class="d-flex flex-column min-vh-100">
-        <nav class="navbar navbar-expand-md bg-info-subtle sticky-top pb-0">
+        <nav class="navbar navbar-expand-xl bg-info-subtle sticky-top pb-0">
             <div class="container-fluid">
-                <a class="navbar-brand text-info-emphasis" href="{% url 'index' %}"><img class="logo" src="{% static "img/logo.webp" %}" alt="logo" width="40px">Altered TCG Builder</a>
+                <a class="navbar-brand text-info-emphasis" href="{% url 'index' %}"><img class="logo" src="{% static "img/logo.webp" %}" alt="logo" width="40px" height="40px">Altered TCG Builder</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -129,7 +130,7 @@
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle position-relative text-info-emphasis" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle position-relative text-info-emphasis" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Notifications dropdown">
                                 <i class="fa-solid fa-bell"></i>
 {% if has_unread_notifications %}
                                 <span class="position-absolute translate-middle p-1 bg-danger border border-light rounded-circle"></span>
@@ -205,7 +206,7 @@
                         <ul class="list-unstyled mb-0">
                             <li class="mb-1"><a href="https://www.patreon.com/Ajordat" target="_blank" class="no-underline"><i class="fa-brands fa-patreon"></i> <u>Patreon</u></a></li>
                             <li class="mb-1"><a href="https://buymeacoffee.com/ajordat" target="_blank" class="no-underline"><i class="fa-solid fa-mug-hot"></i> <u>Buy me a coffee</u></a></li>
-                            <li class="mb-1"><a href="https://fr.tipeee.com/ajordat/" target="_blank" class="no-underline"><img src="{% static "img/tipeeetip.png" %}" height="16px"> <u>Tipeee</u></a></li>
+                            <li class="mb-1"><a href="https://fr.tipeee.com/ajordat/" target="_blank" class="no-underline"><img src="{% static "img/tipeeetip.png" %}" height="16px" width="27px" alt="tipeee icon"> <u>Tipeee</u></a></li>
                         </ul>
                     </div>
                     <div class="col">

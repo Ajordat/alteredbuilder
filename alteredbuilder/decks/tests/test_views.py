@@ -56,99 +56,128 @@ class DeckListViewTestCase(BaseViewTestCase):
 
     def test_deck_list_filters(self):
         """Test the view of all the public Decks after applying filters on the query."""
+
+        url = reverse("deck-list")
+
         # Search all the decks with the given name
-        response = self.client.get(
-            reverse("deck-list") + f"?query={self.PUBLIC_DECK_NAME}"
-        )
-        query_decks = Deck.objects.filter(is_public=True, name=self.PUBLIC_DECK_NAME)
-        self.assertQuerySetEqual(
-            query_decks, response.context["deck_list"], ordered=False
-        )
+        filter = f"?query={self.PUBLIC_DECK_NAME}"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_decks = Deck.objects.filter(
+                is_public=True, name=self.PUBLIC_DECK_NAME
+            )
+            self.assertQuerySetEqual(
+                query_decks, response.context["deck_list"], ordered=False
+            )
 
         # Search all the decks with a string not appearing in any Deck's name
-        response = self.client.get(reverse("deck-list") + "?query=XXXX")
-        query_decks = Deck.objects.none()
-        self.assertQuerySetEqual(
-            query_decks, response.context["deck_list"], ordered=False
-        )
+        filter = "?query=XXXX"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_decks = Deck.objects.none()
+            self.assertQuerySetEqual(
+                query_decks, response.context["deck_list"], ordered=False
+            )
 
         # Search all the decks belonging to the AXIOM faction
-        response = self.client.get(reverse("deck-list") + "?faction=AX")
-        query_decks = Deck.objects.filter(
-            is_public=True, hero__faction=Card.Faction.AXIOM
-        )
-        self.assertQuerySetEqual(
-            query_decks, response.context["deck_list"], ordered=False
-        )
+        filter = "?faction=AX"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_decks = Deck.objects.filter(
+                is_public=True, hero__faction=Card.Faction.AXIOM
+            )
+            self.assertQuerySetEqual(
+                query_decks, response.context["deck_list"], ordered=False
+            )
 
         # Search all the decks belonging to either the AXIOM or MUNA factions
-        response = self.client.get(reverse("deck-list") + "?faction=AX,MU")
-        query_decks = Deck.objects.filter(
-            is_public=True,
-            hero__faction__in=[Card.Faction.AXIOM, Card.Faction.MUNA],
-        )
-        self.assertQuerySetEqual(
-            query_decks, response.context["deck_list"], ordered=False
-        )
+        filter = "?faction=AX,MU"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_decks = Deck.objects.filter(
+                is_public=True,
+                hero__faction__in=[Card.Faction.AXIOM, Card.Faction.MUNA],
+            )
+            self.assertQuerySetEqual(
+                query_decks, response.context["deck_list"], ordered=False
+            )
 
         # Search all the decks belonging to an invalid faction (parameter ignored)
-        response = self.client.get(reverse("deck-list") + "?faction=XXXX")
-        query_decks = Deck.objects.filter(is_public=True)
-        self.assertQuerySetEqual(
-            query_decks, response.context["deck_list"], ordered=False
-        )
+        filter = "?faction=XXXX"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_decks = Deck.objects.filter(is_public=True)
+            self.assertQuerySetEqual(
+                query_decks, response.context["deck_list"], ordered=False
+            )
 
         # Search all the decks that are legal on the Exalts format
-        response = self.client.get(reverse("deck-list") + "?legality=exalts")
-        query_decks = Deck.objects.filter(is_public=True, is_exalts_legal=True)
-        self.assertQuerySetEqual(
-            query_decks, response.context["deck_list"], ordered=False
-        )
+        filter = "?legality=exalts"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_decks = Deck.objects.filter(is_public=True, is_exalts_legal=True)
+            self.assertQuerySetEqual(
+                query_decks, response.context["deck_list"], ordered=False
+            )
 
         # Search all the decks that are legal on the Draft format
-        response = self.client.get(reverse("deck-list") + "?legality=draft")
-        query_decks = Deck.objects.filter(is_public=True, is_draft_legal=True)
-        self.assertQuerySetEqual(
-            query_decks, response.context["deck_list"], ordered=False
-        )
+        filter = "?legality=draft"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_decks = Deck.objects.filter(is_public=True, is_draft_legal=True)
+            self.assertQuerySetEqual(
+                query_decks, response.context["deck_list"], ordered=False
+            )
 
         # Search all the decks that are legal on the Standard or Draft formats
-        response = self.client.get(reverse("deck-list") + "?legality=standard,draft")
-        query_decks = Deck.objects.filter(is_public=True, is_standard_legal=True)
-        self.assertQuerySetEqual(
-            query_decks, response.context["deck_list"], ordered=False
-        )
+        filter = "?legality=standard,draft"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_decks = Deck.objects.filter(is_public=True, is_standard_legal=True)
+            self.assertQuerySetEqual(
+                query_decks, response.context["deck_list"], ordered=False
+            )
 
         # Search all the decks with an invalid legality (parameter ignored)
-        response = self.client.get(reverse("deck-list") + "?legality=XXXX")
-        query_decks = Deck.objects.filter(is_public=True)
-        self.assertQuerySetEqual(
-            query_decks, response.context["deck_list"], ordered=False
-        )
+        filter = "?legality=XXXX"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_decks = Deck.objects.filter(is_public=True)
+            self.assertQuerySetEqual(
+                query_decks, response.context["deck_list"], ordered=False
+            )
 
         # Search all the loved decks with an unauthenticated user (parameter ignored)
-        response = self.client.get(reverse("deck-list") + "?other=loved")
-        query_decks = Deck.objects.filter(is_public=True)
-        self.assertQuerySetEqual(
-            query_decks, response.context["deck_list"], ordered=False
-        )
+        filter = "?other=loved"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_decks = Deck.objects.filter(is_public=True)
+            self.assertQuerySetEqual(
+                query_decks, response.context["deck_list"], ordered=False
+            )
 
         # Search all the loved decks
+        filter = "?other=loved"
         self.client.force_login(self.user)
-        response = self.client.get(reverse("deck-list") + "?other=loved")
-        lp = LovePoint.objects.filter(user=self.user).values_list("deck_id", flat=True)
-        query_decks = Deck.objects.filter(is_public=True, id__in=lp)
-        self.assertQuerySetEqual(
-            query_decks, response.context["deck_list"], ordered=False
-        )
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            lp = LovePoint.objects.filter(user=self.user).values_list(
+                "deck_id", flat=True
+            )
+            query_decks = Deck.objects.filter(is_public=True, id__in=lp)
+            self.assertQuerySetEqual(
+                query_decks, response.context["deck_list"], ordered=False
+            )
         self.client.logout()
 
         # Search all the decks with an invalid "other" filter (parameter ignored)
-        response = self.client.get(reverse("deck-list") + "?other=XXXX")
-        query_decks = Deck.objects.filter(is_public=True)
-        self.assertQuerySetEqual(
-            query_decks, response.context["deck_list"], ordered=False
-        )
+        filter = "?other=XXXX"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_decks = Deck.objects.filter(is_public=True)
+            self.assertQuerySetEqual(
+                query_decks, response.context["deck_list"], ordered=False
+            )
 
     def test_deck_list_u_advanced_filters(self):
         """Test the view of all the public Decks after filtering the query by user."""
@@ -375,200 +404,259 @@ class CardListViewTestCase(BaseViewTestCase):
         generate_card(Card.Faction.MUNA, Card.Type.CHARACTER, Card.Rarity.RARE)
 
         card = Card.objects.first()
+        url = reverse("cards")
+
         # Search all the decks with the given name
-        response = self.client.get(reverse("cards") + f"?query={card.name}")
-        query_cards = Card.objects.filter(name=card.name)
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = f"?query={card.name}"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.filter(name=card.name)
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
         # Search all the cards with a string not appearing in any Card's name
-        response = self.client.get(reverse("cards") + "?query=XXXX")
-        query_cards = Card.objects.none()
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = "?query=XXXX"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.none()
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
         # Search all the cards belonging to the AXIOM faction
-        response = self.client.get(reverse("cards") + "?faction=AX")
-        query_cards = Card.objects.filter(faction=Card.Faction.AXIOM)
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = "?faction=AX"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.filter(faction=Card.Faction.AXIOM)
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
         # Search all the cards belonging to either the AXIOM or MUNA factions
-        response = self.client.get(reverse("cards") + "?faction=AX,MU")
-        query_cards = Card.objects.filter(
-            faction__in=[Card.Faction.AXIOM, Card.Faction.MUNA]
-        )
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = "?faction=AX,MU"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.filter(
+                faction__in=[Card.Faction.AXIOM, Card.Faction.MUNA]
+            )
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
         # Search all the cards belonging to an invalid faction (parameter ignored)
-        response = self.client.get(reverse("cards") + "?faction=XXXX")
-        query_cards = Card.objects.all()
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = "?faction=XXXX"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.all()
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
         # Search all the cards with the COMMON rarity
-        response = self.client.get(reverse("cards") + "?rarity=C")
-        query_cards = Card.objects.filter(rarity=Card.Rarity.COMMON)
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = "?rarity=C"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.filter(rarity=Card.Rarity.COMMON)
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
         # Search all the cards with the COMMON or RARE rarities
-        response = self.client.get(reverse("cards") + "?rarity=C,R")
-        query_cards = Card.objects.filter(
-            rarity__in=[Card.Rarity.COMMON, Card.Rarity.RARE]
-        )
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = "?rarity=C,R"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.filter(
+                rarity__in=[Card.Rarity.COMMON, Card.Rarity.RARE]
+            )
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
         # Search all the cards with an invalid rarity (parameter ignored)
-        response = self.client.get(reverse("cards") + "?rarity=XXXXX")
-        query_cards = Card.objects.all()
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = "?rarity=XXXXX"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.all()
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
         # Search all the cards of type CHARACTER
-        response = self.client.get(reverse("cards") + "?type=character")
-        query_cards = Card.objects.filter(type=Card.Type.CHARACTER)
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = "?type=character"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.filter(type=Card.Type.CHARACTER)
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
         # Search all the cards of type CHARACTER or PERMANENT
-        response = self.client.get(reverse("cards") + "?type=character,permanent")
-        query_cards = Card.objects.filter(
-            type__in=[Card.Type.CHARACTER, Card.Type.PERMANENT]
-        )
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = "?type=character,permanent"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.filter(
+                type__in=[Card.Type.CHARACTER, Card.Type.PERMANENT]
+            )
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
         # Search all the cards of type CHARACTER
-        response = self.client.get(reverse("cards") + "?type=XXXX")
-        query_cards = Card.objects.all()
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = "?type=XXXX"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.all()
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
         # Search all the cards by RARITY order
-        response = self.client.get(reverse("cards") + "?order=rarity")
-        query_cards = Card.objects.order_by("rarity", "reference")
-        self.assertQuerySetEqual(query_cards, response.context["card_list"])
+        filter = "?order=rarity"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.order_by("rarity", "reference")
+            self.assertQuerySetEqual(query_cards, response.context["card_list"])
 
         # Search all the cards by RESERVE MANA order
-        response = self.client.get(reverse("cards") + "?order=reserve")
-        query_cards = Card.objects.order_by("stats__recall_cost", "reference")
-        self.assertQuerySetEqual(query_cards, response.context["card_list"])
+        filter = "?order=reserve"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.exclude(type=Card.Type.HERO).order_by(
+                "stats__recall_cost", "reference"
+            )
+            self.assertQuerySetEqual(query_cards, response.context["card_list"])
 
         # Search all the cards by inverse MANA order
-        response = self.client.get(reverse("cards") + "?order=-mana")
-        query_cards = Card.objects.order_by("-stats__main_cost", "-reference")
-        self.assertQuerySetEqual(query_cards, response.context["card_list"])
+        filter = "?order=-mana"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.exclude(type=Card.Type.HERO).order_by(
+                "-stats__main_cost", "-reference"
+            )
+            self.assertQuerySetEqual(query_cards, response.context["card_list"])
 
         # Search all the COMMON CHARACTERS or PERMANENTS of AXIOM ordered by inverse
         # NAME order
-        response = self.client.get(
-            reverse("cards")
-            + "?faction=AX&rarity=C&type=character,permanent&order=-name"
-        )
-        query_cards = Card.objects.filter(
-            faction=Card.Faction.AXIOM,
-            rarity=Card.Rarity.COMMON,
-            type__in=[Card.Type.CHARACTER, Card.Type.PERMANENT],
-        ).order_by("-name", "-reference")
-        self.assertQuerySetEqual(query_cards, response.context["card_list"])
+        filter = "?faction=AX&rarity=C&type=character,permanent&order=-name"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.filter(
+                faction=Card.Faction.AXIOM,
+                rarity=Card.Rarity.COMMON,
+                type__in=[Card.Type.CHARACTER, Card.Type.PERMANENT],
+            ).order_by("-name", "-reference")
+            self.assertQuerySetEqual(query_cards, response.context["card_list"])
 
     def test_card_list_hc_advanced_filters(self):
         """Test the view of all the Cards after applying advanced filters on the query."""
+
+        url = reverse("cards")
+
         # Search all the cards with a hand cost of 2
         value = 2
-        response = self.client.get(reverse("cards") + f"?query={quote('hc=')}{value}")
-        query_cards = Card.objects.filter(stats__main_cost=value)
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = f"?query={quote('hc=')}{value}"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.filter(stats__main_cost=value)
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
         # Search all the cards with a hand cost greater than 2
         value = 2
-        response = self.client.get(reverse("cards") + f"?query={quote('hc>')}{value}")
-        query_cards = Card.objects.filter(stats__main_cost__gt=value)
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = f"?query={quote('hc>')}{value}"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.filter(stats__main_cost__gt=value)
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
         # Search all the cards with a hand cost greater than or equal to 2
         value = 2
-        response = self.client.get(reverse("cards") + f"?query={quote('hc>=')}{value}")
-        query_cards = Card.objects.filter(stats__main_cost__gte=value)
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = f"?query={quote('hc>=')}{value}"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.filter(stats__main_cost__gte=value)
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
         # Search all the cards with a hand cost smaller than 4
         value = 4
-        response = self.client.get(reverse("cards") + f"?query={quote('hc<')}{value}")
-        query_cards = Card.objects.filter(stats__main_cost__lt=value)
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = f"?query={quote('hc<')}{value}"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.filter(stats__main_cost__lt=value)
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
         # Search all the cards with a hand cost smaller than or equal to 4
         value = 4
-        response = self.client.get(reverse("cards") + f"?query={quote('hc<=')}{value}")
-        query_cards = Card.objects.filter(stats__main_cost__lte=value)
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = f"?query={quote('hc<=')}{value}"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.filter(stats__main_cost__lte=value)
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
     def test_card_list_rc_advanced_filters(self):
         """Test the view of all the Cards after applying advanced filters on the query."""
+
+        url = reverse("cards")
+
         # Search all the cards with a reserve cost of 2
         value = 2
-        response = self.client.get(reverse("cards") + f"?query={quote('rc=')}{value}")
-        query_cards = Card.objects.filter(stats__recall_cost=value)
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = f"?query={quote('rc=')}{value}"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.filter(stats__recall_cost=value)
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
         # Search all the cards with a reserve cost greater than 2
         value = 2
-        response = self.client.get(reverse("cards") + f"?query={quote('rc>')}{value}")
-        query_cards = Card.objects.filter(stats__recall_cost__gt=value)
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = f"?query={quote('rc>')}{value}"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.filter(stats__recall_cost__gt=value)
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
         # Search all the cards with a reserve cost greater than or equal to 2
         value = 2
-        response = self.client.get(reverse("cards") + f"?query={quote('rc>=')}{value}")
-        query_cards = Card.objects.filter(stats__recall_cost__gte=value)
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = f"?query={quote('rc>=')}{value}"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.filter(stats__recall_cost__gte=value)
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
         # Search all the cards with a reserve cost smaller than 4
         value = 4
-        response = self.client.get(reverse("cards") + f"?query={quote('rc<')}{value}")
-        query_cards = Card.objects.filter(stats__recall_cost__lt=value)
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = f"?query={quote('rc<')}{value}"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.filter(stats__recall_cost__lt=value)
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
         # Search all the cards with a reserve cost smaller than or equal to 4
         value = 4
-        response = self.client.get(reverse("cards") + f"?query={quote('rc<=')}{value}")
-        query_cards = Card.objects.filter(stats__recall_cost__lte=value)
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = f"?query={quote('rc<=')}{value}"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.filter(stats__recall_cost__lte=value)
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
     def test_card_list_x_advanced_filters(self):
         """Test the view of all the Cards after applying a filter on the query to find
@@ -627,47 +715,61 @@ class CardListViewTestCase(BaseViewTestCase):
         spell.echo_effect = "{D} You can discard me"
         spell.save()
 
+        url = reverse("cards")
+
         # Search for Cards that trigger when they enter the battlefield
-        response = self.client.get(reverse("cards") + "?query=t:etb")
-        query_cards = Card.objects.filter(main_effect__contains="{J}")
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = "?query=t:etb"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.filter(main_effect__contains="{J}")
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
         # Search for Cards that trigger when they are cast form the hand
-        response = self.client.get(reverse("cards") + "?query=t:hand")
-        query_cards = Card.objects.filter(main_effect__contains="{H}")
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = "?query=t:hand"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.filter(main_effect__contains="{H}")
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
         # Search for Cards that trigger when they are cast from the reserve
-        response = self.client.get(reverse("cards") + "?query=t:reserve")
-        query_cards = Card.objects.filter(main_effect__contains="{R}")
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = "?query=t:reserve"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.filter(main_effect__contains="{R}")
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
         # Search for Cards that trigger by discarding them from the reserve
-        response = self.client.get(reverse("cards") + "?query=t:discard")
-        query_cards = Card.objects.filter(echo_effect__contains="{D}")
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = "?query=t:discard"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.filter(echo_effect__contains="{D}")
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
         # Search for Cards that trigger when they get exhausted
-        response = self.client.get(reverse("cards") + "?query=t:exhaust")
-        query_cards = Card.objects.filter(main_effect__contains="{T}")
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = "?query=t:exhaust"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.filter(main_effect__contains="{T}")
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
         # Search for a trigger than doesn't exist
-        response = self.client.get(reverse("cards") + "?query=t:dontexist")
-        query_cards = Card.objects.all()
-        self.assertQuerySetEqual(
-            query_cards, response.context["card_list"], ordered=False
-        )
+        filter = "?query=t:dontexist"
+        with self.subTest(filter=filter):
+            response = self.client.get(url + filter)
+            query_cards = Card.objects.all()
+            self.assertQuerySetEqual(
+                query_cards, response.context["card_list"], ordered=False
+            )
 
 
 class AccessPrivateLinkViewTestCase(BaseViewTestCase):
