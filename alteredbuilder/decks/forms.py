@@ -1,6 +1,7 @@
 import re
 
 from django import forms
+from django.contrib.auth import get_user_model
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
 
@@ -97,4 +98,10 @@ class CardImportForm(forms.Form):
                 ),
             )
         ],
+    )
+
+
+class ChangeDeckOwnerForm(forms.Form):
+    new_owner = forms.ModelChoiceField(
+        queryset=get_user_model().objects.all(), label="New Owner"
     )
