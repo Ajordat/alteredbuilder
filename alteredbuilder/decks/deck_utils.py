@@ -351,11 +351,11 @@ def import_unique_card(reference) -> Card:  # pragma: no cover
             "image_url": card_data["imagePath"],
             "set": og_card.set,
             "stats": {
-                "main_cost": card_data["elements"]["MAIN_COST"],
-                "recall_cost": card_data["elements"]["RECALL_COST"],
-                "forest_power": card_data["elements"]["FOREST_POWER"],
-                "mountain_power": card_data["elements"]["MOUNTAIN_POWER"],
-                "ocean_power": card_data["elements"]["OCEAN_POWER"],
+                "main_cost": int(card_data["elements"]["MAIN_COST"]),
+                "recall_cost": int(card_data["elements"]["RECALL_COST"]),
+                "forest_power": int(card_data["elements"]["FOREST_POWER"]),
+                "mountain_power": int(card_data["elements"]["MOUNTAIN_POWER"]),
+                "ocean_power": int(card_data["elements"]["OCEAN_POWER"]),
             },
         }
         if "MAIN_EFFECT" in card_data["elements"]:
