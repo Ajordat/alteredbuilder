@@ -136,8 +136,10 @@
                                 <span class="position-absolute translate-middle p-1 bg-danger border border-light rounded-circle"></span>
 {% endif %}
                             </a>
-                            <ul id="notificationList" class="dropdown-menu dropdown-menu-end bg-light-subtle" aria-labelledby="notificationDropdown">
-                                <li class="dropdown-item text-muted disabled">{% translate "No notifications" %}</li>
+                            <ul id="notificationList" class="dropdown-menu dropdown-menu-end bg-light-subtle pt-0" aria-labelledby="notificationDropdown">
+                                <li class="dropdown-item text-center mt-2 p-0"><a class="dropdown-item d-block" href="{% url "notification-list" %}">{% translate "View all notifications" %}</a></li>
+                                <li id="notificationsDivider"><hr class="dropdown-divider"></li>
+                                <li class="dropdown-item notification-item text-muted disabled">{% translate "No notifications" %}</li>
                             </ul>
                         </li>
 {% if user.is_authenticated %}
