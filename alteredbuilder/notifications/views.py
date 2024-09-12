@@ -72,7 +72,7 @@ def fetch_notifications(request: HttpRequest) -> ApiJsonResponse:
     if not request.user.is_authenticated:
         return ApiJsonResponse("Unauthenticated", HTTPStatus.UNAUTHORIZED)
 
-    notifications = Notification.objects.filter(recipient=request.user).order_by("read", "-created_at")[:10]
+    notifications = Notification.objects.filter(recipient=request.user, read=False).order_by("-created_at")[:10]
 
     data = []
     for notification in notifications:
