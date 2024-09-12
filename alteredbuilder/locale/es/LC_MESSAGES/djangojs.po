@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-03 12:18+0200\n"
+"POT-Creation-Date: 2024-09-12 12:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -108,14 +108,18 @@ msgstr "Mano"
 msgid "Reserve"
 msgstr "Reserva"
 
-#: statics/js/notifications.js:27
+#: statics/js/notifications.js:28
+msgid "Loading..."
+msgstr "Cargando..."
+
+#: statics/js/notifications.js:46
 msgid "Authentication required"
 msgstr "Se requiere autenticación"
 
-#: statics/js/notifications.js:29
+#: statics/js/notifications.js:48
 msgid "Error loading notifications"
 msgstr "Error al cargar las notificaciones"
 
-#: statics/js/notifications.js:69
+#: statics/js/notifications.js:90
 msgid "No new notifications"
 msgstr "No hay notificaciones nuevas"
