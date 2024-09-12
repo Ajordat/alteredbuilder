@@ -85,10 +85,63 @@ html[data-bs-theme="light"] .card-table tr[data-rarity="unique"] {
 html[data-bs-theme="dark"] .card-table tr[data-rarity="unique"] {
     --bs-table-bg: #ffafb6;
 }
-
-#comments {
-    /* box-shadow: 0 -1px 6px 1px rgba(0,0,0,0.1); */
+/* Basic styling for the card-view container */
+.card-view-container {
+    display: grid;
+    grid-template-columns: 1fr 4fr; /* Card display takes 1/5th, card lists take 4/5ths */
+    gap: 20px;
 }
+
+/* Styling for card columns */
+.card-columns {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Four columns for the cards */
+    gap: 20px;
+}
+
+.card-column {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+/* Media queries for responsiveness */
+
+/* Ensure the card takes at least 1/5th of the width on screens smaller than 1200px */
+@media (max-width: 1200px) {
+    .card-view-container {
+        grid-template-columns: minmax(20%, 1fr) minmax(40%, 3fr); /* Ensure the card display takes at least 20% of the screen */
+        gap: 20px;
+    }
+
+    .card-columns {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    }
+}
+
+/* If the screen is even smaller, keep 2x2 grid for cards and card display at 1/5th */
+@media (max-width: 800px) {
+    .card-view-container {
+        grid-template-columns: minmax(20%, 1fr) minmax(60%, 2fr); /* Card display takes at least 20% */
+        gap: 20px;
+    }
+
+    .card-columns {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for cards */
+    }
+}
+
+/* For very narrow screens (mobile), stack everything in one column */
+@media (max-width: 600px) {
+    .card-view-container {
+        grid-template-columns: 1fr; /* Single column layout */
+        gap: 20px;
+    }
+
+    .card-columns {
+        grid-template-columns: 1fr; /* Stack all columns vertically */
+    }
+}
+
 
 #comments form {
 	margin-bottom:30px;

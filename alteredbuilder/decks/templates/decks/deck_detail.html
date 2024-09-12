@@ -153,74 +153,73 @@
     <div class="my-3">
         <h3>{% translate "Decklist" %}</h3>
     </div>
-    <div class="row">
-        <div class="col-3 mb-5">
-            <!-- Card display -->
-            <!-- It will show the first image available in this order: hero, characters, spells, permanents -->
+    <div class="card-view-container">
+        <div class="card-display">
+            <!-- Display the main card here -->
             {% firstof deck.hero.image_url character_list.0.1.image_url spell_list.0.1.image_url permanent_list.0.1.image_url "" as display_image %}
             <img class="img-fluid rounded-4" id="card-showcase" src="{{ display_image }}">
         </div>
-        <div class="col">
-            <div class="row">
-                <div class="col">
-                    <!-- Hero table -->
-                    <p><i class="fa-solid fa-person-hiking"></i> {% translate "Hero" %}</p>
-                    <table class="table table-striped table-hover card-table" id="hero-table" aria-describedby="Deck hero">
-                        <thead>
-                            <tr>
-                                <!-- Show name and faction -->
-                                <th scope="col">{% translate "Name" %}</th>
-                                <th scope="col">{% translate "Faction" %}</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-group-divider">
-    {% if deck.hero %}
-                            <tr class="table-light card-hover" data-image-url="{{ deck.hero.image_url }}">
-                                <!-- Hero name -->
-                                <td>{{ deck.hero.name }}</td>
-                                <!-- Hero faction -->
-                                <td>{% include "decks/snippets/picture_webp.html" with img_name=deck.hero.faction width=20 height=20 %} {{ deck.hero.get_faction_display|title }}</td>
-                                <!-- Hero options -->
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="{{ deck.hero.get_official_link }}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> {% translate "Go to details" %}</a></li>
-                                            <li><a class="dropdown-item card-reference-container" href="#" data-card-reference="{{ deck.hero.reference }}"><i class="fa-regular fa-copy"></i> {% translate "Copy card reference" %}</a></li>
-        {% if deck.owner == user %}
-                                            <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ deck.hero.reference }}"><i class="fa-solid fa-trash"></i> {% translate "Remove card" %}</a></li>
-        {% endif %}
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-    {% else %}
-                            <tr><td colspan="2" class="text-center">{% translate "No hero" %}</td></tr>
+        <div class="card-columns">
+            <!-- Card column 1 -->
+            <div class="card-column">
+                <!-- Hero table -->
+                <p><i class="fa-solid fa-person-hiking"></i> {% translate "Hero" %}</p>
+                <table class="table table-striped table-hover card-table" id="hero-table" aria-describedby="Deck hero">
+                    <thead>
+                        <tr>
+                            <!-- Show name and faction -->
+                            <th scope="col">{% translate "Name" %}</th>
+                            <th scope="col">{% translate "Faction" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+{% if deck.hero %}
+                        <tr class="table-light card-hover" data-image-url="{{ deck.hero.image_url }}">
+                            <!-- Hero name -->
+                            <td>{{ deck.hero.name }}</td>
+                            <!-- Hero faction -->
+                            <td>{% include "decks/snippets/picture_webp.html" with img_name=deck.hero.faction width=20 height=20 %} {{ deck.hero.get_faction_display|title }}</td>
+                            <!-- Hero options -->
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{{ deck.hero.get_official_link }}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> {% translate "Go to details" %}</a></li>
+                                        <li><a class="dropdown-item card-reference-container" href="#" data-card-reference="{{ deck.hero.reference }}"><i class="fa-regular fa-copy"></i> {% translate "Copy card reference" %}</a></li>
+    {% if deck.owner == user %}
+                                        <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ deck.hero.reference }}"><i class="fa-solid fa-trash"></i> {% translate "Remove card" %}</a></li>
     {% endif %}
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="col">
-                    <!-- Card table of characters -->
-                    <p><i class="fa-solid fa-people-group"></i> {% translate "Characters" %}</p>
-                    {% include "decks/snippets/card_table.html" with type="character" card_list=character_list %}
-                </div>
-
-                <div class="col">
-                    <!-- Card table of spells -->
-                    <p><i class="fa-solid fa-hat-wizard"></i> {% translate "Spells" %}</p>
-                    {% include "decks/snippets/card_table.html" with type="spell" card_list=spell_list %}
-                </div>
-
-                <div class="col">
-                    <!-- Card table of permanents -->
-                    <p><i class="fa-solid fa-landmark"></i> {% translate "Permanents" %}</p>
-                    {% include "decks/snippets/card_table.html" with type="permanent" card_list=permanent_list %}
-                </div>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+{% else %}
+                        <tr><td colspan="2" class="text-center">{% translate "No hero" %}</td></tr>
+{% endif %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- Card column 2 -->
+            <div class="card-column">
+                
+                <!-- Card table of characters -->
+                <p><i class="fa-solid fa-people-group"></i> {% translate "Characters" %}</p>
+                {% include "decks/snippets/card_table.html" with type="character" card_list=character_list %}
+            </div>
+            <!-- Card column 3 -->
+            <div class="card-column">
+                <!-- Card table of spells -->
+                <p><i class="fa-solid fa-hat-wizard"></i> {% translate "Spells" %}</p>
+                {% include "decks/snippets/card_table.html" with type="spell" card_list=spell_list %}
+            </div>
+            <!-- Card column 4 -->
+            <div class="card-column"><!-- Card table of permanents -->
+                <p><i class="fa-solid fa-landmark"></i> {% translate "Permanents" %}</p>
+                {% include "decks/snippets/card_table.html" with type="permanent" card_list=permanent_list %}
             </div>
         </div>
     </div>
+    
     <div class="row">
         <!-- Stats row -->
         <div class="border-bottom mb-4">
