@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-11 17:36+0200\n"
+"POT-Creation-Date: 2024-09-12 12:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -589,14 +589,15 @@ msgstr "Commenti"
 msgid "Login to use this feature!"
 msgstr "Effettuare l'accesso per utilizzare questa funzione!"
 
-#: decks/templates/decks/deck_detail.html:492 templates/base.html:170
+#: decks/templates/decks/deck_detail.html:492 templates/base.html:172
 msgid "Login"
 msgstr "Accedi"
 
 #: decks/templates/decks/deck_detail.html:520
 #: decks/templates/decks/own_deck_list.html:203
 #: decks/templates/decks/snippets/public_deck_table.html:85
-#: notifications/views.py:69
+#: notifications/templates/notifications/notification_list.html:18
+#: notifications/views.py:84
 #, python-format
 msgid "%(time_since)s ago"
 msgstr "%(time_since)s fa"
@@ -1080,6 +1081,15 @@ msgstr "%(actor)s ha creato il mazzo '%(deck_name)s'"
 msgid "%(actor)s started following you"
 msgstr "%(actor)s ha iniziato a seguirti"
 
+#: notifications/templates/notifications/notification_list.html:10
+msgid "Notifications"
+msgstr "Notifiche"
+
+#: notifications/templates/notifications/notification_list.html:24
+#: templates/base.html:142
+msgid "No notifications"
+msgstr "Nessuna notifica"
+
 #: profiles/templates/profiles/edit_profile.html:7
 #: profiles/templates/profiles/edit_profile.html:11
 #: profiles/templates/profiles/userprofile_detail.html:44
@@ -1375,58 +1385,58 @@ msgid "Auto"
 msgstr "Automatico"
 
 #: templates/base.html:140
-msgid "No notifications"
-msgstr "Nessuna notifica"
+msgid "View all notifications"
+msgstr "Vedi tutte le notifiche"
 
-#: templates/base.html:160
+#: templates/base.html:162
 msgid "Profile"
 msgstr "Profilo"
 
-#: templates/base.html:162
+#: templates/base.html:164
 msgid "Update email"
 msgstr "Aggiorna e-mail"
 
-#: templates/base.html:163
+#: templates/base.html:165
 msgid "Update password"
 msgstr "Aggiorna password"
 
-#: templates/base.html:165
+#: templates/base.html:167
 msgid "Logout"
 msgstr "Esci"
 
-#: templates/base.html:185
+#: templates/base.html:187
 msgid "Links"
 msgstr "Collegamenti"
 
-#: templates/base.html:188
+#: templates/base.html:190
 msgid "About the project"
 msgstr "Informazioni sul progetto"
 
-#: templates/base.html:191
+#: templates/base.html:193
 msgid "About the author"
 msgstr "Informazioni sull'autore"
 
-#: templates/base.html:194
+#: templates/base.html:196
 msgid "Collaborators"
 msgstr "Collaboratori"
 
-#: templates/base.html:197
+#: templates/base.html:199
 msgid "Privacy policy"
 msgstr "Informativa sulla privacy"
 
-#: templates/base.html:200
+#: templates/base.html:202
 msgid "Terms and conditions"
 msgstr "Termini e condizioni"
 
-#: templates/base.html:205
+#: templates/base.html:207
 msgid "Support the project"
 msgstr "Aiutare il progetto"
 
-#: templates/base.html:210
+#: templates/base.html:212
 msgid "Our Patrons"
 msgstr "I Nostri Mecenati"
 
-#: templates/base.html:214
+#: templates/base.html:216
 msgid "Get in touch"
 msgstr "Contattaci"
 

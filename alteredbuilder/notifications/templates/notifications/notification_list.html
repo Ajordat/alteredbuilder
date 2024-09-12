@@ -15,13 +15,13 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <h6 class="mb-0">{{ notification }}</h6>
-                            <small class="text-muted">{% blocktranslate with created_at=notification.created_at|timesince %}{{ created_at }} ago{% endblocktranslate %}</small>
+                            <small class="text-muted">{% blocktranslate with time_since=notification.created_at|timesince %}{{ time_since }} ago{% endblocktranslate %}</small>
                         </div>
                     </div>
                 </a>
     {% empty %}
                 <div class="list-group-item">
-                    <p class="mb-0 text-muted">{% translate "You have no notifications" %}</p>
+                    <p class="mb-0 text-muted">{% translate "No notifications" %}</p>
                 </div>
     {% endfor %}
             </div>
