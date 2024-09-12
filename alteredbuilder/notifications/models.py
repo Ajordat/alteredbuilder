@@ -30,7 +30,7 @@ class Notification(models.Model):
     def __str__(self) -> str:
         if not self.content_object:
             return _("New notification")
-        
+
         match self.verb:
             case NotificationType.COMMENT:
                 return _("%(actor)s commented on deck '%(deck_name)s'") % {

@@ -828,7 +828,7 @@ def import_card(request: HttpRequest) -> HttpResponse:
                 card = import_unique_card(reference)
                 # Automatically favorite the card
                 FavoriteCard.objects.create(user=request.user, card=card)
-                
+
                 # Fill the context
                 context["message"] = _(
                     "The card '%(card_name)s' (%(reference)s) was successfully imported."
