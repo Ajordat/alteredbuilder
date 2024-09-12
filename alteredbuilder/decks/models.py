@@ -149,6 +149,7 @@ class Card(models.Model):
 
     class Meta:
         ordering = ["reference"]
+        indexes = [models.Index(fields=["rarity"]), models.Index(fields=["faction"])]
 
 
 class Tag(models.Model):
