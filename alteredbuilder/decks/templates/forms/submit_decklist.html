@@ -56,7 +56,7 @@
 </div>
 
 <!-- Decklist field -->
-<p>{% translate "Or paste a decklist. Do follow ExAltered's decklist format:" %}</p>
+<p>{% translate "Paste a decklist. Do follow ExAltered's decklist format:" %}</p>
 <div class="mb-3">
     <label for="{{ form.decklist.id_for_label }}" class="form-label">{% translate "Decklist" %}</label>
     <textarea class="form-control{% if form.decklist.errors %} is-invalid{% endif %}" id="{{ form.decklist.auto_id }}" cols="10" rows="12" maxlength="{{ form.fields.decklist.max_length }}" name="{{ form.decklist.name }}" aria-describedby="{{ form.decklist.name }}-validation" required placeholder="1 ALT_CORE_B_LY_01_C&#10;2 ALT_CORE_B_LY_06_C&#10;1 ALT_CORE_B_LY_06_R1&#10;3 ALT_CORE_B_LY_09_R1&#10;...">{% firstof form.decklist.value "" %}</textarea>
