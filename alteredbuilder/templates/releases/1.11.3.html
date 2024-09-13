@@ -1,0 +1,57 @@
+{% load static %}
+{% load i18n %}
+
+<p>This new release provides a way to tag your decks!</p>
+<p>
+    Tag your decks with one of the following playstyles:
+    <span class="badge bg-primary">Aggro</span>, <span class="badge bg-primary">Midrange</span> or <span class="badge bg-primary">Control</span><br>    
+    And to further expand its categorization, add up to two of these tags:
+    <span class="badge bg-secondary">Combo</span>, <span class="badge bg-secondary">Disruption</span>, <span class="badge bg-secondary">Ramp</span> and <span class="badge bg-secondary">Token</span><br>
+    It is also possible to search for decks using these tags, so make sure to categorize your creations so they are easily found!
+</p>
+
+<ul class="list-group bg-info-subtle">
+    <li class="list-group-item"><strong>{% translate "New features" %}</strong>
+        <ul>
+            <li>New system to tag decks according to their playstyle.</li>
+            <li>Functionality to search decks by their tags. Check the dropdown of filters on the decks tab!</li>
+            <li>Added ordering to the lists of decks. It's now possible to sort by:
+                <ul>
+                    <li>Most loved decks</li>
+                    <li>Most viewed decks</li>
+                </ul>
+            </li>
+            <li>Added filtering to own decks.</li>
+            <li>Added infinite scrolling to own decks.</li>
+            <li>Added a view to see <a href="{% url "notification-list" %}">all the notifications</a>. Find it in the first row of the notifications dropdown.</li>
+            <li><mark>Added a way to import your decks from the official deck builder! <a href="{% url "new-deck" %}">Check it out.</a></mark></li>
+        </ul>
+    </li>
+
+    <li class="list-group-item"><strong>{% translate "Fixes" %}</strong>
+        <ul>
+            <li>Bug where the notification fetching failed for unauthenticated users instead of displaying a custom message.</li>
+            <li>Bug where client translations (e.g. popups and deck statistics) did not appear in the selected language.</li>
+            <li>Bug where the mana curve was incomplete.</li>
+        </ul>
+    </li>
+
+    <li class="list-group-item"><strong>{% translate "Other changes" %}</strong>
+        <ul>
+            <li>Added certain expensive queries to a cache to improve user experience. For example, the trending cards, the trending decks and the community statistics.</li>
+            <li>Limited the notification dropdown to the last 10 items.</li>
+            <li>Removed the limit of 20 rows when displaying the list of followers.</li>
+            <li>Minor UI improvements to deck list views.</li>
+            <li>Added minor highlight to changes when releasing a fix version (e.g. highlight the changes in this text when going from 1.11.0 to 1.11.1).</li>
+            <li>The notifications dropdown now only returns the 10 last unread notifications.</li>
+        </ul>
+    </li>
+
+    <li class="list-group-item"><strong>{% translate "Announcements" %}</strong>
+        <ul>
+            <li><mark>We created a Discord server! Join if you want to keep up to date with the latest releases, report bugs or request features:</mark> <a href="https://discord.gg/hGA3dTcxqz" target="_blank" class="no-underline"><i class="fa-brands fa-discord"></i> <u>Discord Server</u></a></li>
+            <li>If you're a German native speaker and would like to contribute by providing better translations, please reach me out on <a href="https://discordapp.com/users/501840797159653389" target="_blank">Discord</a>.</li>
+            <li>Consider supporting the project on <a href="http://www.patreon.com/Ajordat" target="_blank">Patreon</a>, <a href="https://buymeacoffee.com/ajordat" target="_blank">Buy me a coffe</a> or <a href="https://fr.tipeee.com/ajordat/" target="_blank">Tipeee</a> if you enjoy using the platform and consider that we're doing a good job expanding the platform.</li>
+        </ul>
+    </li>
+</ul>
