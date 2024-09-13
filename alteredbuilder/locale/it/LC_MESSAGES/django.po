@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-13 16:36+0200\n"
+"POT-Creation-Date: 2024-09-13 17:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -377,13 +377,13 @@ msgid "Copy deck"
 msgstr "Copia mazzo"
 
 #: decks/templates/decks/deck_detail.html:149
-#: decks/templates/decks/new_deck.html:82
+#: decks/templates/decks/new_deck.html:113
 #: decks/templates/forms/submit_decklist.html:61
 msgid "Decklist"
 msgstr "Lista del mazzo"
 
 #: decks/templates/decks/deck_detail.html:167
-#: decks/templates/decks/new_deck.html:54
+#: decks/templates/decks/new_deck.html:85
 #: decks/templates/decks/own_deck_list.html:130
 #: decks/templates/decks/snippets/card_table.html:11
 #: decks/templates/decks/snippets/public_deck_table.html:13
@@ -648,7 +648,7 @@ msgid "Login to save your loved decks!"
 msgstr "Accedi per aggiungere mi piace ai mazzi!"
 
 #: decks/templates/decks/deck_list.html:83
-#: decks/templates/decks/new_deck.html:70
+#: decks/templates/decks/new_deck.html:101
 #: decks/templates/decks/own_deck_list.html:85
 #: decks/templates/forms/submit_deck_metadata.html:24
 #: decks/templates/forms/submit_decklist.html:28
@@ -753,48 +753,71 @@ msgstr ""
 msgid "New Deck"
 msgstr "Nuovo mazzo"
 
-#: decks/templates/decks/new_deck.html:21
+#: decks/templates/decks/new_deck.html:15
 msgid "Import a Deck"
 msgstr "Importare un mazzo"
 
-#: decks/templates/decks/new_deck.html:28
+#: decks/templates/decks/new_deck.html:22
 msgid "From the official deck builder"
 msgstr "Dal costruttore di mazzi ufficiale"
 
-#: decks/templates/decks/new_deck.html:29
+#: decks/templates/decks/new_deck.html:23
 msgid ""
-"If you have a deck on the official deck builder, input the deck's link or ID "
-"below to prefill your decklist:"
-msgstr "Se hai un mazzo sul deck builder ufficiale, inserisci il link o l'ID del mazzo qui sotto per precompilare la tua decklist:"
+"If you have a public deck on the official deck builder, input the deck's "
+"link or ID below to prefill your decklist:"
+msgstr ""
+"Se hai un mazzo pubblico sul deck builder ufficiale, inserisci il link o l'ID del "
+"mazzo qui sotto per precompilare la tua decklist:"
 
-#: decks/templates/decks/new_deck.html:31
+#: decks/templates/decks/new_deck.html:25
 msgid "Official Deck"
 msgstr "Mazzo ufficiale"
 
-#: decks/templates/decks/new_deck.html:33
+#: decks/templates/decks/new_deck.html:27
 msgid "Enter the deck's link or its ID"
 msgstr "Inserire il link del mazzo o il suo ID"
 
-#: decks/templates/decks/new_deck.html:40
+#: decks/templates/decks/new_deck.html:34
 msgid "This will automatically fill the fields with the official deck."
-msgstr "Questo riempirà automaticamente i campi con i valori del mazzo ufficiale."
+msgstr ""
+"Questo riempirà automaticamente i campi con i valori del mazzo ufficiale."
 
-#: decks/templates/decks/new_deck.html:48
+#: decks/templates/decks/new_deck.html:43
+msgid "How can I get the ID of a deck?"
+msgstr "Come posso ottenere l'ID di un mazzo?"
+
+#: decks/templates/decks/new_deck.html:50
+msgid ""
+"A deck's ID is the characters on the right of the URL.<br>Or you could "
+"simply input the whole link."
+msgstr "L'ID di un mazzo è costituito dai caratteri a destra dell'URL.<br>"
+"Oppure si può semplicemente inserire l'intero link."
+
+#: decks/templates/decks/new_deck.html:58
+msgid "How can I make a deck public?"
+msgstr "Come posso rendere pubblico un mazzo?"
+
+#: decks/templates/decks/new_deck.html:65
+msgid "After clicking on the pencil, modify the checkbox so that it's public."
+msgstr "Dopo aver fatto clic sulla matita, modificare la casella di controllo "
+"in modo che sia pubblica."
+
+#: decks/templates/decks/new_deck.html:79
 msgid "From another platform"
 msgstr "Da un'altra piattaforma"
 
-#: decks/templates/decks/new_deck.html:52
+#: decks/templates/decks/new_deck.html:83
 #: decks/templates/forms/submit_decklist.html:10
 msgid "Use a cool name for your deck:"
 msgstr "Usa un bel nome per il tuo mazzo:"
 
-#: decks/templates/decks/new_deck.html:61
+#: decks/templates/decks/new_deck.html:92
 #: decks/templates/forms/submit_deck_metadata.html:16
 #: decks/templates/forms/submit_decklist.html:19
 msgid "Please name your deck"
 msgstr "Per favore dai un nome al tuo mazzo"
 
-#: decks/templates/decks/new_deck.html:68
+#: decks/templates/decks/new_deck.html:99
 #: decks/templates/forms/submit_decklist.html:26
 #, python-format
 msgid ""
@@ -804,28 +827,28 @@ msgstr ""
 "Facoltativamente, aggiungi una descrizione/spiegazione del tuo mazzo "
 "(sentiti libero di utilizzare <a href=\"%(md_url)s\">markdown</a>):"
 
-#: decks/templates/decks/new_deck.html:80
+#: decks/templates/decks/new_deck.html:111
 #: decks/templates/forms/submit_decklist.html:59
 msgid "Paste a decklist. Do follow ExAltered's decklist format:"
 msgstr "Incolla una lista del mazzo. Segui il formato di ExAltered:"
 
-#: decks/templates/decks/new_deck.html:88
+#: decks/templates/decks/new_deck.html:119
 #: decks/templates/forms/submit_decklist.html:67
 msgid "Please write your decklist"
 msgstr "Per favore scrivi la tua lista del mazzo"
 
-#: decks/templates/decks/new_deck.html:94
+#: decks/templates/decks/new_deck.html:125
 #: decks/templates/forms/submit_decklist.html:73
 msgid "Do you want your deck to be public?"
 msgstr "Vuoi che il tuo mazzo sia pubblico?"
 
-#: decks/templates/decks/new_deck.html:99
+#: decks/templates/decks/new_deck.html:130
 #: decks/templates/forms/submit_deck_metadata.html:39
 #: decks/templates/forms/submit_decklist.html:78
 msgid "Public"
 msgstr "Pubblico"
 
-#: decks/templates/decks/new_deck.html:104
+#: decks/templates/decks/new_deck.html:135
 #: decks/templates/forms/submit_decklist.html:83
 msgid "Import"
 msgstr "Importa"
