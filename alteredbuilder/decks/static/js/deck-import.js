@@ -25,7 +25,7 @@ async function importOfficialDeck(deckCode) {
 }
 
 function setLoadingStatus() {
-    let elementIds = ["official_deck_id", "load_deck", "id_name", "id_description", "id_decklist"];
+    let elementIds = ["official_deck_id", "load_deck", "id_name", "id_description", "id_decklist", "submit-new-deck"];
     for (let elementId of elementIds) {
         document.getElementById(elementId).disabled = true;
     }
@@ -34,7 +34,7 @@ function setLoadingStatus() {
 }
 
 function setReadyStatus() {
-    let elementIds = ["official_deck_id", "load_deck", "id_name", "id_description", "id_decklist"];
+    let elementIds = ["official_deck_id", "load_deck", "id_name", "id_description", "id_decklist", "submit-new-deck"];
     for (let elementId of elementIds) {
         document.getElementById(elementId).disabled = false;
     }
