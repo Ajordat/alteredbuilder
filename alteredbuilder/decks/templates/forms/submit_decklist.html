@@ -2,6 +2,10 @@
 {% load static %}
 {% load i18n %}
 
+
+<!-- DEPRECATED -->
+<!-- THIS FORM IS CURRENTLY ON THE TEMPLATE ITSELF -->
+
 <!-- Name field -->
 <p>{% translate "Use a cool name for your deck:" %}</p>
 <div class="row mb-3">
@@ -22,11 +26,32 @@
 <p>{% url 'markdown' as md_url %}{% blocktranslate %}Optionally, add a description/explanation of your deck (feel free to use <a href="{{ md_url }}">markdown</a>): {% endblocktranslate %}</p>
 <div class="mb-3">
     <label for="{{ form.description.id_for_label }}" class="col-sm-2 col-form-label">{% translate "Description" %}</label>
-    <textarea class="form-control{% if form.description.errors %} is-invalid{% endif %}" id="{{ form.description.auto_id }}" cols="10" rows="5" maxlength="{{ form.fields.description.max_length }}" name="{{ form.description.name }}" aria-describedby="{{ form.description.name }}-validation">{% firstof form.description.value "" %}</textarea>
+    <textarea class="form-control {% if form.description.errors %}is-invalid{% endif %}" id="{{ form.description.auto_id }}" cols="10" rows="5" maxlength="{{ form.fields.description.max_length }}" name="{{ form.description.name }}" aria-describedby="{{ form.description.name }}-validation">{% firstof form.description.value "" %}</textarea>
     <div id="{{ form.description.name }}-validation" class="invalid-feedback">
 {% for error in form.description.errors %}
         {{error}}<br>
 {% endfor %}
+    </div>
+</div>
+
+<!-- Deck Builder ID field -->
+<div class="card">
+    <div class="card-body">
+        <p class="card-text">If you have a deck on the official deck builder, provide the deck ID below to prefill your decklist:</p>
+        <div class="mb-3">
+            <label for="official_deck_id" class="form-label">Official Deck Builder ID</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="official_deck_id" name="deck_builder_id" placeholder="Enter the official deck ID here" aria-describedby="deck-builder-id-help">
+                <button class="btn btn-outline-secondary" type="button" id="load_deck">
+                    <span id="load-icon" class="spinner-border spinner-border-sm" aria-hidden="true" style="display: none"></span>
+                    <i id="ready-icon" class="fa-solid fa-arrow-right-to-bracket"></i>
+                </button>
+            </div>
+            <div id="deck_builder_id-validation" class="invalid-feedback">
+                test<br>
+            </div>
+            <small id="deck-builder-id-help" class="form-text text-muted">This will automatically fill the decklist field below with your saved deck.</small>
+        </div>
     </div>
 </div>
 

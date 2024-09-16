@@ -125,12 +125,7 @@
         </div>
     {% endif %}
         <!-- Goldfishing access -->
-        <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" data-bs-title="{% blocktranslate with time_until_release=release_date|timeuntil %}This feature is temporarily disabled<br>until release (in {{ time_until_release }}){% endblocktranslate %}">
-            <button type="button" class="btn btn-outline-primary btn-sm" disabled>
-                <i class="fa-solid fa-fish"></i> {% translate "Playtest!" %} <i class="fa-solid fa-arrow-up-right-from-square"></i>
-            </button>
-        </div>
-    {% comment %} {% if stats.rarity_distribution.unique %}
+    {% if stats.rarity_distribution.unique %}
         <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'This feature cannot be used with unique cards' %}">
             <button type="button" class="btn btn-outline-primary btn-sm" disabled>
                 <i class="fa-solid fa-fish"></i> {% translate "Playtest!" %} <i class="fa-solid fa-arrow-up-right-from-square"></i>
@@ -142,7 +137,7 @@
                 <i class="fa-solid fa-fish"></i> {% translate "Playtest!" %} <i class="fa-solid fa-arrow-up-right-from-square"></i>
             </a>
         </div>
-    {% endif %} {% endcomment %}
+    {% endif %}
         <div class="col">
             <!-- Copy Deck button-->
             <a type="button" class="btn btn-outline-primary btn-sm" href="{% url 'new-deck' %}?decklist={{ decklist|urlencode }}">

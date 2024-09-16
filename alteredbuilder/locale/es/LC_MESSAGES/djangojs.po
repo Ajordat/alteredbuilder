@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-16 19:57+0200\n"
+"POT-Creation-Date: 2024-09-16 20:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,6 +53,14 @@ msgstr "No se pudo votar el comentario"
 #: decks/static/js/deck-detail.js:203
 msgid "Unable to delete the comment"
 msgstr "No se pudo eliminar el comentario"
+
+#: decks/static/js/deck-import.js:11
+msgid "The deck with ID \"%(code)s\" was not found"
+msgstr "El mazo con el ID \"%(code)s\" no se ha encontrado."
+
+#: decks/static/js/deck-import.js:63
+msgid "Input the Deck's ID or its URL."
+msgstr "Introduce el ID o la URL del mazo."
 
 #: decks/static/js/deck-sidebar.js:182
 msgid "Common"
