@@ -42,9 +42,11 @@ function getBaseChartOptions() {
         },
         tooltip: {
             ignoreBounds: true,
-            isHtml: true,
             text: "percentage",
             trigger: "focus"
+        },
+        legend: {
+            position: "right"
         }
     };
 

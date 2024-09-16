@@ -85,6 +85,7 @@ html[data-bs-theme="light"] .card-table tr[data-rarity="unique"] {
 html[data-bs-theme="dark"] .card-table tr[data-rarity="unique"] {
     --bs-table-bg: #ffafb6;
 }
+
 /* Basic styling for the card-view container */
 .card-view-container {
     display: grid;
