@@ -14,11 +14,13 @@ from trends.models import CardTrend, DeckTrend, FactionTrend, HeroTrend
 
 class FilterHeroForm(forms.ModelForm):
     class Meta:
-        fields = '__all__'
+        fields = "__all__"
 
     def __init__(self, *args, **kwargs):
         super(FilterHeroForm, self).__init__(*args, **kwargs)
-        self.fields['hero'].queryset = Card.objects.filter(type=Card.Type.HERO, set__code="CORE")
+        self.fields["hero"].queryset = Card.objects.filter(
+            type=Card.Type.HERO, set__code="CORE"
+        )
 
 
 class TrendUtilities:
