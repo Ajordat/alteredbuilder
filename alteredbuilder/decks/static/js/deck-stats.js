@@ -23,6 +23,12 @@ function drawChart() {
     
     let options = {
         backgroundColor: "transparent",
+        chartArea: {
+            left: "25%",
+            top: 0,
+            width: "100%",
+            height: "100%"
+        },
         slices: [
             {color: "#3F9B0B"},
             {color: "#CD853F"},
@@ -85,13 +91,19 @@ function drawManaCurve() {
     }
     data = google.visualization.arrayToDataTable(data);
 
-    let options = {};
-    if (document.documentElement.getAttribute("data-bs-theme") === "dark") {
-        options = {
+    let options = {
+        bars: "vertical",
+        chartArea: {
             backgroundColor: "transparent",
-            chartArea: {
-                backgroundColor: "transparent"
-            },
+            left: "100%",
+            top: "0%",
+            width: "100%",
+            height: "100%",
+        }
+    };
+    if (document.documentElement.getAttribute("data-bs-theme") === "dark") {
+        options = {...options, ...{
+            backgroundColor: "transparent",
             hAxis: {
                 textStyle: {
                     color: chartTextColor
@@ -107,10 +119,9 @@ function drawManaCurve() {
                     color: chartTextColor
                 }
             }
-        };
+        }};
     }
     
-    options["bars"] = "vertical";
 
     let chart = new google.charts.Bar(document.getElementById('mana-curve-chart'));
     chart.draw(data, google.charts.Bar.convertOptions(options));
