@@ -34,11 +34,19 @@ function drawCharts() {
 function getBaseChartOptions() {
     let options = {
         backgroundColor: "transparent",
+        chartArea: {
+            left: "25%",
+            top: 0,
+            width: "100%",
+            height: "100%"
+        },
         tooltip: {
             ignoreBounds: true,
-            isHtml: true,
             text: "percentage",
             trigger: "focus"
+        },
+        legend: {
+            position: "right"
         }
     };
 

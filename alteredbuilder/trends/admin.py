@@ -4,14 +4,28 @@ from typing import Any
 
 from django.conf import settings
 from django.contrib import admin
+from django import forms
 from django.http import HttpRequest
 from django.utils.timezone import localdate
 
+from decks.models import Card
 from trends.models import CardTrend, DeckTrend, FactionTrend, HeroTrend
+
+
+class FilterHeroForm(forms.ModelForm):
+    class Meta:
+        fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        super(FilterHeroForm, self).__init__(*args, **kwargs)
+        self.fields["hero"].queryset = Card.objects.filter(
+            type=Card.Type.HERO, set__code="CORE"
+        )
 
 
 class TrendUtilities:
     actions = ["move_trend"]
+    form = FilterHeroForm
 
     def get_actions(self, request: HttpRequest) -> OrderedDict[Any, Any]:
         actions = super().get_actions(request)

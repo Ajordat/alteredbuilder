@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-13 16:28+0200\n"
+"POT-Creation-Date: 2024-09-16 20:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -104,15 +104,15 @@ msgstr "magie"
 msgid "permanents"
 msgstr "permanenti"
 
-#: decks/static/js/deck-stats.js:79
+#: decks/static/js/deck-stats.js:85
 msgid "Cost"
 msgstr "Costo"
 
-#: decks/static/js/deck-stats.js:79
+#: decks/static/js/deck-stats.js:85
 msgid "Hand"
 msgstr "Mano"
 
-#: decks/static/js/deck-stats.js:79
+#: decks/static/js/deck-stats.js:85
 msgid "Reserve"
 msgstr "Riserva"
 
