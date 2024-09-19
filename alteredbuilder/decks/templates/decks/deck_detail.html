@@ -201,18 +201,20 @@
                     <p><i class="fa-solid fa-people-group"></i> {% translate "Characters" %}</p>
                     {% include "decks/snippets/card_table.html" with type="character" card_list=character_list %}
                 </div>
-
+    {% if spell_list %}
                 <div class="col">
                     <!-- Card table of spells -->
                     <p><i class="fa-solid fa-hat-wizard"></i> {% translate "Spells" %}</p>
                     {% include "decks/snippets/card_table.html" with type="spell" card_list=spell_list %}
                 </div>
-
+    {% endif %}
+    {% if permanent_list %}
                 <div class="col">
                     <!-- Card table of permanents -->
                     <p><i class="fa-solid fa-landmark"></i> {% translate "Permanents" %}</p>
                     {% include "decks/snippets/card_table.html" with type="permanent" card_list=permanent_list %}
                 </div>
+    {% endif %}
             </div>
         </div>
     </div>
