@@ -10,7 +10,7 @@ function getDropdownItem(message) {
 }
 
 function clearNotifications() {
-    let notificationItems = notificationDropdown.getElementsByClassName("notification-item");ç
+    let notificationItems = notificationDropdown.getElementsByClassName("notification-item");
     for (let i = notificationItems.length - 1; i >= 0; i--) {
         notificationItems[i].remove();
     }
