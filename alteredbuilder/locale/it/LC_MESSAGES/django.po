@@ -1054,7 +1054,7 @@ msgstr ""
 #: decks/templates/decks/tooltips/deck_query_search.html:30
 msgid ""
 "Search decks where its the name contains \"Starter\" with the hero \"Kojo\":"
-msgstr "Cerca i mazzi il cui nome contiene \"Starter\" con l'eroe \"Kojo\":"
+msgstr "Cerca i mazzi il cui nome contiene \"Starter\" con l&#39;eroe \"Kojo\":"
 
 #: decks/templates/decks/tooltips/deck_timestamps.html:4
 #, python-format
