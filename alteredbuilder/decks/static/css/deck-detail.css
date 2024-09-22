@@ -8,10 +8,24 @@
     height: 500px;
 }
 
+/* Sticky behavior for large and medium screens */
+.sticky-column {
+    position: sticky;
+    top: 70px;
+}
+
+@media (max-width: 576px) {
+    /* Disable sticky behavior on small screens */
+    .sticky-column {
+        position: static;
+    }
+}
+
+
 #card-showcase {
     max-height: 500px;
     position: sticky;
-    top: 60px;
+    top: 70px;
 }
 
 #deck-qr-code{
