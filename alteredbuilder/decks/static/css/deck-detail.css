@@ -1,14 +1,4 @@
-#mana-curve-chart {
-    width: 500px;
-    height: 300px;
-}
 
-#distribution-pie-chart {
-    width: 500px;
-    height: 500px;
-}
-
-/* Sticky behavior for large and medium screens */
 .sticky-column {
     position: sticky;
     top: 70px;

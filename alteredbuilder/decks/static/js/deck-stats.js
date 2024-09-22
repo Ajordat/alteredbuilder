@@ -99,8 +99,14 @@ function drawManaCurve() {
             top: "0%",
             width: "100%",
             height: "100%",
+        },
+        legend: {
+            position: "top"
         }
     };
+    if (window.innerWidth < 500) {
+        options["legend"]["position"] = "none";
+    }
     if (document.documentElement.getAttribute("data-bs-theme") === "dark") {
         options = {...options, ...{
             backgroundColor: "transparent",
@@ -121,7 +127,6 @@ function drawManaCurve() {
             }
         }};
     }
-    
 
     let chart = new google.charts.Bar(document.getElementById('mana-curve-chart'));
     chart.draw(data, google.charts.Bar.convertOptions(options));
