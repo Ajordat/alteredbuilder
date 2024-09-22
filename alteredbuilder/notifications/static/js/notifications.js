@@ -10,11 +10,10 @@ function getDropdownItem(message) {
 }
 
 function clearNotifications() {
-    let notificationItems = notificationDropdown.getElementsByClassName("notification-item");
-    for (let notificationItem of notificationItems) {
-        notificationItem.remove();
+    let notificationItems = notificationDropdown.getElementsByClassName("notification-item");ç
+    for (let i = notificationItems.length - 1; i >= 0; i--) {
+        notificationItems[i].remove();
     }
-
 }
 
 function setNotificationMessage(message) {
