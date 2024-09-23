@@ -29,7 +29,7 @@ jobs:
     - name: Configure Google Cloud SQL Auth Proxy
       uses: mattes/gce-cloudsql-proxy-action@v1
       with:
-        creds: ${{ secrets.GCP_GITHUB_SA }}
+        creds: ${{ secrets.GCP_GITHUB_SA_JSON }}
         instance: ${{ secrets.CLOUD_SQL_INSTANCE }}
         port: 5432
     - name: Update the card pool

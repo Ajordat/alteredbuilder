@@ -26,7 +26,7 @@ jobs:
       id: auth
       uses: google-github-actions/auth@v2
       with:
-        credentials_json: ${{ secrets.GCP_GITHUB_SA }}
+        credentials_json: ${{ secrets.GCP_GITHUB_SA_JSON }}
     - name: Set up gcloud
       uses: google-github-actions/setup-gcloud@v2
     - name: Set up docker
@@ -50,7 +50,7 @@ jobs:
       id: auth
       uses: google-github-actions/auth@v2
       with:
-        credentials_json: ${{ secrets.GCP_GITHUB_SA }}
+        credentials_json: ${{ secrets.GCP_GITHUB_SA_JSON }}
     - name: Deploy to Cloud Run
       uses: google-github-actions/deploy-cloudrun@v2
       with:

@@ -81,7 +81,7 @@ jobs:
       id: auth
       uses: google-github-actions/auth@v2
       with:
-        credentials_json: ${{ secrets.GCP_GITHUB_SA }}
+        credentials_json: ${{ secrets.GCP_GITHUB_SA_JSON }}
     - name: Set up gcloud
       uses: google-github-actions/setup-gcloud@v2
     - name: Set up docker
@@ -110,7 +110,7 @@ jobs:
     - name: Configure Google Cloud SQL Auth Proxy
       uses: mattes/gce-cloudsql-proxy-action@v1
       with:
-        creds: ${{ secrets.GCP_GITHUB_SA }}
+        creds: ${{ secrets.GCP_GITHUB_SA_JSON }}
         instance: ${{ secrets.CLOUD_SQL_INSTANCE }}
         port: 5432
     - name: Run migrations
@@ -142,7 +142,7 @@ jobs:
         DATABASE_URL: ${{ secrets.MIGRATION_DATABASE_URL }}
         USE_GCS_STATICS: True
         GCS_BUCKET_STATICS: ${{ vars.GCS_BUCKET_STATICS }}
-        GCP_GITHUB_SA: ${{ secrets.GCP_GITHUB_SA }}
+        GCP_GITHUB_SA: ${{ secrets.GCP_GITHUB_SA_JSON }}
 
   deploy:
     name: Deploy to Cloud Run
@@ -162,7 +162,7 @@ jobs:
       id: auth
       uses: google-github-actions/auth@v2
       with:
-        credentials_json: ${{ secrets.GCP_GITHUB_SA }}
+        credentials_json: ${{ secrets.GCP_GITHUB_SA_JSON }}
     - name: Create SHORT_SHA variable
       id: vars
       run: echo "sha_short=$(git rev-parse --short ${{ github.sha }})" >> $GITHUB_OUTPUT
