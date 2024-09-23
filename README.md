@@ -1,18 +1,32 @@
 # Altered TCG Builder
 
-[![Django CICD](https://github.com/Ajordat/alteredbuilder/actions/workflows/django_cicd.yml/badge.svg)](https://github.com/Ajordat/alteredbuilder/actions/workflows/django_cicd.yml)
-[![Update card pool](https://github.com/Ajordat/alteredbuilder/actions/workflows/update_card_pool.yml/badge.svg)](https://github.com/Ajordat/alteredbuilder/actions/workflows/update_card_pool.yml)
+[![](https://dcbadge.limes.pink/api/server/https://discord.gg/aSj8wR3qqu?style=flat)](https://discord.gg/https://discord.gg/aSj8wR3qqu)
 
-Application to build, analyze and share Altered TCG decks.
+[![Django CICD](https://github.com/Ajordat/alteredbuilder/actions/workflows/django_cicd.yml/badge.svg)](https://github.com/Ajordat/alteredbuilder/actions/workflows/django_cicd.yml)
+
+
+Application to build, analyze and share Altered TCG decks: [altered.ajordat.com](https://altered.ajordat.com)
+
+Our goal with this open-source release is to invite users, developers, and enthusiasts to actively participate in the growth of this project.
+We believe that open collaboration will lead to more features, faster development, and a platform that serves the needs of the Altered TCG community.
+
+Running this platform comes with ongoing hosting and maintenance costs. If you enjoy using the platform and would like to support its continued development, consider making a donation or becoming a sponsor. Your contributions help us cover expenses and ensure the platform remains free for everyone.
+
+We welcome contributions of all types! Whether it’s fixing bugs, adding new features, or simply giving feedback, every bit of help is appreciated.
+If you encounter issues, have suggestions, or want to share ideas for new features, please open an issue or join our [Discord](https://discord.gg/aSj8wR3qqu) for discussion.
+
+A big thank you to our growing community of users who have supported this project from the beginning. Your feedback help make this platform what it is today.
 
 ## Initial setup
 
 Initialize the database container. Once the database is ready to accept connections, terminate the container (Ctrl+C).
+
+This is done because this container takes a bit more to initialize than the `web` one, thus that one fails while `db` is still being created. We want to give this one enough time to properly setup.
 ```bash
 docker compose run db
 ```
 
-Apply the remaining migrations:
+Apply the database migrations:
 ```bash
 docker compose run web python manage.py migrate
 ```
