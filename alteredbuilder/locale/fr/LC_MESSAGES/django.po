@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-16 20:12+0200\n"
+"POT-Creation-Date: 2024-09-24 14:49+0200\n"
 "PO-Revision-Date: 2024-05-22 18:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -191,27 +191,27 @@ msgstr "Factions"
 #: decks/templates/decks/card_list.html:71
 #: decks/templates/decks/card_list.html:115
 #: decks/templates/decks/card_list.html:149
-#: decks/templates/decks/deck_detail.html:237
+#: decks/templates/decks/deck_detail.html:235
 msgid "Rarity"
 msgstr "Rareté"
 
 #: decks/templates/decks/card_list.html:72
-#: decks/templates/decks/deck_detail.html:243
+#: decks/templates/decks/deck_detail.html:241
 msgid "Common"
 msgstr "Commune"
 
 #: decks/templates/decks/card_list.html:73
-#: decks/templates/decks/deck_detail.html:247
+#: decks/templates/decks/deck_detail.html:245
 msgid "Rare"
 msgstr "Rare"
 
 #: decks/templates/decks/card_list.html:74
-#: decks/templates/decks/deck_detail.html:251
+#: decks/templates/decks/deck_detail.html:249
 msgid "Unique"
 msgstr "Unique"
 
 #: decks/templates/decks/card_list.html:78
-#: decks/templates/decks/deck_detail.html:261
+#: decks/templates/decks/deck_detail.html:259
 msgid "Type"
 msgstr "Type"
 
@@ -220,7 +220,7 @@ msgid "Character"
 msgstr "Personnage"
 
 #: decks/templates/decks/card_list.html:80
-#: decks/templates/decks/deck_detail.html:162
+#: decks/templates/decks/deck_detail.html:160
 #: decks/templates/decks/own_deck_list.html:134
 #: decks/templates/decks/snippets/public_deck_table.html:17
 #: profiles/templates/profiles/userprofile_detail.html:101
@@ -345,17 +345,17 @@ msgid "Options"
 msgstr "Options"
 
 #: decks/templates/decks/deck_detail.html:120
-#: decks/templates/decks/deck_detail.html:379
+#: decks/templates/decks/deck_detail.html:377
 msgid "Edit tags"
 msgstr "Modifier les tags"
 
 #: decks/templates/decks/deck_detail.html:121
-#: decks/templates/decks/deck_detail.html:358
+#: decks/templates/decks/deck_detail.html:356
 msgid "Edit metadata"
 msgstr "Modifier les champs de deck"
 
 #: decks/templates/decks/deck_detail.html:122
-#: decks/templates/decks/deck_detail.html:430
+#: decks/templates/decks/deck_detail.html:428
 msgid "Delete deck"
 msgstr "Supprimer le deck"
 
@@ -382,7 +382,7 @@ msgstr "Copier le deck"
 msgid "Decklist"
 msgstr "Decklist"
 
-#: decks/templates/decks/deck_detail.html:167
+#: decks/templates/decks/deck_detail.html:165
 #: decks/templates/decks/new_deck.html:85
 #: decks/templates/decks/own_deck_list.html:131
 #: decks/templates/decks/snippets/card_table.html:11
@@ -394,115 +394,115 @@ msgstr "Decklist"
 msgid "Name"
 msgstr "Nom"
 
-#: decks/templates/decks/deck_detail.html:168
+#: decks/templates/decks/deck_detail.html:166
 #: decks/templates/decks/own_deck_list.html:133
 #: decks/templates/decks/snippets/public_deck_table.html:16
 msgid "Faction"
 msgstr "Faction"
 
-#: decks/templates/decks/deck_detail.html:183
+#: decks/templates/decks/deck_detail.html:181
 #: decks/templates/decks/snippets/card_table.html:27
 msgid "Go to details"
 msgstr "Voir les détails"
 
-#: decks/templates/decks/deck_detail.html:184
+#: decks/templates/decks/deck_detail.html:182
 #: decks/templates/decks/snippets/card_table.html:28
 msgid "Copy card reference"
 msgstr "Copier la référence de la carte"
 
-#: decks/templates/decks/deck_detail.html:186
+#: decks/templates/decks/deck_detail.html:184
 #: decks/templates/decks/snippets/card_table.html:30
 msgid "Remove card"
 msgstr "Retirer carte"
 
-#: decks/templates/decks/deck_detail.html:193
+#: decks/templates/decks/deck_detail.html:191
 msgid "No hero"
 msgstr "Pas de héros"
 
-#: decks/templates/decks/deck_detail.html:201
-#: decks/templates/decks/deck_detail.html:268
-msgid "Characters"
-msgstr "Personnages"
-
-#: decks/templates/decks/deck_detail.html:207
-#: decks/templates/decks/deck_detail.html:273
+#: decks/templates/decks/deck_detail.html:198
+#: decks/templates/decks/deck_detail.html:271
 msgid "Spells"
 msgstr "Sorts"
 
-#: decks/templates/decks/deck_detail.html:213
-#: decks/templates/decks/deck_detail.html:278
+#: decks/templates/decks/deck_detail.html:204
+#: decks/templates/decks/deck_detail.html:276
 msgid "Permanents"
 msgstr "Permanents"
 
-#: decks/templates/decks/deck_detail.html:223
+#: decks/templates/decks/deck_detail.html:212
+#: decks/templates/decks/deck_detail.html:266
+msgid "Characters"
+msgstr "Personnages"
+
+#: decks/templates/decks/deck_detail.html:221
 msgid "Stats"
 msgstr "Statistiques"
 
-#: decks/templates/decks/deck_detail.html:227
+#: decks/templates/decks/deck_detail.html:225
 msgid "Card Type Distribution"
 msgstr "Distribution des types de carte"
 
-#: decks/templates/decks/deck_detail.html:233
+#: decks/templates/decks/deck_detail.html:231
 msgid "Rarity distribution"
 msgstr "Distribution des raretés"
 
-#: decks/templates/decks/deck_detail.html:238
+#: decks/templates/decks/deck_detail.html:236
 msgid "Count"
 msgstr "Nombre"
 
-#: decks/templates/decks/deck_detail.html:257
+#: decks/templates/decks/deck_detail.html:255
 msgid "Probability of drawing"
 msgstr "Probabilité de pioche"
 
-#: decks/templates/decks/deck_detail.html:262
+#: decks/templates/decks/deck_detail.html:260
 msgid "Anytime"
 msgstr "N'importe quand"
 
-#: decks/templates/decks/deck_detail.html:263
+#: decks/templates/decks/deck_detail.html:261
 msgid "Initial hand"
 msgstr "Main de départ"
 
-#: decks/templates/decks/deck_detail.html:285
+#: decks/templates/decks/deck_detail.html:283
 msgid "Format legality"
 msgstr "Légalité"
 
-#: decks/templates/decks/deck_detail.html:289
+#: decks/templates/decks/deck_detail.html:287
 msgid "Format"
 msgstr "Format"
 
-#: decks/templates/decks/deck_detail.html:290
+#: decks/templates/decks/deck_detail.html:288
 msgid "Is it legal?"
 msgstr "Est-il légal ?"
 
-#: decks/templates/decks/deck_detail.html:291
+#: decks/templates/decks/deck_detail.html:289
 msgid "Notes"
 msgstr "Notes"
 
-#: decks/templates/decks/deck_detail.html:296
+#: decks/templates/decks/deck_detail.html:294
 #: decks/templates/decks/deck_list.html:58
 #: decks/templates/decks/own_deck_list.html:60
 #: decks/templates/decks/tooltips/legality.html:6
 msgid "Standard"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:298
-#: decks/templates/decks/deck_detail.html:312
-#: decks/templates/decks/deck_detail.html:322
+#: decks/templates/decks/deck_detail.html:296
+#: decks/templates/decks/deck_detail.html:310
+#: decks/templates/decks/deck_detail.html:320
 msgid "Yes"
 msgstr "Oui"
 
-#: decks/templates/decks/deck_detail.html:301
-#: decks/templates/decks/deck_detail.html:315
-#: decks/templates/decks/deck_detail.html:325
+#: decks/templates/decks/deck_detail.html:299
+#: decks/templates/decks/deck_detail.html:313
+#: decks/templates/decks/deck_detail.html:323
 msgid "No"
 msgstr "Non"
 
-#: decks/templates/decks/deck_detail.html:310
+#: decks/templates/decks/deck_detail.html:308
 #: decks/templates/decks/tooltips/legality.html:7
 msgid "ExAlts Championship"
 msgstr "Championnat ExAlts"
 
-#: decks/templates/decks/deck_detail.html:316
+#: decks/templates/decks/deck_detail.html:314
 msgid ""
 "This mode works the same as Standard but replaces the 3 uniques with 3 extra "
 "rares."
@@ -510,92 +510,92 @@ msgstr ""
 "Ce mode fonctionne de la même manière que le mode Standard mais remplace les "
 "3 uniques par 3 rares supplémentaires."
 
-#: decks/templates/decks/deck_detail.html:320
+#: decks/templates/decks/deck_detail.html:318
 #: decks/templates/decks/deck_list.html:60
 #: decks/templates/decks/own_deck_list.html:62
 msgid "Draft"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:338
+#: decks/templates/decks/deck_detail.html:336
 msgid "Mana curve"
 msgstr "Courbe de mana"
 
-#: decks/templates/decks/deck_detail.html:368
-#: decks/templates/decks/deck_detail.html:419
+#: decks/templates/decks/deck_detail.html:366
+#: decks/templates/decks/deck_detail.html:417
 msgid "Cancel"
 msgstr "Annuler"
 
-#: decks/templates/decks/deck_detail.html:369
-#: decks/templates/decks/deck_detail.html:420
+#: decks/templates/decks/deck_detail.html:367
+#: decks/templates/decks/deck_detail.html:418
 msgid "Apply"
 msgstr "Appliquer"
 
-#: decks/templates/decks/deck_detail.html:388
+#: decks/templates/decks/deck_detail.html:386
 msgid "Playstyle"
 msgstr "Style de jeu"
 
-#: decks/templates/decks/deck_detail.html:389
+#: decks/templates/decks/deck_detail.html:387
 msgid "Define the overall approach or strategy the deck follows"
 msgstr "Définissez l'approche globale ou la stratégie du deck"
 
-#: decks/templates/decks/deck_detail.html:404
+#: decks/templates/decks/deck_detail.html:402
 msgid "Sub-strategy"
 msgstr "Sous-stratégie"
 
-#: decks/templates/decks/deck_detail.html:405
+#: decks/templates/decks/deck_detail.html:403
 msgid "Highlight specific tactics or themes"
 msgstr "Mettez en avant des tactiques ou thèmes spécifiques"
 
-#: decks/templates/decks/deck_detail.html:434
+#: decks/templates/decks/deck_detail.html:432
 msgid "Are you sure you want to delete this deck?"
 msgstr "Êtes-vous sûr(e) de vouloir supprimer ce deck ?"
 
-#: decks/templates/decks/deck_detail.html:434
+#: decks/templates/decks/deck_detail.html:432
 msgid "It won't be possible to recover it later."
 msgstr "Il ne sera pas possible de le récupérer plus tard."
 
-#: decks/templates/decks/deck_detail.html:437
-#: decks/templates/decks/deck_detail.html:457
+#: decks/templates/decks/deck_detail.html:435
+#: decks/templates/decks/deck_detail.html:455
 msgid "Close"
 msgstr "Fermer"
 
-#: decks/templates/decks/deck_detail.html:438
-#: decks/templates/decks/deck_detail.html:499
+#: decks/templates/decks/deck_detail.html:436
+#: decks/templates/decks/deck_detail.html:497
 msgid "Delete"
 msgstr "Supprimer"
 
-#: decks/templates/decks/deck_detail.html:450
+#: decks/templates/decks/deck_detail.html:448
 msgid "Deck QR Code"
 msgstr "Code QR du deck"
 
-#: decks/templates/decks/deck_detail.html:458
+#: decks/templates/decks/deck_detail.html:456
 msgid "Copy"
 msgstr "Copier"
 
-#: decks/templates/decks/deck_detail.html:459
+#: decks/templates/decks/deck_detail.html:457
 msgid "Download"
 msgstr "Télécharger"
 
-#: decks/templates/decks/deck_detail.html:468
+#: decks/templates/decks/deck_detail.html:466
 #, python-format
 msgid "%(comment_count)s comment"
 msgid_plural "%(comment_count)s comments"
 msgstr[0] "%(comment_count)s commentaire"
 msgstr[1] "%(comment_count)s commentaires"
 
-#: decks/templates/decks/deck_detail.html:471
+#: decks/templates/decks/deck_detail.html:469
 msgid "Comments"
 msgstr "Commentaires"
 
-#: decks/templates/decks/deck_detail.html:486
+#: decks/templates/decks/deck_detail.html:484
 msgid "Login to use this feature!"
 msgstr "Connectez-vous pour utiliser cette fonction !"
 
-#: decks/templates/decks/deck_detail.html:487 templates/base.html:177
+#: decks/templates/decks/deck_detail.html:485 templates/base.html:177
 msgid "Login"
 msgstr "Se connecter"
 
-#: decks/templates/decks/deck_detail.html:515
+#: decks/templates/decks/deck_detail.html:513
 #: decks/templates/decks/own_deck_list.html:204
 #: decks/templates/decks/snippets/public_deck_table.html:86
 #: notifications/templates/notifications/notification_list.html:18
@@ -1549,8 +1549,8 @@ msgid "About the project"
 msgstr "À propos du projet"
 
 #: templates/base.html:198
-msgid "About the author"
-msgstr "À propos de l'auteur"
+msgid "GitHub repository"
+msgstr "Dépôt GitHub"
 
 #: templates/base.html:201
 msgid "Collaborators"
@@ -1623,18 +1623,21 @@ msgstr "Nouvelles fonctionnalités"
 
 #: templates/releases/1.11.0.html:28 templates/releases/1.11.1.html:29
 #: templates/releases/1.11.2.html:30 templates/releases/1.11.3.html:31
+#: templates/releases/1.12.0.html:31
 #: templates/releases/release_template.html:12
 msgid "Fixes"
 msgstr "Corrections"
 
 #: templates/releases/1.11.0.html:35 templates/releases/1.11.1.html:36
-#: templates/releases/1.11.2.html:39 templates/releases/1.11.3.html:39
+#: templates/releases/1.11.2.html:38 templates/releases/1.11.3.html:40
+#: templates/releases/1.12.0.html:38
 #: templates/releases/release_template.html:18
 msgid "Other changes"
 msgstr "Autres modifications"
 
 #: templates/releases/1.11.0.html:43 templates/releases/1.11.1.html:46
-#: templates/releases/1.11.2.html:50 templates/releases/1.11.3.html:50
+#: templates/releases/1.11.2.html:49 templates/releases/1.11.3.html:51
+#: templates/releases/1.12.0.html:45
 #: templates/releases/release_template.html:25
 msgid "Announcements"
 msgstr "Annonces"
@@ -1691,6 +1694,9 @@ msgstr "Cartes populaires"
 #: trends/templates/trends/home.html:104
 msgid "Trending decks"
 msgstr "Decks tendances"
+
+#~ msgid "About the author"
+#~ msgstr "À propos de l'auteur"
 
 #, python-format
 #~ msgid ""
