@@ -7,8 +7,14 @@
 {% block content %}
     <h3 id="about_the_project">About the project</h3>
     <p>Application to build, analyze and share Altered TCG decks. Made by a fan, for fans.</p>
-    <p>This project is entirely fanwork and in no way intends to claim ownership of the copyrighted assets of the Altered TCG game property of Equinox.<br>
-        This project's purpose is to grant the ability of deck building to players eager to start playing while we wait for the official release.</p>
+    <p>
+        Our deck-building platform is now proudly <strong>open-source</strong>, allowing users from around the world to contribute, collaborate, and help shape the future of the tool.
+        We believe that by opening up the codebase, we can foster innovation, speed up development, and create a truly community-driven platform.
+    </p>
+    <p>
+        This project is entirely fanwork and in no way intends to claim ownership of the copyrighted assets of the Altered TCG game property of Equinox.<br>
+        This project's purpose is to create a community centered around building decks for Altered.
+    </p>
     <p>
         This platform uses the following technologies:
         <ul>
@@ -72,14 +78,14 @@
     
     <h3 id="about_the_author" style="scroll-margin-top: 60px;">About me</h3>
     <p>
-        Hi! My name is <b>Àlex Jordà</b> and I'm a <b>Computer Engineer</b> from Spain{% comment %} living in France since 2024{% endcomment%}.<br>
+        Hi! My name is <b>Àlex Jordà</b> and I'm a <b>Computer Engineer</b> from Spain.<br>
         I love to spend afternoons playing board games and videogames with friends, reading comics and books and hiking.
     </p>
     <p>
-        In my professional experience I have worked as a <b>PHP developer</b>, as a <b>Python developer</b> and I've been part of the <b>official support team for GCP</b> for Storage and Serverless products.<br>
-        Even though my last job positions were in a management position, I'm currently seeking to get back into the technical side of development or operations.<br>
-        Feel free to contact me for any suggestions or comments related to the project; or for any other professional interest.
+        In my professional experience I have worked as a <b>PHP developer</b>, as a <b>Python developer</b> and I've been part of the <b>official support team for GCP</b>
+        for Storage and Serverless products.
     </p>
+    <p>I'm currently working in an outsourcing company for IBM as a <b>Cloud Architect</b>.</p>
 
     <h5>Skills</h5>
     <ul>
@@ -92,14 +98,15 @@
 
     <h5>Projects</h5>
     <ul>
-        <li><b>Altered TCG Builder</b>: Django project to build, analyze and share decks for the Altered TCG. <a href="{{ request.scheme}}://{{ request.get_host }}">Website</a></li>
-        <li><b>Finder Sidebar Editor</b>: PyPi package to edit the Favorites entries of the Finder sidebar on macOS systems. <a href="https://github.com/Ajordat/finder-sidebar-editor">GitHub</a>. <a href="https://pypi.org/project/finder-sidebar-editor/">PyPi</a></li>
+        <li><b>Altered TCG Builder</b>: Django project to build, analyze and share decks for the Altered TCG. <a target="_blank" href="https://github.com/Ajordat/alteredbuilder">GitHub</a>. <a target="_blank" href="{{ request.scheme}}://{{ request.get_host }}">Website</a></li>
+        <li><b>Finder Sidebar Editor</b>: PyPi package to edit the Favorites entries of the Finder sidebar on macOS systems. <a target="_blank" href="https://github.com/Ajordat/finder-sidebar-editor">GitHub</a>. <a target="_blank" href="https://pypi.org/project/finder-sidebar-editor/">PyPi</a></li>
         <li><b>Schedule Manager</b>: Private Django project to allow employee's to report the office days and update it automatically on the official schedule. It included an admin panel for team managers to approve/reject requests and monitor metrics.</li>
     </ul>
 
     <h5>Professional experience</h5>
 
     <ul>
+        <li class="mb-2"><b>Cloud Architect for IBM</b> Métrica Consulting (September 2024 - Present)</li>
         <li class="mb-2"><b>Team Manager for GCP</b> Webhelp (September 2022 - December 2023)
             <ul>
                 <li>Manage a group of ≈30 people (formed of TSRs and SMEs) providing support to Serverless, Storage and Firebase products.</li>
