@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-24 14:49+0200\n"
+"POT-Creation-Date: 2024-09-25 18:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1551,11 +1551,15 @@ msgstr "Termini e condizioni"
 msgid "Support the project"
 msgstr "Aiutare il progetto"
 
-#: templates/base.html:217
+#: templates/base.html:213
+msgid "All funds are used to cover the hosting costs."
+msgstr ""
+
+#: templates/base.html:218
 msgid "Our Patrons"
 msgstr "I Nostri Mecenati"
 
-#: templates/base.html:221
+#: templates/base.html:222
 msgid "Get in touch"
 msgstr "Contattaci"
 
