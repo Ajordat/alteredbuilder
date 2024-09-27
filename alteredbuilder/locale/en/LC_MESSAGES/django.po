@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-25 18:05+0200\n"
+"POT-Creation-Date: 2024-09-28 01:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,53 +46,54 @@ msgstr ""
 msgid "Italian"
 msgstr ""
 
-#: decks/deck_utils.py:83
+#. Translators: This is logged when the provided text decklist has an invalid format
+#: decks/deck_utils.py:84
 #, python-format
 msgid "Failed to unpack '%(line)s'"
 msgstr ""
 
-#: decks/deck_utils.py:91
+#: decks/deck_utils.py:92
 #, python-format
 msgid "Card '%(reference)s' does not exist"
 msgstr ""
 
-#: decks/deck_utils.py:101
+#: decks/deck_utils.py:102
 msgid "Multiple heroes present in the decklist"
 msgstr ""
 
-#: decks/deck_utils.py:239
+#: decks/deck_utils.py:240
 msgid "reference"
 msgstr ""
 
-#: decks/deck_utils.py:259
+#: decks/deck_utils.py:260
 msgid "hand cost"
 msgstr ""
 
-#: decks/deck_utils.py:279
+#: decks/deck_utils.py:280
 msgid "reserve cost"
 msgstr ""
 
-#: decks/deck_utils.py:288
+#: decks/deck_utils.py:289
 msgid "ability"
 msgstr ""
 
-#: decks/deck_utils.py:301
+#: decks/deck_utils.py:302
 msgid "subtype"
 msgstr ""
 
-#: decks/deck_utils.py:315
+#: decks/deck_utils.py:316
 msgid "trigger"
 msgstr ""
 
-#: decks/deck_utils.py:322 decks/deck_utils.py:427
+#: decks/deck_utils.py:323 decks/deck_utils.py:428
 msgid "query"
 msgstr ""
 
-#: decks/deck_utils.py:413
+#: decks/deck_utils.py:414
 msgid "user"
 msgstr ""
 
-#: decks/deck_utils.py:422
+#: decks/deck_utils.py:423
 msgid "hero"
 msgstr ""
 

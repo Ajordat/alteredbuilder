@@ -80,7 +80,9 @@ def create_new_deck(user: User, deck_form: dict) -> Deck:
             # The form validator only checks if there's at least one
             # line with the correct format
             raise MalformedDeckException(
-                _("Failed to unpack '%(line)s'") % {"line": line}
+                # Translators: This is logged when the provided text decklist has an invalid format
+                _("Failed to unpack '%(line)s'")
+                % {"line": line}
             )
 
         try:
