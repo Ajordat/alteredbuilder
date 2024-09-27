@@ -40,7 +40,7 @@
     
         {% if card %}
             <div class="col-auto">
-                <img src="{{ card.image_url }}" class="img-fluid rounded-3" alt="Card Image" style="height: 400px; width: auto;">
+                <img src="{% cdn_image_url card.image_url %}" class="img-fluid rounded-3" alt="Card Image" style="height: 400px; width: auto;">
             </div>
         {% endif %}
     </div>

@@ -8,7 +8,7 @@
 
 {% block title %}{{ deck.name }}{% endblock %}
 {% block meta_title %}{{ deck.name }} | {{ block.super }}{% endblock %}
-{% block meta_image %}{{ deck.hero.image_url }}{% endblock %}
+{% block meta_image %}{% cdn_image_url deck.hero.image_url %}{% endblock %}
 
 
 {% block head %}
@@ -153,7 +153,7 @@
             <!-- Card display -->
             <!-- It will show the first image available in this order: hero, characters, spells, permanents -->
             {% firstof deck.hero.image_url character_list.0.1.image_url spell_list.0.1.image_url permanent_list.0.1.image_url "" as display_image %}
-            <img class="img-fluid rounded-4" id="card-showcase" src="{{ display_image }}">
+            <img class="img-fluid rounded-4" id="card-showcase" src="{% cdn_image_url display_image %}">
         </div>
         <div class="col-lg-4 col-sm-6 col-12 mt-sm-0 mt-4">
             <!-- Hero table -->
@@ -168,7 +168,7 @@
                 </thead>
                 <tbody class="table-group-divider">
     {% if deck.hero %}
-                    <tr class="table-light card-hover" data-image-url="{{ deck.hero.image_url }}">
+                    <tr class="table-light card-hover" data-image-url="{% cdn_image_url deck.hero.image_url %}">
                         <!-- Hero name -->
                         <td>{{ deck.hero.name }}</td>
                         <!-- Hero faction -->

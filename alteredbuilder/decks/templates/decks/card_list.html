@@ -160,8 +160,8 @@
                 <!-- Card list with infinite scroll -->
     {% for card in card_list %}
                 <div class="col-xxl-2 col-xl-3 col-md-4 col-sm-6 infinite-item">
-                    <div class="card-display rounded-3" data-card-reference="{{ card.reference }}" data-card-name="{{ card.name }}" data-card-type="{{ card.type }}" data-card-rarity="{{ card.rarity }}" data-card-image="{{ card.image_url }}">
-                        <img src="{{ card.image_url }}" class="card-img-top rounded-3" alt="{{ card.name }}">
+                    <div class="card-display rounded-3" data-card-reference="{{ card.reference }}" data-card-name="{{ card.name }}" data-card-type="{{ card.type }}" data-card-rarity="{{ card.rarity }}" data-card-image="{% cdn_image_url card.image_url %}">
+                        <img src="{% cdn_image_url card.image_url %}" class="card-img-top rounded-3" alt="{{ card.name }}">
                     </div>
                 </div>
     {% empty %}
@@ -199,10 +199,10 @@
                 </div>
                 <!-- Hero -->
                 <div class="row" id="hero-name-label">{% translate "Hero:" %}</div>
-                <div class="row my-1" id="row-hero" data-bs-toggle="tooltip" {% if not edit_deck.hero %}data-bs-disable="true"{% endif %} data-bs-title="<img src='{{ edit_deck.hero.image_url }}'/>" data-bs-html="true" data-bs-placement="left">
+                <div class="row my-1" id="row-hero" data-bs-toggle="tooltip" {% if not edit_deck.hero %}data-bs-disable="true"{% endif %} data-bs-title="<img src='{% cdn_image_url edit_deck.hero.image_url %}'/>" data-bs-html="true" data-bs-placement="left">
                     <div class="col px-0">
                         <div class="input-group">
-                            <input id="hero-name" type="text" class="card-name form-control" value="{{ edit_deck.hero.name }}" data-card-reference="{{ edit_deck.hero.reference }}" disabled style="background-image: url('{{ edit_deck.hero.image_url }}')" aria-labelledby="hero-name-label">
+                            <input id="hero-name" type="text" class="card-name form-control" value="{{ edit_deck.hero.name }}" data-card-reference="{{ edit_deck.hero.reference }}" disabled style="background-image: url('{% cdn_image_url edit_deck.hero.image_url %}')" aria-labelledby="hero-name-label">
                             <button class="btn btn-outline-secondary" type="button" id="remove-hero" {% if not edit_deck.hero %}disabled{% endif %} aria-label="Remove hero from deck"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </div>
@@ -217,7 +217,7 @@
                 <div id="decklist-cards">
                     <!-- Display cards -->
     {% for cid in edit_deck_cards %}
-                    <div class="row border rounded row-cols-auto my-1" id="row-{{ cid.card.reference }}" style="background-image: url({{ cid.card.image_url }});" data-card-rarity="{{ cid.card.rarity }}" data-bs-toggle="tooltip" data-bs-title="<img src='{{ cid.card.image_url }}'/>" data-bs-html="true" data-bs-placement="left">
+                    <div class="row border rounded row-cols-auto my-1" id="row-{{ cid.card.reference }}" style="background-image: url({% cdn_image_url cid.card.image_url %});" data-card-rarity="{{ cid.card.rarity }}" data-bs-toggle="tooltip" data-bs-title="<img src='{% cdn_image_url cid.card.image_url %}'/>" data-bs-html="true" data-bs-placement="left">
                         <div class="col px-0">
                             <div class="input-group input-group-sm">
                                 <!-- Quantity buttons and display -->

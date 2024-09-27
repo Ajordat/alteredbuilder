@@ -124,3 +124,9 @@ def card_params_to_filter_tag(get_params: dict) -> list[(str, str)]:
 @register.filter
 def safe_username(username: str) -> str:
     return username.partition("@")[0]
+
+
+@register.simple_tag
+def cdn_image_url(image_url: str):
+
+    return f"https://www.altered.gg/cdn-cgi/image/format=auto,height=400,q=100,sharpen=1/{image_url}" if image_url else ""

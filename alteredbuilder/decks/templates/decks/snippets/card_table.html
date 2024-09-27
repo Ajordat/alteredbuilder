@@ -15,8 +15,8 @@
     </thead>
     <tbody class="table-group-divider">
 {% for quantity, card in card_list %}
-        <tr class="{% get_row_color_from_rarity card.get_rarity_display %} card-hover" data-rarity="{{ card.get_rarity_display }}" data-image-url="{{ card.image_url }}" data-faction="{{ card.faction }}">
-            <link rel="prefetch" href="{{ card.image_url }}"/>
+        <tr class="{% get_row_color_from_rarity card.get_rarity_display %} card-hover" data-rarity="{{ card.get_rarity_display }}" data-image-url="{% cdn_image_url card.image_url %}" data-faction="{{ card.faction }}">
+            <link rel="prefetch" href="{% cdn_image_url card.image_url %}"/>
             <td>{{ quantity }}</td>
             <td>{{ card.name }}</td>
             <td><span class="hand-mana altered-{{ card.stats.main_cost }}"></span>/<span class="reserve-mana altered-{{ card.stats.recall_cost }}"></span></td>
