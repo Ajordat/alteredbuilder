@@ -4,6 +4,7 @@
 
 [![Django CICD](https://github.com/Ajordat/alteredbuilder/actions/workflows/django_cicd.yml/badge.svg)](https://github.com/Ajordat/alteredbuilder/actions/workflows/django_cicd.yml)
 
+[![](https://hosted.weblate.org/widget/altered-tcg-builder/svg-badge.svg)](https://hosted.weblate.org/engage/altered-tcg-builder)
 
 Application to build, analyze and share Altered TCG decks: [altered.ajordat.com](https://altered.ajordat.com)
 
@@ -20,22 +21,23 @@ A big thank you to our growing community of users who have supported this projec
 -----
 
 **Table of Contents**
-+ [Development](#development)
-  + [Initial setup](#initial-setup)
-  + [Build](#build)
-  + [Run](#run)
-  + [Code format and style](#code-format-and-style)
-  + [Unit testing](#unit-testing)
-+ [Database](#database)
-  + [Connect](#connect)
-  + [Create a Django migration](#create-a-django-migration)
-  + [Revert a Django migration](#revert-a-django-migration)
-  + [Import and export](#import-and-export)
-+ [Environmental variables](#environmental-variables)
-  + [At GCP](#at-gcp)
-  + [At local environment](#at-local-environment)
-+ [Translations](#translations)
-  + [Weblate](#weblate)
+- [Altered TCG Builder](#altered-tcg-builder)
+  - [Development](#development)
+    - [Initial setup](#initial-setup)
+    - [Build](#build)
+    - [Run](#run)
+    - [Code format and style](#code-format-and-style)
+    - [Unit testing](#unit-testing)
+  - [Database](#database)
+    - [Connect](#connect)
+    - [Create a Django migration](#create-a-django-migration)
+    - [Revert a Django migration](#revert-a-django-migration)
+    - [Import and export](#import-and-export)
+  - [Environmental variables](#environmental-variables)
+    - [At GCP](#at-gcp)
+    - [At local environment](#at-local-environment)
+  - [Translations](#translations)
+    - [Weblate](#weblate)
 
 ## Development
 
