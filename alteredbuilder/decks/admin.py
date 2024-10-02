@@ -146,7 +146,7 @@ class DeckAdmin(admin.ModelAdmin):
 
 
 @admin.register(Card)
-class CardAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
+class CardAdmin(admin.ModelAdmin):
     list_display = ["reference", "name", "rarity", "faction", "set"]
     search_fields = ["reference", "name"]
     list_display_links = ["reference", "name"]
