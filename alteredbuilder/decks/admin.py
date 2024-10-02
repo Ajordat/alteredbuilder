@@ -152,6 +152,7 @@ class CardAdmin(admin.ModelAdmin):
     list_display_links = ["reference", "name"]
     list_filter = ["type", "faction", "rarity", "set"]
     show_facets = admin.ShowFacets.ALWAYS
+    readonly_fields = ["reserve_count", "permanent_count", "power", "mana_cost"]
 
     def get_fieldsets(
         self, request: HttpRequest, obj: Card
