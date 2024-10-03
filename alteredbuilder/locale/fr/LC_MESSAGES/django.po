@@ -239,7 +239,7 @@ msgstr "Sort"
 #: decks/templates/decks/card_list.html:86
 #: decks/templates/decks/card_list.html:140
 msgid "Set"
-msgstr "Initialisé"
+msgstr ""
 
 #: decks/templates/decks/card_list.html:111
 #: decks/templates/decks/snippets/deck_order_filter.html:9
@@ -515,7 +515,7 @@ msgstr ""
 #: decks/templates/decks/deck_list.html:60
 #: decks/templates/decks/own_deck_list.html:62
 msgid "Draft"
-msgstr "Ebauche"
+msgstr ""
 
 #: decks/templates/decks/deck_detail.html:336
 msgid "Mana curve"
