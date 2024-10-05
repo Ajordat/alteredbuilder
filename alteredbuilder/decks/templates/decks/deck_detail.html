@@ -84,10 +84,15 @@
     {% endfor %}
 
         </div>
-
     </div>
     <!-- Interaction row -->
     <div class="row row-cols-auto gx-2">
+        <div class="col">
+            <!-- Edit Deck button-->
+            <a type="button" class="btn btn-outline-primary btn-sm" href="{% url 'cards' %}?deck={{ deck.id }}">
+                <i class="fa-solid fa-wrench"></i> {% translate "Edit deck" %}
+            </a>
+        </div>
         <div class="col">
             <!-- Share dropdown -->
             <div class="btn-group" role="group">
