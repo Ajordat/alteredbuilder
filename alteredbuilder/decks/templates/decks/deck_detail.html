@@ -87,12 +87,14 @@
     </div>
     <!-- Interaction row -->
     <div class="row row-cols-auto gx-2">
+    {% if deck.owner == user %}
         <div class="col">
             <!-- Edit Deck button-->
-            <a type="button" class="btn btn-outline-primary btn-sm" href="{% url 'cards' %}?deck={{ deck.id }}">
+            <a type="button" class="btn btn-outline-primary btn-sm" href="{% url 'cards' %}?deck={{ deck.id }}{% if deck.hero %}&faction={{ deck.hero.faction }}{% endif %}">
                 <i class="fa-solid fa-wrench"></i> {% translate "Edit deck" %}
             </a>
         </div>
+    {% endif %}
         <div class="col">
             <!-- Share dropdown -->
             <div class="btn-group" role="group">
