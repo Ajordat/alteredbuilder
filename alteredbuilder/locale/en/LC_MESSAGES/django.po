@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-28 01:10+0200\n"
+"POT-Creation-Date: 2024-10-06 00:41+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -52,48 +52,48 @@ msgstr ""
 msgid "Failed to unpack '%(line)s'"
 msgstr ""
 
-#: decks/deck_utils.py:92
+#: decks/deck_utils.py:93
 #, python-format
 msgid "Card '%(reference)s' does not exist"
 msgstr ""
 
-#: decks/deck_utils.py:102
+#: decks/deck_utils.py:103
 msgid "Multiple heroes present in the decklist"
 msgstr ""
 
-#: decks/deck_utils.py:240
+#: decks/deck_utils.py:241
 msgid "reference"
 msgstr ""
 
-#: decks/deck_utils.py:260
+#: decks/deck_utils.py:261
 msgid "hand cost"
 msgstr ""
 
-#: decks/deck_utils.py:280
+#: decks/deck_utils.py:281
 msgid "reserve cost"
 msgstr ""
 
-#: decks/deck_utils.py:289
+#: decks/deck_utils.py:290
 msgid "ability"
 msgstr ""
 
-#: decks/deck_utils.py:302
+#: decks/deck_utils.py:303
 msgid "subtype"
 msgstr ""
 
-#: decks/deck_utils.py:316
+#: decks/deck_utils.py:317
 msgid "trigger"
 msgstr ""
 
-#: decks/deck_utils.py:323 decks/deck_utils.py:428
+#: decks/deck_utils.py:324 decks/deck_utils.py:429
 msgid "query"
 msgstr ""
 
-#: decks/deck_utils.py:414
+#: decks/deck_utils.py:415
 msgid "user"
 msgstr ""
 
-#: decks/deck_utils.py:423
+#: decks/deck_utils.py:424
 msgid "hero"
 msgstr ""
 
@@ -585,14 +585,14 @@ msgstr ""
 msgid "Login to use this feature!"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:485 templates/base.html:177
+#: decks/templates/decks/deck_detail.html:485 templates/base.html:179
 msgid "Login"
 msgstr ""
 
 #: decks/templates/decks/deck_detail.html:513
 #: decks/templates/decks/own_deck_list.html:204
 #: decks/templates/decks/snippets/public_deck_table.html:86
-#: notifications/templates/notifications/notification_list.html:18
+#: notifications/templates/notifications/notification_list.html:20
 #: notifications/views.py:86
 #, python-format
 msgid "%(time_since)s ago"
@@ -661,52 +661,52 @@ msgstr ""
 msgid "Most views"
 msgstr ""
 
-#: decks/templates/decks/import_card.html:10
+#: decks/templates/decks/import_card.html:11
 msgid "Import a Unique Card"
 msgstr ""
 
-#: decks/templates/decks/import_card.html:15
+#: decks/templates/decks/import_card.html:16
 msgid "Card Reference:"
 msgstr ""
 
-#: decks/templates/decks/import_card.html:21
+#: decks/templates/decks/import_card.html:22
 msgid "Please provide a card reference."
 msgstr ""
 
-#: decks/templates/decks/import_card.html:25
+#: decks/templates/decks/import_card.html:26
 msgid "Import Card"
 msgstr ""
 
-#: decks/templates/decks/import_card.html:30
+#: decks/templates/decks/import_card.html:31
 msgid "Importing card, please wait..."
 msgstr ""
 
-#: decks/templates/decks/import_card.html:30
+#: decks/templates/decks/import_card.html:31
 msgid "This will take a while, I've seen it take up to 2 minutes..."
 msgstr ""
 
-#: decks/templates/decks/import_card.html:53
+#: decks/templates/decks/import_card.html:54
 msgid "How can I get the reference of a card?"
 msgstr ""
 
-#: decks/templates/decks/import_card.html:60
+#: decks/templates/decks/import_card.html:61
 msgid ""
 "Image provided by <a href=\"https://discordapp.com/"
 "users/134357944178442240\">Tristan</a>, check <a href=\"https://"
 "uniquesranking.onrender.com/\">Uniques Ranking</a>!"
 msgstr ""
 
-#: decks/templates/decks/import_card.html:68
+#: decks/templates/decks/import_card.html:69
 msgid "Notes on Functionality and Usage"
 msgstr ""
 
-#: decks/templates/decks/import_card.html:74
+#: decks/templates/decks/import_card.html:75
 msgid ""
 "Currently, the official Altered website only displays the Unique cards in "
 "English and French."
 msgstr ""
 
-#: decks/templates/decks/import_card.html:75
+#: decks/templates/decks/import_card.html:76
 #, python-format
 msgid ""
 "The imported Unique card will appear on the '<a "
@@ -714,17 +714,17 @@ msgid ""
 "for it in all languages, but the image will be strictly in English or French."
 msgstr ""
 
-#: decks/templates/decks/import_card.html:76
+#: decks/templates/decks/import_card.html:77
 msgid "All users will be able to search and find the imported card."
 msgstr ""
 
-#: decks/templates/decks/import_card.html:77
+#: decks/templates/decks/import_card.html:78
 msgid ""
 "The communication with the Altered website is occasionally slow, so please "
 "<strong>be patient</strong>."
 msgstr ""
 
-#: decks/templates/decks/import_card.html:78
+#: decks/templates/decks/import_card.html:79
 msgid ""
 "The Unique card <strong>needs to be public</strong> so that it can be "
 "imported. Once the process is finished, the card can be made private again."
@@ -1110,7 +1110,12 @@ msgstr ""
 msgid "Notifications"
 msgstr ""
 
-#: notifications/templates/notifications/notification_list.html:24
+#: notifications/templates/notifications/notification_list.html:12
+#: templates/base.html:149
+msgid "Mark all notifications as read"
+msgstr ""
+
+#: notifications/templates/notifications/notification_list.html:26
 #: templates/base.html:147
 msgid "No notifications"
 msgstr ""
@@ -1388,7 +1393,7 @@ msgstr[1] ""
 msgid "Most Followed Users"
 msgstr ""
 
-#: templates/base.html:24 templates/base.html:25
+#: templates/base.html:21 templates/base.html:22
 msgid "The place to build, analyze and share Altered TCG decks."
 msgstr ""
 
@@ -1424,59 +1429,59 @@ msgstr ""
 msgid "View all notifications"
 msgstr ""
 
-#: templates/base.html:167
+#: templates/base.html:169
 msgid "Profile"
 msgstr ""
 
-#: templates/base.html:169
+#: templates/base.html:171
 msgid "Update email"
 msgstr ""
 
-#: templates/base.html:170
+#: templates/base.html:172
 msgid "Update password"
 msgstr ""
 
-#: templates/base.html:172
+#: templates/base.html:174
 msgid "Logout"
 msgstr ""
 
-#: templates/base.html:192
+#: templates/base.html:194
 msgid "Links"
 msgstr ""
 
-#: templates/base.html:195
+#: templates/base.html:197
 msgid "About the project"
 msgstr ""
 
-#: templates/base.html:198
+#: templates/base.html:200
 msgid "GitHub repository"
 msgstr ""
 
-#: templates/base.html:201
+#: templates/base.html:203
 msgid "Collaborators"
 msgstr ""
 
-#: templates/base.html:204
+#: templates/base.html:206
 msgid "Privacy policy"
 msgstr ""
 
-#: templates/base.html:207
+#: templates/base.html:209
 msgid "Terms and conditions"
 msgstr ""
 
-#: templates/base.html:212
+#: templates/base.html:214
 msgid "Support the project"
 msgstr ""
 
-#: templates/base.html:213
+#: templates/base.html:215
 msgid "All funds are used to cover the hosting costs."
 msgstr ""
 
-#: templates/base.html:218
+#: templates/base.html:220
 msgid "Our Patrons"
 msgstr ""
 
-#: templates/base.html:222
+#: templates/base.html:224
 msgid "Get in touch"
 msgstr ""
 
