@@ -8,7 +8,7 @@
 <div class="card">
     <div class="card-body text-center pt-1 pb-2">
         <div class="d-flex justify-content-start align-items-center mb-0">
-            <img src="{{ deck.owner.profile.get_profile_picture_image }}" alt="{% translate "profile picture" %}" class="user-profile-pic rounded-circle me-2" height="50">
+            <img src="{{ deck.owner.profile.get_avatar_image }}" alt="{% translate "profile picture" %}" class="user-profile-pic rounded-circle me-2" height="50">
             <div class="text-start pt-2">
                 <p class="mb-0"><strong>{{ deck.owner.username|safe_username }}</strong></p>
                 <p class="mb-0">{% blocktranslate count follower_count=deck.follower_count %}{{ follower_count }} Follower{% plural %}{{ follower_count }} Followers{% endblocktranslate %}</p>

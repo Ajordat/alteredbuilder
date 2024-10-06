@@ -11,7 +11,7 @@ class UserProfile(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="profile"
     )
     bio = models.TextField(max_length=1000, blank=True)
-    profile_picture = models.CharField(default="DEFAULT.png")
+    avatar = models.CharField(default="DEFAULT.png")
 
     altered_handle = models.CharField(null=True)
     discord_public = models.BooleanField(default=False)
@@ -28,8 +28,8 @@ class UserProfile(models.Model):
     def get_unfollow_url(self):
         return reverse("profile-unfollow", kwargs={"code": self.code})
     
-    def get_profile_picture_image(self):
-        return f"/static/img/avatars/{self.profile_picture}"
+    def get_avatar_image(self):
+        return f"/static/img/avatars/{self.avatar}"
 
 
 class Follow(models.Model):
