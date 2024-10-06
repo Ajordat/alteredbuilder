@@ -11,6 +11,7 @@ class UserProfile(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="profile"
     )
     bio = models.TextField(max_length=1000, blank=True)
+    profile_picture = models.CharField(default="DEFAULT.webp")
 
     altered_handle = models.CharField(null=True)
     discord_public = models.BooleanField(default=False)
