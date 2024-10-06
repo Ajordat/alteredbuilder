@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="userprofile",
             name="profile_picture",
-            field=models.CharField(default="DEFAULT.webp"),
+            field=models.CharField(default="DEFAULT.png"),
         ),
     ]

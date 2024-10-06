@@ -27,8 +27,13 @@ class="container my-5"
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body text-center">
-                    <h2 class="card-title">{%if builder.is_followed %}<i class="fa-solid fa-star"></i> {% endif %}{{ builder.username|safe_username }}</h2>
-                    <p class="text-muted">{% blocktranslate with date_joined=builder.date_joined|date:"F j, Y" %}Joined on: {{ date_joined }}{% endblocktranslate %}</p>
+                    <div class="d-flex justify-content-center align-items-center mb-3">
+                        <img src="{{ builder.profile.get_profile_picture_image }}" alt="{% blocktranslate with username=builder.username %}{{ username }}'s profile picture{% endblocktranslate %}" class="user-profile-pic rounded-circle me-2" height="70">
+                        <div class="text-start pt-2">
+                            <h2 class="card-title">{%if builder.is_followed %}<i class="fa-solid fa-star"></i> {% endif %}{{ builder.username|safe_username }}</h2>
+                            <p class="text-muted">{% blocktranslate with date_joined=builder.date_joined|date:"F j, Y" %}Joined on: {{ date_joined }}{% endblocktranslate %}</p>
+                        </div>
+                    </div>
                     <div class="d-flex justify-content-center align-items-center mb-3">
                         <div class="me-3">
                             <p class="mb-0">{% blocktranslate count follower_count=builder.follower_count %}{{ follower_count }} Follower{% plural %}{{ follower_count }} Followers{% endblocktranslate %}</p>

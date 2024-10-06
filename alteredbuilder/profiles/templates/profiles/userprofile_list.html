@@ -106,14 +106,17 @@ class="container py-5"
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
     {% for user in latest_users %}
-                            <li class="list-group-item">
-                                <a href="{{ user.profile.get_absolute_url }}">
+                        <li class="list-group-item ps-2">
+                            <a href="{{ user.profile.get_absolute_url }}" class="d-flex align-items-center text-decoration-none">
+                                <img src="{{ user.profile.get_profile_picture_image }}" alt="{{ user.username }}'s profile picture" class="user-profile-pic rounded-circle me-2" width="50" height="50">
+                                <div>
                                     {% if user.is_followed %}<i class="fa-solid fa-star"></i>{% endif %} <strong>{{ user.username|safe_username }}</strong><br>
                                     <small>{% blocktranslate with date_joined=user.date_joined|date:"M d, Y" %}Joined on {{ date_joined }}{% endblocktranslate %}</small>
-                                </a>
-                            </li>
+                                </div>
+                            </a>
+                        </li>
     {% empty %}
-                            <li class="list-group-item">{% translate "No users found" %}</li>
+                        <li class="list-group-item">{% translate "No users found" %}</li>
     {% endfor %}
                     </ul>
                 </div>
@@ -129,14 +132,17 @@ class="container py-5"
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
     {% for user in most_viewed_users %}
-                            <li class="list-group-item">
-                                <a href="{{ user.profile.get_absolute_url }}">
+                        <li class="list-group-item ps-2">
+                            <a href="{{ user.profile.get_absolute_url }}" class="d-flex align-items-center text-decoration-none">
+                                <img src="{{ user.profile.get_profile_picture_image }}" alt="{{ user.username }}'s profile picture" class="user-profile-pic rounded-circle me-2" width="50" height="50">
+                                <div>
                                     {% if user.is_followed %}<i class="fa-solid fa-star"></i>{% endif %} <strong>{{ user.username|safe_username }}</strong><br>
                                     <small>{% blocktranslate count deck_count=user.deck_count %}{{ deck_count }} deck{% plural %}{{ deck_count }} decks{% endblocktranslate %}</small>
-                                </a>
-                            </li>
+                                </div>
+                            </a>
+                        </li>
     {% empty %}
-                            <li class="list-group-item">{% translate "No users found" %}</li>
+                        <li class="list-group-item">{% translate "No users found" %}</li>
     {% endfor %}
                     </ul>
                 </div>
@@ -152,14 +158,17 @@ class="container py-5"
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
     {% for user in most_followed_users %}
-                            <li class="list-group-item">
-                                <a href="{{ user.profile.get_absolute_url }}">
+                        <li class="list-group-item ps-2">
+                            <a href="{{ user.profile.get_absolute_url }}" class="d-flex align-items-center text-decoration-none">
+                                <img src="{{ user.profile.get_profile_picture_image }}" alt="{{ user.username }}'s profile picture" class="user-profile-pic rounded-circle me-2" width="50" height="50">
+                                <div>
                                     {% if user.is_followed %}<i class="fa-solid fa-star"></i>{% endif %} <strong>{{ user.username }}</strong><br>
                                     <small>{% blocktranslate count follower_count=user.follower_count%}{{ follower_count }} Follower{% plural %}{{ follower_count }} Followers{% endblocktranslate%}</small>
-                                </a>
-                            </li>
+                                </div>
+                            </a>
+                        </li>
     {% empty %}
-                            <li class="list-group-item">{% translate "No users found" %}</li>
+                        <li class="list-group-item">{% translate "No users found" %}</li>
     {% endfor %}
                     </ul>
                 </div>

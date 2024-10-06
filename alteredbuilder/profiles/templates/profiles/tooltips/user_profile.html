@@ -6,19 +6,18 @@
 
 
 <div class="card">
-    <div class="card-body text-center">
-        <p class="text-muted">{% blocktranslate with date_joined=deck.owner.date_joined|date:"F j, Y" %}Joined on: {{ date_joined }}{% endblocktranslate %}</p>
-        <p class="mb-0">{% blocktranslate count follower_count=deck.follower_count %}{{ follower_count }} Follower{% plural %}{{ follower_count }} Followers{% endblocktranslate %}</p>
-        <p>{% blocktranslate count following_count=deck.following_count %}{{ following_count }} Following{% plural %}{{ following_count }} Following{% endblocktranslate %}</p>
+    <div class="card-body text-center pt-1 pb-2">
+        <div class="d-flex justify-content-start align-items-center mb-0">
+            <img src="{{ deck.owner.profile.get_profile_picture_image }}" alt="{% translate "profile picture" %}" class="user-profile-pic rounded-circle me-2" height="50">
+            <div class="text-start pt-2">
+                <p class="mb-0"><strong>{{ deck.owner.username|safe_username }}</strong></p>
+                <p class="mb-0">{% blocktranslate count follower_count=deck.follower_count %}{{ follower_count }} Follower{% plural %}{{ follower_count }} Followers{% endblocktranslate %}</p>
+                <p>{% blocktranslate count following_count=deck.following_count %}{{ following_count }} Following{% plural %}{{ following_count }} Following{% endblocktranslate %}</p>
+            </div>
+        </div>
+        <p class="text-muted mb-1">{% blocktranslate with date_joined=deck.owner.date_joined|date:"F j, Y" %}Joined on: {{ date_joined }}{% endblocktranslate %}</p>
 {% if deck.owner.profile.altered_handle %}
-        <a href="#" class="btn btn-dark btn-block mt-2" target="_blank"><img src="{% static "img/altered.webp" %}" alt="altered logo" width="20px"> {{ deck.owner.profile.altered_handle }}</a>
+        <a href="#" class="btn btn-dark btn-block mt-0" target="_blank"><img src="{% static "img/altered.webp" %}" alt="altered logo" width="20px"> {{ deck.owner.profile.altered_handle }}</a>
 {% endif %}
-        {% comment %} <span class="bio">
-{% if deck.owner.profile.bio %}
-            {{ deck.owner.profile.bio | escape | markdown | safe }}
-{% else %}
-            <i>{% translate "Empty bio" %}</i>
-{% endif %}
-        </span> {% endcomment %}
     </div>
 </div>
