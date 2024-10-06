@@ -188,7 +188,7 @@
                     <option value="0" {% if not edit_deck %}selected{% endif %}>{% translate "New deck" %}</option>
     {% for deck in own_decks %}
         {% if deck.id != edit_deck.id %}
-                    <option value="{{ deck.id }}">{{ deck.name }}</option>
+                    <option value="{{ deck.id }}" data-faction="{% firstof deck.hero__faction '' %}">{{ deck.name }}</option>
         {% endif %}
     {% endfor %}
                 </select>

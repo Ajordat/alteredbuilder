@@ -289,7 +289,9 @@ document.getElementById("deck-name").addEventListener("change", (e) => {
 // Dropdown to select a deck
 document.getElementById("deckSelector").addEventListener("change", (e) => {
     e.preventDefault();
-    let targetDeckId = e.target.value;
+    let selector = e.target;
+    let targetDeckId = selector.value;
+    let faction = selector.options[selector.selectedIndex].dataset.faction;
 
     // Clean the changes on the current deck
     decklistChanges.clean();
@@ -300,6 +302,10 @@ document.getElementById("deckSelector").addEventListener("change", (e) => {
     if (targetDeckId != 0) {
         // If it's not a new deck, add the `deck` argument to the URI
         params.append("deck", targetDeckId);
+
+        if (faction) {
+            params.append("faction", faction);
+        }
     }
     let url = window.location.pathname + "?" + params.toString();
     // Go to the new URL
