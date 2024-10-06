@@ -125,11 +125,10 @@ class="container my-5"
                                         </span>
                                     </td>
         {% else %}
-                                    <td>-</td><td>-</td>
+                                    <td>-</td>
         {% endif %}
                                     <!-- Last Modified Date -->
                                     <td class="text-end">
-                                        {% comment %} <span class="badge bg-primary rounded-pill">{{ deck.hit_count_generic.first.hits }} views</span> {% endcomment %}
                                         <p class="small text-muted mb-0">{{ deck.modified_at|date:"F j, Y" }}</p>
                                     </td>
                                 </tr>
