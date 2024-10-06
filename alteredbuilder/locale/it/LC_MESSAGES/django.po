@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-06 00:54+0200\n"
+"POT-Creation-Date: 2024-10-06 02:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -192,27 +192,27 @@ msgstr "Fazioni"
 #: decks/templates/decks/card_list.html:71
 #: decks/templates/decks/card_list.html:115
 #: decks/templates/decks/card_list.html:149
-#: decks/templates/decks/deck_detail.html:240
+#: decks/templates/decks/deck_detail.html:265
 msgid "Rarity"
 msgstr "Rarità"
 
 #: decks/templates/decks/card_list.html:72
-#: decks/templates/decks/deck_detail.html:246
+#: decks/templates/decks/deck_detail.html:271
 msgid "Common"
 msgstr "Comune"
 
 #: decks/templates/decks/card_list.html:73
-#: decks/templates/decks/deck_detail.html:250
+#: decks/templates/decks/deck_detail.html:275
 msgid "Rare"
 msgstr "Rara"
 
 #: decks/templates/decks/card_list.html:74
-#: decks/templates/decks/deck_detail.html:254
+#: decks/templates/decks/deck_detail.html:279
 msgid "Unique"
 msgstr "Unica"
 
 #: decks/templates/decks/card_list.html:78
-#: decks/templates/decks/deck_detail.html:264
+#: decks/templates/decks/deck_detail.html:289
 msgid "Type"
 msgstr "Tipo"
 
@@ -221,7 +221,7 @@ msgid "Character"
 msgstr "Personaggio"
 
 #: decks/templates/decks/card_list.html:80
-#: decks/templates/decks/deck_detail.html:165
+#: decks/templates/decks/deck_detail.html:190
 #: decks/templates/decks/own_deck_list.html:134
 #: decks/templates/decks/snippets/public_deck_table.html:17
 #: profiles/templates/profiles/userprofile_detail.html:101
@@ -317,77 +317,98 @@ msgid "Save"
 msgstr "Salva"
 
 #: decks/templates/decks/deck_detail.html:58
-#: decks/templates/decks/deck_detail.html:59
 msgid "Login to share your love!"
 msgstr "Accedi per condividere i tuoi mi piace!"
 
-#: decks/templates/decks/deck_detail.html:93
+#: decks/templates/decks/deck_detail.html:78
+#, fuzzy
+#| msgid "This feature cannot be used with unique cards"
+msgid "This feature cannot be used with unique cards<br>(Work In Progress)"
+msgstr "Questa funzionalità non può essere utilizzata con carte uniche"
+
+#: decks/templates/decks/deck_detail.html:80
+#: decks/templates/decks/deck_detail.html:86
+#: decks/templates/decks/deck_detail.html:92
+msgid "Showcase"
+msgstr ""
+
+#: decks/templates/decks/deck_detail.html:84
+msgid "By Taum"
+msgstr ""
+
+#: decks/templates/decks/deck_detail.html:90
+#, fuzzy
+#| msgid "Deck already has a hero"
+msgid "The deck needs a hero!"
+msgstr "Il mazzo ha già un eroe"
+
+#: decks/templates/decks/deck_detail.html:117
 msgid "Edit deck"
 msgstr "Modifica mazzo"
 
-#: decks/templates/decks/deck_detail.html:100
+#: decks/templates/decks/deck_detail.html:125
 msgid "Share"
 msgstr "Condividi"
 
-#: decks/templates/decks/deck_detail.html:103
+#: decks/templates/decks/deck_detail.html:128
 msgid "Copy link"
 msgstr "Copia collegamento"
 
-#: decks/templates/decks/deck_detail.html:104
+#: decks/templates/decks/deck_detail.html:129
 msgid "Copy decklist"
 msgstr "Copia la lista del mazzo"
 
-#: decks/templates/decks/deck_detail.html:106
+#: decks/templates/decks/deck_detail.html:131
 msgid "QR Code"
 msgstr "Codice QR"
 
-#: decks/templates/decks/deck_detail.html:112
+#: decks/templates/decks/deck_detail.html:137
 msgid "Create private link"
 msgstr "Creare un link privato"
 
-#: decks/templates/decks/deck_detail.html:122
+#: decks/templates/decks/deck_detail.html:147
 msgid "Options"
 msgstr "Opzioni"
 
-#: decks/templates/decks/deck_detail.html:125
-#: decks/templates/decks/deck_detail.html:382
+#: decks/templates/decks/deck_detail.html:150
+#: decks/templates/decks/deck_detail.html:407
 msgid "Edit tags"
 msgstr "Modifica dei tag"
 
-#: decks/templates/decks/deck_detail.html:126
-#: decks/templates/decks/deck_detail.html:361
+#: decks/templates/decks/deck_detail.html:151
+#: decks/templates/decks/deck_detail.html:386
 msgid "Edit metadata"
 msgstr "Modifica dei metadati del mazzo"
 
-#: decks/templates/decks/deck_detail.html:127
-#: decks/templates/decks/deck_detail.html:433
+#: decks/templates/decks/deck_detail.html:152
+#: decks/templates/decks/deck_detail.html:458
 msgid "Delete deck"
 msgstr "Elimina mazzo"
 
-#: decks/templates/decks/deck_detail.html:134
+#: decks/templates/decks/deck_detail.html:159
 msgid "This feature cannot be used with unique cards"
 msgstr "Questa funzionalità non può essere utilizzata con carte uniche"
 
-#: decks/templates/decks/deck_detail.html:136
-#: decks/templates/decks/deck_detail.html:142
+#: decks/templates/decks/deck_detail.html:161
+#: decks/templates/decks/deck_detail.html:167
 msgid "Playtest!"
 msgstr "Prova di gioco!"
 
-#: decks/templates/decks/deck_detail.html:140
+#: decks/templates/decks/deck_detail.html:165
 msgid "Try it in Exalts Table"
 msgstr "Provalo su Exalts Table"
 
-#: decks/templates/decks/deck_detail.html:149
+#: decks/templates/decks/deck_detail.html:174
 msgid "Copy deck"
 msgstr "Copia mazzo"
 
-#: decks/templates/decks/deck_detail.html:154
+#: decks/templates/decks/deck_detail.html:179
 #: decks/templates/decks/new_deck.html:113
 #: decks/templates/forms/submit_decklist.html:61
 msgid "Decklist"
 msgstr "Lista del mazzo"
 
-#: decks/templates/decks/deck_detail.html:170
+#: decks/templates/decks/deck_detail.html:195
 #: decks/templates/decks/new_deck.html:85
 #: decks/templates/decks/own_deck_list.html:131
 #: decks/templates/decks/snippets/card_table.html:11
@@ -399,115 +420,115 @@ msgstr "Lista del mazzo"
 msgid "Name"
 msgstr "Nome"
 
-#: decks/templates/decks/deck_detail.html:171
+#: decks/templates/decks/deck_detail.html:196
 #: decks/templates/decks/own_deck_list.html:133
 #: decks/templates/decks/snippets/public_deck_table.html:16
 msgid "Faction"
 msgstr "Fazione"
 
-#: decks/templates/decks/deck_detail.html:186
+#: decks/templates/decks/deck_detail.html:211
 #: decks/templates/decks/snippets/card_table.html:27
 msgid "Go to details"
 msgstr "Vai ai dettagli"
 
-#: decks/templates/decks/deck_detail.html:187
+#: decks/templates/decks/deck_detail.html:212
 #: decks/templates/decks/snippets/card_table.html:28
 msgid "Copy card reference"
 msgstr "Copiare il riferimento della carta"
 
-#: decks/templates/decks/deck_detail.html:189
+#: decks/templates/decks/deck_detail.html:214
 #: decks/templates/decks/snippets/card_table.html:30
 msgid "Remove card"
 msgstr "Rimuovere la carta"
 
-#: decks/templates/decks/deck_detail.html:196
+#: decks/templates/decks/deck_detail.html:221
 msgid "No hero"
 msgstr "Nessun eroe"
 
-#: decks/templates/decks/deck_detail.html:203
-#: decks/templates/decks/deck_detail.html:276
+#: decks/templates/decks/deck_detail.html:228
+#: decks/templates/decks/deck_detail.html:301
 msgid "Spells"
 msgstr "Magie"
 
-#: decks/templates/decks/deck_detail.html:209
-#: decks/templates/decks/deck_detail.html:281
+#: decks/templates/decks/deck_detail.html:234
+#: decks/templates/decks/deck_detail.html:306
 msgid "Permanents"
 msgstr "Permanenti"
 
-#: decks/templates/decks/deck_detail.html:217
-#: decks/templates/decks/deck_detail.html:271
+#: decks/templates/decks/deck_detail.html:242
+#: decks/templates/decks/deck_detail.html:296
 msgid "Characters"
 msgstr "Personaggi"
 
-#: decks/templates/decks/deck_detail.html:226
+#: decks/templates/decks/deck_detail.html:251
 msgid "Stats"
 msgstr "Statistiche"
 
-#: decks/templates/decks/deck_detail.html:230
+#: decks/templates/decks/deck_detail.html:255
 msgid "Card Type Distribution"
 msgstr "Distribuzione del tipo di carta"
 
-#: decks/templates/decks/deck_detail.html:236
+#: decks/templates/decks/deck_detail.html:261
 msgid "Rarity distribution"
 msgstr "Distribuzione delle rarità"
 
-#: decks/templates/decks/deck_detail.html:241
+#: decks/templates/decks/deck_detail.html:266
 msgid "Count"
 msgstr "Conteggio"
 
-#: decks/templates/decks/deck_detail.html:260
+#: decks/templates/decks/deck_detail.html:285
 msgid "Probability of drawing"
 msgstr "Probabilità di pescata"
 
-#: decks/templates/decks/deck_detail.html:265
+#: decks/templates/decks/deck_detail.html:290
 msgid "Anytime"
 msgstr "In qualsiasi momento"
 
-#: decks/templates/decks/deck_detail.html:266
+#: decks/templates/decks/deck_detail.html:291
 msgid "Initial hand"
 msgstr "Mano iniziale"
 
-#: decks/templates/decks/deck_detail.html:288
+#: decks/templates/decks/deck_detail.html:313
 msgid "Format legality"
 msgstr "Legalità del formato"
 
-#: decks/templates/decks/deck_detail.html:292
+#: decks/templates/decks/deck_detail.html:317
 msgid "Format"
 msgstr "Formato"
 
-#: decks/templates/decks/deck_detail.html:293
+#: decks/templates/decks/deck_detail.html:318
 msgid "Is it legal?"
 msgstr "È legale?"
 
-#: decks/templates/decks/deck_detail.html:294
+#: decks/templates/decks/deck_detail.html:319
 msgid "Notes"
 msgstr "Note"
 
-#: decks/templates/decks/deck_detail.html:299
+#: decks/templates/decks/deck_detail.html:324
 #: decks/templates/decks/deck_list.html:58
 #: decks/templates/decks/own_deck_list.html:60
 #: decks/templates/decks/tooltips/legality.html:6
 msgid "Standard"
 msgstr "Standard"
 
-#: decks/templates/decks/deck_detail.html:301
-#: decks/templates/decks/deck_detail.html:315
-#: decks/templates/decks/deck_detail.html:325
+#: decks/templates/decks/deck_detail.html:326
+#: decks/templates/decks/deck_detail.html:340
+#: decks/templates/decks/deck_detail.html:350
 msgid "Yes"
 msgstr "Sì"
 
-#: decks/templates/decks/deck_detail.html:304
-#: decks/templates/decks/deck_detail.html:318
-#: decks/templates/decks/deck_detail.html:328
+#: decks/templates/decks/deck_detail.html:329
+#: decks/templates/decks/deck_detail.html:343
+#: decks/templates/decks/deck_detail.html:353
 msgid "No"
 msgstr "No"
 
-#: decks/templates/decks/deck_detail.html:313
+#: decks/templates/decks/deck_detail.html:338
 #: decks/templates/decks/tooltips/legality.html:7
 msgid "ExAlts Championship"
 msgstr "ExAlts Championship"
 
-#: decks/templates/decks/deck_detail.html:319
+#: decks/templates/decks/deck_detail.html:344
 msgid ""
 "This mode works the same as Standard but replaces the 3 uniques with 3 extra "
 "rares."
@@ -515,92 +536,92 @@ msgstr ""
 "Questa modalità funziona come la Standard, ma sostituisce le 3 carte uniche "
 "con 3 carte rare extra."
 
-#: decks/templates/decks/deck_detail.html:323
+#: decks/templates/decks/deck_detail.html:348
 #: decks/templates/decks/deck_list.html:60
 #: decks/templates/decks/own_deck_list.html:62
 msgid "Draft"
 msgstr "Draft"
 
-#: decks/templates/decks/deck_detail.html:341
+#: decks/templates/decks/deck_detail.html:366
 msgid "Mana curve"
 msgstr "Curva di mana"
 
-#: decks/templates/decks/deck_detail.html:371
-#: decks/templates/decks/deck_detail.html:422
+#: decks/templates/decks/deck_detail.html:396
+#: decks/templates/decks/deck_detail.html:447
 msgid "Cancel"
 msgstr "Annulla"
 
-#: decks/templates/decks/deck_detail.html:372
-#: decks/templates/decks/deck_detail.html:423
+#: decks/templates/decks/deck_detail.html:397
+#: decks/templates/decks/deck_detail.html:448
 msgid "Apply"
 msgstr "Applica"
 
-#: decks/templates/decks/deck_detail.html:391
+#: decks/templates/decks/deck_detail.html:416
 msgid "Playstyle"
 msgstr "Stile di gioco"
 
-#: decks/templates/decks/deck_detail.html:392
+#: decks/templates/decks/deck_detail.html:417
 msgid "Define the overall approach or strategy the deck follows"
 msgstr "Definisci l'approccio generale o la strategia del mazzo"
 
-#: decks/templates/decks/deck_detail.html:407
+#: decks/templates/decks/deck_detail.html:432
 msgid "Sub-strategy"
 msgstr "Sotto-strategia"
 
-#: decks/templates/decks/deck_detail.html:408
+#: decks/templates/decks/deck_detail.html:433
 msgid "Highlight specific tactics or themes"
 msgstr "Evidenzia tattiche o temi specifici"
 
-#: decks/templates/decks/deck_detail.html:437
+#: decks/templates/decks/deck_detail.html:462
 msgid "Are you sure you want to delete this deck?"
 msgstr "Sei sicuro di voler eliminare questo mazzo?"
 
-#: decks/templates/decks/deck_detail.html:437
+#: decks/templates/decks/deck_detail.html:462
 msgid "It won't be possible to recover it later."
 msgstr "Non sarà possibile recuperarlo in seguito."
 
-#: decks/templates/decks/deck_detail.html:440
-#: decks/templates/decks/deck_detail.html:460
+#: decks/templates/decks/deck_detail.html:465
+#: decks/templates/decks/deck_detail.html:485
 msgid "Close"
 msgstr "Chiudi"
 
-#: decks/templates/decks/deck_detail.html:441
-#: decks/templates/decks/deck_detail.html:502
+#: decks/templates/decks/deck_detail.html:466
+#: decks/templates/decks/deck_detail.html:527
 msgid "Delete"
 msgstr "Elimina"
 
-#: decks/templates/decks/deck_detail.html:453
+#: decks/templates/decks/deck_detail.html:478
 msgid "Deck QR Code"
 msgstr "Codice QR del mazzo"
 
-#: decks/templates/decks/deck_detail.html:461
+#: decks/templates/decks/deck_detail.html:486
 msgid "Copy"
 msgstr "Copia"
 
-#: decks/templates/decks/deck_detail.html:462
+#: decks/templates/decks/deck_detail.html:487
 msgid "Download"
 msgstr "Scarica"
 
-#: decks/templates/decks/deck_detail.html:471
+#: decks/templates/decks/deck_detail.html:496
 #, python-format
 msgid "%(comment_count)s comment"
 msgid_plural "%(comment_count)s comments"
 msgstr[0] "%(comment_count)s commento"
 msgstr[1] "%(comment_count)s commenti"
 
-#: decks/templates/decks/deck_detail.html:474
+#: decks/templates/decks/deck_detail.html:499
 msgid "Comments"
 msgstr "Commenti"
 
-#: decks/templates/decks/deck_detail.html:489
+#: decks/templates/decks/deck_detail.html:514
 msgid "Login to use this feature!"
 msgstr "Effettuare l'accesso per utilizzare questa funzione!"
 
-#: decks/templates/decks/deck_detail.html:490 templates/base.html:179
+#: decks/templates/decks/deck_detail.html:515 templates/base.html:179
 msgid "Login"
 msgstr "Accedi"
 
-#: decks/templates/decks/deck_detail.html:518
+#: decks/templates/decks/deck_detail.html:543
 #: decks/templates/decks/own_deck_list.html:204
 #: decks/templates/decks/snippets/public_deck_table.html:86
 #: notifications/templates/notifications/notification_list.html:20
@@ -1753,9 +1774,6 @@ msgstr "Mazzi di tendenza"
 
 #~ msgid "Add"
 #~ msgstr "Aggiungi"
-
-#~ msgid "Deck already has a hero"
-#~ msgstr "Il mazzo ha già un eroe"
 
 #~ msgid "Deck detail"
 #~ msgstr "Dettaglio del mazzo"

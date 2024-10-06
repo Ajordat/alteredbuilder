@@ -56,7 +56,7 @@
             </a>
         {% else %}
             <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'Login to share your love!' %}" data-bs-html="true">
-                <a role="button" href="#" class="btn btn-sm btn-outline-danger disabled" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'Login to share your love!' %}" data-bs-html="true">
+                <a role="button" href="#" class="btn btn-sm btn-outline-danger disabled">
                     <i class="fa-solid fa-heart"></i> {{ deck.love_count }}
                 </a>
             </div>
@@ -65,12 +65,35 @@
         </div>
     {% if deck.is_public %}
         <!-- Comment count and button -->
-        <div class="col me-3">
+        <div class="col">
             <a role="button" class="btn btn-sm {% if deck.comment_count > 0 %}btn-secondary{% else %}btn-outline-secondary{% endif %}" data-bs-toggle="offcanvas" data-bs-target="#commentsOffcanvas" aria-controls="commentsOffcanvas">
                 <i class="fa-solid fa-comment"></i> <span id="comment-count-total">{{ deck.comment_count }}</span>
             </a>
         </div>
     {% endif %}
+        <!-- View button -->
+        <div class="col me-3">
+            
+    {% if stats.rarity_distribution.unique %}
+            <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'This feature cannot be used with unique cards<br>(Work In Progress)' %}" data-bs-html="true">
+                <a role="button" class="btn btn-sm btn-outline-warning disabled">
+                    <i class="fa-solid fa-eye"></i> {% translate "Showcase" %} <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+            </div>
+    {% elif deck.hero %}
+            <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'By Taum' %}">
+                <a id="deckShowcaseButton" role="button" class="btn btn-sm btn-outline-warning">
+                    <i class="fa-solid fa-eye"></i> {% translate "Showcase" %} <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+            </div>
+    {% else %}
+            <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'The deck needs a hero!' %}">
+                <a role="button" class="btn btn-sm btn-outline-warning disabled">
+                    <i class="fa-solid fa-eye"></i> {% translate "Showcase" %} <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+            </div>
+    {% endif %}
+        </div>
 
         <!-- Deck tags -->
         <div class="col d-flex align-items-center">
@@ -538,6 +561,8 @@
 {% endblock %}
 
 {% block bodyscripts %}
+    <!-- Import deckfmt module -->
+    <script src="{% static 'js/altered-deckfmt.umd.cjs' %}"></script>
     <!-- Script to interact with the Deck -->
     <script src="{% static 'js/deck-detail.js' %}"></script>
     <!-- Script to display the Deck's stats -->
