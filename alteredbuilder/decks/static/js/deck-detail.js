@@ -287,7 +287,7 @@ let deckShowcaseButton = document.getElementById("deckShowcaseButton");
 if (deckShowcaseButton) {
     deckShowcaseButton.addEventListener("click", (event) => {
         event.preventDefault();
-        let showcaseEndpoint = "https://deck-showcase.vercel.app/d/";
+        let showcaseEndpoint = "https://deck-showcase-494882337653.europe-west1.run.app/d/";
         let decklistElement = document.getElementById("decklist-text");
         let encodedList = deckfmt.encodeList(decklistElement.dataset.decklist);
         
