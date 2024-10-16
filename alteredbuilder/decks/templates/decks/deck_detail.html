@@ -32,7 +32,7 @@
 
 {% block content %}
     <!-- Deck's name -->
-    <h1>{{ deck.name }}</h1>
+    <h1 id="deckName">{{ deck.name }}</h1>
     <!-- Deck's description -->
     <div class="row">
         <div class="col">{{ deck.description | escape | markdown | safe }}</div>
