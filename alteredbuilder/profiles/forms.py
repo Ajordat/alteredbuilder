@@ -3,11 +3,48 @@ from django.core.validators import RegexValidator
 
 from profiles.models import UserProfile
 
+PROFILE_PICTURES = [
+    ("DEFAULT.png", "Default"),
+
+    ("AX_AXIOM.png", "Axiom logo"),
+    ("AX_SIERRA.png", "Sierra"),
+    ("AX_TREYST.png", "Treyst"),
+    ("AX_SUBHASH.png", "Subhash"),
+
+    ("BR_BRAVOS.png", "Bravos logo"),
+    ("BR_KOJO.png", "Kojo"),
+    ("BR_ATSADI.png", "Atsadi"),
+    ("BR_BASIRA.png", "Basira"),
+    ("LY_LYRA.png", "Lyra logo"),
+    ("LY_NEVENKA.png", "Nevenka"),
+    ("LY_AURAQ.png", "Auraq"),
+    ("LY_FEN.png", "Fen"),
+    
+    ("MU_MUNA.png", "Muna logo"),
+    ("MU_TEIJA.png", "Teija"),
+    ("MU_ARJUN.png", "Arjun"),
+    ("MU_RIN.png", "Rin"),
+    
+    ("OR_ORDIS.png", "Ordis logo"),
+    ("OR_SIGISMAR.png", "Sigismar"),
+    ("OR_WARU.png", "Waru"),
+    ("OR_GULRANG.png", "Gulrang"),
+    
+    ("YZ_YZMIR.png", "Yzmir logo"),
+    ("YZ_AKESHA.png", "Akesha"),
+    ("YZ_LINDIWE.png", "Lindiwe"),
+    ("YZ_AFANAS.png", "Afanas"),
+]
 
 class UserProfileForm(forms.Form):
     """Form to validate a User's profile modification."""
 
     template_name = "forms/submit_userprofile.html"
+    avatar = forms.ChoiceField(
+        choices=PROFILE_PICTURES,
+        widget=forms.RadioSelect,
+        label="Select your avatar"
+    )
     bio = forms.CharField(
         max_length=UserProfile._meta.get_field("bio").max_length,
         widget=forms.Textarea(attrs={"cols": 40, "rows": 10}),

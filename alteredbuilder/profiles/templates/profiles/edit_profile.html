@@ -11,6 +11,19 @@
         <h1>{% translate "Edit Profile" %}</h1>
         <form method="post">
             {% csrf_token %}
+            <div class="form-group">
+                <label for="profile_picture">{% translate "Select your profile picture:" %}</label>
+                <div class="row">
+                    {% for radio in form.avatar %}
+                    <div class="col-md-3">
+                        <label class="d-block">
+                            {{ radio }}
+                            <img src="/static/img/avatars/{{ radio.choice_value }}" alt="Profile Picture" width="100" height="100" class="rounded-circle">
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
             <div class="row mb-3">
                 <label for="{{ form.bio.auto_id }}" class="col-form-label">{% url 'markdown' as md_url %}{% blocktranslate %}Biography (feel free to use <a href="{{ md_url }}">markdown</a>):{% endblocktranslate %}</label>
                 <textarea class="form-control {% if form.bio.errors %}is-invalid{% endif %}" name="{{ form.bio.name }}" cols="{{ form.bio.subwidgets.0.data.attrs.cols }}" rows="{{ form.bio.subwidgets.0.data.attrs.rows }}" maxlength="{{ form.fields.bio.max_length }}" id="{{ form.bio.auto_id }}" aria-describedby="{{ form.bio.name }}-validation">{{ form.bio.value }}</textarea>
