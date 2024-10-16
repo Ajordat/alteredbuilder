@@ -4,8 +4,6 @@ from django.core.validators import RegexValidator
 from profiles.models import UserProfile
 
 PROFILE_PICTURES = [
-    ("DEFAULT.png", "Default"),
-
     ("AX_AXIOM.png", "Axiom logo"),
     ("AX_SIERRA.png", "Sierra"),
     ("AX_TREYST.png", "Treyst"),
@@ -34,6 +32,8 @@ PROFILE_PICTURES = [
     ("YZ_AKESHA.png", "Akesha"),
     ("YZ_LINDIWE.png", "Lindiwe"),
     ("YZ_AFANAS.png", "Afanas"),
+    
+    ("DEFAULT.png", "Default"),
 ]
 
 class UserProfileForm(forms.Form):
