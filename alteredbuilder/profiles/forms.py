@@ -37,7 +37,7 @@ class UserProfileForm(forms.Form):
 
     template_name = "forms/submit_userprofile.html"
     avatar = forms.ChoiceField(
-        choices=PROFILE_PICTURES, widget=forms.RadioSelect, label="Select your avatar"
+        choices=PROFILE_PICTURES, widget=forms.RadioSelect
     )
     bio = forms.CharField(
         max_length=UserProfile._meta.get_field("bio").max_length,

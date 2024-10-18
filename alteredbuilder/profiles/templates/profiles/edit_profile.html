@@ -19,19 +19,19 @@
         <form method="post">
     {% csrf_token %}
             <div class="text-center">
-                <img id="selected-profile-pic" src="{{ user.profile.get_avatar_image }}" alt="Selected Profile Picture" width="100" height="100" class="rounded-circle mb-2">
+                <img id="selected-profile-pic" src="{{ user.profile.get_avatar_image }}" alt="{% translate "Selected Profile Picture" %}" width="100" height="100" class="rounded-circle mb-2">
                 {% comment %} <h5 id="selected-profile-name">{{ form.avatar.value }}</h5> {% endcomment %}
 
                 <!-- Button to open modal -->
                 <button type="button" class="btn btn-secondary mt-2" data-bs-toggle="modal" data-bs-target="#profilePictureModal">
-                    {% translate "Select Picture" %}
+                    {% translate "Choose an Avatar" %}
                 </button>
             </div>
             <div class="modal fade" id="profilePictureModal" tabindex="-1" aria-labelledby="profilePictureModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="profilePictureModalLabel">Select Profile Picture</h5>
+                            <h5 class="modal-title" id="profilePictureModalLabel">{% translate "Choose an Avatar" %}</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -40,8 +40,8 @@
                                 <div class="col-md-3 text-center">
                                     <label class="d-block profile-picture-option">
                                         {% comment %} {{radio.data}} {% endcomment %}
-                                        <input id="{{ radio.data.attrs.id }}" class="profile-pic-option" type="radio" name="avatar" value="{{ radio.data.value }}" required style="display: none;" {% if radio.data.attrs.checked %}checked{% endif %}>
-                                        <img src="{{ radio.data.value|to_avatar_url }}" data-pic-name="{{ radio.data.value }}" alt="Profile Picture" width="70" height="70" class="profile-pic-choice profile-pic-img rounded-circle">
+                                        <input id="{{ radio.data.attrs.id }}" class="profile-pic-option" type="radio" name="avatar" value="{{ radio.data.value }}" required {% if radio.data.attrs.checked %}checked{% endif %}>
+                                        <img src="{{ radio.data.value|to_avatar_url }}" data-pic-name="{{ radio.data.value }}" alt="{{ radio.choice_label }}" width="70" height="70" class="profile-pic-choice rounded-circle">
                                         <p>{{ radio.choice_label }}</p>
                                     </label>
                                 </div>
