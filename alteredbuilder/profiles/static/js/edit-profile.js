@@ -11,9 +11,5 @@ document.querySelectorAll('.profile-pic-choice').forEach(function(pic) {
 
         // Mark the corresponding radio button as checked
         document.querySelector(`input[value="${selectedPicName}"]`).checked = true;
-
-        // Close the modal after selection
-        const modal = bootstrap.Modal.getInstance(document.getElementById('profilePictureModal'));
-        modal.hide();
     });
 });
