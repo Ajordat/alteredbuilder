@@ -344,7 +344,7 @@ class CardListViewTestCase(BaseViewTestCase):
         self.assertIn("own_decks", response.context)
         decks = (
             Deck.objects.filter(owner=self.user)
-            .values("id", "name")
+            .values("id", "name", "hero__faction")
             .order_by("-modified_at")
         )
         self.assertQuerySetEqual(decks, response.context["own_decks"])
@@ -363,7 +363,7 @@ class CardListViewTestCase(BaseViewTestCase):
         self.assertIn("own_decks", response.context)
         decks = (
             Deck.objects.filter(owner=self.user)
-            .values("id", "name")
+            .values("id", "name", "hero__faction")
             .order_by("-modified_at")
         )
         self.assertQuerySetEqual(decks, response.context["own_decks"])
@@ -384,7 +384,7 @@ class CardListViewTestCase(BaseViewTestCase):
         self.assertIn("own_decks", response.context)
         decks = (
             Deck.objects.filter(owner=self.user)
-            .values("id", "name")
+            .values("id", "name", "hero__faction")
             .order_by("-modified_at")
         )
         self.assertQuerySetEqual(decks, response.context["own_decks"])

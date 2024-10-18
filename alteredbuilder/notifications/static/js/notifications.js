@@ -52,6 +52,7 @@ function fetchNotifications() {
 
             notifications = payload.data.notifications;
             if (notifications.length > 0) {
+                let notificationsEnd = document.getElementById("notificationsEnd");
                 // If there are notifications, render each of them
                 notifications.forEach(notification => {
                     // <li> element will contain the notification
@@ -83,7 +84,7 @@ function fetchNotifications() {
                     small.innerText = notification.timestamp;
                     anchor.appendChild(small);
                     notificationItem.appendChild(anchor);
-                    notificationDropdown.appendChild(notificationItem);
+                    notificationDropdown.insertBefore(notificationItem, notificationsEnd);
                 });
             } else {                
                 setNotificationMessage(gettext('No new notifications'));

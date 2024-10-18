@@ -1,0 +1,59 @@
+{% load static %}
+{% load i18n %}
+
+<h3>Quality of Life changes</h3>
+
+<p>The release 1.13.0 is finally here after I took some (arguably) well-deserved holidays.</p>
+
+<p>
+    First of all, to continue our efforts towards making this platform open-source and collaborative with a wider audience, we've integrated it with Weblate.<br>
+    Weblate is an open-source project that allows to submit a project's strings of characters so that people can work together translating them to other languages.
+    Feel free to <a href="https://hosted.weblate.org/projects/altered-tcg-builder/" target="_blank">check it out</a>!
+</p>
+
+<p>
+    This update also brings a series of Quality of Life improvements that we're happy about.
+    For example, adding a button to mark all notifications as read at once; filtering by faction when selecting a deck on the card's list or providing a way to edit a deck from the deck's view.
+</p>
+
+<p>
+    Lastly, I've linked <a href="https://deck-showcase.vercel.app/" target="_blank">Taum's site</a> directly from the deck's view.
+    This provides an alternative view of each deck that is more visually appealing and easier to share with others.
+    The site is still under construction so currently it's not possible to make it work with unique cards or decks without a hero.
+    Take a look a this example showcasing the <a href="https://deck-showcase.vercel.app/d/EBAlWglRBoj0UqONHekHSTpp08qiNRapDUnqg1Zq0NaeuDnp6EA=" target="_blank">Bravos starter deck</a>.
+</p>
+
+<ul class="list-group bg-info-subtle">
+    <li class="list-group-item"><strong>{% translate "New features" %}</strong>
+        <ul>
+            <li>Integration with <a href="https://hosted.weblate.org/projects/altered-tcg-builder/" target="_blank">Weblate</a>. Help us translate the site to your native language!</li>
+            <li>Added a button to mark all notifications as read without needing to open them all.</li>
+            <li>Added a button to display a deck on the <a href="https://deck-showcase.vercel.app/" target="_blank">Deck Showcase</a> site by Taum. This was a highly requested feature!</li>
+        </ul>
+    </li>
+
+    <li class="list-group-item"><strong>{% translate "Fixes" %}</strong>
+        <ul>
+            <li>Bug that made shared links appear in a different language than the actual page.</li>
+        </ul>
+    </li>
+
+    <li class="list-group-item"><strong>{% translate "Other changes" %}</strong>
+        <ul>
+            <li>Added a button on the deck's view to edit it. This is a Quality of Life shortcut <strong>suggested by Anvyl</strong> on the Discord server.</li>
+            <li>If a deck has a hero, when selecting it on the sidebar the faction's filter will be applied.</li>
+            <li>Card images are now retrieved using a CDN. This should result in better performance when loading the images.</li>
+        </ul>
+    </li>
+
+    <li class="list-group-item"><strong>{% translate "Announcements" %}</strong>
+        <ul>
+            <li>This platform is now open source: <a target="_blank" href="https://github.com/Ajordat/alteredbuilder">Ajordat/alteredbuilder</a>.</li>
+            <li>We have a Discord server! Join if you want to keep up to date with the latest releases, report bugs or request features: <a href="https://discord.gg/hGA3dTcxqz" target="_blank" class="no-underline"><i class="fa-brands fa-discord"></i> <u>Discord Server</u></a></li>
+            <li>
+                Consider supporting the project on <a href="http://www.patreon.com/Ajordat" target="_blank">Patreon</a>, <a href="https://buymeacoffee.com/ajordat" target="_blank">Buy me a coffe</a> or <a href="https://fr.tipeee.com/ajordat/" target="_blank">Tipeee</a> if you enjoy using the platform and consider that we're doing a good job expanding the platform.
+                All funds will be spent in covering the hosting costs to ensure the longetivity of the platform.
+            </li>
+        </ul>
+    </li>
+</ul>

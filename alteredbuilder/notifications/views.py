@@ -89,3 +89,23 @@ def fetch_notifications(request: HttpRequest) -> ApiJsonResponse:
         )
 
     return ApiJsonResponse({"notifications": data}, HTTPStatus.OK)
+
+
+@login_required
+def clear_notifications(request: HttpRequest) -> HttpResponse:
+    """View to clear all notifications of a given user.
+
+    Args:
+        request (HttpRequest): The HTTP request.
+
+    Returns:
+        HttpResponse: A redirection to the current view (if clicked from the dropdown)
+                      or the Notification's list view.
+    """
+
+    Notification.objects.filter(recipient=request.user, read=False).update(read=True)
+
+    if next := request.GET.get("next"):
+        return redirect(next)
+
+    return redirect("notification-list")

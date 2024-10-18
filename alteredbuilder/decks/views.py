@@ -770,7 +770,7 @@ class CardListView(ListView):
             context["own_decks"] = (
                 Deck.objects.filter(owner=self.request.user)
                 .order_by("-modified_at")
-                .values("id", "name")
+                .values("id", "name", "hero__faction")
             )
             edit_deck_id = self.request.GET.get("deck")
             if edit_deck_id:
