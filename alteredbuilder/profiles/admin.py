@@ -9,7 +9,7 @@ class UserProfileAdmin(admin.ModelAdmin):
     search_fields = ["user__username"]
     readonly_fields = ["user", "code", "altered_handle", "discord_public"]
     fieldsets = [
-        (None, {"fields": ["user", "code", "bio"]}),
+        (None, {"fields": ["user", "code", "bio", "avatar"]}),
         ("Social accounts", {"fields": ["altered_handle", "discord_public"]}),
     ]
 
