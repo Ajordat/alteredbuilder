@@ -14,3 +14,58 @@
     width: 100%;
     height: 100%;
 }
+
+.profile-picture-option {
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.profile-pic-img {
+    border: 2px solid transparent;
+    transition: all 0.3s ease-in-out;
+}
+
+.profile-picture-option:hover img {
+    border: 2px solid var(--faction-color);
+    box-shadow: 0 0 40px var(--faction-color-shadow);
+}
+
+input[type="radio"]:checked + img {
+    border: 4px solid var(--faction-color);
+}
+
+img[data-pic-name^="AX"] {
+    --faction-color: #7e4b36;
+    --faction-color-shadow: #7e4b36cc;
+}
+
+img[data-pic-name^="BR"] {
+    --faction-color: #b24848;
+    --faction-color-shadow: #b24848cc;
+}
+
+img[data-pic-name^="LY"] {
+    --faction-color: #d12358;
+    --faction-color-shadow: #d12358cc;
+}
+
+img[data-pic-name^="MU"] {
+    --faction-color: #4c7245;
+    --faction-color-shadow: #4c7245cc;
+}
+
+img[data-pic-name^="OR"] {
+    --faction-color: #00628b;
+    --faction-color-shadow: #00628bcc;
+}
+
+img[data-pic-name^="YZ"] {
+    --faction-color: #483b66;
+    --faction-color-shadow: #483b66cc;
+}
+
+img[data-pic-name^="NE"] {
+    --faction-color: #777;
+    --faction-color-shadow: #777c;
+}
