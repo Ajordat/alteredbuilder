@@ -32,7 +32,7 @@
 
 {% block content %}
     <!-- Deck's name -->
-    <h1>{{ deck.name }}</h1>
+    <h1 id="deckName">{{ deck.name }}</h1>
     <!-- Deck's description -->
     <div class="row">
         <div class="col">{{ deck.description | escape | markdown | safe }}</div>
@@ -73,14 +73,7 @@
     {% endif %}
         <!-- View button -->
         <div class="col me-3">
-            
-    {% if stats.rarity_distribution.unique %}
-            <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'This feature cannot be used with unique cards<br>(Work In Progress)' %}" data-bs-html="true">
-                <a role="button" class="btn btn-sm btn-outline-warning disabled">
-                    <i class="fa-solid fa-eye"></i> {% translate "Showcase" %} <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                </a>
-            </div>
-    {% elif deck.hero %}
+    {% if deck.hero %}
             <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'By Taum' %}">
                 <a id="deckShowcaseButton" role="button" class="btn btn-sm btn-outline-warning">
                     <i class="fa-solid fa-eye"></i> {% translate "Showcase" %} <i class="fa-solid fa-arrow-up-right-from-square"></i>

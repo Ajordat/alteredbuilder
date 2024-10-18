@@ -287,11 +287,12 @@ let deckShowcaseButton = document.getElementById("deckShowcaseButton");
 if (deckShowcaseButton) {
     deckShowcaseButton.addEventListener("click", (event) => {
         event.preventDefault();
-        let showcaseEndpoint = "https://deck-showcase.vercel.app/d/";
+        let showcaseEndpoint = "https://sabotageafter.rest/d/";
         let decklistElement = document.getElementById("decklist-text");
+        let deckName = document.getElementById("deckName").innerText;
         let encodedList = deckfmt.encodeList(decklistElement.dataset.decklist);
         
-        window.open(showcaseEndpoint + encodedList, "_blank").focus();
+        window.open(showcaseEndpoint + encodedList + "?name=" + encodeURIComponent(deckName), "_blank").focus();
         return false;
     });
 }
