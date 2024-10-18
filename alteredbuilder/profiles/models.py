@@ -2,6 +2,7 @@ import uuid
 
 from django.conf import settings
 from django.db import models
+from django.templatetags.static import static
 from django.urls import reverse
 
 
@@ -11,7 +12,7 @@ class UserProfile(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="profile"
     )
     bio = models.TextField(max_length=1000, blank=True)
-    avatar = models.CharField(default="DEFAULT.png")
+    avatar = models.CharField(default="NE_DEFAULT.png")
 
     altered_handle = models.CharField(null=True)
     discord_public = models.BooleanField(default=False)
@@ -27,9 +28,9 @@ class UserProfile(models.Model):
 
     def get_unfollow_url(self):
         return reverse("profile-unfollow", kwargs={"code": self.code})
-    
+
     def get_avatar_image(self):
-        return f"/static/img/avatars/{self.avatar}"
+        return static(f"/img/avatars/{self.avatar}")
 
 
 class Follow(models.Model):
