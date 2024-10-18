@@ -519,7 +519,9 @@
         {% for comment in comments %}
                         <div class="media comment-body">
                             <div class="media-body">
-                                <h4 class="media-heading"><a href="{{ comment.user.profile.get_absolute_url }}">{{ comment.user.username|safe_username }}</a>
+                                <h4 class="media-heading">
+                                    <img src="{{ comment.user.profile.get_avatar_image }}" alt="{{ comment.user.username }}'s profile picture" class="user-profile-pic rounded-circle" width="50" height="50">
+                                    <a href="{{ comment.user.profile.get_absolute_url }}">{{ comment.user.username|safe_username }}</a>
                                     <span class="float-end">
             {% if comment.user == request.user %}
                                         <!-- The writer of the Comment can delete it -->
