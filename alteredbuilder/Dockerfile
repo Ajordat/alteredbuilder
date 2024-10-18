@@ -6,7 +6,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 # Install the gettext to translate to different locales
-RUN apk add --no-cache gettext
+RUN apk add --no-cache gettext g++ musl-dev libffi-dev
 
 # Set the working directory
 WORKDIR /code
