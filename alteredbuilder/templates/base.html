@@ -44,11 +44,14 @@
         <meta name="msapplication-config" content="{% static "logos/browserconfig.xml" %}">
         <meta name="theme-color" content="#ffffff">
         <script src="{% static 'js/theme-mode.js' %}"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Gabriela&display=swap" rel="stylesheet">
     {% endcache %}
         <script src="{% url 'javascript-catalog' %}"></script>
 {% endblock %}
     </head>
-    <body class="d-flex flex-column min-vh-100">
+    <body class="d-flex flex-column min-vh-100 gabriela-regular">
 {% with nav_item_classes="mx-1 mb-1 mb-xl-0 ps-3 ps-xl-0" %}
         <nav class="navbar navbar-expand-xl sticky-top shadow">
             <div class="container-fluid">

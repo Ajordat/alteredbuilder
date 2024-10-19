@@ -25,11 +25,19 @@ html[data-bs-theme="dark"] {
     --new-notification-bg: rgba(var(--bs-secondary-rgb), 1);
 }
 
+
 /* BODY STYLE */
 body {
     font-family: Verdana, Tahoma, Geneva, sans-serif;
     background-color: var(--general-bg-color);
 }
+
+.gabriela-regular {
+    font-family: "Gabriela", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
 
 /* NAVIGATION BAR */
 nav.navbar {
