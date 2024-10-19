@@ -33,11 +33,11 @@
       let activeTabElement = document.getElementsByClassName("current-nav-tab")[0];
       if (!activeTabElement) return;
       if (theme === 'dark') {
-        activeTabElement.classList.add("bg-dark");
-        activeTabElement.classList.remove("bg-white");
+        // activeTabElement.classList.add("bg-dark");
+        // activeTabElement.classList.remove("bg-white");
       } else {
-        activeTabElement.classList.add("bg-white");
-        activeTabElement.classList.remove("bg-dark");
+        // activeTabElement.classList.add("bg-white");
+        // activeTabElement.classList.remove("bg-dark");
       }
     }
   
