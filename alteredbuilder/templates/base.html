@@ -49,6 +49,7 @@
 {% endblock %}
     </head>
     <body class="d-flex flex-column min-vh-100">
+{% with nav_item_classes="mx-1 mb-1 mb-xl-0 ps-3 ps-xl-0" %}
         <nav class="navbar navbar-expand-xl sticky-top shadow">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{% url 'index' %}"><img class="logo" src="{% static "img/logo.webp" %}" alt="logo" width="40px" height="40px">Altered TCG Builder</a>
@@ -56,7 +57,6 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse mt-2 mt-xl-0" id="navbarSupportedContent">
-{% with nav_item_classes="mx-1 mb-1 mb-xl-0 ps-3 ps-xl-0" %}
                     <ul id="navbar-traversal" class="navbar-nav me-auto">
                         {% url 'home' as item_url %}
                         <li class="nav-item {{ nav_item_classes }} {% if request.path == item_url %}current-nav-tab{% endif %}">
@@ -124,21 +124,21 @@
                                 {% include "decks/snippets/picture_webp.html" with img_name=CURRENT_LANGUAGE width=24 height=24 %}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
-{% for lang in languages %}
+    {% for lang in languages %}
                                 <li>
                                     <a class="dropdown-item" href="{% change_lang lang.code %}">
                                         {% include "decks/snippets/picture_webp.html" with img_name=lang.code width=24 height=24 %} {{ lang.name_local|title }}
                                     </a>
                                 </li>
-{% endfor %}
+    {% endfor %}
                             </ul>
                         </li>
                         <li class="nav-item {{ nav_item_classes }} dropdown">
                             <a class="nav-link dropdown-toggle position-relative" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Notifications dropdown">
                                 <i class="fa-solid fa-bell"></i>
-{% if has_unread_notifications %}
+    {% if has_unread_notifications %}
                                 <span class="position-absolute translate-middle p-1 bg-danger border border-light rounded-circle"></span>
-{% endif %}
+    {% endif %}
                             </a>
                             <ul id="notificationList" class="dropdown-menu dropdown-menu-end bg-light-subtle pt-0" aria-labelledby="notificationDropdown">
                                 <li class="dropdown-item text-center mt-2 p-0"><a class="dropdown-item d-block" href="{% url "notification-list" %}">{% translate "View all notifications" %}</a></li>
@@ -148,20 +148,20 @@
                                 <li class="dropdown-item text-center mt-2 p-0"><a class="dropdown-item d-block" href="{% url "notification-clear" %}?next={{ request.get_full_path|urlencode  }}">{% translate "Mark all notifications as read" %}</a></li>
                             </ul>
                         </li>
-{% if user.is_authenticated %}
-    {% if user.is_superuser or user.is_staff %}
+    {% if user.is_authenticated %}
+        {% if user.is_superuser or user.is_staff %}
                         <li class="nav-item {{ nav_item_classes }} dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-gears"></i> Admin</a>
                             <ul class="dropdown-menu dropdown-menu-end">
-        {% if user.is_staff %}
+            {% if user.is_staff %}
                                 <li><a class="dropdown-item" href="{% url 'admin:index' %}"><i class="fa-solid fa-gears"></i> Admin Panel</a></li>
                                 <li><hr class="dropdown-divider"></li>
-        {% endif %}
+            {% endif %}
                                 <li><a class="dropdown-item" href="{% url 'troubleshoot:session' %}">Sessions</a></li>
                                 <li><a class="dropdown-item" href="{% url 'troubleshoot:deck_descriptions' %}">Decks</a></li>
                             </ul>
                         </li>
-    {% endif %}
+        {% endif %}
                         <li class="nav-item {{ nav_item_classes }} dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user"></i> {{ user.username }}</a>
                             <ul class="dropdown-menu dropdown-menu-end">
@@ -173,11 +173,11 @@
                                 <li><a class="dropdown-item" href="{% url 'account_logout' %}?next={{ request.path }}">{% translate "Logout" %}</a></li>
                             </ul>
                         </li>
-{% else %}
+    {% else %}
                         <li class="nav-item {{ nav_item_classes }}">
                             <a class="nav-link" href="{% url 'account_login' %}?next={{ request.path }}"><i class="fa-solid fa-user"></i> {% translate "Login" %}</a>
                         </li>
-{% endif %}
+    {% endif %}
                     </ul>
                 </div>
             </div>

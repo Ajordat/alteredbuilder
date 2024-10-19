@@ -8,50 +8,72 @@
     --U-color: var(--bs-danger-bg-subtle);
 }
 
-html[data-bs-theme="light"] body {
-    background-color: #FFFEFC;
+html[data-bs-theme="light"] {
+    --general-bg-color: #FFFEFC;
+    --navbar-bg-color: #FDF8E7;
+    --navbar-a-bg-active-color: #DDBF5F;
+    --navbar-a-active-color: #3D331D;
+    --navbar-a-inactive-color: #625948;
+    --new-notification-bg: var(--bs-info-bg-subtle);
+}
+html[data-bs-theme="dark"] {
+    --general-bg-color: #625948;
+    --navbar-bg-color: #332811;
+    --navbar-a-bg-active-color: #DDBF5F;
+    --navbar-a-active-color: #3D331D;
+    --navbar-a-inactive-color: #FDF8E7;
+    --new-notification-bg: rgba(var(--bs-secondary-rgb), 1);
 }
 
-nav.navbar {
-    background-color: #FDF8E7;
-}
-
-nav.navbar a {
-    color: #625948;
-}
 
 body {
     font-family: Verdana, Tahoma, Geneva, sans-serif;
+    background-color: var(--general-bg-color);
 }
 
-
-footer h5 {
-    letter-spacing: 2px;
-    color: #818963;
+nav.navbar {
+    background-color: var(--navbar-bg-color);
 }
 
-footer a {
-    color: #4f4f4f;
-}
-
-footer a.no-underline {
-    text-decoration: none;
+.navbar-brand {
+    color: var(--navbar-a-inactive-color);
 }
 
 li.nav-item {
     border-radius: 16px;
 }
 
+li.nav-item>a {
+    color: var(--navbar-a-inactive-color);
+}
+
 li.nav-item.current-nav-tab {
-    background-color: #DDBF5F;
+    background-color: var(--navbar-a-bg-active-color);
 }
 
 li.nav-item:hover {
-    background-color: #DDBF5F;
+    background-color: var(--navbar-a-bg-active-color);
+}
+
+li.nav-item:hover>a {
+    color: var(--navbar-a-active-color);
 }
 
 li.nav-item.current-nav-tab a {
-    color: #3D331D;
+    color: var(--navbar-a-active-color);
+}
+
+footer h5 {
+    letter-spacing: 2px;
+    color: var(--navbar-a-inactive-color);
+}
+
+footer a {
+    color: var(--navbar-a-inactive-color);
+}
+
+footer a.no-underline {
+    text-decoration: none;
 }
 
 .navbar img.logo {
@@ -64,12 +86,8 @@ html[data-bs-theme="light"] .navbar img.logo {
     filter: drop-shadow(0 0 5px #175457);
 }
 
-html[data-bs-theme="light"] .new-notification {
-    background-color: var(--bs-info-bg-subtle); /* bg-info-subtle */
-}
-
-html[data-bs-theme="dark"] .new-notification {
-    background-color: rgba(var(--bs-secondary-rgb), 1); /* bg-secondary */
+.new-notification {
+    background-color: var(--new-notification-bg);
 }
 
 i.fa-star {
