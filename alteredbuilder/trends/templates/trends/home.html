@@ -20,14 +20,14 @@
 
     <div class="container mt-3" id="release-container">
         <div class="accordion my-3" id="releaseAccordion">
-            <div class="accordion-item">
+            <div class="accordion-item shadow">
                 <h2 class="accordion-header">
-                    <button id="releaseButton" class="accordion-button bg-info-subtle collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#releaseDescription" aria-expanded="true" aria-controls="releaseDescription">
+                    <button id="releaseButton" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#releaseDescription" aria-expanded="true" aria-controls="releaseDescription">
                         {% blocktranslate %}Release notes {{ version }}{% endblocktranslate %}
                         <span id="releaseNotificationAlert" class="translate-middle p-1 bg-danger border border-light rounded-circle ms-2" hidden></span>
                     </button>
                 </h2>
-                <div id="releaseDescription" class="accordion-collapse collapse bg-info-subtle" data-bs-parent="#releaseAccordion" data-release="{{ version }}">
+                <div id="releaseDescription" class="accordion-collapse collapse" data-bs-parent="#releaseAccordion" data-release="{{ version }}">
                     <div class="accordion-body">
                             {% include "releases/"|add:version|add:".html" %}
                     </div>
