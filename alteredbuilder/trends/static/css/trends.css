@@ -15,3 +15,18 @@
     background-color: var(--navbar-bg-color);
     color: var(--navbar-a-inactive-color);
 }
+
+.hr-title {
+    height: 12px;
+    background: rgb(255,255,255);
+    background: linear-gradient(90deg, var(--general-bg-color) 0%, var(--navbar-a-bg-active-color) 30%, var(--general-bg-color) 100%);
+    border: 0;
+    opacity: 1;
+}
+
+#card-showcase {
+    float: right;
+    margin-left: 20px;
+    /* max-width: 30%; */
+    max-height: 300px;
+}

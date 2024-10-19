@@ -18,7 +18,7 @@
 {% block content %}
     {% get_current_language as LANGUAGE_CODE %}
 
-    <div class="container mt-3" id="release-container">
+    {% comment %} <div class="container mt-3" id="release-container">
         <div class="accordion my-3" id="releaseAccordion">
             <div class="accordion-item shadow">
                 <h2 class="accordion-header">
@@ -34,72 +34,70 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row mt-4">
-        <div class="col">
-            <div class="card" style="border: none">
-                <div class="card-body">
-                    <h3 class="card-title">{% translate "Trends from the last 7 days" %}</h3>
-                    <p>{% translate "The statistics are extracted daily from the public legal decks modified within the last 7 days.<br>Click on the faction and hero pie charts to narrow down the results!" %}</p>
-                </div>
-            </div>
-        </div>
-    </div>
+    </div> {% endcomment %}
     <div class="row mt-4">
         <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card">
+            <h5 class="card-title">{% translate "Popular Factions" %}</h5>
+            <hr class="hr-title mt-1 mb-2" />
+            <div class="card shadow">
                 <div class="card-body">
-                    <h5 class="card-title">{% translate "Popular Factions" %}</h5>
                     <div id="faction-pie-chart" style="min-height: 306px"></div>
                 </div>
             </div>
         </div>
         <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card">
+            <h5 class="card-title">{% translate "Popular Heroes" %}</h5>
+            <hr class="hr-title mt-1 mb-2" />
+            <div class="card shadow">
                 <div class="card-body">
-                    <h5 class="card-title">{% translate "Popular Heroes" %}</h5>
                     <div id="hero-pie-chart" style="min-height: 306px"></div>
                 </div>
             </div>
         </div>
-    {% cache 600 card_trends LANGUAGE_CODE request.GET %}
+    {% comment %} {% cache 600 card_trends LANGUAGE_CODE request.GET %} {% endcomment %}
         <div class="col-lg-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{% translate "Popular Cards" %}</h5>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>{% translate "Name" %}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                {% for trend in card_trends %}
-                            <tr>
-                                <td>
-                    {% if trend.prev_ranking > trend.ranking or not trend.prev_ranking %}
-                                    <i class="fa-solid fa-chevron-up"></i>
-                    {% elif trend.prev_ranking < trend.ranking %}
-                                    <i class="fa-solid fa-chevron-down"></i>
-                    {% endif %}
-                                </td>
-                                <td>
-                                    <span class="d-inline-block" data-bs-offset="0,30" data-bs-toggle="tooltip" data-bs-title="<img src='{% cdn_image_url trend.card.image_url %}'/>" data-bs-html="true" data-bs-placement="left">
-                                    {% include "decks/snippets/picture_webp.html" with img_name=trend.card.faction width=24 height=24 %}
-                                    {% include "decks/snippets/picture_webp.html" with img_name=trend.card.get_rarity_display width=20 height=11 %}
-                                    <span class="card-name user-select-all" data-card-rarity="{{ trend.card.rarity }}">{{ trend.card.name }}</span>
-                                </span>       
-                                    <link rel="prefetch" href="{% cdn_image_url trend.card.image_url %}"/>
-                                </td>
-                            </tr>
-                {% endfor %}
-                        </tbody>
-                    </table>
+            <h5 class="card-title">{% translate "Popular Cards" %}</h5>
+            <hr class="hr-title mt-1 mb-2" />
+            <div class="card shadow">
+                <div class="card-body d-flex justify-content-between" style="height: 338px;">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>{% translate "Name" %}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+        {% for trend in card_trends %}
+                                <tr class="card-hover" data-image-url="{% cdn_image_url trend.card.image_url %}">
+                                    <td>
+            {% if trend.prev_ranking > trend.ranking or not trend.prev_ranking %}
+                                        <i class="fa-solid fa-chevron-up"></i>
+            {% elif trend.prev_ranking < trend.ranking %}
+                                        <i class="fa-solid fa-chevron-down"></i>
+            {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class="d-inline-block">
+                                        {% include "decks/snippets/picture_webp.html" with img_name=trend.card.faction width=24 height=24 %}
+                                        {% include "decks/snippets/picture_webp.html" with img_name=trend.card.get_rarity_display width=20 height=11 %}
+                                            <span class="card-name user-select-all" data-card-rarity="{{ trend.card.rarity }}">{{ trend.card.name }}</span>
+                                        </span>
+                                        <link rel="prefetch" href="{% cdn_image_url trend.card.image_url %}"/>
+                                    </td>
+                                </tr>
+        {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="image-container d-none d-xl-block">
+                        <img class="img-fluid rounded-4" id="card-showcase" src="{% cdn_image_url card_trends.0.card.image_url %}">
+                    </div>
                 </div>
             </div>
         </div>
-    {% endcache %}
+    {% comment %} {% endcache %} {% endcomment %}
     </div>
     <h3>{% translate "Trending decks" %}</h3>
     {% include "decks/snippets/public_deck_table.html" with table_id="trendingDecksTable" deck_list=deck_trends %}
@@ -132,6 +130,18 @@
         });
         document.getElementById("releaseDescription").addEventListener("shown.bs.collapse", event => {
             localStorage.removeItem("releaseMinimized");
+        });
+    </script>
+    <script>
+
+        let deckRows = document.querySelectorAll(".card-hover");
+        deckRows.forEach(function(element) {
+            element.addEventListener("mouseover", function() {
+                // Change the display image to show the current (or last) card hovered
+                if (element.dataset.imageUrl !== undefined) {
+                    document.getElementById("card-showcase").src = element.dataset.imageUrl;
+                }
+            });
         });
     </script>
 
