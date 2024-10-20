@@ -137,6 +137,7 @@ class Command(BaseCommand):
         base_filter = {
             "deck__modified_at__date__gte": self.start_lapse,
             "deck__is_public": True,
+            "card__rarity__in": [Card.Rarity.COMMON, Card.Rarity.RARE],
         }
 
         # This is the general usage, therefore no filtering based on faction or hero is
@@ -215,25 +216,22 @@ class Command(BaseCommand):
                 .order_by("-count")[:CARD_RANKING_LIMIT]
             )
 
-            try:
-                # Create a record for each card
-                for rank, record in enumerate(card_trends, start=1):
-                    card = Card.objects.get(
-                        name=record["name"],
-                        rarity=record["card__rarity"],
-                        faction=record["card__faction"],
-                        set=core_set,
-                    )
-                    CardTrend.objects.update_or_create(
-                        card=card,
-                        hero=hero_trend.hero,
-                        faction=None,
-                        day_count=self.day_count,
-                        date=self.end_lapse,
-                        defaults={"ranking": rank},
-                    )
-            except Card.MultipleObjectsReturned:
-                self.stderr.write(f"Found the following card to be repeated: {record["name"]} {record["card__rarity"]} {record["card__faction"]}")
+            # Create a record for each card
+            for rank, record in enumerate(card_trends, start=1):
+                card = Card.objects.get(
+                    name=record["name"],
+                    rarity=record["card__rarity"],
+                    faction=record["card__faction"],
+                    set=core_set,
+                )
+                CardTrend.objects.update_or_create(
+                    card=card,
+                    hero=hero_trend.hero,
+                    faction=None,
+                    day_count=self.day_count,
+                    date=self.end_lapse,
+                    defaults={"ranking": rank},
+                )
 
     def generate_deck_trends(self):
         """Generate the deck trends.
