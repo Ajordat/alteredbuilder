@@ -104,9 +104,9 @@
     <hr class="hr-title mt-1 mb-2"/>
     <div id="trendingDecks" class="row">
     {% for deck in deck_trends %}
-        <div class="col-xxl-2 col-xl-3 col-md-4 col-sm-6">
+        <div class="col-xl-3 col-md-4 col-sm-6">
             <div class="deck-display my-2 rounded position-relative" onclick="location.href='{{ deck.get_absolute_url }}';" style="background-image: linear-gradient(#FFF0, #000F), url({% cdn_image_url deck.hero.get_display_image %});">
-                <div class="position-absolute top-0 start-0">
+                <div class="position-absolute top-0 start-0 mt-2 ms-2">
                     <h4>{{ deck.name }}</h4>
                     <small>{{ deck.owner.username|safe_username }}</small><br>
         {% for tag in deck.tags.all %}
@@ -117,8 +117,8 @@
             {% endif %}
         {% endfor %}
                 </div>
-                <div class="position-absolute bottom-0 start-0">
-                    {% include "decks/snippets/picture_webp.html" with img_name=deck.hero.faction width=24 height=24 %}
+                <div class="position-absolute bottom-0 start-0 ms-2 mb-2">
+                    {% include "decks/snippets/picture_webp.html" with img_name=deck.hero.faction width=20 height=20 %}
         {% if deck.is_standard_legal %}
                     <i class="fa-regular fa-circle-check"></i>
         {% elif deck.is_exalts_legal %}
@@ -127,19 +127,17 @@
                     <i class="fa-regular fa-circle-xmark"></i>
         {% endif %}
                 </div>
-                <div class="position-absolute bottom-0 end-0">
+                <div class="position-absolute bottom-0 end-0 me-2 mb-2">
                     <!-- Amount of hits -->
-                    <a role="button" href="#" class="btn btn-sm btn-outline-secondary disabled">
-                        <i class="fa-solid fa-eye"></i> {{ deck.hit_count_generic.first.hits }}
-                    </a>
+                        <span class="me-2"><i class="fa-solid fa-eye"></i> {{ deck.hit_count_generic.first.hits }}</span>
                     <!-- Amount of likes -->
-                    <a role="button" href="#" class="btn btn-sm btn-outline-danger {% if deck.is_loved %}active{% else %}disabled{% endif %}">
-                        <i class="fa-solid fa-heart"></i> {{ deck.love_count }}
-                    </a>
+                    {% comment %} <a role="button" href="#" class="btn btn-sm btn-outline-danger {% if deck.is_loved %}active{% else %}disabled{% endif %}"> {% endcomment %}
+                        <span class="me-2"><i class="fa-solid fa-heart"></i> {{ deck.love_count }}</span>
+                    {% comment %} </a> {% endcomment %}
                     <!-- Amount of comments -->
-                    <a role="button" href="#" class="btn btn-sm btn-outline-secondary {% if deck.comment_count > 0 %}active{% else %}disabled{% endif %}">
-                        <i class="fa-solid fa-comment"></i> {{ deck.comment_count }}
-                    </a>
+                    {% comment %} <a role="button" href="#" class="btn btn-sm {% if deck.comment_count > 0 %}active{% else %}disabled{% endif %}"> {% endcomment %}
+                        <span><i class="fa-solid fa-comment"></i> {{ deck.comment_count }}</span>
+                    {% comment %} </a> {% endcomment %}
                 </div>
             </div>
         </div>

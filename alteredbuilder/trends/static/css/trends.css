@@ -33,6 +33,11 @@
 .deck-display {
     color: white;
     cursor:pointer;
-    min-height: 175px;
+    min-height: 200px;
     background-position: 0% 15%;
+    background-size: cover;
+}
+
+.deck-display i.fa-circle-check {
+    font-size: large;
 }
