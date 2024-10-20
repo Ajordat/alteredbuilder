@@ -93,6 +93,10 @@ footer h5 {
     color: var(--navbar-a-inactive-color);
 }
 
+footer {
+    background-color: var(--navbar-bg-color);
+}
+
 footer a {
     color: var(--navbar-a-inactive-color);
 }
