@@ -232,9 +232,8 @@ class Command(BaseCommand):
                         date=self.end_lapse,
                         defaults={"ranking": rank},
                     )
-            except Card.MultipleObjectsReturned as e:
-                print(record)
-                raise e
+            except Card.MultipleObjectsReturned:
+                self.stderr(record)
 
     def generate_deck_trends(self):
         """Generate the deck trends.
