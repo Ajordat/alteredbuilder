@@ -215,22 +215,26 @@ class Command(BaseCommand):
                 .order_by("-count")[:CARD_RANKING_LIMIT]
             )
 
-            # Create a record for each card
-            for rank, record in enumerate(card_trends, start=1):
-                card = Card.objects.get(
-                    name=record["name"],
-                    rarity=record["card__rarity"],
-                    faction=record["card__faction"],
-                    set=core_set,
-                )
-                CardTrend.objects.update_or_create(
-                    card=card,
-                    hero=hero_trend.hero,
-                    faction=None,
-                    day_count=self.day_count,
-                    date=self.end_lapse,
-                    defaults={"ranking": rank},
-                )
+            try:
+                # Create a record for each card
+                for rank, record in enumerate(card_trends, start=1):
+                    card = Card.objects.get(
+                        name=record["name"],
+                        rarity=record["card__rarity"],
+                        faction=record["card__faction"],
+                        set=core_set,
+                    )
+                    CardTrend.objects.update_or_create(
+                        card=card,
+                        hero=hero_trend.hero,
+                        faction=None,
+                        day_count=self.day_count,
+                        date=self.end_lapse,
+                        defaults={"ranking": rank},
+                    )
+            except Card.MultipleObjectsReturned as e:
+                print(record)
+                raise e
 
     def generate_deck_trends(self):
         """Generate the deck trends.
