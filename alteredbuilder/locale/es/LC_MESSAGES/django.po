@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-10-18 18:30+0200\n"
-"PO-Revision-Date: 2024-10-18 16:42+0000\n"
-"Last-Translator: Ajordat <alexjortri@gmail.com>\n"
+"PO-Revision-Date: 2024-10-19 17:16+0000\n"
+"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/"
 "altered-tcg-builder/server-strings/es/>\n"
 "Language: es\n"
@@ -338,7 +338,7 @@ msgstr "Vitrina"
 
 #: decks/templates/decks/deck_detail.html:90
 msgid "The deck needs a hero!"
-msgstr "El mazo necesita un héroe!"
+msgstr "¡El mazo necesita un héroe!"
 
 #: decks/templates/decks/deck_detail.html:110
 #: decks/templates/decks/deck_detail.html:117
