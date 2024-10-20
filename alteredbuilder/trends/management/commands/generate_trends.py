@@ -233,7 +233,7 @@ class Command(BaseCommand):
                         defaults={"ranking": rank},
                     )
             except Card.MultipleObjectsReturned:
-                self.stderr(f"Found the following card to be repeated: {record["name"]} {record["card__rarity"]} {record["card__faction"]}")
+                self.stderr.write(f"Found the following card to be repeated: {record["name"]} {record["card__rarity"]} {record["card__faction"]}")
 
     def generate_deck_trends(self):
         """Generate the deck trends.
