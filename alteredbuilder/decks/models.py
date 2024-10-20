@@ -143,6 +143,9 @@ class Card(models.Model):
 
     def get_family_code(self):
         return "_".join(self.reference.split("_")[3:5])
+    
+    def get_display_image(self) -> str:
+        return f"https://altered-prod-eu.s3.amazonaws.com/Art/CORE/CARDS/{self.reference[:-2]}/{self.reference}_WEB.jpg"
 
     def is_oof(self) -> bool:
         return f"_{self.faction}_" not in self.reference

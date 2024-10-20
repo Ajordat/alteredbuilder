@@ -17,7 +17,7 @@
 }
 
 .hr-title {
-    height: 12px;
+    height: 9px;
     background: rgb(255,255,255);
     background: linear-gradient(90deg, var(--general-bg-color) 0%, var(--navbar-a-bg-active-color) 30%, var(--general-bg-color) 100%);
     border: 0;
@@ -27,6 +27,12 @@
 #card-showcase {
     float: right;
     margin-left: 20px;
-    /* max-width: 30%; */
     max-height: 300px;
+}
+
+.deck-display {
+    color: white;
+    cursor:pointer;
+    min-height: 175px;
+    background-position: 0% 15%;
 }

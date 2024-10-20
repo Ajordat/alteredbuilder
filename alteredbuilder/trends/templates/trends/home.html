@@ -37,8 +37,8 @@
     </div> {% endcomment %}
     <div class="row mt-4">
         <div class="col-lg-4 col-md-6 mb-4">
-            <h5 class="card-title">{% translate "Popular Factions" %}</h5>
-            <hr class="hr-title mt-1 mb-2" />
+            <h3 class="mb-0">{% translate "Popular Factions" %}</h3>
+            <hr class="hr-title mt-1 mb-2"/>
             <div class="card shadow">
                 <div class="card-body">
                     <div id="faction-pie-chart" style="min-height: 306px"></div>
@@ -46,18 +46,18 @@
             </div>
         </div>
         <div class="col-lg-4 col-md-6 mb-4">
-            <h5 class="card-title">{% translate "Popular Heroes" %}</h5>
-            <hr class="hr-title mt-1 mb-2" />
+            <h3 class="mb-0">{% translate "Popular Heroes" %}</h3>
+            <hr class="hr-title mt-1 mb-2"/>
             <div class="card shadow">
                 <div class="card-body">
                     <div id="hero-pie-chart" style="min-height: 306px"></div>
                 </div>
             </div>
         </div>
-    {% comment %} {% cache 600 card_trends LANGUAGE_CODE request.GET %} {% endcomment %}
+    {% cache 600 card_trends LANGUAGE_CODE request.GET %}
         <div class="col-lg-4 mb-4">
-            <h5 class="card-title">{% translate "Popular Cards" %}</h5>
-            <hr class="hr-title mt-1 mb-2" />
+            <h3 class="mb-0">{% translate "Popular Cards" %}</h3>
+            <hr class="hr-title mt-1 mb-2"/>
             <div class="card shadow">
                 <div class="card-body d-flex justify-content-between" style="height: 338px;">
                     <div class="table-container">
@@ -97,10 +97,54 @@
                 </div>
             </div>
         </div>
-    {% comment %} {% endcache %} {% endcomment %}
+    {% endcache %}
     </div>
-    <h3>{% translate "Trending decks" %}</h3>
-    {% include "decks/snippets/public_deck_table.html" with table_id="trendingDecksTable" deck_list=deck_trends %}
+
+    <h3 class="mb-0">{% translate "Trending decks" %}</h3>
+    <hr class="hr-title mt-1 mb-2"/>
+    <div id="trendingDecks" class="row">
+    {% for deck in deck_trends %}
+        <div class="col-xxl-2 col-xl-3 col-md-4 col-sm-6">
+            <div class="deck-display my-2 rounded position-relative" onclick="location.href='{{ deck.get_absolute_url }}';" style="background-image: linear-gradient(#FFF0, #000F), url({% cdn_image_url deck.hero.get_display_image %});">
+                <div class="position-absolute top-0 start-0">
+                    <h4>{{ deck.name }}</h4>
+                    <small>{{ deck.owner.username|safe_username }}</small><br>
+        {% for tag in deck.tags.all %}
+            {% if tag.type == "TY" %}
+                    <span class="badge bg-primary me-2">{{ tag.name }}</span>
+            {% else %}
+                    <span class="badge bg-secondary me-2">{{ tag.name }}</span>
+            {% endif %}
+        {% endfor %}
+                </div>
+                <div class="position-absolute bottom-0 start-0">
+                    {% include "decks/snippets/picture_webp.html" with img_name=deck.hero.faction width=24 height=24 %}
+        {% if deck.is_standard_legal %}
+                    <i class="fa-regular fa-circle-check"></i>
+        {% elif deck.is_exalts_legal %}
+                    <i class="fa-regular fa-circle-check exalts-legal"></i>
+        {% else %}
+                    <i class="fa-regular fa-circle-xmark"></i>
+        {% endif %}
+                </div>
+                <div class="position-absolute bottom-0 end-0">
+                    <!-- Amount of hits -->
+                    <a role="button" href="#" class="btn btn-sm btn-outline-secondary disabled">
+                        <i class="fa-solid fa-eye"></i> {{ deck.hit_count_generic.first.hits }}
+                    </a>
+                    <!-- Amount of likes -->
+                    <a role="button" href="#" class="btn btn-sm btn-outline-danger {% if deck.is_loved %}active{% else %}disabled{% endif %}">
+                        <i class="fa-solid fa-heart"></i> {{ deck.love_count }}
+                    </a>
+                    <!-- Amount of comments -->
+                    <a role="button" href="#" class="btn btn-sm btn-outline-secondary {% if deck.comment_count > 0 %}active{% else %}disabled{% endif %}">
+                        <i class="fa-solid fa-comment"></i> {{ deck.comment_count }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
     <script>
         function showReleaseDescription() {
             document.getElementById("releaseButton").classList.remove("collapsed");
