@@ -13,15 +13,7 @@
 
 #releaseButton,#releaseDescription {
     background-color: var(--navbar-bg-color);
-    color: var(--navbar-a-inactive-color);
-}
-
-.hr-title {
-    height: 9px;
-    background: rgb(255,255,255);
-    background: linear-gradient(90deg, var(--general-bg-color) 0%, var(--navbar-a-bg-active-color) 30%, var(--general-bg-color) 100%);
-    border: 0;
-    opacity: 1;
+    color: var(--cta-inactive-color);
 }
 
 .card {
@@ -32,45 +24,4 @@
     float: right;
     margin-left: 20px;
     max-height: 300px;
-}
-
-.deck-display {
-    color: white;
-    cursor:pointer;
-    min-height: 200px;
-    background-position: 0% 15%;
-    background-size: cover;
-    transition: .3s;
-}
-
-.deck-display i.fa-circle-check {
-    font-size: large;
-}
-
-.deck-display:hover {
-    transform: scale(1.05);
-}
-
-.deck-display:hover[data-faction="AX"] {
-    box-shadow: 0 0 12px var(--AX-color);
-}
-
-.deck-display:hover[data-faction="BR"] {
-    box-shadow: 0 0 12px var(--BR-color);
-}
-
-.deck-display:hover[data-faction="LY"] {
-    box-shadow: 0 0 12px var(--LY-color);
-}
-
-.deck-display:hover[data-faction="MU"] {
-    box-shadow: 0 0 12px var(--MU-color);
-}
-
-.deck-display:hover[data-faction="OR"] {
-    box-shadow: 0 0 12px var(--OR-color);
-}
-
-.deck-display:hover[data-faction="YZ"] {
-    box-shadow: 0 0 12px var(--YZ-color);
 }

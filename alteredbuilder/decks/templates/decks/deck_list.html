@@ -18,8 +18,7 @@
 
 
 {% block content %}
-    <h3>{% translate "Latest decks" %}</h3>
-    <div class="row row-cols-auto gy-2">
+    <div class="row row-cols-auto justify-content-center gy-2">
         <!-- Search bar -->
         <div class="col-xs-12 col-sm-9 col-md-7 col-lg-5 col-xl-4 col-xxl-4">
             <form class="d-flex" role="search" id="querySearchForm">
@@ -33,7 +32,7 @@
             </form>
         </div>
         <!-- Filter dropdown -->
-        <div class="accordion col" id="filterAccordion">
+        {% comment %} <div class="accordion col" id="filterAccordion">
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
@@ -117,10 +116,67 @@
         {% endif %}
             </span>&nbsp;
         </div>
-    {% endif %}
+    {% endif %} {% endcomment %}
     </div>
     <!-- List of public Decks -->
-    {% include "decks/snippets/public_deck_table.html" with table_id="publicDecksTable" deck_list=deck_list %}
+    {% comment %} {% include "decks/snippets/public_deck_table.html" with table_id="publicDecksTable" deck_list=deck_list %} {% endcomment %}
+    <div class="row">
+        <div class="col-12 col-sm-4 col-md-3 col-xl-2 mb-3">
+            <h3>{% translate "Filters" %}</h3>
+            <hr class="altered-style mt-1 mb-2"/>
+            <form>
+                <div class="mb-3">
+                    <b>{% translate "Factions" %}</b>
+                    {% include "decks/snippets/filter_checkbox.html" with value="AX" label="Axiom" %}
+                    {% include "decks/snippets/filter_checkbox.html" with value="BR" label="Bravos" %}
+                    {% include "decks/snippets/filter_checkbox.html" with value="LY" label="Lyra" %}
+                    {% include "decks/snippets/filter_checkbox.html" with value="MU" label="Muna" %}
+                    {% include "decks/snippets/filter_checkbox.html" with value="OR" label="Ordis" %}
+                    {% include "decks/snippets/filter_checkbox.html" with value="YZ" label="Yzmir" %}
+                </div>
+
+                <div class="mb-3">
+                    <b>{% translate "Legality" %}</b>
+                    {% translate "Standard" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="standard" label="Standard" %}
+                    {% translate "ExAlts" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="exalts" label="ExAlts" %}
+                    {% translate "Draft" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="draft" label="Draft" %}
+                </div>
+
+                <div class="mb-3">
+                    <b>{% translate "Tags" %}</b>
+    {% for type in tags %}
+                    {% include "decks/snippets/filter_checkbox.html" with value=type label=type %}
+    {% endfor %}
+                </div>
+
+                <div class="mb-3">
+                    <b>{% translate "Other" %}</b>
+                    <div class="form-check">
+    {% if user.is_authenticated %}
+                        <input class="form-check-input" type="checkbox" value="loved" id="filterLoved" {% if "loved" in checked_filters %}checked{% endif %}>
+                        {% translate "Loved" noop as _ %}<label class="form-check-label" for="filterLoved"><span class="loved"><i class="fa-solid fa-heart"></i></span></label>
+    {% else %}
+                        <a data-bs-toggle="tooltip" data-bs-title="{% translate 'Login to save your loved decks!' %}" data-bs-html="true">
+                            <input class="form-check-input" type="checkbox" value="loved" id="filterLoved" disabled>
+                            {% translate "Loved" noop as _ %}<label class="form-check-label" for="filterLoved"><span class="loved"><i class="fa-solid fa-heart"></i></span></label>
+                        </a>
+    {% endif %}
+                    </div>
+                    {% translate "Description" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="description" label="Description" %}
+                </div>
+
+                <!-- Filter Button -->
+                <button id="filterSearchButton" type="submit" class="btn altered-style w-100">{% translate "Apply Filters" %}</button>
+            </form>
+        </div>
+        <div class="col">
+            <h3>{% translate "Latest decks" %}</h3>
+            <hr class="altered-style mt-1 mb-2"/>
+            <div id="trendingDecks" class="row">
+                {% include "decks/snippets/public_decks_display.html" with decks=deck_list %}
+            </div>
+        </div>
+    </div>
 
     <!-- Pagination buttons. Adapted to use infinite scroll -->
     <div class="mt-3">

@@ -50,7 +50,7 @@ function getBaseChartOptions() {
         legend: {
             position: "right",
             textStyle: {
-                color: getStyle("navbar-a-inactive-color")
+                color: getStyle("cta-inactive-color")
             }
         }
     };

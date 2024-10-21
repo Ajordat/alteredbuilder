@@ -63,13 +63,13 @@ function searchCards(e) {
 
     // Retrieve the QUERY from the search input
     let queryElement = document.getElementById("querySearch");
-    if (queryElement.value != "") {
+    if (queryElement && queryElement.value != "") {
         params.append("query", queryElement.value);
     }
 
     // Retrieve the marked order on the dropdown
     let orderingElement = document.getElementById("filterOrdering");
-    if (orderingElement.selectedIndex > 1) {
+    if (orderingElement && orderingElement.selectedIndex > 1) {
         params.append("order", orderingElement.value);
     }
 

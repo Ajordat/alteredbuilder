@@ -15,29 +15,29 @@
 }
 
 html[data-bs-theme="light"] {
-    --general-bg-color: #FFFEFC;
+    --content-bg-color: #FFFEFC;
     --navbar-bg-color: #FDF8E7;
-    --navbar-a-bg-active-color: #DDBF5F;
-    --navbar-a-active-color: #3D331D;
-    --navbar-a-inactive-color: #625948;
+    --cta-bg-active-color: #DDBF5F;
+    --cta-active-color: #3D331D;
+    --cta-inactive-color: #625948;
     --new-notification-bg: var(--bs-info-bg-subtle);
-    --plot-bg-color: var(--general-bg-color);
+    --plot-bg-color: var(--content-bg-color);
 }
 html[data-bs-theme="dark"] {
-    --general-bg-color: #625948;
+    --content-bg-color: #625948;
     --navbar-bg-color: #332811;
-    --navbar-a-bg-active-color: #DDBF5F;
-    --navbar-a-active-color: #3D331D;
-    --navbar-a-inactive-color: #FDF8E7;
+    --cta-bg-active-color: #DDBF5F;
+    --cta-active-color: #3D331D;
+    --cta-inactive-color: #FDF8E7;
     --new-notification-bg: rgba(var(--bs-secondary-rgb), 1);
-    --plot-bg-color: var(--general-bg-color);
+    --plot-bg-color: var(--content-bg-color);
 }
 
 
 /* BODY STYLE */
 body {
     font-family: Verdana, Tahoma, Geneva, sans-serif;
-    background-color: var(--general-bg-color);
+    background-color: var(--content-bg-color);
 }
 
 .gabriela-regular {
@@ -53,7 +53,7 @@ nav.navbar {
 }
 
 .navbar-brand {
-    color: var(--navbar-a-inactive-color);
+    color: var(--cta-inactive-color);
 }
 
 li.nav-item {
@@ -61,27 +61,27 @@ li.nav-item {
 }
 
 li.nav-item>a, li.nav-item .dropdown-item {
-    color: var(--navbar-a-inactive-color);
+    color: var(--cta-inactive-color);
 }
 
 li.nav-item.current-nav-tab {
-    background-color: var(--navbar-a-bg-active-color);
+    background-color: var(--cta-bg-active-color);
 }
 
 li.nav-item:hover, li.nav-item .dropdown-item:hover {
-    background-color: var(--navbar-a-bg-active-color);
+    background-color: var(--cta-bg-active-color);
 }
 
 li.nav-item:hover>a, li.nav-item .dropdown-item:hover {
-    color: var(--navbar-a-active-color);
+    color: var(--cta-active-color);
 }
 
 li.nav-item .dropdown-item.active {
-    background-color: var(--navbar-a-bg-active-color);
+    background-color: var(--cta-bg-active-color);
 }
 
 li.nav-item.current-nav-tab a {
-    color: var(--navbar-a-active-color);
+    color: var(--cta-active-color);
 }
 
 .navbar img.logo {
@@ -102,7 +102,7 @@ html[data-bs-theme="light"] .navbar img.logo {
 /* FOOTER */
 footer h5 {
     letter-spacing: 2px;
-    color: var(--navbar-a-inactive-color);
+    color: var(--cta-inactive-color);
 }
 
 footer {
@@ -110,7 +110,7 @@ footer {
 }
 
 footer a {
-    color: var(--navbar-a-inactive-color);
+    color: var(--cta-inactive-color);
 }
 
 footer a.no-underline {
@@ -118,7 +118,68 @@ footer a.no-underline {
 }
 
 
-/* FAVORITES */
+/* ELEMENTS */
 i.fa-star {
-    color: rgb(255, 193, 7); /* text-warning */
+    color: rgb(255, 193, 7);
+}
+
+hr.altered-style {
+    height: 9px;
+    background: rgb(255,255,255);
+    background: linear-gradient(90deg, var(--content-bg-color) 0%, var(--cta-bg-active-color) 30%, var(--content-bg-color) 100%);
+    border: 0;
+    opacity: 1;
+}
+
+button.altered-style {
+    background-color: var(--cta-bg-active-color);
+    border-radius: 16px 3px 16px 3px;
+    transition: 0.1s;
+}
+
+button.altered-style:hover {
+    background-color: var(--cta-bg-active-color);
+    border-radius: 3px;
+}
+
+/* DECKS */
+.deck-display {
+    color: white;
+    cursor:pointer;
+    min-height: 200px;
+    background-position: 0% 15%;
+    background-size: cover;
+    transition: .3s;
+}
+
+.deck-display i.fa-circle-check {
+    font-size: large;
+}
+
+.deck-display:hover {
+    transform: scale(1.05);
+}
+
+.deck-display:hover[data-faction="AX"] {
+    box-shadow: 0 0 12px var(--AX-color);
+}
+
+.deck-display:hover[data-faction="BR"] {
+    box-shadow: 0 0 12px var(--BR-color);
+}
+
+.deck-display:hover[data-faction="LY"] {
+    box-shadow: 0 0 12px var(--LY-color);
+}
+
+.deck-display:hover[data-faction="MU"] {
+    box-shadow: 0 0 12px var(--MU-color);
+}
+
+.deck-display:hover[data-faction="OR"] {
+    box-shadow: 0 0 12px var(--OR-color);
+}
+
+.deck-display:hover[data-faction="YZ"] {
+    box-shadow: 0 0 12px var(--YZ-color);
 }

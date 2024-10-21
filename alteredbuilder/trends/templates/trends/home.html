@@ -38,7 +38,7 @@
     <div class="row mt-4">
         <div class="col-lg-4 col-md-6 mb-4">
             <h3 class="mb-0">{% translate "Popular Factions" %}</h3>
-            <hr class="hr-title mt-1 mb-2"/>
+            <hr class="altered-style mt-1 mb-2"/>
             <div class="card shadow">
                 <div class="card-body">
                     <div id="faction-pie-chart" style="min-height: 306px"></div>
@@ -47,7 +47,7 @@
         </div>
         <div class="col-lg-4 col-md-6 mb-4">
             <h3 class="mb-0">{% translate "Popular Heroes" %}</h3>
-            <hr class="hr-title mt-1 mb-2"/>
+            <hr class="altered-style mt-1 mb-2"/>
             <div class="card shadow">
                 <div class="card-body">
                     <div id="hero-pie-chart" style="min-height: 306px"></div>
@@ -57,7 +57,7 @@
     {% cache 600 card_trends LANGUAGE_CODE request.GET %}
         <div class="col-lg-4 mb-4">
             <h3 class="mb-0">{% translate "Popular Cards" %}</h3>
-            <hr class="hr-title mt-1 mb-2"/>
+            <hr class="altered-style mt-1 mb-2"/>
             <div class="card shadow">
                 <div class="card-body d-flex justify-content-between" style="height: 338px;">
                     <div class="table-container">
@@ -101,47 +101,9 @@
     </div>
 
     <h3 class="mb-0">{% translate "Trending decks" %}</h3>
-    <hr class="hr-title mt-1 mb-2"/>
+    <hr class="altered-style mt-1 mb-2"/>
     <div id="trendingDecks" class="row">
-    {% for deck in deck_trends %}
-        <div class="col-xl-3 col-md-4 col-sm-6">
-            <div class="deck-display my-2 rounded position-relative" data-faction="{{ deck.hero.faction }}" onclick="location.href='{{ deck.get_absolute_url }}';" style="background-image: linear-gradient(#FFF0, #000F), url({% cdn_image_url deck.hero.get_display_image %});">
-                <div class="position-absolute top-0 start-0 mt-2 ms-2">
-                    <h4>{{ deck.name }}</h4>
-                    <small>{{ deck.owner.username|safe_username }}</small><br>
-        {% for tag in deck.tags.all %}
-            {% if tag.type == "TY" %}
-                    <span class="badge bg-primary me-2">{{ tag.name }}</span>
-            {% else %}
-                    <span class="badge bg-secondary me-2">{{ tag.name }}</span>
-            {% endif %}
-        {% endfor %}
-                </div>
-                <div class="position-absolute bottom-0 start-0 ms-2 mb-2">
-                    {% include "decks/snippets/picture_webp.html" with img_name=deck.hero.faction width=20 height=20 %}
-        {% if deck.is_standard_legal %}
-                    <i class="fa-regular fa-circle-check"></i>
-        {% elif deck.is_exalts_legal %}
-                    <i class="fa-regular fa-circle-check exalts-legal"></i>
-        {% else %}
-                    <i class="fa-regular fa-circle-xmark"></i>
-        {% endif %}
-                </div>
-                <div class="position-absolute bottom-0 end-0 me-2 mb-2">
-                    <!-- Amount of hits -->
-                        <span class="me-2"><i class="fa-solid fa-eye"></i> {{ deck.hit_count_generic.first.hits }}</span>
-                    <!-- Amount of likes -->
-                    {% comment %} <a role="button" href="#" class="btn btn-sm btn-outline-danger {% if deck.is_loved %}active{% else %}disabled{% endif %}"> {% endcomment %}
-                        <span class="me-2"><i class="fa-solid fa-heart"></i> {{ deck.love_count }}</span>
-                    {% comment %} </a> {% endcomment %}
-                    <!-- Amount of comments -->
-                    {% comment %} <a role="button" href="#" class="btn btn-sm {% if deck.comment_count > 0 %}active{% else %}disabled{% endif %}"> {% endcomment %}
-                        <span><i class="fa-solid fa-comment"></i> {{ deck.comment_count }}</span>
-                    {% comment %} </a> {% endcomment %}
-                </div>
-            </div>
-        </div>
-    {% endfor %}
+        {% include "decks/snippets/public_decks_display.html" with decks=deck_trends %}
     </div>
     {% comment %} <script>
         function showReleaseDescription() {

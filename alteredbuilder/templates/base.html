@@ -181,7 +181,8 @@
                             </ul>
                         </li>
     {% else %}
-                        <li class="nav-item {{ nav_item_classes }}">
+                        {% url 'account_login' as item_url %}
+                        <li class="nav-item {{ nav_item_classes }} {% if request.path == item_url or request.GET.next == item_url %}current-nav-tab{% endif %}">
                             <a class="nav-link" href="{% url 'account_login' %}?next={{ request.path }}"><i class="fa-solid fa-user"></i> {% translate "Login" %}</a>
                         </li>
     {% endif %}
@@ -191,7 +192,7 @@
         </nav>
 {% endwith %}
 
-        <div {% block content-div %}class="container-fluid px-5 mt-3 mb-5"{% endblock %}>
+        <div id="contentBlock" {% block content-div %}class="container-fluid px-5 mt-3 mb-5"{% endblock %}>
 {% block content %}{% endblock %}
         </div>
         <footer class="d-flex flex-wrap justify-content-between align-items-center pt-3 border-top mt-auto">
