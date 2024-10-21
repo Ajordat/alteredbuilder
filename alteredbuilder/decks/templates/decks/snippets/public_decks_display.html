@@ -13,9 +13,9 @@
                 <small>{{ deck.owner.username|safe_username }}</small><br>
     {% for tag in deck.tags.all %}
         {% if tag.type == "TY" %}
-                <span class="badge bg-primary me-2">{{ tag.name }}</span>
+                <span class="badge primary altered-style me-2">{{ tag.name }}</span>
         {% else %}
-                <span class="badge bg-secondary me-2">{{ tag.name }}</span>
+                <span class="badge secondary altered-style me-2">{{ tag.name }}</span>
         {% endif %}
     {% endfor %}
             </div>

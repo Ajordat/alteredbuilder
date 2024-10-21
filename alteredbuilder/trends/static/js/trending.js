@@ -93,7 +93,13 @@ function drawFactionChart() {
         let item = dataElement[selection[0].row];
         let url = window.location.pathname + "?faction=" + item[0];
         window.open(url, "_self");
-    })
+    });
+    google.visualization.events.addListener(chart, "onmouseover", () => {
+        chartElement.style.cursor = "pointer";
+    });
+    google.visualization.events.addListener(chart, "onmouseout", () => {
+        chartElement.style.cursor = "default";
+    });
 }
 
 function drawHeroChart() {
@@ -143,5 +149,11 @@ function drawHeroChart() {
         let item = heroData[selection[0].row];
         let url = window.location.pathname + "?hero=" + encodeURI(item[0].split(" ")[0]);
         window.open(url, "_self");
-    })
+    });
+    google.visualization.events.addListener(chart, "onmouseover", () => {
+        chartElement.style.cursor = "pointer";
+    });
+    google.visualization.events.addListener(chart, "onmouseout", () => {
+        chartElement.style.cursor = "default";
+    });
 }

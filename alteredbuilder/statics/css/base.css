@@ -133,6 +133,7 @@ hr.altered-style {
 
 button.altered-style {
     background-color: var(--cta-bg-active-color);
+    color: var(--cta-active-color);
     border-radius: 16px 3px 16px 3px;
     transition: 0.1s;
 }
@@ -142,10 +143,34 @@ button.altered-style:hover {
     border-radius: 3px;
 }
 
+span.badge.primary.altered-style {
+    background-color: var(--cta-bg-active-color);
+    color: var(--cta-active-color);
+}
+
+span.badge.secondary.altered-style {
+    background-color: var(--navbar-bg-color);
+    color: var(--cta-inactive-color);
+}
+
+input.form-check-input.altered-style {
+    border: var(--bs-border-width) solid var(--cta-inactive-color);
+}
+input.form-check-input.altered-style+label {
+    color: var(--cta-inactive-color);
+}
+input.form-check-input.altered-style:checked {
+    background-color: var(--cta-bg-active-color);
+    border-color: var(--cta-bg-active-color);
+}
+input.form-check-input.altered-style:checked+label {
+    color: var(--cta-active-color);
+}
+
 /* DECKS */
 .deck-display {
     color: white;
-    cursor:pointer;
+    cursor: pointer;
     min-height: 200px;
     background-position: 0% 15%;
     background-size: cover;
