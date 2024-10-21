@@ -1,14 +1,8 @@
 google.charts.load('current', {'packages':['corechart', 'bar']});
 google.charts.setOnLoadCallback(drawCharts);
 
-const factionColors = {
-    "AX": "#7e4b36",
-    "BR": "#ff1a1a",
-    "LY": "#d12358",
-    "MU": "#4c7245",
-    "OR": "#00628b",
-    "YZ": "#483b66",
-}
+var style = getComputedStyle(document.body);
+
 const factionNames = {
     "AX": "Axiom",
     "BR": "Bravos",
@@ -25,6 +19,14 @@ const heroColors = {
     "OR": ["#00628b", "#007db3", "#00a1e6"],
     "YZ": ["#483b66", "#5b4a82", "#725da2"],
 };
+
+function getFactionColor(faction) {
+    return getStyle(`${faction}-color`);
+}
+
+function getStyle(variable) {
+    return style.getPropertyValue(`--${variable}`);
+}
 
 function drawCharts() {
     drawFactionChart();
@@ -46,17 +48,12 @@ function getBaseChartOptions() {
             trigger: "focus"
         },
         legend: {
-            position: "right"
+            position: "right",
+            textStyle: {
+                color: getStyle("navbar-a-inactive-color")
+            }
         }
     };
-
-    if (document.documentElement.getAttribute("data-bs-theme") === "dark") {
-        options["legend"] = {
-            textStyle: {
-                color: "white"
-            }
-        };
-    }
     return options;
 }
 
@@ -70,7 +67,7 @@ function drawFactionChart() {
     let options = getBaseChartOptions();
     options["slices"] = [];
     for (let [faction, _] of dataElement) {
-        options["slices"].push({color: factionColors[faction]});
+        options["slices"].push({color: getFactionColor(faction)});
     }
 
     let data = google.visualization.arrayToDataTable(

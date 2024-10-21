@@ -21,6 +21,7 @@ html[data-bs-theme="light"] {
     --navbar-a-active-color: #3D331D;
     --navbar-a-inactive-color: #625948;
     --new-notification-bg: var(--bs-info-bg-subtle);
+    --plot-bg-color: var(--general-bg-color);
 }
 html[data-bs-theme="dark"] {
     --general-bg-color: #625948;
@@ -29,6 +30,7 @@ html[data-bs-theme="dark"] {
     --navbar-a-active-color: #3D331D;
     --navbar-a-inactive-color: #FDF8E7;
     --new-notification-bg: rgba(var(--bs-secondary-rgb), 1);
+    --plot-bg-color: var(--general-bg-color);
 }
 
 

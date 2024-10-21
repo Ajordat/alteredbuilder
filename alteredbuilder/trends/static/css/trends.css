@@ -24,6 +24,10 @@
     opacity: 1;
 }
 
+.card {
+    background-color: var(--plot-bg-color);
+}
+
 #card-showcase {
     float: right;
     margin-left: 20px;
