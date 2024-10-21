@@ -78,14 +78,14 @@
                             <a class="nav-link" href="{{ item_url }}"><i class="fa-solid fa-inbox"></i> {% translate "My decks" %}</a>
                         </li>
 
-                        <li class="nav-item {{ nav_item_classes }} dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-file-import"></i> Import</a>
-                            <ul class="dropdown-menu dropdown-menu-end py-1">
-                                {% url 'new-deck' as item_url %}
-                                <li><a class="dropdown-item py-2" href="{{ item_url }}"><i class="fa-solid fa-layer-group"></i> {% translate "Deck" %}</a></li>
+                        {% url 'new-deck' as import_deck_url %}
+                        {% url 'import-card' as import_card_url %}
+                        <li class="nav-item {{ nav_item_classes }} dropdown {% if request.path == import_deck_url or request.path == import_card_url %}current-nav-tab{% endif %}">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-file-import"></i> {% translate "Import" %}</a>
+                            <ul class="dropdown-menu dropdown-menu-end py-1 mx-3 mb-3">
+                                <li><a class="dropdown-item py-2" href="{{ import_deck_url }}"><i class="fa-solid fa-layer-group"></i> {% translate "Deck" %}</a></li>
                                 <li><hr class="dropdown-divider my-0"></li>
-                                {% url 'import-card' as item_url %}
-                                <li><a class="dropdown-item py-2" href="{{ item_url }}"><i class="fa-solid fa-puzzle-piece"></i> {% translate "Unique card" %}</a></li>
+                                <li><a class="dropdown-item py-2" href="{{ import_card_url }}"><i class="fa-solid fa-puzzle-piece"></i> {% translate "Unique card" %}</a></li>
                             </ul>
                         </li>
 
@@ -95,16 +95,20 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav">
+                        <li class="d-xl-none my-0"><hr></li>
                         <li class="nav-item {{ nav_item_classes }} me-1 me-xl-3">
                             <a class="nav-link" href="https://discord.gg/hGA3dTcxqz" target="_blank">
                                 <i class="fa-brands fa-discord"></i> Discord
                             </a>
                         </li>
+                        <li class="d-xl-none my-0"><hr></li>
                         <li class="nav-item {{ nav_item_classes }} dropdown">
+                            {% comment %} <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="{% translate 'Select site language' %}"> {% endcomment %}
                             <button class="btn btn-link nav-link dropdown-toggle" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static">
                                 <i id="theme-icon-active"></i>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+                            {% comment %} </a> {% endcomment %}
+                            <ul class="dropdown-menu dropdown-menu-end py-1 mx-3 mb-3" aria-labelledby="bd-theme-text">
                                 <li>
                                     <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
                                         <i class="fa-solid fa-sun"></i>&nbsp;{% translate "Light" %}
@@ -123,10 +127,10 @@
                             </ul>
                         </li>
                         <li class="nav-item {{ nav_item_classes }} dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Select site language">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="{% translate 'Select site language' %}">
                                 {% include "decks/snippets/picture_webp.html" with img_name=CURRENT_LANGUAGE width=24 height=24 %}
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end">
+                            <ul class="dropdown-menu dropdown-menu-end py-1 mx-3 mb-3">
     {% for lang in languages %}
                                 <li>
                                     <a class="dropdown-item" href="{% change_lang lang.code %}">
@@ -143,7 +147,7 @@
                                 <span class="position-absolute translate-middle p-1 bg-danger border border-light rounded-circle"></span>
     {% endif %}
                             </a>
-                            <ul id="notificationList" class="dropdown-menu dropdown-menu-end bg-light-subtle pt-0" aria-labelledby="notificationDropdown">
+                            <ul id="notificationList" class="dropdown-menu dropdown-menu-end pb-1 mx-3 mb-3 bg-light-subtle pt-0" aria-labelledby="notificationDropdown">
                                 <li class="dropdown-item text-center mt-2 p-0"><a class="dropdown-item d-block" href="{% url "notification-list" %}">{% translate "View all notifications" %}</a></li>
                                 <li id="notificationsDivider"><hr class="dropdown-divider"></li>
                                 <li class="dropdown-item notification-item text-muted disabled">{% translate "No notifications" %}</li>
@@ -155,7 +159,7 @@
         {% if user.is_superuser or user.is_staff %}
                         <li class="nav-item {{ nav_item_classes }} dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-gears"></i> Admin</a>
-                            <ul class="dropdown-menu dropdown-menu-end">
+                            <ul class="dropdown-menu dropdown-menu-end py-1 mx-3 mb-3">
             {% if user.is_staff %}
                                 <li><a class="dropdown-item" href="{% url 'admin:index' %}"><i class="fa-solid fa-gears"></i> Admin Panel</a></li>
                                 <li><hr class="dropdown-divider"></li>
@@ -167,7 +171,7 @@
         {% endif %}
                         <li class="nav-item {{ nav_item_classes }} dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user"></i> {{ user.username }}</a>
-                            <ul class="dropdown-menu dropdown-menu-end">
+                            <ul class="dropdown-menu dropdown-menu-end py-1 mx-3 mb-3">
                                 <li><a class="dropdown-item" href="{{ user.profile.get_absolute_url }}">{% translate "Profile" %}</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="{% url 'account_email' %}?next={{ request.path }}">{% translate "Update email" %}</a></li>

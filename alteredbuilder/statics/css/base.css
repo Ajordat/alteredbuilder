@@ -52,7 +52,7 @@ li.nav-item {
     border-radius: 16px;
 }
 
-li.nav-item>a {
+li.nav-item>a, li.nav-item .dropdown-item {
     color: var(--navbar-a-inactive-color);
 }
 
@@ -60,12 +60,16 @@ li.nav-item.current-nav-tab {
     background-color: var(--navbar-a-bg-active-color);
 }
 
-li.nav-item:hover {
+li.nav-item:hover, li.nav-item .dropdown-item:hover {
     background-color: var(--navbar-a-bg-active-color);
 }
 
-li.nav-item:hover>a {
+li.nav-item:hover>a, li.nav-item .dropdown-item:hover {
     color: var(--navbar-a-active-color);
+}
+
+li.nav-item .dropdown-item.active {
+    background-color: var(--navbar-a-bg-active-color);
 }
 
 li.nav-item.current-nav-tab a {
