@@ -6,6 +6,12 @@
     --C-color: var(--bs-body-bg);
     --R-color: var(--bs-info-bg-subtle);
     --U-color: var(--bs-danger-bg-subtle);
+    --AX-color: #7e4b36;
+    --BR-color: #ff1a1a;
+    --LY-color: #d12358;
+    --MU-color: #4c7245;
+    --OR-color: #00628b;
+    --YZ-color: #483b66;
 }
 
 html[data-bs-theme="light"] {

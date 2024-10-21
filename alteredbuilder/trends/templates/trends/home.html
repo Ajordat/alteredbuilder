@@ -105,7 +105,7 @@
     <div id="trendingDecks" class="row">
     {% for deck in deck_trends %}
         <div class="col-xl-3 col-md-4 col-sm-6">
-            <div class="deck-display my-2 rounded position-relative" onclick="location.href='{{ deck.get_absolute_url }}';" style="background-image: linear-gradient(#FFF0, #000F), url({% cdn_image_url deck.hero.get_display_image %});">
+            <div class="deck-display my-2 rounded position-relative" data-faction="{{ deck.hero.faction }}" onclick="location.href='{{ deck.get_absolute_url }}';" style="background-image: linear-gradient(#FFF0, #000F), url({% cdn_image_url deck.hero.get_display_image %});">
                 <div class="position-absolute top-0 start-0 mt-2 ms-2">
                     <h4>{{ deck.name }}</h4>
                     <small>{{ deck.owner.username|safe_username }}</small><br>
@@ -143,7 +143,7 @@
         </div>
     {% endfor %}
     </div>
-    <script>
+    {% comment %} <script>
         function showReleaseDescription() {
             document.getElementById("releaseButton").classList.remove("collapsed");
             document.getElementById("releaseDescription").classList.add("show");
@@ -173,7 +173,7 @@
         document.getElementById("releaseDescription").addEventListener("shown.bs.collapse", event => {
             localStorage.removeItem("releaseMinimized");
         });
-    </script>
+    </script> {% endcomment %}
     <script>
 
         let deckRows = document.querySelectorAll(".card-hover");
