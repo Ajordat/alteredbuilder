@@ -24,8 +24,8 @@ html[data-bs-theme="light"] {
     --plot-bg-color: var(--content-bg-color);
 }
 html[data-bs-theme="dark"] {
-    --content-bg-color: #625948;
-    --navbar-bg-color: #332811;
+    --content-bg-color: #332811;
+    --navbar-bg-color: #625948;
     --cta-bg-active-color: #DDBF5F;
     --cta-active-color: #3D331D;
     --cta-inactive-color: #FDF8E7;
