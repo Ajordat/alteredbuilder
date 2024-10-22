@@ -142,6 +142,7 @@ button.altered-style {
 
 button.altered-style:hover {
     background-color: var(--cta-bg-active-color);
+    color: var(--cta-active-color);
     border-radius: 3px;
 }
 
@@ -153,6 +154,11 @@ span.badge.primary.altered-style {
 span.badge.secondary.altered-style {
     background-color: var(--navbar-bg-color);
     color: var(--cta-inactive-color);
+}
+
+i.altered-style {
+    color: var(--cta-bg-active-color);
+    font-size: x-large;
 }
 
 input.form-check-input.altered-style {
@@ -174,15 +180,19 @@ input.form-check-input.altered-style:checked+label {
 }
 
 .dropdown-menu.altered-style .dropdown-item:hover {
-    background-color: var(--cta-bg-active-color);
-}
-
-.dropdown-menu.altered-style .dropdown-item:hover {
     color: var(--cta-active-color);
+    background-color: var(--cta-bg-active-color);
 }
 
 .dropdown-menu.altered-style .dropdown-item.active {
     background-color: var(--cta-bg-active-color);
+}
+
+.modal .modal-header {
+    background-color: var(--navbar-bg-color);
+}
+.modal :is(.modal-body,.modal-footer) {
+    background-color: var(--content-bg-color);
 }
 
 /* DECKS */
@@ -196,8 +206,8 @@ input.form-check-input.altered-style:checked+label {
     box-shadow: 0 0 12px var(--deck-display-shadow);
 }
 
-.deck-display i.fa-circle-check {
-    font-size: large;
+.deck-display i:is(.fa-circle-check,.fa-circle-xmark) {
+    font-size: larger;
 }
 
 .deck-display .shadowed {
