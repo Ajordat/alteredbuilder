@@ -22,6 +22,7 @@ html[data-bs-theme="light"] {
     --cta-inactive-color: #625948;
     --new-notification-bg: var(--bs-info-bg-subtle);
     --plot-bg-color: var(--content-bg-color);
+    --deck-display-shadow: #625948;
 }
 html[data-bs-theme="dark"] {
     --content-bg-color: #332811;
@@ -31,6 +32,7 @@ html[data-bs-theme="dark"] {
     --cta-inactive-color: #FDF8E7;
     --new-notification-bg: rgba(var(--bs-secondary-rgb), 1);
     --plot-bg-color: var(--content-bg-color);
+    --deck-display-shadow: #625948;
 }
 
 
@@ -167,6 +169,22 @@ input.form-check-input.altered-style:checked+label {
     color: var(--cta-active-color);
 }
 
+.dropdown-menu.altered-style .dropdown-item {
+    color: var(--cta-inactive-color);
+}
+
+.dropdown-menu.altered-style .dropdown-item:hover {
+    background-color: var(--cta-bg-active-color);
+}
+
+.dropdown-menu.altered-style .dropdown-item:hover {
+    color: var(--cta-active-color);
+}
+
+.dropdown-menu.altered-style .dropdown-item.active {
+    background-color: var(--cta-bg-active-color);
+}
+
 /* DECKS */
 .deck-display {
     color: white;
@@ -175,10 +193,15 @@ input.form-check-input.altered-style:checked+label {
     background-position: 0% 15%;
     background-size: cover;
     transition: .3s;
+    box-shadow: 0 0 12px var(--deck-display-shadow);
 }
 
 .deck-display i.fa-circle-check {
     font-size: large;
+}
+
+.deck-display .shadowed {
+    filter: drop-shadow(0.5px 1px 1px black);
 }
 
 .deck-display:hover {

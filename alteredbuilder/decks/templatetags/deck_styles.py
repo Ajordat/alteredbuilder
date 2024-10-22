@@ -51,8 +51,10 @@ def inject_params(get_params: dict, **kwargs) -> str:
         "set",
     ]
     args = [
-        f"{key}={value}" for key, value in get_params.items() if key in allowed_params
-    ] + [f"{key}={value}" for key, value in kwargs.items()]
+        f"{key}={value}"
+        for key, value in get_params.items()
+        if key in allowed_params and key not in kwargs.keys()
+    ] + [f"{key}={value}" for key, value in kwargs.items() if value]
     return "&".join([arg for arg in args if arg])
 
 

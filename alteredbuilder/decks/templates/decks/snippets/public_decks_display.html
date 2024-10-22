@@ -4,43 +4,43 @@
 {% for deck in decks %}
     <div class="col-xxl-3 col-lg-4 col-md-6 col-12 infinite-item">
     {% if deck.hero %}
-        <div class="deck-display my-2 rounded position-relative" data-faction="{{ deck.hero.faction }}" onclick="location.href='{{ deck.get_absolute_url }}';" style="background-image: linear-gradient(#FFF0, #0008), linear-gradient(to left, #FFF0, #0005), url({{ deck.hero.get_display_image }});">
+        <div class="deck-display my-2 rounded position-relative" data-faction="{{ deck.hero.faction }}" onclick="location.href='{{ deck.get_absolute_url }}';" style="background-image: radial-gradient(circle, #FFF0, #0008), {% comment %}linear-gradient(#FFF0, #0008), linear-gradient(to left, #FFF0, #0005),{% endcomment %} url({{ deck.hero.get_display_image }});">
     {% else %}
-        <div class="deck-display my-2 rounded position-relative" data-faction="{{ deck.hero.faction }}" onclick="location.href='{{ deck.get_absolute_url }}';" style="background-image: linear-gradient(#FFF0, #0008), linear-gradient(to left, #FFF0, #0005), url({% static 'img/ALT_OFFICIAL_CARDBACK.png' %}); background-position: 0% 50%;">
+        <div class="deck-display my-2 rounded position-relative" data-faction="{{ deck.hero.faction }}" onclick="location.href='{{ deck.get_absolute_url }}';" style="background-image: radial-gradient(circle, #FFF0, #0008), {% comment %}linear-gradient(#FFF0, #0008), linear-gradient(to left, #FFF0, #0005),{% endcomment %} url({% static 'img/ALT_OFFICIAL_CARDBACK.png' %}); background-position: 0% 50%;">
     {% endif %}
             <div class="position-absolute top-0 start-0 mt-2 ms-2">
-                <h4>{{ deck.name }}</h4>
-                <small>{{ deck.owner.username|safe_username }}</small><br>
+                <h4 class="shadowed">{{ deck.name }}</h4>
+                <small class="shadowed">{{ deck.owner.username|safe_username }}</small><br>
     {% for tag in deck.tags.all %}
         {% if tag.type == "TY" %}
-                <span class="badge primary altered-style me-2">{{ tag.name }}</span>
+                <span class="badge primary shadowed altered-style me-2">{{ tag.name }}</span>
         {% else %}
-                <span class="badge secondary altered-style me-2">{{ tag.name }}</span>
+                <span class="badge secondary shadowed altered-style me-2">{{ tag.name }}</span>
         {% endif %}
     {% endfor %}
             </div>
             <div class="position-absolute bottom-0 start-0 ms-2 mb-2">
-    {% if deck.hero %}
-                {% include "decks/snippets/picture_webp.html" with img_name=deck.hero.faction width=20 height=20 %}
-    {% endif %}
+    {% comment %} {% if deck.hero %}
+                {% include "decks/snippets/picture_webp.html" with img_name="avatars/AX_AXIOM" width=20 height=20 %}
+    {% endif %} {% endcomment %}
     {% if deck.is_standard_legal %}
-                <i class="fa-regular fa-circle-check"></i>
+                <i class="fa-regular fa-circle-check shadowed"></i>
     {% elif deck.is_exalts_legal %}
-                <i class="fa-regular fa-circle-check exalts-legal"></i>
+                <i class="fa-regular fa-circle-check exalts-legal shadowed"></i>
     {% else %}
-                <i class="fa-regular fa-circle-xmark"></i>
+                <i class="fa-regular fa-circle-xmark shadowed"></i>
     {% endif %}
             </div>
             <div class="position-absolute bottom-0 end-0 me-2 mb-2">
                 <!-- Amount of hits -->
-                    <span class="me-2"><i class="fa-solid fa-eye"></i> {{ deck.hit_count_generic.first.hits }}</span>
+                    <span class="me-2 shadowed"><i class="fa-solid fa-eye"></i> {{ deck.hit_count_generic.first.hits }}</span>
                 <!-- Amount of likes -->
                 {% comment %} <a role="button" href="#" class="btn btn-sm btn-outline-danger {% if deck.is_loved %}active{% else %}disabled{% endif %}"> {% endcomment %}
-                    <span class="me-2"><i class="fa-solid fa-heart"></i> {{ deck.love_count }}</span>
+                    <span class="me-2 shadowed"><i class="fa-solid fa-heart"></i> {{ deck.love_count }}</span>
                 {% comment %} </a> {% endcomment %}
                 <!-- Amount of comments -->
                 {% comment %} <a role="button" href="#" class="btn btn-sm {% if deck.comment_count > 0 %}active{% else %}disabled{% endif %}"> {% endcomment %}
-                    <span><i class="fa-solid fa-comment"></i> {{ deck.comment_count }}</span>
+                    <span class="shadowed"><i class="fa-solid fa-comment"></i> {{ deck.comment_count }}</span>
                 {% comment %} </a> {% endcomment %}
             </div>
         </div>

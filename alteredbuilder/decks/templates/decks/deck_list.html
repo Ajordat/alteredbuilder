@@ -170,7 +170,24 @@
             </form>
         </div>
         <div class="col">
-            <h3>{% translate "Latest decks" %}</h3>
+            <div class="row justify-content-between">
+                <div class="col-md-6">
+                    <h3>{% translate "Latest decks" %}</h3>
+                </div>
+                <!-- Order dropdown -->
+                <div class="col-xl-3 col-md-4 col-12 d-flex justify-content-md-end">
+                    <div class="dropdown">
+                        <button id="filterOrdering" class="btn altered-style dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Sort by">
+                            {% translate "Sort by" %}
+                        </button>
+                        <ul class="dropdown-menu altered-style">
+                            <li><a class="dropdown-item" href="?{% inject_params request.GET order=None %}">{% translate "Last updated" %}</a></li>
+                            <li><a class="dropdown-item" href="?{% inject_params request.GET order="love" %}">{% translate "Most loved" %}</a></li>
+                            <li><a class="dropdown-item" href="?{% inject_params request.GET order="views" %}">{% translate "Most views" %}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
             <hr class="altered-style mt-1 mb-2"/>
             <div id="trendingDecks" class="row">
                 {% include "decks/snippets/public_decks_display.html" with decks=deck_list %}

@@ -16,8 +16,9 @@
     color: var(--cta-inactive-color);
 }
 
-.card {
+.trending-card {
     background-color: var(--plot-bg-color);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
 #card-showcase {

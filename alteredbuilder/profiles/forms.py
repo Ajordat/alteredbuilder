@@ -36,9 +36,7 @@ class UserProfileForm(forms.Form):
     """Form to validate a User's profile modification."""
 
     template_name = "forms/submit_userprofile.html"
-    avatar = forms.ChoiceField(
-        choices=PROFILE_PICTURES, widget=forms.RadioSelect
-    )
+    avatar = forms.ChoiceField(choices=PROFILE_PICTURES, widget=forms.RadioSelect)
     bio = forms.CharField(
         max_length=UserProfile._meta.get_field("bio").max_length,
         widget=forms.Textarea(attrs={"cols": 40, "rows": 10}),
