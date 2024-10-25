@@ -15,26 +15,19 @@
 {% endblock %}
 
 
+{% block banner %}
+    <div class="theme-banner">
+        <div class="banner-overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center">
+            <h1 class="display-4">{% translate "Welcome to Altered TCG Builder" %}</h1>
+            <p class="lead">{% translate "Build, analyze, and share your decks effortlessly." %}</p>
+            <a href="{% url "cards" %}" class="btn altered-style mt-3"><i class="fa-solid fa-wrench"></i> {% translate "Build a deck" %}</a>
+        </div>
+    </div>
+{% endblock %}
+
+
 {% block content %}
     {% get_current_language as LANGUAGE_CODE %}
-
-    {% comment %} <div class="container mt-3" id="release-container">
-        <div class="accordion my-3" id="releaseAccordion">
-            <div class="accordion-item shadow">
-                <h2 class="accordion-header">
-                    <button id="releaseButton" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#releaseDescription" aria-expanded="true" aria-controls="releaseDescription">
-                        {% blocktranslate %}Release notes {{ version }}{% endblocktranslate %}
-                        <span id="releaseNotificationAlert" class="translate-middle p-1 bg-danger border border-light rounded-circle ms-2" hidden></span>
-                    </button>
-                </h2>
-                <div id="releaseDescription" class="accordion-collapse collapse" data-bs-parent="#releaseAccordion" data-release="{{ version }}">
-                    <div class="accordion-body">
-                            {% include "releases/"|add:version|add:".html" %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> {% endcomment %}
     <div class="row mt-4">
         <div class="col-lg-4 col-md-6 mb-4">
             <h3 class="mb-0">{% translate "Popular Factions" %}</h3>
@@ -105,37 +98,6 @@
     <div id="trendingDecks" class="row">
         {% include "decks/snippets/public_decks_display.html" with decks=deck_trends %}
     </div>
-    {% comment %} <script>
-        function showReleaseDescription() {
-            document.getElementById("releaseButton").classList.remove("collapsed");
-            document.getElementById("releaseDescription").classList.add("show");
-        }
-        document.addEventListener("DOMContentLoaded", function() {
-            let lastMinimizedRelease = localStorage.getItem("releaseMinimized");
-            if (lastMinimizedRelease === null) {
-                showReleaseDescription();
-                return;
-            }
-            let currentRelease = document.getElementById("releaseDescription").dataset.release.split(".");
-            lastMinimizedRelease = lastMinimizedRelease.split(".");
-            
-            if (lastMinimizedRelease[0] !== currentRelease[0] || lastMinimizedRelease[1] !== currentRelease[1]) {
-                showReleaseDescription();
-                localStorage.removeItem("releaseMinimized");
-                return;
-            }
-            if (lastMinimizedRelease[2] !== currentRelease[2]) {
-                document.getElementById("releaseNotificationAlert").hidden = false;
-                return;
-            }
-        });
-        document.getElementById("releaseDescription").addEventListener("hidden.bs.collapse", event => {
-            localStorage.setItem("releaseMinimized", event.currentTarget.dataset.release);
-        });
-        document.getElementById("releaseDescription").addEventListener("shown.bs.collapse", event => {
-            localStorage.removeItem("releaseMinimized");
-        });
-    </script> {% endcomment %}
     <script>
 
         let deckRows = document.querySelectorAll(".card-hover");

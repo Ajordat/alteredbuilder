@@ -125,6 +125,15 @@ i.fa-star {
     color: rgb(255, 193, 7);
 }
 
+.modal .modal-header {
+    background-color: var(--navbar-bg-color);
+}
+.modal :is(.modal-body,.modal-footer) {
+    background-color: var(--content-bg-color);
+}
+
+
+/* ALTERED STYLE */
 hr.altered-style {
     height: 9px;
     background: rgb(255,255,255);
@@ -133,18 +142,22 @@ hr.altered-style {
     opacity: 1;
 }
 
-button.altered-style {
+.btn.altered-style {
     background-color: var(--cta-bg-active-color);
     color: var(--cta-active-color);
     border-radius: 16px;;
     transition: 0.1s;
 }
 
-button.altered-style:hover {
+/* .btn.altered-style:hover {
     background-color: var(--cta-bg-active-color);
     color: var(--cta-active-color);
     border-radius: 3px;
-}
+} */
+
+/* col-12 col-sm-6 col-xl-2*/
+/* col-12 col-sm-6 col-lg-4 */
+/* col-12 col-sm-6 col-lg-4 */
 
 span.badge.primary.altered-style {
     background-color: var(--cta-bg-active-color);
@@ -188,12 +201,6 @@ input.form-check-input.altered-style:checked+label {
     background-color: var(--cta-bg-active-color);
 }
 
-.modal .modal-header {
-    background-color: var(--navbar-bg-color);
-}
-.modal :is(.modal-body,.modal-footer) {
-    background-color: var(--content-bg-color);
-}
 
 /* DECKS */
 .deck-display {

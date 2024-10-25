@@ -192,6 +192,8 @@
         </nav>
 {% endwith %}
 
+        {% block banner %}{% endblock %}
+
         <div id="contentBlock" {% block content-div %}class="container-fluid px-5 mt-3 mb-5"{% endblock %}>
 {% block content %}{% endblock %}
         </div>
