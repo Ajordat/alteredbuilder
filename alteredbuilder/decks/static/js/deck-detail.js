@@ -282,7 +282,6 @@ if (checkedTagsCount >= 2) {
 }
 
 
-// Functionality to request a private link for a Deck and save it into the clipboard
 let deckShowcaseButton = document.getElementById("deckShowcaseButton");
 if (deckShowcaseButton) {
     deckShowcaseButton.addEventListener("click", (event) => {
@@ -294,5 +293,40 @@ if (deckShowcaseButton) {
         
         window.open(showcaseEndpoint + encodedList + "?name=" + encodeURIComponent(deckName), "_blank").focus();
         return false;
+    });
+}
+
+
+
+let changeToTableDisplayButton = document.getElementById("changeToTableDisplay");
+if (changeToTableDisplayButton) {
+    changeToTableDisplayButton.addEventListener("click", () => {
+        let cardDisplayElements = document.getElementsByClassName("card-display-view");
+        for (let element of cardDisplayElements) {
+            element.classList.add("d-none");
+        }
+        let cardTableElements = document.getElementsByClassName("card-table-view");
+        for (let element of cardTableElements) {
+            element.classList.remove("d-none");
+        }
+        changeToTableDisplayButton.classList.add("altered-style");
+        changeToCardDisplayButton.classList.remove("altered-style");
+    });
+}
+
+
+let changeToCardDisplayButton = document.getElementById("changeToCardDisplay");
+if (changeToCardDisplayButton) {
+    changeToCardDisplayButton.addEventListener("click", () => {
+        let cardDisplayElements = document.getElementsByClassName("card-display-view");
+        for (let element of cardDisplayElements) {
+            element.classList.remove("d-none");
+        }
+        let cardTableElements = document.getElementsByClassName("card-table-view");
+        for (let element of cardTableElements) {
+            element.classList.add("d-none");
+        }
+        changeToTableDisplayButton.classList.remove("altered-style");
+        changeToCardDisplayButton.classList.add("altered-style");
     });
 }

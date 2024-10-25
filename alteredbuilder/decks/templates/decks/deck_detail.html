@@ -65,14 +65,12 @@
                     </div>
     {% endif %}
                 </div>
-    {% if deck.is_public %}
                 <!-- Comment count and button -->
                 <div class="me-2">
                     <a role="button" class="btn btn-sm {% if deck.comment_count > 0 %}btn-secondary{% else %}btn-outline-secondary{% endif %}" data-bs-toggle="offcanvas" data-bs-target="#commentsOffcanvas" aria-controls="commentsOffcanvas">
                         <i class="fa-solid fa-comment"></i> <span id="comment-count-total">{{ deck.comment_count }}</span>
                     </a>
                 </div>
-    {% endif %}
     {% if deck.owner == user %}
                 <div class="me-2">
                     <!-- Edit Deck button-->
@@ -108,6 +106,12 @@
                 </div>
             </div>
 
+            <div class="d-flex justify-items-center">
+                <div class="input-group mb-3">
+                    <button class="btn" type="button" id="changeToTableDisplay"><i class="fa-solid fa-list"></i></button>
+                    <button class="btn altered-style" type="button" id="changeToCardDisplay"><i class="fa-solid fa-table-cells"></i></button>
+                  </div>                  
+            </div>
             <div class="d-flex justify-items-end">
                 <!-- Goldfishing access -->
     {% if stats.rarity_distribution.unique %}
@@ -169,18 +173,48 @@
             </div>
         </div>
     </div>
-    <div class="my-3">
-        <h3 class="mb-0">{% translate "Decklist" %}</h3>
-        <hr class="altered-style mt-0"/>
-    </div>
     <div class="row">
-        <div class="col-lg-4 col-sm-6 col-12 sticky-column">
+        <div class="col-12 col-sm-4 col-md-3 col-xl-2 sticky-column">
             <!-- Card display -->
             <!-- It will show the first image available in this order: hero, characters, spells, permanents -->
             {% firstof deck.hero.image_url character_list.0.1.image_url spell_list.0.1.image_url permanent_list.0.1.image_url "" as display_image %}
             <img class="img-fluid rounded-4" id="card-showcase" src="{% cdn_image_url display_image %}">
         </div>
-        <div class="col-lg-4 col-sm-6 col-12 mt-sm-0 mt-4">
+
+        <div class="col card-display-view">
+
+    {% if deck.hero %}
+            <div class="row">
+                <h3 class="mb-0">{% translate "Hero" %}</h3>
+                <hr class="altered-style mt-0"/>
+                <div class="col-xxl-2 col-xl-3 col-md-4 col-sm-6">
+                    <div class="card-display rounded-3 card-hover" data-rarity="{{ deck.hero.get_rarity_display }}" data-image-url="{% cdn_image_url deck.hero.image_url %}" data-faction="{{ deck.hero.faction }}">
+                        <img src="{% cdn_image_url deck.hero.image_url %}" class="card-img-top rounded-3" alt="{{ deck.hero.name }}">
+                    </div>
+                </div>
+    {% endif %}
+            </div>
+
+    {% if character_list %}
+            <!-- Card table of characters -->
+            {% translate "Spells" noop as _ %}
+            {% include "decks/snippets/card_list.html" with type="Characters" card_list=character_list %}
+    {% endif %}
+
+    {% if spell_list %}
+            <!-- Card table of spells -->
+            {% translate "Spells" noop as _ %}
+            {% include "decks/snippets/card_list.html" with type="Spells" card_list=spell_list %}
+    {% endif %}
+
+    {% if permanent_list %}
+            <!-- Card table of permanents -->
+            {% translate "Permanents" noop as _ %}
+            {% include "decks/snippets/card_list.html" with type="Permanents" card_list=permanent_list %}
+    {% endif %}
+
+        </div>
+        <div class="card-table-view d-none col-lg-4 col-sm-6 col-12 mt-sm-0 mt-4">
             <!-- Hero table -->
             <p><i class="fa-solid fa-person-hiking"></i> {% translate "Hero" %}</p>
             <table class="table table-striped table-hover card-table" id="hero-table" aria-describedby="Deck hero">
@@ -232,7 +266,7 @@
 
         </div>
 
-        <div class="col-lg-4 col-sm-6 col-12 offset-sm-6 offset-lg-0 mt-lg-0 mt-4">
+        <div class="card-table-view d-none col-lg-4 col-sm-6 col-12 offset-sm-6 offset-lg-0 mt-lg-0 mt-4">
             <!-- Card table of characters -->
             <p><i class="fa-solid fa-people-group"></i> {% translate "Characters" %}</p>
             {% include "decks/snippets/card_table.html" with type="character" card_list=character_list %}

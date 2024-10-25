@@ -1,0 +1,15 @@
+
+{% load i18n %}
+{% load deck_styles %}
+
+<div class="row">
+    <h3 class="mb-0">{% translate type %}</h3>
+    <hr class="altered-style mt-0"/>
+{% for quantity, card in card_list %}
+    <div class="col-xxl-2 col-xl-3 col-md-4 col-sm-6 mb-3">
+        <div class="card-display rounded-3 card-hover" data-rarity="{{ card.get_rarity_display }}" data-image-url="{% cdn_image_url card.image_url %}" data-faction="{{ card.faction }}">
+            <img src="{% cdn_image_url card.image_url %}" class="card-img-top rounded-3" alt="{{ card.name }}">
+        </div>
+    </div>
+{% endfor %}
+</div>

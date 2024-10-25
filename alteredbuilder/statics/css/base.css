@@ -136,7 +136,7 @@ hr.altered-style {
 button.altered-style {
     background-color: var(--cta-bg-active-color);
     color: var(--cta-active-color);
-    border-radius: 16px 3px 16px 3px;
+    border-radius: 16px;;
     transition: 0.1s;
 }
 
