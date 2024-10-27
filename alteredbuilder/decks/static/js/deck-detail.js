@@ -309,8 +309,8 @@ if (changeToTableDisplayButton) {
         for (let element of cardTableElements) {
             element.classList.remove("d-none");
         }
-        changeToTableDisplayButton.classList.add("altered-style");
-        changeToCardDisplayButton.classList.remove("altered-style");
+        changeToTableDisplayButton.classList.add("selected");
+        changeToCardDisplayButton.classList.remove("selected");
     });
 }
 
@@ -326,7 +326,7 @@ if (changeToCardDisplayButton) {
         for (let element of cardTableElements) {
             element.classList.add("d-none");
         }
-        changeToTableDisplayButton.classList.remove("altered-style");
-        changeToCardDisplayButton.classList.add("altered-style");
+        changeToTableDisplayButton.classList.remove("selected");
+        changeToCardDisplayButton.classList.add("selected");
     });
 }
