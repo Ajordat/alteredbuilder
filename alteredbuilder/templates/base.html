@@ -133,7 +133,7 @@
                             <ul class="dropdown-menu dropdown-menu-end py-1 mx-3 mb-3">
     {% for lang in languages %}
                                 <li>
-                                    <a class="dropdown-item" href="{% change_lang lang.code %}">
+                                    <a class="dropdown-item {% if lang.code == CURRENT_LANGUAGE %}active{% endif %}" href="{% change_lang lang.code %}">
                                         {% include "decks/snippets/picture_webp.html" with img_name=lang.code width=24 height=24 %} {{ lang.name_local|title }}
                                     </a>
                                 </li>
@@ -147,7 +147,7 @@
                                 <span class="position-absolute translate-middle p-1 bg-danger border border-light rounded-circle"></span>
     {% endif %}
                             </a>
-                            <ul id="notificationList" class="dropdown-menu dropdown-menu-end pb-1 mx-3 mb-3 bg-light-subtle pt-0" aria-labelledby="notificationDropdown">
+                            <ul id="notificationList" class="dropdown-menu dropdown-menu-end pb-1 mx-3 mb-3 pt-0" aria-labelledby="notificationDropdown">
                                 <li class="dropdown-item text-center mt-2 p-0"><a class="dropdown-item d-block" href="{% url "notification-list" %}">{% translate "View all notifications" %}</a></li>
                                 <li id="notificationsDivider"><hr class="dropdown-divider"></li>
                                 <li class="dropdown-item notification-item text-muted disabled">{% translate "No notifications" %}</li>

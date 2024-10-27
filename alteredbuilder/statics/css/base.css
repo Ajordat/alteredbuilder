@@ -15,6 +15,11 @@
     --default-border-radius: 16px;
 }
 
+:root {
+    --bs-body-bg: var(--navbar-bg-color);
+    --bs-secondary-color: var(--cta-inactive-color);
+}
+
 html[data-bs-theme="light"] {
     --content-bg-color: #FFFEFC;
     --navbar-bg-color: #FDF8E7;
@@ -55,33 +60,42 @@ nav.navbar {
     color: var(--cta-inactive-color);
 }
 
+li.nav-item>.nav-link, li.nav-item .dropdown-item {
+    color: var(--cta-inactive-color);
+}
+li.nav-item:hover>.nav-link, li.nav-item .dropdown-item:hover {
+    color: var(--cta-active-color);
+}
+
 li.nav-item {
     border-radius: var(--default-border-radius);
 }
 
-li.nav-item>a, li.nav-item .dropdown-item {
+li.nav-item .dropdown-item.active {
+    color: var(--cta-active-color);
+}
+
+li.nav-item .dropdown-menu {
     color: var(--cta-inactive-color);
+    background-color: var(--navbar-bg-color);
 }
 
 li.nav-item.current-nav-tab {
     background-color: var(--cta-bg-active-color);
+}
+li.nav-item.current-nav-tab a {
+    color: var(--cta-active-color);
 }
 
 li.nav-item:hover, li.nav-item .dropdown-item:hover {
     background-color: var(--cta-bg-active-color);
 }
 
-li.nav-item:hover>a, li.nav-item .dropdown-item:hover {
-    color: var(--cta-active-color);
-}
 
 li.nav-item .dropdown-item.active {
     background-color: var(--cta-bg-active-color);
 }
 
-li.nav-item.current-nav-tab a {
-    color: var(--cta-active-color);
-}
 
 .navbar img.logo {
     max-height: 40px;
@@ -129,6 +143,9 @@ i.fa-star {
     background-color: var(--content-bg-color);
 }
 
+.form-control {
+    border-radius: var(--default-border-radius);
+}
 
 /* ALTERED STYLE */
 hr.altered-style {
