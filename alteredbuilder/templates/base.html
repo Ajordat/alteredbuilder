@@ -71,7 +71,7 @@
                         </li>
                         {% url 'cards' as item_url %}
                         <li class="nav-item {{ nav_item_classes }} {% if request.path == item_url %}current-nav-tab{% endif %}">
-                            <a class="nav-link" href="{{ item_url }}"><i class="fa-solid fa-puzzle-piece"></i> {% translate "Cards" %}</a>
+                            <a class="nav-link" href="{{ item_url }}"><i class="fa-solid fa-wrench"></i> {% translate "Build" %}</a>
                         </li>
                         {% url 'own-deck' as item_url %}
                         <li class="nav-item {{ nav_item_classes }} {% if request.path == item_url or request.GET.next == item_url %}current-nav-tab{% endif %}">
