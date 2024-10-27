@@ -30,6 +30,9 @@
     {% else %}
                 <i class="fa-regular fa-circle-xmark shadowed"></i>
     {% endif %}
+    {% if not deck.is_public %}
+                <i class="fa-solid fa-lock ms-2 shadowed"></i>
+    {% endif %}
             </div>
             <div class="position-absolute bottom-0 end-0 me-2 mb-2">
                 <!-- Amount of hits -->
