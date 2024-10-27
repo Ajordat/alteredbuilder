@@ -8,6 +8,7 @@ from hitcount.models import HitCount, HitCountMixin
 
 
 ALTERED_TCG_URL = "https://www.altered.gg"
+CARD_DISPLAY_URL_FORMAT = "https://altered-prod-eu.s3.amazonaws.com/Art/CORE/CARDS/ALT_CORE_B_{}/ALT_CORE_B_{}_WEB.jpg"
 
 
 class CardManager(models.Manager):
@@ -145,7 +146,8 @@ class Card(models.Model):
         return "_".join(self.reference.split("_")[3:5])
 
     def get_display_image(self) -> str:
-        return f"https://altered-prod-eu.s3.amazonaws.com/Art/CORE/CARDS/{self.reference[:-2]}/{self.reference}_WEB.jpg"
+        short_reference = self.reference[-7:]
+        return CARD_DISPLAY_URL_FORMAT.format(short_reference[:-2], short_reference)
 
     def is_oof(self) -> bool:
         return f"_{self.faction}_" not in self.reference
