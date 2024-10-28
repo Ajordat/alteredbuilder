@@ -118,12 +118,12 @@
             <a class="infinite-more-link page-link" href="?{% inject_params request.GET page=page_obj.next_page_number %}"></a>
         {% endif %}
     </div>
-    
+    <!-- Advanced search modal -->
     <div class="modal altered-style fade" id="advancedSearchModal" tabindex="-1" aria-labelledby="advancedSearchModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="advancedSearchModalLabel">Advanced Search</h5>
+                    <h5 class="modal-title" id="advancedSearchModalLabel">{% translate "Advanced Search" %}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body"><!-- Advanced Deck filtering instructions -->

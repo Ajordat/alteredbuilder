@@ -76,3 +76,7 @@ html[data-bs-theme="dark"] .card-name {
     --text-color: white;
     --shadow-color: black;
 }
+
+#advancedSearchModal .modal-dialog {
+    max-width: 700px;
+}

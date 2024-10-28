@@ -211,10 +211,11 @@ function updateCardCount() {
 // Declare the variables to track the changes
 var decklistChanges = new DecklistChanges("decklistChanges");
 decklistChanges.takeSnapshot();
-var deckId = document.getElementById("deckSelector").value;
+var params = new URLSearchParams(document.location.search);
+var deckId = params.get("deck") || 0;
 
 
-if (deckId !== sessionStorage.getItem("deckId")) {
+if (deckId != sessionStorage.getItem("deckId")) {
     // If the stored deck ID is different than the deck editing, discard the tracked changes
     sessionStorage.removeItem("decklistChanges");
     sessionStorage.setItem("deckId", deckId);
@@ -282,35 +283,6 @@ assertHasChangesWarning();
 document.getElementById("deck-name").addEventListener("change", (e) => {
     e.preventDefault();
     sessionStorage.setItem("deckName", e.currentTarget.value);
-    return false;
-});
-
-
-// Dropdown to select a deck
-document.getElementById("deckSelector").addEventListener("change", (e) => {
-    e.preventDefault();
-    let selector = e.target;
-    let targetDeckId = selector.value;
-    let faction = selector.options[selector.selectedIndex].dataset.faction;
-
-    // Clean the changes on the current deck
-    decklistChanges.clean();
-    // Delete the existing `deck` argument
-    let params = new URLSearchParams(window.location.search);
-    params.delete("deck");
-
-    if (targetDeckId != 0) {
-        // If it's not a new deck, add the `deck` argument to the URI
-        params.append("deck", targetDeckId);
-
-        if (faction) {
-            params.append("faction", faction);
-        }
-    }
-    let url = window.location.pathname + "?" + params.toString();
-    // Go to the new URL
-    window.open(url, "_self");
-
     return false;
 });
 
@@ -505,7 +477,6 @@ let saveDeckButton = document.getElementById("save-deck");
 saveDeckButton.addEventListener("click", function(event) {
     event.preventDefault();
     // Retrieve the deck's values and generate the URL to patch the deck
-    let deckId = document.getElementById("deckSelector").value;
     let deckName = document.getElementById("deck-name").value;
     let url = window.location.pathname.slice(0, 4) + "decks/" + deckId + "/update/";
 
@@ -565,4 +536,10 @@ saveDeckButton.addEventListener("click", function(event) {
         return false;
     });
     return false;
+});
+
+document.getElementById("startNewDeck").addEventListener("click", function(){
+    if (decklistChanges.hasChanges()) {
+        decklistChanges.clean();
+    }
 });

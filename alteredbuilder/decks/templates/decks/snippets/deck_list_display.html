@@ -2,7 +2,7 @@
 {% load deck_styles %}
 
 {% for deck in decks %}
-    <div class="col-xxl-3 col-lg-4 col-md-6 col-12 infinite-item">
+    <div class="col-xxl-3 col-lg-4 col-md-6 col-12 infinite-item user-select-none">
     {% if deck.hero %}
         <div class="deck-display my-2 rounded position-relative" data-faction="{{ deck.hero.faction }}" onclick="location.href='{{ deck.get_absolute_url }}';" style="background-image: radial-gradient(circle, #FFF0, #0008), {% comment %}linear-gradient(#FFF0, #0008), linear-gradient(to left, #FFF0, #0005),{% endcomment %} url({{ deck.hero.get_display_image }});">
     {% else %}
