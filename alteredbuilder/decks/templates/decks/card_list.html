@@ -173,21 +173,23 @@
                 <div class="row">
                     <input id="deck-name" type="text" maxlength="50" class="form-control" required value="{% if edit_deck.name %}{{ edit_deck.name }}{% else %}{% translate 'Deck' %} {{ own_decks|length|add:'1' }}{% endif %}" aria-labelledby="deck-name-label">
                 </div>
-                <!-- Hero -->
-                <div class="row" id="hero-name-label">{% translate "Hero:" %}</div>
-                <div class="row my-1" id="row-hero" data-bs-toggle="tooltip" {% if not edit_deck.hero %}data-bs-disable="true"{% endif %} data-bs-title="<img src='{% cdn_image_url edit_deck.hero.image_url %}'/>" data-bs-html="true" data-bs-placement="left">
-                    <div class="col px-0">
-                        <div class="input-group">
-                            <input id="hero-name" type="text" class="card-name form-control" value="{{ edit_deck.hero.name }}" data-card-reference="{{ edit_deck.hero.reference }}" disabled style="background-image: url('{% cdn_image_url edit_deck.hero.image_url %}')" aria-labelledby="hero-name-label">
-                            <button class="btn btn-outline-secondary" type="button" id="remove-hero" {% if not edit_deck.hero %}disabled{% endif %} aria-label="Remove hero from deck"><i class="fa-solid fa-trash"></i></button>
-                        </div>
-                    </div>
-                </div>
                 <!-- Rarities counter-->
                 <div class="row row-cols-auto gx-0 justify-content-center">
                     <span id="C-count-container" class="me-2"><span id="C-count" class="badge text-bg-secondary"></span> <span id="C-count-text"></span></span>
                     <span id="R-count-container" class="me-2"><span id="R-count" class="badge text-bg-info"></span> <span id="R-count-text"></span></span>
                     <span id="U-count-container"><span id="U-count" class="badge text-bg-danger"></span> <span id="U-count-text"></span></span>
+                </div>
+                <!-- Hero -->
+                <div id="hero-container" class="{% if not edit_deck.hero %}d-none{% endif %}">
+                    <div class="row" id="hero-name-label">{% translate "Hero:" %}</div>
+                    <div class="row my-1" id="row-hero" data-bs-toggle="tooltip" {% if not edit_deck.hero %}data-bs-disable="true"{% endif %} data-bs-title="<img src='{% cdn_image_url edit_deck.hero.image_url %}'/>" data-bs-html="true" data-bs-placement="left">
+                        <div class="col px-0">
+                            <div class="input-group">
+                                <input id="hero-name" type="text" class="card-name form-control" value="{{ edit_deck.hero.name }}" data-card-reference="{{ edit_deck.hero.reference }}" disabled style="background-image: url('{% cdn_image_url edit_deck.hero.image_url %}')" aria-labelledby="hero-name-label">
+                                <button class="btn btn-outline-secondary" type="button" id="remove-hero" {% if not edit_deck.hero %}disabled{% endif %} aria-label="Remove hero from deck"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">{% translate "Cards:" %}</div>
                 <div id="decklist-cards">
