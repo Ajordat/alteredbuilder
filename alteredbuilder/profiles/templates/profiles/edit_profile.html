@@ -93,5 +93,8 @@
 
 
 {% block bodyscripts %}
+    <script>
+        var avatarBaseUrl = "{% static '/img/avatars/' %}";
+    </script>
     <script src="{% static 'js/edit-profile.js' %}"></script>
 {% endblock %}
