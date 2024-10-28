@@ -82,7 +82,7 @@
                         {% url 'import-card' as import_card_url %}
                         <li class="nav-item {{ nav_item_classes }} dropdown {% if request.path == import_deck_url or request.path == import_card_url %}current-nav-tab{% endif %}">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-file-import"></i> {% translate "Import" %}</a>
-                            <ul class="dropdown-menu dropdown-menu-end py-1 mx-3 mb-3">
+                            <ul class="dropdown-menu dropdown-menu-start py-1 mx-3 mb-3">
                                 <li><a class="dropdown-item py-2" href="{{ import_deck_url }}"><i class="fa-solid fa-layer-group"></i> {% translate "Deck" %}</a></li>
                                 <li><hr class="dropdown-divider my-0"></li>
                                 <li><a class="dropdown-item py-2" href="{{ import_card_url }}"><i class="fa-solid fa-puzzle-piece"></i> {% translate "Unique card" %}</a></li>

@@ -167,7 +167,6 @@ span.badge.primary.altered-style {
     background-color: var(--cta-bg-active-color);
     color: var(--cta-active-color);
 }
-
 span.badge.secondary.altered-style {
     background-color: var(--navbar-bg-color);
     color: var(--cta-inactive-color);
@@ -195,14 +194,23 @@ input.form-check-input.altered-style:checked+label {
 .dropdown-menu.altered-style .dropdown-item {
     color: var(--cta-inactive-color);
 }
-
 .dropdown-menu.altered-style .dropdown-item:hover {
     color: var(--cta-active-color);
     background-color: var(--cta-bg-active-color);
 }
-
 .dropdown-menu.altered-style .dropdown-item.active {
     background-color: var(--cta-bg-active-color);
+}
+
+.accordion.altered-style {
+    --bs-accordion-color: var(--cta-active-color);
+    --bs-accordion-btn-color: var(--cta-active-color);
+    --bs-accordion-btn-bg: var(--cta-bg-active-color);
+    --bs-accordion-active-bg: var(--bs-accordion-btn-bg);
+    --bs-accordion-border-radius: var(--default-border-radius);
+    --bs-accordion-inner-border-radius: calc(var(--default-border-radius) - (var(--bs-border-width)));
+    --bs-accordion-btn-focus-box-shadow: none;
+    --bs-accordion-border-width: 0;
 }
 
 

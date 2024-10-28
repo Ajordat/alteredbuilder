@@ -96,9 +96,9 @@
             <div class="col-xl-3 col-md-4 col-12 d-flex justify-content-md-end">
                 <div class="dropdown">
                     <button id="filterOrdering" class="btn altered-style dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Sort by">
-                        {% translate "Sort by" %}
+                        <i class="fa-solid fa-sort me-2"></i>{% translate "Sort by" %}
                     </button>
-                    <ul class="dropdown-menu altered-style">
+                    <ul class="dropdown-menu dropdown-menu-end altered-style">
                         <li><a class="dropdown-item" href="?{% inject_params request.GET order=None %}">{% translate "Last updated" %}</a></li>
                         <li><a class="dropdown-item" href="?{% inject_params request.GET order="love" %}">{% translate "Most loved" %}</a></li>
                         <li><a class="dropdown-item" href="?{% inject_params request.GET order="views" %}">{% translate "Most views" %}</a></li>
