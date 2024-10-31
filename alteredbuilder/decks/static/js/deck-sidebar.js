@@ -254,7 +254,7 @@ if (deckId != sessionStorage.getItem("deckId")) {
                     
                     tooltip.setContent({".tooltip-inner": getImageElement(change.image)});
                     tooltip.enable();
-                    document.getElementById("hero-container").classList.remove("d-none");
+                    document.getElementById("hero-sidebar-container").classList.remove("d-none");
                 } else if (change.quantity <= 0 && cardReference === heroElement.dataset.cardReference) {
                     // Remove the hero if it doesn't have a positive quantity and the
                     // displayed hero is the one removed
@@ -367,7 +367,7 @@ removeHeroButton.addEventListener("click", function(event) {
     let heroTextElement = event.currentTarget.previousElementSibling;
     let heroReference = heroTextElement.dataset.cardReference;
 
-    document.getElementById("hero-container").classList.add("d-none");
+    document.getElementById("hero-sidebar-container").classList.add("d-none");
     // Empty the shown values and disable the button to delete the hero
     heroTextElement.value = "";
     heroTextElement.dataset.cardReference = "";
@@ -441,7 +441,7 @@ function addCardFromDisplay(event) {
             decklistChanges.addChange(cardReference, {"quantity": 1, "isHero": true, "name": cardName, "image": cardImage});
             decklistChanges.save();
             
-            document.getElementById("hero-container").classList.remove("d-none");
+            document.getElementById("hero-sidebar-container").classList.remove("d-none");
             assertHasChangesWarning();
         }
         return;

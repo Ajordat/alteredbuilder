@@ -10,7 +10,7 @@
   font-display: block;
 }
 
-span[class^="altered-"], span[class*=" altered-"] {
+span[class^="altered-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'altered' !important;
   speak: never;

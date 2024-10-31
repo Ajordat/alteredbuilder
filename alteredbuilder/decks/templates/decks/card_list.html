@@ -48,14 +48,14 @@
                     </span>
                 </div>
             </div>
-            <div class="row row-cols-auto align-items-center gy-2 mb-3">
+            <div class="row row-cols-auto align-items-top gy-2 mb-3">
                 <!-- Filter dropdown -->
                 <div class="col d-flex">
                     <div class="accordion altered-style" id="filterAccordion">
                         <div class="accordion-item altered-style">
                             <h2 class="accordion-header">
                                 <button class="accordion-button altered-style collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-                                    <i class="fa-solid fa-filter"></i>&nbsp; {% translate "Filters" %}&nbsp; <span class="badge text-bg-secondary">{{ checked_filters|length }}</span>&nbsp; 
+                                    <i class="fa-solid fa-filter"></i>&nbsp; {% translate "Filters" %}&nbsp; <span class="badge altered-style">{{ checked_filters|length }}</span>&nbsp;
                                 </button>
                             </h2>
                             <div id="collapseFilter" class="accordion-collapse collapse" data-bs-parent="#filterAccordion">
@@ -180,7 +180,7 @@
                     <span id="U-count-container"><span id="U-count" class="badge text-bg-danger"></span> <span id="U-count-text"></span></span>
                 </div>
                 <!-- Hero -->
-                <div id="hero-container" class="{% if not edit_deck.hero %}d-none{% endif %}">
+                <div id="hero-sidebar-container" class="{% if not edit_deck.hero %}d-none{% endif %}">
                     <div class="row" id="hero-name-label">{% translate "Hero:" %}</div>
                     <div class="row my-1" id="row-hero" data-bs-toggle="tooltip" {% if not edit_deck.hero %}data-bs-disable="true"{% endif %} data-bs-title="<img src='{% cdn_image_url edit_deck.hero.image_url %}'/>" data-bs-html="true" data-bs-placement="left">
                         <div class="col px-0">
