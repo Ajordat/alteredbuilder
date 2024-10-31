@@ -1,0 +1,43 @@
+{% load i18n %}
+{% load deck_styles %}
+
+<div class="row">{% translate title %}</div>
+<div id="decklist-{{ type }}-cards">
+    <!-- Display cards -->
+{% for cid in card_list %}
+    <div class="row border rounded row-cols-auto my-1" id="row-{{ cid.card.reference }}" style="background-image: linear-gradient(to right, #FFFF, #FFF3, #FFF0), url({% cdn_image_url cid.card.image_url %});" data-card-rarity="{{ cid.card.rarity }}" data-bs-toggle="tooltip" data-bs-title="<img src='{% cdn_image_url cid.card.image_url %}'/>" data-bs-html="true" data-bs-placement="left">
+        <div class="col px-0">
+            <div class="input-group input-group-sm">
+                <!-- Quantity buttons and display -->
+                <button class="remove-card-btn btn btn-outline-secondary" type="button">-</button>
+                <span class="input-group-text card-quantity user-select-none" data-card-reference="{{ cid.card.reference }}">{{ cid.quantity }}</span>
+                <button class="add-card-btn btn btn-outline-secondary" type="button">+</button>
+            </div>
+        </div>
+        <div class="col-2">
+            <!-- Card name with quantity warning -->
+            <span class="d-inline-block text-truncate card-row-text">
+                <span class="card-warning" {% if cid.card.rarity != "U" and cid.quantity < 4 or cid.card.rarity == "U" and cid.quantity == 1%} hidden{% endif %}><i class="fa-solid fa-triangle-exclamation"></i> </span><span class="card-name user-select-none">{{ cid.card.name }}</span>
+            </span>
+        </div>
+    </div>
+{% empty %}
+    <!-- Hidden card row for empty decks to use as a a template for new cards -->
+    <div class="row border rounded row-cols-auto my-1" id="row-empty" data-card-rarity="" data-bs-toggle="tooltip" data-bs-disable="true" data-bs-html="true" data-bs-placement="left" hidden>
+        <div class="col px-0">
+            <div class="input-group input-group-sm">
+                <!-- Quantity buttons and display -->
+                <button class="remove-card-btn btn btn-outline-secondary" type="button">-</button>
+                <span class="input-group-text card-quantity user-select-none" data-card-reference="empty"></span>
+                <button class="add-card-btn btn btn-outline-secondary" type="button">+</button>
+            </div>
+        </div>
+        <div class="col-2">
+            <!-- Card name with quantity warning -->
+            <span class="d-inline-block text-truncate card-row-text">
+                <span class="card-warning" hidden><i class="fa-solid fa-triangle-exclamation"></i> </span><span class="card-name user-select-none"></span>
+            </span>
+        </div>
+    </div>
+{% endfor %}
+</div>

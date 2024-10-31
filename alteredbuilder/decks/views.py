@@ -779,11 +779,23 @@ class CardListView(ListView):
                     context["edit_deck"] = Deck.objects.filter(
                         pk=edit_deck_id, owner=self.request.user
                     ).get()
-                    context["edit_deck_cards"] = (
-                        CardInDeck.objects.filter(deck=context["edit_deck"])
-                        .select_related("card")
-                        .order_by("card__reference")
-                    )
+                    edit_deck_cards = CardInDeck.objects.filter(deck=context["edit_deck"]).select_related("card").order_by("card__reference")
+                    characters = []
+                    spells = []
+                    permanents = []
+
+                    for cid in edit_deck_cards:
+                        match cid.card.type:
+                            case Card.Type.CHARACTER:
+                                characters.append(cid)
+                            case Card.Type.SPELL:
+                                spells.append(cid)
+                            case Card.Type.PERMANENT:
+                                permanents.append(cid)
+                    context["character_cards"] = characters
+                    context["spell_cards"] = spells
+                    context["permanent_cards"] = permanents
+
                 except Deck.DoesNotExist:
                     pass
 

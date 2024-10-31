@@ -3,9 +3,9 @@
     --C-shadow-color: gray;
     --R-shadow-color: #058196;
     --U-shadow-color: #ff5e00fd;
-    --C-color: var(--bs-body-bg);
-    --R-color: var(--bs-info-bg-subtle);
-    --U-color: var(--bs-danger-bg-subtle);
+    --C-color: #d6cdc6;
+    --R-color: #00abe6;
+    --U-color: #f4b539;
     --AX-color: #7e4b36;
     --BR-color: #ff1a1a;
     --LY-color: #d12358;

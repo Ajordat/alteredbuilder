@@ -1,11 +1,3 @@
-:root {
-    --C-shadow-color: gray;
-    --R-shadow-color: #058196;
-    --U-shadow-color: #ff5e00fd;
-    --C-color: var(--bs-body-bg);
-    --R-color: var(--bs-info-bg-subtle);
-    --U-color: var(--bs-danger-bg-subtle);
-}
 
 .card-display {
     max-width: 280px;
@@ -42,7 +34,7 @@
 }
 
 #decklist-cards .row button {
-    background: var(--bs-body-bg);
+    background: var(--C-color);
 }
 
 #decklist-cards .row[data-card-rarity="R"] button {
@@ -74,4 +66,20 @@ html[data-bs-theme="dark"] .card-name {
 
 #advancedSearchModal .modal-dialog {
     max-width: 700px;
+}
+
+#C-count {
+    background-color: var(--C-color);
+    color: var(--cta-active-color);
+    /* --bs-badge-font-size: 0.8em; */
+}
+#R-count {
+    background-color: var(--R-color);
+    color: var(--cta-active-color);
+    /* --bs-badge-font-size: 0.8em; */
+}
+#U-count {
+    background-color: var(--U-color);
+    color: var(--cta-active-color);
+    /* --bs-badge-font-size: 0.8em; */
 }

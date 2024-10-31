@@ -168,11 +168,14 @@ function sortDeckCards() {
         return a.id.localeCompare(b.id);
     }
     
-    let decklistElement = document.getElementById("decklist-cards");
-    let cardRowElements = Array.prototype.slice.call(decklistElement.children, 0);
-    cardRowElements.sort(sortByReference);
-    for (let i = 0; i < cardRowElements.length; i++) {
-        decklistElement.appendChild(cardRowElements[i]);
+    let types = ["character", "spell", "permanent"];
+    for (let type of types) {
+        let decklistElement = document.getElementById(`decklist-${type}-cards`);
+        let cardRowElements = Array.prototype.slice.call(decklistElement.children, 0);
+        cardRowElements.sort(sortByReference);
+        for (let i = 0; i < cardRowElements.length; i++) {
+            decklistElement.appendChild(cardRowElements[i]);
+        }
     }
 }
 
@@ -199,8 +202,8 @@ function updateCardCount() {
             count += Number(card.innerText);
         }
         if (count > 0) {
-            document.getElementById(`${rarity}-count`).innerText = count;
-            document.getElementById(`${rarity}-count-text`).innerText = getRarityTranslated(rarity, count);
+            document.getElementById(`${rarity}-count`).innerText = count + " " + getRarityTranslated(rarity, count);
+            // document.getElementById(`${rarity}-count-text`).innerText = getRarityTranslated(rarity, count);
             document.getElementById(`${rarity}-count-container`).hidden = false;
         } else {
             document.getElementById(`${rarity}-count-container`).hidden = true;
@@ -268,7 +271,7 @@ if (deckId != sessionStorage.getItem("deckId")) {
             } else {
                 if (change.quantity > 0) {
                     // Create the card row if it's a positive quantity
-                    cardRow = createCardRow(change.quantity, cardReference, change.name, change.rarity, change.image);
+                    cardRow = createCardRow(change.quantity, cardReference, change.type, change.name, change.rarity, change.image);
                     assertCardLimitWarning(cardRow, change.quantity);
                 }
             }
@@ -386,15 +389,16 @@ removeHeroButton.addEventListener("click", function(event) {
  * Add a new card record to the list of cards. It works by duplicating the last
  * existing record, modifying its values and adding it into the document.
  * 
- * @param {int} quantity Quantity of the card present in the deck 
- * @param {string} reference Reference of the card  
+ * @param {int} quantity Quantity of the card present in the deck
+ * @param {string} reference Reference of the card
+ * @param {string} type Type of the card
  * @param {string} name Name of the card
- * @param {string} rarity Rarity of the card 
+ * @param {string} rarity Rarity of the card
  * @param {string} image Image of the card
  */
-function createCardRow(quantity, reference, name, rarity, image) {
+function createCardRow(quantity, reference, type, name, rarity, image) {
     // Retrieve the relevant elements
-    let editDeckColumn = document.getElementById("decklist-cards");
+    let editDeckColumn = document.getElementById(`decklist-${type}-cards`);
     let newCardElement = editDeckColumn.lastElementChild.cloneNode(true);
     // Set the new values
     newCardElement.id = getRowId(reference);
@@ -410,6 +414,7 @@ function createCardRow(quantity, reference, name, rarity, image) {
     new bootstrap.Tooltip(newCardElement);
     newCardElement.hidden = false;
     editDeckColumn.appendChild(newCardElement);
+    document.getElementById(`${type}-sidebar-container`).classList.remove("d-none");
 
     return newCardElement;
 }
@@ -461,10 +466,10 @@ function addCardFromDisplay(event) {
         assertCardLimitWarning(cardElement, quantity);
     } else {
         // If the card doesn't exist, create the card's row
-        createCardRow(1, cardReference, cardName, cardRarity, cardImage);
+        createCardRow(1, cardReference, cardType, cardName, cardRarity, cardImage);
         sortDeckCards();
         // Track the changes
-        decklistChanges.addChange(cardReference, {"quantity": 1, "name": cardName, "rarity": cardRarity, "image": cardImage});
+        decklistChanges.addChange(cardReference, {"quantity": 1, "name": cardName, "type": cardType, "rarity": cardRarity, "image": cardImage});
     }
     decklistChanges.save();
     updateCardCount();
