@@ -10,6 +10,7 @@
   font-display: block;
 }
 
+/* This condition requires that the icon identifier is the first class in the span element */
 span[class^="altered-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'altered' !important;
