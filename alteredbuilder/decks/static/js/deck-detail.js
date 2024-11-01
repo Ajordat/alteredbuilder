@@ -297,36 +297,61 @@ if (deckShowcaseButton) {
 }
 
 
+const displayStoreKey = "deckDisplayPreference";
+const DISPLAY_MODE_TABLE = "table";
+const DISPLAY_MODE_CARD = "card";
+const DEFAULT_DISPLAY_MODE = DISPLAY_MODE_CARD;
+
+function storeDisplayMode(displayMode) {
+    localStorage.setItem(displayStoreKey, displayMode);
+}
+function getDisplayMode() {
+    let displayMode = localStorage.getItem(displayStoreKey);
+    if (displayMode) return displayMode;
+    storeDisplayMode(DEFAULT_DISPLAY_MODE);
+    return DEFAULT_DISPLAY_MODE;
+}
+
+function changeDisplayElements(elementsToHideClass, elementsToShowClass) {
+    let cardDisplayElements = document.getElementsByClassName(elementsToHideClass);
+    for (let element of cardDisplayElements) {
+        element.classList.add("d-none");
+    }
+    let cardTableElements = document.getElementsByClassName(elementsToShowClass);
+    for (let element of cardTableElements) {
+        element.classList.remove("d-none");
+    }
+}
+
+function changeDisplay(displayMode) {
+    switch (displayMode) {
+        case DISPLAY_MODE_TABLE:
+            changeDisplayElements("card-display-view", "card-table-view");
+            changeToTableDisplayButton.classList.add("selected");
+            changeToCardDisplayButton.classList.remove("selected");
+            break;
+        case DISPLAY_MODE_CARD:
+            changeDisplayElements("card-table-view", "card-display-view");
+            changeToCardDisplayButton.classList.add("selected");
+            changeToTableDisplayButton.classList.remove("selected");
+            break;
+    }
+}
 
 let changeToTableDisplayButton = document.getElementById("changeToTableDisplay");
 if (changeToTableDisplayButton) {
     changeToTableDisplayButton.addEventListener("click", () => {
-        let cardDisplayElements = document.getElementsByClassName("card-display-view");
-        for (let element of cardDisplayElements) {
-            element.classList.add("d-none");
-        }
-        let cardTableElements = document.getElementsByClassName("card-table-view");
-        for (let element of cardTableElements) {
-            element.classList.remove("d-none");
-        }
-        changeToTableDisplayButton.classList.add("selected");
-        changeToCardDisplayButton.classList.remove("selected");
+        changeDisplay(DISPLAY_MODE_TABLE);
+        storeDisplayMode(DISPLAY_MODE_TABLE);
     });
 }
-
 
 let changeToCardDisplayButton = document.getElementById("changeToCardDisplay");
 if (changeToCardDisplayButton) {
     changeToCardDisplayButton.addEventListener("click", () => {
-        let cardDisplayElements = document.getElementsByClassName("card-display-view");
-        for (let element of cardDisplayElements) {
-            element.classList.remove("d-none");
-        }
-        let cardTableElements = document.getElementsByClassName("card-table-view");
-        for (let element of cardTableElements) {
-            element.classList.add("d-none");
-        }
-        changeToTableDisplayButton.classList.remove("selected");
-        changeToCardDisplayButton.classList.add("selected");
+        changeDisplay(DISPLAY_MODE_CARD);
+        storeDisplayMode(DISPLAY_MODE_CARD);
     });
 }
+
+changeDisplay(getDisplayMode());

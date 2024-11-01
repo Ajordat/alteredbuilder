@@ -11,7 +11,7 @@
     const setStoredTheme = theme => localStorage.setItem('theme', theme);
 
     const getPreferredTheme = () => {
-    const storedTheme = getStoredTheme();
+        const storedTheme = getStoredTheme();
         if (storedTheme) {
             return storedTheme;
         }

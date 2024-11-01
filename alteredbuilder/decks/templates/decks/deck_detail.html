@@ -108,7 +108,7 @@
 
             <div class="d-flex justify-items-center">
                 <div class="input-group mb-3">
-                    <button class="btn display-selector selected" type="button" id="changeToCardDisplay"><i class="fa-solid fa-table-cells"></i></button>
+                    <button class="btn display-selector" type="button" id="changeToCardDisplay"><i class="fa-solid fa-table-cells"></i></button>
                     <button class="btn display-selector" type="button" id="changeToTableDisplay"><i class="fa-solid fa-list"></i></button>
                   </div>
             </div>
@@ -181,7 +181,7 @@
             <img class="img-fluid rounded-4" id="card-showcase" src="{% cdn_image_url display_image %}">
         </div>
 
-        <div class="col card-display-view">
+        <div class="col card-display-view d-none">
 
     {% if deck.hero %}
             <div class="row">
@@ -192,8 +192,8 @@
                         <img src="{% cdn_image_url deck.hero.image_url %}" class="card-img-top rounded-3" alt="{{ deck.hero.name }}">
                     </div>
                 </div>
-    {% endif %}
             </div>
+    {% endif %}
 
     {% if character_list %}
             <!-- Card table of characters -->
