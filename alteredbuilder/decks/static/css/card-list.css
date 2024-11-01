@@ -33,15 +33,22 @@
     box-shadow: 0 0 4px var(--U-shadow-color);
 }
 
-#decklist-cards .row button {
+#decklist-cards .row .btn {
+    font-size: var(--bs-body-font-size);
+    --bs-btn-color: var(--cta-active-color);
+    --bs-btn-hover-color: var(--cta-active-color);
+    --bs-border-radius-sm: var(--bs-border-radius);
+}
+
+#decklist-cards .row[data-card-rarity="C"] .btn {
     background: var(--C-color);
 }
 
-#decklist-cards .row[data-card-rarity="R"] button {
+#decklist-cards .row[data-card-rarity="R"] .btn {
     background: var(--R-color);
 }
 
-#decklist-cards .row[data-card-rarity="U"] button {
+#decklist-cards .row[data-card-rarity="U"] .btn {
     background: var(--U-color);
 }
 
