@@ -99,9 +99,9 @@
                         <i class="fa-solid fa-sort me-2"></i>{% translate "Sort by" %}
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end altered-style">
-                        <li><a class="dropdown-item" href="?{% inject_params request.GET order=None %}">{% translate "Last updated" %}</a></li>
-                        <li><a class="dropdown-item" href="?{% inject_params request.GET order="love" %}">{% translate "Most loved" %}</a></li>
-                        <li><a class="dropdown-item" href="?{% inject_params request.GET order="views" %}">{% translate "Most views" %}</a></li>
+                        <li><a class="dropdown-item {% if not order %}active{% endif %}" href="?{% inject_params request.GET order=None %}">{% translate "Last updated" %}</a></li>
+                        <li><a class="dropdown-item {% if order == "love" %}active{% endif %}" href="?{% inject_params request.GET order="love" %}">{% translate "Most loved" %}</a></li>
+                        <li><a class="dropdown-item {% if order == "views" %}active{% endif %}" href="?{% inject_params request.GET order="views" %}">{% translate "Most views" %}</a></li>
                     </ul>
                 </div>
             </div>
