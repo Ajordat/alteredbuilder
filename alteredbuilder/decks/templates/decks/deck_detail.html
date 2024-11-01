@@ -195,12 +195,12 @@
                     <div class="d-flex justify-content-end text-end mt-1">
                         <div class="dropdown">
                             <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu altered-style">
                                 <li><a class="dropdown-item" href="{{ deck.hero.get_official_link }}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> {% translate "Go to details" %}</a></li>
                                 <li><a class="dropdown-item card-reference-container" href="#" data-card-reference="{{ deck.hero.reference }}"><i class="fa-regular fa-copy"></i> {% translate "Copy card reference" %}</a></li>
-{% if deck.owner == user %}
+        {% if deck.owner == user %}
                                 <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ deck.hero.reference }}"><i class="fa-solid fa-trash"></i> {% translate "Remove card" %}</a></li>
-{% endif %}
+        {% endif %}
                             </ul>
                         </div>
                     </div>
@@ -243,14 +243,14 @@
     {% if deck.hero %}
                     <tr class="table-light card-hover" data-image-url="{% cdn_image_url deck.hero.image_url %}">
                         <!-- Hero name -->
-                        <td>{{ deck.hero.name }}</td>
+                        <td class="user-select-all">{{ deck.hero.name }}</td>
                         <!-- Hero faction -->
                         <td>{% include "decks/snippets/picture_webp.html" with img_name=deck.hero.faction width=20 height=20 %} {{ deck.hero.get_faction_display|title }}</td>
                         <!-- Hero options -->
-                        <td>
+                        <td class="text-end pe-3" style="width: 1%;">
                             <div class="dropdown">
                                 <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>
-                                <ul class="dropdown-menu">
+                                <ul class="dropdown-menu altered-style">
                                     <li><a class="dropdown-item" href="{{ deck.hero.get_official_link }}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> {% translate "Go to details" %}</a></li>
                                     <li><a class="dropdown-item card-reference-container" href="#" data-card-reference="{{ deck.hero.reference }}"><i class="fa-regular fa-copy"></i> {% translate "Copy card reference" %}</a></li>
         {% if deck.owner == user %}

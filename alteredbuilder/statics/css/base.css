@@ -198,11 +198,8 @@ input.form-check-input.altered-style:checked+label {
 .dropdown-menu.altered-style .dropdown-item {
     color: var(--cta-inactive-color);
 }
-.dropdown-menu.altered-style .dropdown-item:hover {
+.dropdown-menu.altered-style .dropdown-item:is(.active, :hover) {
     color: var(--cta-active-color);
-    background-color: var(--cta-bg-active-color);
-}
-.dropdown-menu.altered-style .dropdown-item.active {
     background-color: var(--cta-bg-active-color);
 }
 

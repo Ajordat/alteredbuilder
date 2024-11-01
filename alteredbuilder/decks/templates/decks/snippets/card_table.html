@@ -17,13 +17,13 @@
 {% for quantity, card in card_list %}
         <tr class="{% get_row_color_from_rarity card.get_rarity_display %} card-hover" data-rarity="{{ card.get_rarity_display }}" data-image-url="{% cdn_image_url card.image_url %}" data-faction="{{ card.faction }}">
             <link rel="prefetch" href="{% cdn_image_url card.image_url %}"/>
-            <td>{{ quantity }}</td>
-            <td>{{ card.name }}</td>
+            <td class="user-select-none">{{ quantity }}</td>
+            <td><span class="user-select-all">{{ card.name }}</span></td>
             <td><span class="altered-{{ card.stats.main_cost }} hand-mana"></span>/<span class="altered-{{ card.stats.recall_cost }} reserve-mana"></span></td>
-            <td>
+            <td class="text-end pe-3" style="width: 1%;">
                 <div class="dropdown">
                     <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu altered-style">
                         <li><a class="dropdown-item" href="{{ card.get_official_link }}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> {% translate "Go to details" %}</a></li>
                         <li><a class="dropdown-item card-reference-container" href="#" data-card-reference="{{ card.reference }}"><i class="fa-regular fa-copy"></i> {% translate "Copy card reference" %}</a></li>
     {% if object.owner == user %}
