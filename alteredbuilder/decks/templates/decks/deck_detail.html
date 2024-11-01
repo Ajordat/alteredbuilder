@@ -191,6 +191,19 @@
                     <div class="card-display rounded-3 card-hover" data-rarity="{{ deck.hero.get_rarity_display }}" data-image-url="{% cdn_image_url deck.hero.image_url %}" data-faction="{{ deck.hero.faction }}">
                         <img src="{% cdn_image_url deck.hero.image_url %}" class="card-img-top rounded-3" alt="{{ deck.hero.name }}">
                     </div>
+
+                    <div class="d-flex justify-content-end text-end mt-1">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ deck.hero.get_official_link }}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> {% translate "Go to details" %}</a></li>
+                                <li><a class="dropdown-item card-reference-container" href="#" data-card-reference="{{ deck.hero.reference }}"><i class="fa-regular fa-copy"></i> {% translate "Copy card reference" %}</a></li>
+{% if deck.owner == user %}
+                                <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ deck.hero.reference }}"><i class="fa-solid fa-trash"></i> {% translate "Remove card" %}</a></li>
+{% endif %}
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
     {% endif %}
@@ -223,6 +236,7 @@
                         <!-- Show name and faction -->
                         <th scope="col">{% translate "Name" %}</th>
                         <th scope="col">{% translate "Faction" %}</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">

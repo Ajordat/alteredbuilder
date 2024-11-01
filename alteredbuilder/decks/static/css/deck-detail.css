@@ -211,8 +211,3 @@ span.bio {
     color: var(--cta-inactive-color);
 }
 
-.card-image-container {
-    text-align: right; /* Centers the span and button below the image */
-    justify-content: right;
-}
-
