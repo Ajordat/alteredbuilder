@@ -154,9 +154,9 @@
         <div class="col-xxl-2 col-xl-3 col-md-4 col-6 vh-100 sticky-top d-flex overflow-y-scroll z-0 ps-0 pt-5">
             <div id="decklist-column" class="p-3"><!-- scroll-box --> 
                 <div class="col ps-3 pe-1 pt-2 pb-5">
-                    <div class="row row-cols-auto justify-content-between align-items-center mb-2">
-                        <a id="startNewDeck" href="{% url "cards" %}" class="btn altered-style"><i class="fa-solid fa-wrench"></i> {% translate "New deck" %}</a>
-                        <div class="dropdown">
+                    <div class="row row-cols-auto justify-content-between align-items-center">
+                        <a id="startNewDeck" href="{% url "cards" %}" class="btn altered-style mb-3"><i class="fa-solid fa-wrench"></i> {% translate "New deck" %}</a>
+                        <div class="dropdown mb-3">
                             <button class="btn altered-style dropdown-toggle {% if not own_decks %}disabled{% endif %}" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="{% translate "Decks" %}">
                                 {% translate "Decks" %}
                             </button>
@@ -169,19 +169,19 @@
                     </div>
 
                     <!-- Deck Name -->
-                    <div class="row" id="deck-name-label">{% translate "Deck Name" %}</div>
+                    <div class="row" id="deck-name-label"><h5 class="px-0">{% translate "Deck Name" %}</h5></div>
                     <div class="row">
                         <input id="deck-name" type="text" maxlength="50" class="form-control" required value="{% if edit_deck.name %}{{ edit_deck.name }}{% else %}{% translate 'Deck' %} {{ own_decks|length|add:'1' }}{% endif %}" aria-labelledby="deck-name-label">
                     </div>
                     <!-- Rarities counter-->
-                    <div class="row row-cols-auto gx-0 justify-content-start">
+                    <div class="row row-cols-auto gx-0 justify-content-start my-2">
                         <span id="C-count-container" class="me-2 user-select-none"><span id="C-count" class="badge"></span> <span id="C-count-text"></span></span>
                         <span id="R-count-container" class="me-2 user-select-none"><span id="R-count" class="badge"></span> <span id="R-count-text"></span></span>
                         <span id="U-count-container" class="user-select-none"><span id="U-count" class="badge"></span> <span id="U-count-text"></span></span>
                     </div>
                     <!-- Hero -->
                     <div id="hero-sidebar-container" class="{% if not edit_deck.hero %}d-none{% endif %}">
-                        <div class="row" id="hero-name-label">{% translate "Hero" %}</div>
+                        <div class="row" id="hero-name-label"><h5 class="px-0">{% translate "Hero" %}</h5></div>
                         <div class="row my-1" id="row-hero" data-bs-toggle="tooltip" {% if not edit_deck.hero %}data-bs-disable="true"{% endif %} data-bs-title="<img src='{% cdn_image_url edit_deck.hero.image_url %}'/>" data-bs-html="true" data-bs-placement="left">
                             <div class="col px-0">
                                 <div class="input-group">

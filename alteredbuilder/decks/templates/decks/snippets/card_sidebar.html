@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load deck_styles %}
 
-<div class="row">{% translate title %}</div>
+<div class="row"><h5 class="px-0 mb-1 mt-2">{% translate title %}</h5></div>
 <div id="decklist-{{ type }}-cards">
     <!-- Display cards -->
 {% for cid in card_list %}
