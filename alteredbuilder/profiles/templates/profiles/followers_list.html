@@ -29,6 +29,7 @@ class="container my-5"
     {% for follow in followed_users %}
                         <a href="{{ follow.followed.profile.get_absolute_url }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                             <div class="d-flex align-items-center">
+                                <img src="{{ follow.followed.profile.get_avatar_image }}" alt="{{ follow.followed.username }}'s profile picture" class="user-profile-pic rounded-circle me-2" width="50" height="50">
                                 <div>
                                     <h6 class="mb-0">{{ follow.followed.username|safe_username }}</h6>
                                     <small class="text-muted">{% blocktranslate with created_at=follow.created_at %}Since: {{ created_at }}{% endblocktranslate %}</small>
@@ -67,6 +68,7 @@ class="container my-5"
     {% for follow in followers %}
                         <a href="{{ follow.follower.profile.get_absolute_url }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                             <div class="d-flex align-items-center">
+                                <img src="{{ follow.followed.profile.get_avatar_image }}" alt="{{ follow.followed.username }}'s profile picture" class="user-profile-pic rounded-circle me-2" width="50" height="50">
                                 <div>
                                     <h6 class="mb-0">{{ follow.follower.username|safe_username }}</h6>
                                     <small class="text-muted">{% blocktranslate with created_at=follow.created_at %}Since: {{ created_at }}{% endblocktranslate %}</small>
