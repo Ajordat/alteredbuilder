@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-01 16:06+0100\n"
+"POT-Creation-Date: 2024-11-04 22:55+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -904,10 +904,42 @@ msgid "This will take a while, I've seen it take up to 2 minutes..."
 msgstr "Ci vorrà un po' di tempo, potrebbero volerci fino a 2 minuti..."
 
 #: decks/templates/decks/import_card.html:54
+msgid "How can I make a card publicly visible? Does it have any risk?"
+msgstr ""
+
+#: decks/templates/decks/import_card.html:59
+msgid ""
+"Currently, the only way to make a unique card publicly visible is to add it "
+"to your tradelist."
+msgstr ""
+
+#: decks/templates/decks/import_card.html:60
+msgid ""
+"The only implications of this is that people you have added as friends in "
+"the Altered website can go to your profile and browse the cards on your "
+"tradelist. If they see a card that interests them, they can send you a trade "
+"request."
+msgstr ""
+
+#: decks/templates/decks/import_card.html:61
+msgid ""
+"At that point, you can browse their tradelist and suggest a fair trade or "
+"reject their request directly. There is no risk of giving away your cards "
+"unwillingly by adding them to your tradelist."
+msgstr ""
+
+#: decks/templates/decks/import_card.html:62
+msgid ""
+"Nevertheless, once you add a card to your tradelist, you can simply import "
+"it in this platform and remove it from your tradelist. The card should "
+"remain imported (if it doesn't let me know please)."
+msgstr ""
+
+#: decks/templates/decks/import_card.html:69
 msgid "How can I get the reference of a card?"
 msgstr "Come posso ottenere il riferimento della carta?"
 
-#: decks/templates/decks/import_card.html:61
+#: decks/templates/decks/import_card.html:76
 msgid ""
 "Image provided by <a href=\"https://discordapp.com/"
 "users/134357944178442240\">Tristan</a>, check <a href=\"https://"
@@ -917,11 +949,11 @@ msgstr ""
 "users/134357944178442240\">Tristan</a>, consulta <a href=\"https://"
 "uniquesranking.onrender.com/\">Uniques Ranking</a>!"
 
-#: decks/templates/decks/import_card.html:69
+#: decks/templates/decks/import_card.html:84
 msgid "Notes on Functionality and Usage"
 msgstr "Note sulla funzionalità e sull'utilizzo"
 
-#: decks/templates/decks/import_card.html:75
+#: decks/templates/decks/import_card.html:90
 msgid ""
 "Currently, the official Altered website only displays the Unique cards in "
 "English and French."
@@ -929,22 +961,27 @@ msgstr ""
 "Attualmente, il sito ufficiale di Altered mostra le carte uniche solo in "
 "inglese e francese."
 
-#: decks/templates/decks/import_card.html:76
-#, python-format
+#: decks/templates/decks/import_card.html:91
+#, fuzzy, python-format
+#| msgid ""
+#| "The imported Unique card will appear on the '<a "
+#| "href=\"%(cards_tab_url)s\">Cards</a>' tab and it'll be possible to search "
+#| "for it in all languages, but the image will be strictly in English or "
+#| "French."
 msgid ""
 "The imported Unique card will appear on the '<a "
-"href=\"%(cards_tab_url)s\">Cards</a>' tab and it'll be possible to search "
+"href=\"%(cards_tab_url)s\">Build</a>' tab and it'll be possible to search "
 "for it in all languages, but the image will be strictly in English or French."
 msgstr ""
 "La carta unica importata apparirà nella scheda “<a "
 "href=\"%(cards_tab_url)s\">Carte</a>” e sarà possibile cercarla in tutte le "
 "lingue, ma l'immagine sarà rigorosamente in inglese o francese."
 
-#: decks/templates/decks/import_card.html:77
+#: decks/templates/decks/import_card.html:92
 msgid "All users will be able to search and find the imported card."
 msgstr "Tutti gli utenti potranno cercare e trovare la carta importata."
 
-#: decks/templates/decks/import_card.html:78
+#: decks/templates/decks/import_card.html:93
 msgid ""
 "The communication with the Altered website is occasionally slow, so please "
 "<strong>be patient</strong>."
@@ -952,7 +989,7 @@ msgstr ""
 "La comunicazione con il sito web di Altered è occasionalmente lenta, "
 "<strong>quindi vi preghiamo di avere pazienza</strong>."
 
-#: decks/templates/decks/import_card.html:79
+#: decks/templates/decks/import_card.html:94
 msgid ""
 "The Unique card <strong>needs to be public</strong> so that it can be "
 "imported. Once the process is finished, the card can be made private again."
