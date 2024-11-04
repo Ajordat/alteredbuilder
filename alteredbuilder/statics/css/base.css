@@ -197,7 +197,7 @@ input.form-check-input.altered-style:checked {
     border-color: var(--cta-bg-active-color);
 }
 input.form-check-input.altered-style:checked+label {
-    color: var(--cta-active-color);
+    /* color: var(--cta-active-color); */
 }
 .form-control.altered-style {
     --bs-border-color: var(--cta-bg-active-color);
