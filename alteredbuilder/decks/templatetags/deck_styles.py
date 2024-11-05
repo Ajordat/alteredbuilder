@@ -132,7 +132,7 @@ def safe_username(username: str) -> str:
 def cdn_image_url(image_url: str):
 
     return (
-        f"https://www.altered.gg/cdn-cgi/image/format=auto,height=400,q=100,sharpen=1/{image_url}"
+        f"https://www.altered.gg/cdn-cgi/image/format=auto,height=500,q=100,sharpen=1/{image_url}"
         if image_url
         else ""
     )
