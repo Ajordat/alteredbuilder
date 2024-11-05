@@ -29,6 +29,13 @@ html[data-bs-theme="light"] {
     --new-notification-bg: var(--bs-info-bg-subtle);
     --plot-bg-color: var(--content-bg-color);
     --deck-display-shadow: #625948;
+
+    --btn-color: var(--cta-active-color);
+    --btn-bg-color: var(--cta-bg-active-color);
+
+    --btn-outline-color: var(--cta-active-color);
+    --btn-outline-hover-color: var(--btn-outline-color);
+    --btn-outline-hover-bg-color: var(--cta-bg-active-color);
 }
 html[data-bs-theme="dark"] {
     --content-bg-color: #332811;
@@ -39,6 +46,13 @@ html[data-bs-theme="dark"] {
     --new-notification-bg: rgba(var(--bs-secondary-rgb), 1);
     --plot-bg-color: var(--content-bg-color);
     --deck-display-shadow: #625948;
+    
+    --btn-color: var(--cta-active-color);
+    --btn-bg-color: var(--cta-bg-active-color);
+
+    --btn-outline-color: var(--cta-bg-active-color);
+    --btn-outline-hover-color: var(--cta-active-color);
+    --btn-outline-hover-bg-color: var(--cta-bg-active-color);
 }
 
 
@@ -162,10 +176,27 @@ hr.altered-style {
 }
 
 .btn.altered-style {
-    background-color: var(--cta-bg-active-color);
-    color: var(--cta-active-color);
     border-radius: var(--default-border-radius);
     transition: 0.1s;
+}
+.btn:not(.btn-outline).altered-style {
+    background-color: var(--btn-bg-color);
+    color: var(--btn-color);
+}
+.btn-outline.altered-style {
+    --bs-btn-color: var(--btn-outline-color);
+    --bs-btn-border-color: var(--btn-outline-color);
+
+    --bs-btn-hover-color: var(--btn-outline-hover-color);
+    --bs-btn-hover-bg: var(--btn-outline-hover-bg-color);
+    --bs-btn-hover-border-color: var(--btn-outline-hover-bg-color);
+
+    --bs-btn-active-color: var(--btn-outline-hover-color);
+    --bs-btn-active-bg: var(--btn-outline-hover-bg-color);
+    --bs-btn-active-border-color: var(--btn-outline-hover-bg-color);
+
+    --bs-btn-disabled-color: var(--btn-outline-color);
+    --bs-btn-disabled-border-color: var(--btn-outline-color);
 }
 
 span.badge.altered-style {

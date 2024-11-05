@@ -38,7 +38,7 @@
         <div class="col">{{ deck.description | escape | markdown | safe }}</div>
     </div>
     <!-- Metadata row -->
-    <div class="row row-cols-auto mb-2">
+    <div class="row row-cols-auto">
         <!-- Creator's details -->
         <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title='{% include 'profiles/tooltips/user_profile.html' %}' data-bs-html="true">
             {% if deck.is_followed %}<i class="fa-solid fa-star"></i>{% else %}<i class="fa-regular fa-star"></i>{% endif %} <a href="{{ deck.owner.profile.get_absolute_url }}" class="link-opacity-50-hover link-offset-3"><i class="fa-solid fa-user"></i> {{ deck.owner.username|safe_username }}</a>
@@ -46,35 +46,38 @@
     </div>
     <div class="row row-cols-auto mb-2">
         <div class="d-flex justify-content-between align-items-center w-100 flex-wrap">
-            <div class="d-flex justify-content-start">
+            <div class="d-flex justify-content-start align-items-center user-select-none">
                 <!-- Creation and modification times -->
-                <div class="me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% include 'decks/tooltips/deck_timestamps.html' %}" data-bs-html="true">
+                <div class="me-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% include 'decks/tooltips/deck_timestamps.html' %}" data-bs-html="true">
                     <i class="fa-regular fa-calendar"></i> <small>{{ deck.modified_at|date:"SHORT_DATE_FORMAT" }}</small>
                 </div>
-                <div class="me-2">
+                <div class="me-3">
+                    <span class="shadowed"><i class="fa-solid fa-eye"></i> {{ deck.hit_count_generic.first.hits }}</span>
+                </div>
+                <div class="me-3">
     {% if user.is_authenticated %}
                     <!-- Love count and button -->
-                    <a role="button" href="{% url 'love-deck-id' pk=deck.id %}" class="btn btn-sm {% if deck.is_loved %}btn-danger{% else %}btn-outline-danger{% endif %}">
+                    <a type="button" class="btn {% if not deck.is_loved %}btn-outline{% endif %} altered-style btn-sm" href="{% url 'love-deck-id' pk=deck.id %}">
                         <i class="fa-solid fa-heart"></i> {{ deck.love_count }}
                     </a>
     {% else %}
                     <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'Login to share your love!' %}" data-bs-html="true">
-                        <a role="button" href="#" class="btn btn-sm btn-outline-danger disabled">
+                        <a type="button" class="btn btn-outline altered-style btn-sm" href="{% url 'love-deck-id' pk=deck.id %}">
                             <i class="fa-solid fa-heart"></i> {{ deck.love_count }}
                         </a>
                     </div>
     {% endif %}
                 </div>
                 <!-- Comment count and button -->
-                <div class="me-2">
-                    <a role="button" class="btn btn-sm {% if deck.comment_count > 0 %}btn-secondary{% else %}btn-outline-secondary{% endif %}" data-bs-toggle="offcanvas" data-bs-target="#commentsOffcanvas" aria-controls="commentsOffcanvas">
-                        <i class="fa-solid fa-comment"></i> <span id="comment-count-total">{{ deck.comment_count }}</span>
+                <div class="me-3">
+                    <a type="button" class="btn {% if deck.comment_count == 0 %}btn-outline{% endif %} altered-style btn-sm" style="cursor: pointer;" data-bs-toggle="offcanvas" data-bs-target="#commentsOffcanvas" aria-controls="commentsOffcanvas">
+                        <i class="fa-solid fa-comment"></i> {{ deck.comment_count }}
                     </a>
                 </div>
     {% if deck.owner == user %}
-                <div class="me-2">
+                <div class="me-3">
                     <!-- Edit Deck button-->
-                    <a type="button" class="btn btn-outline-primary btn-sm" href="{% url 'cards' %}?deck={{ deck.id }}{% if deck.hero %}&faction={{ deck.hero.faction }}{% endif %}">
+                    <a type="button" class="btn altered-style btn-sm" href="{% url 'cards' %}?deck={{ deck.id }}{% if deck.hero %}&faction={{ deck.hero.faction }}{% endif %}">
                         <i class="fa-solid fa-wrench"></i> {% translate "Edit deck" %}
                     </a>
                 </div>
@@ -82,7 +85,7 @@
     {% if deck.owner == user %}
                 <!-- Options dropdown -->
                 <div class="btn-group me-2" role="group">
-                    <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button type="button" class="btn altered-style btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa-solid fa-gears"></i> {% translate "Options" %}
                     </button>
                     <ul class="dropdown-menu">
@@ -533,6 +536,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
     <!-- Sidebar with the Deck's comments -->
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="commentsOffcanvas" aria-labelledby="commentsOffcanvasLabel">
         
@@ -597,7 +601,6 @@
             </section>
         </div>
     </div>
-    {% endif %}
 
     <!-- Decklist data -->
     <article id="decklist-text" data-decklist="{{ decklist }}"></article>

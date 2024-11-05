@@ -36,15 +36,11 @@
             </div>
             <div class="position-absolute bottom-0 end-0 me-2 mb-2">
                 <!-- Amount of hits -->
-                    <span class="me-2 shadowed"><i class="fa-solid fa-eye"></i> {{ deck.hit_count_generic.first.hits }}</span>
+                <span class="me-2 shadowed"><i class="fa-solid fa-eye"></i> {{ deck.hit_count_generic.first.hits }}</span>
                 <!-- Amount of likes -->
-                {% comment %} <a role="button" href="#" class="btn btn-sm btn-outline-danger {% if deck.is_loved %}active{% else %}disabled{% endif %}"> {% endcomment %}
-                    <span class="me-2 shadowed"><i class="fa-solid fa-heart"></i> {{ deck.love_count }}</span>
-                {% comment %} </a> {% endcomment %}
+                <span class="me-2 shadowed"><i class="fa-solid fa-heart"></i> {{ deck.love_count }}</span>
                 <!-- Amount of comments -->
-                {% comment %} <a role="button" href="#" class="btn btn-sm {% if deck.comment_count > 0 %}active{% else %}disabled{% endif %}"> {% endcomment %}
-                    <span class="shadowed"><i class="fa-solid fa-comment"></i> {{ deck.comment_count }}</span>
-                {% comment %} </a> {% endcomment %}
+                <span class="shadowed"><i class="fa-solid fa-comment"></i> {{ deck.comment_count }}</span>
             </div>
         </div>
     </div>
