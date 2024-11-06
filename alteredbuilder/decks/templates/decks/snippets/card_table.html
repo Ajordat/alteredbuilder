@@ -7,7 +7,7 @@
     <thead>
         <!-- Each card simply displays its quantity, name and mana cost -->
         <tr>
-            <th scope="col">Q</th>
+            <th scope="col">#</th>
             <th scope="col">{% translate "Name" %}</th>
             <th scope="col">{% translate "Mana" %}</th>
             <th></th>
@@ -22,7 +22,7 @@
             <td><span class="altered-{{ card.stats.main_cost }} hand-mana"></span>/<span class="altered-{{ card.stats.recall_cost }} reserve-mana"></span></td>
             <td class="text-end pe-3" style="width: 1%;">
                 <div class="dropdown">
-                    <button class="btn btn-outline altered-style dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>
+                    <button class="btn altered-style row-button dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>
                     <ul class="dropdown-menu altered-style">
                         <li><a class="dropdown-item" href="{{ card.get_official_link }}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> {% translate "Go to details" %}</a></li>
                         <li><a class="dropdown-item card-reference-container" href="#" data-card-reference="{{ card.reference }}"><i class="fa-regular fa-copy"></i> {% translate "Copy card reference" %}</a></li>

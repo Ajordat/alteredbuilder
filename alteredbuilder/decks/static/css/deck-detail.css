@@ -211,3 +211,7 @@ span.bio {
     color: var(--cta-inactive-color);
 }
 
+.row-button {
+    border-color: var(--btn-color);
+    background-color: transparent !important;
+}

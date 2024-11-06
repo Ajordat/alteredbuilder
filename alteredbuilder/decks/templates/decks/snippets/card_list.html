@@ -14,7 +14,7 @@
             <span class="user-select-none">{{ quantity }}</span>
 
             <div class="dropdown ms-2">
-                <button class="btn dropdown-toggle btn-sm border border-secondary rounded-2" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>
+                <button class="btn btn-outline altered-style dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>
                 <ul class="dropdown-menu dropdown-menu-end altered-style">
                     <li><a class="dropdown-item" href="{{ card.get_official_link }}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> {% translate "Go to details" %}</a></li>
                     <li><a class="dropdown-item card-reference-container" href="#" data-card-reference="{{ card.reference }}"><i class="fa-regular fa-copy"></i> {% translate "Copy card reference" %}</a></li>
