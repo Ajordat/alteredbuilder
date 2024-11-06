@@ -177,7 +177,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 sticky-column d-flex justify-content-center">
+        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 sticky-column justify-content-center">
             <!-- Card display -->
             <!-- It will show the first image available in this order: hero, characters, spells, permanents -->
             {% firstof deck.hero.image_url character_list.0.1.image_url spell_list.0.1.image_url permanent_list.0.1.image_url "" as display_image %}
