@@ -17,7 +17,7 @@
         </div>
         <p class="text-muted mb-1">{% blocktranslate with date_joined=deck.owner.date_joined|date:"F j, Y" %}Joined on: {{ date_joined }}{% endblocktranslate %}</p>
 {% if deck.owner.profile.altered_handle %}
-        <a href="#" class="btn btn-dark btn-block mt-0" target="_blank"><img src="{% static "img/altered.webp" %}" alt="altered logo" width="20px"> {{ deck.owner.profile.altered_handle }}</a>
+        <a href="#" class="btn altered-style mt-0" target="_blank"><img src="{% static "img/altered.webp" %}" alt="altered logo" width="20px"> {{ deck.owner.profile.altered_handle }}</a>
 {% endif %}
     </div>
 </div>

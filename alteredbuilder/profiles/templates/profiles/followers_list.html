@@ -39,12 +39,12 @@ class="container my-5"
         {% if follow.is_followed %}
                                     <form method="post" action="{{ follow.follower.profile.get_unfollow_url }}">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-user-minus"></i>&nbsp;{% translate "Unfollow" %}</button>
+                                        <button type="submit" class="btn btn-sm btn-outline-danger altered-style"><i class="fa-solid fa-user-minus"></i>&nbsp;{% translate "Unfollow" %}</button>
                                     </form>
         {% else %}
                                     <form method="post" action="{{ follow.follower.profile.get_follow_url }}">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-user-plus"></i>&nbsp;{% translate "Follow" %}</button>
+                                        <button type="submit" class="btn btn-sm btn-outline altered-style"><i class="fa-solid fa-user-plus"></i>&nbsp;{% translate "Follow" %}</button>
                                     </form>
         {% endif %}
                             </div>
@@ -78,12 +78,12 @@ class="container my-5"
         {% if follow.is_followed %}
                                     <form method="post" action="{{ follow.follower.profile.get_unfollow_url }}">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-user-minus"></i>&nbsp;{% translate "Unfollow" %}</button>
+                                        <button type="submit" class="btn btn-sm btn-outline-danger altered-style"><i class="fa-solid fa-user-minus"></i>&nbsp;{% translate "Unfollow" %}</button>
                                     </form>
         {% elif follow.follower != request.user %}
                                     <form method="post" action="{{ follow.follower.profile.get_follow_url }}">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-user-plus"></i>&nbsp;{% translate "Follow" %}</button>
+                                        <button type="submit" class="btn btn-sm btn-outline altered-style"><i class="fa-solid fa-user-plus"></i>&nbsp;{% translate "Follow" %}</button>
                                     </form>
         {% endif %}
                             </div>

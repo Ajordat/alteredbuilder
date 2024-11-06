@@ -186,7 +186,7 @@
                             <div class="col px-0">
                                 <div class="input-group">
                                     <input id="hero-name" type="text" class="card-name form-control user-select-none" value="{{ edit_deck.hero.name }}" data-card-reference="{{ edit_deck.hero.reference }}" disabled style="background-image: url('{% cdn_image_url edit_deck.hero.image_url %}')" aria-labelledby="hero-name-label">
-                                    <button class="btn btn-outline-secondary" type="button" id="remove-hero" {% if not edit_deck.hero %}disabled{% endif %} aria-label="Remove hero from deck"><i class="fa-solid fa-trash"></i></button>
+                                    <button class="btn btn-outline altered-style" type="button" id="remove-hero" {% if not edit_deck.hero %}disabled{% endif %} aria-label="Remove hero from deck"><i class="fa-solid fa-trash"></i></button>
                                 </div>
                             </div>
                         </div>

@@ -170,12 +170,10 @@ for (let element of upvoteCommentsEls) {
                 if ("created" in payload.data && payload.data["created"]) {
                     voteCountEl.innerText = Number(voteCountEl.innerText) + 1;
                     // change class
-                    element.classList.remove("btn-outline-primary");
-                    element.classList.add("btn-primary");
+                    element.classList.remove("btn-outline");
                 } else if ("deleted" in payload.data && payload.data["deleted"]) {
                     voteCountEl.innerText = Number(voteCountEl.innerText) - 1;
-                    element.classList.remove("btn-primary");
-                    element.classList.add("btn-outline-primary");
+                    element.classList.add("btn-outline");
                 }
             }
             return false;

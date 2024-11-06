@@ -136,7 +136,7 @@ footer {
     background-color: var(--navbar-bg-color);
 }
 
-footer a {
+a {
     color: var(--cta-inactive-color);
 }
 
@@ -165,6 +165,9 @@ i.fa-star {
     --bs-accordion-border-width: 0;
 }
 
+.shadowed {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+}
 
 /* ALTERED STYLE */
 hr.altered-style {
@@ -179,25 +182,34 @@ hr.altered-style {
     border-radius: var(--default-border-radius);
     transition: 0.1s;
 }
-.btn:not(.btn-outline).altered-style {
+.btn:not(.btn-outline,.btn-danger,.btn-outline-danger).altered-style {
     background-color: var(--btn-bg-color);
     color: var(--btn-color);
 }
 .btn-outline.altered-style {
     --bs-btn-color: var(--btn-outline-color);
     --bs-btn-border-color: var(--btn-outline-color);
-
     --bs-btn-hover-color: var(--btn-outline-hover-color);
     --bs-btn-hover-bg: var(--btn-outline-hover-bg-color);
     --bs-btn-hover-border-color: var(--btn-outline-hover-bg-color);
-
     --bs-btn-active-color: var(--btn-outline-hover-color);
     --bs-btn-active-bg: var(--btn-outline-hover-bg-color);
     --bs-btn-active-border-color: var(--btn-outline-hover-bg-color);
-
     --bs-btn-disabled-color: var(--btn-outline-color);
     --bs-btn-disabled-border-color: var(--btn-outline-color);
 }
+/* .btn-outline-danger.altered-style {
+    --bs-btn-color: #ff4545;
+    --bs-btn-border-color: #ff4545;
+    --bs-btn-hover-color: var(--btn-outline-hover-color);
+    --bs-btn-hover-bg: #ff4545;
+    --bs-btn-hover-border-color: #ff4545;
+    --bs-btn-active-color: var(--btn-outline-hover-color);
+    --bs-btn-active-bg: #ff4545;
+    --bs-btn-active-border-color: #ff4545;
+    --bs-btn-disabled-color: #ff4545;
+    --bs-btn-disabled-border-color: #ff4545;
+} */
 
 span.badge.altered-style {
     background-color: var(--cta-active-color);
@@ -227,9 +239,9 @@ input.form-check-input.altered-style:checked {
     background-color: var(--cta-bg-active-color);
     border-color: var(--cta-bg-active-color);
 }
-input.form-check-input.altered-style:checked+label {
-    /* color: var(--cta-active-color); */
-}
+/* input.form-check-input.altered-style:checked+label {
+    color: var(--cta-active-color);
+} */
 .form-control.altered-style {
     --bs-border-color: var(--cta-bg-active-color);
 }

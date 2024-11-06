@@ -23,7 +23,7 @@
                 {% comment %} <h5 id="selected-profile-name">{{ form.avatar.value }}</h5> {% endcomment %}
 
                 <!-- Button to open modal -->
-                <button type="button" class="btn btn-secondary mt-2" data-bs-toggle="modal" data-bs-target="#profilePictureModal">
+                <button type="button" class="btn altered-style mt-2" data-bs-toggle="modal" data-bs-target="#profilePictureModal">
                     {% translate "Choose an Avatar" %}
                 </button>
             </div>
@@ -48,7 +48,7 @@
     {% endfor %}
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-outline altered-style" data-bs-dismiss="modal">{% translate "Close" %}</button>
                             </div>
                         </div>
                     </div>
@@ -86,7 +86,7 @@
                 </div>
             </div>
     {% endif %}
-            <button type="submit" class="btn btn-primary">{% translate "Save Changes" %}</button>
+            <button type="submit" class="btn altered-style">{% translate "Save Changes" %}</button>
         </form>
     </div>
 {% endblock %}

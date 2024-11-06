@@ -52,7 +52,7 @@
                     <i class="fa-regular fa-calendar"></i> <small>{{ deck.modified_at|date:"SHORT_DATE_FORMAT" }}</small>
                 </div>
                 <div class="me-3">
-                    <span class="shadowed"><i class="fa-solid fa-eye"></i> {{ deck.hit_count_generic.first.hits }}</span>
+                    <span><i class="fa-solid fa-eye"></i> {{ deck.hit_count_generic.first.hits }}</span>
                 </div>
                 <div class="me-3">
     {% if user.is_authenticated %}
@@ -88,7 +88,7 @@
                     <button type="button" class="btn altered-style btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa-solid fa-gears"></i> {% translate "Options" %}
                     </button>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu altered-style">
                         <li id="edit-deck-tags"><a class="dropdown-item edit-deck-tags-trigger" href="#" data-bs-toggle="modal" data-bs-target="#deck-tags-modal"><i class="fa-solid fa-tags"></i> {% translate "Edit tags" %}</a></li>
                         <li id="edit-deck-metadata"><a class="dropdown-item edit-deck-metadata-trigger" href="#" data-bs-toggle="modal" data-bs-target="#deck-metadata-modal"><i class="fa-solid fa-pen"></i> {% translate "Edit metadata" %}</a></li>
                         <li id="delete-deck"><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete-deck-modal"><i class="fa-solid fa-trash"></i> {% translate "Delete deck" %}</a></li>
@@ -100,9 +100,9 @@
 
     {% for tag in deck.tags.all %}
         {% if tag.type == "TY" %}
-                    <span class="badge bg-primary me-2">{{ tag.name }}</span>
+                    <span class="badge primary shadowed altered-style me-2">{{ tag.name }}</span>
         {% else %}
-                    <span class="badge bg-secondary me-2">{{ tag.name }}</span>
+                    <span class="badge secondary shadowed altered-style me-2">{{ tag.name }}</span>
         {% endif %}
     {% endfor %}
 
@@ -119,13 +119,13 @@
                 <!-- Goldfishing access -->
     {% if stats.rarity_distribution.unique %}
                 <div class="ms-2" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'This feature cannot be used with unique cards' %}">
-                    <button type="button" class="btn btn-outline-primary btn-sm" disabled>
+                    <button type="button" class="btn btn-outline altered-style btn-sm" disabled>
                         <i class="fa-solid fa-gamepad"></i> <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </button>
                 </div>
     {% else %}
                 <div class="ms-2" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'Try it in Exalts Table' %}">
-                    <a type="button" class="btn btn-outline-primary btn-sm" href="https://exalts-table.com/deck-test/link/?decklist={{ decklist|urlencode }}" target="_blank">
+                    <a type="button" class="btn btn-outline altered-style btn-sm" href="https://exalts-table.com/deck-test/link/?decklist={{ decklist|urlencode }}" target="_blank">
                         <i class="fa-solid fa-gamepad"></i> <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
                 </div>
@@ -134,13 +134,13 @@
                 <div class="ms-2">
     {% if deck.hero %}
                     <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'By Taum' %}">
-                        <a id="deckShowcaseButton" role="button" class="btn btn-sm btn-outline-warning">
+                        <a id="deckShowcaseButton" role="button" class="btn btn-sm btn-outline altered-style">
                             <i class="fa-solid fa-eye"></i> <i class="fa-solid fa-arrow-up-right-from-square"></i>
                         </a>
                     </div>
     {% else %}
                     <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'The deck needs a hero!' %}">
-                        <a role="button" class="btn btn-sm btn-outline-warning disabled">
+                        <a role="button" class="btn btn-sm btn-outline altered-style disabled">
                             <i class="fa-solid fa-eye"></i> <i class="fa-solid fa-arrow-up-right-from-square"></i>
                         </a>
                     </div>
@@ -148,17 +148,17 @@
                 </div>
                 <div class="ms-2">
                     <!-- Copy Deck button-->
-                    <a type="button" class="btn btn-outline-primary btn-sm" href="{% url 'new-deck' %}?decklist={{ decklist|urlencode }}">
+                    <a type="button" class="btn btn-outline altered-style btn-sm" href="{% url 'new-deck' %}?decklist={{ decklist|urlencode }}">
                         <i class="fa-solid fa-copy"></i>
                     </a>
                 </div>
                 <div class="ms-2">
                     <!-- Share dropdown -->
                     <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button type="button" class="btn btn-outline altered-style btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa-solid fa-share-nodes"></i>
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
+                        <ul class="dropdown-menu dropdown-menu-end altered-style">
                             <li id="copy-self-link"><a class="dropdown-item" href="#"><i class="fa-regular fa-copy"></i> {% translate "Copy link" %}</a></li>
                             <li id="copy-decklist"><a class="dropdown-item" href="#"><i class="fa-regular fa-copy"></i> {% translate "Copy decklist" %}</a></li>
     {% if deck.is_public %}
@@ -197,7 +197,7 @@
 
                     <div class="d-flex justify-content-end text-end mt-1">
                         <div class="dropdown">
-                            <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>
+                            <button class="btn btn-outline altered-style dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>
                             <ul class="dropdown-menu altered-style">
                                 <li><a class="dropdown-item" href="{{ deck.hero.get_official_link }}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> {% translate "Go to details" %}</a></li>
                                 <li><a class="dropdown-item card-reference-container" href="#" data-card-reference="{{ deck.hero.reference }}"><i class="fa-regular fa-copy"></i> {% translate "Copy card reference" %}</a></li>
@@ -252,7 +252,7 @@
                         <!-- Hero options -->
                         <td class="text-end pe-3" style="width: 1%;">
                             <div class="dropdown">
-                                <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>
+                                <button class="btn btn-outline altered-style dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>
                                 <ul class="dropdown-menu altered-style">
                                     <li><a class="dropdown-item" href="{{ deck.hero.get_official_link }}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> {% translate "Go to details" %}</a></li>
                                     <li><a class="dropdown-item card-reference-container" href="#" data-card-reference="{{ deck.hero.reference }}"><i class="fa-regular fa-copy"></i> {% translate "Copy card reference" %}</a></li>
@@ -440,8 +440,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
-                    <button type="submit" class="btn btn-primary" form="update-deck-metadata-form">{% translate "Apply" %}</button>
+                    <button type="button" class="btn btn-outline altered-style" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
+                    <button type="submit" class="btn altered-style" form="update-deck-metadata-form">{% translate "Apply" %}</button>
                 </div>
             </div>
         </div>
@@ -465,7 +465,7 @@
                             
         {% for tag in tags_form.primary_tags.field.queryset %}
                             <div class="form-check primary-tag-selector {% if forloop.first %}mt-3{% endif %}">
-                                <input class="form-check-input" type="radio" name="{{ tags_form.primary_tags.name }}" id="{{ tags_form.primary_tags.auto_id }}_{{ tag.pk }}" value="{{ tag.pk }}" {% if tag.pk in tags_form.initial.tags %}checked{% endif %}>
+                                <input class="form-check-input altered-style" type="radio" name="{{ tags_form.primary_tags.name }}" id="{{ tags_form.primary_tags.auto_id }}_{{ tag.pk }}" value="{{ tag.pk }}" {% if tag.pk in tags_form.initial.tags %}checked{% endif %}>
                                 <label class="form-check-label" for="{{ tags_form.primary_tags.auto_id }}_{{ tag.pk }}">
                                     {{ tag.name }}
                                     <small class="text-muted"> - {{ tag.description }}</small>
@@ -480,7 +480,7 @@
                             <small>{% translate "Highlight specific tactics or themes" %}</small>
         {% for tag in tags_form.secondary_tags.field.queryset %}
                             <div class="form-check secondary-tag-selector {% if forloop.first %}mt-3{% endif %}">
-                                <input class="form-check-input" id="{{ tags_form.secondary_tags.auto_id }}_{{ tag.pk }}" type="checkbox" name="{{ tags_form.secondary_tags.name }}" value="{{ tag.pk }}" {% if tag.pk in tags_form.initial.tags %}checked{% endif %}>
+                                <input class="form-check-input altered-style" id="{{ tags_form.secondary_tags.auto_id }}_{{ tag.pk }}" type="checkbox" name="{{ tags_form.secondary_tags.name }}" value="{{ tag.pk }}" {% if tag.pk in tags_form.initial.tags %}checked{% endif %}>
                                 <label class="form-check-label" for="{{ tags_form.secondary_tags.auto_id }}_{{ tag.pk }}">
                                     {{ tag.name }}
                                     <small class="text-muted"> - {{ tag.description }}</small>
@@ -491,8 +491,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
-                    <button type="submit" class="btn btn-primary" form="update-deck-tags-form">{% translate "Apply" %}</button>
+                    <button type="button" class="btn btn-outline altered-style" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
+                    <button type="submit" class="btn altered-style" form="update-deck-tags-form">{% translate "Apply" %}</button>
                 </div>
             </div>
         </div>
@@ -509,8 +509,8 @@
                     {% translate "Are you sure you want to delete this deck?" %}<br>{% translate "It won't be possible to recover it later." %}
                 </div>
                 <div class="modal-footer">
-                    <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Close" %}</a>
-                    <a type="button" class="btn btn-danger" href="{% url 'delete-deck-id' pk=deck.id %}">{% translate "Delete" %}</a>
+                    <a type="button" class="btn btn-outline altered-style" data-bs-dismiss="modal">{% translate "Close" %}</a>
+                    <a type="button" class="btn btn-danger altered-style" href="{% url 'delete-deck-id' pk=deck.id %}">{% translate "Delete" %}</a>
                 </div>
             </div>
         </div>
@@ -529,9 +529,9 @@
                     <qr-code id="deck-qr-code" contents="{{ request.build_absolute_uri }}" squares="true"></qr-code>
                 </div>
                 <div class="modal-footer">
-                    <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Close" %}</a>
-                    <a id="copy-qr-svg" type="button" class="btn btn-primary">{% translate "Copy" %}</a>
-                    <a id="download-qr-svg" type="button" class="btn btn-primary">{% translate "Download" %}</a>
+                    <a type="button" class="btn btn-outline altered-style" data-bs-dismiss="modal">{% translate "Close" %}</a>
+                    <a id="copy-qr-svg" type="button" class="btn altered-style">{% translate "Copy" %}</a>
+                    <a id="download-qr-svg" type="button" class="btn altered-style">{% translate "Download" %}</a>
                 </div>
             </div>
         </div>
@@ -540,7 +540,7 @@
     <!-- Sidebar with the Deck's comments -->
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="commentsOffcanvas" aria-labelledby="commentsOffcanvasLabel">
         
-        <button class="btn btn-sm btn-secondary offcanvas-btn position-absolute mt-2 {% if deck.comment_count %}animate{% endif %}" type="button" data-bs-toggle="offcanvas" data-bs-target="#commentsOffcanvas">
+        <button class="btn btn-sm rounded-end-0 altered-style offcanvas-btn position-absolute mt-2 {% if deck.comment_count %}animate{% endif %}" type="button" data-bs-toggle="offcanvas" data-bs-target="#commentsOffcanvas">
             <span>{% blocktranslate count comment_count=deck.comment_count %}{{ comment_count }} comment{% plural %}{{ comment_count }} comments{% endblocktranslate%}</span>
         </button>
         <div class="offcanvas-header">
@@ -584,7 +584,7 @@
                                 <ul class="list-unstyled list-inline media-detail">
                                     <!-- Vote Comment button -->
                                     <li class="list-inline-item float-end">
-                                        <a role="button" class="btn btn-sm upvote-comment {% if comment.is_upvoted %}btn-primary{% else %}btn-outline-primary{% endif %} {% if not user.is_authenticated %}disabled{% endif %}" href="{% url 'vote-comment' pk=deck.id comment_pk=comment.id %}">
+                                        <a role="button" class="btn btn-sm upvote-comment altered-style {% if not comment.is_upvoted %}btn-outline{% endif %} {% if not user.is_authenticated %}disabled{% endif %}" href="{% url 'vote-comment' pk=deck.id comment_pk=comment.id %}">
                                             <i class="fa-solid fa-thumbs-up"></i> <span class="comment-count">{{ comment.vote_count }}</span>
                                         </a>
                                     </li>
