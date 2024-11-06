@@ -56,7 +56,7 @@
             </div>
             <div class="row mb-3">
                 <label for="{{ form.bio.auto_id }}" class="col-form-label">{% url 'markdown' as md_url %}{% blocktranslate %}Biography (feel free to use <a href="{{ md_url }}">markdown</a>):{% endblocktranslate %}</label>
-                <textarea class="form-control {% if form.bio.errors %}is-invalid{% endif %}" name="{{ form.bio.name }}" cols="{{ form.bio.subwidgets.0.data.attrs.cols }}" rows="{{ form.bio.subwidgets.0.data.attrs.rows }}" maxlength="{{ form.fields.bio.max_length }}" id="{{ form.bio.auto_id }}" aria-describedby="{{ form.bio.name }}-validation">{{ form.bio.value }}</textarea>
+                <textarea class="form-control {% if form.bio.errors %}is-invalid{% endif %}" name="{{ form.bio.name }}" cols="{{ form.bio.subwidgets.0.data.attrs.cols }}" rows="{{ form.bio.subwidgets.0.data.attrs.rows }}" maxlength="{{ form.fields.bio.max_length }}" id="{{ form.bio.auto_id }}" aria-describedby="{{ form.bio.name }}-validation">{% firstof form.bio.value "" %}</textarea>
                 <div id="{{ form.bio.name }}-validation" class="invalid-feedback">
     {% for error in form.bio.errors %}
                     {{error}}<br>
@@ -67,7 +67,7 @@
             <div class="row mb-4">
                 <label for="{{ form.altered_handle.auto_id }}" class="col-sm-2 col-form-label">{% translate "Altered handle:" %}</label>
                 <div class="col-auto has-validation">
-                    <input type="text" name="{{ form.altered_handle.name }}" placeholder="example_0000" value="{{ form.altered_handle.value }}" id="{{ form.altered_handle.auto_id }}" class="form-control{% if form.altered_handle.errors %} is-invalid{% endif %}" aria-describedby="{{ form.altered_handle.name }}-validation">
+                    <input type="text" name="{{ form.altered_handle.name }}" placeholder="example_0000" value="{% firstof form.altered_handle.value "" %}" id="{{ form.altered_handle.auto_id }}" class="form-control{% if form.altered_handle.errors %} is-invalid{% endif %}" aria-describedby="{{ form.altered_handle.name }}-validation">
                     <div id="{{ form.altered_handle.name }}-validation" class="invalid-feedback">
     {% for error in form.altered_handle.errors %}
                         {{error}}<br>
@@ -93,5 +93,8 @@
 
 
 {% block bodyscripts %}
+    <script>
+        var avatarBaseUrl = "{% static '/img/avatars/' %}";
+    </script>
     <script src="{% static 'js/edit-profile.js' %}"></script>
 {% endblock %}

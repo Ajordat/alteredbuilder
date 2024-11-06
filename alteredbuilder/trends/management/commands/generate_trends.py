@@ -137,6 +137,7 @@ class Command(BaseCommand):
         base_filter = {
             "deck__modified_at__date__gte": self.start_lapse,
             "deck__is_public": True,
+            "card__rarity__in": [Card.Rarity.COMMON, Card.Rarity.RARE],
         }
 
         # This is the general usage, therefore no filtering based on faction or hero is
