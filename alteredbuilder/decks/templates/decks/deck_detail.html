@@ -119,14 +119,14 @@
                 <!-- Goldfishing access -->
     {% if stats.rarity_distribution.unique %}
                 <div class="ms-2" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'This feature cannot be used with unique cards' %}">
-                    <button type="button" class="btn btn-outline altered-style btn-sm" disabled>
-                        <i class="fa-solid fa-gamepad"></i> <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    <button type="button" class="btn altered-style btn-sm" disabled>
+                        <i class="fa-solid fa-gamepad"></i> {% translate "Playtest!" %} <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </button>
                 </div>
     {% else %}
                 <div class="ms-2" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'Try it in Exalts Table' %}">
-                    <a type="button" class="btn btn-outline altered-style btn-sm" href="https://exalts-table.com/deck-test/link/?decklist={{ decklist|urlencode }}" target="_blank">
-                        <i class="fa-solid fa-gamepad"></i> <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    <a type="button" class="btn altered-style btn-sm" href="https://exalts-table.com/deck-test/link/?decklist={{ decklist|urlencode }}" target="_blank">
+                        <i class="fa-solid fa-gamepad"></i> {% translate "Playtest!" %} <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
                 </div>
     {% endif %}
@@ -134,28 +134,28 @@
                 <div class="ms-2">
     {% if deck.hero %}
                     <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'By Taum' %}">
-                        <a id="deckShowcaseButton" role="button" class="btn btn-sm btn-outline altered-style">
-                            <i class="fa-solid fa-eye"></i> <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <a id="deckShowcaseButton" role="button" class="btn btn-sm altered-style">
+                            <i class="fa-solid fa-eye"></i> {% translate "Showcase" %} <i class="fa-solid fa-arrow-up-right-from-square"></i>
                         </a>
                     </div>
     {% else %}
                     <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'The deck needs a hero!' %}">
-                        <a role="button" class="btn btn-sm btn-outline altered-style disabled">
-                            <i class="fa-solid fa-eye"></i> <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <a role="button" class="btn btn-sm altered-style disabled">
+                            <i class="fa-solid fa-eye"></i> {% translate "Showcase" %} <i class="fa-solid fa-arrow-up-right-from-square"></i>
                         </a>
                     </div>
     {% endif %}
                 </div>
                 <div class="ms-2">
                     <!-- Copy Deck button-->
-                    <a type="button" class="btn btn-outline altered-style btn-sm" href="{% url 'new-deck' %}?decklist={{ decklist|urlencode }}">
+                    <a type="button" class="btn altered-style btn-sm" href="{% url 'new-deck' %}?decklist={{ decklist|urlencode }}">
                         <i class="fa-solid fa-copy"></i>
                     </a>
                 </div>
                 <div class="ms-2">
                     <!-- Share dropdown -->
                     <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-outline altered-style btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button type="button" class="btn altered-style btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa-solid fa-share-nodes"></i>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end altered-style">
