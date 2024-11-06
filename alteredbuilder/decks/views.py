@@ -779,7 +779,11 @@ class CardListView(ListView):
                     context["edit_deck"] = Deck.objects.filter(
                         pk=edit_deck_id, owner=self.request.user
                     ).get()
-                    edit_deck_cards = CardInDeck.objects.filter(deck=context["edit_deck"]).select_related("card").order_by("card__reference")
+                    edit_deck_cards = (
+                        CardInDeck.objects.filter(deck=context["edit_deck"])
+                        .select_related("card")
+                        .order_by("card__reference")
+                    )
                     characters = []
                     spells = []
                     permanents = []
