@@ -27,82 +27,85 @@
 
 
 {% block content %}
-    <div class="row flex-nowrap">
-        <div class="col px-0">
-            <div class="py-3" style="float: left;">
+    <div class="row d-none d-sm-block">
+        <h3 class="px-0 my-2">{% translate "Card list" %}</h3>
+    </div>
+    <div class="row">
+        <div class="col-xxxl-10 col-xxl-9 col-lg-8 col-sm-6 col-12 order-sm-1 order-2 px-0">
+            <div class="px-0 mb-3 d-block d-sm-none">
                 <h3>{% translate "Card list" %}</h3>
-                <div class="row row-cols-auto align-items-center gy-2 mb-3">
-                    <!-- Search bar -->
-                    <div class="col-xs-12 col-sm-9 col-md-7 col-lg-5 col-xl-4 col-xxl-4">
-                        <form class="d-flex" role="search" id="querySearchForm">
-                            <div class="input-group">
-                                <input id="querySearch" type="text" class="form-control" aria-label="Search" value="{{ query }}" placeholder="{% translate 'Search by name or use advanced filters (hc<4 t:hand)' %}">
-                                <button class="btn altered-style" type="submit">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="col">
-                        <span class="h-100 d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#advancedSearchModal" style="cursor: pointer;">
-                            {% translate "Advanced Search" %}&nbsp;<i class="fa fa-circle-info altered-style"></i>
-                        </span>
-                    </div>
+            </div>
+            <div class="row row-cols-auto align-items-center gy-2 mb-3">
+                <!-- Search bar -->
+                <div class="col-11 col-sm-12 col-lg-8 col-xl-7 col-xxl-6">
+                    <form class="d-flex" role="search" id="querySearchForm">
+                        <div class="input-group">
+                            <input id="querySearch" type="text" class="form-control" aria-label="Search" value="{{ query }}" placeholder="{% translate 'Search by name or use advanced filters (hc<4 t:hand)' %}">
+                            <button class="btn altered-style" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                <div class="row row-cols-auto align-items-top gy-2 mb-3">
-                    <!-- Filter dropdown -->
-                    <div class="col d-flex">
-                        <div class="accordion altered-style" id="filterAccordion">
-                            <div class="accordion-item altered-style">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button altered-style collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-                                        <i class="fa-solid fa-filter"></i>&nbsp; {% translate "Filters" %}&nbsp; <span class="badge altered-style">{{ checked_filters|length }}</span>&nbsp;
-                                    </button>
-                                </h2>
-                                <div id="collapseFilter" class="accordion-collapse collapse" data-bs-parent="#filterAccordion">
-                                    <div class="accordion-body">
-                                        <div class="col">
-                                            <div class="row row-cols-auto">
-                                                <div class="col">
-                                                    <!-- Faction filters -->
-                                                    <b>{% translate "Factions" %}</b>
-                                                    {% include "decks/snippets/filter_checkbox.html" with value="AX" label="Axiom" %}
-                                                    {% include "decks/snippets/filter_checkbox.html" with value="BR" label="Bravos" %}
-                                                    {% include "decks/snippets/filter_checkbox.html" with value="LY" label="Lyra" %}
-                                                    {% include "decks/snippets/filter_checkbox.html" with value="MU" label="Muna" %}
-                                                    {% include "decks/snippets/filter_checkbox.html" with value="OR" label="Ordis" %}
-                                                    {% include "decks/snippets/filter_checkbox.html" with value="YZ" label="Yzmir" %}
-                                                </div>
-                                                <div class="col">
-                                                    <!-- Rarity filters -->
-                                                    <b>{% translate "Rarity" %}</b>
-                                                    {% translate "Common" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="C" label="Common" %}
-                                                    {% translate "Rare" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="R" label="Rare" %}
-                                                    {% translate "Unique" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="U" label="Unique" %}
-                                                </div>
-                                                <div class="col">
-                                                    <!-- Type filters -->
-                                                    <b>{% translate "Type" %}</b>
-                                                    {% translate "Character" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="character" label="Character" %}
-                                                    {% translate "Hero" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="hero" label="Hero" %}
-                                                    {% translate "Permanent" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="permanent" label="Permanent" %}
-                                                    {% translate "Spell" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="spell" label="Spell" %}
-                                                </div>
-                                                <div class="col">
-                                                    <!-- Set filters -->
-                                                    <b>{% translate "Set" %}</b>
-        {% for set in sets %}
-                                                    <div class="form-check">
-                                                        <input class="form-check-input altered-style" type="checkbox" value="{{ set.code }}" id="filter{{ set.short_name }}" {% if set.code in checked_filters %}checked{% endif %}>
-                                                        <label class="form-check-label d-block user-select-none" for="filter{{ set.short_name }}"><span class="{{ set.code }}">{{ set.name }}</span></label>
-                                                    </div>
-        {% endfor %}
-                                                </div>
+                <div class="col">
+                    <span class="h-100 d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#advancedSearchModal" style="cursor: pointer;">
+                        {% translate "Advanced Search" %}&nbsp;<i class="fa fa-circle-info altered-style"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="row row-cols-auto align-items-top gy-2 mb-3">
+                <!-- Filter dropdown -->
+                <div class="col d-flex">
+                    <div class="accordion altered-style" id="filterAccordion">
+                        <div class="accordion-item altered-style">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button altered-style collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                                    <i class="fa-solid fa-filter"></i>&nbsp; {% translate "Filters" %}&nbsp; <span class="badge altered-style">{{ checked_filters|length }}</span>&nbsp;
+                                </button>
+                            </h2>
+                            <div id="collapseFilter" class="accordion-collapse collapse" data-bs-parent="#filterAccordion">
+                                <div class="accordion-body">
+                                    <div class="col">
+                                        <div class="row row-cols-auto">
+                                            <div class="col">
+                                                <!-- Faction filters -->
+                                                <b>{% translate "Factions" %}</b>
+                                                {% include "decks/snippets/filter_checkbox.html" with value="AX" label="Axiom" %}
+                                                {% include "decks/snippets/filter_checkbox.html" with value="BR" label="Bravos" %}
+                                                {% include "decks/snippets/filter_checkbox.html" with value="LY" label="Lyra" %}
+                                                {% include "decks/snippets/filter_checkbox.html" with value="MU" label="Muna" %}
+                                                {% include "decks/snippets/filter_checkbox.html" with value="OR" label="Ordis" %}
+                                                {% include "decks/snippets/filter_checkbox.html" with value="YZ" label="Yzmir" %}
                                             </div>
-                                            <div class="row mt-2">
-                                                <div class="col text-end">
-                                                    <button type="submit" class="btn altered-style" id="filterSearchButton">{% translate "Search" %}</button>                  
+                                            <div class="col">
+                                                <!-- Rarity filters -->
+                                                <b>{% translate "Rarity" %}</b>
+                                                {% translate "Common" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="C" label="Common" %}
+                                                {% translate "Rare" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="R" label="Rare" %}
+                                                {% translate "Unique" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="U" label="Unique" %}
+                                            </div>
+                                            <div class="col">
+                                                <!-- Type filters -->
+                                                <b>{% translate "Type" %}</b>
+                                                {% translate "Character" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="character" label="Character" %}
+                                                {% translate "Hero" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="hero" label="Hero" %}
+                                                {% translate "Permanent" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="permanent" label="Permanent" %}
+                                                {% translate "Spell" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="spell" label="Spell" %}
+                                            </div>
+                                            <div class="col">
+                                                <!-- Set filters -->
+                                                <b>{% translate "Set" %}</b>
+    {% for set in sets %}
+                                                <div class="form-check">
+                                                    <input class="form-check-input altered-style" type="checkbox" value="{{ set.code }}" id="filter{{ set.short_name }}" {% if set.code in checked_filters %}checked{% endif %}>
+                                                    <label class="form-check-label d-block user-select-none" for="filter{{ set.short_name }}"><span class="{{ set.code }}">{{ set.name }}</span></label>
                                                 </div>
+    {% endfor %}
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col text-end">
+                                                <button type="submit" class="btn altered-style" id="filterSearchButton">{% translate "Search" %}</button>                  
                                             </div>
                                         </div>
                                     </div>
@@ -110,50 +113,50 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col">
-                        <!-- Order dropdown -->
-                        <div class="dropdown">
-                            <button id="filterOrdering" class="btn altered-style dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="{% translate "Sort by" %}">
-                                <i class="fa-solid fa-sort me-2"></i>{% translate "Sort by" %}
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end altered-style">
-                                <li><a class="dropdown-item {% if not order %}active{% endif %}" href="?{% inject_params request.GET order=None %}">{% translate "Default" %}</a></li>
-                                <li><a class="dropdown-item {% if order == "name" %}active{% endif %}" href="?{% inject_params request.GET order="name" %}">{% translate "Name A-Z" %}</a></li>
-                                <li><a class="dropdown-item {% if order == "-name" %}active{% endif %}" href="?{% inject_params request.GET order="-name" %}">{% translate "Name Z-A" %}</a></li>
-                                <li><a class="dropdown-item {% if order == "rarity" %}active{% endif %}" href="?{% inject_params request.GET order="rarity" %}">{% translate "Rarity" %}</a></li>
-                                <li><a class="dropdown-item {% if order == "mana" %}active{% endif %}" href="?{% inject_params request.GET order="mana" %}">{% translate "Hand Cost ASC" %}</a></li>
-                                <li><a class="dropdown-item {% if order == "-mana" %}active{% endif %}" href="?{% inject_params request.GET order="-mana" %}">{% translate "Hand Cost DESC" %}</a></li>
-                                <li><a class="dropdown-item {% if order == "reserve" %}active{% endif %}" href="?{% inject_params request.GET order="reserve" %}">{% translate "Reserve Cost ASC" %}</a></li>
-                                <li><a class="dropdown-item {% if order == "-reserve" %}active{% endif %}" href="?{% inject_params request.GET order="-reserve" %}">{% translate "Reserve Cost DESC" %}</a></li>
-                            </ul>
-                        </div>
+                </div>
+                <div class="col">
+                    <!-- Order dropdown -->
+                    <div class="dropdown">
+                        <button id="filterOrdering" class="btn altered-style dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="{% translate "Sort by" %}">
+                            <i class="fa-solid fa-sort me-2"></i>{% translate "Sort by" %}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end altered-style">
+                            <li><a class="dropdown-item {% if not order %}active{% endif %}" href="?{% inject_params request.GET order=None %}">{% translate "Default" %}</a></li>
+                            <li><a class="dropdown-item {% if order == "name" %}active{% endif %}" href="?{% inject_params request.GET order="name" %}">{% translate "Name A-Z" %}</a></li>
+                            <li><a class="dropdown-item {% if order == "-name" %}active{% endif %}" href="?{% inject_params request.GET order="-name" %}">{% translate "Name Z-A" %}</a></li>
+                            <li><a class="dropdown-item {% if order == "rarity" %}active{% endif %}" href="?{% inject_params request.GET order="rarity" %}">{% translate "Rarity" %}</a></li>
+                            <li><a class="dropdown-item {% if order == "mana" %}active{% endif %}" href="?{% inject_params request.GET order="mana" %}">{% translate "Hand Cost ASC" %}</a></li>
+                            <li><a class="dropdown-item {% if order == "-mana" %}active{% endif %}" href="?{% inject_params request.GET order="-mana" %}">{% translate "Hand Cost DESC" %}</a></li>
+                            <li><a class="dropdown-item {% if order == "reserve" %}active{% endif %}" href="?{% inject_params request.GET order="reserve" %}">{% translate "Reserve Cost ASC" %}</a></li>
+                            <li><a class="dropdown-item {% if order == "-reserve" %}active{% endif %}" href="?{% inject_params request.GET order="-reserve" %}">{% translate "Reserve Cost DESC" %}</a></li>
+                        </ul>
                     </div>
                 </div>
-                <div class="row gy-3 infinite-container">
-                    <!-- Card list with infinite scroll -->
-        {% for card in card_list %}
-                    <div class="col-xxl-2 col-xl-3 col-md-4 col-sm-6 infinite-item">
-                        <div class="card-display rounded-3" data-card-reference="{{ card.reference }}" data-card-name="{{ card.name }}" data-card-type="{{ card.type }}" data-card-rarity="{{ card.rarity }}" data-card-image="{% cdn_image_url card.image_url %}">
-                            <img src="{% cdn_image_url card.image_url %}" class="card-img-top rounded-3" alt="{{ card.name }}">
-                        </div>
+            </div>
+            <div class="row gy-3 infinite-container">
+                <!-- Card list with infinite scroll -->
+    {% for card in card_list %}
+                <div class="col-xxxl-2 col-xxl-3 col-xl-4 col-lg-6 col-12 infinite-item d-flex justify-content-center">
+                    <div class="card-display rounded-3" data-card-reference="{{ card.reference }}" data-card-name="{{ card.name }}" data-card-type="{{ card.type }}" data-card-rarity="{{ card.rarity }}" data-card-image="{% cdn_image_url card.image_url %}">
+                        <img src="{% cdn_image_url card.image_url %}" class="card-img-top rounded-3" alt="{{ card.name }}">
                     </div>
-        {% empty %}
-                    <p>{% translate "No cards found with the current filter." %}</p>
-        {% endfor %}
                 </div>
+    {% empty %}
+                <p>{% translate "No cards found with the current filter." %}</p>
+    {% endfor %}
+            </div>
 
-                <div class="my-3 py-3">
-                    <!-- Pagination for the infinite scroll -->
-                {% if page_obj.has_next %}
-                    <a class="infinite-more-link page-link" href="?{% inject_params request.GET page=page_obj.next_page_number %}" aria-label="Next page"></a>
-                {% endif %}
-                </div>
+            <div class="my-3 py-3">
+                <!-- Pagination for the infinite scroll -->
+    {% if page_obj.has_next %}
+                <a class="infinite-more-link page-link" href="?{% inject_params request.GET page=page_obj.next_page_number %}" aria-label="Next page"></a>
+    {% endif %}
             </div>
         </div>
         <!-- Deck sidebar -->
-        <div class="col-xxl-2 col-xl-3 col-md-4 col-6 vh-100 sticky-top d-flex overflow-y-scroll z-0 ps-0 pt-5">
-            <div id="decklist-column" class="p-3"><!-- scroll-box --> 
-                <div class="col ps-3 pe-1 pt-2 pb-5">
+        <div class="col-xxxl-2 col-xxl-3 col-lg-4 col-sm-6 col-12 order-sm-2 order-1 vh-sm-100 sticky-sm-top d-flex overflow-y-scroll z-0 ps-0 pt-sm-5">
+            <div id="decklist-column" class="p-3 ps-0 ps-sm-3 w-100"><!-- scroll-box --> 
+                <div class="ps-3 pe-1 pt-2 pb-sm-5 pb-3">
                     <div class="row row-cols-auto justify-content-between align-items-center">
                         <a id="startNewDeck" href="{% url "cards" %}" class="btn altered-style mb-3"><i class="fa-solid fa-wrench"></i> {% translate "New deck" %}</a>
                         <div class="dropdown mb-3">
@@ -207,6 +210,7 @@
                 <div class="row position-fixed bottom-0 end-0 z-2 me-auto pb-2 pe-5">
                     <button class="btn altered-style" id="save-deck"><i id="changes-warning" class="fa-solid fa-triangle-exclamation"></i> {% translate "Save" %}</button>
                 </div>
+                <hr class="altered-style my-0 d-block d-sm-none"/>
             </div>
         </div>
     </div>
@@ -314,4 +318,5 @@
             }
         });
     </script>
+    <script src="{% static 'js/scrollToTop.js' %}"></script>
 {% endblock %}

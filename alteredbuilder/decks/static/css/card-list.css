@@ -52,9 +52,6 @@
     background: var(--U-color);
 }
 
-span.card-row-text {
-    max-width: 170px;
-}
 
 .card-name {
     color: var(--text-color);
@@ -89,4 +86,44 @@ html[data-bs-theme="dark"] .card-name {
     background-color: var(--U-color);
     color: var(--cta-active-color);
     /* --bs-badge-font-size: 0.8em; */
+}
+
+@media (max-width: 575.98px) { /* XS */
+    .max-width-xs {
+        max-width: 270px;
+    }
+}
+
+@media (min-width: 576px) { /* SM */
+    .max-width-sm {
+        max-width: 126px;
+    }
+}
+
+@media (min-width: 768px) { /* MD */
+    .max-width-md {
+        max-width: 220px;
+    }
+}
+
+@media (min-width: 992px) { /* LG */
+    .max-width-lg {
+        max-width: 175px;
+    }
+}
+
+@media (min-width: 1200px) { /* XL */
+    .max-width-xl {
+        max-width: 240px;
+    }
+}
+@media (min-width: 1400px) { /* XXL */
+    .max-width-xl {
+        max-width: 200px;
+    }
+}
+@media (min-width: 1850px) { /* XXXL */
+    .max-width-xl {
+        max-width: 160px;
+    }
 }
