@@ -38,140 +38,141 @@
         <div class="col">{{ deck.description | escape | markdown | safe }}</div>
     </div>
     <!-- Metadata row -->
-    <div class="row row-cols-auto">
+    <div class="row row-cols-auto mb-2">
         <!-- Creator's details -->
         <div class="col" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title='{% include 'profiles/tooltips/user_profile.html' %}' data-bs-html="true">
             {% if deck.is_followed %}<i class="fa-solid fa-star"></i>{% else %}<i class="fa-regular fa-star"></i>{% endif %} <a href="{{ deck.owner.profile.get_absolute_url }}" class="link-opacity-50-hover link-offset-3"><i class="fa-solid fa-user"></i> {{ deck.owner.username|safe_username }}</a>
         </div>
     </div>
-    <div class="row row-cols-auto mb-2">
-        <div class="d-flex justify-content-between align-items-center w-100 flex-wrap">
-            <div class="d-flex justify-content-start align-items-center user-select-none">
-                <!-- Creation and modification times -->
-                <div class="me-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% include 'decks/tooltips/deck_timestamps.html' %}" data-bs-html="true">
-                    <i class="fa-regular fa-calendar"></i> <small>{{ deck.modified_at|date:"SHORT_DATE_FORMAT" }}</small>
-                </div>
-                <div class="me-3">
-                    <span><i class="fa-solid fa-eye"></i> {{ deck.hit_count_generic.first.hits }}</span>
-                </div>
-                <div class="me-3">
+    <div class="row d-flex justify-content-md-between align-items-center w-100 flex-wrap">
+
+        <div class="col col-md-10 col-xl-auto d-flex justify-content-start align-items-center user-select-none mb-3">
+            <!-- Creation and modification times -->
+            <div class="me-3 d-none d-sm-inline" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% include 'decks/tooltips/deck_timestamps.html' %}" data-bs-html="true">
+                <i class="fa-regular fa-calendar"></i> <small>{{ deck.modified_at|date:"SHORT_DATE_FORMAT" }}</small>
+            </div>
+            <div class="me-3 d-none d-sm-inline">
+                <span><i class="fa-solid fa-eye"></i> {{ deck.hit_count_generic.first.hits }}</span>
+            </div>
+            <div class="me-3">
     {% if user.is_authenticated %}
-                    <!-- Love count and button -->
-                    <a type="button" class="btn {% if not deck.is_loved %}btn-outline{% endif %} altered-style btn-sm" href="{% url 'love-deck-id' pk=deck.id %}">
+                <!-- Love count and button -->
+                <a type="button" class="btn {% if not deck.is_loved %}btn-outline{% endif %} altered-style btn-sm" href="{% url 'love-deck-id' pk=deck.id %}">
+                    <i class="fa-solid fa-heart"></i> {{ deck.love_count }}
+                </a>
+    {% else %}
+                <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'Login to share your love!' %}" data-bs-html="true">
+                    <a type="button" class="btn btn-outline altered-style btn-sm" href="{% url 'love-deck-id' pk=deck.id %}">
                         <i class="fa-solid fa-heart"></i> {{ deck.love_count }}
                     </a>
-    {% else %}
-                    <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'Login to share your love!' %}" data-bs-html="true">
-                        <a type="button" class="btn btn-outline altered-style btn-sm" href="{% url 'love-deck-id' pk=deck.id %}">
-                            <i class="fa-solid fa-heart"></i> {{ deck.love_count }}
-                        </a>
-                    </div>
+                </div>
     {% endif %}
-                </div>
-                <!-- Comment count and button -->
-                <div class="me-3">
-                    <a type="button" class="btn {% if deck.comment_count == 0 %}btn-outline{% endif %} altered-style btn-sm" style="cursor: pointer;" data-bs-toggle="offcanvas" data-bs-target="#commentsOffcanvas" aria-controls="commentsOffcanvas">
-                        <i class="fa-solid fa-comment"></i> {{ deck.comment_count }}
-                    </a>
-                </div>
+            </div>
+            <!-- Comment count and button -->
+            <div class="me-3">
+                <a type="button" class="btn {% if deck.comment_count == 0 %}btn-outline{% endif %} altered-style btn-sm" style="cursor: pointer;" data-bs-toggle="offcanvas" data-bs-target="#commentsOffcanvas" aria-controls="commentsOffcanvas">
+                    <i class="fa-solid fa-comment"></i> {{ deck.comment_count }}
+                </a>
+            </div>
     {% if deck.owner == user %}
-                <div class="me-3">
-                    <!-- Edit Deck button-->
-                    <a type="button" class="btn altered-style btn-sm" href="{% url 'cards' %}?deck={{ deck.id }}{% if deck.hero %}&faction={{ deck.hero.faction }}{% endif %}">
-                        <i class="fa-solid fa-wrench"></i> {% translate "Edit deck" %}
-                    </a>
-                </div>
+            <div class="me-3">
+                <!-- Edit Deck button-->
+                <a type="button" class="btn altered-style btn-sm" href="{% url 'cards' %}?deck={{ deck.id }}{% if deck.hero %}&faction={{ deck.hero.faction }}{% endif %}">
+                    <i class="fa-solid fa-wrench"></i> <span class="d-none d-md-inline">{% translate "Edit deck" %}</span>
+                </a>
+            </div>
     {% endif %}
     {% if deck.owner == user %}
-                <!-- Options dropdown -->
-                <div class="btn-group me-2" role="group">
-                    <button type="button" class="btn altered-style btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-gears"></i> {% translate "Options" %}
-                    </button>
-                    <ul class="dropdown-menu altered-style">
-                        <li id="edit-deck-tags"><a class="dropdown-item edit-deck-tags-trigger" href="#" data-bs-toggle="modal" data-bs-target="#deck-tags-modal"><i class="fa-solid fa-tags"></i> {% translate "Edit tags" %}</a></li>
-                        <li id="edit-deck-metadata"><a class="dropdown-item edit-deck-metadata-trigger" href="#" data-bs-toggle="modal" data-bs-target="#deck-metadata-modal"><i class="fa-solid fa-pen"></i> {% translate "Edit metadata" %}</a></li>
-                        <li id="delete-deck"><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete-deck-modal"><i class="fa-solid fa-trash"></i> {% translate "Delete deck" %}</a></li>
-                    </ul>
-                </div>
+            <!-- Options dropdown -->
+            <div class="btn-group me-2" role="group">
+                <button type="button" class="btn altered-style btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-gears"></i> <span class="d-none d-md-inline">{% translate "Options" %}</span>
+                </button>
+                <ul class="dropdown-menu altered-style">
+                    <li id="edit-deck-tags"><a class="dropdown-item edit-deck-tags-trigger" href="#" data-bs-toggle="modal" data-bs-target="#deck-tags-modal"><i class="fa-solid fa-tags"></i> {% translate "Edit tags" %}</a></li>
+                    <li id="edit-deck-metadata"><a class="dropdown-item edit-deck-metadata-trigger" href="#" data-bs-toggle="modal" data-bs-target="#deck-metadata-modal"><i class="fa-solid fa-pen"></i> {% translate "Edit metadata" %}</a></li>
+                    <li id="delete-deck"><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete-deck-modal"><i class="fa-solid fa-trash"></i> {% translate "Delete deck" %}</a></li>
+                </ul>
+            </div>
     {% endif %}
-                <!-- Deck tags -->
-                <div class="d-flex align-items-center">
+            <!-- Deck tags -->
+            <div class="d-flex align-items-center">
 
     {% for tag in deck.tags.all %}
         {% if tag.type == "TY" %}
-                    <span class="badge primary shadowed altered-style me-2">{{ tag.name }}</span>
+                <span class="badge primary shadowed altered-style me-2">{{ tag.name }}</span>
         {% else %}
-                    <span class="badge secondary shadowed altered-style me-2">{{ tag.name }}</span>
+                <span class="badge secondary shadowed altered-style me-2">{{ tag.name }}</span>
         {% endif %}
     {% endfor %}
 
-                </div>
             </div>
+        </div>
 
-            <div class="d-flex justify-items-center">
-                <div class="input-group mb-3">
-                    <button class="btn display-selector" type="button" id="changeToCardDisplay"><i class="fa-solid fa-table-cells"></i></button>
-                    <button class="btn display-selector" type="button" id="changeToTableDisplay"><i class="fa-solid fa-list"></i></button>
-                  </div>
+        <div class="col-auto d-flex justify-content-center justify-content-sm-end mb-3">
+            <div>
+                <div class="input-group">
+                    <button class="btn display-selector py-1" type="button" id="changeToCardDisplay"><i class="fa-solid fa-table-cells"></i></button>
+                    <button class="btn display-selector py-1" type="button" id="changeToTableDisplay"><i class="fa-solid fa-list"></i></button>
+                </div>
             </div>
-            <div class="d-flex justify-items-end">
-                <!-- Goldfishing access -->
+        </div>
+        <div class="col-12 col-xl-auto d-flex justify-content-end mb-3">
+            <!-- Goldfishing access -->
     {% if stats.rarity_distribution.unique %}
-                <div class="ms-2" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'This feature cannot be used with unique cards' %}">
-                    <button type="button" class="btn altered-style btn-sm" disabled>
-                        <i class="fa-solid fa-gamepad"></i> {% translate "Playtest!" %} <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </button>
-                </div>
+            <div class="ms-2" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'This feature cannot be used with unique cards' %}">
+                <button type="button" class="btn altered-style btn-sm" disabled>
+                    <i class="fa-solid fa-gamepad"></i> <span class="d-none d-md-inline">{% translate "Playtest!" %}</span> <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </button>
+            </div>
     {% else %}
-                <div class="ms-2" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'Try it in Exalts Table' %}">
-                    <a type="button" class="btn altered-style btn-sm" href="https://exalts-table.com/deck-test/link/?decklist={{ decklist|urlencode }}" target="_blank">
-                        <i class="fa-solid fa-gamepad"></i> {% translate "Playtest!" %} <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </a>
-                </div>
+            <div class="ms-2" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'Try it in Exalts Table' %}">
+                <a type="button" class="btn altered-style btn-sm" href="https://exalts-table.com/deck-test/link/?decklist={{ decklist|urlencode }}" target="_blank">
+                    <i class="fa-solid fa-gamepad"></i> <span class="d-none d-md-inline">{% translate "Playtest!" %}</span> <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+            </div>
     {% endif %}
-                <!-- View button -->
-                <div class="ms-2">
+            <!-- View button -->
+            <div class="ms-2">
     {% if deck.hero %}
-                    <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'By Taum' %}">
-                        <a id="deckShowcaseButton" role="button" class="btn btn-sm altered-style">
-                            <i class="fa-solid fa-eye"></i> {% translate "Showcase" %} <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                        </a>
-                    </div>
-    {% else %}
-                    <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'The deck needs a hero!' %}">
-                        <a role="button" class="btn btn-sm altered-style disabled">
-                            <i class="fa-solid fa-eye"></i> {% translate "Showcase" %} <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                        </a>
-                    </div>
-    {% endif %}
-                </div>
-                <div class="ms-2">
-                    <!-- Copy Deck button-->
-                    <a type="button" class="btn altered-style btn-sm" href="{% url 'new-deck' %}?decklist={{ decklist|urlencode }}">
-                        <i class="fa-solid fa-copy"></i>
+                <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'By Taum' %}">
+                    <a id="deckShowcaseButton" role="button" class="btn btn-sm altered-style">
+                        <i class="fa-solid fa-eye"></i> <span class="d-none d-md-inline">{% translate "Showcase" %}</span> <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
                 </div>
-                <div class="ms-2">
-                    <!-- Share dropdown -->
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn altered-style btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa-solid fa-share-nodes"></i>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end altered-style">
-                            <li id="copy-self-link"><a class="dropdown-item" href="#"><i class="fa-regular fa-copy"></i> {% translate "Copy link" %}</a></li>
-                            <li id="copy-decklist"><a class="dropdown-item" href="#"><i class="fa-regular fa-copy"></i> {% translate "Copy decklist" %}</a></li>
-    {% if deck.is_public %}
-                            <li id="share-qr-code"><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#qr-code-modal"><i class="fa-solid fa-qrcode"></i> {% translate "QR Code" %}</a></li>
-                            <li id="share-facebook"><a class="dropdown-item" href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-facebook"></i> Facebook</a></li>
-                            <li id="share-telegram"><a class="dropdown-item" href="https://telegram.me/share/url?url={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram</a></li>
-                            <li id="share-twitter"><a class="dropdown-item" href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-twitter"></i> Twitter</a></li>
-                            <li id="share-whatsapp"><a class="dropdown-item" href="https://wa.me/?text={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-whatsapp"></i> Whatsapp</a></li>
-    {% elif deck.owner == user %}
-                            <li id="create-private-link"><a class="dropdown-item" href="#"><i class="fa-solid fa-link"></i> {% translate "Create private link" %}</a></li>
+    {% else %}
+                <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'The deck needs a hero!' %}">
+                    <a role="button" class="btn btn-sm altered-style disabled">
+                        <i class="fa-solid fa-eye"></i> <span class="d-none d-md-inline">{% translate "Showcase" %}</span> <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
     {% endif %}
-                        </ul>
-                    </div>
+            </div>
+            <div class="ms-2">
+                <!-- Copy Deck button-->
+                <a type="button" class="btn altered-style btn-sm" href="{% url 'new-deck' %}?decklist={{ decklist|urlencode }}">
+                    <i class="fa-solid fa-copy"></i>
+                </a>
+            </div>
+            <div class="ms-2">
+                <!-- Share dropdown -->
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn altered-style btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-share-nodes"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end altered-style">
+                        <li id="copy-self-link"><a class="dropdown-item" href="#"><i class="fa-regular fa-copy"></i> {% translate "Copy link" %}</a></li>
+                        <li id="copy-decklist"><a class="dropdown-item" href="#"><i class="fa-regular fa-copy"></i> {% translate "Copy decklist" %}</a></li>
+    {% if deck.is_public %}
+                        <li id="share-qr-code"><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#qr-code-modal"><i class="fa-solid fa-qrcode"></i> {% translate "QR Code" %}</a></li>
+                        <li id="share-facebook"><a class="dropdown-item" href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-facebook"></i> Facebook</a></li>
+                        <li id="share-telegram"><a class="dropdown-item" href="https://telegram.me/share/url?url={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram</a></li>
+                        <li id="share-twitter"><a class="dropdown-item" href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-twitter"></i> Twitter</a></li>
+                        <li id="share-whatsapp"><a class="dropdown-item" href="https://wa.me/?text={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-whatsapp"></i> Whatsapp</a></li>
+    {% elif deck.owner == user %}
+                        <li id="create-private-link"><a class="dropdown-item" href="#"><i class="fa-solid fa-link"></i> {% translate "Create private link" %}</a></li>
+    {% endif %}
+                    </ul>
                 </div>
             </div>
         </div>

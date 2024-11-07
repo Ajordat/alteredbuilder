@@ -1,17 +1,20 @@
 // When a card's row is hovered, change the card display to show the hovered card
 let deckRows = document.querySelectorAll(".card-hover");
+function displayCard(event) {
+    let element = event.currentTarget;
+    // Change the display image to show the current (or last) card hovered
+    if (element.dataset.imageUrl !== undefined) {
+        document.getElementById("card-showcase").src = element.dataset.imageUrl;
+    }
+}
 deckRows.forEach(function(element) {
-    element.addEventListener("mouseover", function() {
-        // Change the display image to show the current (or last) card hovered
-        if (element.dataset.imageUrl !== undefined) {
-            document.getElementById("card-showcase").src = element.dataset.imageUrl;
-        }
-    });
+    element.addEventListener("mouseover", displayCard);
+    element.addEventListener("click", displayCard);
 });
 
 // Functionality to save the link of a deck into the clipboard 
 let copyLinkElement = document.getElementById("copy-self-link");
-copyLinkElement.onclick = function() {
+copyLinkElement.addEventListener("click", function() {
     // Retrieve self-link and write it into the clipboard
     navigator.clipboard.writeText(window.location.href);
 
@@ -20,11 +23,11 @@ copyLinkElement.onclick = function() {
 
     // Return false to avoid redirection
     return false;
-}
+});
 
 // Functionality to save the decklist of a deck into the clipboard
 let copyDecklistElement = document.getElementById("copy-decklist");
-copyDecklistElement.onclick = function() {
+copyDecklistElement.addEventListener("click", function() {
     // Retrieve self-link and write it into the clipboard
     let decklistElement = document.getElementById("decklist-text");
     navigator.clipboard.writeText(decklistElement.dataset.decklist);
@@ -34,7 +37,7 @@ copyDecklistElement.onclick = function() {
 
     // Return false to avoid redirection
     return false;
-}
+});
 
 // Functionality to download a QR with a link of the deck
 let downloadQRElement = document.getElementById("download-qr-svg");
