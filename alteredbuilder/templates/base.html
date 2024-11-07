@@ -73,11 +73,12 @@
                         <li class="nav-item {{ nav_item_classes }} {% if request.path == item_url %}current-nav-tab{% endif %}">
                             <a class="nav-link" href="{{ item_url }}"><i class="fa-solid fa-wrench"></i> {% translate "Build" %}</a>
                         </li>
+    {% if user.is_authenticated %}
                         {% url 'own-deck' as item_url %}
                         <li class="nav-item {{ nav_item_classes }} {% if request.path == item_url or request.GET.next == item_url %}current-nav-tab{% endif %}">
                             <a class="nav-link" href="{{ item_url }}"><i class="fa-solid fa-inbox"></i> {% translate "My decks" %}</a>
                         </li>
-
+    {% endif %}
                         {% url 'new-deck' as import_deck_url %}
                         {% url 'import-card' as import_card_url %}
                         <li class="nav-item {{ nav_item_classes }} dropdown {% if request.path == import_deck_url or request.path == import_card_url %}current-nav-tab{% endif %}">
