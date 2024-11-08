@@ -63,13 +63,13 @@ function searchCards(e) {
 
     // Retrieve the QUERY from the search input
     let queryElement = document.getElementById("querySearch");
-    if (queryElement.value != "") {
+    if (queryElement && queryElement.value != "") {
         params.append("query", queryElement.value);
     }
 
     // Retrieve the marked order on the dropdown
     let orderingElement = document.getElementById("filterOrdering");
-    if (orderingElement.selectedIndex > 1) {
+    if (orderingElement && orderingElement.selectedIndex > 1) {
         params.append("order", orderingElement.value);
     }
 
@@ -83,5 +83,3 @@ let element = document.getElementById("filterSearchButton");
 if (element) element.addEventListener("click", searchCards);
 element = document.getElementById("querySearchForm");
 if (element) element.addEventListener("submit", searchCards);
-element = document.getElementById("filterOrdering");
-if (element) element.addEventListener("change", searchCards);

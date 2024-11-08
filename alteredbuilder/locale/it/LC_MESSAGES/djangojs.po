@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-16 20:08+0200\n"
+"POT-Creation-Date: 2024-11-01 15:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -62,33 +62,33 @@ msgstr "Il mazzo con ID “%(code)s” non è stato trovato."
 msgid "Input the Deck's ID or its URL."
 msgstr "Immettere l'ID del mazzo o il suo URL."
 
-#: decks/static/js/deck-sidebar.js:182
+#: decks/static/js/deck-sidebar.js:185
 msgid "Common"
 msgid_plural "Commons"
 msgstr[0] "Comune"
 msgstr[1] "Comuni"
 
-#: decks/static/js/deck-sidebar.js:184
+#: decks/static/js/deck-sidebar.js:187
 msgid "Rare"
 msgid_plural "Rares"
 msgstr[0] "Rara"
 msgstr[1] "Rare"
 
-#: decks/static/js/deck-sidebar.js:186
+#: decks/static/js/deck-sidebar.js:189
 msgid "Unique"
 msgid_plural "Uniques"
 msgstr[0] "Unica"
 msgstr[1] "Uniche"
 
-#: decks/static/js/deck-sidebar.js:507
+#: decks/static/js/deck-sidebar.js:493
 msgid "The deck must have a name"
 msgstr "Il mazzo deve avere un nome"
 
-#: decks/static/js/deck-sidebar.js:512
+#: decks/static/js/deck-sidebar.js:498
 msgid "There are no changes to save"
 msgstr "Non ci sono modifiche da salvare"
 
-#: decks/static/js/deck-sidebar.js:543
+#: decks/static/js/deck-sidebar.js:529
 msgid "Unable to update deck"
 msgstr "Impossibile aggiornare il mazzo"
 
@@ -116,18 +116,18 @@ msgstr "Mano"
 msgid "Reserve"
 msgstr "Riserva"
 
-#: statics/js/notifications.js:28
+#: notifications/static/js/notifications.js:27
 msgid "Loading..."
 msgstr "Caricamento..."
 
-#: statics/js/notifications.js:46
+#: notifications/static/js/notifications.js:45
 msgid "Authentication required"
 msgstr "Autenticazione necessaria"
 
-#: statics/js/notifications.js:48
+#: notifications/static/js/notifications.js:47
 msgid "Error loading notifications"
 msgstr "Errore nel caricamento delle notifiche"
 
-#: statics/js/notifications.js:90
+#: notifications/static/js/notifications.js:90
 msgid "No new notifications"
 msgstr "Nessuna nuova notifica"

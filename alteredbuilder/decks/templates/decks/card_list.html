@@ -27,29 +27,40 @@
 
 
 {% block content %}
-    <div class="row flex-nowrap">
-        <div class="col mt-3">
-            <h3>{% translate "Card list" %}</h3>
-            <div class="row row-cols-auto mb-3 gy-2">
+    <div class="row d-none d-sm-block">
+        <h3 class="px-0 my-2">{% translate "Card list" %}</h3>
+    </div>
+    <div class="row">
+        <div class="col-xxxl-10 col-xxl-9 col-lg-8 col-sm-6 col-12 order-sm-1 order-2 px-0">
+            <div class="px-0 mb-3 d-block d-sm-none">
+                <h3>{% translate "Card list" %}</h3>
+            </div>
+            <div class="row row-cols-auto align-items-center gy-2 mb-3">
                 <!-- Search bar -->
-                <div class="col-xs-12 col-sm-9 col-md-7 col-lg-5 col-xl-4 col-xxl-4">
+                <div class="col-11 col-sm-12 col-lg-8 col-xl-7 col-xxl-6">
                     <form class="d-flex" role="search" id="querySearchForm">
                         <div class="input-group">
-                            <input class="form-control" type="search" aria-label="Search" id="querySearch" value="{{ query }}" placeholder="{% translate 'Search by name or use advanced filters' %}">
-                            <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title='{% include "decks/tooltips/card_query_search.html" %}' data-bs-html="true">
-                                <i class="fa-regular fa-question"></i>
-                            </span>
-                            <button class="btn btn-outline-secondary" type="submit">{% translate "Search" %}</button>
+                            <input id="querySearch" type="text" class="form-control" aria-label="Search" value="{{ query }}" placeholder="{% translate 'Search by name or use advanced filters (hc<4 t:hand)' %}">
+                            <button class="btn altered-style" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
                         </div>
                     </form>
                 </div>
+                <div class="col">
+                    <span class="h-100 d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#advancedSearchModal" style="cursor: pointer;">
+                        {% translate "Advanced Search" %}&nbsp;<i class="fa fa-circle-info altered-style"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="row row-cols-auto align-items-top gy-2 mb-3">
                 <!-- Filter dropdown -->
                 <div class="col d-flex">
-                    <div class="accordion" id="filterAccordion">
-                        <div class="accordion-item">
+                    <div class="accordion altered-style" id="filterAccordion">
+                        <div class="accordion-item altered-style">
                             <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-                                    <i class="fa-solid fa-filter"></i>&nbsp; {% translate "Filters" %}&nbsp; <span class="badge text-bg-secondary">{{ checked_filters|length }}</span>&nbsp; 
+                                <button class="accordion-button altered-style collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                                    <i class="fa-solid fa-filter"></i>&nbsp; {% translate "Filters" %}&nbsp; <span class="badge altered-style">{{ checked_filters|length }}</span>&nbsp;
                                 </button>
                             </h2>
                             <div id="collapseFilter" class="accordion-collapse collapse" data-bs-parent="#filterAccordion">
@@ -86,15 +97,15 @@
                                                 <b>{% translate "Set" %}</b>
     {% for set in sets %}
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="{{ set.code }}" id="filter{{ set.short_name }}" {% if set.code in checked_filters %}checked{% endif %}>
-                                                    <label class="form-check-label" for="filter{{ set.short_name }}"><span class="{{ set.code }}">{{ set.name }}</span></label>
+                                                    <input class="form-check-input altered-style" type="checkbox" value="{{ set.code }}" id="filter{{ set.short_name }}" {% if set.code in checked_filters %}checked{% endif %}>
+                                                    <label class="form-check-label d-block user-select-none" for="filter{{ set.short_name }}"><span class="{{ set.code }}">{{ set.name }}</span></label>
                                                 </div>
     {% endfor %}
                                             </div>
                                         </div>
                                         <div class="row mt-2">
                                             <div class="col text-end">
-                                                <button type="submit" class="btn btn-primary" id="filterSearchButton">{% translate "Search" %}</button>                  
+                                                <button type="submit" class="btn altered-style" id="filterSearchButton">{% translate "Search" %}</button>                  
                                             </div>
                                         </div>
                                     </div>
@@ -104,62 +115,28 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="input-group">
-                        <!-- Ordering selector -->
-                        <label class="input-group-text" for="filterOrdering"><i class="fa-solid fa-sort"></i></label>
-                        <select class="form-select" aria-label="Sort by" id="filterOrdering">
-                            <option {% if not order %}selected{% endif %} disabled hidden>{% translate "Sort by" %}</option>
-                            <option>{% translate "Default" %}</option>
-                            <option {% if order == "name" %}selected{% endif %} value="name">{% translate "Name A-Z" %}</option>
-                            <option {% if order == "-name" %}selected{% endif %} value="-name">{% translate "Name Z-A" %}</option>
-                            <option {% if order == "rarity" %}selected{% endif %} value="rarity">{% translate "Rarity" %}</option>
-                            <option {% if order == "mana" %}selected{% endif %} value="mana">{% translate "Hand Cost ASC" %}</option>
-                            <option {% if order == "-mana" %}selected{% endif %} value="-mana">{% translate "Hand Cost DESC" %}</option>
-                            <option {% if order == "reserve" %}selected{% endif %} value="reserve">{% translate "Reserve Cost ASC" %}</option>
-                            <option {% if order == "-reserve" %}selected{% endif %} value="-reserve">{% translate "Reserve Cost DESC" %}</option>
-                        </select>
+                    <!-- Order dropdown -->
+                    <div class="dropdown">
+                        <button id="filterOrdering" class="btn altered-style dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="{% translate "Sort by" %}">
+                            <i class="fa-solid fa-sort me-2"></i>{% translate "Sort by" %}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end altered-style">
+                            <li><a class="dropdown-item {% if not order %}active{% endif %}" href="?{% inject_params request.GET order=None %}">{% translate "Default" %}</a></li>
+                            <li><a class="dropdown-item {% if order == "name" %}active{% endif %}" href="?{% inject_params request.GET order="name" %}">{% translate "Name A-Z" %}</a></li>
+                            <li><a class="dropdown-item {% if order == "-name" %}active{% endif %}" href="?{% inject_params request.GET order="-name" %}">{% translate "Name Z-A" %}</a></li>
+                            <li><a class="dropdown-item {% if order == "rarity" %}active{% endif %}" href="?{% inject_params request.GET order="rarity" %}">{% translate "Rarity" %}</a></li>
+                            <li><a class="dropdown-item {% if order == "mana" %}active{% endif %}" href="?{% inject_params request.GET order="mana" %}">{% translate "Hand Cost ASC" %}</a></li>
+                            <li><a class="dropdown-item {% if order == "-mana" %}active{% endif %}" href="?{% inject_params request.GET order="-mana" %}">{% translate "Hand Cost DESC" %}</a></li>
+                            <li><a class="dropdown-item {% if order == "reserve" %}active{% endif %}" href="?{% inject_params request.GET order="reserve" %}">{% translate "Reserve Cost ASC" %}</a></li>
+                            <li><a class="dropdown-item {% if order == "-reserve" %}active{% endif %}" href="?{% inject_params request.GET order="-reserve" %}">{% translate "Reserve Cost DESC" %}</a></li>
+                        </ul>
                     </div>
                 </div>
-                <!-- Badges for regular filters -->
-    {% for tag, op, value in query_tags %}
-                <div class="col px-0 d-flex align-items-center">
-                    <span class="badge text-bg-secondary">{% translate tag %}{{ op | safe }} {% translate value %}</span>&nbsp;
-                </div>
-    {% endfor %}
-    {% with request.GET|card_params_to_filter_tag as tags %}
-                <!-- Badges for advanced filters -->
-        {% for tag, op, value in tags %}
-                <div class="col px-0 d-flex align-items-center">
-                    <span class="badge text-bg-secondary">{% translate tag %}{{ op }}{% translate value %}</span>&nbsp;
-                </div>
-        {% endfor %}
-    {% endwith %}
-                <!-- Badges for the Sets regular filter -->
-    {% for set in checked_sets %}
-                <div class="col px-0 d-flex align-items-center">
-                    <span class="badge text-bg-secondary">{% translate "Set" %}: {{ set.name }}</span>&nbsp;
-                </div>
-    {% endfor %}
-    {% if order %}
-                <!-- Badges for ordering -->
-                <div class="col px-0 d-flex align-items-center">
-                    <span class="badge text-bg-secondary">{% translate "Order" %}: 
-        {% if order == "name" %}{% translate "Name A-Z" %}
-        {% elif order == "-name" %}{% translate "Name Z-A" %}
-        {% elif order == "rarity" %}{% translate "Rarity" %}
-        {% elif order == "mana" %}{% translate "Hand Cost ASC" %}
-        {% elif order == "-mana" %}{% translate "Hand Cost DESC" %}
-        {% elif order == "reserve" %}{% translate "Reserve Cost ASC" %}
-        {% elif order == "-reserve" %}{% translate "Reserve Cost DESC" %}
-        {% endif %}
-                    </span>&nbsp;
-                </div>
-    {% endif %}
             </div>
             <div class="row gy-3 infinite-container">
                 <!-- Card list with infinite scroll -->
     {% for card in card_list %}
-                <div class="col-xxl-2 col-xl-3 col-md-4 col-sm-6 infinite-item">
+                <div class="col-xxxl-2 col-xxl-3 col-xl-4 col-lg-6 col-12 infinite-item d-flex justify-content-center">
                     <div class="card-display rounded-3" data-card-reference="{{ card.reference }}" data-card-name="{{ card.name }}" data-card-type="{{ card.type }}" data-card-rarity="{{ card.rarity }}" data-card-image="{% cdn_image_url card.image_url %}">
                         <img src="{% cdn_image_url card.image_url %}" class="card-img-top rounded-3" alt="{{ card.name }}">
                     </div>
@@ -168,97 +145,145 @@
                 <p>{% translate "No cards found with the current filter." %}</p>
     {% endfor %}
             </div>
-            
-            <div class="mt-3">
-                    <!-- Pagination for the inifinite scroll -->
-                {% if page_obj.has_next %}
-                    <a class="infinite-more-link page-link" href="?{% inject_params request.GET page=page_obj.next_page_number %}" aria-label="Next page"></a>
-                {% endif %}
+
+            <div class="my-3 py-3">
+                <!-- Pagination for the infinite scroll -->
+    {% if page_obj.has_next %}
+                <a class="infinite-more-link page-link" href="?{% inject_params request.GET page=page_obj.next_page_number %}" aria-label="Next page"></a>
+    {% endif %}
             </div>
         </div>
-        <aside class="col-xxl-2 col-xl-3 col-md-4 col-6 vh-100 sticky-top d-flex overflow-y-scroll z-0">
-            <!-- Deck sidebar -->
-            <div class="vr"></div>
-            <div class="col ps-3 pe-1 pt-2">
-                <select class="form-select d-inline-flex" id="deckSelector" name="deck_id" aria-label="Select a deck to modify">
-                    <!-- Select the current Deck -->
-    {% if edit_deck %}
-                    <option value="{{ edit_deck.id }}" selected>{{ edit_deck.name }}</option>
-    {% endif %}
-                    <option value="0" {% if not edit_deck %}selected{% endif %}>{% translate "New deck" %}</option>
-    {% for deck in own_decks %}
-        {% if deck.id != edit_deck.id %}
-                    <option value="{{ deck.id }}" data-faction="{% firstof deck.hero__faction '' %}">{{ deck.name }}</option>
-        {% endif %}
-    {% endfor %}
-                </select>
-                <!-- Deck Name -->
-                <div class="row" id="deck-name-label">{% translate "Deck name:" %}</div>
-                <div class="row">
-                    <input id="deck-name" type="text" maxlength="50" class="form-control" required value="{% if edit_deck.name %}{{ edit_deck.name }}{% else %}{% translate 'Deck' %} {{ own_decks|length|add:'1' }}{% endif %}" aria-labelledby="deck-name-label">
-                </div>
-                <!-- Hero -->
-                <div class="row" id="hero-name-label">{% translate "Hero:" %}</div>
-                <div class="row my-1" id="row-hero" data-bs-toggle="tooltip" {% if not edit_deck.hero %}data-bs-disable="true"{% endif %} data-bs-title="<img src='{% cdn_image_url edit_deck.hero.image_url %}'/>" data-bs-html="true" data-bs-placement="left">
-                    <div class="col px-0">
-                        <div class="input-group">
-                            <input id="hero-name" type="text" class="card-name form-control" value="{{ edit_deck.hero.name }}" data-card-reference="{{ edit_deck.hero.reference }}" disabled style="background-image: url('{% cdn_image_url edit_deck.hero.image_url %}')" aria-labelledby="hero-name-label">
-                            <button class="btn btn-outline-secondary" type="button" id="remove-hero" {% if not edit_deck.hero %}disabled{% endif %} aria-label="Remove hero from deck"><i class="fa-solid fa-trash"></i></button>
+        <!-- Deck sidebar -->
+        <div class="col-xxxl-2 col-xxl-3 col-lg-4 col-sm-6 col-12 order-sm-2 order-1 vh-sm-100 sticky-sm-top d-flex overflow-y-scroll z-0 ps-0 pt-sm-5">
+            <div id="decklist-column" class="p-3 ps-0 ps-sm-3 w-100"><!-- scroll-box --> 
+                <div class="ps-3 pe-1 pt-2 pb-sm-5 pb-3">
+                    <div class="row row-cols-auto justify-content-between align-items-center">
+                        <a id="startNewDeck" href="{% url "cards" %}" class="btn altered-style mb-3"><i class="fa-solid fa-wrench"></i> {% translate "New deck" %}</a>
+                        <div class="dropdown mb-3">
+                            <button class="btn altered-style dropdown-toggle {% if not own_decks %}disabled{% endif %}" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="{% translate "Decks" %}">
+                                {% translate "Decks" %}
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end altered-style">
+        {% for deck in own_decks %}
+                                <li><a class="dropdown-item" data-faction="{% firstof deck.hero__faction '' %}" href="?deck={{ deck.id }}{% if deck.hero__faction %}&faction={{ deck.hero__faction }}{% endif %}">{{ deck.name }}</a></li>
+        {% endfor %}
+                            </ul>
                         </div>
                     </div>
-                </div>
-                <!-- Rarities counter-->
-                <div class="row row-cols-auto gx-0 justify-content-center">
-                    <span id="C-count-container" class="me-2"><span id="C-count" class="badge text-bg-secondary"></span> <span id="C-count-text"></span></span>
-                    <span id="R-count-container" class="me-2"><span id="R-count" class="badge text-bg-info"></span> <span id="R-count-text"></span></span>
-                    <span id="U-count-container"><span id="U-count" class="badge text-bg-danger"></span> <span id="U-count-text"></span></span>
-                </div>
-                <div class="row">{% translate "Cards:" %}</div>
-                <div id="decklist-cards">
-                    <!-- Display cards -->
-    {% for cid in edit_deck_cards %}
-                    <div class="row border rounded row-cols-auto my-1" id="row-{{ cid.card.reference }}" style="background-image: url({% cdn_image_url cid.card.image_url %});" data-card-rarity="{{ cid.card.rarity }}" data-bs-toggle="tooltip" data-bs-title="<img src='{% cdn_image_url cid.card.image_url %}'/>" data-bs-html="true" data-bs-placement="left">
-                        <div class="col px-0">
-                            <div class="input-group input-group-sm">
-                                <!-- Quantity buttons and display -->
-                                <button class="remove-card-btn btn btn-outline-secondary" type="button">-</button>
-                                <span class="input-group-text card-quantity" data-card-reference="{{ cid.card.reference }}">{{ cid.quantity }}</span>
-                                <button class="add-card-btn btn btn-outline-secondary" type="button">+</button>
+
+                    <!-- Deck Name -->
+                    <div class="row" id="deck-name-label"><h5 class="px-0">{% translate "Deck Name" %}</h5></div>
+                    <div class="row">
+                        <input id="deck-name" type="text" maxlength="50" class="form-control" required value="{% if edit_deck.name %}{{ edit_deck.name }}{% else %}{% translate 'Deck' %} {{ own_decks|length|add:'1' }}{% endif %}" aria-labelledby="deck-name-label">
+                    </div>
+                    <!-- Rarities counter-->
+                    <div class="row row-cols-auto gx-0 justify-content-start my-2">
+                        <span id="C-count-container" class="me-2 user-select-none"><span id="C-count" class="badge"></span> <span id="C-count-text"></span></span>
+                        <span id="R-count-container" class="me-2 user-select-none"><span id="R-count" class="badge"></span> <span id="R-count-text"></span></span>
+                        <span id="U-count-container" class="user-select-none"><span id="U-count" class="badge"></span> <span id="U-count-text"></span></span>
+                    </div>
+                    <!-- Hero -->
+                    <div id="hero-sidebar-container" class="{% if not edit_deck.hero %}d-none{% endif %}">
+                        <div class="row" id="hero-name-label"><h5 class="px-0">{% translate "Hero" %}</h5></div>
+                        <div class="row my-1" id="row-hero" data-bs-toggle="tooltip" {% if not edit_deck.hero %}data-bs-disable="true"{% endif %} data-bs-title="<img src='{% cdn_image_url edit_deck.hero.image_url %}'/>" data-bs-html="true" data-bs-placement="left">
+                            <div class="col px-0">
+                                <div class="input-group">
+                                    <input id="hero-name" type="text" class="card-name form-control user-select-none" value="{{ edit_deck.hero.name }}" data-card-reference="{{ edit_deck.hero.reference }}" disabled style="background-image: url('{% cdn_image_url edit_deck.hero.image_url %}')" aria-labelledby="hero-name-label">
+                                    <button class="btn btn-outline altered-style" type="button" id="remove-hero" {% if not edit_deck.hero %}disabled{% endif %} aria-label="Remove hero from deck"><i class="fa-solid fa-trash"></i></button>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-2">
-                            <!-- Card name with quantity warning -->
-                            <span class="d-inline-block text-truncate card-row-text">
-                                <span class="card-warning" {% if cid.card.rarity != "U" and cid.quantity < 4 or cid.card.rarity == "U" and cid.quantity == 1%} hidden{% endif %}><i class="fa-solid fa-triangle-exclamation"></i> </span><span class="card-name">{{ cid.card.name }}</span>
-                            </span>
+                    </div>
+                    <div id="decklist-cards">
+                        <div id="character-sidebar-container" {% if not character_cards %}class="d-none"{% endif %}>
+                            {% include "decks/snippets/card_sidebar.html" with title="Characters" type="character" card_list=character_cards %}
+                        </div>
+                        <div id="spell-sidebar-container" {% if not spell_cards %}class="d-none"{% endif %}>
+                            {% include "decks/snippets/card_sidebar.html" with title="Spells" type="spell" card_list=spell_cards %}
+                        </div>
+                        <div id="permanent-sidebar-container" {% if not permanent_cards %}class="d-none"{% endif %}>
+                            {% include "decks/snippets/card_sidebar.html" with title="Permanents" type="permanent" card_list=permanent_cards %}
                         </div>
                     </div>
-    {% empty %}
-                    <!-- Hidden card row for empty decks to use as a a template for new cards -->
-                    <div class="row border rounded row-cols-auto my-1" id="row-empty" data-card-rarity="" data-bs-toggle="tooltip" data-bs-disable="true" data-bs-html="true" data-bs-placement="left" hidden>
-                        <div class="col px-0">
-                            <div class="input-group input-group-sm">
-                                <!-- Quantity buttons and display -->
-                                <button class="remove-card-btn btn btn-outline-secondary" type="button">-</button>
-                                <span class="input-group-text card-quantity" data-card-reference="empty"></span>
-                                <button class="add-card-btn btn btn-outline-secondary" type="button">+</button>
-                            </div>
-                        </div>
-                        <div class="col-2">
-                            <!-- Card name with quantity warning -->
-                            <span class="d-inline-block text-truncate card-row-text">
-                                <span class="card-warning" hidden><i class="fa-solid fa-triangle-exclamation"></i> </span><span class="card-name"></span>
-                            </span>
-                        </div>
-                    </div>
-    {% endfor %}
                 </div>
+                <!-- Save button -->
+                <div class="row position-fixed bottom-0 end-0 z-2 me-auto pb-2 pe-5">
+                    <button class="btn altered-style" id="save-deck"><i id="changes-warning" class="fa-solid fa-triangle-exclamation"></i> {% translate "Save" %}</button>
+                </div>
+                <hr class="altered-style my-0 d-block d-sm-none"/>
             </div>
-            <!-- Save button -->
-            <div class="row position-fixed bottom-0 end-0 z-2 me-auto pb-2 pe-5">
-                <button class="btn btn-success" id="save-deck"><i id="changes-warning" class="fa-solid fa-triangle-exclamation"></i> {% translate "Save" %}</button>
+        </div>
+    </div>
+    <!-- Advanced search modal -->
+    <div class="modal altered-style fade" id="advancedSearchModal" tabindex="-1" aria-labelledby="advancedSearchModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="advancedSearchModalLabel">{% translate "Advanced Search" %}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body"><!-- Advanced Deck filtering instructions -->
+                    <div class="text-start">
+                        {% translate "Advanced search filters" %}:
+                        <ul>
+                            <!-- Hand cost -->
+                            <li>{% translate "Hand cost:" %} <code class="inline">hc</code><br>
+                                {% translate "Operators:" %} <code class="inline">=</code>, <code class="inline">></code>, <code class="inline">>=</code>, <code class="inline"><</code>, <code class="inline"><=</code></code><br>
+                                {% translate "Value:" %} <code class="inline">{% translate "Number" %}</code>
+                            </li>
+                            <!-- Reserve cost -->
+                            <li>{% translate "Reserve cost:" %} <code class="inline">rc</code><br>
+                                {% translate "Operators:" %} <code class="inline">=</code>, <code class="inline">></code>, <code class="inline">>=</code>, <code class="inline"><</code>, <code class="inline"><=</code></code><br>
+                                {% translate "Value:" %} <code class="inline">{% translate "Number" %}</code>
+                            </li>
+                            <!-- Abilities -->
+                            <li>{% translate "Abilities:" %} <code class="inline">x</code><br>
+                                {% translate "Operators:" %} <code class="inline">:</code><br>
+                                {% translate "Value:" %} <code class="inline">{% translate "Single word" %}</code>
+                            </li>
+                            <!-- Triggers -->
+                            <li>{% translate "Triggers:" %} <code class="inline">t</code><br>
+                                {% translate "Operators:" %} <code class="inline">:</code><br>
+                                {% translate "Values:" %} <code class="inline">etb</code>(<span class="altered-etb"></span>), <code class="inline">hand</code>(<span class="altered-hand"></span>), <code class="inline">reserve</code>(<span class="altered-reserve"></span>), <code class="inline">discard</code>(<span class="altered-discard"></span>), <code class="inline">exhaust</code>(<span class="altered-exhaust"></span>)
+                            </li>
+                            <!-- Subtypes -->
+                            <li>{% translate "Subtypes:" %} <code class="inline">st</code><br>
+                                {% translate "Operators:" %} <code class="inline">:</code><br>
+                                {% translate "Value:" %} <code class="inline">{% translate "Single word" %}</code>
+                            </li>
+                            <!-- Reference -->
+                            <li>{% translate "Reference:" %} <code class="inline">ref</code><br>
+                                {% translate "Operators:" %} <code class="inline">:</code><br>
+                                {% translate "Value:" %} <code class="inline">{% translate "Card Reference" %}</code>
+                            </li>
+                        </ul>
+                        {% translate "Examples:" %}
+                        <!-- Examples -->
+                        <ul>
+                            <li>{% translate 'Search bureaucrat cards that cost <span class="altered-3"></span>:' %}<br>
+                                <code class="inline">{% translate "st:bureaucrat hc=3" %}</code>
+                            </li>
+                            <li>{% translate 'Search cards with `training` in their name that cost <span class="altered-2"></span>:' %}<br>
+                                <code class="inline">{% translate "training" %} hc=2</code>
+                            </li>
+                            <li>{% translate 'Search cards that cost between <span class="altered-3"></span> and <span class="altered-5"></span> (inclusive):' %}<br>
+                                <code class="inline">hc>=3 hc<=5</code> {% translate "OR" %} <code class="inline">hc>2 hc<6</code>
+                            </li>
+                            <li>{% translate 'Search cards with `anchor` abilities that cost <span class="altered-3"></span> or less from reserve:' %}<br>
+                                <code class="inline">x:{% translate "anchor" %} rc<=3</code>
+                            </li>
+                            <li>{% translate 'Search cards that trigger when played from the hand (<span class="altered-hand"></span>) and that can be discarded (<span class="altered-discard"></span>):' %}<br>
+                                <code class="inline">t:hand t:discard</code>
+                            </li>
+                            <li>{% translate 'Search the card with the reference `ALT_COREKS_B_OR_21_U_2139`:' %}<br>
+                                <code class="inline">ref:ALT_COREKS_B_OR_21_U_2139</code>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer"></div>
             </div>
-        </aside>
+        </div>
     </div>
     <!-- Simple toaster -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
@@ -293,4 +318,5 @@
             }
         });
     </script>
+    <script src="{% static 'js/scrollToTop.js' %}"></script>
 {% endblock %}

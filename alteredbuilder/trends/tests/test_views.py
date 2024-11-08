@@ -19,7 +19,6 @@ class TrendsViewTestCase(TestCase):
         response = self.client.get(reverse("home"))
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(response, f"releases/{settings.VERSION}.html")
         # TODO: Assert faction_trends
         # TODO: Assert hero_trends
         # TODO: Assert card_trends

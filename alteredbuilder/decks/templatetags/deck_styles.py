@@ -51,8 +51,10 @@ def inject_params(get_params: dict, **kwargs) -> str:
         "set",
     ]
     args = [
-        f"{key}={value}" for key, value in get_params.items() if key in allowed_params
-    ] + [f"{key}={value}" for key, value in kwargs.items()]
+        f"{key}={value}"
+        for key, value in get_params.items()
+        if key in allowed_params and key not in kwargs.keys()
+    ] + [f"{key}={value}" for key, value in kwargs.items() if value]
     return "&".join([arg for arg in args if arg])
 
 
@@ -130,7 +132,7 @@ def safe_username(username: str) -> str:
 def cdn_image_url(image_url: str):
 
     return (
-        f"https://www.altered.gg/cdn-cgi/image/format=auto,height=400,q=100,sharpen=1/{image_url}"
+        f"https://www.altered.gg/cdn-cgi/image/format=auto,height=500,q=100,sharpen=1/{image_url}"
         if image_url
         else ""
     )

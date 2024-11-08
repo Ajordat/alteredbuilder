@@ -30,7 +30,7 @@ class="container my-5"
                     <div class="d-flex justify-content-center align-items-center mb-3">
                         <img src="{{ builder.profile.get_avatar_image }}" alt="{% blocktranslate with username=builder.username %}{{ username }}'s profile picture{% endblocktranslate %}" class="user-profile-pic rounded-circle me-2" height="70">
                         <div class="text-start pt-2">
-                            <h2 class="card-title">{%if builder.is_followed %}<i class="fa-solid fa-star"></i> {% endif %}{{ builder.username|safe_username }}</h2>
+                            <h2 class="card-title">{% if builder.is_followed %}<i class="fa-solid fa-star"></i> {% endif %}{{ builder.username|safe_username }}</h2>
                             <p class="text-muted">{% blocktranslate with date_joined=builder.date_joined|date:"F j, Y" %}Joined on: {{ date_joined }}{% endblocktranslate %}</p>
                         </div>
                     </div>
@@ -41,32 +41,32 @@ class="container my-5"
                         </div>
                         <div>
                             <!-- Button to view followers and followed users -->
-                            <a href="{{ builder.profile.get_followers_url }}" class="btn btn-outline-secondary"><i class="fa-solid fa-eye"></i>&nbsp;{% translate "View" %}</a>
+                            <a href="{{ builder.profile.get_followers_url }}" class="btn btn-outline altered-style"><i class="fa-solid fa-eye"></i>&nbsp;{% translate "View" %}</a>
                         </div>
                     </div>
                     <p>
     {% if request.user == builder %}
-                    <a href="{% url 'profile-edit' %}" class="btn btn-primary btn-block mt-2">{% translate "Edit Profile" %}</a>
+                    <a href="{% url 'profile-edit' %}" class="btn altered-style mt-2">{% translate "Edit Profile" %}</a>
     {% elif builder.is_followed %}
-                    <a href="{% url 'profile-unfollow' builder.profile.code %}" class="btn btn-danger btn-block mt-2"><i class="fa-solid fa-user-minus"></i>&nbsp;{% translate "Unfollow" %}</a>
+                    <a href="{% url 'profile-unfollow' builder.profile.code %}" class="btn btn-danger altered-style mt-2"><i class="fa-solid fa-user-minus"></i>&nbsp;{% translate "Unfollow" %}</a>
     {% else %}
-                    <a href="{% url 'profile-follow' builder.profile.code %}" class="btn btn-primary btn-block mt-2"><i class="fa-solid fa-user-plus"></i>&nbsp;{% translate "Follow" %}</a>
+                    <a href="{% url 'profile-follow' builder.profile.code %}" class="btn altered-style mt-2"><i class="fa-solid fa-user-plus"></i>&nbsp;{% translate "Follow" %}</a>
     {% endif %}
                     </p>
     {% if builder.profile.altered_handle %}
-                    <a href="https://www.altered.gg/profile/{{ builder.profile.altered_handle }}" class="btn btn-secondary btn-block mt-2" target="_blank"><img src="{% static "img/altered.webp" %}" alt="altered logo" width="20px"> {{ builder.profile.altered_handle }}</a>
+                    <a href="https://www.altered.gg/profile/{{ builder.profile.altered_handle }}" class="btn altered-style mt-2" target="_blank"><img src="{% static "img/altered.webp" %}" alt="altered logo" width="20px"> {{ builder.profile.altered_handle }}</a>
     {% endif %}
     {% if builder.profile.discord_public %}
         {% get_social_accounts builder as builder_accounts %}
         {% if builder_accounts.discord %}
-                    <a href="https://discordapp.com/users/{{ builder_accounts.discord.0.uid }}" class="btn btn-secondary btn-block mt-2" target="_blank"><i class="fa-brands fa-discord"></i> {{ builder_accounts.discord.0.extra_data.username }}</a>
+                    <a href="https://discordapp.com/users/{{ builder_accounts.discord.0.uid }}" class="btn altered-style mt-2" target="_blank"><i class="fa-brands fa-discord"></i> {{ builder_accounts.discord.0.extra_data.username }}</a>
         {% endif %}
     {% endif %}
                 </div>
             </div>
     {% if faction_distribution %}
             <!-- Pie Chart Card -->
-            <div class="card my-4">
+            <div class="card  my-4">
                 <div class="card-header bg-info-subtle">
                     <h5 class="mb-0">{% translate "Faction Distribution" %}</h5>
                 </div>
@@ -79,7 +79,7 @@ class="container my-5"
 
         <!-- Bio and Decks -->
         <div class="col-md-8">
-            <div class="card mb-4">
+            <div class="card altered-style mb-4">
                 <div class="card-header bg-secondary text-white">
                     <h5 class="mb-0">{% translate "Bio" %}</h5>
                 </div>
@@ -92,7 +92,7 @@ class="container my-5"
                 </div>
             </div>
 
-            <div class="card mt-4">
+            <div class="card altered-style mt-4">
                 <div class="card-header bg-success text-white">
                     <h5 class="mb-0">{% blocktranslate with username=builder.username|safe_username %}Decks by {{ username }}{% endblocktranslate %}</h5>
                 </div>
@@ -111,13 +111,13 @@ class="container my-5"
     {% for deck in deck_list %}
                                 <tr class="align-middle" onclick="window.location='{{ deck.get_absolute_url }}';" style="cursor:pointer;">
                                         <!-- Deck Name -->
-                                    <td class="text-center">
-                                        <a role="button" href="#" class="btn btn-sm btn-outline-danger {% if deck.is_loved %}active{% else %}disabled{% endif %}">
-                                            <i class="fa-solid fa-heart"></i> {{ deck.love_count }}
-                                        </a>
-                                        <a role="button" href="#" class="btn btn-sm btn-outline-secondary {% if deck.comment_count > 0 %}active{% else %}disabled{% endif %}">
-                                            <i class="fa-solid fa-comment"></i> {{ deck.comment_count }}
-                                        </a>
+                                    <td class="text-start">
+                                        <!-- Amount of hits -->
+                                        <span class="me-2"><i class="fa-solid fa-eye"></i> {{ deck.hit_count_generic.first.hits }}</span>
+                                        <!-- Amount of likes -->
+                                        <span class="me-2"><i class="fa-solid fa-heart"></i> {{ deck.love_count }}</span>
+                                        <!-- Amount of comments -->
+                                        <span><i class="fa-solid fa-comment"></i> {{ deck.comment_count }}</span>
                                     </td>
                                     <td>
                                         <h6 class="mb-1">{{ deck.name|truncatechars:29 }}</h6>
