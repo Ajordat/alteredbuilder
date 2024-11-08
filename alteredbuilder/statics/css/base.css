@@ -160,6 +160,9 @@ i.fa-star {
 .form-control {
     border-radius: var(--default-border-radius);
 }
+textarea.form-control {
+    border-bottom-right-radius: 0;
+}
 
 #filterAccordion {
     --bs-accordion-border-width: 0;
