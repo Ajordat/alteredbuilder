@@ -52,7 +52,8 @@ function getBaseChartOptions() {
             textStyle: {
                 color: getStyle("cta-inactive-color")
             }
-        }
+        },
+        fontName: "Gabriela"
     };
     return options;
 }
