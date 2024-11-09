@@ -2,7 +2,7 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
@@ -121,8 +121,8 @@ msgid ""
 "Invalid value. The reference should look similar to "
 "'ALT_COREKS_B_OR_21_U_2139'."
 msgstr ""
-"Valeur non valide. La référence doit ressembler à "
-"« ALT_COREKS_B_OR_21_U_2139 »."
+"Valeur non valide. La référence doit ressembler à « "
+"ALT_COREKS_B_OR_21_U_2139 »."
 
 #: decks/game_modes.py:84
 #, python-format
@@ -238,7 +238,7 @@ msgstr "Sort"
 
 #: decks/templates/decks/card_list.html:97
 msgid "Set"
-msgstr ""
+msgstr "Set"
 
 #: decks/templates/decks/card_list.html:108
 msgid "Search"
@@ -425,7 +425,6 @@ msgstr "st:bureaucrate hc=3"
 #: decks/templates/decks/card_list.html:266
 #: decks/templates/decks/tooltips/card_query_search.html:45
 #, fuzzy
-#| msgid "Search bureaucrat cards that cost <span class=\"altered-3\"></span>:"
 msgid ""
 "Search cards with `training` in their name that cost <span "
 "class=\"altered-2\"></span>:"
@@ -455,7 +454,6 @@ msgstr ""
 #: decks/templates/decks/card_list.html:272
 #: decks/templates/decks/tooltips/card_query_search.html:51
 #, fuzzy
-#| msgid "Search bureaucrat cards that cost <span class=\"altered-3\"></span>:"
 msgid ""
 "Search cards with `anchor` abilities that cost <span class=\"altered-3\"></"
 "span> or less from reserve:"
@@ -971,11 +969,6 @@ msgstr ""
 
 #: decks/templates/decks/import_card.html:91
 #, fuzzy, python-format
-#| msgid ""
-#| "The imported Unique card will appear on the '<a "
-#| "href=\"%(cards_tab_url)s\">Cards</a>' tab and it'll be possible to search "
-#| "for it in all languages, but the image will be strictly in English or "
-#| "French."
 msgid ""
 "The imported Unique card will appear on the '<a "
 "href=\"%(cards_tab_url)s\">Build</a>' tab and it'll be possible to search "
@@ -1602,7 +1595,6 @@ msgstr "Accueil"
 
 #: templates/base.html:74
 #, fuzzy
-#| msgid "Builders"
 msgid "Build"
 msgstr "Utilisateurs"
 
@@ -1782,7 +1774,6 @@ msgstr ""
 
 #: trends/templates/trends/home.html:23
 #, fuzzy
-#| msgid "Add to a deck"
 msgid "Build a deck"
 msgstr "Ajouter à un deck"
 
@@ -1840,7 +1831,6 @@ msgstr "Decks tendances"
 #~ "faction ou de héros pour affiner les résultats !"
 
 #, fuzzy
-#~| msgid "This feature cannot be used with unique cards"
 #~ msgid "This feature cannot be used with unique cards<br>(Work In Progress)"
 #~ msgstr "Cette fonction ne peut pas être utilisée avec des cartes uniques"
 
