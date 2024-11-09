@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-08 20:35+0100\n"
-"PO-Revision-Date: 2024-11-09 01:25+0000\n"
-"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
+"PO-Revision-Date: 2024-11-09 03:21+0000\n"
+"Last-Translator: Ajordat <alexjortri@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/"
 "altered-tcg-builder/server-strings/es/>\n"
 "Language: es\n"
@@ -109,7 +109,7 @@ msgstr "decklist"
 #: decks/forms.py:34
 msgid "Each line should be a quantity (1, 2 or 3) and a card reference."
 msgstr ""
-"Cada línea debería ser una cantidad (1, 2 o 3) y una referéncia a una carta"
+"Cada línea debería ser una cantidad (1, 2 o 3) y una referéncia a una carta."
 
 #: decks/forms.py:91 decks/templates/decks/card_list.html:257
 #: decks/templates/decks/tooltips/card_query_search.html:36
@@ -454,8 +454,8 @@ msgid ""
 "Search cards with `anchor` abilities that cost <span class=\"altered-3\"></"
 "span> or less from reserve:"
 msgstr ""
-"Busca cartas con habilidades de anclaje que cuesten <span "
-"class=\"altered-3\"></span> o menos desde la reserva"
+"Busca cartas con habilidades de anclaje que cuesten <span class=\"altered-3\""
+"></span> o menos desde la reserva:"
 
 #: decks/templates/decks/card_list.html:273
 #: decks/templates/decks/tooltips/card_query_search.html:52
@@ -1004,7 +1004,7 @@ msgstr ""
 
 #: decks/templates/decks/new_deck.html:6 decks/templates/decks/new_deck.html:7
 msgid "New Deck"
-msgstr "Mazo nuevo"
+msgstr "Mazo Nuevo"
 
 #: decks/templates/decks/new_deck.html:15
 msgid "Import a Deck"
@@ -1139,7 +1139,7 @@ msgstr "Creador"
 
 #: decks/templates/decks/snippets/public_deck_table.html:89
 msgid "No decks were found with the current filters"
-msgstr "No se han encontrado mazos con el filtro actual."
+msgstr "No se han encontrado mazos con el filtro actual"
 
 #: decks/templates/decks/tooltips/deck_timestamps.html:4
 #, python-format
@@ -1674,7 +1674,7 @@ msgstr "Permiso denegado"
 msgid ""
 "The resource you're looking for either doesn't exist or you don't have "
 "permission to access it."
-msgstr "El recurso que buscas no existe o no tienes permiso para acceder a él"
+msgstr "El recurso que buscas no existe o no tienes permiso para acceder a él."
 
 #: templates/errors/500.html:7
 msgid ""
