@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-08 20:35+0100\n"
 "PO-Revision-Date: 2024-11-09 01:25+0000\n"
-"Last-Translator: Ajordat <alexjortri@gmail.com>\n"
+"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/"
 "altered-tcg-builder/server-strings/es/>\n"
 "Language: es\n"
@@ -1070,16 +1070,13 @@ msgid "Please name your deck"
 msgstr "Nombra el mazo"
 
 #: decks/templates/decks/new_deck.html:99
-#, fuzzy, python-format
-#| msgid ""
-#| "Optionally, add a description/explanation of your deck (feel free to use "
-#| "<a href=\"%(md_url)s\">markdown</a>): "
+#, python-format
 msgid ""
 "Optionally, add a description/explanation of your deck (feel free to use <a "
 "href=\"%(md_url)s\">markdown</a>):"
 msgstr ""
-"Opcionalmente, añade una descripción/explicación del mazo (puedes usar <a "
-"href=\"%(md_url)s\">markdown</a>):"
+"Opcionalmente, añade una descripción/explicación de tu mazo (no dudes en "
+"usar <a href=\"%(md_url)s\">markdown</a>):"
 
 #: decks/templates/decks/new_deck.html:111
 msgid "Paste a decklist. Do follow ExAltered's decklist format:"
@@ -1586,10 +1583,8 @@ msgid "Home"
 msgstr "Inicio"
 
 #: templates/base.html:74
-#, fuzzy
-#| msgid "Builders"
 msgid "Build"
-msgstr "Usuarios"
+msgstr "crear"
 
 #: templates/base.html:89
 msgid "Unique card"
@@ -1609,7 +1604,7 @@ msgstr "Automático"
 
 #: templates/base.html:133
 msgid "Select site language"
-msgstr ""
+msgstr "Seleccionar el idioma de la página"
 
 #: templates/base.html:154
 msgid "View all notifications"
@@ -1758,19 +1753,15 @@ msgstr ""
 
 #: trends/templates/trends/home.html:21
 msgid "Welcome to Altered TCG Builder"
-msgstr ""
+msgstr "Bienvenido a Altered TCG Builder"
 
 #: trends/templates/trends/home.html:22
-#, fuzzy
-#| msgid "The place to build, analyze and share Altered TCG decks."
 msgid "Build, analyze, and share your decks effortlessly."
-msgstr "Tu web para construir, analizar y compartir mazos de Altered TCG."
+msgstr "Crea, analiza y comparte tus barajas sin esfuerzo."
 
 #: trends/templates/trends/home.html:23
-#, fuzzy
-#| msgid "Add to a deck"
 msgid "Build a deck"
-msgstr "Añadir a un mazo"
+msgstr "Crear un mazo"
 
 #: trends/templates/trends/home.html:33
 msgid "Popular Factions"
