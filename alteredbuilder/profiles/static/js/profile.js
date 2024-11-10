@@ -32,6 +32,11 @@ if (pieChartElement) {
             plugins: {
                 legend: {
                     position: 'top',
+                    labels: {
+                        font: {
+                            family: "Gabriela"
+                        }
+                    }
                 },
                 datalabels: {
                     anchor: 'center',

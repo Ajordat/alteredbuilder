@@ -43,6 +43,11 @@ function searchCards(e) {
     e.preventDefault();
     let params = new URLSearchParams();
 
+    let currentParams = new URLSearchParams(window.location.search);
+    if (currentParams.has("order")) {
+        params.append("order", currentParams.get("order"));
+    }
+
     // Retrieve the FACTION filters
     let factions = parseFilter(["Axiom", "Bravos", "Lyra", "Muna", "Ordis", "Yzmir"]);
     if (factions.length > 0) {
@@ -71,12 +76,6 @@ function searchCards(e) {
     let queryElement = document.getElementById("querySearch");
     if (queryElement.value != "") {
         params.append("query", queryElement.value);
-    }
-
-    // Retrieve the marked order on the dropdown
-    let orderingElement = document.getElementById("filterOrdering");
-    if (orderingElement.selectedIndex > 1) {
-        params.append("order", orderingElement.value);
     }
 
     let deckId = (new URLSearchParams(window.location.search)).get("deck");

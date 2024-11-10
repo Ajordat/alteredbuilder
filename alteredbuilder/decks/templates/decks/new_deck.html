@@ -24,8 +24,8 @@ class="container py-4"
                     <form id="load_deck_form" class="needs-validation" novalidate>
                         <label for="official_deck_id" class="form-label">{% translate "Official Deck" %}</label>
                         <div class="input-group has-validation">
-                            <input type="text" class="form-control" id="official_deck_id" name="deck_builder_id" placeholder="{% translate "Enter the deck's link or its ID" %}" aria-describedby="deck_builder_id-validation" required>
-                            <button class="btn btn-outline-secondary" type="submit" id="load_deck">
+                            <input type="text" class="form-control altered-style" id="official_deck_id" name="deck_builder_id" placeholder="{% translate "Enter the deck's link or its ID" %}" aria-describedby="deck_builder_id-validation" required>
+                            <button class="btn altered-style" type="submit" id="load_deck">
                                 <span id="load-icon" class="spinner-border spinner-border-sm" aria-hidden="true" hidden></span>
                                 <i id="ready-icon" class="fa-solid fa-arrow-right-to-bracket"></i>
                             </button>
@@ -35,8 +35,8 @@ class="container py-4"
                     </form>
                     
                 </div>
-                <div class="card-body d-flex align-items-center mb-4">
-                    <div class="accordion" id="tutorial-accordion">
+                <div class="card-body  align-items-center mb-4">
+                    <div class="accordion altered-style" id="tutorial-accordion">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#reference-tutorial" aria-expanded="false" aria-controls="reference-tutorial">
@@ -84,7 +84,7 @@ class="container py-4"
                         <div class="row mb-3">
                             <label for="{{ form.name.id_for_label }}" class="col-sm-2 col-form-label">{% translate "Name" %}</label>
                             <div class="col-auto has-validation">
-                                <input id="{{ form.name.auto_id }}" type="text" name="{{ form.name.name }}" maxlength="{{ form.fields.name.max_length }}" class="form-control{% if form.name.errors %} is-invalid{% endif %}" aria-describedby="{{ form.name.name }}-validation" required value="{% firstof form.name.value '' %}">
+                                <input id="{{ form.name.auto_id }}" type="text" name="{{ form.name.name }}" maxlength="{{ form.fields.name.max_length }}" class="form-control altered-style{% if form.name.errors %} is-invalid{% endif %}" aria-describedby="{{ form.name.name }}-validation" required value="{% firstof form.name.value '' %}">
                                 <div id="{{ form.name.name }}-validation" class="invalid-feedback">
                         {% for error in form.name.errors %}
                                     {{error}}<br>
@@ -96,10 +96,10 @@ class="container py-4"
                         </div>
 
                         <!-- Description field -->
-                        <p>{% url 'markdown' as md_url %}{% blocktranslate %}Optionally, add a description/explanation of your deck (feel free to use <a href="{{ md_url }}">markdown</a>): {% endblocktranslate %}</p>
+                        <p>{% url 'markdown' as md_url %}{% blocktranslate %}Optionally, add a description/explanation of your deck (feel free to use <a href="{{ md_url }}">markdown</a>):{% endblocktranslate %}</p>
                         <div class="mb-3">
                             <label for="{{ form.description.id_for_label }}" class="col-sm-2 col-form-label">{% translate "Description" %}</label>
-                            <textarea class="form-control {% if form.description.errors %}is-invalid{% endif %}" id="{{ form.description.auto_id }}" cols="10" rows="5" maxlength="{{ form.fields.description.max_length }}" name="{{ form.description.name }}" aria-describedby="{{ form.description.name }}-validation">{% firstof form.description.value "" %}</textarea>
+                            <textarea class="form-control altered-style {% if form.description.errors %}is-invalid{% endif %}" id="{{ form.description.auto_id }}" cols="10" rows="5" maxlength="{{ form.fields.description.max_length }}" name="{{ form.description.name }}" aria-describedby="{{ form.description.name }}-validation">{% firstof form.description.value "" %}</textarea>
                             <div id="{{ form.description.name }}-validation" class="invalid-feedback">
                         {% for error in form.description.errors %}
                                 {{error}}<br>
@@ -111,7 +111,7 @@ class="container py-4"
                         <p>{% translate "Paste a decklist. Do follow ExAltered's decklist format:" %}</p>
                         <div class="mb-3">
                             <label for="{{ form.decklist.id_for_label }}" class="form-label">{% translate "Decklist" %}</label>
-                            <textarea class="form-control{% if form.decklist.errors %} is-invalid{% endif %}" id="{{ form.decklist.auto_id }}" cols="10" rows="12" maxlength="{{ form.fields.decklist.max_length }}" name="{{ form.decklist.name }}" aria-describedby="{{ form.decklist.name }}-validation" required placeholder="1 ALT_CORE_B_LY_01_C&#10;2 ALT_CORE_B_LY_06_C&#10;1 ALT_CORE_B_LY_06_R1&#10;3 ALT_CORE_B_LY_09_R1&#10;...">{% firstof form.decklist.value "" %}</textarea>
+                            <textarea class="form-control altered-style{% if form.decklist.errors %} is-invalid{% endif %}" id="{{ form.decklist.auto_id }}" cols="10" rows="12" maxlength="{{ form.fields.decklist.max_length }}" name="{{ form.decklist.name }}" aria-describedby="{{ form.decklist.name }}-validation" required placeholder="1 ALT_CORE_B_LY_01_C&#10;2 ALT_CORE_B_LY_06_C&#10;1 ALT_CORE_B_LY_06_R1&#10;3 ALT_CORE_B_LY_09_R1&#10;...">{% firstof form.decklist.value "" %}</textarea>
                             <div id="{{ form.decklist.name }}-validation" class="invalid-feedback">
                         {% for error in form.decklist.errors %}
                                 {{error}}<br>
@@ -126,13 +126,13 @@ class="container py-4"
                         <div class="row mb-2">
                             <div class="col-sm-10 offset-sm-1">
                                 <div class="form-check">
-                                    <input id="{{ form.is_public.auto_id }}" class="form-check-input" type="checkbox" name="{{ form.is_public.name }}" {% if form.is_public.value %}checked{% endif %}>
+                                    <input id="{{ form.is_public.auto_id }}" class="form-check-input altered-style" type="checkbox" name="{{ form.is_public.name }}" {% if form.is_public.value %}checked{% endif %}>
                                     <label class="form-check-label" for="{{ form.is_public.id_for_label }}">{% translate "Public" %}</label>
                                 </div>
                             </div>
                         </div>
 
-                        <button id="submit-new-deck" type="submit" class="btn btn-primary">{% translate "Import" %}</button>
+                        <button id="submit-new-deck" type="submit" class="btn altered-style">{% translate "Import" %}</button>
                     </form>
                 </div>
             </div>

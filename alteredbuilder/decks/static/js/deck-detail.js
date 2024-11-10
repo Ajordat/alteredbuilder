@@ -1,17 +1,20 @@
 // When a card's row is hovered, change the card display to show the hovered card
 let deckRows = document.querySelectorAll(".card-hover");
+function displayCard(event) {
+    let element = event.currentTarget;
+    // Change the display image to show the current (or last) card hovered
+    if (element.dataset.imageUrl !== undefined) {
+        document.getElementById("card-showcase").src = element.dataset.imageUrl;
+    }
+}
 deckRows.forEach(function(element) {
-    element.addEventListener("mouseover", function() {
-        // Change the display image to show the current (or last) card hovered
-        if (element.dataset.imageUrl !== undefined) {
-            document.getElementById("card-showcase").src = element.dataset.imageUrl;
-        }
-    });
+    element.addEventListener("mouseover", displayCard);
+    element.addEventListener("click", displayCard);
 });
 
 // Functionality to save the link of a deck into the clipboard 
 let copyLinkElement = document.getElementById("copy-self-link");
-copyLinkElement.onclick = function() {
+copyLinkElement.addEventListener("click", function() {
     // Retrieve self-link and write it into the clipboard
     navigator.clipboard.writeText(window.location.href);
 
@@ -20,11 +23,11 @@ copyLinkElement.onclick = function() {
 
     // Return false to avoid redirection
     return false;
-}
+});
 
 // Functionality to save the decklist of a deck into the clipboard
 let copyDecklistElement = document.getElementById("copy-decklist");
-copyDecklistElement.onclick = function() {
+copyDecklistElement.addEventListener("click", function() {
     // Retrieve self-link and write it into the clipboard
     let decklistElement = document.getElementById("decklist-text");
     navigator.clipboard.writeText(decklistElement.dataset.decklist);
@@ -34,7 +37,7 @@ copyDecklistElement.onclick = function() {
 
     // Return false to avoid redirection
     return false;
-}
+});
 
 // Functionality to download a QR with a link of the deck
 let downloadQRElement = document.getElementById("download-qr-svg");
@@ -170,12 +173,10 @@ for (let element of upvoteCommentsEls) {
                 if ("created" in payload.data && payload.data["created"]) {
                     voteCountEl.innerText = Number(voteCountEl.innerText) + 1;
                     // change class
-                    element.classList.remove("btn-outline-primary");
-                    element.classList.add("btn-primary");
+                    element.classList.remove("btn-outline");
                 } else if ("deleted" in payload.data && payload.data["deleted"]) {
                     voteCountEl.innerText = Number(voteCountEl.innerText) - 1;
-                    element.classList.remove("btn-primary");
-                    element.classList.add("btn-outline-primary");
+                    element.classList.add("btn-outline");
                 }
             }
             return false;
@@ -282,7 +283,6 @@ if (checkedTagsCount >= 2) {
 }
 
 
-// Functionality to request a private link for a Deck and save it into the clipboard
 let deckShowcaseButton = document.getElementById("deckShowcaseButton");
 if (deckShowcaseButton) {
     deckShowcaseButton.addEventListener("click", (event) => {
@@ -296,3 +296,63 @@ if (deckShowcaseButton) {
         return false;
     });
 }
+
+
+const displayStoreKey = "deckDisplayPreference";
+const DISPLAY_MODE_TABLE = "table";
+const DISPLAY_MODE_CARD = "card";
+const DEFAULT_DISPLAY_MODE = DISPLAY_MODE_CARD;
+
+function storeDisplayMode(displayMode) {
+    localStorage.setItem(displayStoreKey, displayMode);
+}
+function getDisplayMode() {
+    let displayMode = localStorage.getItem(displayStoreKey);
+    if (displayMode) return displayMode;
+    storeDisplayMode(DEFAULT_DISPLAY_MODE);
+    return DEFAULT_DISPLAY_MODE;
+}
+
+function changeDisplayElements(elementsToHideClass, elementsToShowClass) {
+    let cardDisplayElements = document.getElementsByClassName(elementsToHideClass);
+    for (let element of cardDisplayElements) {
+        element.classList.add("d-none");
+    }
+    let cardTableElements = document.getElementsByClassName(elementsToShowClass);
+    for (let element of cardTableElements) {
+        element.classList.remove("d-none");
+    }
+}
+
+function changeDisplay(displayMode) {
+    switch (displayMode) {
+        case DISPLAY_MODE_TABLE:
+            changeDisplayElements("card-display-view", "card-table-view");
+            changeToTableDisplayButton.classList.add("selected");
+            changeToCardDisplayButton.classList.remove("selected");
+            break;
+        case DISPLAY_MODE_CARD:
+            changeDisplayElements("card-table-view", "card-display-view");
+            changeToCardDisplayButton.classList.add("selected");
+            changeToTableDisplayButton.classList.remove("selected");
+            break;
+    }
+}
+
+let changeToTableDisplayButton = document.getElementById("changeToTableDisplay");
+if (changeToTableDisplayButton) {
+    changeToTableDisplayButton.addEventListener("click", () => {
+        changeDisplay(DISPLAY_MODE_TABLE);
+        storeDisplayMode(DISPLAY_MODE_TABLE);
+    });
+}
+
+let changeToCardDisplayButton = document.getElementById("changeToCardDisplay");
+if (changeToCardDisplayButton) {
+    changeToCardDisplayButton.addEventListener("click", () => {
+        changeDisplay(DISPLAY_MODE_CARD);
+        storeDisplayMode(DISPLAY_MODE_CARD);
+    });
+}
+
+changeDisplay(getDisplayMode());

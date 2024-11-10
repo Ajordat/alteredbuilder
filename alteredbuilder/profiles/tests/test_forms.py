@@ -28,7 +28,11 @@ class EditProfileFormTestCase(TestCase):
         self.assertFormError(form, "altered_handle", "Enter a valid value.")
 
     def test_valid_profile_unauthenticated(self):
-        form_data = {"bio": "hey", "altered_handle": "test_0000", "avatar": "NE_DEFAULT.png"}
+        form_data = {
+            "bio": "hey",
+            "altered_handle": "test_0000",
+            "avatar": "NE_DEFAULT.png",
+        }
 
         form = UserProfileForm(data=form_data)
 
@@ -48,7 +52,11 @@ class EditProfileFormTestCase(TestCase):
         user.profile.bio = "hey"
         user.profile.altered_handle = "test_0000"
         user.profile.save()
-        form_data = {"bio": "new bio", "altered_handle": "another_handle_0001", "avatar": "NE_DEFAULT.png"}
+        form_data = {
+            "bio": "new bio",
+            "altered_handle": "another_handle_0001",
+            "avatar": "NE_DEFAULT.png",
+        }
         self.client.force_login(user)
 
         response = self.client.post(reverse("profile-edit"), form_data)
