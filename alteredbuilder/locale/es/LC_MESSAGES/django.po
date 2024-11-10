@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-08 20:35+0100\n"
-"PO-Revision-Date: 2024-10-19 17:16+0000\n"
+"POT-Creation-Date: 2024-11-10 15:32+0100\n"
+"PO-Revision-Date: 2024-11-09 03:21+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/altered-tcg-"
 "builder/server-strings/es/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8-rc\n"
+"X-Generator: Weblate 5.8.2\n"
 
 #: api/utils.py:20 decks/views.py:457
 msgid "Invalid payload"
@@ -109,7 +109,7 @@ msgstr "decklist"
 #: decks/forms.py:34
 msgid "Each line should be a quantity (1, 2 or 3) and a card reference."
 msgstr ""
-"Cada línea debería ser una cantidad (1, 2 o 3) y una referéncia a una carta"
+"Cada línea debería ser una cantidad (1, 2 o 3) y una referéncia a una carta."
 
 #: decks/forms.py:91 decks/templates/decks/card_list.html:257
 #: decks/templates/decks/tooltips/card_query_search.html:36
@@ -164,10 +164,8 @@ msgid "Card list"
 msgstr "Cartas"
 
 #: decks/templates/decks/card_list.html:43
-#, fuzzy
-#| msgid "Search by name or use advanced filters"
 msgid "Search by name or use advanced filters (hc<4 t:hand)"
-msgstr "Busca por nombre o usa filtros avanzados"
+msgstr "Busca por nombre o usa filtros avanzados (hc<4 t:hand)"
 
 #: decks/templates/decks/card_list.html:52
 #: decks/templates/decks/card_list.html:222
@@ -175,10 +173,8 @@ msgstr "Busca por nombre o usa filtros avanzados"
 #: decks/templates/decks/deck_list.html:126
 #: decks/templates/decks/own_deck_list.html:36
 #: decks/templates/decks/own_deck_list.html:127
-#, fuzzy
-#| msgid "Advanced search filters"
 msgid "Advanced Search"
-msgstr "Búsqueda con filtros avanzados"
+msgstr "Búsqueda avanzada"
 
 #: decks/templates/decks/card_list.html:63
 #: decks/templates/decks/deck_list.html:42
@@ -440,18 +436,12 @@ msgstr "entrenamiento"
 
 #: decks/templates/decks/card_list.html:269
 #: decks/templates/decks/tooltips/card_query_search.html:48
-#, fuzzy
-#| msgid ""
-#| "Search cards that trigger when played from the hand (<span "
-#| "class=\"altered-hand\"></span>) and that can be discarded (<span "
-#| "class=\"altered-discard\"></span>):"
 msgid ""
 "Search cards that cost between <span class=\"altered-3\"></span> and <span "
 "class=\"altered-5\"></span> (inclusive):"
 msgstr ""
-"Busca cartas que se activen al jugarlas desde la mano (<span class=\"altered-"
-"hand\"></span>) y que puedan ser descartadas (<span class=\"altered-"
-"discard\"></span>):"
+"Busca cartas que cuesten entre <span class=\"altered-3\"></span> y <span "
+"class=\"altered-5\"></span> (ambos inclusive):"
 
 #: decks/templates/decks/card_list.html:270
 #: decks/templates/decks/tooltips/card_query_search.html:49
@@ -465,7 +455,7 @@ msgid ""
 "span> or less from reserve:"
 msgstr ""
 "Busca cartas con habilidades de anclaje que cuesten <span "
-"class=\"altered-3\"></span> o menos desde la reserva"
+"class=\"altered-3\"></span> o menos desde la reserva:"
 
 #: decks/templates/decks/card_list.html:273
 #: decks/templates/decks/tooltips/card_query_search.html:52
@@ -539,7 +529,7 @@ msgstr "Vitrina"
 
 #: decks/templates/decks/deck_detail.html:144
 msgid "The deck needs a hero!"
-msgstr "¡El mazo necesita un héroe!"
+msgstr "!El mazo necesita un héroe!"
 
 #: decks/templates/decks/deck_detail.html:164
 msgid "Copy link"
@@ -793,10 +783,8 @@ msgstr "Mazos recientes"
 
 #: decks/templates/decks/deck_list.html:26
 #: decks/templates/decks/own_deck_list.html:27
-#, fuzzy
-#| msgid "Search by name or use advanced filters"
 msgid "Search by name or use advanced filters (starter h:kojo)"
-msgstr "Busca por nombre o usa filtros avanzados"
+msgstr "Busca por nombre o usa filtros avanzados (starter h:kojo)"
 
 #: decks/templates/decks/deck_list.html:56
 #: decks/templates/decks/own_deck_list.html:57
@@ -842,10 +830,8 @@ msgstr "Descripción"
 
 #: decks/templates/decks/deck_list.html:86
 #: decks/templates/decks/own_deck_list.html:87
-#, fuzzy
-#| msgid "Filters"
 msgid "Apply Filters"
-msgstr "Filtros"
+msgstr "Aplicar filtros"
 
 #: decks/templates/decks/deck_list.html:101
 #: decks/templates/decks/own_deck_list.html:102
@@ -917,13 +903,15 @@ msgstr "Esto tardará un rato, lo he visto durar incluso 2 minutos..."
 
 #: decks/templates/decks/import_card.html:54
 msgid "How can I make a card publicly visible? Does it have any risk?"
-msgstr ""
+msgstr "¿Cómo puedo hacer pública una carta única? ¿Tiene algún riesgo?"
 
 #: decks/templates/decks/import_card.html:59
 msgid ""
 "Currently, the only way to make a unique card publicly visible is to add it "
 "to your tradelist."
 msgstr ""
+"Actualmente, la única manera de hacer una carta única visible públicamente "
+"es añadiendola a una lista de intercambio."
 
 #: decks/templates/decks/import_card.html:60
 msgid ""
@@ -932,6 +920,10 @@ msgid ""
 "tradelist. If they see a card that interests them, they can send you a trade "
 "request."
 msgstr ""
+"Las únicas implicaciones de esto es que las personas que has añadido como "
+"amigos en la página oficial de Altered pueden ir a tu perfil y navegar por "
+"las cartas de tu lista de intercambios. Si ven alguna carta que les "
+"interesa, pueden envarte una solicitud de intercambio."
 
 #: decks/templates/decks/import_card.html:61
 msgid ""
@@ -939,6 +931,9 @@ msgid ""
 "reject their request directly. There is no risk of giving away your cards "
 "unwillingly by adding them to your tradelist."
 msgstr ""
+"En ese momento, tú puedes mirar su lista de intercambios y sugerir un cambio "
+"justo o rechazar su solicitud directamente. No hay riesgo de dar/regalar tus "
+"cartas sin querer por el simple hecho de añadirlas a tu lista de intercambio."
 
 #: decks/templates/decks/import_card.html:62
 msgid ""
@@ -946,6 +941,10 @@ msgid ""
 "it in this platform and remove it from your tradelist. The card should "
 "remain imported (if it doesn't let me know please)."
 msgstr ""
+"Sin embargo, una vez que añadas una carta a tu lista de intercambios, puedes "
+"simplemente importarla en esta plataforma y eliminarla de tu lista de "
+"intercambio. La carta debe permanecer importada (si no lo hace, por favor "
+"avísame)."
 
 #: decks/templates/decks/import_card.html:69
 msgid "How can I get the reference of a card?"
@@ -974,19 +973,14 @@ msgstr ""
 "en inglés y francés."
 
 #: decks/templates/decks/import_card.html:91
-#, fuzzy, python-format
-#| msgid ""
-#| "The imported Unique card will appear on the '<a "
-#| "href=\"%(cards_tab_url)s\">Cards</a>' tab and it'll be possible to search "
-#| "for it in all languages, but the image will be strictly in English or "
-#| "French."
+#, python-format
 msgid ""
 "The imported Unique card will appear on the '<a "
 "href=\"%(cards_tab_url)s\">Build</a>' tab and it'll be possible to search "
 "for it in all languages, but the image will be strictly in English or French."
 msgstr ""
 "La carta única importada aparecerá en la pestaña '<a "
-"href=\"%(cards_tab_url)s\">Cartas</a>' y será posible buscarla en todos los "
+"href=\"%(cards_tab_url)s\">Crear</a>' y será posible buscarla en todos los "
 "idiomas, pero la imagen estará estrictamente en inglés o francés."
 
 #: decks/templates/decks/import_card.html:92
@@ -1011,7 +1005,7 @@ msgstr ""
 
 #: decks/templates/decks/new_deck.html:6 decks/templates/decks/new_deck.html:7
 msgid "New Deck"
-msgstr "Mazo nuevo"
+msgstr "Mazo Nuevo"
 
 #: decks/templates/decks/new_deck.html:15
 msgid "Import a Deck"
@@ -1077,16 +1071,13 @@ msgid "Please name your deck"
 msgstr "Nombra el mazo"
 
 #: decks/templates/decks/new_deck.html:99
-#, fuzzy, python-format
-#| msgid ""
-#| "Optionally, add a description/explanation of your deck (feel free to use "
-#| "<a href=\"%(md_url)s\">markdown</a>): "
+#, python-format
 msgid ""
 "Optionally, add a description/explanation of your deck (feel free to use <a "
 "href=\"%(md_url)s\">markdown</a>):"
 msgstr ""
-"Opcionalmente, añade una descripción/explicación del mazo (puedes usar <a "
-"href=\"%(md_url)s\">markdown</a>):"
+"Opcionalmente, añade una descripción/explicación de tu mazo (no dudes en "
+"usar <a href=\"%(md_url)s\">markdown</a>):"
 
 #: decks/templates/decks/new_deck.html:111
 msgid "Paste a decklist. Do follow ExAltered's decklist format:"
@@ -1149,7 +1140,7 @@ msgstr "Creador"
 
 #: decks/templates/decks/snippets/public_deck_table.html:89
 msgid "No decks were found with the current filters"
-msgstr "No se han encontrado mazos con el filtro actual."
+msgstr "No se han encontrado mazos con el filtro actual"
 
 #: decks/templates/decks/tooltips/deck_timestamps.html:4
 #, python-format
@@ -1593,10 +1584,8 @@ msgid "Home"
 msgstr "Inicio"
 
 #: templates/base.html:74
-#, fuzzy
-#| msgid "Builders"
 msgid "Build"
-msgstr "Usuarios"
+msgstr "crear"
 
 #: templates/base.html:89
 msgid "Unique card"
@@ -1616,7 +1605,7 @@ msgstr "Automático"
 
 #: templates/base.html:133
 msgid "Select site language"
-msgstr ""
+msgstr "Seleccionar el idioma de la página"
 
 #: templates/base.html:154
 msgid "View all notifications"
@@ -1686,7 +1675,7 @@ msgstr "Permiso denegado"
 msgid ""
 "The resource you're looking for either doesn't exist or you don't have "
 "permission to access it."
-msgstr "El recurso que buscas no existe o no tienes permiso para acceder a él"
+msgstr "El recurso que buscas no existe o no tienes permiso para acceder a él."
 
 #: templates/errors/500.html:7
 msgid ""
@@ -1765,19 +1754,15 @@ msgstr ""
 
 #: trends/templates/trends/home.html:21
 msgid "Welcome to Altered TCG Builder"
-msgstr ""
+msgstr "Bienvenido a Altered TCG Builder"
 
 #: trends/templates/trends/home.html:22
-#, fuzzy
-#| msgid "The place to build, analyze and share Altered TCG decks."
 msgid "Build, analyze, and share your decks effortlessly."
-msgstr "Tu web para construir, analizar y compartir mazos de Altered TCG."
+msgstr "Crea, analiza y comparte tus barajas sin esfuerzo."
 
 #: trends/templates/trends/home.html:23
-#, fuzzy
-#| msgid "Add to a deck"
 msgid "Build a deck"
-msgstr "Añadir a un mazo"
+msgstr "Crear un mazo"
 
 #: trends/templates/trends/home.html:33
 msgid "Popular Factions"
