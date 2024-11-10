@@ -2,12 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-08 20:35+0100\n"
+"POT-Creation-Date: 2024-11-10 15:34+0100\n"
 "PO-Revision-Date: 2024-10-27 12:11+0000\n"
 "Last-Translator: Ajordat <alexjortri@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/altered-tcg-"
@@ -443,11 +443,6 @@ msgstr ""
 msgid "training"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:79
-#: decks/templates/decks/deck_detail.html:85
-msgid "Showcase"
-msgstr "Vetrina"
-
 #: decks/templates/decks/card_list.html:269
 #: decks/templates/decks/tooltips/card_query_search.html:48
 #, fuzzy
@@ -462,10 +457,6 @@ msgstr ""
 "Cerca carte che si innescano quando vengono giocate dalla mano (<span "
 "class=\"altered-hand\"></span>) e che possono essere scartate (<span "
 "class=\"altered-discard\"></span>):"
-
-#: decks/templates/decks/deck_detail.html:83
-msgid "The deck needs a hero!"
-msgstr "Il mazzo ha bisogno di un eroe!"
 
 #: decks/templates/decks/card_list.html:270
 #: decks/templates/decks/tooltips/card_query_search.html:49
