@@ -189,23 +189,58 @@ function getRarityTranslated(rarity, count) {
     }
 }
 
+function calculateCardCountByRarity(rarity) {
+    let rarityCards = document.querySelectorAll(`#decklist-cards .row[data-card-rarity="${rarity}"] .card-quantity`);
+    let count = 0;
+    for (let card of rarityCards) {
+        count += Number(card.innerText);
+    }
+    return count;
+}
+
+function updateCardCountText(rarity, count) {
+    if (count > 0) {
+        document.getElementById(`${rarity}-count`).innerText = count;
+        document.getElementById(`${rarity}-count-text`).innerText = getRarityTranslated(rarity, count);
+    }
+}
+
+function toggleCardCountContainer(rarity, count) {
+    document.getElementById(`${rarity}-count-container`).hidden = count === 0;
+}
+
+function calculateTotalCards() {
+    let rarities = ["C", "R", "U"];
+    let totalCards = 0;
+
+    for (let rarity of rarities) {
+        totalCards += calculateCardCountByRarity(rarity);
+    }
+
+    return totalCards;
+}
+
+function updateTotalCardsText() {
+    let totalCards = calculateTotalCards();
+
+    if (totalCards > 0) {
+        document.getElementById('cards-count').innerText = totalCards;
+        document.getElementById('cards-count-text').innerText = ngettext("Card", "Cards", totalCards.length);
+        document.getElementById('cards-count-container').hidden = false;
+    } else {
+        document.getElementById('cards-count-container').hidden = true;
+    }
+}
+
 function updateCardCount() {
     let rarities = ["C", "R", "U"];
 
     for (let rarity of rarities) {
-        let rarityCards = document.querySelectorAll(`#decklist-cards .row[data-card-rarity="${rarity}"] .card-quantity`);
-        let count = 0;
-        for (let card of rarityCards) {
-            count += Number(card.innerText);
-        }
-        if (count > 0) {
-            document.getElementById(`${rarity}-count`).innerText = count;
-            document.getElementById(`${rarity}-count-text`).innerText = getRarityTranslated(rarity, count);
-            document.getElementById(`${rarity}-count-container`).hidden = false;
-        } else {
-            document.getElementById(`${rarity}-count-container`).hidden = true;
-        } 
+        let count = calculateCardCountByRarity(rarity);
+        updateCardCountText(rarity, count);
+        toggleCardCountContainer(rarity, count);
     }
+    updateTotalCardsText();
 }
 
 // Declare the variables to track the changes
