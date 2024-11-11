@@ -194,6 +194,7 @@ function getRarityTranslated(rarity, count) {
 
 function updateCardCount() {
     let rarities = ["C", "R", "U"];
+    let cardsCount = 0;
 
     for (let rarity of rarities) {
         let rarityCards = document.querySelectorAll(`#decklist-cards .row[data-card-rarity="${rarity}"] .card-quantity`);
@@ -201,6 +202,7 @@ function updateCardCount() {
         for (let card of rarityCards) {
             count += Number(card.innerText);
         }
+        cardsCount += count;
         if (count > 0) {
             document.getElementById(`${rarity}-count`).innerText = count + " " + getRarityTranslated(rarity, count);
             // document.getElementById(`${rarity}-count-text`).innerText = getRarityTranslated(rarity, count);
@@ -208,6 +210,13 @@ function updateCardCount() {
         } else {
             document.getElementById(`${rarity}-count-container`).hidden = true;
         } 
+    }
+
+    if (cardsCount > 0) {
+        document.getElementById("cards-count").innerText = cardsCount + " " + ngettext("Card", "Cards", cardsCount);
+        document.getElementById("cards-count-container").hidden = false;
+    } else {
+        document.getElementById("cards-count-container").hidden = true;
     }
 }
 
