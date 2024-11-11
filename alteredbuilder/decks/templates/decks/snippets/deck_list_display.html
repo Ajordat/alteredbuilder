@@ -10,14 +10,18 @@
     {% endif %}
             <div class="position-absolute top-0 start-0 mt-2 ms-2">
                 <h4 class="shadowed">{{ deck.name }}</h4>
-                <small class="shadowed">{{ deck.owner.username|safe_username }}</small><br>
+                <small class="shadowed">{% if deck.is_followed %}<i class="fa-solid fa-star"></i> {% endif %}{{ deck.owner.username|safe_username }}</small><br>
     {% for tag in deck.tags.all %}
         {% if tag.type == "TY" %}
                 <span class="badge primary shadowed altered-style me-2">{{ tag.name }}</span>
         {% else %}
                 <span class="badge secondary shadowed altered-style me-2">{{ tag.name }}</span>
         {% endif %}
+        {% if forloop.last %}
+                <br>
+        {% endif %}
     {% endfor %}
+                <small class="shadowed"><i class="fa-solid fa-calendar"></i>&nbsp;{{ deck.modified_at|date }}</small>
             </div>
             <div class="position-absolute bottom-0 start-0 ms-2 mb-2">
     {% comment %} {% if deck.hero %}
