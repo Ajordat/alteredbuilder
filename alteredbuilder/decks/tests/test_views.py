@@ -392,10 +392,20 @@ class CardListViewTestCase(BaseViewTestCase):
         self.assertIn("edit_deck", response.context)
         self.assertEqual(deck, response.context["edit_deck"])
 
-        self.assertIn("edit_deck_cards", response.context)
-        cid = CardInDeck.objects.filter(deck=deck)
+        self.assertIn("character_cards", response.context)
+        cid = CardInDeck.objects.filter(deck=deck, card__type=Card.Type.CHARACTER)
         self.assertQuerySetEqual(
-            cid, response.context["edit_deck_cards"], ordered=False
+            cid, response.context["character_cards"], ordered=False
+        )
+
+        self.assertIn("spell_cards", response.context)
+        cid = CardInDeck.objects.filter(deck=deck, card__type=Card.Type.SPELL)
+        self.assertQuerySetEqual(cid, response.context["spell_cards"], ordered=False)
+
+        self.assertIn("permanent_cards", response.context)
+        cid = CardInDeck.objects.filter(deck=deck, card__type=Card.Type.PERMANENT)
+        self.assertQuerySetEqual(
+            cid, response.context["permanent_cards"], ordered=False
         )
 
     def test_card_list_filters(self):

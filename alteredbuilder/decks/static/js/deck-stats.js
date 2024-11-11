@@ -33,7 +33,8 @@ function drawChart() {
             {color: "#3F9B0B"},
             {color: "#CD853F"},
             {color: "#D4A017"},
-        ]
+        ],
+        fontName: "Gabriela"
     };
 
     if (document.documentElement.getAttribute("data-bs-theme") === "dark") {
@@ -102,7 +103,8 @@ function drawManaCurve() {
         },
         legend: {
             position: "top"
-        }
+        },
+        fontName: "Gabriela"
     };
     if (window.innerWidth < 500) {
         options["legend"]["position"] = "none";

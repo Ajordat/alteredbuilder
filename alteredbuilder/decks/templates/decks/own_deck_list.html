@@ -19,202 +19,137 @@
 
 
 {% block content %}
-    <div>
-        <h3>{% translate "My decks" %}</h3>
-        <div class="row row-cols-auto gy-2">
-            <!-- Search bar -->
-            <div class="col-xs-12 col-sm-9 col-md-7 col-lg-5 col-xl-4 col-xxl-4">
-                <form class="d-flex" role="search" id="querySearchForm">
-                    <div class="input-group">
-                        <input class="form-control" type="search" aria-label="Search" id="querySearch" value="{{ query }}" placeholder="{% translate 'Search by name or use advanced filters' %}">
-                        <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title='{% include "decks/tooltips/own_deck_query_search.html" %}' data-bs-html="true">
-                            <i class="fa-regular fa-question"></i>
-                        </span>
-                        <button class="btn btn-outline-secondary" type="submit">{% translate "Search" %}</button>
-                    </div>
-                </form>
+<div class="row row-cols-auto justify-content-center align-items-center gy-2 mb-3">
+    <!-- Search bar -->
+    <div class="col-12 col-sm-9 col-md-7 col-lg-5 col-xl-4 col-xxl-4">
+        <form class="d-flex" role="search" id="querySearchForm">
+            <div class="input-group">
+                <input id="querySearch" type="text" class="form-control" aria-label="Search" value="{{ query }}" placeholder="{% translate 'Search by name or use advanced filters (starter h:kojo)' %}">
+                <button class="btn altered-style" type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
             </div>
-            <!-- Filter dropdown -->
-            <div class="accordion col" id="filterAccordion">
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-                            <i class="fa-solid fa-filter"></i>&nbsp; {% translate "Filters" %}&nbsp; <span class="badge text-bg-secondary">{{ checked_filters|length }}</span>&nbsp; 
-                        </button>
-                    </h2>
-                    <div id="collapseFilter" class="accordion-collapse collapse" data-bs-parent="#filterAccordion">
-                        <div class="accordion-body">
-                            <div class="col">
-                                <div class="row">
-                                    <div class="col">
-                                        <b>{% translate "Factions" %}</b>
-                                        {% include "decks/snippets/filter_checkbox.html" with value="AX" label="Axiom" %}
-                                        {% include "decks/snippets/filter_checkbox.html" with value="BR" label="Bravos" %}
-                                        {% include "decks/snippets/filter_checkbox.html" with value="LY" label="Lyra" %}
-                                        {% include "decks/snippets/filter_checkbox.html" with value="MU" label="Muna" %}
-                                        {% include "decks/snippets/filter_checkbox.html" with value="OR" label="Ordis" %}
-                                        {% include "decks/snippets/filter_checkbox.html" with value="YZ" label="Yzmir" %}
-                                    </div>
-                                    <div class="col">
-                                        <b>{% translate "Legality" %}</b>
-                                        {% translate "Standard" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="standard" label="Standard" %}
-                                        {% translate "ExAlts" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="exalts" label="ExAlts" %}
-                                        {% translate "Draft" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="draft" label="Draft" %}
-                                    </div>
-                                    <div class="col">
-                                        <b>{% translate "Tags" %}</b>
-    {% cache 600 tag_filters%}
-        {% for type in tags %}
-                                        {% include "decks/snippets/filter_checkbox.html" with value=type label=type %}
-        {% endfor %}
-    {% endcache %}
-                                    </div>
-                                    <div class="col">
-                                        <b>{% translate "Other" %}</b>
-                                        <div class="form-check">
-    {% if user.is_authenticated %}
-                                            <input class="form-check-input" type="checkbox" value="loved" id="filterLoved" {% if "loved" in checked_filters %}checked{% endif %}>
-                                            {% translate "Loved" noop as _ %}<label class="form-check-label" for="filterLoved"><span class="loved"><i class="fa-solid fa-heart"></i></span></label>
-    {% else %}
-                                            <a data-bs-toggle="tooltip" data-bs-title="{% translate 'Login to save your loved decks!' %}" data-bs-html="true">
-                                                <input class="form-check-input" type="checkbox" value="loved" id="filterLoved" disabled>
-                                                {% translate "Loved" noop as _ %}<label class="form-check-label" for="filterLoved"><span class="loved"><i class="fa-solid fa-heart"></i></span></label>
-                                            </a>
-    {% endif %}
-                                        </div>
-                                        {% translate "Description" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="description" label="Description" %}
-                                    </div>
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col text-end">
-                                        <button type="submit" class="btn btn-primary" id="filterSearchButton">{% translate "Search" %}</button>                  
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        </form>
+    </div>
+    <div class="col p-0">
+        <span class="h-100 d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#advancedSearchModal" style="cursor: pointer;">
+            {% translate "Advanced Search" %}&nbsp;<i class="fa fa-circle-info altered-style"></i>
+        </span>
+    </div>
+</div>
+<!-- List of public Decks -->
+<div class="row">
+    <div class="col-12 col-sm-4 col-md-3 col-xl-2 mb-3">
+        <h3>{% translate "Filters" %}</h3>
+        <hr class="altered-style mt-1 mb-2"/>
+        <form>
+            <div class="mb-3">
+                <b>{% translate "Factions" %}</b>
+                {% include "decks/snippets/filter_checkbox.html" with value="AX" label="Axiom" %}
+                {% include "decks/snippets/filter_checkbox.html" with value="BR" label="Bravos" %}
+                {% include "decks/snippets/filter_checkbox.html" with value="LY" label="Lyra" %}
+                {% include "decks/snippets/filter_checkbox.html" with value="MU" label="Muna" %}
+                {% include "decks/snippets/filter_checkbox.html" with value="OR" label="Ordis" %}
+                {% include "decks/snippets/filter_checkbox.html" with value="YZ" label="Yzmir" %}
+            </div>
+
+            <div class="mb-3">
+                <b>{% translate "Legality" %}</b>
+                {% translate "Standard" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="standard" label="Standard" %}
+                {% translate "ExAlts" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="exalts" label="ExAlts" %}
+                {% translate "Draft" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="draft" label="Draft" %}
+            </div>
+
+            <div class="mb-3">
+                <b>{% translate "Tags" %}</b>
+{% for type in tags %}
+                {% include "decks/snippets/filter_checkbox.html" with value=type label=type %}
+{% endfor %}
+            </div>
+
+            <div class="mb-3">
+                <b>{% translate "Other" %}</b>
+                <div class="form-check">
+{% if user.is_authenticated %}
+                    <input class="form-check-input altered-style" type="checkbox" value="loved" id="filterLoved" {% if "loved" in checked_filters %}checked{% endif %}>
+                    {% translate "Loved" noop as _ %}<label class="form-check-label d-block user-select-none" for="filterLoved" style="cursor: pointer;"><span class="loved"><i class="fa-solid fa-heart"></i></span></label>
+{% else %}
+                    <a data-bs-toggle="tooltip" data-bs-title="{% translate 'Login to save your loved decks!' %}" data-bs-html="true">
+                        <input class="form-check-input altered-style" type="checkbox" value="loved" id="filterLoved" disabled>
+                        {% translate "Loved" noop as _ %}<label class="form-check-label user-select-none" for="filterLoved"><span class="loved"><i class="fa-solid fa-heart"></i></span></label>
+                    </a>
+{% endif %}
                 </div>
+                {% translate "Description" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="description" label="Description" %}
+            </div>
+
+            <!-- Filter Button -->
+            <button id="filterSearchButton" type="submit" class="btn altered-style w-100">{% translate "Apply Filters" %}</button>
+        </form>
+    </div>
+    <div class="col">
+        <div class="row justify-content-between">
+            <div class="col-md-6">
+                <h3>{% translate "My decks" %}</h3>
             </div>
             <!-- Order dropdown -->
-            {% include "decks/snippets/deck_order_filter.html" %}
-            <!-- List the badges of filters. First the query parameters and later the filter dropdown -->
-    {% for tag, op, value in query_tags %}
-            <div class="col px-0 d-flex align-items-center">
-                <span class="badge text-bg-secondary">{% translate tag %}{{ op }} {% translate value %}</span>&nbsp;
+            <div class="col-xl-3 col-md-4 col-12 d-flex justify-content-md-end">
+                <div class="dropdown">
+                    <button id="filterOrdering" class="btn altered-style dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Sort by">
+                        <i class="fa-solid fa-sort me-2"></i>{% translate "Sort by" %}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end altered-style">
+                        <li><a class="dropdown-item {% if not order %}active{% endif %}" href="?{% inject_params request.GET order=None %}">{% translate "Last updated" %}</a></li>
+                        <li><a class="dropdown-item {% if order == "love" %}active{% endif %}" href="?{% inject_params request.GET order="love" %}">{% translate "Most loved" %}</a></li>
+                        <li><a class="dropdown-item {% if order == "views" %}active{% endif %}" href="?{% inject_params request.GET order="views" %}">{% translate "Most views" %}</a></li>
+                    </ul>
+                </div>
             </div>
-    {% endfor %}
-    {% with request.GET|deck_params_to_filter_tag as tags %}
-        {% for tag, value in tags %}
-            <div class="col px-0 d-flex align-items-center">
-                <span class="badge text-bg-secondary">{% translate tag %}: {% translate value %}</span>&nbsp;
-            </div>
-        {% endfor %}
-    {% endwith %}
-    {% if order %}
-            <!-- Badges for ordering -->
-            <div class="col px-0 d-flex align-items-center">
-                <span class="badge text-bg-secondary">{% translate "Order" %}: 
-        {% if order == "love" %}{% translate "Most loved" %}
-        {% elif order == "views" %}{% translate "Most views" %}
-        {% endif %}
-                </span>&nbsp;
-            </div>
-    {% endif %}
         </div>
-        <!-- Display a the list with a user's own Decks -->
-        <div class="table-responsive">
-            <table class="table table-hover table-clickable table-fixed" id="ownDecksTable" aria-describedby="Own decks">
-                <thead>
-                    <tr>
-                        <!-- Each Deck displays its social interaction, its name, its faction (if hero), its hero (if any), its legality, if it's public and when it was last updated -->
-                        <th scope="col" class="stats-col"></th>
-                        <th scope="col">{% translate "Name" %}</th>
-                        <th scope="col" class="tags-col">{% translate "Tags" %}</th>
-                        <th scope="col" class="faction-col d-none d-xl-block">{% translate "Faction" %}</th>
-                        <th scope="col" class="hero-col">{% translate "Hero" %}</th>
-                        <th scope="col" class="legality-col text-center ps-4">
-                            <a data-bs-toggle="tooltip" data-bs-title='{% include "decks/tooltips/legality.html" %}' data-bs-html="true">
-                                {% translate "Legality" %} <i class="fa-regular fa-circle-question"></i>
-                            </a>
-                        </th>
-                        <th scope="col" class="public-col text-center px-4">{% translate "Is it public?" %}</th>
-                        <th scope="col" class="last-modified-col">{% translate "Last updated" %}</th>
-                    </tr>
-                </thead>
-                <tbody class="table-group-divider align-middle infinite-container">
-    {% for deck in deck_list %}
-                    <tr class="infinite-item" data-href="{{ deck.get_absolute_url }}">
-                        <td>
-                            <!-- Amount of likes -->
-                            <a role="button" href="#" class="btn btn-sm btn-outline-danger {%if deck.is_loved %}active{% else %}disabled{% endif %}">
-                                <i class="fa-solid fa-heart"></i> {{ deck.love_count }}
-                            </a>
-        {% if deck.is_public %}
-                            <!-- Amount of comments -->
-                            <a role="button" href="#" class="btn btn-sm btn-outline-secondary {% if deck.comment_count > 0 %}active{% else %}disabled{% endif %}">
-                                <i class="fa-solid fa-comment"></i> {{ deck.comment_count }}
-                            </a>
-        {% endif %}
-                        </td>
-                        <!-- Deck's name -->
-                        <td>{{ deck.name }}</td>
-                        <td class="tags-col">
-                            <div class="tags-container">
-            {% for tag in deck.tags.all %}
-                {% if tag.type == "TY" %}
-                                <span class="badge bg-primary">{{ tag.name }}</span>
-                {% else %}
-                                <span class="badge bg-secondary">{{ tag.name }}</span>
-                {% endif %}
-            {% endfor %}
-                            </div>
-                        </td>
-        {% if deck.hero %}
-                        <!-- Faction icon and name -->
-                        <td class="faction-col d-none d-xl-table-cell">
-                            {% include "decks/snippets/picture_webp.html" with img_name=deck.hero.faction width=20 height=20 %} {{ deck.hero.get_faction_display.title }}
-                        </td>
-                        <!-- Hero name with tooltip on hover that displays the card image -->
-                        <td>
-                            <link rel="prefetch" href="{% cdn_image_url deck.hero.image_url %}"/>
-                            <span class="d-inline-block d-xl-none">{% include "decks/snippets/picture_webp.html" with img_name=deck.hero.faction width=20 height=20 %}</span>
-                            <span class="d-inline-block" data-bs-toggle="tooltip" data-bs-title="<img src='{% cdn_image_url deck.hero.image_url %}'/>" data-bs-html="true" data-bs-placement="right">{{ deck.hero.name }}</span>
-                        </td>
-        {% else %}
-                        <!-- No hero -->
-                        <td class="d-none d-xl-table-cell">-</td><td>-</td>
-        {% endif %}
-                        <!-- Legality -->
-                        <td class="text-center">
-        {% if deck.is_standard_legal %}
-                            <i class="fa-regular fa-circle-check"></i>
-        {% elif deck.is_exalts_legal %}
-                            <i class="fa-regular fa-circle-check exalts-legal"></i>
-        {% else %}
-                            <i class="fa-regular fa-circle-xmark"></i>
-        {% endif %}
-                        </td>
-                        <!-- Is it public? -->
-                        <td class="text-center">
-        {% if deck.is_public %}
-                            <i class="fa-regular fa-circle-check"></i>
-        {% endif %}
-                        </td>
-                        <!-- Last modified -->
-                        <td>{% blocktranslate with time_since=deck.modified_at|timesince %}{{ time_since }} ago{% endblocktranslate %}</td>
-                    </tr>
-    {% empty %}
-                    <tr class="text-center"><td colspan="8">{% translate "No decks created yet" %}</td></tr>
-    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div class="mt-3">
-    {% if page_obj.has_next %}
-                <a class="infinite-more-link page-link" href="?{% inject_params request.GET page=page_obj.next_page_number %}">Next</a>
-    {% endif %}
+        <hr class="altered-style mt-1 mb-2"/>
+        <div id="trendingDecks" class="row infinite-container">
+            {% include "decks/snippets/deck_list_display.html" with decks=deck_list %}
         </div>
     </div>
+</div>
+
+<!-- Pagination buttons. Adapted to use infinite scroll -->
+<div class="mt-3">
+    {% if page_obj.has_next %}
+        <a class="infinite-more-link page-link" href="?{% inject_params request.GET page=page_obj.next_page_number %}"></a>
+    {% endif %}
+</div>
+
+<div class="modal altered-style fade" id="advancedSearchModal" tabindex="-1" aria-labelledby="advancedSearchModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="advancedSearchModalLabel">{% translate "Advanced Search" %}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body"><!-- Advanced Deck filtering instructions -->
+                <div class="text-start">
+                    {% translate "Advanced search filters" %}:
+                    <ul>
+                        <!-- Hero -->
+                        <li>{% translate "Hero:" %} <code class="inline">h</code><br>
+                            {% translate "Operators:" %} <code class="inline">:</code><br>
+                            {% translate "Value:" %} <code class="inline">{% translate "Single word" %}</code>
+                        </li>
+                    </ul>
+                    {% translate "Examples:" %}
+                    <!-- Examples -->
+                    <ul>
+                        <li>{% translate 'Search decks with the hero "Teija":' %}<br>
+                            <code class="inline">h:teija</code>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block bodyscripts %}

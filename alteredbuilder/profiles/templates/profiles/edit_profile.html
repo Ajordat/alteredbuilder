@@ -1,19 +1,62 @@
 {% extends "base.html" %}
 
 {% load i18n %}
+{% load static %}
+{% load avatar_utils %}
 {% load socialaccount %}
 
 
 {% block title %}{% translate "Edit Profile" %}{% endblock %}
 
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
 {% block content %}
     <div class="container">
         <h1>{% translate "Edit Profile" %}</h1>
         <form method="post">
-            {% csrf_token %}
+    {% csrf_token %}
+            <div class="text-center">
+                <img id="selected-profile-pic" src="{{ user.profile.get_avatar_image }}" alt="{% translate "Selected Profile Picture" %}" width="100" height="100" class="rounded-circle mb-2">
+                {% comment %} <h5 id="selected-profile-name">{{ form.avatar.value }}</h5> {% endcomment %}
+
+                <!-- Button to open modal -->
+                <button type="button" class="btn altered-style mt-2" data-bs-toggle="modal" data-bs-target="#profilePictureModal">
+                    {% translate "Choose an Avatar" %}
+                </button>
+            </div>
+            <div class="modal fade" id="profilePictureModal" tabindex="-1" aria-labelledby="profilePictureModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="profilePictureModalLabel">{% translate "Choose an Avatar" %}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+    {% for radio in form.avatar %}
+                                <div class="col-md-3 text-center">
+                                    <label class="d-block profile-picture-option">
+                                        {% comment %} {{radio.data}} {% endcomment %}
+                                        <input id="{{ radio.data.attrs.id }}" class="profile-pic-option" type="radio" name="avatar" value="{{ radio.data.value }}" required {% if radio.data.attrs.checked %}checked{% endif %}>
+                                        <img src="{{ radio.data.value|to_avatar_url }}" data-pic-name="{{ radio.data.value }}" alt="{{ radio.choice_label }}" width="70" height="70" class="profile-pic-choice rounded-circle">
+                                        <p>{{ radio.choice_label }}</p>
+                                    </label>
+                                </div>
+    {% endfor %}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline altered-style" data-bs-dismiss="modal">{% translate "Close" %}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row mb-3">
                 <label for="{{ form.bio.auto_id }}" class="col-form-label">{% url 'markdown' as md_url %}{% blocktranslate %}Biography (feel free to use <a href="{{ md_url }}">markdown</a>):{% endblocktranslate %}</label>
-                <textarea class="form-control {% if form.bio.errors %}is-invalid{% endif %}" name="{{ form.bio.name }}" cols="{{ form.bio.subwidgets.0.data.attrs.cols }}" rows="{{ form.bio.subwidgets.0.data.attrs.rows }}" maxlength="{{ form.fields.bio.max_length }}" id="{{ form.bio.auto_id }}" aria-describedby="{{ form.bio.name }}-validation">{{ form.bio.value }}</textarea>
+                <textarea class="form-control {% if form.bio.errors %}is-invalid{% endif %}" name="{{ form.bio.name }}" cols="{{ form.bio.subwidgets.0.data.attrs.cols }}" rows="{{ form.bio.subwidgets.0.data.attrs.rows }}" maxlength="{{ form.fields.bio.max_length }}" id="{{ form.bio.auto_id }}" aria-describedby="{{ form.bio.name }}-validation">{% firstof form.bio.value "" %}</textarea>
                 <div id="{{ form.bio.name }}-validation" class="invalid-feedback">
     {% for error in form.bio.errors %}
                     {{error}}<br>
@@ -24,7 +67,7 @@
             <div class="row mb-4">
                 <label for="{{ form.altered_handle.auto_id }}" class="col-sm-2 col-form-label">{% translate "Altered handle:" %}</label>
                 <div class="col-auto has-validation">
-                    <input type="text" name="{{ form.altered_handle.name }}" placeholder="example_0000" value="{{ form.altered_handle.value }}" id="{{ form.altered_handle.auto_id }}" class="form-control{% if form.altered_handle.errors %} is-invalid{% endif %}" aria-describedby="{{ form.altered_handle.name }}-validation">
+                    <input type="text" name="{{ form.altered_handle.name }}" placeholder="example_0000" value="{% firstof form.altered_handle.value "" %}" id="{{ form.altered_handle.auto_id }}" class="form-control{% if form.altered_handle.errors %} is-invalid{% endif %}" aria-describedby="{{ form.altered_handle.name }}-validation">
                     <div id="{{ form.altered_handle.name }}-validation" class="invalid-feedback">
     {% for error in form.altered_handle.errors %}
                         {{error}}<br>
@@ -43,7 +86,15 @@
                 </div>
             </div>
     {% endif %}
-            <button type="submit" class="btn btn-primary">{% translate "Save Changes" %}</button>
+            <button type="submit" class="btn altered-style">{% translate "Save Changes" %}</button>
         </form>
     </div>
+{% endblock %}
+
+
+{% block bodyscripts %}
+    <script>
+        var avatarBaseUrl = "{% static '/img/avatars/' %}";
+    </script>
+    <script src="{% static 'js/edit-profile.js' %}"></script>
 {% endblock %}

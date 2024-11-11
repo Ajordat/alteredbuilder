@@ -44,65 +44,72 @@
         <meta name="msapplication-config" content="{% static "logos/browserconfig.xml" %}">
         <meta name="theme-color" content="#ffffff">
         <script src="{% static 'js/theme-mode.js' %}"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Gabriela&display=swap" rel="stylesheet">
     {% endcache %}
         <script src="{% url 'javascript-catalog' %}"></script>
 {% endblock %}
     </head>
     <body class="d-flex flex-column min-vh-100">
-        <nav class="navbar navbar-expand-xl bg-info-subtle sticky-top pb-xl-0">
+{% with nav_item_classes="mx-1 mb-1 mb-xl-0 ps-3 ps-xl-0" %}
+        <nav class="navbar navbar-expand-xl sticky-top" style="box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);">
             <div class="container-fluid">
-                <a class="navbar-brand text-info-emphasis" href="{% url 'index' %}"><img class="logo" src="{% static "img/logo.webp" %}" alt="logo" width="40px" height="40px">Altered TCG Builder</a>
+                <a class="navbar-brand" href="{% url 'index' %}"><img class="logo" src="{% static "img/logo.webp" %}" alt="logo" width="40px" height="40px" style="transform: translateY(10%);">Altered TCG Builder</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-{% with tab_selected_class="current-nav-tab border border-bottom-0 border-2 rounded-top" %}
+                <div class="collapse navbar-collapse mt-2 mt-xl-0" id="navbarSupportedContent">
                     <ul id="navbar-traversal" class="navbar-nav me-auto">
                         {% url 'home' as item_url %}
-                        <li class="nav-item {% if request.path == item_url %}{{ tab_selected_class }}{% endif %}">
-                            <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-house"></i> {% translate "Home" %}</a>
+                        <li class="nav-item {{ nav_item_classes }} {% if request.path == item_url %}current-nav-tab{% endif %}">
+                            <a class="nav-link" href="{{ item_url }}"><i class="fa-solid fa-house"></i> {% translate "Home" %}</a>
                         </li>
                         {% url 'deck-list' as item_url %}
-                        <li class="nav-item {% if request.path == item_url %}{{ tab_selected_class }}{% endif %}">
-                            <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-layer-group"></i> {% translate "Decks" %}</a>
+                        <li class="nav-item {{ nav_item_classes }} {% if request.path == item_url %}current-nav-tab{% endif %}">
+                            <a class="nav-link" href="{{ item_url }}"><i class="fa-solid fa-layer-group"></i> {% translate "Decks" %}</a>
                         </li>
                         {% url 'cards' as item_url %}
-                        <li class="nav-item {% if request.path == item_url %}{{ tab_selected_class }}{% endif %}">
-                            <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-puzzle-piece"></i> {% translate "Cards" %}</a>
+                        <li class="nav-item {{ nav_item_classes }} {% if request.path == item_url %}current-nav-tab{% endif %}">
+                            <a class="nav-link" href="{{ item_url }}"><i class="fa-solid fa-wrench"></i> {% translate "Build" %}</a>
                         </li>
+    {% if user.is_authenticated %}
                         {% url 'own-deck' as item_url %}
-                        <li class="nav-item {% if request.path == item_url or request.GET.next == item_url %}{{ tab_selected_class }}{% endif %}">
-                            <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-inbox"></i> {% translate "My decks" %}</a>
+                        <li class="nav-item {{ nav_item_classes }} {% if request.path == item_url or request.GET.next == item_url %}current-nav-tab{% endif %}">
+                            <a class="nav-link" href="{{ item_url }}"><i class="fa-solid fa-inbox"></i> {% translate "My decks" %}</a>
                         </li>
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link active dropdown-toggle text-info-emphasis" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-file-import"></i> Import</a>
-                            <ul class="dropdown-menu dropdown-menu-end py-1">
-                                {% url 'new-deck' as item_url %}
-                                <li><a class="dropdown-item py-2" href="{{ item_url }}"><i class="fa-solid fa-layer-group"></i> {% translate "Deck" %}</a></li>
+    {% endif %}
+                        {% url 'new-deck' as import_deck_url %}
+                        {% url 'import-card' as import_card_url %}
+                        <li class="nav-item {{ nav_item_classes }} dropdown {% if request.path == import_deck_url or request.path == import_card_url %}current-nav-tab{% endif %}">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-file-import"></i> {% translate "Import" %}</a>
+                            <ul class="dropdown-menu dropdown-menu-start py-1 mx-3 mb-3">
+                                <li><a class="dropdown-item py-2" href="{{ import_deck_url }}"><i class="fa-solid fa-layer-group"></i> {% translate "Deck" %}</a></li>
                                 <li><hr class="dropdown-divider my-0"></li>
-                                {% url 'import-card' as item_url %}
-                                <li><a class="dropdown-item py-2" href="{{ item_url }}"><i class="fa-solid fa-puzzle-piece"></i> {% translate "Unique card" %}</a></li>
+                                <li><a class="dropdown-item py-2" href="{{ import_card_url }}"><i class="fa-solid fa-puzzle-piece"></i> {% translate "Unique card" %}</a></li>
                             </ul>
                         </li>
 
                         {% url 'profile-list' as item_url %}
-                        <li class="nav-item {% if request.path == item_url or request.GET.next == item_url %}{{ tab_selected_class }}{% endif %}">
-                            <a class="nav-link active text-info-emphasis" href="{{ item_url }}"><i class="fa-solid fa-people-group"></i> {% translate "Community" %}</a>
+                        <li class="nav-item {{ nav_item_classes }} {% if request.path == item_url or request.GET.next == item_url %}current-nav-tab{% endif %}">
+                            <a class="nav-link" href="{{ item_url }}"><i class="fa-solid fa-people-group"></i> {% translate "Community" %}</a>
                         </li>
                     </ul>
-{% endwith %}
                     <ul class="navbar-nav">
-                        <li class="nav-item me-3">
-                            <a class="nav-link active text-info-emphasis" href="https://discord.gg/hGA3dTcxqz" target="_blank">
+                        <li class="d-xl-none my-0"><hr></li>
+                        <li class="nav-item {{ nav_item_classes }} me-1 me-xl-3">
+                            <a class="nav-link" href="https://discord.gg/hGA3dTcxqz" target="_blank">
                                 <i class="fa-brands fa-discord"></i> Discord
                             </a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <button class="btn btn-link nav-link dropdown-toggle text-info-emphasis" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static">
+                        <li class="d-xl-none my-0"><hr></li>
+                        <li class="nav-item {{ nav_item_classes }} dropdown">
+                            {% comment %} <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="{% translate 'Select site language' %}"> {% endcomment %}
+                            <button class="btn btn-link nav-link dropdown-toggle" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static">
                                 <i id="theme-icon-active"></i>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+                            {% comment %} </a> {% endcomment %}
+                            <ul class="dropdown-menu dropdown-menu-end py-1 mx-3 mb-3" aria-labelledby="bd-theme-text">
                                 <li>
                                     <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
                                         <i class="fa-solid fa-sun"></i>&nbsp;{% translate "Light" %}
@@ -120,28 +127,28 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link active dropdown-toggle text-info-emphasis" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Select site language">
+                        <li class="nav-item {{ nav_item_classes }} dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="{% translate 'Select site language' %}">
                                 {% include "decks/snippets/picture_webp.html" with img_name=CURRENT_LANGUAGE width=24 height=24 %}
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end">
-{% for lang in languages %}
+                            <ul class="dropdown-menu dropdown-menu-end py-1 mx-3 mb-3">
+    {% for lang in languages %}
                                 <li>
-                                    <a class="dropdown-item" href="{% change_lang lang.code %}">
+                                    <a class="dropdown-item {% if lang.code == CURRENT_LANGUAGE %}active{% endif %}" href="{% change_lang lang.code %}">
                                         {% include "decks/snippets/picture_webp.html" with img_name=lang.code width=24 height=24 %} {{ lang.name_local|title }}
                                     </a>
                                 </li>
-{% endfor %}
+    {% endfor %}
                             </ul>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle position-relative text-info-emphasis" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Notifications dropdown">
+                        <li class="nav-item {{ nav_item_classes }} dropdown">
+                            <a class="nav-link dropdown-toggle position-relative" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Notifications dropdown">
                                 <i class="fa-solid fa-bell"></i>
-{% if has_unread_notifications %}
+    {% if has_unread_notifications %}
                                 <span class="position-absolute translate-middle p-1 bg-danger border border-light rounded-circle"></span>
-{% endif %}
+    {% endif %}
                             </a>
-                            <ul id="notificationList" class="dropdown-menu dropdown-menu-end bg-light-subtle pt-0" aria-labelledby="notificationDropdown">
+                            <ul id="notificationList" class="dropdown-menu dropdown-menu-end pb-1 mx-3 mb-3 pt-0" aria-labelledby="notificationDropdown">
                                 <li class="dropdown-item text-center mt-2 p-0"><a class="dropdown-item d-block" href="{% url "notification-list" %}">{% translate "View all notifications" %}</a></li>
                                 <li id="notificationsDivider"><hr class="dropdown-divider"></li>
                                 <li class="dropdown-item notification-item text-muted disabled">{% translate "No notifications" %}</li>
@@ -149,23 +156,23 @@
                                 <li class="dropdown-item text-center mt-2 p-0"><a class="dropdown-item d-block" href="{% url "notification-clear" %}?next={{ request.get_full_path|urlencode  }}">{% translate "Mark all notifications as read" %}</a></li>
                             </ul>
                         </li>
-{% if user.is_authenticated %}
-    {% if user.is_superuser or user.is_staff %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link active dropdown-toggle text-info-emphasis" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-gears"></i> Admin</a>
-                            <ul class="dropdown-menu dropdown-menu-end">
-        {% if user.is_staff %}
+    {% if user.is_authenticated %}
+        {% if user.is_superuser or user.is_staff %}
+                        <li class="nav-item {{ nav_item_classes }} dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-gears"></i> Admin</a>
+                            <ul class="dropdown-menu dropdown-menu-end py-1 mx-3 mb-3">
+            {% if user.is_staff %}
                                 <li><a class="dropdown-item" href="{% url 'admin:index' %}"><i class="fa-solid fa-gears"></i> Admin Panel</a></li>
                                 <li><hr class="dropdown-divider"></li>
-        {% endif %}
+            {% endif %}
                                 <li><a class="dropdown-item" href="{% url 'troubleshoot:session' %}">Sessions</a></li>
                                 <li><a class="dropdown-item" href="{% url 'troubleshoot:deck_descriptions' %}">Decks</a></li>
                             </ul>
                         </li>
-    {% endif %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link active dropdown-toggle text-info-emphasis" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user"></i> {{ user.username }}</a>
-                            <ul class="dropdown-menu dropdown-menu-end">
+        {% endif %}
+                        <li class="nav-item {{ nav_item_classes }} dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user"></i> {{ user.username }}</a>
+                            <ul class="dropdown-menu dropdown-menu-end py-1 mx-3 mb-3">
                                 <li><a class="dropdown-item" href="{{ user.profile.get_absolute_url }}">{% translate "Profile" %}</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="{% url 'account_email' %}?next={{ request.path }}">{% translate "Update email" %}</a></li>
@@ -174,17 +181,21 @@
                                 <li><a class="dropdown-item" href="{% url 'account_logout' %}?next={{ request.path }}">{% translate "Logout" %}</a></li>
                             </ul>
                         </li>
-{% else %}
-                        <li class="nav-item">
-                            <a class="nav-link active text-info-emphasis" href="{% url 'account_login' %}?next={{ request.path }}"><i class="fa-solid fa-user"></i> {% translate "Login" %}</a>
+    {% else %}
+                        {% url 'account_login' as item_url %}
+                        <li class="nav-item {{ nav_item_classes }} {% if request.path == item_url or request.GET.next == item_url %}current-nav-tab{% endif %}">
+                            <a class="nav-link" href="{% url 'account_login' %}?next={{ request.path }}"><i class="fa-solid fa-user"></i> {% translate "Login" %}</a>
                         </li>
-{% endif %}
+    {% endif %}
                     </ul>
                 </div>
             </div>
         </nav>
+{% endwith %}
 
-        <div {% block content-div %}class="container-fluid px-5 mt-3 mb-5"{% endblock %}>
+        {% block banner %}{% endblock %}
+
+        <div id="contentBlock" {% block content-div %}class="container-fluid px-5 mt-3 mb-5"{% endblock %}>
 {% block content %}{% endblock %}
         </div>
         <footer class="d-flex flex-wrap justify-content-between align-items-center pt-3 border-top mt-auto">

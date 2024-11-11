@@ -15,123 +15,99 @@
 {% endblock %}
 
 
+{% block banner %}
+    <div class="theme-banner">
+        <div class="banner-overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center">
+            <h1 class="display-4">{% translate "Welcome to Altered TCG Builder" %}</h1>
+            <p class="lead">{% translate "Build, analyze, and share your decks effortlessly." %}</p>
+            <a href="{% url "cards" %}" class="btn altered-style mt-3"><i class="fa-solid fa-wrench"></i> {% translate "Build a deck" %}</a>
+        </div>
+    </div>
+{% endblock %}
+
+
 {% block content %}
     {% get_current_language as LANGUAGE_CODE %}
-
-    <div class="container mt-3" id="release-container">
-        <div class="accordion my-3" id="releaseAccordion">
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button id="releaseButton" class="accordion-button bg-info-subtle collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#releaseDescription" aria-expanded="true" aria-controls="releaseDescription">
-                        {% blocktranslate %}Release notes {{ version }}{% endblocktranslate %}
-                        <span id="releaseNotificationAlert" class="translate-middle p-1 bg-danger border border-light rounded-circle ms-2" hidden></span>
-                    </button>
-                </h2>
-                <div id="releaseDescription" class="accordion-collapse collapse bg-info-subtle" data-bs-parent="#releaseAccordion" data-release="{{ version }}">
-                    <div class="accordion-body">
-                            {% include "releases/"|add:version|add:".html" %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row mt-4">
-        <div class="col">
-            <div class="card" style="border: none">
-                <div class="card-body">
-                    <h3 class="card-title">{% translate "Trends from the last 7 days" %}</h3>
-                    <p>{% translate "The statistics are extracted daily from the public legal decks modified within the last 7 days.<br>Click on the faction and hero pie charts to narrow down the results!" %}</p>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="row mt-4">
         <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card">
+            <h3 class="mb-0">{% translate "Popular Factions" %}</h3>
+            <hr class="altered-style mt-1 mb-2"/>
+            <div class="card trending-card">
                 <div class="card-body">
-                    <h5 class="card-title">{% translate "Popular Factions" %}</h5>
                     <div id="faction-pie-chart" style="min-height: 306px"></div>
                 </div>
             </div>
         </div>
         <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card">
+            <h3 class="mb-0">{% translate "Popular Heroes" %}</h3>
+            <hr class="altered-style mt-1 mb-2"/>
+            <div class="card trending-card">
                 <div class="card-body">
-                    <h5 class="card-title">{% translate "Popular Heroes" %}</h5>
                     <div id="hero-pie-chart" style="min-height: 306px"></div>
                 </div>
             </div>
         </div>
     {% cache 600 card_trends LANGUAGE_CODE request.GET %}
         <div class="col-lg-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{% translate "Popular Cards" %}</h5>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>{% translate "Name" %}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                {% for trend in card_trends %}
-                            <tr>
-                                <td>
-                    {% if trend.prev_ranking > trend.ranking or not trend.prev_ranking %}
-                                    <i class="fa-solid fa-chevron-up"></i>
-                    {% elif trend.prev_ranking < trend.ranking %}
-                                    <i class="fa-solid fa-chevron-down"></i>
-                    {% endif %}
-                                </td>
-                                <td>
-                                    <span class="d-inline-block" data-bs-offset="0,30" data-bs-toggle="tooltip" data-bs-title="<img src='{% cdn_image_url trend.card.image_url %}'/>" data-bs-html="true" data-bs-placement="left">
-                                    {% include "decks/snippets/picture_webp.html" with img_name=trend.card.faction width=24 height=24 %}
-                                    {% include "decks/snippets/picture_webp.html" with img_name=trend.card.get_rarity_display width=20 height=11 %}
-                                    <span class="card-name user-select-all" data-card-rarity="{{ trend.card.rarity }}">{{ trend.card.name }}</span>
-                                </span>       
-                                    <link rel="prefetch" href="{% cdn_image_url trend.card.image_url %}"/>
-                                </td>
-                            </tr>
-                {% endfor %}
-                        </tbody>
-                    </table>
+            <h3 class="mb-0">{% translate "Popular Cards" %}</h3>
+            <hr class="altered-style mt-1 mb-2"/>
+            <div class="card trending-card">
+                <div class="card-body d-flex justify-content-between" style="min-height: 338px;">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>{% translate "Name" %}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+        {% for trend in card_trends %}
+                                <tr class="card-hover" data-image-url="{% cdn_image_url trend.card.image_url %}">
+                                    <td>
+            {% if trend.prev_ranking > trend.ranking or not trend.prev_ranking %}
+                                        <i class="fa-solid fa-chevron-up"></i>
+            {% elif trend.prev_ranking < trend.ranking %}
+                                        <i class="fa-solid fa-chevron-down"></i>
+            {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class="d-inline-block">
+                                        {% include "decks/snippets/picture_webp.html" with img_name=trend.card.faction width=24 height=24 %}
+                                        {% include "decks/snippets/picture_webp.html" with img_name=trend.card.get_rarity_display width=20 height=11 %}
+                                            <span class="card-name user-select-all" data-card-rarity="{{ trend.card.rarity }}">{{ trend.card.name }}</span>
+                                        </span>
+                                        <link rel="prefetch" href="{% cdn_image_url trend.card.image_url %}"/>
+                                    </td>
+                                </tr>
+        {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="image-container d-none d-xl-block">
+                        <img class="img-fluid rounded-4" id="card-showcase" src="{% cdn_image_url card_trends.0.card.image_url %}">
+                    </div>
                 </div>
             </div>
         </div>
     {% endcache %}
     </div>
-    <h3>{% translate "Trending decks" %}</h3>
-    {% include "decks/snippets/public_deck_table.html" with table_id="trendingDecksTable" deck_list=deck_trends %}
+
+    <h3 class="mb-0">{% translate "Trending decks" %}</h3>
+    <hr class="altered-style mt-1 mb-2"/>
+    <div id="trendingDecks" class="row">
+        {% include "decks/snippets/deck_list_display.html" with decks=deck_trends %}
+    </div>
     <script>
-        function showReleaseDescription() {
-            document.getElementById("releaseButton").classList.remove("collapsed");
-            document.getElementById("releaseDescription").classList.add("show");
-        }
-        document.addEventListener("DOMContentLoaded", function() {
-            let lastMinimizedRelease = localStorage.getItem("releaseMinimized");
-            if (lastMinimizedRelease === null) {
-                showReleaseDescription();
-                return;
-            }
-            let currentRelease = document.getElementById("releaseDescription").dataset.release.split(".");
-            lastMinimizedRelease = lastMinimizedRelease.split(".");
-            
-            if (lastMinimizedRelease[0] !== currentRelease[0] || lastMinimizedRelease[1] !== currentRelease[1]) {
-                showReleaseDescription();
-                localStorage.removeItem("releaseMinimized");
-                return;
-            }
-            if (lastMinimizedRelease[2] !== currentRelease[2]) {
-                document.getElementById("releaseNotificationAlert").hidden = false;
-                return;
-            }
-        });
-        document.getElementById("releaseDescription").addEventListener("hidden.bs.collapse", event => {
-            localStorage.setItem("releaseMinimized", event.currentTarget.dataset.release);
-        });
-        document.getElementById("releaseDescription").addEventListener("shown.bs.collapse", event => {
-            localStorage.removeItem("releaseMinimized");
+
+        let deckRows = document.querySelectorAll(".card-hover");
+        deckRows.forEach(function(element) {
+            element.addEventListener("mouseover", function() {
+                // Change the display image to show the current (or last) card hovered
+                if (element.dataset.imageUrl !== undefined) {
+                    document.getElementById("card-showcase").src = element.dataset.imageUrl;
+                }
+            });
         });
     </script>
 
