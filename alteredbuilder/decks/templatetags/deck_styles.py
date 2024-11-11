@@ -45,6 +45,7 @@ def inject_params(get_params: dict, **kwargs) -> str:
         "type",
         "query",
         "order",
+        "tag",
         "legality",
         "deck",
         "other",
