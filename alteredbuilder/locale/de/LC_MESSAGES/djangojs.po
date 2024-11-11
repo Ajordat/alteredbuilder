@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-16 20:08+0200\n"
+"POT-Creation-Date: 2024-11-11 13:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -80,15 +80,21 @@ msgid_plural "Uniques"
 msgstr[0] "Einzigartig"
 msgstr[1] "Einzigartig"
 
-#: decks/static/js/deck-sidebar.js:507
+#: decks/static/js/deck-sidebar.js:228
+msgid "Card"
+msgid_plural "Cards"
+msgstr[0] "Karte"
+msgstr[1] "Karte"
+
+#: decks/static/js/deck-sidebar.js:548
 msgid "The deck must have a name"
 msgstr "Das Deck muss einen Namen haben"
 
-#: decks/static/js/deck-sidebar.js:512
+#: decks/static/js/deck-sidebar.js:553
 msgid "There are no changes to save"
 msgstr "Es sind keine Änderungen zu speichern"
 
-#: decks/static/js/deck-sidebar.js:543
+#: decks/static/js/deck-sidebar.js:584
 msgid "Unable to update deck"
 msgstr "Deck kann nicht aktualisiert werden"
 
@@ -116,18 +122,18 @@ msgstr ""
 msgid "Reserve"
 msgstr "Reserve"
 
-#: statics/js/notifications.js:28
+#: notifications/static/js/notifications.js:27
 msgid "Loading..."
 msgstr ""
 
-#: statics/js/notifications.js:46
+#: notifications/static/js/notifications.js:45
 msgid "Authentication required"
 msgstr "Authentifizierung erforderlich"
 
-#: statics/js/notifications.js:48
+#: notifications/static/js/notifications.js:47
 msgid "Error loading notifications"
 msgstr "Fehler beim Laden der Benachrichtigungen"
 
-#: statics/js/notifications.js:90
+#: notifications/static/js/notifications.js:90
 msgid "No new notifications"
 msgstr "Keine neuen Benachrichtigungen"
