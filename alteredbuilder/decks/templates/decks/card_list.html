@@ -176,6 +176,10 @@
                     <div class="row">
                         <input id="deck-name" type="text" maxlength="50" class="form-control" required value="{% if edit_deck.name %}{{ edit_deck.name }}{% else %}{% translate 'Deck' %} {{ own_decks|length|add:'1' }}{% endif %}" aria-labelledby="deck-name-label">
                     </div>
+                    <!-- Cards counter-->
+                    <div class="row row-cols-auto gx-0 justify-content-center my-2">
+                        <span id="cards-count-container" class="user-select-none"><span id="cards-count" class="badge badge-secondary"></span> <span id="cards-count-text"></span></span>
+                    </div>
                     <!-- Rarities counter-->
                     <div class="row row-cols-auto gx-0 justify-content-start my-2">
                         <span id="C-count-container" class="me-2 user-select-none"><span id="C-count" class="badge"></span> <span id="C-count-text"></span></span>

@@ -2,12 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-01 15:57+0100\n"
+"POT-Creation-Date: 2024-11-11 14:44+0100\n"
 "PO-Revision-Date: 2024-09-26 17:16+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/altered-tcg-"
@@ -19,39 +19,39 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.8-dev\n"
 
-#: decks/static/js/deck-detail.js:19 decks/static/js/deck-detail.js:141
+#: decks/static/js/deck-detail.js:22 decks/static/js/deck-detail.js:144
 msgid "Link copied into clipboard!"
 msgstr "¡Enlace copiado en el portapapeles!"
 
-#: decks/static/js/deck-detail.js:33
+#: decks/static/js/deck-detail.js:36
 msgid "Decklist copied into clipboard!"
 msgstr "¡Decklist copiado en el portapapeles!"
 
-#: decks/static/js/deck-detail.js:46
+#: decks/static/js/deck-detail.js:49
 msgid "QR downloaded!"
 msgstr "¡QR descargado!"
 
-#: decks/static/js/deck-detail.js:63
+#: decks/static/js/deck-detail.js:66
 msgid "QR copied into clipboard!"
 msgstr "¡QR copiado en el portapapeles!"
 
-#: decks/static/js/deck-detail.js:91
+#: decks/static/js/deck-detail.js:94
 msgid "Unable to delete card from deck"
 msgstr "No se puede eliminar la carta del mazo"
 
-#: decks/static/js/deck-detail.js:113
+#: decks/static/js/deck-detail.js:116
 msgid "Card reference copied into clipboard!"
 msgstr "¡Referencia copiada en el portapapeles!"
 
-#: decks/static/js/deck-detail.js:132
+#: decks/static/js/deck-detail.js:135
 msgid "Cannot create a private link"
 msgstr "No se puede crear un enlace privado"
 
-#: decks/static/js/deck-detail.js:164
+#: decks/static/js/deck-detail.js:167
 msgid "Unable to upvote the comment"
 msgstr "No se pudo votar el comentario"
 
-#: decks/static/js/deck-detail.js:203
+#: decks/static/js/deck-detail.js:204
 msgid "Unable to delete the comment"
 msgstr "No se pudo eliminar el comentario"
 
@@ -81,15 +81,21 @@ msgid_plural "Uniques"
 msgstr[0] "Única"
 msgstr[1] "Únicas"
 
-#: decks/static/js/deck-sidebar.js:493
+#: decks/static/js/deck-sidebar.js:216
+msgid "Card"
+msgid_plural "Cards"
+msgstr[0] "Carta"
+msgstr[1] "Cartas"
+
+#: decks/static/js/deck-sidebar.js:502
 msgid "The deck must have a name"
 msgstr "El mazo necesita un nombre"
 
-#: decks/static/js/deck-sidebar.js:498
+#: decks/static/js/deck-sidebar.js:507
 msgid "There are no changes to save"
 msgstr "No hay cambios que guardar"
 
-#: decks/static/js/deck-sidebar.js:529
+#: decks/static/js/deck-sidebar.js:538
 msgid "Unable to update deck"
 msgstr "No se puede actualizar el mazo"
 
@@ -105,15 +111,15 @@ msgstr "hechizos"
 msgid "permanents"
 msgstr "permanentes"
 
-#: decks/static/js/deck-stats.js:85
+#: decks/static/js/deck-stats.js:86
 msgid "Cost"
 msgstr "Coste"
 
-#: decks/static/js/deck-stats.js:85
+#: decks/static/js/deck-stats.js:86
 msgid "Hand"
 msgstr "Mano"
 
-#: decks/static/js/deck-stats.js:85
+#: decks/static/js/deck-stats.js:86
 msgid "Reserve"
 msgstr "Reserva"
 
