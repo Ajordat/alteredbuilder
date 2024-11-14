@@ -2,16 +2,16 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-10 15:32+0100\n"
+"POT-Creation-Date: 2024-11-14 23:08+0100\n"
 "PO-Revision-Date: 2024-11-12 18:00+0000\n"
 "Last-Translator: Ajordat <alexjortri@gmail.com>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/"
-"altered-tcg-builder/server-strings/fr/>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/altered-tcg-"
+"builder/server-strings/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -111,7 +111,7 @@ msgid "Each line should be a quantity (1, 2 or 3) and a card reference."
 msgstr ""
 "Chaque ligne doit être une quantité (1, 2 ou 3) et une référence de carte."
 
-#: decks/forms.py:91 decks/templates/decks/card_list.html:257
+#: decks/forms.py:91 decks/templates/decks/card_list.html:261
 #: decks/templates/decks/tooltips/card_query_search.html:36
 msgid "Card Reference"
 msgstr "Référence de la carte"
@@ -121,8 +121,8 @@ msgid ""
 "Invalid value. The reference should look similar to "
 "'ALT_COREKS_B_OR_21_U_2139'."
 msgstr ""
-"Valeur non valide. La référence doit ressembler à « "
-"ALT_COREKS_B_OR_21_U_2139 »."
+"Valeur non valide. La référence doit ressembler à "
+"« ALT_COREKS_B_OR_21_U_2139 »."
 
 #: decks/game_modes.py:84
 #, python-format
@@ -169,9 +169,9 @@ msgid "Search by name or use advanced filters (hc<4 t:hand)"
 msgstr "Rechercher par nom ou utiliser des filtres avancés (hc<4 t:hand)"
 
 #: decks/templates/decks/card_list.html:52
-#: decks/templates/decks/card_list.html:222
+#: decks/templates/decks/card_list.html:226
 #: decks/templates/decks/deck_list.html:35
-#: decks/templates/decks/deck_list.html:126
+#: decks/templates/decks/deck_list.html:129
 #: decks/templates/decks/own_deck_list.html:36
 #: decks/templates/decks/own_deck_list.html:127
 msgid "Advanced Search"
@@ -220,7 +220,7 @@ msgid "Character"
 msgstr "Personnage"
 
 #: decks/templates/decks/card_list.html:91
-#: decks/templates/decks/card_list.html:187
+#: decks/templates/decks/card_list.html:191
 #: decks/templates/decks/deck_detail.html:192
 #: decks/templates/decks/deck_detail.html:236
 #: decks/templates/decks/snippets/public_deck_table.html:17
@@ -246,7 +246,7 @@ msgstr "Rechercher"
 
 #: decks/templates/decks/card_list.html:120
 #: decks/templates/decks/card_list.html:121
-#: decks/templates/decks/deck_list.html:98
+#: decks/templates/decks/deck_list.html:101
 #: decks/templates/decks/own_deck_list.html:99
 #: decks/templates/decks/snippets/deck_order_filter.html:9
 msgid "Sort by"
@@ -301,31 +301,31 @@ msgstr "Nom du Deck"
 msgid "Deck"
 msgstr "Deck"
 
-#: decks/templates/decks/card_list.html:211
+#: decks/templates/decks/card_list.html:215
 msgid "Save"
 msgstr "Sauver"
 
-#: decks/templates/decks/card_list.html:227
-#: decks/templates/decks/deck_list.html:131
+#: decks/templates/decks/card_list.html:231
+#: decks/templates/decks/deck_list.html:134
 #: decks/templates/decks/own_deck_list.html:132
 #: decks/templates/decks/tooltips/card_query_search.html:6
 #: decks/templates/decks/tooltips/own_deck_query_search.html:7
 msgid "Advanced search filters"
 msgstr "Filtres de recherche avancés"
 
-#: decks/templates/decks/card_list.html:230
+#: decks/templates/decks/card_list.html:234
 #: decks/templates/decks/tooltips/card_query_search.html:9
 msgid "Hand cost:"
 msgstr "Coût de main :"
 
-#: decks/templates/decks/card_list.html:231
-#: decks/templates/decks/card_list.html:236
-#: decks/templates/decks/card_list.html:241
-#: decks/templates/decks/card_list.html:246
-#: decks/templates/decks/card_list.html:251
-#: decks/templates/decks/card_list.html:256
-#: decks/templates/decks/deck_list.html:135
-#: decks/templates/decks/deck_list.html:140
+#: decks/templates/decks/card_list.html:235
+#: decks/templates/decks/card_list.html:240
+#: decks/templates/decks/card_list.html:245
+#: decks/templates/decks/card_list.html:250
+#: decks/templates/decks/card_list.html:255
+#: decks/templates/decks/card_list.html:260
+#: decks/templates/decks/deck_list.html:138
+#: decks/templates/decks/deck_list.html:143
 #: decks/templates/decks/own_deck_list.html:136
 #: decks/templates/decks/tooltips/card_query_search.html:10
 #: decks/templates/decks/tooltips/card_query_search.html:15
@@ -337,13 +337,13 @@ msgstr "Coût de main :"
 msgid "Operators:"
 msgstr "Opérateurs :"
 
-#: decks/templates/decks/card_list.html:232
-#: decks/templates/decks/card_list.html:237
-#: decks/templates/decks/card_list.html:242
-#: decks/templates/decks/card_list.html:252
-#: decks/templates/decks/card_list.html:257
-#: decks/templates/decks/deck_list.html:136
-#: decks/templates/decks/deck_list.html:141
+#: decks/templates/decks/card_list.html:236
+#: decks/templates/decks/card_list.html:241
+#: decks/templates/decks/card_list.html:246
+#: decks/templates/decks/card_list.html:256
+#: decks/templates/decks/card_list.html:261
+#: decks/templates/decks/deck_list.html:139
+#: decks/templates/decks/deck_list.html:144
 #: decks/templates/decks/own_deck_list.html:137
 #: decks/templates/decks/tooltips/card_query_search.html:11
 #: decks/templates/decks/tooltips/card_query_search.html:16
@@ -354,27 +354,27 @@ msgstr "Opérateurs :"
 msgid "Value:"
 msgstr "Valeur :"
 
-#: decks/templates/decks/card_list.html:232
-#: decks/templates/decks/card_list.html:237
+#: decks/templates/decks/card_list.html:236
+#: decks/templates/decks/card_list.html:241
 #: decks/templates/decks/tooltips/card_query_search.html:11
 #: decks/templates/decks/tooltips/card_query_search.html:16
 msgid "Number"
 msgstr "Nombre"
 
-#: decks/templates/decks/card_list.html:235
+#: decks/templates/decks/card_list.html:239
 #: decks/templates/decks/tooltips/card_query_search.html:14
 msgid "Reserve cost:"
 msgstr "Coût de réserve :"
 
-#: decks/templates/decks/card_list.html:240
+#: decks/templates/decks/card_list.html:244
 #: decks/templates/decks/tooltips/card_query_search.html:19
 msgid "Abilities:"
 msgstr "Capacités :"
 
-#: decks/templates/decks/card_list.html:242
-#: decks/templates/decks/card_list.html:252
-#: decks/templates/decks/deck_list.html:136
-#: decks/templates/decks/deck_list.html:141
+#: decks/templates/decks/card_list.html:246
+#: decks/templates/decks/card_list.html:256
+#: decks/templates/decks/deck_list.html:139
+#: decks/templates/decks/deck_list.html:144
 #: decks/templates/decks/own_deck_list.html:137
 #: decks/templates/decks/tooltips/card_query_search.html:21
 #: decks/templates/decks/tooltips/card_query_search.html:31
@@ -382,47 +382,47 @@ msgstr "Capacités :"
 msgid "Single word"
 msgstr "Un seul mot"
 
-#: decks/templates/decks/card_list.html:245
+#: decks/templates/decks/card_list.html:249
 #: decks/templates/decks/tooltips/card_query_search.html:24
 msgid "Triggers:"
 msgstr "Déclencheurs :"
 
-#: decks/templates/decks/card_list.html:247
+#: decks/templates/decks/card_list.html:251
 #: decks/templates/decks/tooltips/card_query_search.html:26
 msgid "Values:"
 msgstr "Valeurs :"
 
-#: decks/templates/decks/card_list.html:250
+#: decks/templates/decks/card_list.html:254
 #: decks/templates/decks/tooltips/card_query_search.html:29
 msgid "Subtypes:"
 msgstr "Sous-types :"
 
-#: decks/templates/decks/card_list.html:255
+#: decks/templates/decks/card_list.html:259
 #: decks/templates/decks/tooltips/card_query_search.html:34
 msgid "Reference:"
 msgstr "Référence :"
 
-#: decks/templates/decks/card_list.html:260
-#: decks/templates/decks/deck_list.html:144
+#: decks/templates/decks/card_list.html:264
+#: decks/templates/decks/deck_list.html:147
 #: decks/templates/decks/own_deck_list.html:140
 #: decks/templates/decks/tooltips/card_query_search.html:39
 #: decks/templates/decks/tooltips/own_deck_query_search.html:15
 msgid "Examples:"
 msgstr "Exemples :"
 
-#: decks/templates/decks/card_list.html:263
+#: decks/templates/decks/card_list.html:267
 #: decks/templates/decks/tooltips/card_query_search.html:42
 msgid "Search bureaucrat cards that cost <span class=\"altered-3\"></span>:"
 msgstr ""
 "Recherchez les cartes de bureaucrates qui coûtent <span "
 "class=\"altered-3\"></span> :"
 
-#: decks/templates/decks/card_list.html:264
+#: decks/templates/decks/card_list.html:268
 #: decks/templates/decks/tooltips/card_query_search.html:43
 msgid "st:bureaucrat hc=3"
 msgstr "st:bureaucrate hc=3"
 
-#: decks/templates/decks/card_list.html:266
+#: decks/templates/decks/card_list.html:270
 #: decks/templates/decks/tooltips/card_query_search.html:45
 #, fuzzy
 msgid ""
@@ -432,12 +432,12 @@ msgstr ""
 "Recherchez les cartes de bureaucrates qui coûtent <span "
 "class=\"altered-3\"></span> :"
 
-#: decks/templates/decks/card_list.html:267
+#: decks/templates/decks/card_list.html:271
 #: decks/templates/decks/tooltips/card_query_search.html:46
 msgid "training"
 msgstr "scarabot"
 
-#: decks/templates/decks/card_list.html:269
+#: decks/templates/decks/card_list.html:273
 #: decks/templates/decks/tooltips/card_query_search.html:48
 msgid ""
 "Search cards that cost between <span class=\"altered-3\"></span> and <span "
@@ -446,12 +446,12 @@ msgstr ""
 "Rechercher les cartes dont le coût est compris entre <span "
 "class=\"altered-3\"></span> et <span class=\"altered-5\"></span> (inclus) :"
 
-#: decks/templates/decks/card_list.html:270
+#: decks/templates/decks/card_list.html:274
 #: decks/templates/decks/tooltips/card_query_search.html:49
 msgid "OR"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:272
+#: decks/templates/decks/card_list.html:276
 #: decks/templates/decks/tooltips/card_query_search.html:51
 #, fuzzy
 msgid ""
@@ -461,12 +461,12 @@ msgstr ""
 "Recherchez les cartes de bureaucrates qui coûtent <span "
 "class=\"altered-3\"></span> :"
 
-#: decks/templates/decks/card_list.html:273
+#: decks/templates/decks/card_list.html:277
 #: decks/templates/decks/tooltips/card_query_search.html:52
 msgid "anchor"
 msgstr "sabotez"
 
-#: decks/templates/decks/card_list.html:275
+#: decks/templates/decks/card_list.html:279
 #: decks/templates/decks/tooltips/card_query_search.html:54
 msgid ""
 "Search cards that trigger when played from the hand (<span class=\"altered-"
@@ -477,7 +477,7 @@ msgstr ""
 "la main (<span class=\"altered-hand\"></span>) et qui peuvent être "
 "défaussées (<span class=\"altered-discard\"></span>) :"
 
-#: decks/templates/decks/card_list.html:278
+#: decks/templates/decks/card_list.html:282
 #: decks/templates/decks/tooltips/card_query_search.html:57
 msgid "Search the card with the reference `ALT_COREKS_B_OR_21_U_2139`:"
 msgstr "Recherchez la carte avec la référence `ALT_COREKS_B_OR_21_U_2139` :"
@@ -781,7 +781,7 @@ msgstr "Il y a %(time_since)s"
 
 #: decks/templates/decks/deck_list.html:8
 #: decks/templates/decks/deck_list.html:9
-#: decks/templates/decks/deck_list.html:92
+#: decks/templates/decks/deck_list.html:95
 msgid "Latest decks"
 msgstr "Derniers decks"
 
@@ -825,19 +825,18 @@ msgstr "Adoré"
 msgid "Login to save your loved decks!"
 msgstr "Connectez-vous pour sauvegarder<br> vos decks préférés !"
 
-#: decks/templates/decks/deck_list.html:82
-#: decks/templates/decks/new_deck.html:101
-#: decks/templates/decks/own_deck_list.html:83
-#: decks/templates/forms/submit_deck_metadata.html:24
-msgid "Description"
-msgstr "Description"
+#: decks/templates/decks/deck_list.html:84
+#, fuzzy
+#| msgid "description"
+msgid "With description"
+msgstr "description"
 
-#: decks/templates/decks/deck_list.html:86
+#: decks/templates/decks/deck_list.html:89
 #: decks/templates/decks/own_deck_list.html:87
 msgid "Apply Filters"
 msgstr "Appliquer les Filtres"
 
-#: decks/templates/decks/deck_list.html:101
+#: decks/templates/decks/deck_list.html:104
 #: decks/templates/decks/own_deck_list.html:102
 #: decks/templates/decks/snippets/deck_order_filter.html:10
 #: decks/templates/decks/snippets/public_deck_table.html:23
@@ -845,40 +844,40 @@ msgstr "Appliquer les Filtres"
 msgid "Last updated"
 msgstr "Dernière mise à jour"
 
-#: decks/templates/decks/deck_list.html:102
+#: decks/templates/decks/deck_list.html:105
 #: decks/templates/decks/own_deck_list.html:103
 #: decks/templates/decks/snippets/deck_order_filter.html:11
 msgid "Most loved"
 msgstr "Les plus appréciés"
 
-#: decks/templates/decks/deck_list.html:103
+#: decks/templates/decks/deck_list.html:106
 #: decks/templates/decks/own_deck_list.html:104
 #: decks/templates/decks/snippets/deck_order_filter.html:12
 msgid "Most views"
 msgstr "Les plus visités"
 
-#: decks/templates/decks/deck_list.html:134
+#: decks/templates/decks/deck_list.html:137
 #: decks/templates/decks/own_deck_list.html:135
 #: decks/templates/decks/tooltips/own_deck_query_search.html:10
 msgid "Hero:"
 msgstr "Héros :"
 
-#: decks/templates/decks/deck_list.html:139
+#: decks/templates/decks/deck_list.html:142
 msgid "User:"
 msgstr "Utilisateur :"
 
-#: decks/templates/decks/deck_list.html:148
+#: decks/templates/decks/deck_list.html:151
 #, python-format
 msgid "Search decks created by the user \"%(username)s\":"
 msgstr "Recherche de decks créés par l&#39;utilisateur \"%(username)s\" :"
 
-#: decks/templates/decks/deck_list.html:151
+#: decks/templates/decks/deck_list.html:154
 msgid "Search decks with the hero \"Teija\" created by the user \"Equinox\":"
 msgstr ""
 "Recherche les decks avec le héros \"Teija\" créés par l&#39;utilisateur "
 "\"Equinox\" :"
 
-#: decks/templates/decks/deck_list.html:154
+#: decks/templates/decks/deck_list.html:157
 msgid ""
 "Search decks where its the name contains \"Starter\" with the hero \"Kojo\":"
 msgstr ""
@@ -1077,6 +1076,12 @@ msgid ""
 msgstr ""
 "De manière optionnelle, ajoutez une description/explication de votre deck "
 "(n'hésitez pas à utiliser du <a href=\"%(md_url)s\">markdown</a>) :"
+
+#: decks/templates/decks/new_deck.html:101
+#: decks/templates/decks/own_deck_list.html:83
+#: decks/templates/forms/submit_deck_metadata.html:24
+msgid "Description"
+msgstr "Description"
 
 #: decks/templates/decks/new_deck.html:111
 msgid "Paste a decklist. Do follow ExAltered's decklist format:"
