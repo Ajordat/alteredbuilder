@@ -12,4 +12,7 @@ Disallow: /*/terms-and-conditions
 Disallow: /*/troubleshoot
 Disallow: /*/decks/new
 
+User-agent: ClaudeBot
+Disallow: /
+
 Sitemap: {{ request.scheme}}://{{ request.get_host }}/sitemap.xml
