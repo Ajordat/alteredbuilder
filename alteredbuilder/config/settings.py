@@ -14,6 +14,7 @@ import io
 import json
 import os
 from pathlib import Path
+import re
 from urllib.parse import urlparse
 
 import environ
@@ -318,6 +319,8 @@ else:
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "statics"]
 
+user_agents = json.loads(env("BLOCKED_USER_AGENTS", default="[]"))
+DISALLOWED_USER_AGENTS = [re.compile(user_agent) for user_agent in user_agents]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

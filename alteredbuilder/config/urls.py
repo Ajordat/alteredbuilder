@@ -105,14 +105,14 @@ handler403 = TemplateView.as_view(template_name="errors/403.html")
 
 
 def handler404(request, exception):
-    if request.user.is_superuser:
+    if hasattr(request, "user") and request.user.is_superuser:
         return technical_404_response(request, exception)
     else:
         return render(request, "errors/404.html", status=HTTPStatus.NOT_FOUND)
 
 
 def handler500(request):
-    if request.user.is_superuser:
+    if hasattr(request, "user") and request.user.is_superuser:
         return technical_500_response(request, *sys.exc_info())
     else:
         return render(

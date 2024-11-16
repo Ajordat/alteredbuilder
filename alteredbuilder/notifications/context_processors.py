@@ -14,7 +14,7 @@ def add_notifications(request: HttpRequest) -> dict:
     """
     context = {}
 
-    if request.user.is_authenticated:
+    if hasattr(request, "user") and request.user.is_authenticated:
         context["has_unread_notifications"] = Notification.objects.filter(
             recipient=request.user, read=False
         ).exists()
