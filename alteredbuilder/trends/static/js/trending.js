@@ -53,7 +53,7 @@ function getBaseChartOptions() {
                 color: getStyle("cta-inactive-color")
             }
         },
-        fontName: "Gabriela"
+        // fontName: "Gabriela"
     };
     return options;
 }
