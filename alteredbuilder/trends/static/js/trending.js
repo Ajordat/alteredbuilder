@@ -43,7 +43,7 @@ function getBaseChartOptions() {
             height: "100%"
         },
         tooltip: {
-            ignoreBounds: true,
+            // ignoreBounds: true,
             text: "percentage",
             trigger: "focus"
         },

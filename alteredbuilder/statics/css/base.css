@@ -203,6 +203,8 @@ textarea.form-control {
     }
 }
 
+svg > g > g.google-visualization-tooltip { pointer-events: none }
+
 /* ALTERED STYLE */
 hr.altered-style {
     height: 9px;
