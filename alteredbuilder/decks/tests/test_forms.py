@@ -245,8 +245,7 @@ class UpdateDeckMetadataFormTestCase(BaseFormTestCase):
                 reverse("update-deck-metadata", kwargs={"pk": deck.id}), form_data
             )
 
-        # For an unknown reason, this is returning 405 instead of 403
-        self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
 
     def test_valid_nonexistent_deck(self):
         """Attempt to submit a form updating the metadata of a nonexistent Deck."""
