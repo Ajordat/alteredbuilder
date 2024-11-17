@@ -101,7 +101,8 @@ if settings.DEBUG:  # pragma: no cover
 
 
 # Error files definitions
-handler403 = TemplateView.as_view(template_name="errors/403.html")
+def handler403(request, exception):
+    return render(request, "errors/403.html", status=HTTPStatus.FORBIDDEN)
 
 
 def handler404(request, exception):
