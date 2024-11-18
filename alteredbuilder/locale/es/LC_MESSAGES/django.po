@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-18 01:23+0100\n"
-"PO-Revision-Date: 2024-11-09 03:21+0000\n"
-"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
-"Language-Team: Spanish <https://hosted.weblate.org/projects/altered-tcg-"
-"builder/server-strings/es/>\n"
+"PO-Revision-Date: 2024-11-18 00:52+0000\n"
+"Last-Translator: Ajordat <alexjortri@gmail.com>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/"
+"altered-tcg-builder/server-strings/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8.2\n"
+"X-Generator: Weblate 5.9-dev\n"
 
 #: api/utils.py:20 decks/views.py:457
 msgid "Invalid payload"
@@ -510,9 +510,8 @@ msgid "Delete deck"
 msgstr "Eliminar mazo"
 
 #: decks/templates/decks/deck_detail.html:123
-#, fuzzy
 msgid "Try it in Exalts Table without unique cards"
-msgstr "Juega en Exalts Table"
+msgstr "Juega en Exalts Table in cartas únicas"
 
 #: decks/templates/decks/deck_detail.html:125
 #: decks/templates/decks/deck_detail.html:131
@@ -630,13 +629,12 @@ msgid "Count"
 msgstr "Cantidad"
 
 #: decks/templates/decks/deck_detail.html:332
-#, fuzzy
 msgid "Total Count"
-msgstr "Cantidad"
+msgstr "Cantidad Total"
 
 #: decks/templates/decks/deck_detail.html:333
 msgid "(+ 1 hero)"
-msgstr ""
+msgstr "(+1 héroe)"
 
 #: decks/templates/decks/deck_detail.html:339
 #: decks/templates/decks/deck_detail.html:333
