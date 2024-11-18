@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-14 23:08+0100\n"
+"POT-Creation-Date: 2024-11-18 01:23+0100\n"
 "PO-Revision-Date: 2024-10-27 12:11+0000\n"
 "Last-Translator: Ajordat <alexjortri@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/altered-tcg-"
@@ -27,23 +27,23 @@ msgstr "Payload non valido"
 msgid "Invalid request"
 msgstr "Richiesta non valida"
 
-#: config/settings.py:274
+#: config/settings.py:270
 msgid "Deutsch"
 msgstr "Tedesco"
 
-#: config/settings.py:275
+#: config/settings.py:271
 msgid "English"
 msgstr "Inglese"
 
-#: config/settings.py:276
+#: config/settings.py:272
 msgid "Spanish"
 msgstr "Spagnolo"
 
-#: config/settings.py:277
+#: config/settings.py:273
 msgid "French"
 msgstr "Francese"
 
-#: config/settings.py:278
+#: config/settings.py:274
 msgid "Italian"
 msgstr "Italiano"
 
@@ -216,7 +216,7 @@ msgid "Unique"
 msgstr "Unica"
 
 #: decks/templates/decks/card_list.html:89
-#: decks/templates/decks/deck_detail.html:337
+#: decks/templates/decks/deck_detail.html:343
 msgid "Type"
 msgstr "Tipo"
 
@@ -506,23 +506,25 @@ msgid "Options"
 msgstr "Opzioni"
 
 #: decks/templates/decks/deck_detail.html:92
-#: decks/templates/decks/deck_detail.html:455
+#: decks/templates/decks/deck_detail.html:461
 msgid "Edit tags"
 msgstr "Modifica dei tag"
 
 #: decks/templates/decks/deck_detail.html:93
-#: decks/templates/decks/deck_detail.html:434
+#: decks/templates/decks/deck_detail.html:440
 msgid "Edit metadata"
 msgstr "Modifica dei metadati del mazzo"
 
 #: decks/templates/decks/deck_detail.html:94
-#: decks/templates/decks/deck_detail.html:506
+#: decks/templates/decks/deck_detail.html:512
 msgid "Delete deck"
 msgstr "Elimina mazzo"
 
 #: decks/templates/decks/deck_detail.html:123
-msgid "This feature cannot be used with unique cards"
-msgstr "Questa funzionalità non può essere utilizzata con carte uniche"
+#, fuzzy
+#| msgid "Try it in Exalts Table"
+msgid "Try it in Exalts Table without unique cards"
+msgstr "Provalo su Exalts Table"
 
 #: decks/templates/decks/deck_detail.html:125
 #: decks/templates/decks/deck_detail.html:131
@@ -586,13 +588,13 @@ msgstr "Rimuovere la carta"
 #: decks/templates/decks/deck_detail.html:217
 #: decks/templates/decks/deck_detail.html:223
 #: decks/templates/decks/deck_detail.html:275
-#: decks/templates/decks/deck_detail.html:349
+#: decks/templates/decks/deck_detail.html:355
 msgid "Spells"
 msgstr "Magie"
 
 #: decks/templates/decks/deck_detail.html:229
 #: decks/templates/decks/deck_detail.html:281
-#: decks/templates/decks/deck_detail.html:354
+#: decks/templates/decks/deck_detail.html:360
 msgid "Permanents"
 msgstr "Permanenti"
 
@@ -616,7 +618,7 @@ msgid "No hero"
 msgstr "Nessun eroe"
 
 #: decks/templates/decks/deck_detail.html:289
-#: decks/templates/decks/deck_detail.html:344
+#: decks/templates/decks/deck_detail.html:350
 msgid "Characters"
 msgstr "Personaggi"
 
@@ -636,59 +638,69 @@ msgstr "Distribuzione delle rarità"
 msgid "Count"
 msgstr "Conteggio"
 
+#: decks/templates/decks/deck_detail.html:332
+#, fuzzy
+#| msgid "Count"
+msgid "Total Count"
+msgstr "Conteggio"
+
 #: decks/templates/decks/deck_detail.html:333
+msgid "(+ 1 hero)"
+msgstr ""
+
+#: decks/templates/decks/deck_detail.html:339
 msgid "Probability of drawing"
 msgstr "Probabilità di pescata"
 
-#: decks/templates/decks/deck_detail.html:338
+#: decks/templates/decks/deck_detail.html:344
 msgid "Anytime"
 msgstr "In qualsiasi momento"
 
-#: decks/templates/decks/deck_detail.html:339
+#: decks/templates/decks/deck_detail.html:345
 msgid "Initial hand"
 msgstr "Mano iniziale"
 
-#: decks/templates/decks/deck_detail.html:361
+#: decks/templates/decks/deck_detail.html:367
 msgid "Format legality"
 msgstr "Legalità del formato"
 
-#: decks/templates/decks/deck_detail.html:365
+#: decks/templates/decks/deck_detail.html:371
 msgid "Format"
 msgstr "Formato"
 
-#: decks/templates/decks/deck_detail.html:366
+#: decks/templates/decks/deck_detail.html:372
 msgid "Is it legal?"
 msgstr "È legale?"
 
-#: decks/templates/decks/deck_detail.html:367
+#: decks/templates/decks/deck_detail.html:373
 msgid "Notes"
 msgstr "Note"
 
-#: decks/templates/decks/deck_detail.html:372
+#: decks/templates/decks/deck_detail.html:378
 #: decks/templates/decks/deck_list.html:57
 #: decks/templates/decks/own_deck_list.html:58
 #: decks/templates/decks/tooltips/legality.html:6
 msgid "Standard"
 msgstr "Standard"
 
-#: decks/templates/decks/deck_detail.html:374
-#: decks/templates/decks/deck_detail.html:388
-#: decks/templates/decks/deck_detail.html:398
+#: decks/templates/decks/deck_detail.html:380
+#: decks/templates/decks/deck_detail.html:394
+#: decks/templates/decks/deck_detail.html:404
 msgid "Yes"
 msgstr "Sì"
 
-#: decks/templates/decks/deck_detail.html:377
-#: decks/templates/decks/deck_detail.html:391
-#: decks/templates/decks/deck_detail.html:401
+#: decks/templates/decks/deck_detail.html:383
+#: decks/templates/decks/deck_detail.html:397
+#: decks/templates/decks/deck_detail.html:407
 msgid "No"
 msgstr "No"
 
-#: decks/templates/decks/deck_detail.html:386
+#: decks/templates/decks/deck_detail.html:392
 #: decks/templates/decks/tooltips/legality.html:7
 msgid "ExAlts Championship"
 msgstr "ExAlts Championship"
 
-#: decks/templates/decks/deck_detail.html:392
+#: decks/templates/decks/deck_detail.html:398
 msgid ""
 "This mode works the same as Standard but replaces the 3 uniques with 3 extra "
 "rares."
@@ -696,93 +708,93 @@ msgstr ""
 "Questa modalità funziona come la Standard, ma sostituisce le 3 carte uniche "
 "con 3 carte rare extra."
 
-#: decks/templates/decks/deck_detail.html:396
+#: decks/templates/decks/deck_detail.html:402
 #: decks/templates/decks/deck_list.html:59
 #: decks/templates/decks/own_deck_list.html:60
 msgid "Draft"
 msgstr "Draft"
 
-#: decks/templates/decks/deck_detail.html:414
+#: decks/templates/decks/deck_detail.html:420
 msgid "Mana curve"
 msgstr "Curva di mana"
 
-#: decks/templates/decks/deck_detail.html:444
-#: decks/templates/decks/deck_detail.html:495
+#: decks/templates/decks/deck_detail.html:450
+#: decks/templates/decks/deck_detail.html:501
 msgid "Cancel"
 msgstr "Annulla"
 
-#: decks/templates/decks/deck_detail.html:445
-#: decks/templates/decks/deck_detail.html:496
+#: decks/templates/decks/deck_detail.html:451
+#: decks/templates/decks/deck_detail.html:502
 msgid "Apply"
 msgstr "Applica"
 
-#: decks/templates/decks/deck_detail.html:464
+#: decks/templates/decks/deck_detail.html:470
 msgid "Playstyle"
 msgstr "Stile di gioco"
 
-#: decks/templates/decks/deck_detail.html:465
+#: decks/templates/decks/deck_detail.html:471
 msgid "Define the overall approach or strategy the deck follows"
 msgstr "Definisci l'approccio generale o la strategia del mazzo"
 
-#: decks/templates/decks/deck_detail.html:480
+#: decks/templates/decks/deck_detail.html:486
 msgid "Sub-strategy"
 msgstr "Sotto-strategia"
 
-#: decks/templates/decks/deck_detail.html:481
+#: decks/templates/decks/deck_detail.html:487
 msgid "Highlight specific tactics or themes"
 msgstr "Evidenzia tattiche o temi specifici"
 
-#: decks/templates/decks/deck_detail.html:510
+#: decks/templates/decks/deck_detail.html:516
 msgid "Are you sure you want to delete this deck?"
 msgstr "Sei sicuro di voler eliminare questo mazzo?"
 
-#: decks/templates/decks/deck_detail.html:510
+#: decks/templates/decks/deck_detail.html:516
 msgid "It won't be possible to recover it later."
 msgstr "Non sarà possibile recuperarlo in seguito."
 
-#: decks/templates/decks/deck_detail.html:513
-#: decks/templates/decks/deck_detail.html:533
+#: decks/templates/decks/deck_detail.html:519
+#: decks/templates/decks/deck_detail.html:539
 #: profiles/templates/profiles/edit_profile.html:53
 msgid "Close"
 msgstr "Chiudi"
 
-#: decks/templates/decks/deck_detail.html:514
-#: decks/templates/decks/deck_detail.html:578
+#: decks/templates/decks/deck_detail.html:520
+#: decks/templates/decks/deck_detail.html:584
 msgid "Delete"
 msgstr "Elimina"
 
-#: decks/templates/decks/deck_detail.html:526
+#: decks/templates/decks/deck_detail.html:532
 msgid "Deck QR Code"
 msgstr "Codice QR del mazzo"
 
-#: decks/templates/decks/deck_detail.html:534
+#: decks/templates/decks/deck_detail.html:540
 msgid "Copy"
 msgstr "Copia"
 
-#: decks/templates/decks/deck_detail.html:535
+#: decks/templates/decks/deck_detail.html:541
 msgid "Download"
 msgstr "Scarica"
 
-#: decks/templates/decks/deck_detail.html:545
+#: decks/templates/decks/deck_detail.html:551
 #, python-format
 msgid "%(comment_count)s comment"
 msgid_plural "%(comment_count)s comments"
 msgstr[0] "%(comment_count)s commento"
 msgstr[1] "%(comment_count)s commenti"
 
-#: decks/templates/decks/deck_detail.html:548
+#: decks/templates/decks/deck_detail.html:554
 msgid "Comments"
 msgstr "Commenti"
 
-#: decks/templates/decks/deck_detail.html:563
+#: decks/templates/decks/deck_detail.html:569
 msgid "Login to use this feature!"
 msgstr "Effettuare l'accesso per utilizzare questa funzione!"
 
-#: decks/templates/decks/deck_detail.html:564 templates/base.html:189
+#: decks/templates/decks/deck_detail.html:570 templates/base.html:193
 msgid "Login"
 msgstr "Accedi"
 
-#: decks/templates/decks/deck_detail.html:594
+#: decks/templates/decks/deck_detail.html:600
 #: decks/templates/decks/snippets/public_deck_table.html:86
 #: notifications/templates/notifications/notification_list.html:20
 #: notifications/views.py:86
@@ -1226,6 +1238,10 @@ msgstr "La carta “%(reference)s” non è pubblica"
 msgid "Failed to fetch the card on the official API."
 msgstr "Impossibile trovare la carta nell'API ufficiale."
 
+#: news/templates/news/updates.html:7 templates/base.html:99
+msgid "News"
+msgstr ""
+
 #: notifications/models.py:32 notifications/models.py:57
 msgid "New notification"
 msgstr "Nuova notifica"
@@ -1257,12 +1273,12 @@ msgid "Notifications"
 msgstr "Notifiche"
 
 #: notifications/templates/notifications/notification_list.html:12
-#: templates/base.html:158
+#: templates/base.html:162
 msgid "Mark all notifications as read"
 msgstr "Contrassegnare tutte le notifiche come letto"
 
 #: notifications/templates/notifications/notification_list.html:26
-#: templates/base.html:156
+#: templates/base.html:160
 msgid "No notifications"
 msgstr "Nessuna notifica"
 
@@ -1616,79 +1632,79 @@ msgstr "Utenti"
 msgid "Unique card"
 msgstr "Carta unica"
 
-#: templates/base.html:117
+#: templates/base.html:121
 msgid "Light"
 msgstr "Chiaro"
 
-#: templates/base.html:122
+#: templates/base.html:126
 msgid "Dark"
 msgstr "Scuro"
 
-#: templates/base.html:127
+#: templates/base.html:131
 msgid "Auto"
 msgstr "Automatico"
 
-#: templates/base.html:133
+#: templates/base.html:137
 msgid "Select site language"
 msgstr ""
 
-#: templates/base.html:154
+#: templates/base.html:158
 msgid "View all notifications"
 msgstr "Vedi tutte le notifiche"
 
-#: templates/base.html:178
+#: templates/base.html:182
 msgid "Profile"
 msgstr "Profilo"
 
-#: templates/base.html:180
+#: templates/base.html:184
 msgid "Update email"
 msgstr "Aggiorna e-mail"
 
-#: templates/base.html:181
+#: templates/base.html:185
 msgid "Update password"
 msgstr "Aggiorna password"
 
-#: templates/base.html:183
+#: templates/base.html:187
 msgid "Logout"
 msgstr "Esci"
 
-#: templates/base.html:207
+#: templates/base.html:211
 msgid "Links"
 msgstr "Collegamenti"
 
-#: templates/base.html:210
+#: templates/base.html:214
 msgid "About the project"
 msgstr "Informazioni sul progetto"
 
-#: templates/base.html:213
+#: templates/base.html:217
 msgid "GitHub repository"
 msgstr "Repository GitHub"
 
-#: templates/base.html:216
+#: templates/base.html:220
 msgid "Collaborators"
 msgstr "Collaboratori"
 
-#: templates/base.html:219
+#: templates/base.html:223
 msgid "Privacy policy"
 msgstr "Informativa sulla privacy"
 
-#: templates/base.html:222
+#: templates/base.html:226
 msgid "Terms and conditions"
 msgstr "Termini e condizioni"
 
-#: templates/base.html:227
+#: templates/base.html:231
 msgid "Support the project"
 msgstr "Aiutare il progetto"
 
-#: templates/base.html:228
+#: templates/base.html:232
 msgid "All funds are used to cover the hosting costs."
 msgstr "Tutti i fondi sono utilizzati per coprire i costi di hosting."
 
-#: templates/base.html:233
+#: templates/base.html:237
 msgid "Our Patrons"
 msgstr "I Nostri Mecenati"
 
-#: templates/base.html:237
+#: templates/base.html:241
 msgid "Get in touch"
 msgstr "Contattaci"
 
@@ -1809,6 +1825,9 @@ msgstr "Carte popolari"
 #: trends/templates/trends/home.html:96
 msgid "Trending decks"
 msgstr "Mazzi di tendenza"
+
+#~ msgid "This feature cannot be used with unique cards"
+#~ msgstr "Questa funzionalità non può essere utilizzata con carte uniche"
 
 #~ msgid "Order"
 #~ msgstr "Ordine"

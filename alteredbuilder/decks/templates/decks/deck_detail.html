@@ -120,11 +120,6 @@
         <div class="col-12 col-xl-auto d-flex justify-content-end mb-3">
             <!-- Goldfishing access -->
     {% if stats.rarity_distribution.unique %}
-            {% comment %} <div class="ms-2" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'This feature cannot be used with unique cards' %}">
-                <button type="button" class="btn altered-style btn-sm" disabled>
-                    <i class="fa-solid fa-gamepad"></i> <span class="d-none d-md-inline">{% translate "Playtest!" %}</span> <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                </button>
-            </div> {% endcomment %}
             <div class="ms-2" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'Try it in Exalts Table without unique cards' %}">
                 <a type="button" class="btn altered-style btn-sm" href="https://exalts-table.com/deck-test/link/?decklist={{ decklist|urlencode }}" target="_blank">
                     <i class="fa-solid fa-gamepad"></i> <span class="d-none d-md-inline">{% translate "Playtest!" %}</span> <i class="fa-solid fa-arrow-up-right-from-square"></i>
@@ -332,6 +327,12 @@
                         <td>{% translate "Unique" %}</td>
                         <td>{{ stats.rarity_distribution.unique }}</td>
                     </tr>
+                    <tfoot class="table-group-divider">
+                        <tr>
+                            <td>{% translate "Total Count" %}</td>
+                            <td>{{ stats.total_count }}{% if deck.hero %}&emsp;{% translate "(+ 1 hero)" %}{% endif %}</td>
+                        </tr>
+                    </tfoot>
                 </tbody>
             </table>
             <!-- Probability of drawing cards -->
