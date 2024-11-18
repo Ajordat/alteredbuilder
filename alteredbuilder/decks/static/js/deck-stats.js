@@ -61,6 +61,12 @@ function drawStats() {
         let anytimeElement = document.getElementById(cardType + "-anytime-draw");
         let initialElement = document.getElementById(cardType + "-initial-draw");
         let cardTypeCount = deckStats["type_distribution"][cardType];
+
+        if (cardTypeCount == 0) {
+            anytimeElement.innerText = "0%";
+            initialElement.innerText = "0%";
+            return;
+        }
         
         let individualDraw = cardTypeCount / cardCount;
 
