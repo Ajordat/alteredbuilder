@@ -86,7 +86,10 @@ function drawManaCurve() {
     let data = [[gettext('Cost'), gettext('Hand'), gettext('Reserve')]];
     let handCosts = deckStats["mana_distribution"]["hand"];
     let recallCosts = deckStats["mana_distribution"]["recall"];
-    for (let cost = 1; cost < 8; cost++) {
+
+    let maxCost = Math.max(...Object.keys(handCosts).map(x => parseInt(x)), ...Object.keys(recallCosts).map(x => parseInt(x)), 8);
+
+    for (let cost = 1; cost < maxCost + 1; cost++) {
         let costRow = [cost.toString(), handCosts[cost] || 0, recallCosts[cost] || 0];
         data.push(costRow);
     }
