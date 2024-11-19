@@ -122,7 +122,7 @@ class Card(models.Model):
     name = models.CharField(max_length=48, null=False, blank=False)
     faction = models.CharField(max_length=2, choices=Faction)
     type = models.CharField(max_length=16, choices=Type)
-    subtypes = models.ManyToManyField(Subtype)
+    subtypes = models.ManyToManyField(Subtype, blank=True)
     rarity = models.CharField(max_length=1, choices=Rarity)
     image_url = models.URLField(null=False, blank=True)
     set = models.ForeignKey(Set, null=True, on_delete=models.SET_NULL)
