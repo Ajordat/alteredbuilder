@@ -66,6 +66,7 @@ urlpatterns += i18n_patterns(
     path("accounts/", include("allauth.socialaccount.urls")),
     path("profiles/", include("profiles.urls")),
     path("notifications/", include("notifications.urls")),
+    path("news/", include("news.urls")),
     path("about/", TemplateView.as_view(template_name="about.html"), name="about"),
     path(
         "collaborators/",

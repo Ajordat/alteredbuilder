@@ -94,6 +94,10 @@
                         <li class="nav-item {{ nav_item_classes }} {% if request.path == item_url or request.GET.next == item_url %}current-nav-tab{% endif %}">
                             <a class="nav-link" href="{{ item_url }}"><i class="fa-solid fa-people-group"></i> {% translate "Community" %}</a>
                         </li>
+                        {% url 'news' as item_url %}
+                        <li class="nav-item {{ nav_item_classes }} {% if request.path == item_url or request.GET.next == item_url %}current-nav-tab{% endif %}">
+                            <a class="nav-link" href="{{ item_url }}"><i class="fa-solid fa-newspaper"></i> {% translate "News" %}</a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav">
                         <li class="d-xl-none my-0"><hr></li>

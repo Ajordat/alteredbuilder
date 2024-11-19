@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load i18n %}
+
+
+{% block title %}{% translate "News" %}{% endblock %}
+
+
+{% block content %}
+
+
+<h1>Latest Updates</h1>
+
+<h2>Latest News</h2>
+<ul>
+    {% for article in news %}
+    <li>
+        <a href="{{ article.link }}">{{ article.title }}</a>
+        <small>{{ article.published }}</small>
+    </li>
+    {% endfor %}
+</ul>
+
+<h2>Latest YouTube Videos</h2>
+<ul>
+    {% for video in youtube_videos %}
+    <li>
+        <a href="https://www.youtube.com/watch?v={{ video.id.videoId }}">{{ video.snippet.title }}</a>
+        <small>{{ video.snippet.publishedAt }}</small>
+    </li>
+    {% endfor %}
+</ul>
+
+<h2>Live Twitch Streams</h2>
+<ul>
+    {% for stream in twitch_streams %}
+    <li>
+        <a href="https://twitch.tv/{{ stream.user_name }}">{{ stream.user_name }}</a>
+        <small>{{ stream.viewer_count }} viewers</small>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
