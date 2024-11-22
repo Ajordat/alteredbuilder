@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-18 01:23+0100\n"
+"POT-Creation-Date: 2024-11-22 18:45+0100\n"
 "PO-Revision-Date: 2024-10-27 12:11+0000\n"
 "Last-Translator: Ajordat <alexjortri@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/altered-tcg-"
@@ -27,23 +27,23 @@ msgstr "Payload non valido"
 msgid "Invalid request"
 msgstr "Richiesta non valida"
 
-#: config/settings.py:270
+#: config/settings.py:269
 msgid "Deutsch"
 msgstr "Tedesco"
 
-#: config/settings.py:271
+#: config/settings.py:270
 msgid "English"
 msgstr "Inglese"
 
-#: config/settings.py:272
+#: config/settings.py:271
 msgid "Spanish"
 msgstr "Spagnolo"
 
-#: config/settings.py:273
+#: config/settings.py:272
 msgid "French"
 msgstr "Francese"
 
-#: config/settings.py:274
+#: config/settings.py:273
 msgid "Italian"
 msgstr "Italiano"
 
@@ -790,7 +790,7 @@ msgstr "Commenti"
 msgid "Login to use this feature!"
 msgstr "Effettuare l'accesso per utilizzare questa funzione!"
 
-#: decks/templates/decks/deck_detail.html:570 templates/base.html:193
+#: decks/templates/decks/deck_detail.html:570 templates/base.html:194
 msgid "Login"
 msgstr "Accedi"
 
@@ -1238,10 +1238,6 @@ msgstr "La carta “%(reference)s” non è pubblica"
 msgid "Failed to fetch the card on the official API."
 msgstr "Impossibile trovare la carta nell'API ufficiale."
 
-#: news/templates/news/updates.html:7 templates/base.html:99
-msgid "News"
-msgstr ""
-
 #: notifications/models.py:32 notifications/models.py:57
 msgid "New notification"
 msgstr "Nuova notifica"
@@ -1273,12 +1269,12 @@ msgid "Notifications"
 msgstr "Notifiche"
 
 #: notifications/templates/notifications/notification_list.html:12
-#: templates/base.html:162
+#: templates/base.html:163
 msgid "Mark all notifications as read"
 msgstr "Contrassegnare tutte le notifiche come letto"
 
 #: notifications/templates/notifications/notification_list.html:26
-#: templates/base.html:160
+#: templates/base.html:161
 msgid "No notifications"
 msgstr "Nessuna notifica"
 
@@ -1372,7 +1368,7 @@ msgstr "immagine del profilo"
 
 #: profiles/templates/profiles/tooltips/user_profile.html:14
 #: profiles/templates/profiles/userprofile_detail.html:39
-#: profiles/templates/profiles/userprofile_list.html:166
+#: profiles/templates/profiles/userprofile_list.html:146
 #, python-format
 msgid "%(follower_count)s Follower"
 msgid_plural "%(follower_count)s Followers"
@@ -1460,11 +1456,112 @@ msgstr ""
 "vedere cosa è di tendenza. Unisciti alla conversazione e diventa parte della "
 "vibrante comunità che alimenta la nostra piattaforma."
 
-#: profiles/templates/profiles/userprofile_list.html:41
+#: profiles/templates/profiles/userprofile_list.html:44
+msgid "User Engagement"
+msgstr "Coinvolgimento degli Utenti"
+
+#: profiles/templates/profiles/userprofile_list.html:46
+msgid ""
+"Stay informed about our community's growth! Take a look at the latest user "
+"activity, including the number of new members who joined and the <abbr "
+"title=\"Single visit by a user, counted only once\">unique views</abbr> to "
+"decks we received in the last seven days."
+msgstr ""
+"Rimani informato sulla crescita della nostra community! Dai un'occhiata "
+"all'attività recente degli utenti, compreso il numero di nuovi membri che si "
+"sono uniti e le <abbr title=\"Visita unica di un utente, conteggiata solo "
+"una volta\">visualizzazioni uniche</abbr> ai mazzi che abbiamo ricevuto "
+"negli ultimi sette giorni."
+
+#: profiles/templates/profiles/userprofile_list.html:50
+#, python-format
+msgid ""
+"<strong>New Users in the Last Week:</strong> %(last_week_user_count)s out of "
+"%(total_user_count)s"
+msgstr ""
+"<strong>Nuovi Utenti nell'Ultima Settimana:</strong> "
+"%(last_week_user_count)s su %(total_user_count)s"
+
+#: profiles/templates/profiles/userprofile_list.html:53
+#, python-format
+msgid "<strong>Unique Views in the Last Week:</strong> %(last_week_hits)s"
+msgstr ""
+"<strong>Visualizzazioni Uniche nell'Ultima Settimana:</strong> "
+"%(last_week_hits)s"
+
+#: profiles/templates/profiles/userprofile_list.html:63
+msgid "Deck Building Highlights"
+msgstr "Statistiche di Deck Building"
+
+#: profiles/templates/profiles/userprofile_list.html:65
+#, python-format
+msgid ""
+"Explore the latest content additions to our platform! Look at the numbers "
+"for the new <abbr title=\"Roughly 40%% of total\">public decks</abbr> "
+"created and the imported cards added by users in the last week."
+msgstr ""
+"Esplora gli ultimi contenuti aggiunti alla nostra piattaforma! Guarda le "
+"statistiche dei nuovi <abbr title=\"Circa il 40%% del totale\">mazzi "
+"pubblici</abbr> creati e delle carte importate dagli utenti nell'ultima "
+"settimana."
+
+#: profiles/templates/profiles/userprofile_list.html:70
+#, python-format
+msgid ""
+"<strong>New Unique Cards in the Last Week:</strong> "
+"%(last_week_unique_card_count)s out of %(total_unique_card_count)s"
+msgstr ""
+"<strong>Carte Uniche aggiunte nell'ultima settimana:</strong> "
+"%(last_week_unique_card_count)s su %(total_unique_card_count)s"
+
+#: profiles/templates/profiles/userprofile_list.html:73
+#, python-format
+msgid ""
+"<strong>New Public Decks in the Last Week:</strong> %(last_week_deck_count)s "
+"out of %(total_deck_count)s"
+msgstr ""
+"<strong>Mazzi Pubblici aggiunti nell'ultima settimana:</strong> "
+"%(last_week_deck_count)s su %(total_deck_count)s"
+
+#: profiles/templates/profiles/userprofile_list.html:85
+msgid "Latest Users"
+msgstr "Ultimi utenti"
+
+#: profiles/templates/profiles/userprofile_list.html:95
+#, python-format
+msgid "Joined on %(date_joined)s"
+msgstr "Iscritto il %(date_joined)s"
+
+#: profiles/templates/profiles/userprofile_list.html:100
+#: profiles/templates/profiles/userprofile_list.html:125
+#: profiles/templates/profiles/userprofile_list.html:151
+msgid "No users found"
+msgstr "Nessun utente trovato"
+
+#: profiles/templates/profiles/userprofile_list.html:110
+#, fuzzy
+#| msgid "Most Viewed Users"
+msgid "Most Viewed"
+msgstr "Utenti più visitati"
+
+#: profiles/templates/profiles/userprofile_list.html:120
+#, python-format
+msgid "%(deck_count)s deck"
+msgid_plural "%(deck_count)s decks"
+msgstr[0] "%(deck_count)s mazzo"
+msgstr[1] "%(deck_count)s mazzi"
+
+#: profiles/templates/profiles/userprofile_list.html:136
+#, fuzzy
+#| msgid "Most Followed Users"
+msgid "Most Followed"
+msgstr "Utenti più seguiti"
+
+#: profiles/templates/profiles/userprofile_list.html:160
 msgid "Join Our Discord Server!"
 msgstr "Unisciti al nostro server Discord!"
 
-#: profiles/templates/profiles/userprofile_list.html:43
+#: profiles/templates/profiles/userprofile_list.html:162
 msgid ""
 "We're excited to invite you to our official Discord server! Our server is "
 "designed to be a central hub for all things related to the platform. Whether "
@@ -1478,7 +1575,7 @@ msgstr ""
 "versioni, condividere i propri feedback, segnalare eventuali bug o inviare "
 "richieste di funzionalità, qui troverete un posto per tutto questo."
 
-#: profiles/templates/profiles/userprofile_list.html:46
+#: profiles/templates/profiles/userprofile_list.html:165
 msgid ""
 "<strong>Release Announcements:</strong> Be the first to know about new "
 "features, updates, and improvements to the platform."
@@ -1486,7 +1583,7 @@ msgstr ""
 "<strong>Annunci di rilascio:</strong> Siate i primi a conoscere le nuove "
 "funzionalità, gli aggiornamenti e i miglioramenti della piattaforma."
 
-#: profiles/templates/profiles/userprofile_list.html:47
+#: profiles/templates/profiles/userprofile_list.html:166
 msgid ""
 "<strong>Feedback and Suggestions:</strong> Share your thoughts and ideas to "
 "help us make Altered TCG Builder even better."
@@ -1494,7 +1591,7 @@ msgstr ""
 "<strong>Feedback e suggerimenti:</strong> Condividi i tuoi pensieri e le tue "
 "idee per aiutarci a rendere Altered TCG Builder ancora migliore."
 
-#: profiles/templates/profiles/userprofile_list.html:48
+#: profiles/templates/profiles/userprofile_list.html:167
 msgid ""
 "<strong>Bug Reporting:</strong> Let us know if you encounter any issues or "
 "glitches, so we can address them promptly."
@@ -1504,7 +1601,7 @@ msgstr ""
 "di bug:</strong> Fateci sapere se riscontrate problemi o intoppi, in modo da "
 "poterli risolvere tempestivamente."
 
-#: profiles/templates/profiles/userprofile_list.html:49
+#: profiles/templates/profiles/userprofile_list.html:168
 msgid ""
 "<strong>Feature Requests:</strong> Suggest new features or enhancements "
 "you'd like to see in future updates."
@@ -1512,106 +1609,9 @@ msgstr ""
 "<strong>Richieste di funzionalità:</strong> Suggerite nuove funzionalità o "
 "miglioramenti che vorreste vedere nei prossimi aggiornamenti."
 
-#: profiles/templates/profiles/userprofile_list.html:52
+#: profiles/templates/profiles/userprofile_list.html:171
 msgid "Click the below link to join, and we'll see you there! 🚀"
 msgstr "Clicca sul link sottostante per unirti al server e ci vediamo lì! 🚀"
-
-#: profiles/templates/profiles/userprofile_list.html:64
-msgid "User Engagement"
-msgstr "Coinvolgimento degli Utenti"
-
-#: profiles/templates/profiles/userprofile_list.html:66
-msgid ""
-"Stay informed about our community's growth! Take a look at the latest user "
-"activity, including the number of new members who joined and the <abbr "
-"title=\"Single visit by a user, counted only once\">unique views</abbr> to "
-"decks we received in the last seven days."
-msgstr ""
-"Rimani informato sulla crescita della nostra community! Dai un'occhiata "
-"all'attività recente degli utenti, compreso il numero di nuovi membri che si "
-"sono uniti e le <abbr title=\"Visita unica di un utente, conteggiata solo "
-"una volta\">visualizzazioni uniche</abbr> ai mazzi che abbiamo ricevuto "
-"negli ultimi sette giorni."
-
-#: profiles/templates/profiles/userprofile_list.html:70
-#, python-format
-msgid ""
-"<strong>New Users in the Last Week:</strong> %(last_week_user_count)s out of "
-"%(total_user_count)s"
-msgstr ""
-"<strong>Nuovi Utenti nell'Ultima Settimana:</strong> "
-"%(last_week_user_count)s su %(total_user_count)s"
-
-#: profiles/templates/profiles/userprofile_list.html:73
-#, python-format
-msgid "<strong>Unique Views in the Last Week:</strong> %(last_week_hits)s"
-msgstr ""
-"<strong>Visualizzazioni Uniche nell'Ultima Settimana:</strong> "
-"%(last_week_hits)s"
-
-#: profiles/templates/profiles/userprofile_list.html:83
-msgid "Deck Building Highlights"
-msgstr "Statistiche di Deck Building"
-
-#: profiles/templates/profiles/userprofile_list.html:85
-#, python-format
-msgid ""
-"Explore the latest content additions to our platform! Look at the numbers "
-"for the new <abbr title=\"Roughly 40%% of total\">public decks</abbr> "
-"created and the imported cards added by users in the last week."
-msgstr ""
-"Esplora gli ultimi contenuti aggiunti alla nostra piattaforma! Guarda le "
-"statistiche dei nuovi <abbr title=\"Circa il 40%% del totale\">mazzi "
-"pubblici</abbr> creati e delle carte importate dagli utenti nell'ultima "
-"settimana."
-
-#: profiles/templates/profiles/userprofile_list.html:90
-#, python-format
-msgid ""
-"<strong>New Unique Cards in the Last Week:</strong> "
-"%(last_week_unique_card_count)s out of %(total_unique_card_count)s"
-msgstr ""
-"<strong>Carte Uniche aggiunte nell'ultima settimana:</strong> "
-"%(last_week_unique_card_count)s su %(total_unique_card_count)s"
-
-#: profiles/templates/profiles/userprofile_list.html:93
-#, python-format
-msgid ""
-"<strong>New Public Decks in the Last Week:</strong> %(last_week_deck_count)s "
-"out of %(total_deck_count)s"
-msgstr ""
-"<strong>Mazzi Pubblici aggiunti nell'ultima settimana:</strong> "
-"%(last_week_deck_count)s su %(total_deck_count)s"
-
-#: profiles/templates/profiles/userprofile_list.html:104
-msgid "Latest Users"
-msgstr "Ultimi utenti"
-
-#: profiles/templates/profiles/userprofile_list.html:114
-#, python-format
-msgid "Joined on %(date_joined)s"
-msgstr "Iscritto il %(date_joined)s"
-
-#: profiles/templates/profiles/userprofile_list.html:119
-#: profiles/templates/profiles/userprofile_list.html:145
-#: profiles/templates/profiles/userprofile_list.html:171
-msgid "No users found"
-msgstr "Nessun utente trovato"
-
-#: profiles/templates/profiles/userprofile_list.html:130
-msgid "Most Viewed Users"
-msgstr "Utenti più visitati"
-
-#: profiles/templates/profiles/userprofile_list.html:140
-#, python-format
-msgid "%(deck_count)s deck"
-msgid_plural "%(deck_count)s decks"
-msgstr[0] "%(deck_count)s mazzo"
-msgstr[1] "%(deck_count)s mazzi"
-
-#: profiles/templates/profiles/userprofile_list.html:156
-msgid "Most Followed Users"
-msgstr "Utenti più seguiti"
 
 #: templates/base.html:21 templates/base.html:22
 msgid "The place to build, analyze and share Altered TCG decks."
@@ -1632,81 +1632,301 @@ msgstr "Utenti"
 msgid "Unique card"
 msgstr "Carta unica"
 
-#: templates/base.html:121
+#: templates/base.html:102 templates/contribute.html:6
+#: templates/contribute.html:7
+msgid "Contribute"
+msgstr ""
+
+#: templates/base.html:122
 msgid "Light"
 msgstr "Chiaro"
 
-#: templates/base.html:126
+#: templates/base.html:127
 msgid "Dark"
 msgstr "Scuro"
 
-#: templates/base.html:131
+#: templates/base.html:132
 msgid "Auto"
 msgstr "Automatico"
 
-#: templates/base.html:137
+#: templates/base.html:138
 msgid "Select site language"
 msgstr ""
 
-#: templates/base.html:158
+#: templates/base.html:159
 msgid "View all notifications"
 msgstr "Vedi tutte le notifiche"
 
-#: templates/base.html:182
+#: templates/base.html:183
 msgid "Profile"
 msgstr "Profilo"
 
-#: templates/base.html:184
+#: templates/base.html:185
 msgid "Update email"
 msgstr "Aggiorna e-mail"
 
-#: templates/base.html:185
+#: templates/base.html:186
 msgid "Update password"
 msgstr "Aggiorna password"
 
-#: templates/base.html:187
+#: templates/base.html:188
 msgid "Logout"
 msgstr "Esci"
 
-#: templates/base.html:211
+#: templates/base.html:212
 msgid "Links"
 msgstr "Collegamenti"
 
-#: templates/base.html:214
+#: templates/base.html:215
 msgid "About the project"
 msgstr "Informazioni sul progetto"
 
-#: templates/base.html:217
+#: templates/base.html:218
 msgid "GitHub repository"
 msgstr "Repository GitHub"
 
-#: templates/base.html:220
+#: templates/base.html:221 templates/collaborators.html:5
+#: templates/collaborators.html:6 templates/collaborators.html:18
 msgid "Collaborators"
 msgstr "Collaboratori"
 
-#: templates/base.html:223
+#: templates/base.html:224
 msgid "Privacy policy"
 msgstr "Informativa sulla privacy"
 
-#: templates/base.html:226
+#: templates/base.html:227
 msgid "Terms and conditions"
 msgstr "Termini e condizioni"
 
-#: templates/base.html:231
+#: templates/base.html:232
 msgid "Support the project"
 msgstr "Aiutare il progetto"
 
-#: templates/base.html:232
+#: templates/base.html:233
 msgid "All funds are used to cover the hosting costs."
 msgstr "Tutti i fondi sono utilizzati per coprire i costi di hosting."
 
-#: templates/base.html:237
+#: templates/base.html:238
 msgid "Our Patrons"
 msgstr "I Nostri Mecenati"
 
-#: templates/base.html:241
+#: templates/base.html:242
 msgid "Get in touch"
 msgstr "Contattaci"
+
+#: templates/collaborators.html:21
+msgid ""
+"Whilst this web is designed, developed and maintained by a single "
+"individual, it has received help from different people."
+msgstr ""
+
+#: templates/collaborators.html:24
+msgid "This is a space to give credit where credit is due."
+msgstr ""
+
+#: templates/collaborators.html:33
+#, fuzzy
+#| msgid "Our Patrons"
+msgid "Patrons"
+msgstr "I Nostri Mecenati"
+
+#: templates/collaborators.html:35
+msgid ""
+"\n"
+"                        Here are the amazing supporters who have contributed "
+"to the growth of this project through their patronage.\n"
+"                        Their continued support on various platforms helps "
+"keep this platform thriving and evolving.\n"
+"                        A huge thanks to each and every one of you!\n"
+"                    "
+msgstr ""
+
+#: templates/collaborators.html:51
+msgid "Special mentions"
+msgstr ""
+
+#: templates/collaborators.html:53
+msgid ""
+"\n"
+"                        Special thanks to these individuals who have gone "
+"above and beyond in their support and contributions.\n"
+"                        Their dedication and efforts have played a vital "
+"role in shaping this project!\n"
+"                    "
+msgstr ""
+
+#: templates/collaborators.html:76
+msgid "Translators"
+msgstr ""
+
+#: templates/collaborators.html:78
+msgid ""
+"\n"
+"                    A big thank you to the talented people who have "
+"translated this project and made it accessible to a wider audience.\n"
+"                    Their work helps bridge communities and bring more "
+"people into our growing platform!\n"
+"                    "
+msgstr ""
+
+#: templates/collaborators.html:122
+msgid "Bug reports"
+msgstr ""
+
+#: templates/collaborators.html:124
+msgid ""
+"\n"
+"                    A heartfelt thanks to those who have taken the time to "
+"report bugs and issues. Their feedback helps us improve the platform and "
+"deliver a smoother experience for everyone!\n"
+"                    "
+msgstr ""
+
+#: templates/collaborators.html:145
+msgid "Feature Requests"
+msgstr ""
+
+#: templates/collaborators.html:147
+msgid ""
+"\n"
+"                    We're always looking for ways to improve and enhance "
+"your experience.\n"
+"                    If you have ideas or suggestions for new features that "
+"could make the platform better, this is the place to share them!\n"
+"                    Whether it's a small tweak or a game-changing idea, we'd "
+"love to hear your thoughts.\n"
+"                    Every contribution helps shape the future of the "
+"project!\n"
+"                    "
+msgstr ""
+
+#: templates/collaborators.html:155
+msgid ""
+"\n"
+"                    Here's a list of people who gave us feedback on desired "
+"features and ended up being implemented:\n"
+"                    "
+msgstr ""
+
+#: templates/contribute.html:21
+msgid "Contribute to Our Deckbuilder"
+msgstr ""
+
+#: templates/contribute.html:23
+msgid ""
+"Every contribution helps us build a platform that serves the community "
+"better. Thank you for your support, your ideas, and your enthusiasm for "
+"making this project a success!"
+msgstr ""
+
+#: templates/contribute.html:26
+#, python-format
+msgid ""
+"\n"
+"                        Questions? Suggestions? Reach out to us on <a "
+"href=\"%(discord_link)s\" target=\"_blank\"><i class=\"fa-brands fa-"
+"discord\"></i> Discord</a>!\n"
+"                        "
+msgstr ""
+
+#: templates/contribute.html:37
+#, fuzzy
+#| msgid "From another platform"
+msgid "Translating the Platform"
+msgstr "Da un'altra piattaforma"
+
+#: templates/contribute.html:39
+msgid ""
+"We believe in making this platform available in all the languages that the "
+"game is available in: <strong>English, French, German, Italian and Spanish</"
+"strong>."
+msgstr ""
+
+#: templates/contribute.html:42
+#, python-format
+msgid ""
+"\n"
+"                        If you're fluent in one language or many, you can "
+"contribute by translating parts of the site or reviewing existing "
+"translations. We will mention you on our <a "
+"href=\"%(collaborators_url)s#translators\">Translators' section</a>.\n"
+"                        "
+msgstr ""
+
+#: templates/contribute.html:47
+msgid ""
+"Our integration with Weblate makes it easy for anyone to contribute "
+"translations, even without prior experience."
+msgstr ""
+
+#: templates/contribute.html:50
+msgid "Take a look!"
+msgstr ""
+
+#: templates/contribute.html:62
+msgid "Open Source Contributions"
+msgstr ""
+
+#: templates/contribute.html:64
+msgid ""
+"\n"
+"                            Are you a developer, designer, or someone "
+"passionate about improving tools for the community?\n"
+"                            Contributing to our open-source project is a "
+"great way to make an impact. \n"
+"                            You can help us by:\n"
+"                        "
+msgstr ""
+
+#: templates/contribute.html:71
+msgid "Building new features to make the platform even better."
+msgstr ""
+
+#: templates/contribute.html:72
+msgid "Fixing bugs or resolving issues that users have reported."
+msgstr ""
+
+#: templates/contribute.html:73
+msgid "Improving documentation to help other contributors get started."
+msgstr ""
+
+#: templates/contribute.html:76
+#, python-format
+msgid ""
+"\n"
+"                            We welcome contributions of all skill levels, we "
+"also tag the <a href=\"%(github_url)s\" target=\"_blank\">good first issues</"
+"a> if you're still learning your way around open-source!\n"
+"                        "
+msgstr ""
+
+#: templates/contribute.html:92
+msgid "Support Through Patronage"
+msgstr ""
+
+#: templates/contribute.html:94
+msgid ""
+"Your financial support ensures the long-term success of this platform. "
+"Running a feature-rich and reliable service comes with the cost of server "
+"hosting and my personal time for implementing updates."
+msgstr ""
+
+#: templates/contribute.html:97
+msgid ""
+"By becoming a patron, you not only help keep the platform free for everyone, "
+"but you also enable faster development of new features, better performance, "
+"and ongoing improvements."
+msgstr ""
+
+#: templates/contribute.html:100
+#, python-format
+msgid ""
+"\n"
+"                        As a token of our gratitude, patrons are recognized "
+"on our <a href=\"%(collaborators_url)s#patrons\">Contributors' Page</a>, "
+"showcasing their vital role in supporting the project.\n"
+"                        "
+msgstr ""
 
 #: templates/errors/403.html:7
 msgid "Permission Denied"
