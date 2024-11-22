@@ -97,6 +97,11 @@
                     </ul>
                     <ul class="navbar-nav">
                         <li class="d-xl-none my-0"><hr></li>
+                        <li class="nav-item {{ nav_item_classes }} me-1">
+                            <a class="nav-link" href="{% url "contribute" %}">
+                                <i class="fa-solid fa-hand-holding-heart"></i> {% translate "Contribute" %}
+                            </a>
+                        </li>
                         <li class="nav-item {{ nav_item_classes }} me-1 me-xl-3">
                             <a class="nav-link" href="https://discord.gg/hGA3dTcxqz" target="_blank">
                                 <i class="fa-brands fa-discord"></i> Discord
