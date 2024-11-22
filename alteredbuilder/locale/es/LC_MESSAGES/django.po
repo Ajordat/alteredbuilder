@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-22 18:45+0100\n"
-"PO-Revision-Date: 2024-11-18 00:52+0000\n"
-"Last-Translator: Ajordat <alexjortri@gmail.com>\n"
-"Language-Team: Spanish <https://hosted.weblate.org/projects/altered-tcg-"
-"builder/server-strings/es/>\n"
+"PO-Revision-Date: 2024-11-22 22:05+0000\n"
+"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/"
+"altered-tcg-builder/server-strings/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1573,9 +1573,8 @@ msgid "No users found"
 msgstr "No se han encontrado usuarios"
 
 #: profiles/templates/profiles/userprofile_list.html:110
-#, fuzzy
 msgid "Most Viewed"
-msgstr "Usuarios con más visitas"
+msgstr "Los más vistos"
 
 #: profiles/templates/profiles/userprofile_list.html:120
 #: profiles/templates/profiles/userprofile_list.html:140
@@ -1586,9 +1585,8 @@ msgstr[0] "%(deck_count)s mazo"
 msgstr[1] "%(deck_count)s mazos"
 
 #: profiles/templates/profiles/userprofile_list.html:136
-#, fuzzy
 msgid "Most Followed"
-msgstr "Usuarios con más seguidores"
+msgstr "Los más seguidos"
 
 #: profiles/templates/profiles/userprofile_list.html:160
 #: profiles/templates/profiles/userprofile_list.html:41
@@ -1676,7 +1674,7 @@ msgstr "Carta única"
 #: templates/base.html:102 templates/contribute.html:6
 #: templates/contribute.html:7
 msgid "Contribute"
-msgstr ""
+msgstr "Colaborar"
 
 #: templates/base.html:122 templates/base.html:121 templates/base.html:117
 msgid "Light"
@@ -1761,15 +1759,16 @@ msgid ""
 "Whilst this web is designed, developed and maintained by a single "
 "individual, it has received help from different people."
 msgstr ""
+"Aunque esta web está diseñada, desarrollada y mantenida por una sola "
+"persona, ha recibido ayuda de diferentes personas."
 
 #: templates/collaborators.html:24
 msgid "This is a space to give credit where credit is due."
-msgstr ""
+msgstr "Este es un espacio para dar crédito a quien lo merece."
 
 #: templates/collaborators.html:33
-#, fuzzy
 msgid "Patrons"
-msgstr "Nuestros Patrocinadores"
+msgstr "Patrocinadores"
 
 #: templates/collaborators.html:35
 msgid ""
@@ -1781,10 +1780,17 @@ msgid ""
 "                        A huge thanks to each and every one of you!\n"
 "                    "
 msgstr ""
+"\n"
+"                        Aquí están los increíbles colaboradores que han "
+"contribuido al crecimiento de este proyecto a través de su patrocinio.\n"
+"                        Su apoyo continuo en diversas plataformas ayuda a "
+"que esta plataforma siga prosperando y evolucionando.\n"
+"                        ¡Muchas gracias a todos y cada uno de vosotros!\n"
+"                    "
 
 #: templates/collaborators.html:51
 msgid "Special mentions"
-msgstr ""
+msgstr "Menciones especiales"
 
 #: templates/collaborators.html:53
 msgid ""
@@ -1795,10 +1801,16 @@ msgid ""
 "role in shaping this project!\n"
 "                    "
 msgstr ""
+"\n"
+"                        Un agradecimiento especial a estas personas que han "
+"ido más allá en su apoyo y contribuciones.\n"
+"                        ¡Su dedicación y esfuerzo han desempeñado un papel "
+"fundamental en la realización de este proyecto!\n"
+"                    "
 
 #: templates/collaborators.html:76
 msgid "Translators"
-msgstr ""
+msgstr "Traductores"
 
 #: templates/collaborators.html:78
 msgid ""
@@ -1809,10 +1821,16 @@ msgid ""
 "people into our growing platform!\n"
 "                    "
 msgstr ""
+"\n"
+"                    Muchas gracias a las personas de talento que han "
+"traducido este proyecto y lo han hecho accesible a un público más amplio.\n"
+"                    ¡Su trabajo ayuda a tender puentes entre comunidades y a "
+"atraer a más personas a nuestra creciente plataforma!\n"
+"                    "
 
 #: templates/collaborators.html:122
 msgid "Bug reports"
-msgstr ""
+msgstr "Informes de errores"
 
 #: templates/collaborators.html:124
 msgid ""
@@ -1822,10 +1840,16 @@ msgid ""
 "deliver a smoother experience for everyone!\n"
 "                    "
 msgstr ""
+"\n"
+"                    Nuestro más sincero agradecimiento a quienes se han "
+"tomado la molestia de informarnos de errores y problemas. ¡Sus comentarios "
+"nos ayudan a mejorar la plataforma y a ofrecer una experiencia más fluida "
+"para todos!\n"
+"                    "
 
 #: templates/collaborators.html:145
 msgid "Feature Requests"
-msgstr ""
+msgstr "Solicitudes de funciones"
 
 #: templates/collaborators.html:147
 msgid ""
@@ -1840,6 +1864,17 @@ msgid ""
 "project!\n"
 "                    "
 msgstr ""
+"\n"
+"                    Siempre estamos buscando formas de mejorar y optimizar "
+"su experiencia.\n"
+"                    Si tienes ideas o sugerencias sobre nuevas "
+"características que podrían mejorar la plataforma, ¡este es el lugar para "
+"compartirlas!\n"
+"                    Ya sea un pequeño cambio o una idea revolucionaria, nos "
+"encantaría conocer tu opinión.\n"
+"                    ¡Cada aportación ayuda a dar forma al futuro del "
+"proyecto!\n"
+"                    "
 
 #: templates/collaborators.html:155
 msgid ""
@@ -1848,10 +1883,15 @@ msgid ""
 "features and ended up being implemented:\n"
 "                    "
 msgstr ""
+"\n"
+"                    Esta es una lista de las personas que nos dieron su "
+"opinión sobre las características deseadas y terminaron siendo implementadas:"
+"\n"
+"                    "
 
 #: templates/contribute.html:21
 msgid "Contribute to Our Deckbuilder"
-msgstr ""
+msgstr "Colabora con nuestra construcción de mazos"
 
 #: templates/contribute.html:23
 msgid ""
@@ -1859,6 +1899,9 @@ msgid ""
 "better. Thank you for your support, your ideas, and your enthusiasm for "
 "making this project a success!"
 msgstr ""
+"Cada contribución nos ayuda a construir una plataforma que sirva mejor a la "
+"comunidad. ¡Gracias por tu apoyo, tus ideas y tu entusiasmo para que este "
+"proyecto sea un éxito!"
 
 #: templates/contribute.html:26
 #, python-format
@@ -1869,11 +1912,15 @@ msgid ""
 "discord\"></i> Discord</a>!\n"
 "                        "
 msgstr ""
+"\n"
+"                        ¿Preguntas? ¿Sugerencias? ¡Ponte en contacto con "
+"nosotros en <a href=\"%(discord_link)s\" target=\"_blank\"><i class=\"fa-"
+"brands fa-discord\"></i>Discord</a>!\n"
+"                        "
 
 #: templates/contribute.html:37
-#, fuzzy
 msgid "Translating the Platform"
-msgstr "Desde otra plataforma"
+msgstr "Traduciendo la plataforma"
 
 #: templates/contribute.html:39
 msgid ""
@@ -1881,6 +1928,9 @@ msgid ""
 "game is available in: <strong>English, French, German, Italian and Spanish</"
 "strong>."
 msgstr ""
+"Creemos en hacer que esta plataforma esté disponible en todos los idiomas en "
+"los que está disponible el juego: <strong>inglés, francés, alemán, italiano "
+"y español</strong>."
 
 #: templates/contribute.html:42
 #, python-format
@@ -1892,20 +1942,28 @@ msgid ""
 "href=\"%(collaborators_url)s#translators\">Translators' section</a>.\n"
 "                        "
 msgstr ""
+"\n"
+"                        Si habla con fluidez uno o varios idiomas, puede "
+"contribuir traduciendo partes del sitio o revisando traducciones existentes. "
+"Le mencionaremos en nuestra sección <a href=\"%(collaborators_url)s#"
+"translators\">Traductores</a>.\n"
+"                        "
 
 #: templates/contribute.html:47
 msgid ""
 "Our integration with Weblate makes it easy for anyone to contribute "
 "translations, even without prior experience."
 msgstr ""
+"Nuestra integración con Weblate hace que sea fácil para cualquier persona "
+"colaborar en las traducciones, incluso sin experiencia previa."
 
 #: templates/contribute.html:50
 msgid "Take a look!"
-msgstr ""
+msgstr "¡Échale un vistazo!"
 
 #: templates/contribute.html:62
 msgid "Open Source Contributions"
-msgstr ""
+msgstr "Colaboraciones de código abierto"
 
 #: templates/contribute.html:64
 msgid ""
@@ -1917,18 +1975,26 @@ msgid ""
 "                            You can help us by:\n"
 "                        "
 msgstr ""
+"\n"
+"                            ¿Eres desarrollador, diseñador o alguien "
+"apasionado por mejorar las herramientas para la comunidad?\n"
+"                            Contribuir a nuestro proyecto de código abierto "
+"es una gran manera de crear un impacto. \n"
+"                            Puede ayudarnos con:\n"
+"                        "
 
 #: templates/contribute.html:71
 msgid "Building new features to make the platform even better."
 msgstr ""
+"Desarrollando nuevas funcionalidades para hacer la plataforma aún mejor."
 
 #: templates/contribute.html:72
 msgid "Fixing bugs or resolving issues that users have reported."
-msgstr ""
+msgstr "Corregir errores o resolver problemas que los usuarios hayan informado."
 
 #: templates/contribute.html:73
 msgid "Improving documentation to help other contributors get started."
-msgstr ""
+msgstr "Mejorar la documentación para ayudar a otros colaboradores a empezar."
 
 #: templates/contribute.html:76
 #, python-format
@@ -1942,7 +2008,7 @@ msgstr ""
 
 #: templates/contribute.html:92
 msgid "Support Through Patronage"
-msgstr ""
+msgstr "Apoyo a través del patrocinio"
 
 #: templates/contribute.html:94
 msgid ""
@@ -1950,6 +2016,10 @@ msgid ""
 "Running a feature-rich and reliable service comes with the cost of server "
 "hosting and my personal time for implementing updates."
 msgstr ""
+"Su apoyo financiero asegura el éxito a largo plazo de esta plataforma. "
+"Ejecutar un servicio confiable y con muchas características viene con el "
+"costo del alojamiento de servidores y mi tiempo personal para implementar "
+"actualizaciones."
 
 #: templates/contribute.html:97
 msgid ""
@@ -1957,6 +2027,9 @@ msgid ""
 "but you also enable faster development of new features, better performance, "
 "and ongoing improvements."
 msgstr ""
+"Al convertirse en patrocinador, no solo ayuda a mantener la plataforma "
+"gratuita para todos, sino que también permite un desarrollo más rápido de "
+"nuevas funciones, un mejor rendimiento y mejoras continuas."
 
 #: templates/contribute.html:100
 #, python-format
