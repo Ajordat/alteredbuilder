@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-22 18:45+0100\n"
-"PO-Revision-Date: 2024-11-12 18:00+0000\n"
-"Last-Translator: Ajordat <alexjortri@gmail.com>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/altered-tcg-"
-"builder/server-strings/fr/>\n"
+"PO-Revision-Date: 2024-11-25 19:00+0000\n"
+"Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/"
+"altered-tcg-builder/server-strings/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1651,7 +1651,7 @@ msgstr "Carte unique"
 #: templates/base.html:102 templates/contribute.html:6
 #: templates/contribute.html:7
 msgid "Contribute"
-msgstr ""
+msgstr "Contribuer"
 
 #: templates/base.html:122 templates/base.html:121
 msgid "Light"
@@ -1736,10 +1736,12 @@ msgid ""
 "Whilst this web is designed, developed and maintained by a single "
 "individual, it has received help from different people."
 msgstr ""
+"Bien que ce web a été conçu, développé et maintenu par une personne, il a "
+"reçu les contributions d'autres personnes."
 
 #: templates/collaborators.html:24
 msgid "This is a space to give credit where credit is due."
-msgstr ""
+msgstr "Cet espace est réservé aux crédits lorsqu'ils doivent être signalés."
 
 #: templates/collaborators.html:33
 #, fuzzy
@@ -1759,7 +1761,7 @@ msgstr ""
 
 #: templates/collaborators.html:51
 msgid "Special mentions"
-msgstr ""
+msgstr "Mentions spéciales"
 
 #: templates/collaborators.html:53
 msgid ""
@@ -1773,7 +1775,7 @@ msgstr ""
 
 #: templates/collaborators.html:76
 msgid "Translators"
-msgstr ""
+msgstr "Traducteurs"
 
 #: templates/collaborators.html:78
 msgid ""
@@ -1787,7 +1789,7 @@ msgstr ""
 
 #: templates/collaborators.html:122
 msgid "Bug reports"
-msgstr ""
+msgstr "Rapports de bogues"
 
 #: templates/collaborators.html:124
 msgid ""
@@ -1800,7 +1802,7 @@ msgstr ""
 
 #: templates/collaborators.html:145
 msgid "Feature Requests"
-msgstr ""
+msgstr "Demandes de fonctionnalité"
 
 #: templates/collaborators.html:147
 msgid ""
@@ -1834,6 +1836,9 @@ msgid ""
 "better. Thank you for your support, your ideas, and your enthusiasm for "
 "making this project a success!"
 msgstr ""
+"Chaque contribution nous aide à construire une plateforme qui sert toujours "
+"mieux la communauté. Merci pour votre aide, vos idées, et votre enthousiasme "
+"pour que ce projet devienne un succès !"
 
 #: templates/contribute.html:26
 #, python-format
@@ -1856,6 +1861,9 @@ msgid ""
 "game is available in: <strong>English, French, German, Italian and Spanish</"
 "strong>."
 msgstr ""
+"Nous pensons pouvoir rendre cette plateforme disponible dans toutes les "
+"langues où le jeu est disponible : <strong>anglais, français, allemand, "
+"italien et espagnol</strong>."
 
 #: templates/contribute.html:42
 #, python-format
@@ -1873,14 +1881,16 @@ msgid ""
 "Our integration with Weblate makes it easy for anyone to contribute "
 "translations, even without prior experience."
 msgstr ""
+"Notre intégration avec Weblate facilite la contribution de chacun aux "
+"traductions, sans même qu'il ait eu d'expérience préalable."
 
 #: templates/contribute.html:50
 msgid "Take a look!"
-msgstr ""
+msgstr "Allez-y !"
 
 #: templates/contribute.html:62
 msgid "Open Source Contributions"
-msgstr ""
+msgstr "Contributions Open Source"
 
 #: templates/contribute.html:64
 msgid ""
@@ -1895,15 +1905,19 @@ msgstr ""
 
 #: templates/contribute.html:71
 msgid "Building new features to make the platform even better."
-msgstr ""
+msgstr "En codant de nouvelles fonctionnalités pour améliorer la plateforme."
 
 #: templates/contribute.html:72
 msgid "Fixing bugs or resolving issues that users have reported."
 msgstr ""
+"En corrigeant les bogues ou en résolvant les problèmes rapportés par les "
+"utilisateurs."
 
 #: templates/contribute.html:73
 msgid "Improving documentation to help other contributors get started."
 msgstr ""
+"En améliorant la documentation pour aider les autres contributeurs à "
+"commencer."
 
 #: templates/contribute.html:76
 #, python-format
