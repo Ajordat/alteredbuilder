@@ -98,7 +98,7 @@
     {% for set in sets %}
                                                 <div class="form-check">
                                                     <input class="form-check-input altered-style" type="checkbox" value="{{ set.code }}" id="filter{{ set.short_name }}" {% if set.code in checked_filters %}checked{% endif %}>
-                                                    <label class="form-check-label d-block user-select-none" for="filter{{ set.short_name }}"><span class="{{ set.code }}">{{ set.name }}</span></label>
+                                                    <label class="form-check-label d-block" for="filter{{ set.short_name }}" style="cursor: pointer;"><span class="{{ set.code }}">{{ set.name }}</span></label>
                                                 </div>
     {% endfor %}
                                             </div>
@@ -301,6 +301,7 @@
     {% csrf_token %}
 {% endblock %}
 
+
 {% block bodyscripts %}
     <!-- Enable tooltips -->
     <script src="{% static 'js/tooltip-enable.js' %}"></script>
@@ -322,5 +323,5 @@
             }
         });
     </script>
-    <script src="{% static 'js/scrollToTop.js' %}"></script>
+    {% comment %} <script src="{% static 'js/scrollToTop.js' %}"></script> {% endcomment %}
 {% endblock %}
