@@ -35,27 +35,7 @@ class="container py-5"
                 </div>
             </div>
         </div>
-        <div class="mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h2 class="card-title">{% translate "Join Our Discord Server!" %} <i class="fa-brands fa-discord"></i></h2>
-                    <p class="card-text">
-                        {% translate "We're excited to invite you to our official Discord server! Our server is designed to be a central hub for all things related to the platform. Whether you're here to stay updated with the latest releases, share your feedback, report any bugs, or submit feature requests, you'll find a place for it all here." %}
-                    </p>
-                    <ul>
-                        <li>{% translate "<strong>Release Announcements:</strong> Be the first to know about new features, updates, and improvements to the platform." %}</li>
-                        <li>{% translate "<strong>Feedback and Suggestions:</strong> Share your thoughts and ideas to help us make Altered TCG Builder even better." %}</li>
-                        <li>{% translate "<strong>Bug Reporting:</strong> Let us know if you encounter any issues or glitches, so we can address them promptly." %}</li>
-                        <li>{% translate "<strong>Feature Requests:</strong> Suggest new features or enhancements you'd like to see in future updates." %}</li>
-                    </ul>
-                    <p class="card-text">
-                        {% translate "Click the below link to join, and we'll see you there! 🚀" %}
 
-                    </p>
-                    <a role="button" class="btn altered-style" href="https://discord.gg/hGA3dTcxqz" target="_blank"><i class="fa-brands fa-discord"></i> Discord</a>
-                </div>
-            </div>
-        </div>
     {% cache 600 community_stats LANGUAGE_CODE %}
         <!-- User Stats -->
         <div class="col-lg-6 mb-4">
@@ -97,6 +77,7 @@ class="container py-5"
             </div>
         </div>
     {% endcache %}
+
         <!-- Latest Users -->
         <div class="col-lg-4 col-md-6 mb-4">
             <div class="card">
@@ -122,12 +103,11 @@ class="container py-5"
                 </div>
             </div>
         </div>
-
         <!-- Most Viewed Users -->
         <div class="col-lg-4 col-md-6 mb-4">
             <div class="card">
                 <div class="card-header bg-success text-white">
-                    <h2 class="h5 mb-0">{% translate "Most Viewed Users" %}</h2>
+                    <h2 class="h5 mb-0">{% translate "Most Viewed" %}</h2>
                 </div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
@@ -153,7 +133,7 @@ class="container py-5"
         <div class="col-lg-4 col-md-6 mb-4">
             <div class="card">
                 <div class="card-header bg-danger text-white">
-                    <h2 class="h5 mb-0">{% translate "Most Followed Users" %}</h2>
+                    <h2 class="h5 mb-0">{% translate "Most Followed" %}</h2>
                 </div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
@@ -171,6 +151,27 @@ class="container py-5"
                         <li class="list-group-item">{% translate "No users found" %}</li>
     {% endfor %}
                     </ul>
+                </div>
+            </div>
+        </div>
+        <div class="mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">{% translate "Join Our Discord Server!" %} <i class="fa-brands fa-discord"></i></h2>
+                    <p class="card-text">
+                        {% translate "We're excited to invite you to our official Discord server! Our server is designed to be a central hub for all things related to the platform. Whether you're here to stay updated with the latest releases, share your feedback, report any bugs, or submit feature requests, you'll find a place for it all here." %}
+                    </p>
+                    <ul>
+                        <li>{% translate "<strong>Release Announcements:</strong> Be the first to know about new features, updates, and improvements to the platform." %}</li>
+                        <li>{% translate "<strong>Feedback and Suggestions:</strong> Share your thoughts and ideas to help us make Altered TCG Builder even better." %}</li>
+                        <li>{% translate "<strong>Bug Reporting:</strong> Let us know if you encounter any issues or glitches, so we can address them promptly." %}</li>
+                        <li>{% translate "<strong>Feature Requests:</strong> Suggest new features or enhancements you'd like to see in future updates." %}</li>
+                    </ul>
+                    <p class="card-text">
+                        {% translate "Click the below link to join, and we'll see you there! 🚀" %}
+
+                    </p>
+                    <a role="button" class="btn altered-style" href="https://discord.gg/hGA3dTcxqz" target="_blank"><i class="fa-brands fa-discord"></i> Discord</a>
                 </div>
             </div>
         </div>

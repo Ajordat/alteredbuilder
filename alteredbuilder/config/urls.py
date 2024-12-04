@@ -67,6 +67,7 @@ urlpatterns += i18n_patterns(
     path("profiles/", include("profiles.urls")),
     path("notifications/", include("notifications.urls")),
     path("about/", TemplateView.as_view(template_name="about.html"), name="about"),
+    path("contribute/", TemplateView.as_view(template_name="contribute.html"), name="contribute"),
     path(
         "collaborators/",
         TemplateView.as_view(template_name="collaborators.html"),

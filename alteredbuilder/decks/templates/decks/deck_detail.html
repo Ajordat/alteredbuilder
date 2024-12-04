@@ -265,7 +265,7 @@
                         </td>
                     </tr>
     {% else %}
-                    <tr><td colspan="2" class="text-center">{% translate "No hero" %}</td></tr>
+                    <tr><td colspan="3" class="text-center">{% translate "No hero" %}</td></tr>
     {% endif %}
                 </tbody>
             </table>
@@ -546,9 +546,9 @@
     {% endif %}
     <!-- Sidebar with the Deck's comments -->
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="commentsOffcanvas" aria-labelledby="commentsOffcanvasLabel">
-        
+
         <button class="btn btn-sm rounded-end-0 altered-style offcanvas-btn position-absolute mt-2 {% if deck.comment_count %}animate{% endif %}" type="button" data-bs-toggle="offcanvas" data-bs-target="#commentsOffcanvas">
-            <span>{% blocktranslate count comment_count=deck.comment_count %}{{ comment_count }} comment{% plural %}{{ comment_count }} comments{% endblocktranslate%}</span>
+            <span>{{ deck.comment_count }} <i class="fa-solid fa-comment"></i></span>
         </button>
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="commentsOffcanvasLabel">{% translate "Comments" %}</h5>

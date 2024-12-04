@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% translate "Contribute" %}{% endblock %}
+{% block meta_title %}{% translate "Contribute" %}{% endblock %}
+
+{% block content-div %}
+class="container py-5"
+{% endblock %}
+
+{% block content %}
+
+    {% url 'collaborators' as collaborators_url %}
+
+    <div class="row">
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">{% translate "Contribute to Our Deckbuilder" %}</h2>
+                    <p class="card-text">
+                        {% translate "Every contribution helps us build a platform that serves the community better. Thank you for your support, your ideas, and your enthusiasm for making this project a success!" %}
+                    </p>
+                    <p class="card-text">
+                        {% blocktranslate with discord_link="https://discord.gg/hGA3dTcxqz" %}
+                        Questions? Suggestions? Reach out to us on <a href="{{ discord_link }}" target="_blank"><i class="fa-brands fa-discord"></i> Discord</a>!
+                        {% endblocktranslate %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6 mb-4 d-flex">
+            <div class="card flex-grow-1">
+                <div class="card-body d-flex flex-column">
+                    <h2 class="card-title">{% translate "Translating the Platform" %}</h2>
+                    <p class="card-text">
+                        {% translate "We believe in making this platform available in all the languages that the game is available in: <strong>English, French, German, Italian and Spanish</strong>." %}
+                    </p>
+                    <p class="card-text">
+                        {% blocktranslate %}
+                        If you're fluent in one language or many, you can contribute by translating parts of the site or reviewing existing translations. We will mention you on our <a href="{{ collaborators_url }}#translators">Translators' section</a>.
+                        {% endblocktranslate %}
+                    </p>
+                    <p class="card-text">
+                        {% translate "Our integration with Weblate makes it easy for anyone to contribute translations, even without prior experience." %}
+                    </p>
+                    <p class="card-text">
+                        {% translate "Take a look!" %}
+                    </p>
+                    <div class="mt-auto">
+                        <a role="button" class="btn altered-style" href="https://hosted.weblate.org/projects/altered-tcg-builder/" target="_blank"><img src="{% static 'img/weblate-icon.svg' %}" height="15px"/> Weblate</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6 mb-4 d-flex">
+            <div class="card flex-grow-1">
+                <div class="card-body d-flex flex-column">
+                    <h2 class="card-title">{% translate "Open Source Contributions" %}</h2>
+                    <p class="card-text">
+                        {% blocktranslate %}
+                            Are you a developer, designer, or someone passionate about improving tools for the community?
+                            Contributing to our open-source project is a great way to make an impact. 
+                            You can help us by:
+                        {% endblocktranslate %}
+                    </p>
+                    <ul>
+                        <li>{% translate "Building new features to make the platform even better." %}</li>
+                        <li>{% translate "Fixing bugs or resolving issues that users have reported." %}</li>
+                        <li>{% translate "Improving documentation to help other contributors get started." %}</li>
+                    </ul>
+                    <p class="card-text">
+                        {% blocktranslate with github_url="https://github.com/Ajordat/alteredbuilder/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22" %}
+                            We welcome contributions of all skill levels, we also tag the <a href="{{ github_url }}" target="_blank">good first issues</a> if you're still learning your way around open-source!
+                        {% endblocktranslate %}
+                    </p>
+                    <div class="mt-auto">
+                        <a role="button" class="btn altered-style" href="https://github.com/Ajordat/alteredbuilder" target="_blank">
+                            <i class="fa-brands fa-github"></i> Github
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">{% translate "Support Through Patronage" %}</h2>
+                    <p class="card-text">
+                        {% translate "Your financial support ensures the long-term success of this platform. Running a feature-rich and reliable service comes with the cost of server hosting and my personal time for implementing updates." %}
+                    </p>
+                    <p class="card-text">
+                        {% translate "By becoming a patron, you not only help keep the platform free for everyone, but you also enable faster development of new features, better performance, and ongoing improvements." %}
+                    </p>
+                    <p class="card-text">
+                        {% blocktranslate %}
+                        As a token of our gratitude, patrons are recognized on our <a href="{{ collaborators_url }}#patrons">Contributors' Page</a>, showcasing their vital role in supporting the project.
+                        {% endblocktranslate %}
+                    </p>
+                    <a role="button" class="btn altered-style me-4" href="https://github.com/Ajordat/alteredbuilder" target="_blank"><i class="fa-brands fa-patreon"></i> Patreon</a>
+                    <a role="button" class="btn altered-style me-4" href="https://buymeacoffee.com/ajordat" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy me a coffee</a>
+                    <a role="button" class="btn altered-style" href="https://fr.tipeee.com/ajordat/" target="_blank"><img src="{% static "img/tipeeetip.png" %}" height="16px" width="27px" alt="tipeee icon"> Tipeee</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
