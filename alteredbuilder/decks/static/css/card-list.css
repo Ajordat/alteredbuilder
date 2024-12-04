@@ -127,3 +127,14 @@ html[data-bs-theme="dark"] .card-name {
         max-width: 160px;
     }
 }
+
+.card-badge {
+    position: absolute;
+    bottom: .75rem;
+    right: .75rem;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border-radius: 12px;
+    z-index: 10;
+    pointer-events: none;
+}

@@ -154,8 +154,10 @@
             </div>
         </div>
         <!-- Deck sidebar -->
-        <div class="col-xxxl-2 col-xxl-3 col-lg-4 col-sm-6 col-12 order-sm-2 order-1 vh-sm-100 sticky-sm-top d-flex overflow-y-scroll z-0 ps-0 pt-sm-5">
-            <div id="decklist-column" class="p-3 ps-0 ps-sm-3 w-100"><!-- scroll-box --> 
+        <div class="col-xxxl-2 col-xxl-3 col-lg-4 col-sm-6 col-12 order-sm-2 order-1 vh-sm-100 sticky-sm-top d-flex overflow-y-scroll z-0 ps-0 pt-sm-0">
+            <!-- scroll-box -->
+            <div id="decklist-column" class="p-3 ps-0 ps-sm-3 w-100">
+                <button type="button" class="btn altered-style mb-3" data-bs-toggle="modal" data-bs-target="#manageCollectionModal">{% translate "Manage collection" %}</button>
                 <div class="ps-3 pe-1 pt-2 pb-sm-5 pb-3">
                     <div class="row row-cols-auto justify-content-between align-items-center">
                         <a id="startNewDeck" href="{% url "cards" %}" class="btn altered-style mb-3"><i class="fa-solid fa-wrench"></i> {% translate "New deck" %}</a>
@@ -164,9 +166,9 @@
                                 {% translate "Decks" %}
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end altered-style">
-        {% for deck in own_decks %}
+    {% for deck in own_decks %}
                                 <li><a class="dropdown-item" data-faction="{% firstof deck.hero__faction '' %}" href="?deck={{ deck.id }}{% if deck.hero__faction %}&faction={{ deck.hero__faction }}{% endif %}">{{ deck.name }}</a></li>
-        {% endfor %}
+    {% endfor %}
                             </ul>
                         </div>
                     </div>
@@ -289,6 +291,32 @@
             </div>
         </div>
     </div>
+    <!-- Manage collection modal -->
+    <div class="modal altered-style fade" id="manageCollectionModal" tabindex="-1" aria-labelledby="manageCollectionModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="manageCollectionModalLabel">{% translate "Manage Collection" %}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label class="form-label" for="collection-list">Collection</label>
+                    <textarea id="collection-list" class="form-control altered-style mb-2" rows="7" placeholder="3 ALT_CORE_B_AX_01_C&#10;2 ALT_CORE_B_AX_02_C&#10;2 ALT_CORE_B_AX_03_C&#10;3 ALT_CORE_B_AX_04_C&#10;1 ALT_CORE_B_AX_04_R1&#10;..."></textarea>
+                    <p>The collection will be saved in the browser's local storage and is not refreshed automatically.</p>
+                    <p>This means that you will need to import your collection again:
+                        <ul>
+                            <li>If there's a change in your collection.</li>
+                            <li>If you login from another browser.</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline altered-style" data-bs-dismiss="modal">Close</button>
+                    <button id="save-collection" type="button" class="btn altered-style" data-bs-dismiss="modal">{% translate "Update Collection" %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Simple toaster -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="simple-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -302,6 +330,8 @@
 {% endblock %}
 
 {% block bodyscripts %}
+    <!-- Collections -->
+    <script src="{% static 'js/collection.js' %}"></script>
     <!-- Enable tooltips -->
     <script src="{% static 'js/tooltip-enable.js' %}"></script>
     <!-- Card list visualization script -->
@@ -315,6 +345,7 @@
         var infinite = new Waypoint.Infinite({
             element: $('.infinite-container')[0],
             onAfterPageLoad: function ($items) {
+                startCollection();
                 let cardDisplayElements = document.getElementsByClassName("card-display");
                 Array.from(cardDisplayElements).forEach(function(element) {
                     element.addEventListener("click", addCardFromDisplay);
@@ -322,5 +353,5 @@
             }
         });
     </script>
-    <script src="{% static 'js/scrollToTop.js' %}"></script>
+    {% comment %} <script src="{% static 'js/scrollToTop.js' %}"></script> {% endcomment %}
 {% endblock %}
