@@ -159,7 +159,6 @@ span.bio {
 .offcanvas-btn {
     right: 100%;
     bottom: 50%;
-    writing-mode: sideways-lr;
     visibility: visible;
 }
 
