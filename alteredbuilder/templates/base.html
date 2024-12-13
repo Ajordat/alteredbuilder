@@ -31,8 +31,8 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/regular.min.css" integrity="sha512-KYEnM30Gjf5tMbgsrQJsR0FSpufP9S4EiAYi168MvTjK6E83x3r6PTvLPlXYX350/doBXmTFUEnJr/nCsDovuw==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/brands.min.css" integrity="sha512-DJLNx+VLY4aEiEQFjiawXaiceujj5GA7lIY8CHCIGQCBPfsEG0nGz1edb4Jvw1LR7q031zS5PpPqFuPA8ihlRA==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% cache 600 base_urls %}
         <meta property="og:image" content="{% block meta_image %}{% static 'img/logo-og-fade.png' %}{% endblock %}"/>
+    {% cache 600 base_urls %}
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
         <link rel="apple-touch-icon" sizes="180x180" href="{% static "logos/apple-touch-icon.png" %}">
         <link rel="icon" type="image/png" sizes="32x32" href="{% static "logos/favicon-32x32.png" %}">
