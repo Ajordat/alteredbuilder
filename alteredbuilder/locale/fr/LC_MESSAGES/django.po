@@ -238,7 +238,7 @@ msgstr "Sort"
 
 #: decks/templates/decks/card_list.html:97
 msgid "Set"
-msgstr "Ensemble"
+msgstr ""
 
 #: decks/templates/decks/card_list.html:108
 msgid "Search"
@@ -428,7 +428,7 @@ msgid ""
 "Search cards with `training` in their name that cost <span "
 "class=\"altered-2\"></span>:"
 msgstr ""
-"Rechercher les cartes comprenant `training` dans leur nom et coûtant <span "
+"Rechercher les cartes comprenant `scarabot` dans leur nom et coûtant <span "
 "class=\"altered-2\"></span> :"
 
 #: decks/templates/decks/card_list.html:271
@@ -531,7 +531,7 @@ msgstr "Vitrine"
 
 #: decks/templates/decks/deck_detail.html:144
 msgid "The deck needs a hero!"
-msgstr "Le pont a besoin d'un héros !"
+msgstr "Le deck a besoin d'un héros !"
 
 #: decks/templates/decks/deck_detail.html:164
 msgid "Copy link"
@@ -625,7 +625,7 @@ msgstr "Nombre"
 
 #: decks/templates/decks/deck_detail.html:332
 msgid "Total Count"
-msgstr "Nombre total"
+msgstr "Nombre Total"
 
 #: decks/templates/decks/deck_detail.html:333
 msgid "(+ 1 hero)"
@@ -695,7 +695,7 @@ msgstr ""
 #: decks/templates/decks/deck_list.html:59
 #: decks/templates/decks/own_deck_list.html:60
 msgid "Draft"
-msgstr "Ebauche"
+msgstr ""
 
 #: decks/templates/decks/deck_detail.html:420
 msgid "Mana curve"
@@ -2111,7 +2111,7 @@ msgstr "Construisez, analysez et partagez vos decks Altered TCG."
 
 #: trends/templates/trends/home.html:23
 msgid "Build a deck"
-msgstr "Construire un pont"
+msgstr "Construire un deck"
 
 #: trends/templates/trends/home.html:33
 msgid "Popular Factions"

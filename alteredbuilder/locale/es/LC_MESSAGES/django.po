@@ -104,7 +104,7 @@ msgstr "descripción"
 
 #: decks/forms.py:27
 msgid "decklist"
-msgstr "lista de mazos"
+msgstr ""
 
 #: decks/forms.py:34
 msgid "Each line should be a quantity (1, 2 or 3) and a card reference."
@@ -1143,7 +1143,7 @@ msgstr "Pega una decklist. Sigue el formato de ExAltered:"
 
 #: decks/templates/decks/new_deck.html:113
 msgid "Decklist"
-msgstr "Lista de mazos"
+msgstr ""
 
 #: decks/templates/decks/new_deck.html:119
 msgid "Please write your decklist"
@@ -1822,7 +1822,7 @@ msgid ""
 "                    "
 msgstr ""
 "\n"
-"                    Muchas gracias a las personas de talento que han "
+"                    Muchas gracias a las personas con talento que han "
 "traducido este proyecto y lo han hecho accesible a un público más amplio.\n"
 "                    ¡Su trabajo ayuda a tender puentes entre comunidades y a "
 "atraer a más personas a nuestra creciente plataforma!\n"
@@ -1849,7 +1849,7 @@ msgstr ""
 
 #: templates/collaborators.html:145
 msgid "Feature Requests"
-msgstr "Solicitudes de funciones"
+msgstr "Solicitudes de Funcionalidades"
 
 #: templates/collaborators.html:147
 msgid ""
@@ -1891,7 +1891,7 @@ msgstr ""
 
 #: templates/contribute.html:21
 msgid "Contribute to Our Deckbuilder"
-msgstr "Colabora con nuestra construcción de mazos"
+msgstr "Colabora con nuestro constructor de mazos"
 
 #: templates/contribute.html:23
 msgid ""
@@ -1943,9 +1943,9 @@ msgid ""
 "                        "
 msgstr ""
 "\n"
-"                        Si habla con fluidez uno o varios idiomas, puede "
-"contribuir traduciendo partes del sitio o revisando traducciones existentes. "
-"Le mencionaremos en nuestra sección <a href=\"%(collaborators_url)s#"
+"                        Si hablas con fluidez uno o varios idiomas, puedes "
+"contribuir traduciendo partes de la web o revisando traducciones existentes. "
+"Te mencionaremos en nuestra sección de <a href=\"%(collaborators_url)s#"
 "translators\">Traductores</a>.\n"
 "                        "
 
@@ -1980,7 +1980,7 @@ msgstr ""
 "apasionado por mejorar las herramientas para la comunidad?\n"
 "                            Contribuir a nuestro proyecto de código abierto "
 "es una gran manera de crear un impacto. \n"
-"                            Puede ayudarnos con:\n"
+"                            Puede ayudarnos:\n"
 "                        "
 
 #: templates/contribute.html:71
@@ -1990,11 +1990,11 @@ msgstr ""
 
 #: templates/contribute.html:72
 msgid "Fixing bugs or resolving issues that users have reported."
-msgstr "Corregir errores o resolver problemas que los usuarios hayan informado."
+msgstr "Corregiendo errores o resolver problemas que los usuarios hayan informado."
 
 #: templates/contribute.html:73
 msgid "Improving documentation to help other contributors get started."
-msgstr "Mejorar la documentación para ayudar a otros colaboradores a empezar."
+msgstr "Mejorando la documentación para ayudar a otros colaboradores a empezar."
 
 #: templates/contribute.html:76
 #, python-format
@@ -2007,8 +2007,8 @@ msgid ""
 msgstr ""
 "\n"
 "                            Aceptamos contribuciones de todos los niveles, ¡"
-"también etiquetamos los <a href=\"%(github_url)s\" target=\"_blank\">buenos "
-"primeros problemas</a> si aún estás aprendiendo con el código abierto!\n"
+"también marcamos los <a href=\"%(github_url)s\" target=\"_blank\">buenos "
+"primeros problemas</a> si aún estás empezando con el código abierto!\n"
 "                        "
 
 #: templates/contribute.html:92
@@ -2032,8 +2032,8 @@ msgid ""
 "but you also enable faster development of new features, better performance, "
 "and ongoing improvements."
 msgstr ""
-"Al convertirse en patrocinador, no solo ayuda a mantener la plataforma "
-"gratuita para todos, sino que también permite un desarrollo más rápido de "
+"Al convertirte en patrocinador, no solo ayudas a mantener la plataforma "
+"gratuita para todos, sino que también permites un desarrollo más rápido de "
 "nuevas funciones, un mejor rendimiento y mejoras continuas."
 
 #: templates/contribute.html:100
