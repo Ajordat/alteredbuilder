@@ -1,5 +1,6 @@
 
-const LS_COLLECTION_KEY = "collection";
+const LS_COLLECTION_KEY = "collectionContent";
+const LS_SETTINGS_KEY = "collectionSettings";
 
 document.addEventListener("DOMContentLoaded", () => {
     startCollection();
@@ -15,8 +16,18 @@ document.getElementById("save-collection").addEventListener("click", () => {
 
     saveCollection(collection);
 
-    resetCollectedCards();
-    markCollectedCards(collection);
+    startCollection();
+});
+
+document.getElementById("update-collection-settings").addEventListener("click", () => {
+    const mergeSetsEl = document.getElementById("merge-sets-check");
+
+    let settings = {
+        mergeSets: mergeSetsEl.checked
+    };
+    saveSettings(settings);
+
+    startCollection();
 });
 
 function parseCardEntries(cardEntries) {
@@ -40,7 +51,9 @@ function startCollection() {
         return;
     }
 
-    markCollectedCards(collection);
+    let settings = fetchSettings();
+
+    markCollectedCards(collection, settings);
 }
 
 function saveCollection(collection) {
@@ -49,24 +62,57 @@ function saveCollection(collection) {
 function fetchCollection() {
     return JSON.parse(localStorage.getItem(LS_COLLECTION_KEY));
 }
+function saveSettings(settings) {
+    localStorage.setItem(LS_SETTINGS_KEY, JSON.stringify(settings));
+}
+function fetchSettings() {
+    let settings = JSON.parse(localStorage.getItem(LS_SETTINGS_KEY));
+
+    if (!settings) {
+        settings = {
+            mergeSets: false
+        }
+        saveSettings(settings);
+    }
+
+    return settings;
+}
 
 function resetCollectedCards() {
     const badges = document.querySelectorAll('.card-badge');
     badges.forEach(badge => badge.remove());
 }
 
-function markCollectedCards(collection) {
+function markCollectedCards(collection, settings) {
     console.log(collection);
 
     const cards = document.getElementsByClassName('card-display');
+    var finalCollection = {};
+
+    if (settings.mergeSets) {
+        for (let [reference, quantity] of Object.entries(collection)) {
+            console.log(reference, quantity);
+            finalCollection[reference] = quantity + (finalCollection[reference] || 0);
+            if (reference.includes("_CORE_")) {
+                let altRef = reference.replace("_CORE_", "_COREKS_");
+                finalCollection[altRef] = quantity + (finalCollection[altRef] || 0);
+            } else if (reference.includes("_COREKS_")) {
+                let altRef = reference.replace("_COREKS_", "_CORE_");
+                finalCollection[altRef] = quantity + (finalCollection[altRef] || 0);
+            }
+        }
+    } else {
+        finalCollection = {...collection};
+    }
+
 
     for (let card of cards) {
         const cardReference = card.getAttribute('data-card-reference');
 
-        if (collection[cardReference]) {
+        if (finalCollection[cardReference]) {
 
             const badge = document.createElement('div');
-            badge.textContent = collection[cardReference];
+            badge.textContent = finalCollection[cardReference];
             badge.className = 'card-badge px-2 py-1 border border-white';
 
             card.style.position = 'relative';
