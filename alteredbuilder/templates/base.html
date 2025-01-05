@@ -116,11 +116,9 @@
                         </li>
                         <li class="d-xl-none my-0"><hr></li>
                         <li class="nav-item {{ nav_item_classes }} dropdown">
-                            {% comment %} <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="{% translate 'Select site language' %}"> {% endcomment %}
-                            <button class="btn btn-link nav-link dropdown-toggle" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static">
+                            <a id="bd-theme" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="{% translate 'Select site language' %}">
                                 <i id="theme-icon-active"></i>
-                            </button>
-                            {% comment %} </a> {% endcomment %}
+                            </a>
                             <ul class="dropdown-menu dropdown-menu-end py-1 mx-3 mb-3" aria-labelledby="bd-theme-text">
                                 <li>
                                     <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
