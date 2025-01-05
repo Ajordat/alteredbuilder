@@ -8,8 +8,7 @@ document.getElementById("save-collection").addEventListener("click", () => {
 
     const collectionListEl = document.getElementById("collection-list");
 
-    let cardEntries = collectionListEl.value.trim().split("\n");
-
+    let cardEntries = textCollectionToEntries(collectionListEl.value);
     let collection = parseCardEntries(cardEntries);
 
     saveCollection(collection);
@@ -28,15 +27,6 @@ document.getElementById("update-collection-settings").addEventListener("click", 
     startCollection();
 });
 
-function parseCardEntries(cardEntries) {
-    let collection = {};
-    for (let cardEntry of cardEntries) {
-        let card = cardEntry.split(" ");
-        collection[card[1]] = parseInt(card[0]);
-    }
-    return collection;
-}
-
 function displayTextCollection() {
     let collection = fetchCollection();
     if (!collection) {
@@ -46,11 +36,7 @@ function displayTextCollection() {
 }
 
 function printCollection(collection) {
-    const collectionListEl = document.getElementById("collection-list");
-    let textCollection = Object.entries(collection)
-        .map(([reference, quantity]) => `${quantity} ${reference}`)
-        .join("\n");
-    collectionListEl.value = textCollection;
+    document.getElementById("collection-list").value = collectionToText(collection);
 }
 
 function startCollection() {
@@ -66,6 +52,7 @@ function startCollection() {
     }
 
     let settings = fetchSettings();
+    printSettings(settings);
 
     markCollectedCards(collection, settings);
 }
@@ -95,7 +82,6 @@ function markCollectedCards(collection, settings) {
         finalCollection = { ...collection };
     }
 
-
     for (let card of cards) {
         const cardReference = card.getAttribute('data-card-reference');
 
@@ -109,4 +95,8 @@ function markCollectedCards(collection, settings) {
             card.appendChild(badge);
         }
     }
+}
+
+function printSettings(settings) {
+    document.getElementById("merge-sets-check").checked = settings.mergeSets;
 }

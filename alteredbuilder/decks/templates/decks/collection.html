@@ -10,9 +10,11 @@
 {% block content %}
     <h2>{% translate "My Collection" %}</h2>
 
+    <button type="button" class="btn altered-style mb-3" data-bs-toggle="modal" data-bs-target="#importCollectionModal">{% translate "Import Collection" %}</button>
+
     <div class="row">
         <div class="col-12 mb-4">
-            <div id="collaborators" class="card">
+            <div id="btgCard" class="card">
                 <div class="card-body">
                     <h2 class="card-title">{% translate "Beyond The Gates" %} + {% translate "Kickstarter Edition" %}</h2>
                     <hr class="altered-style mt-1 mb-2">
@@ -39,6 +41,8 @@
         </div>
     </div>
 
+    <!-- Manage collection modal -->
+    {% include "decks/tooltips/import_collection.html"%}
 {% endblock %}
 
 

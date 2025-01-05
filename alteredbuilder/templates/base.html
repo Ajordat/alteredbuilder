@@ -83,7 +83,7 @@
 
                         {% url 'collection' as item_url %}
                         <li class="nav-item {{ nav_item_classes }} {% if request.path == item_url or request.GET.next == item_url %}current-nav-tab{% endif %}">
-                            <a class="nav-link" href="{{ item_url }}"><i class="fa-regular fa-folder-open"></i> {% translate "Collection" %}</a>
+                            <a class="nav-link" href="{{ item_url }}"><i class="fa-regular fa-folder-open"></i> {% translate "My Collection" %}</a>
                         </li>
 
                         {% url 'new-deck' as import_deck_url %}

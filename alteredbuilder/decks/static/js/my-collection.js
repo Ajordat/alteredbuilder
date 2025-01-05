@@ -1,12 +1,12 @@
 
-const CARD_SETS = ["CORE"];
+const CARD_SETS = { CORE: { hero_count: 18, common_count: 162, rare_count: 324, total_count: 504 } };
 
 class CollectionStats {
     constructor() {
         this.stats = {};
         this.cards = {};
         this.collection = {};
-        CARD_SETS.forEach(set => {
+        Object.keys(CARD_SETS).forEach(set => {
             this.stats[set] = {
                 total_count: 0,
                 common_playset_count: 0,
@@ -27,7 +27,7 @@ class CollectionStats {
         if (set == "COREKS") {
             set = "CORE";
         }
-        if (!CARD_SETS.includes(set)) {
+        if (!CARD_SETS[set]) {
             return;
         }
         let allowCount = !this.cards[set].includes(id);
@@ -55,31 +55,27 @@ class CollectionStats {
     }
 
     getHeroChance(set) {
-        let totalCount = 3 * 6; // this should be retrieved for each set
-        return 1 - (this.stats[set].hero_count / totalCount);
+        return 1 - (this.stats[set].hero_count / CARD_SETS[set].hero_count);
     }
     getCommonChance(set) {
-        let totalCount = 27 * 6; // this should be retrieved for each set
-        return 1 - (this.stats[set].common_count / totalCount) ** 8;
+        return 1 - (this.stats[set].common_count / CARD_SETS[set].common_count) ** 8;
     }
     getRareChance(set) {
-        let totalCount = 27 * 2 * 6; // this should be retrieved for each set
-        return 1 - 7 / 8 * (this.stats[set].rare_count / totalCount) ** 3 - 1 / 8 * (this.stats[set].rare_count / totalCount) ** 2;
+        let rareChance = this.stats[set].rare_count / CARD_SETS[set].rare_count;
+        return 1 - 7 / 8 * (rareChance) ** 3 - 1 / 8 * (rareChance) ** 2;
     }
     getCardChance(set) {
-        let heroCount = 3 * 6; // this should be retrieved for each set
-        let commonCount = 27 * 6; // this should be retrieved for each set
-        let rareCount = 27 * 2 * 6; // this should be retrieved for each set
-        return 7 / 8 * (1 - (this.stats[set].hero_count / heroCount) * ((this.stats[set].common_count / commonCount) ** 8) * ((this.stats[set].rare_count / rareCount) ** 3)) + 1 / 8;
+        let heroChance = this.stats[set].hero_count / CARD_SETS[set].hero_count;
+        let commonChance = this.stats[set].common_count / CARD_SETS[set].common_count;
+        let rareChance = this.stats[set].rare_count / CARD_SETS[set].rare_count;
+        return 7 / 8 * (1 - heroChance * (commonChance ** 8) * (rareChance ** 3)) + 1 / 8;
     }
 
     getCommonPlaysetChance(set) {
-        let totalCount = 27 * 6; // this should be retrieved for each set
-        return 1 - (this.stats[set].common_playset_count / totalCount) ** 8
+        return 1 - (this.stats[set].common_playset_count / CARD_SETS[set].common_count) ** 8
     }
     getRarePlaysetChance(set) {
-        let totalCount = 27 * 2 * 6; // this should be retrieved for each set
-        return 1 - (this.stats[set].rare_playset_count / totalCount) ** 3
+        return 1 - (this.stats[set].rare_playset_count / CARD_SETS[set].rare_count) ** 3
     }
 
     #isHero(nif) {
@@ -100,6 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let stats = generateStats(collection);
 
     drawStats(stats);
+    printCollection(collection);
 });
 
 function generateStats(collection) {
@@ -110,14 +107,12 @@ function generateStats(collection) {
             stats.add(reference, quantity);
         }
     }
-    console.log(stats);
     return stats;
 }
 
 function drawStats(stats) {
-    let setTotalCount = (3 + 27 * 3) * 6;
 
-    CARD_SETS.forEach(set => {
+    Object.keys(CARD_SETS).forEach(set => {
         let totalCount = stats.getTotalCount(set);
         let newHeroChance = stats.getHeroChance(set);
         let newCommonChance = stats.getCommonChance(set);
@@ -127,7 +122,7 @@ function drawStats(stats) {
         let playsetRareChance = stats.getRarePlaysetChance(set);
 
         document.getElementById(`${set}-count`).textContent = totalCount;
-        document.getElementById(`${set}-total-count`).textContent = setTotalCount;
+        document.getElementById(`${set}-total-count`).textContent = CARD_SETS[set].total_count;
         drawChanceStat(set, "new", "card", newCardChance);
         drawChanceStat(set, "new", "hero", newHeroChance);
         drawChanceStat(set, "new", "common", newCommonChance);
@@ -144,4 +139,22 @@ function drawChanceStat(set, target, stat, chance) {
         document.getElementById(`${set}-${target}-${stat}-booster`).textContent = Math.round(1 / chance);
         document.getElementById(`${set}-${target}-${stat}-booster-block`).classList.remove("d-none");
     }
+}
+
+// IMPORT COLLECTION
+document.getElementById("save-collection").addEventListener("click", () => {
+
+    const collectionListEl = document.getElementById("collection-list");
+
+    let cardEntries = textCollectionToEntries(collectionListEl.value);
+    let collection = parseCardEntries(cardEntries);
+
+    saveCollection(collection);
+    
+    let stats = generateStats(collection);
+    drawStats(stats);
+    printCollection(collection);
+});
+function printCollection(collection) {
+    document.getElementById("collection-list").value = collectionToText(collection);
 }

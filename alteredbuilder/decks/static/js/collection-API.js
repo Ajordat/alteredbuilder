@@ -8,7 +8,11 @@ function saveCollection(collection) {
 }
 
 function fetchCollection() {
-    return JSON.parse(localStorage.getItem(LS_COLLECTION_KEY));
+    try {
+        return JSON.parse(localStorage.getItem(LS_COLLECTION_KEY));
+    } catch (e) {
+        return {};
+    }
 }
 
 function saveSettings(settings) {
@@ -26,4 +30,23 @@ function fetchSettings() {
     }
 
     return settings;
+}
+
+function textCollectionToEntries(textCollection) {
+    return textCollection.trim().split("\n");
+}
+
+function parseCardEntries(cardEntries) {
+    let collection = {};
+    for (let cardEntry of cardEntries) {
+        if (!cardEntry)
+            continue;
+        let card = cardEntry.split(" ");
+        collection[card[1]] = parseInt(card[0]);
+    }
+    return collection;
+}
+
+function collectionToText(collection) {
+    return Object.entries(collection).map(([reference, quantity]) => `${quantity} ${reference}`).join("\n");
 }
