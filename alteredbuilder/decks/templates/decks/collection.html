@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+{% load static %}
+{% load deck_styles %}
+
+
+{% block content-div %}class="container my-3"{% endblock %}
+
+{% block content %}
+    <h2>{% translate "My Collection" %}</h2>
+
+    <div class="row">
+        <div class="col-12 mb-4">
+            <div id="collaborators" class="card">
+                <div class="card-body">
+                    <h2 class="card-title">{% translate "Beyond The Gates" %} + {% translate "Kickstarter Edition" %}</h2>
+                    <hr class="altered-style mt-1 mb-2">
+                    <p class="card-text">
+                        Total owned cards: <span id="CORE-count">0</span> out of <span id="CORE-total-count">0</span>
+                    </p>
+                    <p class="card-text">
+                        New card odds (including uniques): <span id="CORE-new-card-chance">100</span>% <span id="CORE-new-card-booster-block" class="d-none">(aprox. 1 in <span id="CORE-new-card-booster">1</span> packs)</span>
+                    </p>
+                    <p class="card-text">
+                        Chances to get a new card<br>
+                        Hero: <span id="CORE-new-hero-chance"></span>% <span id="CORE-new-hero-booster-block" class="d-none">(aprox. 1 in <span id="CORE-new-hero-booster">1</span> packs)</span><br>
+                        Common: <span id="CORE-new-common-chance"></span>% <span id="CORE-new-common-booster-block" class="d-none">(aprox. 1 in <span id="CORE-new-common-booster">1</span> packs)</span><br>
+                        Rare: <span id="CORE-new-rare-chance"></span>% <span id="CORE-new-rare-booster-block" class="d-none">(aprox. 1 in <span id="CORE-new-rare-booster">1</span> packs)</span><br>
+                        Unique: 12.5% (1 in 8 packs)
+                    </p>
+                    <p class="card-text">
+                        Chances to get a new card towards a complete playset (3 of each card)<br>
+                        Common: <span id="CORE-playset-common-chance"></span>% <span id="CORE-playset-common-booster-block" class="d-none">(aprox. 1 in <span id="CORE-playset-common-booster">1</span> packs)</span><br>
+                        Rare: <span id="CORE-playset-rare-chance"></span>% <span id="CORE-playset-rare-booster-block" class="d-none">(aprox. 1 in <span id="CORE-playset-rare-booster">1</span> packs)</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block bodyscripts %}
+    <script src="{% static 'js/collection-API.js' %}"></script>
+    <script src="{% static 'js/my-collection.js' %}"></script>
+{% endblock %}

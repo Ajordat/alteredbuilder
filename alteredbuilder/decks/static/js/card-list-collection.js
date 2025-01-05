@@ -1,9 +1,7 @@
 
-const LS_COLLECTION_KEY = "collectionContent";
-const LS_SETTINGS_KEY = "collectionSettings";
-
 document.addEventListener("DOMContentLoaded", () => {
     startCollection();
+    displayTextCollection();
 });
 
 document.getElementById("save-collection").addEventListener("click", () => {
@@ -39,6 +37,22 @@ function parseCardEntries(cardEntries) {
     return collection;
 }
 
+function displayTextCollection() {
+    let collection = fetchCollection();
+    if (!collection) {
+        return;
+    }
+    printCollection(collection);
+}
+
+function printCollection(collection) {
+    const collectionListEl = document.getElementById("collection-list");
+    let textCollection = Object.entries(collection)
+        .map(([reference, quantity]) => `${quantity} ${reference}`)
+        .join("\n");
+    collectionListEl.value = textCollection;
+}
+
 function startCollection() {
 
     resetCollectedCards();
@@ -56,42 +70,18 @@ function startCollection() {
     markCollectedCards(collection, settings);
 }
 
-function saveCollection(collection) {
-    localStorage.setItem(LS_COLLECTION_KEY, JSON.stringify(collection));
-}
-function fetchCollection() {
-    return JSON.parse(localStorage.getItem(LS_COLLECTION_KEY));
-}
-function saveSettings(settings) {
-    localStorage.setItem(LS_SETTINGS_KEY, JSON.stringify(settings));
-}
-function fetchSettings() {
-    let settings = JSON.parse(localStorage.getItem(LS_SETTINGS_KEY));
-
-    if (!settings) {
-        settings = {
-            mergeSets: false
-        }
-        saveSettings(settings);
-    }
-
-    return settings;
-}
-
 function resetCollectedCards() {
     const badges = document.querySelectorAll('.card-badge');
     badges.forEach(badge => badge.remove());
 }
 
 function markCollectedCards(collection, settings) {
-    console.log(collection);
 
     const cards = document.getElementsByClassName('card-display');
     var finalCollection = {};
 
     if (settings.mergeSets) {
         for (let [reference, quantity] of Object.entries(collection)) {
-            console.log(reference, quantity);
             finalCollection[reference] = quantity + (finalCollection[reference] || 0);
             if (reference.includes("_CORE_")) {
                 let altRef = reference.replace("_CORE_", "_COREKS_");
@@ -102,7 +92,7 @@ function markCollectedCards(collection, settings) {
             }
         }
     } else {
-        finalCollection = {...collection};
+        finalCollection = { ...collection };
     }
 
 
