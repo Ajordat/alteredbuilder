@@ -18,49 +18,125 @@
                 <div class="card-body">
                     <h2 class="card-title">{% translate "Beyond The Gates" %} + {% translate "Kickstarter Edition" %}</h2>
                     <hr class="altered-style mt-1 mb-2">
-                    <table class="table table-responsive table-striped table-sm">
-                        <thead>
-                            <tr>
-                                <th scope="col"></th>
-                                <th scope="col">Owned</th>
-                                <th scope="col">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-group-divider">
-                            <tr>
-                                <th scope="row">Hero</th>
-                                <td><span id="CORE-owned-hero-count">0</span></td>
-                                <td><span id="CORE-total-hero-count"></span></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Common</th>
-                                <td><span id="CORE-owned-common-count">0</span></td>
-                                <td><span id="CORE-total-common-count"></span></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Rare</th>
-                                <td><span id="CORE-owned-rare-count">0</span></td>
-                                <td><span id="CORE-total-rare-count"></span></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Unique<sup>1</sup></th>
-                                <td><span id="CORE-owned-unique-count">0</span></td>
-                                <td><span id="CORE-total-unique-count"></span></td>
-                            </tr>
-                        </tbody>
-                        <tfoot class="table-group-divider">
-                            <tr>
-                                <th scope="row">Total</th>
-                                <td><span id="CORE-owned-count">0</span></td>
-                                <td><span id="CORE-total-count"></span></td>
-                            </tr>
-                        </tfoot>
-                    </table>
+                    <p class="card-text mt-4 mb-1 ">
+                        <strong>Breakdown of owned cards by rarity</strong>
+                    </p>
+                    <div class="d-flex justify-content-start table-responsive">
+                        <table class="table  table-sm w-auto">
+                            <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Owned</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Progress</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-group-divider">
+                                <tr>
+                                    <th scope="row">Hero</th>
+                                    <td><span id="CORE-owned-hero-count">0</span></td>
+                                    <td><span id="CORE-total-hero-count"></span></td>
+                                    <td>
+                                        <div class="progress">
+                                            <div
+                                                id="CORE-hero-progress"
+                                                class="progress-bar" 
+                                                role="progressbar" 
+                                                style="width: 0%;" 
+                                                aria-valuenow="0" 
+                                                aria-valuemin="0" 
+                                                aria-valuemax="100">
+                                                0%
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Common</th>
+                                    <td><span id="CORE-owned-common-count">0</span></td>
+                                    <td><span id="CORE-total-common-count"></span></td>
+                                    <td>
+                                        <div class="progress">
+                                            <div
+                                                id="CORE-common-progress"
+                                                class="progress-bar" 
+                                                role="progressbar" 
+                                                style="width: 0%;" 
+                                                aria-valuenow="0" 
+                                                aria-valuemin="0" 
+                                                aria-valuemax="100">
+                                                0%
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Rare</th>
+                                    <td><span id="CORE-owned-rare-count">0</span></td>
+                                    <td><span id="CORE-total-rare-count"></span></td>
+                                    <td>
+                                        <div class="progress">
+                                            <div
+                                                id="CORE-rare-progress"
+                                                class="progress-bar" 
+                                                role="progressbar" 
+                                                style="width: 0%;" 
+                                                aria-valuenow="0" 
+                                                aria-valuemin="0" 
+                                                aria-valuemax="100">
+                                                0%
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Unique<sup>1</sup></th>
+                                    <td><span id="CORE-owned-unique-count">0</span></td>
+                                    <td><span id="CORE-total-unique-count"></span></td>
+                                    <td>
+                                        <div class="progress">
+                                            <div
+                                                id="CORE-unique-progress"
+                                                class="progress-bar" 
+                                                role="progressbar" 
+                                                style="width: 0%;" 
+                                                aria-valuenow="0" 
+                                                aria-valuemin="0" 
+                                                aria-valuemax="100">
+                                                0%
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot class="table-group-divider">
+                                <tr>
+                                    <th scope="row">Total</th>
+                                    <td><span id="CORE-owned-count">0</span></td>
+                                    <td><span id="CORE-total-count"></span></td>
+                                    <td>
+                                        <div class="progress">
+                                            <div
+                                                id="CORE-all-progress"
+                                                class="progress-bar" 
+                                                role="progressbar" 
+                                                style="width: 0%;" 
+                                                aria-valuenow="0" 
+                                                aria-valuemin="0" 
+                                                aria-valuemax="100">
+                                                0%
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
                     <p class="card-text mt-4 mb-1 ">
                         <strong>Chances to get a new card (not owned)</strong>
                     </p>
-                    <div>
-                        <table class="table table-responsive table-sm">
+                    <div class="d-flex justify-content-start table-responsive">
+                        <table class="table table-striped table-sm w-auto">
                             <thead>
                                 <tr>
                                     <th scope="col"></th>
@@ -108,39 +184,41 @@
                     <p class="card-text mt-4 mb-1 ">
                         <strong>Chances to get a new card towards a complete playset (3 of each card or 1 unique)</strong>
                     </p>
-                    <table class="table table-sm">
-                        <thead>
-                            <tr>
-                                <th scope="col"></th>
-                                <th scope="col">Chances</th>
-                                <th scope="col">Booster count</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-group-divider">
-                            <tr>
-                                <th scope="row">Common</th>
-                                <td><span id="CORE-playset-common-chance">100</span>%</td>
-                                <td><span id="CORE-playset-common-booster-block">1 in <span id="CORE-playset-common-booster">1</span> packs</span><span id="CORE-playset-common-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Rare</th>
-                                <td><span id="CORE-playset-rare-chance">100</span>%</td>
-                                <td><span id="CORE-playset-rare-booster-block">1 in <span id="CORE-playset-rare-booster">1</span> packs</span><span id="CORE-playset-rare-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Unique<sup>1</sup></th>
-                                <td><span id="CORE-playset-unique-chance">12.50</span>%</td>
-                                <td><span id="CORE-playset-unique-booster-block">1 in <span id="CORE-playset-unique-booster">1</span> packs</span><span id="CORE-playset-unique-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
-                            </tr>
-                        </tbody>
-                        <tfoot class="table-group-divider">
-                            <tr>
-                                <th scope="row">Total</th>
-                                <td><span id="CORE-playset-card-chance">100</span>%</td>
-                                <td><span id="CORE-playset-card-booster-block">1 in <span id="CORE-playset-card-booster">1</span> packs</span><span id="CORE-playset-card-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
-                            </tr>
-                        </tfoot>
-                    </table>
+                    <div class="d-flex justify-content-start table-responsive">
+                        <table class="table table-striped table-sm w-auto">
+                            <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Chances</th>
+                                    <th scope="col">Booster count</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-group-divider">
+                                <tr>
+                                    <th scope="row">Common</th>
+                                    <td><span id="CORE-playset-common-chance">100</span>%</td>
+                                    <td><span id="CORE-playset-common-booster-block">1 in <span id="CORE-playset-common-booster">1</span> packs</span><span id="CORE-playset-common-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Rare</th>
+                                    <td><span id="CORE-playset-rare-chance">100</span>%</td>
+                                    <td><span id="CORE-playset-rare-booster-block">1 in <span id="CORE-playset-rare-booster">1</span> packs</span><span id="CORE-playset-rare-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Unique<sup>1</sup></th>
+                                    <td><span id="CORE-playset-unique-chance">12.50</span>%</td>
+                                    <td><span id="CORE-playset-unique-booster-block">1 in <span id="CORE-playset-unique-booster">1</span> packs</span><span id="CORE-playset-unique-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
+                                </tr>
+                            </tbody>
+                            <tfoot class="table-group-divider">
+                                <tr>
+                                    <th scope="row">Total</th>
+                                    <td><span id="CORE-playset-card-chance">100</span>%</td>
+                                    <td><span id="CORE-playset-card-booster-block">1 in <span id="CORE-playset-card-booster">1</span> packs</span><span id="CORE-playset-card-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
 
                     <p class="card-text">
                         <small><sup>1</sup> The count and chances of unique cards is considered by name. Therefore two different unique cards with the same name count as a single copy of it.<br>
@@ -154,6 +232,26 @@
 
     <!-- Manage collection modal -->
     {% include "decks/tooltips/import_collection.html"%}
+
+    <style>
+        .table td, .table th {
+            padding-left: 20px;
+            padding-right: 20px;
+            vertical-align: middle;
+        }
+        .progress {
+            min-width: 200px;
+            flex-grow: 1;
+            background-color: #e9ecef;
+        }
+        .progress-bar {
+            background-color: var(--cta-bg-active-color);
+            color: black;
+            overflow: visible;
+            display: flex;
+            justify-content: center;
+        }
+    </style>
 {% endblock %}
 
 

@@ -196,6 +196,12 @@ function drawStats(stats) {
         drawCountStat(set, "total", "common", CARD_SETS[set].common_count);
         drawCountStat(set, "total", "rare", CARD_SETS[set].rare_count);
         drawCountStat(set, "total", "unique", CARD_SETS[set].unique_count);
+
+        drawProgressStat(set, "hero", stats.getHeroCount(set), CARD_SETS[set].hero_count);
+        drawProgressStat(set, "common", stats.getCommonCount(set), CARD_SETS[set].common_count);
+        drawProgressStat(set, "rare", stats.getRareCount(set), CARD_SETS[set].rare_count);
+        drawProgressStat(set, "unique", stats.getUniqueCount(set), CARD_SETS[set].unique_count);
+        drawProgressStat(set, "all", stats.getTotalCount(set), CARD_SETS[set].total_count);
     });
 }
 
@@ -214,6 +220,13 @@ function drawChanceStat(set, target, stat, chance) {
 }
 function drawCountStat(set, target, stat, count) {
     document.getElementById(`${set}-${target}-${stat}-count`).textContent = count;
+}
+function drawProgressStat(set, target, owned, total) {
+    let progressEl = document.getElementById(`${set}-${target}-progress`);
+    let percentage = owned / total * 100;
+    progressEl.style.width = `${percentage}%`;
+    progressEl.setAttribute("aria-valuenow", percentage.toFixed(2));
+    progressEl.textContent = `${percentage.toFixed(2)}%`;
 }
 
 // IMPORT COLLECTION
