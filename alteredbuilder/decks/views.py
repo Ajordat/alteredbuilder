@@ -794,7 +794,10 @@ class CardListView(ListView):
                                 characters.append(cid)
                             case Card.Type.SPELL:
                                 spells.append(cid)
-                            case Card.Type.PERMANENT:
+                            case (
+                                Card.Type.LANDMARK_PERMANENT
+                                | Card.Type.EXPEDITION_PERMANENT
+                            ):
                                 permanents.append(cid)
                     context["character_cards"] = characters
                     context["spell_cards"] = spells

@@ -133,7 +133,8 @@ def get_deck_details(deck: Deck) -> dict:
     d = {
         Card.Type.CHARACTER: [[], 0],
         Card.Type.SPELL: [[], 0],
-        Card.Type.PERMANENT: [[], 0],
+        Card.Type.LANDMARK_PERMANENT: [[], 0],
+        Card.Type.EXPEDITION_PERMANENT: [[], 0],
     }
     for cid in decklist:
         # Append the card to its own type card list
@@ -155,16 +156,19 @@ def get_deck_details(deck: Deck) -> dict:
         "decklist": decklist_text,
         "character_list": d[Card.Type.CHARACTER][0],
         "spell_list": d[Card.Type.SPELL][0],
-        "permanent_list": d[Card.Type.PERMANENT][0],
+        "permanent_list": d[Card.Type.LANDMARK_PERMANENT][0]
+        + d[Card.Type.EXPEDITION_PERMANENT][0],
         "stats": {
             "type_distribution": {
                 "characters": d[Card.Type.CHARACTER][1],
                 "spells": d[Card.Type.SPELL][1],
-                "permanents": d[Card.Type.PERMANENT][1],
+                "permanents": d[Card.Type.LANDMARK_PERMANENT][1]
+                + d[Card.Type.EXPEDITION_PERMANENT][1],
             },
             "total_count": d[Card.Type.CHARACTER][1]
             + d[Card.Type.SPELL][1]
-            + d[Card.Type.PERMANENT][1],
+            + d[Card.Type.LANDMARK_PERMANENT][1]
+            + d[Card.Type.EXPEDITION_PERMANENT][1],
             "mana_distribution": {
                 "hand": hand_counter,
                 "recall": recall_counter,

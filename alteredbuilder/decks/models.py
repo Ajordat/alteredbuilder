@@ -107,7 +107,8 @@ class Card(models.Model):
 
     class Type(models.TextChoices):
         SPELL = "spell"
-        PERMANENT = "permanent"
+        LANDMARK_PERMANENT = "landmark_permanent"
+        EXPEDITION_PERMANENT = "expedition_permanent"
         TOKEN = "token"
         CHARACTER = "character"
         HERO = "hero"
@@ -118,10 +119,10 @@ class Card(models.Model):
         RARE = "R", "rare"
         UNIQUE = "U", "unique"
 
-    reference = models.CharField(max_length=32, primary_key=True)
-    name = models.CharField(max_length=48, null=False, blank=False)
+    reference = models.CharField(primary_key=True)
+    name = models.CharField(null=False, blank=False)
     faction = models.CharField(max_length=2, choices=Faction)
-    type = models.CharField(max_length=16, choices=Type)
+    type = models.CharField(choices=Type)
     subtypes = models.ManyToManyField(Subtype, blank=True)
     rarity = models.CharField(max_length=1, choices=Rarity)
     image_url = models.URLField(null=False, blank=True)
