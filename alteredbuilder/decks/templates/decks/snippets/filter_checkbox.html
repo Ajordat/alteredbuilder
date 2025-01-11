@@ -3,5 +3,5 @@
 
 <div class="form-check">
     <input class="form-check-input altered-style" type="checkbox" value="{{ value }}" id="filter{{ label }}" {% if value in checked_filters %}checked{% endif %}>
-    <label class="form-check-label d-block user-select-none" for="filter{{ label }}" style="cursor: pointer;"><span class="{{value}}">{% translate label %}</span></label>
+    <label class="form-check-label d-block user-select-none" for="filter{{ label }}" style="cursor: pointer;"><span class="{{ value }}">{% translate label %}</span></label>
 </div>

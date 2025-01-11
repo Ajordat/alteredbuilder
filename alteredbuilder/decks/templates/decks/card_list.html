@@ -95,10 +95,12 @@
                                             <div class="col">
                                                 <!-- Set filters -->
                                                 <b>{% translate "Set" %}</b>
+                                                {% translate "Beyond The Gates" noop as _ %}
+                                                {% translate "Kickstarter Edition" noop as _ %}
     {% for set in sets %}
                                                 <div class="form-check">
                                                     <input class="form-check-input altered-style" type="checkbox" value="{{ set.code }}" id="filter{{ set.short_name }}" {% if set.code in checked_filters %}checked{% endif %}>
-                                                    <label class="form-check-label d-block" for="filter{{ set.short_name }}" style="cursor: pointer;"><span class="{{ set.code }}">{{ set.name }}</span></label>
+                                                    <label class="form-check-label d-block user-select-none" for="filter{{ set.short_name }}" style="cursor: pointer;"><span class="{{ set.code }}">{% translate set.name %}</span></label>
                                                 </div>
     {% endfor %}
                                             </div>
@@ -154,8 +156,13 @@
             </div>
         </div>
         <!-- Deck sidebar -->
-        <div class="col-xxxl-2 col-xxl-3 col-lg-4 col-sm-6 col-12 order-sm-2 order-1 vh-sm-100 sticky-sm-top d-flex overflow-y-scroll z-0 ps-0 pt-sm-5">
-            <div id="decklist-column" class="p-3 ps-0 ps-sm-3 w-100"><!-- scroll-box --> 
+        <div class="col-xxxl-2 col-xxl-3 col-lg-4 col-sm-6 col-12 order-sm-2 order-1 vh-sm-100 sticky-sm-top d-flex overflow-y-scroll z-0 ps-0 pt-sm-0">
+            <!-- scroll-box -->
+            <div id="decklist-column" class="p-3 ps-0 ps-sm-3 w-100">
+                <div class="btn-group" role="group" aria-label="My collection">
+                    <button type="button" class="btn altered-style mb-3" data-bs-toggle="modal" data-bs-target="#importCollectionModal">{% translate "My Collection" %}</button>
+                    <button type="button" class="btn altered-style mb-3" data-bs-toggle="modal" data-bs-target="#manageCollectionModal"><i class="fa-solid fa-gears"></i></button>
+                </div>
                 <div class="ps-3 pe-1 pt-2 pb-sm-5 pb-3">
                     <div class="row row-cols-auto justify-content-between align-items-center">
                         <a id="startNewDeck" href="{% url "cards" %}" class="btn altered-style mb-3"><i class="fa-solid fa-wrench"></i> {% translate "New deck" %}</a>
@@ -164,9 +171,9 @@
                                 {% translate "Decks" %}
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end altered-style">
-        {% for deck in own_decks %}
+    {% for deck in own_decks %}
                                 <li><a class="dropdown-item" data-faction="{% firstof deck.hero__faction '' %}" href="?deck={{ deck.id }}{% if deck.hero__faction %}&faction={{ deck.hero__faction }}{% endif %}">{{ deck.name }}</a></li>
-        {% endfor %}
+    {% endfor %}
                             </ul>
                         </div>
                     </div>
@@ -289,6 +296,30 @@
             </div>
         </div>
     </div>
+    <!-- Manage collection modal -->
+    {% include "decks/tooltips/import_collection.html"%}
+    <!-- Filter collection modal -->
+    <div class="modal altered-style fade" id="manageCollectionModal" tabindex="-1" aria-labelledby="manageCollectionModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="manageCollectionModalLabel">{% translate "Manage Collection" %}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <p>Display the sum of CORE and KS copies as one instead of as individual sets:</p>
+                        <input class="form-check-input altered-style" id="merge-sets-check" type="checkbox">
+                        <label class="form-check-label" for="merge-sets-check">Merge</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline altered-style" data-bs-dismiss="modal">Close</button>
+                    <button id="update-collection-settings" type="button" class="btn altered-style" data-bs-dismiss="modal">{% translate "Save" %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Simple toaster -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="simple-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -303,6 +334,9 @@
 
 
 {% block bodyscripts %}
+    <!-- Collections -->
+    <script src="{% static 'js/collection-API.js' %}"></script>
+    <script src="{% static 'js/card-list-collection.js' %}"></script>
     <!-- Enable tooltips -->
     <script src="{% static 'js/tooltip-enable.js' %}"></script>
     <!-- Card list visualization script -->
@@ -316,6 +350,7 @@
         var infinite = new Waypoint.Infinite({
             element: $('.infinite-container')[0],
             onAfterPageLoad: function ($items) {
+                startCollection();
                 let cardDisplayElements = document.getElementsByClassName("card-display");
                 Array.from(cardDisplayElements).forEach(function(element) {
                     element.addEventListener("click", addCardFromDisplay);
