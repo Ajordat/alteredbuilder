@@ -120,10 +120,19 @@ class CollectionStats {
     }
 
     getCommonPlaysetChance(set) {
-        return 1 - (this.stats[set].common_playset_count / CARD_SETS[set].common_count) ** 8
+        return 1 - (this.stats[set].common_playset_count / CARD_SETS[set].common_count) ** 8;
     }
     getRarePlaysetChance(set) {
-        return 1 - (this.stats[set].rare_playset_count / CARD_SETS[set].rare_count) ** 3
+        let rareBooster = (this.stats[set].rare_playset_count / CARD_SETS[set].rare_count) ** 3;
+        let uniqueBooster = (this.stats[set].rare_playset_count / CARD_SETS[set].rare_count) ** 2;
+        return 1 - 7 / 8 * rareBooster - 1 / 8 * uniqueBooster;
+    }
+    getCardPlaysetChance(set) {
+        let commonChance = (this.stats[set].common_playset_count / CARD_SETS[set].common_count) ** 8;
+        let rareBooster = (this.stats[set].rare_playset_count / CARD_SETS[set].rare_count) ** 3;
+        let uniqueBooster = (this.stats[set].rare_playset_count / CARD_SETS[set].rare_count) ** 2;
+        let uniqueChance = this.stats[set].unique_playset_count / CARD_SETS[set].unique_count;
+        return 1 - (7 / 8 * rareBooster + 1 / 8 * uniqueBooster) * commonChance * (uniqueChance / 8);
     }
 
     #isHero(nif) {
@@ -186,6 +195,7 @@ function drawStats(stats) {
         drawChanceStat(set, "playset", "common", stats.getCommonPlaysetChance(set));
         drawChanceStat(set, "playset", "rare", stats.getRarePlaysetChance(set));
         drawChanceStat(set, "playset", "unique", stats.getUniqueChance(set));
+        drawChanceStat(set, "playset", "card", stats.getCardPlaysetChance(set));
 
         drawCountStat(set, "owned", "hero", stats.getHeroCount(set));
         drawCountStat(set, "owned", "common", stats.getCommonCount(set));
