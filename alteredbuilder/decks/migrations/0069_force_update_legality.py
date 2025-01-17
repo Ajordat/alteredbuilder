@@ -2,9 +2,7 @@ from abc import ABC
 from collections import defaultdict
 from enum import StrEnum
 
-from django.utils.translation import gettext_lazy as _
-
-from decks.models import Deck, Card
+from django.db import migrations
 
 
 class GameMode(ABC):
@@ -147,57 +145,9 @@ class Doubles(StandardGameMode):
     MAX_FACTION_COUNT = 2
 
 
-class ExaltsChampionship(StandardGameMode):
-    """Class to represent the Standard game mode."""
-
-    MAX_RARE_COUNT = 18
-    MAX_UNIQUE_COUNT = 0
-
-    @classmethod
-    def validate(cls, **kwargs) -> bool:
-        """Validate if the received parameters comply with this game mode's rules and
-        returns if the deck contains any errors.
-
-        Returns:
-            bool: If the deck contains any errors.
-        """
-        return (
-            (kwargs["faction_count"] > cls.MAX_FACTION_COUNT)
-            or (kwargs["total_count"] < cls.MIN_TOTAL_COUNT)
-            or (kwargs["rare_count"] > cls.MAX_RARE_COUNT)
-            or (kwargs["unique_count"] > cls.MAX_UNIQUE_COUNT)
-            or (kwargs["repeats_same_unique"])
-            or (
-                max(kwargs["family_count"].values(), default=0)
-                > cls.MAX_SAME_FAMILY_CARD_COUNT
-            )
-            or (not kwargs["has_hero"])
-        )
-
-
-class DraftGameMode(GameMode):
-    """Class to represent the Draft game mode."""
-
-    MAX_FACTION_COUNT = 3
-    MIN_TOTAL_COUNT = 30
-
-    @classmethod
-    def validate(cls, **kwargs) -> list[GameMode.ErrorCode]:
-        error_list = []
-
-        if kwargs["faction_count"] > cls.MAX_FACTION_COUNT:
-            error_list.append(cls.ErrorCode.ERR_EXCEED_FACTION_COUNT)
-        if (kwargs["total_count"] + int(kwargs["has_hero"])) < cls.MIN_TOTAL_COUNT:
-            error_list.append(cls.ErrorCode.ERR_NOT_ENOUGH_CARD_COUNT)
-        if kwargs["repeats_same_unique"]:
-            error_list.append(cls.ErrorCode.ERR_UNIQUE_IS_REPEATED)
-
-        return error_list
-
-
-def update_deck_legality(deck: Deck) -> None:
+def update_deck_legality(deck) -> None:
     """Receives a Deck object, extracts all the relevant metrics, evaluates the Deck's
-    legality on Standard and Draft game modes and updates the model.
+    legality on the Exalts Championship game mode and updates the model.
 
     Args:
         deck (Deck): Deck to evaluate and update
@@ -214,15 +164,15 @@ def update_deck_legality(deck: Deck) -> None:
 
     for cid in decklist:
         total_count += cid.quantity
-        if cid.card.rarity == Card.Rarity.RARE:
+        if cid.card.rarity == "R":
             rare_count += cid.quantity
-        elif cid.card.rarity == Card.Rarity.UNIQUE:
+        elif cid.card.rarity == "U":
             unique_count += cid.quantity
             if cid.quantity > 1:
                 repeats_same_unique = True
         if cid.card.faction not in factions:
             factions.append(cid.card.faction)
-        family_key = cid.card.get_family_code()
+        family_key = "_".join(cid.card.reference.split("_")[3:5])
         family_count[family_key] += cid.quantity
 
     data = {
@@ -235,16 +185,40 @@ def update_deck_legality(deck: Deck) -> None:
         "repeats_same_unique": repeats_same_unique,
     }
 
-    error_list = StandardGameMode.validate(**data)
-    deck.is_standard_legal = not bool(error_list)
-    deck.standard_legality_errors = error_list
-
-    error_list = DraftGameMode.validate(**data)
-    deck.is_draft_legal = not bool(error_list)
-    deck.draft_legality_errors = error_list
-
-    has_errors = ExaltsChampionship.validate(**data)
-    deck.is_exalts_legal = not has_errors
-
     has_errors = Doubles.validate(**data)
     deck.is_doubles_legal = not has_errors
+
+
+def init_models(apps):
+    global Deck, Card
+    Deck = apps.get_model("decks", "Deck")
+    Card = apps.get_model("decks", "Card")
+
+
+def force_update_legality(apps, schema_editor):
+    init_models(apps)
+    decks = Deck.objects.all()
+    decks_chunk = []
+    for deck in decks:
+        update_deck_legality(deck)
+        decks_chunk.append(deck)
+        if len(decks_chunk) >= 1000:
+            Deck.objects.bulk_update(decks_chunk, ["is_doubles_legal"])
+            decks_chunk = []
+
+    Deck.objects.bulk_update(decks_chunk, ["is_doubles_legal"])
+
+
+def empty_reverse(apps, schema_editor):
+    pass
+
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ("decks", "0068_deck_is_doubles_legal"),
+    ]
+
+    operations = [
+        migrations.RunPython(force_update_legality, reverse_code=empty_reverse)
+    ]

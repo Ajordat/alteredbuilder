@@ -458,6 +458,8 @@ def filter_by_legality(qs: QuerySet[Deck], legality: str) -> QuerySet[Deck]:
             qs = qs.filter(is_draft_legal=True)
         if "exalts" in legality:
             qs = qs.filter(is_exalts_legal=True)
+        if "doubles" in legality:
+            qs = qs.filter(is_doubles_legal=True)
 
     return qs
 
