@@ -96,8 +96,6 @@
                                             <div class="col">
                                                 <!-- Set filters -->
                                                 <b>{% translate "Set" %}</b>
-                                                {% translate "Beyond The Gates" noop as _ %}
-                                                {% translate "Kickstarter Edition" noop as _ %}
     {% for set in sets %}
                                                 <div class="form-check">
                                                     <input class="form-check-input altered-style" type="checkbox" value="{{ set.code }}" id="filter{{ set.short_name }}" {% if set.code in checked_filters %}checked{% endif %}>
