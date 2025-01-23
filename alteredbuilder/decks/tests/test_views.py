@@ -506,7 +506,7 @@ class CardListViewTestCase(BaseViewTestCase):
             )
 
         # Search all the cards of type CHARACTER or PERMANENT
-        filter = "?type=character,permanent"
+        filter = "?type=character,landmark_permanent"
         with self.subTest(filter=filter):
             response = self.client.get(url + filter)
             query_cards = Card.objects.filter(
@@ -552,7 +552,7 @@ class CardListViewTestCase(BaseViewTestCase):
 
         # Search all the COMMON CHARACTERS or PERMANENTS of AXIOM ordered by inverse
         # NAME order
-        filter = "?faction=AX&rarity=C&type=character,permanent&order=-name"
+        filter = "?faction=AX&rarity=C&type=character,landmark_permanent&order=-name"
         with self.subTest(filter=filter):
             response = self.client.get(url + filter)
             query_cards = Card.objects.filter(
