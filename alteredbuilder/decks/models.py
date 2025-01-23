@@ -12,16 +12,24 @@ CARD_DISPLAY_URL_FORMAT = "https://altered-prod-eu.s3.amazonaws.com/Art/CORE/CAR
 
 
 class CardManager(models.Manager):
+
+    def create_card(self, **kwargs):
+        if kwargs["type"] == Card.Type.HERO:
+            return self.create_hero(**kwargs)
+        else:
+            return self.create_playable_card(**kwargs)
+
     def create_hero(
         self,
         reference,
         name,
         faction,
         image_url=None,
-        card_set=None,
+        set=None,
         main_effect=None,
         reserve_count=2,
         permanent_count=2,
+        **kwargs,
     ):
         return self.create(
             reference=reference,
@@ -29,12 +37,12 @@ class CardManager(models.Manager):
             faction=faction,
             type=Card.Type.HERO,
             image_url=image_url,
-            set=card_set,
+            set=set,
             main_effect=main_effect,
             stats={"reserve_count": reserve_count, "permanent_count": permanent_count},
         )
 
-    def create_card(
+    def create_playable_card(
         self,
         reference,
         name,
@@ -42,7 +50,7 @@ class CardManager(models.Manager):
         faction,
         rarity,
         image_url=None,
-        card_set=None,
+        set=None,
         main_effect=None,
         echo_effect=None,
         main_cost=0,
@@ -67,7 +75,7 @@ class CardManager(models.Manager):
             type=type,
             rarity=rarity,
             image_url=image_url,
-            set=card_set,
+            set=set,
             main_effect=main_effect,
             echo_effect=echo_effect,
             stats=stats,
@@ -107,7 +115,8 @@ class Card(models.Model):
 
     class Type(models.TextChoices):
         SPELL = "spell"
-        PERMANENT = "permanent"
+        LANDMARK_PERMANENT = "landmark_permanent"
+        EXPEDITION_PERMANENT = "expedition_permanent"
         TOKEN = "token"
         CHARACTER = "character"
         HERO = "hero"
@@ -118,10 +127,10 @@ class Card(models.Model):
         RARE = "R", "rare"
         UNIQUE = "U", "unique"
 
-    reference = models.CharField(max_length=32, primary_key=True)
-    name = models.CharField(max_length=48, null=False, blank=False)
+    reference = models.CharField(primary_key=True)
+    name = models.CharField(null=False, blank=False)
     faction = models.CharField(max_length=2, choices=Faction)
-    type = models.CharField(max_length=16, choices=Type)
+    type = models.CharField(choices=Type)
     subtypes = models.ManyToManyField(Subtype, blank=True)
     rarity = models.CharField(max_length=1, choices=Rarity)
     image_url = models.URLField(null=False, blank=True)
@@ -186,6 +195,7 @@ class Deck(models.Model, HitCountMixin):
     is_draft_legal = models.BooleanField(null=True)
     draft_legality_errors = models.JSONField(default=list, blank=True)
     is_exalts_legal = models.BooleanField(null=True)
+    is_doubles_legal = models.BooleanField(null=True)
 
     love_count = models.PositiveIntegerField(default=0)
     comment_count = models.PositiveIntegerField(default=0)

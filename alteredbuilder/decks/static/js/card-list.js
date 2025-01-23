@@ -61,13 +61,13 @@ function searchCards(e) {
     }
 
     // Retrieve the TYPE filters
-    let types = parseFilter(["Character", "Hero", "Permanent", "Spell"]);
+    let types = parseFilter(["Character", "Hero", "Landmark Permanent", "Expedition Permanent", "Spell"]);
     if (types.length > 0) {
         params.append("type", types.join(","));
     }
 
     // Retrieve the SET filters
-    let sets = parseFilter(["BTG", "BTG-KS", "BTG-P"]);
+    let sets = parseFilter(["BTG", "BTG-KS", "BTG-P", "TBF"]);
     if (sets.length > 0) {
         params.append("set", sets.join(","));
     }

@@ -191,7 +191,11 @@ class CardAdmin(admin.ModelAdmin):
                 card_stats_fields = ["reserve_count", "permanent_count"]
             case Card.Type.CHARACTER:
                 card_stats_fields = ["mana_cost", "power"]
-            case Card.Type.SPELL | Card.Type.PERMANENT:
+            case (
+                Card.Type.SPELL
+                | Card.Type.LANDMARK_PERMANENT
+                | Card.Type.EXPEDITION_PERMANENT
+            ):
                 card_stats_fields = ["mana_cost"]
             case _:
                 card_stats_fields = None

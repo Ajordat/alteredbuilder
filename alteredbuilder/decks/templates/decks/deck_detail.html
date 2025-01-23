@@ -399,6 +399,16 @@
     {% endif %}
                     </tr>
                     <tr>
+                        <td>{% translate "Doubles" %}</td>
+    {% if deck.is_doubles_legal %}
+                        <td>{% translate "Yes" %}</td>
+                        <td></td>
+    {% else %}
+                        <td>{% translate "No" %}</td>
+                        <td>{% translate "This mode works the same as Standard but requires the use of two different factions." %}</td>
+    {% endif %}
+                    </tr>
+                    <tr>
                         <td>{% translate "Draft" %}</td>
     {% if deck.is_draft_legal %}
                         <td>{% translate "Yes" %}</td>

@@ -77,7 +77,11 @@ def generate_card(
                 mountain_power=randint(0, 10),
                 ocean_power=randint(0, 10),
             )
-        case Card.Type.SPELL | Card.Type.PERMANENT:
+        case (
+            Card.Type.SPELL
+            | Card.Type.LANDMARK_PERMANENT
+            | Card.Type.EXPEDITION_PERMANENT
+        ):
             card = Card.objects.create_card(**data, **cost)
 
     return card
@@ -215,7 +219,7 @@ class BaseViewTestCase(TestCase):
         )
         spell = generate_card(Card.Faction.AXIOM, Card.Type.SPELL, Card.Rarity.RARE)
         permanent = generate_card(
-            Card.Faction.AXIOM, Card.Type.PERMANENT, Card.Rarity.RARE
+            Card.Faction.AXIOM, Card.Type.LANDMARK_PERMANENT, Card.Rarity.RARE
         )
 
         cls.user = User.objects.create_user(username=cls.TEST_USER)

@@ -406,6 +406,9 @@ removeHeroButton.addEventListener("click", function(event) {
  * @param {string} image Image of the card
  */
 function createCardRow(quantity, reference, type, name, rarity, image) {
+    if (type.includes("permanent")) {
+        type = "permanent";
+    }
     // Retrieve the relevant elements
     let editDeckColumn = document.getElementById(`decklist-${type}-cards`);
     let newCardElement = editDeckColumn.lastElementChild.cloneNode(true);
