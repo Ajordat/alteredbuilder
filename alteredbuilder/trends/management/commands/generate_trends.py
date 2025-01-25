@@ -149,16 +149,15 @@ class Command(BaseCommand):
             .alias(count=Count("name"))
             .order_by("-count")[:CARD_RANKING_LIMIT]
         )
-        # Get the card from the core set
-        core_set = Set.objects.get(code="CORE")
+        # Exclude the cards from the KS set
+        ks_set = Set.objects.get(code="COREKS")
 
         # Create a record for each card
         for rank, record in enumerate(card_trends, start=1):
-            card = Card.objects.get(
+            card = Card.objects.exclude(set=ks_set).get(
                 name=record["name"],
                 rarity=record["card__rarity"],
-                faction=record["card__faction"],
-                set=core_set,
+                faction=record["card__faction"]
             )
             CardTrend.objects.update_or_create(
                 card=card,
@@ -187,11 +186,10 @@ class Command(BaseCommand):
 
             # Create a record for each card
             for rank, record in enumerate(card_trends, start=1):
-                card = Card.objects.get(
+                card = Card.objects.exclude(set=ks_set).get(
                     name=record["name"],
                     rarity=record["card__rarity"],
-                    faction=record["card__faction"],
-                    set=core_set,
+                    faction=record["card__faction"]
                 )
                 CardTrend.objects.update_or_create(
                     card=card,
@@ -218,11 +216,10 @@ class Command(BaseCommand):
 
             # Create a record for each card
             for rank, record in enumerate(card_trends, start=1):
-                card = Card.objects.get(
+                card = Card.objects.exclude(set=ks_set).get(
                     name=record["name"],
                     rarity=record["card__rarity"],
-                    faction=record["card__faction"],
-                    set=core_set,
+                    faction=record["card__faction"]
                 )
                 CardTrend.objects.update_or_create(
                     card=card,
