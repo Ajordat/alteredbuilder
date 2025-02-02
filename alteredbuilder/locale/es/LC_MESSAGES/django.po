@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-02-02 23:52+0100\n"
-"PO-Revision-Date: 2025-02-02 23:13+0000\n"
+"PO-Revision-Date: 2025-02-02 23:33+0000\n"
 "Last-Translator: Ajordat <alexjortri@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/"
 "altered-tcg-builder/server-strings/es/>\n"
@@ -104,7 +104,7 @@ msgstr "descripción"
 
 #: decks/forms.py:27
 msgid "decklist"
-msgstr ""
+msgstr "decklist"
 
 #: decks/forms.py:34
 msgid "Each line should be a quantity (1, 2 or 3) and a card reference."
@@ -549,7 +549,7 @@ msgstr "Eliminar mazo"
 
 #: decks/templates/decks/deck_detail.html:123
 msgid "Try it in Exalts Table without unique cards"
-msgstr "Juega en Exalts Table in cartas únicas"
+msgstr "Pruébalo en Exalts Table sin cartas únicas"
 
 #: decks/templates/decks/deck_detail.html:125
 #: decks/templates/decks/deck_detail.html:131
@@ -665,7 +665,7 @@ msgstr "Cantidad"
 
 #: decks/templates/decks/deck_detail.html:332
 msgid "Total Count"
-msgstr "Cantidad Total"
+msgstr "Recuento total"
 
 #: decks/templates/decks/deck_detail.html:333
 msgid "(+ 1 hero)"
@@ -745,7 +745,7 @@ msgid ""
 "factions."
 msgstr ""
 "Este modo sigue las mismas normas que Estándar pero fuerza el uso de 2 "
-"facciones distintas"
+"facciones distintas."
 
 #: decks/templates/decks/deck_detail.html:412
 #: decks/templates/decks/deck_list.html:60
@@ -1142,7 +1142,7 @@ msgstr "Pega una decklist. Sigue el formato de ExAltered:"
 
 #: decks/templates/decks/new_deck.html:113
 msgid "Decklist"
-msgstr ""
+msgstr "Decklist"
 
 #: decks/templates/decks/new_deck.html:119
 msgid "Please write your decklist"
@@ -1787,10 +1787,9 @@ msgid ""
 "each and every one of you!"
 msgstr ""
 "Aquí están los increíbles colaboradores que han contribuido al crecimiento "
-"de este proyecto a través de su patrocinio.\n"
-"Su apoyo continuo en diversas plataformas ayuda a que esta plataforma siga "
-"prosperando y evolucionando.\n"
-"¡Muchas gracias a todos y cada uno de vosotros!"
+"de este proyecto a través de su patrocinio. Su apoyo continuo en diversas "
+"plataformas ayuda a que esta plataforma siga prosperando y evolucionando. ¡"
+"Muchas gracias a todos y cada uno de vosotros!"
 
 #: templates/collaborators.html:47
 msgid "Special mentions"
@@ -1801,9 +1800,9 @@ msgid ""
 "Special thanks to these individuals who have gone above and beyond in their "
 "support and contributions. Their dedication and efforts have played a vital "
 "role in shaping this project!"
-msgstr "Un agradecimiento especial a estas personas que han "
-"ido más allá en su apoyo y contribuciones.\n"
-"¡Su dedicación y esfuerzo han desempeñado un papel "
+msgstr ""
+"Un agradecimiento especial a estas personas que han ido más allá en su apoyo "
+"y contribuciones. ¡Su dedicación y esfuerzo han desempeñado un papel "
 "fundamental en la realización de este proyecto!"
 
 #: templates/collaborators.html:69
@@ -1815,10 +1814,11 @@ msgid ""
 "A big thank you to the talented people who have translated this project and "
 "made it accessible to a wider audience. Their work helps bridge communities "
 "and bring more people into our growing platform!"
-msgstr "Muchas gracias a las personas con talento que han "
-"traducido este proyecto y lo han hecho accesible a un público más amplio.\n"
-"¡Su trabajo ayuda a tender puentes entre comunidades y a "
-"atraer a más personas a nuestra creciente plataforma!"
+msgstr ""
+"Muchas gracias a las personas con talento que han traducido este proyecto y "
+"lo han hecho accesible a un público más amplio. ¡Su trabajo ayuda a tender "
+"puentes entre comunidades y a atraer a más personas a nuestra creciente "
+"plataforma!"
 
 #: templates/collaborators.html:112
 msgid "Bug reports"
@@ -1845,15 +1845,12 @@ msgid ""
 "better, this is the place to share them! Whether it's a small tweak or a "
 "game-changing idea, we'd love to hear your thoughts. Every contribution "
 "helps shape the future of the project!"
-msgstr "Siempre estamos buscando formas de mejorar y optimizar "
-"su experiencia.\n"
-"Si tienes ideas o sugerencias sobre nuevas "
-"características que podrían mejorar la plataforma, ¡este es el lugar para "
-"compartirlas!\n"
-"Ya sea un pequeño cambio o una idea revolucionaria, nos "
-"encantaría conocer tu opinión.\n"
-"¡Cada aportación ayuda a dar forma al futuro del "
-"proyecto!"
+msgstr ""
+"Siempre estamos buscando formas de mejorar y optimizar su experiencia. Si "
+"tienes ideas o sugerencias sobre nuevas características que podrían mejorar "
+"la plataforma, ¡este es el lugar para compartirlas! Ya sea un pequeño cambio "
+"o una idea revolucionaria, nos encantaría conocer tu opinión. ¡Cada "
+"aportación ayuda a dar forma al futuro del proyecto!"
 
 #: templates/collaborators.html:138
 msgid ""
