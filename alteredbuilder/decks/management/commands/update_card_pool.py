@@ -17,7 +17,7 @@ CARDS_API_URL = "https://api.altered.gg/cards"
 ITEMS_PER_PAGE = 36
 # If True, retrieve the unique cards
 UPDATE_UNIQUES = False
-QUERY_SET = ["ALIZE"]
+QUERY_SET = ["CORE"]
 # The API currently returns a private image link for unique cards in these languages
 IMAGE_ERROR_LOCALES = ["es", "it", "de"]
 LOCALE_IRREGULAR_CODES = {"en": "en-us"}
@@ -216,7 +216,7 @@ class Command(BaseCommand):
         """
         try:
             card_dict["faction"] = Card.Faction(card_dict["faction"])
-            card_dict["type"] = getattr(Card.Type, card_dict["type"])
+            card_dict["type"] = getattr(Card.Type, card_dict["type"]) if card_dict["type"] != "PERMANENT" else Card.Type.LANDMARK_PERMANENT
             card_dict["rarity"] = getattr(Card.Rarity, card_dict["rarity"])
         except Exception as e:
             print(card_dict)
@@ -278,6 +278,8 @@ class Command(BaseCommand):
         card_obj.save()
 
         self.link_subtypes(card_obj, card_dict.get("subtypes", False))
+        
+        self.stdout.write(f"card updated: {card_obj}")
 
     def link_subtypes(self, card: Card, subtypes):
         if not subtypes:
