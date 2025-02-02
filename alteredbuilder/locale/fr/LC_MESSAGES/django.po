@@ -2,12 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-02 21:38+0100\n"
+"POT-Creation-Date: 2025-02-03 00:03+0100\n"
 "PO-Revision-Date: 2024-12-04 14:00+0000\n"
 "Last-Translator: Loic D <loic.danj@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/altered-tcg-"
@@ -235,16 +235,12 @@ msgid "Hero"
 msgstr "Héros"
 
 #: decks/templates/decks/card_list.html:99
-#, fuzzy
-#| msgid "Permanent"
 msgid "Landmark Permanent"
-msgstr "Permanent"
+msgstr ""
 
 #: decks/templates/decks/card_list.html:100
-#, fuzzy
-#| msgid "Permanent"
 msgid "Expedition Permanent"
-msgstr "Permanent"
+msgstr ""
 
 #: decks/templates/decks/card_list.html:101
 msgid "Spell"
@@ -512,14 +508,12 @@ msgstr ""
 
 #: decks/templates/decks/collection.html:13
 #: decks/templates/decks/tooltips/import_collection.html:9
-#, fuzzy
-#| msgid "Import a Deck"
 msgid "Import Collection"
-msgstr "Importer un Deck"
+msgstr ""
 
 #: decks/templates/decks/collection.html:15
 msgid "Beyond The Gates"
-msgstr ""
+msgstr "Au-Delà Des Portes"
 
 #: decks/templates/decks/collection.html:16
 msgid "Kickstarter Edition"
@@ -527,7 +521,7 @@ msgstr ""
 
 #: decks/templates/decks/collection.html:19
 msgid "Trial by Frost"
-msgstr ""
+msgstr "Épreuve de Froid"
 
 #: decks/templates/decks/deck_detail.html:64
 msgid "Login to share your love!"
@@ -580,7 +574,7 @@ msgstr "Vitrine"
 
 #: decks/templates/decks/deck_detail.html:144
 msgid "The deck needs a hero!"
-msgstr "Le deck a besoin d'un héros !"
+msgstr "Le pont a besoin d'un héros !"
 
 #: decks/templates/decks/deck_detail.html:164
 msgid "Copy link"
@@ -749,16 +743,10 @@ msgid "Doubles"
 msgstr ""
 
 #: decks/templates/decks/deck_detail.html:408
-#, fuzzy
-#| msgid ""
-#| "This mode works the same as Standard but replaces the 3 uniques with 3 "
-#| "extra rares."
 msgid ""
 "This mode works the same as Standard but requires the use of two different "
 "factions."
 msgstr ""
-"Ce mode fonctionne de la même manière que le mode Standard mais remplace les "
-"3 uniques par 3 rares supplémentaires."
 
 #: decks/templates/decks/deck_detail.html:412
 #: decks/templates/decks/deck_list.html:60
@@ -1238,10 +1226,8 @@ msgid "Created: %(creation)s<br>Last modified: %(modification)s"
 msgstr "Créé : %(creation)s<br>Dernière modification : %(modification)s"
 
 #: decks/templates/decks/tooltips/import_collection.html:29
-#, fuzzy
-#| msgid "Update email"
 msgid "Update Collection"
-msgstr "Changer l'e-mail"
+msgstr ""
 
 #: decks/templates/decks/tooltips/legality.html:8
 msgid "Illegal"
@@ -1670,16 +1656,12 @@ msgid ""
 msgstr ""
 "<strong>Réactions et suggestions :</strong> Faites-nous part de vos "
 "réflexions et de vos idées pour nous aider à améliorer Altered TCG Builder."
-"<strong>Réactions et suggestions :</strong> Faites-nous part de vos "
-"réflexions et de vos idées pour nous aider à améliorer Altered TCG Builder."
 
 #: profiles/templates/profiles/userprofile_list.html:167
 msgid ""
 "<strong>Bug Reporting:</strong> Let us know if you encounter any issues or "
 "glitches, so we can address them promptly."
 msgstr ""
-"<strong>Rapport de bogues :</strong> Faites-nous savoir si vous rencontrez "
-"des problèmes ou des pépins, afin que nous puissions y remédier rapidement."
 "<strong>Rapport de bogues :</strong> Faites-nous savoir si vous rencontrez "
 "des problèmes ou des pépins, afin que nous puissions y remédier rapidement."
 
@@ -1826,92 +1808,50 @@ msgid "Special mentions"
 msgstr "Mentions spéciales"
 
 #: templates/collaborators.html:49
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                        Special thanks to these individuals who have gone "
-#| "above and beyond in their support and contributions.\n"
-#| "                        Their dedication and efforts have played a vital "
-#| "role in shaping this project!\n"
-#| "                    "
 msgid ""
 "Special thanks to these individuals who have gone above and beyond in their "
 "support and contributions. Their dedication and efforts have played a vital "
 "role in shaping this project!"
 msgstr ""
-"\n"
-"                        Je tiens à remercier chaleureusement toutes ces "
-"personnes qui ont apporté leur soutien et leurs contributions.\n"
+"Je tiens à remercier chaleureusement toutes ces personnes qui ont apporté "
+"leur soutien et leurs contributions.\n"
 "Leur dévouement et leurs efforts ont joué un rôle essentiel dans la mise en "
-"place de ce projet.\n"
-"                    "
+"place de ce projet."
 
 #: templates/collaborators.html:69
 msgid "Translators"
 msgstr "Traducteurs"
 
 #: templates/collaborators.html:71
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                    A big thank you to the talented people who have "
-#| "translated this project and made it accessible to a wider audience.\n"
-#| "                    Their work helps bridge communities and bring more "
-#| "people into our growing platform!\n"
-#| "                    "
 msgid ""
 "A big thank you to the talented people who have translated this project and "
 "made it accessible to a wider audience. Their work helps bridge communities "
 "and bring more people into our growing platform!"
 msgstr ""
-"\n"
-"                    Un grand merci aux personnes talentueuses qui ont "
-"traduit ce projet et l’ont rendu accessible à un public plus large.\n"
+"Un grand merci aux personnes talentueuses qui ont traduit ce projet et l’ont "
+"rendu accessible à un public plus large.\n"
 " Leur travail aide à rapprocher les communautés et à attirer plus de gens "
-"sur notre plateforme !\n"
-"                    "
+"sur notre plateforme !"
 
 #: templates/collaborators.html:112
 msgid "Bug reports"
 msgstr "Rapports de bogues"
 
 #: templates/collaborators.html:114
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                    A heartfelt thanks to those who have taken the time "
-#| "to report bugs and issues. Their feedback helps us improve the platform "
-#| "and deliver a smoother experience for everyone!\n"
-#| "                    "
 msgid ""
 "A heartfelt thanks to those who have taken the time to report bugs and "
 "issues. Their feedback helps us improve the platform and deliver a smoother "
 "experience for everyone!"
 msgstr ""
-"\n"
-"                    Un énorme merci à tous ceux qui ont pris le temps de "
-"signaler les bugs et les problèmes. Leurs commentaires nous aident à "
-"améliorer la plateforme et à offrir une expérience plus fluide pour tout le "
-"monde !\n"
-"                    "
+"Un énorme merci à tous ceux qui ont pris le temps de signaler les bugs et "
+"les problèmes. Leurs commentaires nous aident à améliorer la plateforme et à "
+"offrir une expérience plus fluide pour tout le monde !"
 
 #: templates/collaborators.html:133
 msgid "Feature Requests"
 msgstr "Demandes de fonctionnalité"
 
 #: templates/collaborators.html:135
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                    We're always looking for ways to improve and enhance "
-#| "your experience.\n"
-#| "                    If you have ideas or suggestions for new features "
-#| "that could make the platform better, this is the place to share them!\n"
-#| "                    Whether it's a small tweak or a game-changing idea, "
-#| "we'd love to hear your thoughts.\n"
-#| "                    Every contribution helps shape the future of the "
-#| "project!\n"
-#| "                    "
 msgid ""
 "We're always looking for ways to improve and enhance your experience. If you "
 "have ideas or suggestions for new features that could make the platform "
@@ -1919,32 +1859,20 @@ msgid ""
 "game-changing idea, we'd love to hear your thoughts. Every contribution "
 "helps shape the future of the project!"
 msgstr ""
-"\n"
-"                    Nous cherchons toujours des façons d’améliorer votre "
-"expérience.\n"
+"Nous cherchons toujours des façons d’améliorer votre expérience.\n"
 "Si vous avez des idées ou des suggestions qui pourraient améliorer la "
 "plateforme, n'hésitez pas à les partager !\n"
 "Qu'il s'agisse d'une petite modification ou d'une nouvelle fonctionnalité, "
 "nous aimerions avoir votre avis.\n"
-"Chaque contribution contribue à façonner l’avenir du projet !\n"
-"                    "
+"Chaque contribution contribue à façonner l’avenir du projet !"
 
 #: templates/collaborators.html:138
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                    Here's a list of people who gave us feedback on "
-#| "desired features and ended up being implemented:\n"
-#| "                    "
 msgid ""
 "Here's a list of people who gave us feedback on desired features and ended "
 "up being implemented:"
 msgstr ""
-"\n"
-"                    Voici une liste de personnes qui nous ont fait part de "
-"leurs commentaires sur des fonctionnalités qu'ils souhaités et qui ont été "
-"ajoutées :\n"
-"                    "
+"Voici une liste de personnes qui nous ont fait part de leurs commentaires "
+"sur des fonctionnalités qu'ils souhaités et qui ont été ajoutées :"
 
 #: templates/contribute.html:21
 msgid "Contribute to Our Deckbuilder"
@@ -1969,11 +1897,9 @@ msgid ""
 "discord\"></i> Discord</a>!\n"
 "                        "
 msgstr ""
-"\n"
-"                        Des questions ? Des suggestions ? Contactez-nous sur "
-"<a href=\"%(discord_link)s\" target=\"_blank\"><i class=\"fa-brands fa-"
-"discord\"></i> Discord</a>!\n"
-"                        "
+"Des questions ? Des suggestions ? Contactez-nous sur <a "
+"href=\"%(discord_link)s\" target=\"_blank\"><i class=\"fa-brands fa-"
+"discord\"></i> Discord</a>!"
 
 #: templates/contribute.html:37
 msgid "Translating the Platform"
@@ -1999,13 +1925,11 @@ msgid ""
 "href=\"%(collaborators_url)s#translators\">Translators' section</a>.\n"
 "                        "
 msgstr ""
-"\n"
-"                        Si vous maîtrisez une ou plusieurs langues, vous "
-"pouvez contribuer en traduisant des parties du site ou en examinant les "
-"traductions déjà existantes. Nous vous mentionnerons dans notre <a "
+"Si vous maîtrisez une ou plusieurs langues, vous pouvez contribuer en "
+"traduisant des parties du site ou en examinant les traductions déjà "
+"existantes. Nous vous mentionnerons dans notre <a "
 "href=\"%(collaborators_url)s#translators\">section dédiée aux traducteurs</"
-"a>.\n"
-"                        "
+"a>."
 
 #: templates/contribute.html:47
 msgid ""
@@ -2033,13 +1957,11 @@ msgid ""
 "                            You can help us by:\n"
 "                        "
 msgstr ""
-"\n"
-"                            Êtes-vous un développeur, un concepteur ou "
-"quelqu’un qui se passionne pour l’amélioration des outils communautaires ?\n"
+"Êtes-vous un développeur, un concepteur ou quelqu’un qui se passionne pour "
+"l’amélioration des outils communautaires ?\n"
 "Contribuer à notre projet open-source est le meilleur moyen d'impacter son "
 "développement. \n"
-"Vous pouvez nous aider en :\n"
-"                        "
+"Vous pouvez nous aider en :"
 
 #: templates/contribute.html:71
 msgid "Building new features to make the platform even better."
@@ -2066,12 +1988,10 @@ msgid ""
 "a> if you're still learning your way around open-source!\n"
 "                        "
 msgstr ""
-"\n"
-"                            Nous sommes ouverts à toutes les contributions, "
-"peu importe votre niveau de compétence. Si vous êtes encore novice, "
-"n'hésitez pas à regarder les problèmes tagués <a href=\"%(github_url)s\" "
-"target=\"_blank\">good first issues</a>.\n"
-"                        "
+"Nous sommes ouverts à toutes les contributions, peu importe votre niveau de "
+"compétence. Si vous êtes encore novice, n'hésitez pas à regarder les "
+"problèmes tagués <a href=\"%(github_url)s\" target=\"_blank\">good first "
+"issues</a>."
 
 #: templates/contribute.html:92
 msgid "Support Through Patronage"

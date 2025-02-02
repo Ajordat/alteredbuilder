@@ -3,20 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-02 21:38+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2025-02-02 23:39+0100\n"
+"PO-Revision-Date: 2025-01-02 18:00+0000\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/altered-tcg-"
+"builder/server-strings/de/>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.10-dev\n"
 
 #: api/utils.py:20 decks/views.py:457
 msgid "Invalid payload"
@@ -182,10 +183,8 @@ msgstr "Suche nach Namen oder mit erweiterten Filtern"
 #: decks/templates/decks/deck_list.html:130
 #: decks/templates/decks/own_deck_list.html:36
 #: decks/templates/decks/own_deck_list.html:128
-#, fuzzy
-#| msgid "Advanced search filters"
 msgid "Advanced Search"
-msgstr "Erweiterte Suchfilter"
+msgstr "Erweiterte Suche"
 
 #: decks/templates/decks/card_list.html:70
 #: decks/templates/decks/deck_list.html:42
@@ -686,7 +685,7 @@ msgstr "Zählung"
 
 #: decks/templates/decks/deck_detail.html:333
 msgid "(+ 1 hero)"
-msgstr ""
+msgstr "(+ 1 Held)"
 
 #: decks/templates/decks/deck_detail.html:339
 msgid "Probability of drawing"
@@ -721,7 +720,7 @@ msgstr "Notizen"
 #: decks/templates/decks/own_deck_list.html:58
 #: decks/templates/decks/tooltips/legality.html:6
 msgid "Standard"
-msgstr ""
+msgstr "Standard"
 
 #: decks/templates/decks/deck_detail.html:380
 #: decks/templates/decks/deck_detail.html:394
@@ -902,14 +901,14 @@ msgstr "Melden Sie sich an, um Ihre geliebten Decks zu speichern!"
 #, fuzzy
 #| msgid "description"
 msgid "With description"
-msgstr "Beschreibung"
+msgstr "Mit Beschreibung"
 
 #: decks/templates/decks/deck_list.html:90
 #: decks/templates/decks/own_deck_list.html:88
 #, fuzzy
 #| msgid "Filters"
 msgid "Apply Filters"
-msgstr "Filter"
+msgstr "Filter anwenden"
 
 #: decks/templates/decks/deck_list.html:105
 #: decks/templates/decks/own_deck_list.html:103
