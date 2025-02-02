@@ -13,7 +13,6 @@ def init_models(apps):
 
 
 def import_data(apps, schema_editor):
-    return
     init_models(apps)
 
     if not settings.DEBUG:
@@ -27,12 +26,11 @@ def import_data(apps, schema_editor):
     call_command("loaddata", "sets_04092024", verbosity=0)
     call_command("loaddata", "subtypes_04092024", verbosity=0)
     call_command("loaddata", "cards_04092024", verbosity=0)
-    call_command("loaddata", "decks_04092024", verbosity=0)
+    call_command("loaddata", "decks_02022025", verbosity=0)
     call_command("loaddata", "cardindecks_04092024", verbosity=0)
 
 
 def delete_data(apps, schema_editor):
-    return
     init_models(apps)
 
     if not settings.DEBUG:
@@ -48,8 +46,7 @@ def delete_data(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("decks", "0060_create_tags"),
-        ("profiles", "0004_create_equinox_profile"),
+        ("decks", "0069_force_update_legality"),
     ]
 
     operations = [
