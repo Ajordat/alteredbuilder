@@ -1677,7 +1677,7 @@ msgstr "Inicio"
 
 #: templates/base.html:74
 msgid "Build"
-msgstr "crear"
+msgstr "Crear"
 
 #: templates/base.html:96
 msgid "Unique card"

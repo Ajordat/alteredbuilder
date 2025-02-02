@@ -831,7 +831,11 @@ class CardListView(ListView):
 
         # Add all sets to the context
         context["sets"] = Set.objects.all()
-        context["other_filters"] = [("Promo", _("Promo")), ("AltArt", _("Alternate Art")), ("Owned", _("In my collection"))]
+        context["other_filters"] = [
+            ("Promo", _("Promo")),
+            ("AltArt", _("Alternate Art")),
+            ("Owned", _("In my collection")),
+        ]
 
         return context
 

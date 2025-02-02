@@ -103,7 +103,11 @@ class Command(BaseCommand):
         # Create a HeroTrend record for each hero
         for record in hero_trends:
             hero = Card.objects.get(
-                type=Card.Type.HERO, name=record["hero_name"], set=core_set
+                type=Card.Type.HERO,
+                name=record["hero_name"],
+                set=core_set,
+                is_promo=False,
+                is_alt_art=False,
             )
 
             HeroTrend.objects.update_or_create(
@@ -158,6 +162,8 @@ class Command(BaseCommand):
                 name=record["name"],
                 rarity=record["card__rarity"],
                 faction=record["card__faction"],
+                is_promo=False,
+                is_alt_art=False,
             )
             CardTrend.objects.update_or_create(
                 card=card,
@@ -190,6 +196,8 @@ class Command(BaseCommand):
                     name=record["name"],
                     rarity=record["card__rarity"],
                     faction=record["card__faction"],
+                    is_promo=False,
+                    is_alt_art=False,
                 )
                 CardTrend.objects.update_or_create(
                     card=card,
@@ -220,6 +228,8 @@ class Command(BaseCommand):
                     name=record["name"],
                     rarity=record["card__rarity"],
                     faction=record["card__faction"],
+                    is_promo=False,
+                    is_alt_art=False,
                 )
                 CardTrend.objects.update_or_create(
                     card=card,
