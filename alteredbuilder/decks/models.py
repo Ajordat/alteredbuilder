@@ -139,6 +139,9 @@ class Card(models.Model):
     main_effect = models.TextField(blank=True)
     echo_effect = models.TextField(blank=True)
 
+    is_promo = models.BooleanField(default=False)
+    is_alt_art = models.BooleanField(default=False)
+
     stats = models.JSONField(blank=True, default=dict)
 
     created_at = models.DateTimeField(auto_now_add=True, null=True)
@@ -153,6 +156,9 @@ class Card(models.Model):
 
     def get_family_code(self):
         return "_".join(self.reference.split("_")[3:5])
+
+    def get_family(self):
+        return "_".join(self.reference.split("_")[3:6])
 
     def get_display_image(self) -> str:
         short_reference = self.reference[-7:]

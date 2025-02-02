@@ -157,7 +157,7 @@ class Command(BaseCommand):
             card = Card.objects.exclude(set=ks_set).get(
                 name=record["name"],
                 rarity=record["card__rarity"],
-                faction=record["card__faction"]
+                faction=record["card__faction"],
             )
             CardTrend.objects.update_or_create(
                 card=card,
@@ -189,7 +189,7 @@ class Command(BaseCommand):
                 card = Card.objects.exclude(set=ks_set).get(
                     name=record["name"],
                     rarity=record["card__rarity"],
-                    faction=record["card__faction"]
+                    faction=record["card__faction"],
                 )
                 CardTrend.objects.update_or_create(
                     card=card,
@@ -219,7 +219,7 @@ class Command(BaseCommand):
                 card = Card.objects.exclude(set=ks_set).get(
                     name=record["name"],
                     rarity=record["card__rarity"],
-                    faction=record["card__faction"]
+                    faction=record["card__faction"],
                 )
                 CardTrend.objects.update_or_create(
                     card=card,

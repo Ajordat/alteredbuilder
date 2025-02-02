@@ -66,16 +66,15 @@ function markCollectedCards(collection, settings) {
 
     const cards = document.getElementsByClassName('card-display');
     var finalCollection = {};
+    var familyCollection = {};
 
     if (settings.mergeSets) {
         for (let [reference, quantity] of Object.entries(collection)) {
-            finalCollection[reference] = quantity + (finalCollection[reference] || 0);
-            if (reference.includes("_CORE_")) {
-                let altRef = reference.replace("_CORE_", "_COREKS_");
-                finalCollection[altRef] = quantity + (finalCollection[altRef] || 0);
-            } else if (reference.includes("_COREKS_")) {
-                let altRef = reference.replace("_COREKS_", "_CORE_");
-                finalCollection[altRef] = quantity + (finalCollection[altRef] || 0);
+            let cardFamily = reference.split("_").slice(3, 6).join("_");
+            if (!cardFamily.includes("_U")) {
+                familyCollection[cardFamily] = quantity + (familyCollection[cardFamily] || 0);
+            } else {
+                finalCollection[reference] = 1;
             }
         }
     } else {
@@ -86,17 +85,27 @@ function markCollectedCards(collection, settings) {
         const cardReference = card.getAttribute('data-card-reference');
 
         if (finalCollection[cardReference]) {
+            setCardCount(card, finalCollection[cardReference]);
+            continue;
+        }
+        const cardFamily = card.getAttribute('data-card-family');
 
-            const badge = document.createElement('div');
-            badge.textContent = finalCollection[cardReference];
-            badge.className = 'card-badge px-2 py-1 border border-white';
-
-            card.style.position = 'relative';
-            card.appendChild(badge);
+        if (familyCollection[cardFamily]) {
+            setCardCount(card, familyCollection[cardFamily]);
+            continue;
         }
     }
 }
 
 function printSettings(settings) {
     document.getElementById("merge-sets-check").checked = settings.mergeSets;
+}
+
+function setCardCount(parentElement, count) {
+    const badge = document.createElement('div');
+    badge.textContent = count;
+    badge.className = 'card-badge px-2 py-1 border border-white';
+
+    parentElement.style.position = 'relative';
+    parentElement.appendChild(badge);
 }

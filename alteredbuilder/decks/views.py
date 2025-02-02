@@ -717,9 +717,18 @@ class CardListView(ListView):
             self.filter_sets = Set.objects.filter(code__in=card_sets.split(","))
             filters &= Q(set__in=self.filter_sets)
 
+        # Retrieve the Other filters.
+        # If any value is invalid, this filter will not be applied.
+        other_filters = self.request.GET.get("other")
+        if other_filters:
+            filters &= Q(
+                is_promo="Promo" in other_filters, is_alt_art="Alt Art" in other_filters
+            )
+        else:
+            filters &= Q(is_promo=False, is_alt_art=False)
+
         query_order = []
         order_param = self.request.GET.get("order")
-
         if order_param:
             # Subtract the "-" simbol pointing that the order will be inversed
             if desc := "-" in order_param:
@@ -809,7 +818,7 @@ class CardListView(ListView):
         # Retrieve the selected filters and structure them so that they can be marked
         # as checked
         checked_filters = []
-        for filter in ["faction", "rarity", "type", "set"]:
+        for filter in ["faction", "rarity", "type", "set", "other"]:
             if filter in self.request.GET:
                 checked_filters += self.request.GET[filter].split(",")
         context["checked_filters"] = checked_filters
@@ -822,6 +831,7 @@ class CardListView(ListView):
 
         # Add all sets to the context
         context["sets"] = Set.objects.all()
+        context["other_filters"] = ["Promo", "Alt Art"]
 
         return context
 

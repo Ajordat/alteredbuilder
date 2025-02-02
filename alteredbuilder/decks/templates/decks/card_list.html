@@ -103,6 +103,16 @@
                                                 </div>
     {% endfor %}
                                             </div>
+                                            <div class="col">
+                                                <!-- Set filters -->
+                                                <b>{% translate "Other" %}</b>
+    {% for filter in other_filters %}
+                                                <div class="form-check">
+                                                    <input class="form-check-input altered-style" type="checkbox" value="{{ filter }}" id="filter{{ filter }}" {% if filter in checked_filters %}checked{% endif %}>
+                                                    <label class="form-check-label d-block user-select-none" for="filter{{ filter }}" style="cursor: pointer;">{{ filter }}</label>
+                                                </div>
+    {% endfor %}
+                                            </div>
                                         </div>
                                         <div class="row mt-2">
                                             <div class="col text-end">
@@ -138,7 +148,7 @@
                 <!-- Card list with infinite scroll -->
     {% for card in card_list %}
                 <div class="col-xxxl-2 col-xxl-3 col-xl-4 col-lg-6 col-12 infinite-item d-flex justify-content-center">
-                    <div class="card-display rounded-3" data-card-reference="{{ card.reference }}" data-card-name="{{ card.name }}" data-card-type="{{ card.type }}" data-card-rarity="{{ card.rarity }}" data-card-image="{% cdn_image_url card.image_url %}">
+                    <div class="card-display rounded-3" data-card-reference="{{ card.reference }}" data-card-name="{{ card.name }}" data-card-type="{{ card.type }}" data-card-rarity="{{ card.rarity }}" data-card-family="{{ card.get_family }}" data-card-image="{% cdn_image_url card.image_url %}">
                         <img src="{% cdn_image_url card.image_url %}" class="card-img-top rounded-3" alt="{{ card.name }}">
                     </div>
                 </div>

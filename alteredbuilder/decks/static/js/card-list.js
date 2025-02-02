@@ -67,9 +67,15 @@ function searchCards(e) {
     }
 
     // Retrieve the SET filters
-    let sets = parseFilter(["BTG", "BTG-KS", "BTG-P", "TBF"]);
+    let sets = parseFilter(["BTG", "BTG-KS", "TBF"]);
     if (sets.length > 0) {
         params.append("set", sets.join(","));
+    }
+
+    // Retrieve the OTHER filters
+    let other = parseFilter(["Promo", "Alt Art"]);
+    if (other.length > 0) {
+        params.append("other", other.join(","));
     }
 
     // Retrieve the QUERY from the search input

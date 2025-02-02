@@ -216,7 +216,11 @@ class Command(BaseCommand):
         """
         try:
             card_dict["faction"] = Card.Faction(card_dict["faction"])
-            card_dict["type"] = getattr(Card.Type, card_dict["type"]) if card_dict["type"] != "PERMANENT" else Card.Type.LANDMARK_PERMANENT
+            card_dict["type"] = (
+                getattr(Card.Type, card_dict["type"])
+                if card_dict["type"] != "PERMANENT"
+                else Card.Type.LANDMARK_PERMANENT
+            )
             card_dict["rarity"] = getattr(Card.Rarity, card_dict["rarity"])
         except Exception as e:
             print(card_dict)
@@ -278,7 +282,7 @@ class Command(BaseCommand):
         card_obj.save()
 
         self.link_subtypes(card_obj, card_dict.get("subtypes", False))
-        
+
         self.stdout.write(f"card updated: {card_obj}")
 
     def link_subtypes(self, card: Card, subtypes):
