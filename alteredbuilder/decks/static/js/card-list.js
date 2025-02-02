@@ -73,7 +73,7 @@ function searchCards(e) {
     }
 
     // Retrieve the OTHER filters
-    let other = parseFilter(["Promo", "Alt Art"]);
+    let other = parseFilter(["Promo", "AltArt", "Owned"]);
     if (other.length > 0) {
         params.append("other", other.join(","));
     }

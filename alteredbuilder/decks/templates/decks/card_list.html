@@ -20,6 +20,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <!-- Styles adding the fonts used to display the Altered icons -->
     <link rel="stylesheet" href="{% static 'css/altered-icons.css' %}">
+    {% if 'Owned' in checked_filters %}
+    <style>
+        .infinite-item:has(> .card-display > :last-child:not(.card-badge)) {
+            display: none !important;
+        }
+    </style>
+    {% endif %}
 {% endblock %}
 
 
@@ -106,10 +113,10 @@
                                             <div class="col">
                                                 <!-- Set filters -->
                                                 <b>{% translate "Other" %}</b>
-    {% for filter in other_filters %}
+    {% for tag, label in other_filters %}
                                                 <div class="form-check">
-                                                    <input class="form-check-input altered-style" type="checkbox" value="{{ filter }}" id="filter{{ filter }}" {% if filter in checked_filters %}checked{% endif %}>
-                                                    <label class="form-check-label d-block user-select-none" for="filter{{ filter }}" style="cursor: pointer;">{{ filter }}</label>
+                                                    <input class="form-check-input altered-style" type="checkbox" value="{{ tag }}" id="filter{{ tag }}" {% if tag in checked_filters %}checked{% endif %}>
+                                                    <label class="form-check-label d-block user-select-none" for="filter{{ tag }}" style="cursor: pointer;">{{ label }}</label>
                                                 </div>
     {% endfor %}
                                             </div>

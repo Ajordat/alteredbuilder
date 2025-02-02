@@ -722,7 +722,7 @@ class CardListView(ListView):
         other_filters = self.request.GET.get("other")
         if other_filters:
             filters &= Q(
-                is_promo="Promo" in other_filters, is_alt_art="Alt Art" in other_filters
+                is_promo="Promo" in other_filters, is_alt_art="AltArt" in other_filters
             )
         else:
             filters &= Q(is_promo=False, is_alt_art=False)
@@ -831,7 +831,7 @@ class CardListView(ListView):
 
         # Add all sets to the context
         context["sets"] = Set.objects.all()
-        context["other_filters"] = ["Promo", "Alt Art"]
+        context["other_filters"] = [("Promo", _("Promo")), ("AltArt", _("Alternate Art")), ("Owned", _("In my collection"))]
 
         return context
 
