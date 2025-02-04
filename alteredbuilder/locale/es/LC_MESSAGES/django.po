@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-02 23:52+0100\n"
+"POT-Creation-Date: 2025-02-04 22:49+0100\n"
 "PO-Revision-Date: 2025-02-02 23:33+0000\n"
 "Last-Translator: Deleted User <noreply+48943@weblate.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/altered-tcg-"
@@ -953,55 +953,10 @@ msgid "This will take a while, I've seen it take up to 2 minutes..."
 msgstr "Esto tardará un rato, lo he visto durar incluso 2 minutos..."
 
 #: decks/templates/decks/import_card.html:54
-msgid "How can I make a card publicly visible? Does it have any risk?"
-msgstr "¿Cómo puedo hacer pública una carta única? ¿Tiene algún riesgo?"
-
-#: decks/templates/decks/import_card.html:59
-msgid ""
-"Currently, the only way to make a unique card publicly visible is to add it "
-"to your tradelist."
-msgstr ""
-"Actualmente, la única manera de hacer una carta única visible públicamente "
-"es añadiendola a una lista de intercambio."
-
-#: decks/templates/decks/import_card.html:60
-msgid ""
-"The only implications of this is that people you have added as friends in "
-"the Altered website can go to your profile and browse the cards on your "
-"tradelist. If they see a card that interests them, they can send you a trade "
-"request."
-msgstr ""
-"Las únicas implicaciones de esto es que las personas que has añadido como "
-"amigos en la página oficial de Altered pueden ir a tu perfil y navegar por "
-"las cartas de tu lista de intercambios. Si ven alguna carta que les "
-"interesa, pueden envarte una solicitud de intercambio."
-
-#: decks/templates/decks/import_card.html:61
-msgid ""
-"At that point, you can browse their tradelist and suggest a fair trade or "
-"reject their request directly. There is no risk of giving away your cards "
-"unwillingly by adding them to your tradelist."
-msgstr ""
-"En ese momento, tú puedes mirar su lista de intercambios y sugerir un cambio "
-"justo o rechazar su solicitud directamente. No hay riesgo de dar/regalar tus "
-"cartas sin querer por el simple hecho de añadirlas a tu lista de intercambio."
-
-#: decks/templates/decks/import_card.html:62
-msgid ""
-"Nevertheless, once you add a card to your tradelist, you can simply import "
-"it in this platform and remove it from your tradelist. The card should "
-"remain imported (if it doesn't let me know please)."
-msgstr ""
-"Sin embargo, una vez que añadas una carta a tu lista de intercambios, puedes "
-"simplemente importarla en esta plataforma y eliminarla de tu lista de "
-"intercambio. La carta debe permanecer importada (si no lo hace, por favor "
-"avísame)."
-
-#: decks/templates/decks/import_card.html:69
 msgid "How can I get the reference of a card?"
 msgstr "¿Cómo puedo conseguir la referencia a una carta?"
 
-#: decks/templates/decks/import_card.html:76
+#: decks/templates/decks/import_card.html:61
 msgid ""
 "Image provided by <a href=\"https://discordapp.com/"
 "users/134357944178442240\">Tristan</a>, check <a href=\"https://"
@@ -1011,11 +966,11 @@ msgstr ""
 "users/134357944178442240\">Tristan</a>, pásate por <a href=\"https://"
 "uniquesranking.onrender.com/\">Uniques Ranking</a>!"
 
-#: decks/templates/decks/import_card.html:84
+#: decks/templates/decks/import_card.html:69
 msgid "Notes on Functionality and Usage"
 msgstr "Notas sobre funcionalidad y uso"
 
-#: decks/templates/decks/import_card.html:90
+#: decks/templates/decks/import_card.html:75
 msgid ""
 "Currently, the official Altered website only displays the Unique cards in "
 "English and French."
@@ -1023,7 +978,7 @@ msgstr ""
 "Actualmente, el sitio web oficial de Altered sólo muestra las cartas únicas "
 "en inglés y francés."
 
-#: decks/templates/decks/import_card.html:91
+#: decks/templates/decks/import_card.html:76
 #, python-format
 msgid ""
 "The imported Unique card will appear on the '<a "
@@ -1034,11 +989,11 @@ msgstr ""
 "href=\"%(cards_tab_url)s\">Crear</a>' y será posible buscarla en todos los "
 "idiomas, pero la imagen estará estrictamente en inglés o francés."
 
-#: decks/templates/decks/import_card.html:92
+#: decks/templates/decks/import_card.html:77
 msgid "All users will be able to search and find the imported card."
 msgstr "Todos los usuarios podrán buscar y encontrar la carta importada."
 
-#: decks/templates/decks/import_card.html:93
+#: decks/templates/decks/import_card.html:78
 msgid ""
 "The communication with the Altered website is occasionally slow, so please "
 "<strong>be patient</strong>."
@@ -1046,13 +1001,13 @@ msgstr ""
 "La comunicación con la web de Altered es ocasionalmente lenta, por favor "
 "<strong>se paciente</strong>."
 
-#: decks/templates/decks/import_card.html:94
+#: decks/templates/decks/import_card.html:79
+#, python-format
 msgid ""
-"The Unique card <strong>needs to be public</strong> so that it can be "
-"imported. Once the process is finished, the card can be made private again."
+"You can search for any imported card in the '<a "
+"href=\"%(cards_tab_url)s\">Build</a>' tab by using an advanced filter with "
+"the card's reference. For example:"
 msgstr ""
-"La carta única <strong>tiene que ser pública</strong> para ser importada. "
-"Una vez el proceso ha terminado, la carta se puede hacer privada de nuevo."
 
 #: decks/templates/decks/new_deck.html:6 decks/templates/decks/new_deck.html:7
 msgid "New Deck"
@@ -1257,24 +1212,24 @@ msgstr "Carta no encontrada"
 msgid "Comment not found"
 msgstr "No se ha encontrado el comentario"
 
-#: decks/views.py:834
+#: decks/views.py:835
 msgid "Promo"
 msgstr "Promo"
 
-#: decks/views.py:834
+#: decks/views.py:836
 msgid "Alternate Art"
 msgstr "Arte Alternativo"
 
-#: decks/views.py:834
+#: decks/views.py:837
 msgid "In my collection"
 msgstr "En mi colección"
 
-#: decks/views.py:863
+#: decks/views.py:867
 #, python-format
 msgid "The card '%(card_name)s' (%(reference)s) was successfully imported."
 msgstr "La carta '%(card_name)s' (%(reference)s) se ha importado con éxito."
 
-#: decks/views.py:875
+#: decks/views.py:879
 #, python-format
 msgid ""
 "This unique version of '%(card_name)s' (%(reference)s) already exists in the "
@@ -1283,12 +1238,12 @@ msgstr ""
 "Esta versión única de '%(card_name)s' (%(reference)s) ya existe en la base "
 "de datos."
 
-#: decks/views.py:884
+#: decks/views.py:888
 #, python-format
 msgid "The card '%(reference)s' is not public"
 msgstr "La carta '%(reference)s' no es pública"
 
-#: decks/views.py:889
+#: decks/views.py:893
 msgid "Failed to fetch the card on the official API."
 msgstr "No se ha podido encontrar la carta en la API oficial."
 
@@ -1877,22 +1832,18 @@ msgstr ""
 #: templates/contribute.html:26
 #, python-format
 msgid ""
-"\n"
-"                        Questions? Suggestions? Reach out to us on <a "
-"href=\"%(discord_link)s\" target=\"_blank\"><i class=\"fa-brands fa-"
-"discord\"></i> Discord</a>!\n"
-"                        "
+"Questions? Suggestions? Reach out to us on <a href=\"%(discord_link)s\" "
+"target=\"_blank\"><i class=\"fa-brands fa-discord\"></i> Discord</a>!"
 msgstr ""
-"\n"
 "¿Preguntas? ¿Sugerencias? ¡Ponte en contacto con nosotros en <a "
 "href=\"%(discord_link)s\" target=\"_blank\"><i class=\"fa-brands fa-"
 "discord\"></i>Discord</a>!"
 
-#: templates/contribute.html:37
+#: templates/contribute.html:35
 msgid "Translating the Platform"
 msgstr "Traduciendo la plataforma"
 
-#: templates/contribute.html:39
+#: templates/contribute.html:37
 msgid ""
 "We believe in making this platform available in all the languages that the "
 "game is available in: <strong>English, French, German, Italian and Spanish</"
@@ -1902,23 +1853,19 @@ msgstr ""
 "los que está disponible el juego: <strong>inglés, francés, alemán, italiano "
 "y español</strong>."
 
-#: templates/contribute.html:42
+#: templates/contribute.html:40
 #, python-format
 msgid ""
-"\n"
-"                        If you're fluent in one language or many, you can "
-"contribute by translating parts of the site or reviewing existing "
-"translations. We will mention you on our <a "
-"href=\"%(collaborators_url)s#translators\">Translators' section</a>.\n"
-"                        "
+"If you're fluent in one language or many, you can contribute by translating "
+"parts of the site or reviewing existing translations. We will mention you on "
+"our <a href=\"%(collaborators_url)s#translators\">Translators' section</a>."
 msgstr ""
-"\n"
 "Si hablas con fluidez uno o varios idiomas, puedes contribuir traduciendo "
 "partes de la web o revisando traducciones existentes. Te mencionaremos en "
 "nuestra sección de <a "
 "href=\"%(collaborators_url)s#translators\">Traductores</a>."
 
-#: templates/contribute.html:47
+#: templates/contribute.html:43
 msgid ""
 "Our integration with Weblate makes it easy for anyone to contribute "
 "translations, even without prior experience."
@@ -1926,65 +1873,57 @@ msgstr ""
 "Nuestra integración con Weblate hace que sea fácil para cualquier persona "
 "colaborar en las traducciones, incluso sin experiencia previa."
 
-#: templates/contribute.html:50
+#: templates/contribute.html:46
 msgid "Take a look!"
 msgstr "¡Échale un vistazo!"
 
-#: templates/contribute.html:62
+#: templates/contribute.html:58
 msgid "Open Source Contributions"
 msgstr "Colaboraciones de código abierto"
 
-#: templates/contribute.html:64
+#: templates/contribute.html:60
 msgid ""
-"\n"
-"                            Are you a developer, designer, or someone "
-"passionate about improving tools for the community?\n"
-"                            Contributing to our open-source project is a "
-"great way to make an impact. \n"
-"                            You can help us by:\n"
-"                        "
+"Are you a developer, designer, or someone passionate about improving tools "
+"for the community? Contributing to our open-source project is a great way to "
+"make an impact. You can help us by:"
 msgstr ""
-"\n"
 "¿Eres desarrollador, diseñador o alguien apasionado por mejorar las "
 "herramientas para la comunidad?\n"
 "Contribuir a nuestro proyecto de código abierto es una gran manera de crear "
 "un impacto. \n"
 "Puede ayudarnos:"
 
-#: templates/contribute.html:71
+#: templates/contribute.html:63
 msgid "Building new features to make the platform even better."
 msgstr ""
 "Desarrollando nuevas funcionalidades para hacer la plataforma aún mejor."
 
-#: templates/contribute.html:72
+#: templates/contribute.html:64
 msgid "Fixing bugs or resolving issues that users have reported."
 msgstr ""
 "Corregiendo errores o resolver problemas que los usuarios hayan informado."
 
-#: templates/contribute.html:73
+#: templates/contribute.html:65
 msgid "Improving documentation to help other contributors get started."
 msgstr ""
 "Mejorando la documentación para ayudar a otros colaboradores a empezar."
 
-#: templates/contribute.html:76
+#: templates/contribute.html:68
 #, python-format
 msgid ""
-"\n"
-"                            We welcome contributions of all skill levels, we "
-"also tag the <a href=\"%(github_url)s\" target=\"_blank\">good first issues</"
-"a> if you're still learning your way around open-source!\n"
-"                        "
+"We welcome contributions of all skill levels, we also tag the <a "
+"href=\"%(github_url)s\" target=\"_blank\">good first issues</a> if you're "
+"still learning your way around open-source!"
 msgstr ""
-"\n"
 "Aceptamos contribuciones de todos los niveles, ¡también marcamos los <a "
 "href=\"%(github_url)s\" target=\"_blank\">buenos primeros problemas</a> si "
 "aún estás empezando con el código abierto!"
 
-#: templates/contribute.html:92
+#: templates/contribute.html:82
 msgid "Support Through Patronage"
 msgstr "Apoyo a través del patrocinio"
 
-#: templates/contribute.html:94
+#: templates/contribute.html:84
 msgid ""
 "Your financial support ensures the long-term success of this platform. "
 "Running a feature-rich and reliable service comes with the cost of server "
@@ -1998,7 +1937,7 @@ msgstr ""
 "viene con el costo del alojamiento de servidores y mi tiempo personal para "
 "implementar actualizaciones."
 
-#: templates/contribute.html:97
+#: templates/contribute.html:87
 msgid ""
 "By becoming a patron, you not only help keep the platform free for everyone, "
 "but you also enable faster development of new features, better performance, "
@@ -2008,16 +1947,13 @@ msgstr ""
 "gratuita para todos, sino que también permites un desarrollo más rápido de "
 "nuevas funciones, un mejor rendimiento y mejoras continuas."
 
-#: templates/contribute.html:100
+#: templates/contribute.html:90
 #, python-format
 msgid ""
-"\n"
-"                        As a token of our gratitude, patrons are recognized "
-"on our <a href=\"%(collaborators_url)s#patrons\">Contributors' Page</a>, "
-"showcasing their vital role in supporting the project.\n"
-"                        "
+"As a token of our gratitude, patrons are recognized on our <a "
+"href=\"%(collaborators_url)s#patrons\">Contributors' Page</a>, showcasing "
+"their vital role in supporting the project."
 msgstr ""
-"\n"
 "Como muestra de nuestro agradecimiento, los patrocinadores son reconocidos "
 "en nuestra <a href=\"%(collaborators_url)s#patrons\">Página de "
 "colaboradores</a>, mostrando su papel vital en el apoyo al proyecto."
@@ -2134,6 +2070,55 @@ msgstr "Cartas Populares"
 #: trends/templates/trends/home.html:96
 msgid "Trending decks"
 msgstr "Mazos populares"
+
+#~ msgid "How can I make a card publicly visible? Does it have any risk?"
+#~ msgstr "¿Cómo puedo hacer pública una carta única? ¿Tiene algún riesgo?"
+
+#~ msgid ""
+#~ "Currently, the only way to make a unique card publicly visible is to add "
+#~ "it to your tradelist."
+#~ msgstr ""
+#~ "Actualmente, la única manera de hacer una carta única visible "
+#~ "públicamente es añadiendola a una lista de intercambio."
+
+#~ msgid ""
+#~ "The only implications of this is that people you have added as friends in "
+#~ "the Altered website can go to your profile and browse the cards on your "
+#~ "tradelist. If they see a card that interests them, they can send you a "
+#~ "trade request."
+#~ msgstr ""
+#~ "Las únicas implicaciones de esto es que las personas que has añadido como "
+#~ "amigos en la página oficial de Altered pueden ir a tu perfil y navegar "
+#~ "por las cartas de tu lista de intercambios. Si ven alguna carta que les "
+#~ "interesa, pueden envarte una solicitud de intercambio."
+
+#~ msgid ""
+#~ "At that point, you can browse their tradelist and suggest a fair trade or "
+#~ "reject their request directly. There is no risk of giving away your cards "
+#~ "unwillingly by adding them to your tradelist."
+#~ msgstr ""
+#~ "En ese momento, tú puedes mirar su lista de intercambios y sugerir un "
+#~ "cambio justo o rechazar su solicitud directamente. No hay riesgo de dar/"
+#~ "regalar tus cartas sin querer por el simple hecho de añadirlas a tu lista "
+#~ "de intercambio."
+
+#~ msgid ""
+#~ "Nevertheless, once you add a card to your tradelist, you can simply "
+#~ "import it in this platform and remove it from your tradelist. The card "
+#~ "should remain imported (if it doesn't let me know please)."
+#~ msgstr ""
+#~ "Sin embargo, una vez que añadas una carta a tu lista de intercambios, "
+#~ "puedes simplemente importarla en esta plataforma y eliminarla de tu lista "
+#~ "de intercambio. La carta debe permanecer importada (si no lo hace, por "
+#~ "favor avísame)."
+
+#~ msgid ""
+#~ "The Unique card <strong>needs to be public</strong> so that it can be "
+#~ "imported. Once the process is finished, the card can be made private "
+#~ "again."
+#~ msgstr ""
+#~ "La carta única <strong>tiene que ser pública</strong> para ser importada. "
+#~ "Una vez el proceso ha terminado, la carta se puede hacer privada de nuevo."
 
 #, python-format
 #~ msgid "%(comment_count)s comment"

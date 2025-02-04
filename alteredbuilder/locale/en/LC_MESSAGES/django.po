@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-02 23:39+0100\n"
+"POT-Creation-Date: 2025-02-04 22:43+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -935,59 +935,27 @@ msgid "This will take a while, I've seen it take up to 2 minutes..."
 msgstr ""
 
 #: decks/templates/decks/import_card.html:54
-msgid "How can I make a card publicly visible? Does it have any risk?"
-msgstr ""
-
-#: decks/templates/decks/import_card.html:59
-msgid ""
-"Currently, the only way to make a unique card publicly visible is to add it "
-"to your tradelist."
-msgstr ""
-
-#: decks/templates/decks/import_card.html:60
-msgid ""
-"The only implications of this is that people you have added as friends in "
-"the Altered website can go to your profile and browse the cards on your "
-"tradelist. If they see a card that interests them, they can send you a trade "
-"request."
-msgstr ""
-
-#: decks/templates/decks/import_card.html:61
-msgid ""
-"At that point, you can browse their tradelist and suggest a fair trade or "
-"reject their request directly. There is no risk of giving away your cards "
-"unwillingly by adding them to your tradelist."
-msgstr ""
-
-#: decks/templates/decks/import_card.html:62
-msgid ""
-"Nevertheless, once you add a card to your tradelist, you can simply import "
-"it in this platform and remove it from your tradelist. The card should "
-"remain imported (if it doesn't let me know please)."
-msgstr ""
-
-#: decks/templates/decks/import_card.html:69
 msgid "How can I get the reference of a card?"
 msgstr ""
 
-#: decks/templates/decks/import_card.html:76
+#: decks/templates/decks/import_card.html:61
 msgid ""
 "Image provided by <a href=\"https://discordapp.com/"
 "users/134357944178442240\">Tristan</a>, check <a href=\"https://"
 "uniquesranking.onrender.com/\">Uniques Ranking</a>!"
 msgstr ""
 
-#: decks/templates/decks/import_card.html:84
+#: decks/templates/decks/import_card.html:69
 msgid "Notes on Functionality and Usage"
 msgstr ""
 
-#: decks/templates/decks/import_card.html:90
+#: decks/templates/decks/import_card.html:75
 msgid ""
 "Currently, the official Altered website only displays the Unique cards in "
 "English and French."
 msgstr ""
 
-#: decks/templates/decks/import_card.html:91
+#: decks/templates/decks/import_card.html:76
 #, python-format
 msgid ""
 "The imported Unique card will appear on the '<a "
@@ -995,20 +963,22 @@ msgid ""
 "for it in all languages, but the image will be strictly in English or French."
 msgstr ""
 
-#: decks/templates/decks/import_card.html:92
+#: decks/templates/decks/import_card.html:77
 msgid "All users will be able to search and find the imported card."
 msgstr ""
 
-#: decks/templates/decks/import_card.html:93
+#: decks/templates/decks/import_card.html:78
 msgid ""
 "The communication with the Altered website is occasionally slow, so please "
 "<strong>be patient</strong>."
 msgstr ""
 
-#: decks/templates/decks/import_card.html:94
+#: decks/templates/decks/import_card.html:79
+#, python-format
 msgid ""
-"The Unique card <strong>needs to be public</strong> so that it can be "
-"imported. Once the process is finished, the card can be made private again."
+"You can search for any imported card in the '<a "
+"href=\"%(cards_tab_url)s\">Build</a>' tab by using an advanced filter with "
+"the card's reference. For example:"
 msgstr ""
 
 #: decks/templates/decks/new_deck.html:6 decks/templates/decks/new_deck.html:7
@@ -1201,36 +1171,36 @@ msgstr ""
 msgid "Comment not found"
 msgstr ""
 
-#: decks/views.py:834
+#: decks/views.py:835
 msgid "Promo"
 msgstr ""
 
-#: decks/views.py:834
+#: decks/views.py:836
 msgid "Alternate Art"
 msgstr ""
 
-#: decks/views.py:834
+#: decks/views.py:837
 msgid "In my collection"
 msgstr ""
 
-#: decks/views.py:863
+#: decks/views.py:867
 #, python-format
 msgid "The card '%(card_name)s' (%(reference)s) was successfully imported."
 msgstr ""
 
-#: decks/views.py:875
+#: decks/views.py:879
 #, python-format
 msgid ""
 "This unique version of '%(card_name)s' (%(reference)s) already exists in the "
 "database."
 msgstr ""
 
-#: decks/views.py:884
+#: decks/views.py:888
 #, python-format
 msgid "The card '%(reference)s' is not public"
 msgstr ""
 
-#: decks/views.py:889
+#: decks/views.py:893
 msgid "Failed to fetch the card on the official API."
 msgstr ""
 
@@ -1751,108 +1721,94 @@ msgstr ""
 #: templates/contribute.html:26
 #, python-format
 msgid ""
-"\n"
-"                        Questions? Suggestions? Reach out to us on <a "
-"href=\"%(discord_link)s\" target=\"_blank\"><i class=\"fa-brands fa-"
-"discord\"></i> Discord</a>!\n"
-"                        "
+"Questions? Suggestions? Reach out to us on <a href=\"%(discord_link)s\" "
+"target=\"_blank\"><i class=\"fa-brands fa-discord\"></i> Discord</a>!"
 msgstr ""
 
-#: templates/contribute.html:37
+#: templates/contribute.html:35
 msgid "Translating the Platform"
 msgstr ""
 
-#: templates/contribute.html:39
+#: templates/contribute.html:37
 msgid ""
 "We believe in making this platform available in all the languages that the "
 "game is available in: <strong>English, French, German, Italian and Spanish</"
 "strong>."
 msgstr ""
 
-#: templates/contribute.html:42
+#: templates/contribute.html:40
 #, python-format
 msgid ""
-"\n"
-"                        If you're fluent in one language or many, you can "
-"contribute by translating parts of the site or reviewing existing "
-"translations. We will mention you on our <a "
-"href=\"%(collaborators_url)s#translators\">Translators' section</a>.\n"
-"                        "
+"If you're fluent in one language or many, you can contribute by translating "
+"parts of the site or reviewing existing translations. We will mention you on "
+"our <a href=\"%(collaborators_url)s#translators\">Translators' section</a>."
 msgstr ""
 
-#: templates/contribute.html:47
+#: templates/contribute.html:43
 msgid ""
 "Our integration with Weblate makes it easy for anyone to contribute "
 "translations, even without prior experience."
 msgstr ""
 
-#: templates/contribute.html:50
+#: templates/contribute.html:46
 msgid "Take a look!"
 msgstr ""
 
-#: templates/contribute.html:62
+#: templates/contribute.html:58
 msgid "Open Source Contributions"
 msgstr ""
 
-#: templates/contribute.html:64
+#: templates/contribute.html:60
 msgid ""
-"\n"
-"                            Are you a developer, designer, or someone "
-"passionate about improving tools for the community?\n"
-"                            Contributing to our open-source project is a "
-"great way to make an impact. \n"
-"                            You can help us by:\n"
-"                        "
+"Are you a developer, designer, or someone passionate about improving tools "
+"for the community? Contributing to our open-source project is a great way to "
+"make an impact. You can help us by:"
 msgstr ""
 
-#: templates/contribute.html:71
+#: templates/contribute.html:63
 msgid "Building new features to make the platform even better."
 msgstr ""
 
-#: templates/contribute.html:72
+#: templates/contribute.html:64
 msgid "Fixing bugs or resolving issues that users have reported."
 msgstr ""
 
-#: templates/contribute.html:73
+#: templates/contribute.html:65
 msgid "Improving documentation to help other contributors get started."
 msgstr ""
 
-#: templates/contribute.html:76
+#: templates/contribute.html:68
 #, python-format
 msgid ""
-"\n"
-"                            We welcome contributions of all skill levels, we "
-"also tag the <a href=\"%(github_url)s\" target=\"_blank\">good first issues</"
-"a> if you're still learning your way around open-source!\n"
-"                        "
+"We welcome contributions of all skill levels, we also tag the <a "
+"href=\"%(github_url)s\" target=\"_blank\">good first issues</a> if you're "
+"still learning your way around open-source!"
 msgstr ""
 
-#: templates/contribute.html:92
+#: templates/contribute.html:82
 msgid "Support Through Patronage"
 msgstr ""
 
-#: templates/contribute.html:94
+#: templates/contribute.html:84
 msgid ""
 "Your financial support ensures the long-term success of this platform. "
 "Running a feature-rich and reliable service comes with the cost of server "
 "hosting and my personal time for implementing updates."
 msgstr ""
 
-#: templates/contribute.html:97
+#: templates/contribute.html:87
 msgid ""
 "By becoming a patron, you not only help keep the platform free for everyone, "
 "but you also enable faster development of new features, better performance, "
 "and ongoing improvements."
 msgstr ""
 
-#: templates/contribute.html:100
+#: templates/contribute.html:90
 #, python-format
 msgid ""
-"\n"
-"                        As a token of our gratitude, patrons are recognized "
-"on our <a href=\"%(collaborators_url)s#patrons\">Contributors' Page</a>, "
-"showcasing their vital role in supporting the project.\n"
-"                        "
+"As a token of our gratitude, patrons are recognized on our <a "
+"href=\"%(collaborators_url)s#patrons\">Contributors' Page</a>, showcasing "
+"their vital role in supporting the project."
 msgstr ""
 
 #: templates/errors/403.html:7
