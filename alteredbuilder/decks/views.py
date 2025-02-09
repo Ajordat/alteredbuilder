@@ -706,10 +706,13 @@ class CardListView(ListView):
             else:
                 if Card.Rarity.UNIQUE in rarities and retrieve_owned:
                     rarities.remove(Card.Rarity.UNIQUE)
-                    filters &= Q(rarity__in=rarities) | (
-                        Q(rarity=Card.Rarity.UNIQUE)
-                        & Q(favorited_by__user=self.request.user)
-                    )
+                    if self.request.user.is_authenticated:
+                        filters &= Q(rarity__in=rarities) | (
+                            Q(rarity=Card.Rarity.UNIQUE)
+                            & Q(favorited_by__user=self.request.user)
+                        )
+                    else:
+                        filters &= Q(rarity__in=rarities)
                 else:
                     filters &= Q(rarity__in=rarities)
         else:
