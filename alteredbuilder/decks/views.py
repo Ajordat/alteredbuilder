@@ -684,6 +684,17 @@ class CardListView(ListView):
             else:
                 filters &= Q(faction__in=factions)
 
+        # Retrieve the Other filters.
+        other_filters = self.request.GET.get("other")
+        if other_filters:
+            filters &= Q(
+                is_promo="Promo" in other_filters, is_alt_art="AltArt" in other_filters
+            )
+            retrieve_owned = "Owned" in other_filters
+        else:
+            filters &= Q(is_promo=False, is_alt_art=False)
+            retrieve_owned = False
+
         # Retrieve the Rarity filters.
         # If any value is invalid, this filter will not be applied.
         rarities = self.request.GET.get("rarity")
@@ -693,7 +704,14 @@ class CardListView(ListView):
             except ValueError:
                 pass
             else:
-                filters &= Q(rarity__in=rarities)
+                if Card.Rarity.UNIQUE in rarities and retrieve_owned:
+                    rarities.remove(Card.Rarity.UNIQUE)
+                    filters &= Q(rarity__in=rarities) | (
+                        Q(rarity=Card.Rarity.UNIQUE)
+                        & Q(favorited_by__user=self.request.user)
+                    )
+                else:
+                    filters &= Q(rarity__in=rarities)
         else:
             filters &= ~Q(rarity=Card.Rarity.UNIQUE)
 
@@ -716,16 +734,6 @@ class CardListView(ListView):
         if card_sets:
             self.filter_sets = Set.objects.filter(code__in=card_sets.split(","))
             filters &= Q(set__in=self.filter_sets)
-
-        # Retrieve the Other filters.
-        # If any value is invalid, this filter will not be applied.
-        other_filters = self.request.GET.get("other")
-        if other_filters:
-            filters &= Q(
-                is_promo="Promo" in other_filters, is_alt_art="AltArt" in other_filters
-            )
-        else:
-            filters &= Q(is_promo=False, is_alt_art=False)
 
         query_order = []
         order_param = self.request.GET.get("order")
