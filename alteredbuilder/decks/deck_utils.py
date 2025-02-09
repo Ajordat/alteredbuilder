@@ -17,7 +17,7 @@ from decks.game_modes import (
     StandardGameMode,
     update_deck_legality,
 )
-from decks.models import Card, CardInDeck, Deck, LovePoint, Subtype
+from decks.models import Card, CardInDeck, Deck, FavoriteCard, LovePoint, Subtype
 from decks.exceptions import AlteredAPIError, CardAlreadyExists, MalformedDeckException
 
 
@@ -88,10 +88,15 @@ def create_new_deck(user: User, deck_form: dict) -> Deck:
         try:
             card = Card.objects.get(reference=reference)
         except Card.DoesNotExist:
-            # The Card's reference needs to exist on the database
-            raise MalformedDeckException(
-                _("Card '%(reference)s' does not exist") % {"reference": reference}
-            )
+            try:
+                card = import_unique_card(reference)
+                FavoriteCard.objects.get_or_create(user=user, card=card)
+                print(f"Created card '{reference}'")
+            except AlteredAPIError:
+                # The Card's reference needs to exist on the database
+                raise MalformedDeckException(
+                    _("Card '%(reference)s' does not exist") % {"reference": reference}
+                )
 
         if card.type == Card.Type.HERO:
             if not has_hero:
