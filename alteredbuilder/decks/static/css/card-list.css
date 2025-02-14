@@ -138,3 +138,61 @@ html[data-bs-theme="dark"] .card-name {
     z-index: 10;
     pointer-events: none;
 }
+
+.click-animation {
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.click-animation::after {
+    content: "";
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    pointer-events: none;
+    filter: blur(5px);
+}
+
+.click-animation::after {
+    content: "";
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    pointer-events: none;
+    filter: blur(5px);
+}
+
+.click-animation[data-card-rarity="C"]::after {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.click-animation.clicked::after {
+    animation: ripple 1.1s ease-out;
+}
+
+@keyframes ripple {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+    100% {
+        width: 200%;
+        height: 200%;
+        opacity: 0;
+        filter: blur(10px);
+    }
+}

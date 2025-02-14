@@ -439,6 +439,10 @@ function addCardFromDisplay(event) {
     let cardRarity = event.currentTarget.dataset.cardRarity;
     let cardImage = event.currentTarget.dataset.cardImage;
 
+    event.currentTarget.classList.remove("clicked");
+    void event.currentTarget.offsetWidth;
+    event.currentTarget.classList.add("clicked");
+
     if (cardType === "hero") {
         // If it's a hero and there's no hero on the deck, add it
         let heroElement = document.getElementById("hero-name");
