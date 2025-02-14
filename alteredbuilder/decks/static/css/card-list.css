@@ -176,7 +176,13 @@ html[data-bs-theme="dark"] .card-name {
 }
 
 .click-animation[data-card-rarity="C"]::after {
-    background: rgba(255, 255, 255, 0.3);
+    background: var(--C-color);
+}
+.click-animation[data-card-rarity="R"]::after {
+    background: var(--R-color);
+}
+.click-animation[data-card-rarity="U"]::after {
+    background: var(--U-color);
 }
 
 .click-animation.clicked::after {
@@ -187,7 +193,10 @@ html[data-bs-theme="dark"] .card-name {
     0% {
         width: 0;
         height: 0;
-        opacity: 1;
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 0.2;
     }
     100% {
         width: 200%;
