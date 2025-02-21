@@ -207,6 +207,9 @@ svg > g > g.google-visualization-tooltip { pointer-events: none }
 div.card {
     scroll-margin-top: 70px;
 }
+div.card-body {
+    scroll-margin-top: 30px;
+}
 
 /* ALTERED STYLE */
 hr.altered-style {

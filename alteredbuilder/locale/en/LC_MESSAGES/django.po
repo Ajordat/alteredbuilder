@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-04 22:43+0100\n"
+"POT-Creation-Date: 2025-02-21 18:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: api/utils.py:20 decks/views.py:457
+#: api/utils.py:20 decks/views.py:458
 msgid "Invalid payload"
 msgstr ""
 
-#: api/utils.py:23 api/utils.py:25 decks/views.py:542
+#: api/utils.py:23 api/utils.py:25 decks/views.py:543
 msgid "Invalid request"
 msgstr ""
 
@@ -52,48 +52,48 @@ msgstr ""
 msgid "Failed to unpack '%(line)s'"
 msgstr ""
 
-#: decks/deck_utils.py:93
+#: decks/deck_utils.py:98
 #, python-format
 msgid "Card '%(reference)s' does not exist"
 msgstr ""
 
-#: decks/deck_utils.py:103
+#: decks/deck_utils.py:108
 msgid "Multiple heroes present in the decklist"
 msgstr ""
 
-#: decks/deck_utils.py:245
+#: decks/deck_utils.py:250
 msgid "reference"
 msgstr ""
 
-#: decks/deck_utils.py:265
+#: decks/deck_utils.py:270
 msgid "hand cost"
 msgstr ""
 
-#: decks/deck_utils.py:285
+#: decks/deck_utils.py:290
 msgid "reserve cost"
 msgstr ""
 
-#: decks/deck_utils.py:294
+#: decks/deck_utils.py:299
 msgid "ability"
 msgstr ""
 
-#: decks/deck_utils.py:307
+#: decks/deck_utils.py:312
 msgid "subtype"
 msgstr ""
 
-#: decks/deck_utils.py:321
+#: decks/deck_utils.py:326
 msgid "trigger"
 msgstr ""
 
-#: decks/deck_utils.py:328 decks/deck_utils.py:433
+#: decks/deck_utils.py:333 decks/deck_utils.py:438
 msgid "query"
 msgstr ""
 
-#: decks/deck_utils.py:419
+#: decks/deck_utils.py:424
 msgid "user"
 msgstr ""
 
-#: decks/deck_utils.py:428
+#: decks/deck_utils.py:433
 msgid "hero"
 msgstr ""
 
@@ -120,42 +120,54 @@ msgid ""
 "'ALT_COREKS_B_OR_21_U_2139'."
 msgstr ""
 
-#: decks/game_modes.py:89 decks/migrations/0069_force_update_legality.py:87
+#: decks/game_modes.py:98 decks/migrations/0069_force_update_legality.py:87
+#: decks/migrations/0073_force_update_legality.py:96
 #, python-format
 msgid "Exceeds maximum faction count (%(count)s)"
 msgstr ""
 
-#: decks/game_modes.py:93 decks/migrations/0069_force_update_legality.py:91
+#: decks/game_modes.py:102 decks/migrations/0069_force_update_legality.py:91
+#: decks/migrations/0073_force_update_legality.py:100
 #, python-format
 msgid "Does not have enough cards (%(count)s)"
 msgstr ""
 
-#: decks/game_modes.py:97 decks/migrations/0069_force_update_legality.py:95
+#: decks/game_modes.py:106 decks/migrations/0069_force_update_legality.py:95
+#: decks/migrations/0073_force_update_legality.py:104
 #, python-format
 msgid "Exceeds the maximum RARE card count (%(count)s)"
 msgstr ""
 
-#: decks/game_modes.py:101 decks/migrations/0069_force_update_legality.py:99
+#: decks/game_modes.py:110 decks/migrations/0069_force_update_legality.py:99
+#: decks/migrations/0073_force_update_legality.py:108
 #, python-format
 msgid "Exceeds the maximum UNIQUE card count (%(count)s)"
 msgstr ""
 
-#: decks/game_modes.py:105 decks/migrations/0069_force_update_legality.py:103
+#: decks/game_modes.py:114 decks/migrations/0069_force_update_legality.py:103
+#: decks/migrations/0073_force_update_legality.py:112
 msgid "There's more than a single copy of a UNIQUE card"
 msgstr ""
 
-#: decks/game_modes.py:108 decks/migrations/0069_force_update_legality.py:106
+#: decks/game_modes.py:117 decks/migrations/0069_force_update_legality.py:106
+#: decks/migrations/0073_force_update_legality.py:115
 #, python-format
 msgid "Exceeds the maximum card count for any given family (%(count)s)"
 msgstr ""
 
-#: decks/game_modes.py:111 decks/migrations/0069_force_update_legality.py:109
+#: decks/game_modes.py:120 decks/migrations/0069_force_update_legality.py:109
+#: decks/migrations/0073_force_update_legality.py:118
 msgid "Missing hero"
 msgstr ""
 
-#: decks/game_modes.py:113 decks/migrations/0069_force_update_legality.py:111
+#: decks/game_modes.py:122 decks/migrations/0069_force_update_legality.py:111
+#: decks/migrations/0073_force_update_legality.py:120
 #, python-format
 msgid "Does not reach the minimum faction count (%(count)s)"
+msgstr ""
+
+#: decks/game_modes.py:126 decks/migrations/0073_force_update_legality.py:124
+msgid "Contains a banned card"
 msgstr ""
 
 #: decks/templates/decks/card_list.html:8
@@ -519,17 +531,17 @@ msgid "Options"
 msgstr ""
 
 #: decks/templates/decks/deck_detail.html:92
-#: decks/templates/decks/deck_detail.html:471
+#: decks/templates/decks/deck_detail.html:477
 msgid "Edit tags"
 msgstr ""
 
 #: decks/templates/decks/deck_detail.html:93
-#: decks/templates/decks/deck_detail.html:450
+#: decks/templates/decks/deck_detail.html:456
 msgid "Edit metadata"
 msgstr ""
 
 #: decks/templates/decks/deck_detail.html:94
-#: decks/templates/decks/deck_detail.html:522
+#: decks/templates/decks/deck_detail.html:528
 msgid "Delete deck"
 msgstr ""
 
@@ -669,146 +681,146 @@ msgstr ""
 msgid "Initial hand"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:367
+#: decks/templates/decks/deck_detail.html:369
 msgid "Format legality"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:371
+#: decks/templates/decks/deck_detail.html:377
 msgid "Format"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:372
+#: decks/templates/decks/deck_detail.html:378
 msgid "Is it legal?"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:373
+#: decks/templates/decks/deck_detail.html:379
 msgid "Notes"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:378
+#: decks/templates/decks/deck_detail.html:384
 #: decks/templates/decks/deck_list.html:57
 #: decks/templates/decks/own_deck_list.html:58
 #: decks/templates/decks/tooltips/legality.html:6
 msgid "Standard"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:380
-#: decks/templates/decks/deck_detail.html:394
-#: decks/templates/decks/deck_detail.html:404
-#: decks/templates/decks/deck_detail.html:414
+#: decks/templates/decks/deck_detail.html:386
+#: decks/templates/decks/deck_detail.html:400
+#: decks/templates/decks/deck_detail.html:410
+#: decks/templates/decks/deck_detail.html:420
 msgid "Yes"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:383
-#: decks/templates/decks/deck_detail.html:397
-#: decks/templates/decks/deck_detail.html:407
-#: decks/templates/decks/deck_detail.html:417
+#: decks/templates/decks/deck_detail.html:389
+#: decks/templates/decks/deck_detail.html:403
+#: decks/templates/decks/deck_detail.html:413
+#: decks/templates/decks/deck_detail.html:423
 msgid "No"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:392
+#: decks/templates/decks/deck_detail.html:398
 #: decks/templates/decks/tooltips/legality.html:7
 msgid "ExAlts Championship"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:398
+#: decks/templates/decks/deck_detail.html:404
 msgid ""
 "This mode works the same as Standard but replaces the 3 uniques with 3 extra "
 "rares."
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:402
+#: decks/templates/decks/deck_detail.html:408
 #: decks/templates/decks/deck_list.html:59
 #: decks/templates/decks/own_deck_list.html:60
 msgid "Doubles"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:408
+#: decks/templates/decks/deck_detail.html:414
 msgid ""
 "This mode works the same as Standard but requires the use of two different "
 "factions."
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:412
+#: decks/templates/decks/deck_detail.html:418
 #: decks/templates/decks/deck_list.html:60
 #: decks/templates/decks/own_deck_list.html:61
 msgid "Draft"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:430
+#: decks/templates/decks/deck_detail.html:436
 msgid "Mana curve"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:460
-#: decks/templates/decks/deck_detail.html:511
+#: decks/templates/decks/deck_detail.html:466
+#: decks/templates/decks/deck_detail.html:517
 msgid "Cancel"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:461
-#: decks/templates/decks/deck_detail.html:512
+#: decks/templates/decks/deck_detail.html:467
+#: decks/templates/decks/deck_detail.html:518
 msgid "Apply"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:480
+#: decks/templates/decks/deck_detail.html:486
 msgid "Playstyle"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:481
+#: decks/templates/decks/deck_detail.html:487
 msgid "Define the overall approach or strategy the deck follows"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:496
+#: decks/templates/decks/deck_detail.html:502
 msgid "Sub-strategy"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:497
+#: decks/templates/decks/deck_detail.html:503
 msgid "Highlight specific tactics or themes"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:526
+#: decks/templates/decks/deck_detail.html:532
 msgid "Are you sure you want to delete this deck?"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:526
+#: decks/templates/decks/deck_detail.html:532
 msgid "It won't be possible to recover it later."
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:529
-#: decks/templates/decks/deck_detail.html:549
+#: decks/templates/decks/deck_detail.html:535
+#: decks/templates/decks/deck_detail.html:555
 #: profiles/templates/profiles/edit_profile.html:53
 msgid "Close"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:530
-#: decks/templates/decks/deck_detail.html:594
+#: decks/templates/decks/deck_detail.html:536
+#: decks/templates/decks/deck_detail.html:600
 msgid "Delete"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:542
+#: decks/templates/decks/deck_detail.html:548
 msgid "Deck QR Code"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:550
+#: decks/templates/decks/deck_detail.html:556
 msgid "Copy"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:551
+#: decks/templates/decks/deck_detail.html:557
 msgid "Download"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:564
+#: decks/templates/decks/deck_detail.html:570
 msgid "Comments"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:579
+#: decks/templates/decks/deck_detail.html:585
 msgid "Login to use this feature!"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:580 templates/base.html:197
+#: decks/templates/decks/deck_detail.html:586 templates/base.html:197
 msgid "Login"
 msgstr ""
 
-#: decks/templates/decks/deck_detail.html:610
+#: decks/templates/decks/deck_detail.html:616
 #: decks/templates/decks/snippets/public_deck_table.html:86
 #: notifications/templates/notifications/notification_list.html:20
 #: notifications/views.py:86
@@ -979,6 +991,58 @@ msgid ""
 "You can search for any imported card in the '<a "
 "href=\"%(cards_tab_url)s\">Build</a>' tab by using an advanced filter with "
 "the card's reference. For example:"
+msgstr ""
+
+#: decks/templates/decks/legality_changelog.html:25
+msgid "Deck Legality"
+msgstr ""
+
+#: decks/templates/decks/legality_changelog.html:27
+msgid ""
+"Stay up to date with the latest changes in card legality for the game. This "
+"section provides information on cards that have been suspended, or had their "
+"abilities adjusted. Whether you're a competitive player or a casual deck "
+"builder, knowing which cards are allowed in official formats is essential."
+msgstr ""
+
+#: decks/templates/decks/legality_changelog.html:30
+msgid ""
+"Read this article (<a href=\"https://www.altered.gg/news/trial-by-frost-"
+"season-patch\" target=\"_blank\">Trial by Frost Season Patch</a>) to "
+"understand the reasoning behind banning or suspending cards."
+msgstr ""
+
+#: decks/templates/decks/legality_changelog.html:33
+#, python-format
+msgid "Last updated: %(last_update_date)s"
+msgstr ""
+
+#: decks/templates/decks/legality_changelog.html:44
+msgid "Season Patches"
+msgstr ""
+
+#: decks/templates/decks/legality_changelog.html:52
+msgid "Article:"
+msgstr ""
+
+#: decks/templates/decks/legality_changelog.html:54
+msgid "Announcement date:"
+msgstr ""
+
+#: decks/templates/decks/legality_changelog.html:59
+msgid "Erratas"
+msgstr ""
+
+#: decks/templates/decks/legality_changelog.html:65
+msgid "Previous:"
+msgstr ""
+
+#: decks/templates/decks/legality_changelog.html:67
+msgid "Updated:"
+msgstr ""
+
+#: decks/templates/decks/legality_changelog.html:76
+msgid "Suspensions"
 msgstr ""
 
 #: decks/templates/decks/new_deck.html:6 decks/templates/decks/new_deck.html:7
@@ -1155,52 +1219,52 @@ msgstr ""
 msgid "Visibility"
 msgstr ""
 
-#: decks/views.py:437
+#: decks/views.py:438
 msgid "The deck must have a name"
 msgstr ""
 
-#: decks/views.py:453 decks/views.py:516 decks/views.py:553
+#: decks/views.py:454 decks/views.py:517 decks/views.py:554
 msgid "Deck not found"
 msgstr ""
 
-#: decks/views.py:455
+#: decks/views.py:456
 msgid "Card not found"
 msgstr ""
 
-#: decks/views.py:487 decks/views.py:514
+#: decks/views.py:488 decks/views.py:515
 msgid "Comment not found"
 msgstr ""
 
-#: decks/views.py:835
+#: decks/views.py:847
 msgid "Promo"
 msgstr ""
 
-#: decks/views.py:836
+#: decks/views.py:848
 msgid "Alternate Art"
 msgstr ""
 
-#: decks/views.py:837
+#: decks/views.py:849
 msgid "In my collection"
 msgstr ""
 
-#: decks/views.py:867
+#: decks/views.py:879
 #, python-format
 msgid "The card '%(card_name)s' (%(reference)s) was successfully imported."
 msgstr ""
 
-#: decks/views.py:879
+#: decks/views.py:891
 #, python-format
 msgid ""
 "This unique version of '%(card_name)s' (%(reference)s) already exists in the "
 "database."
 msgstr ""
 
-#: decks/views.py:888
+#: decks/views.py:900
 #, python-format
 msgid "The card '%(reference)s' is not public"
 msgstr ""
 
-#: decks/views.py:893
+#: decks/views.py:905
 msgid "Failed to fetch the card on the official API."
 msgstr ""
 
