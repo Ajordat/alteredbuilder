@@ -785,6 +785,8 @@ class CardListView(ListView):
             dict[str, Any]: The template's context.
         """
         context = super().get_context_data(**kwargs)
+
+        context["all_cards"] = {}
         if self.request.user.is_authenticated:
             # If the user is authenticated, add the list of decks owned to be displayed
             # on the sidebar
@@ -797,17 +799,19 @@ class CardListView(ListView):
             if edit_deck_id:
                 # If a Deck is currently being edited, add its data to the context
                 try:
-                    context["edit_deck"] = Deck.objects.filter(
+                    deck = Deck.objects.filter(
                         pk=edit_deck_id, owner=self.request.user
                     ).get()
+                    context["edit_deck"] = deck
                     edit_deck_cards = (
-                        CardInDeck.objects.filter(deck=context["edit_deck"])
+                        CardInDeck.objects.filter(deck=deck)
                         .select_related("card")
                         .order_by("card__reference")
                     )
                     characters = []
                     spells = []
                     permanents = []
+                    all_cards = {deck.hero.reference: 1} if deck.hero else {}
 
                     for cid in edit_deck_cards:
                         match cid.card.type:
@@ -820,9 +824,11 @@ class CardListView(ListView):
                                 | Card.Type.EXPEDITION_PERMANENT
                             ):
                                 permanents.append(cid)
+                        all_cards[cid.card.reference] = cid.quantity
                     context["character_cards"] = characters
                     context["spell_cards"] = spells
                     context["permanent_cards"] = permanents
+                    context["all_cards"] = all_cards
 
                 except Deck.DoesNotExist:
                     pass

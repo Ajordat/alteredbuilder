@@ -7,6 +7,10 @@ register = template.Library()
 
 
 @register.simple_tag
+def dict_get(d: dict, key, default):
+    return d.get(key, default)
+
+@register.simple_tag
 def get_row_color_from_rarity(rarity: str) -> str:
     """Return the desired row color depending on a card's rarity.
 

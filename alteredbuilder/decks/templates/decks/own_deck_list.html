@@ -81,7 +81,10 @@
                     </a>
 {% endif %}
                 </div>
-                {% translate "Description" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="description" label="Description" %}
+                <div class="form-check">
+                    <input class="form-check-input altered-style" type="checkbox" value="description" id="filterDescription" {% if "description" in checked_filters %}checked{% endif %}>
+                    <label class="form-check-label d-block user-select-none" for="filterDescription" style="cursor: pointer;"><span class="description">{% translate "With description" %}</span></label>
+                </div>
             </div>
 
             <!-- Filter Button -->

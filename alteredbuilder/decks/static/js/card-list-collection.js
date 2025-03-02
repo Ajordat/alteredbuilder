@@ -58,8 +58,8 @@ function startCollection() {
 }
 
 function resetCollectedCards() {
-    const badges = document.querySelectorAll('.card-badge');
-    badges.forEach(badge => badge.remove());
+    const badges = document.querySelectorAll('.card-in-collection');
+    badges.forEach(badge => badge.classList.add("d-none"));
 }
 
 function markCollectedCards(collection, settings) {
@@ -102,10 +102,6 @@ function printSettings(settings) {
 }
 
 function setCardCount(parentElement, count) {
-    const badge = document.createElement('div');
-    badge.textContent = count;
-    badge.className = 'card-badge px-2 py-1 border border-white';
-
-    parentElement.style.position = 'relative';
-    parentElement.appendChild(badge);
+    parentElement.querySelector(".collection-count").textContent = count;
+    parentElement.querySelector(".card-in-collection").classList.remove("d-none");
 }

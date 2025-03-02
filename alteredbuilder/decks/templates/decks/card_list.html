@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="{% static 'css/altered-icons.css' %}">
     {% if 'Owned' in checked_filters %}
     <style>
-        .infinite-item:has(> .card-display > :last-child:not(.card-badge)) {
+        .infinite-item:has(> .card-display .card-in-collection.d-none) {
             display: none !important;
         }
     </style>
@@ -155,8 +155,9 @@
                 <!-- Card list with infinite scroll -->
     {% for card in card_list %}
                 <div class="col-xxxl-2 col-xxl-3 col-xl-4 col-lg-6 col-12 infinite-item d-flex justify-content-center">
-                    <div class="card-display click-animation rounded-3" data-card-reference="{{ card.reference }}" data-card-name="{{ card.name }}" data-card-type="{{ card.type }}" data-card-rarity="{{ card.rarity }}" data-card-family="{{ card.get_family }}" data-card-image="{% cdn_image_url card.image_url %}">
+                    <div id="display-{{ card.reference }}" class="card-display click-animation rounded-3" data-card-reference="{{ card.reference }}" data-card-name="{{ card.name }}" data-card-type="{{ card.type }}" data-card-rarity="{{ card.rarity }}" data-card-family="{{ card.get_family }}" data-card-image="{% cdn_image_url card.image_url %}" style="position: relative;">
                         <img src="{% cdn_image_url card.image_url %}" class="card-img-top rounded-3" alt="{{ card.name }}">
+                        <div class="card-badge px-2 py-1 border border-white text-center"><span class="card-in-collection d-none"><span class="collection-count"></span> <i class="fa-regular fa-folder-open"></i><hr class="my-1"></span><span class="deck-quantity">{% dict_get all_cards card.reference 0 %}</span>/<span class="max-deck-quantity">3</span></div>
                     </div>
                 </div>
     {% empty %}
@@ -366,6 +367,7 @@
         var infinite = new Waypoint.Infinite({
             element: $('.infinite-container')[0],
             onAfterPageLoad: function ($items) {
+                initDecklistCount();
                 startCollection();
                 let cardDisplayElements = document.getElementsByClassName("card-display");
                 Array.from(cardDisplayElements).forEach(function(element) {

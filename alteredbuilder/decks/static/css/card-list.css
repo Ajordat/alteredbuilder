@@ -130,9 +130,9 @@ html[data-bs-theme="dark"] .card-name {
 
 .card-badge {
     position: absolute;
-    bottom: .75rem;
+    bottom: 0.75rem;
     right: .75rem;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(61, 51, 29, 0.9);
     color: white;
     border-radius: 12px;
     z-index: 10;
@@ -204,4 +204,8 @@ html[data-bs-theme="dark"] .card-name {
         opacity: 0;
         filter: blur(10px);
     }
+}
+
+.infinite-item:has(> .card-display > :last-child:not(.card-badge)) {
+    display: none !important;
 }
