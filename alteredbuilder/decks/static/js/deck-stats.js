@@ -4,7 +4,7 @@ var deckStats = JSON.parse(document.getElementById('deck-stats').textContent);
 const chartBackgroundColor = "#212529";
 const chartTextColor = "white";
 
-google.charts.load('current', {'packages':['corechart', 'bar']});
+google.charts.load('current', { 'packages': ['corechart', 'bar'] });
 google.charts.setOnLoadCallback(drawChart);
 google.charts.setOnLoadCallback(drawStats);
 google.charts.setOnLoadCallback(drawManaCurve);
@@ -20,7 +20,7 @@ function drawChart() {
     let data = google.visualization.arrayToDataTable(
         [['Card Type', 'Amount']].concat(Object.entries(deckStatsI18n))
     );
-    
+
     let options = {
         backgroundColor: "transparent",
         chartArea: {
@@ -30,9 +30,9 @@ function drawChart() {
             height: "100%"
         },
         slices: [
-            {color: "#3F9B0B"},
-            {color: "#CD853F"},
-            {color: "#D4A017"},
+            { color: "#3F9B0B" },
+            { color: "#CD853F" },
+            { color: "#D4A017" },
         ],
         fontName: "Gabriela"
     };
@@ -57,7 +57,7 @@ function drawStats() {
     let cardCount = deckStats["total_count"];
     let handSize = 6;
 
-    cardType.forEach(function(cardType){
+    cardType.forEach(function (cardType) {
         let anytimeElement = document.getElementById(cardType + "-anytime-draw");
         let initialElement = document.getElementById(cardType + "-initial-draw");
         let cardTypeCount = deckStats["type_distribution"][cardType];
@@ -67,15 +67,15 @@ function drawStats() {
             initialElement.innerText = "0%";
             return;
         }
-        
+
         let individualDraw = cardTypeCount / cardCount;
 
         let handNumerator = 1;
         let handDenominator = 1;
         if (cardCount > handSize) {
             // Hypergeometric distribution
-            for(let i = cardCount - cardTypeCount - handSize + 1; i < cardCount-handSize + 1; i++){handNumerator *= i;};
-            for(let i = cardCount - cardTypeCount + 1; i < cardCount + 1; i++){handDenominator *= i;};
+            for (let i = cardCount - cardTypeCount - handSize + 1; i < cardCount - handSize + 1; i++) { handNumerator *= i; };
+            for (let i = cardCount - cardTypeCount + 1; i < cardCount + 1; i++) { handDenominator *= i; };
             handDraw = 1 - handNumerator / handDenominator;
         } else {
             handDraw = cardTypeCount > 0;
@@ -119,24 +119,26 @@ function drawManaCurve() {
         options["legend"]["position"] = "none";
     }
     if (document.documentElement.getAttribute("data-bs-theme") === "dark") {
-        options = {...options, ...{
-            backgroundColor: "transparent",
-            hAxis: {
-                textStyle: {
-                    color: chartTextColor
-                }
-            },
-            vAxis: {
-                textStyle: {
-                    color: chartTextColor
-                }
-            },
-            legend: {
-                textStyle: {
-                    color: chartTextColor
+        options = {
+            ...options, ...{
+                backgroundColor: "transparent",
+                hAxis: {
+                    textStyle: {
+                        color: chartTextColor
+                    }
+                },
+                vAxis: {
+                    textStyle: {
+                        color: chartTextColor
+                    }
+                },
+                legend: {
+                    textStyle: {
+                        color: chartTextColor
+                    }
                 }
             }
-        }};
+        };
     }
 
     let chart = new google.charts.Bar(document.getElementById('mana-curve-chart'));

@@ -106,12 +106,12 @@
                         <li class="d-xl-none my-0"><hr></li>
                         <li class="nav-item {{ nav_item_classes }} me-1">
                             <a class="nav-link" href="{% url "contribute" %}">
-                                <i class="fa-solid fa-hand-holding-heart"></i> {% translate "Contribute" %}
+                                <i class="fa-solid fa-hand-holding-heart"></i>&nbsp;<span class="d-xl-none d-xxl-inline-block">{% translate "Contribute" %}</span>
                             </a>
                         </li>
                         <li class="nav-item {{ nav_item_classes }} me-1 me-xl-3">
                             <a class="nav-link" href="https://discord.gg/hGA3dTcxqz" target="_blank">
-                                <i class="fa-brands fa-discord"></i> Discord
+                                <i class="fa-brands fa-discord"></i>&nbsp;<span class="d-xl-none d-xxl-inline-block">Discord</span>
                             </a>
                         </li>
                         <li class="d-xl-none my-0"><hr></li>
@@ -181,7 +181,7 @@
                         </li>
         {% endif %}
                         <li class="nav-item {{ nav_item_classes }} dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user"></i> {{ user.username }}</a>
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user"></i> <span class="d-xl-none d-xxl-inline-block">{{ user.username }}</span></a>
                             <ul class="dropdown-menu dropdown-menu-end py-1 mx-3 mb-3">
                                 <li><a class="dropdown-item" href="{{ user.profile.get_absolute_url }}">{% translate "Profile" %}</a></li>
                                 <li><hr class="dropdown-divider"></li>

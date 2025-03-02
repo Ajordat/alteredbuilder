@@ -361,7 +361,7 @@ function decreaseCardQuantity(event) {
         cardRowElement.remove();
     }
     // Track the changes
-    decklistChanges.addChange(cardReference, { "quantity":  quantity});
+    decklistChanges.addChange(cardReference, { "quantity": quantity });
     decklistChanges.save();
     updateDisplayCount(cardReference, quantity);
     updateCardCount();
