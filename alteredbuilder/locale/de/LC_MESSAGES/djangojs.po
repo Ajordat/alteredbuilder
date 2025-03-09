@@ -3,20 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-11-11 14:44+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2025-03-09 15:03+0000\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/"
+"altered-tcg-builder/client-strings/de/>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.10.3-dev\n"
 
 #: decks/static/js/deck-detail.js:22 decks/static/js/deck-detail.js:144
 msgid "Link copied into clipboard!"
@@ -116,7 +117,7 @@ msgstr "Kosten"
 
 #: decks/static/js/deck-stats.js:86
 msgid "Hand"
-msgstr ""
+msgstr "Hand"
 
 #: decks/static/js/deck-stats.js:86
 msgid "Reserve"
@@ -124,7 +125,7 @@ msgstr "Reserve"
 
 #: notifications/static/js/notifications.js:27
 msgid "Loading..."
-msgstr ""
+msgstr "Wird geladen ..."
 
 #: notifications/static/js/notifications.js:45
 msgid "Authentication required"
