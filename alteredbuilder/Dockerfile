@@ -20,4 +20,4 @@ RUN pip3 install -r requirements.txt --no-cache-dir
 COPY . .
 
 # Start gunicorn
-CMD exec gunicorn --bind 0.0.0.0:8000 --workers 4 --threads 2 --timeout 0 config.wsgi:application
+CMD exec gunicorn --bind 0.0.0.0:8000 --workers 2 --threads 8 --timeout 0 config.wsgi:application
