@@ -8,7 +8,7 @@ from config.tests.utils import get_login_url, silence_logging
 from decks.forms import CardImportForm, CommentForm, DecklistForm, DeckMetadataForm
 from decks.models import Card, Comment, Deck
 from decks.tests.utils import BaseFormTestCase
-from decks.views import NewDeckFormView
+from decks.views.imports import NewDeckFormView
 
 
 class CreateDeckFormTestCase(BaseFormTestCase):

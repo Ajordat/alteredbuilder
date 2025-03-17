@@ -101,6 +101,18 @@ class CardImportForm(forms.Form):
     )
 
 
+class MultipleCardsImportForm(forms.Form):
+    """Form to import a Card of unique rarity into the database."""
+
+    references = forms.JSONField()
+
+    def clean_references(self):
+        data = self.cleaned_data["references"]
+        if not isinstance(data, list) or not all(isinstance(i, str) for i in data):
+            raise forms.ValidationError("Field is not a list of strings")
+        return data
+
+
 class ChangeDeckOwnerForm(forms.Form):
     new_owner = forms.ModelChoiceField(
         queryset=get_user_model().objects.all(), label="New Owner"
