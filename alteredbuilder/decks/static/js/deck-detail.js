@@ -356,3 +356,65 @@ if (changeToCardDisplayButton) {
 }
 
 changeDisplay(getDisplayMode());
+
+
+function startCollection() {
+
+    let collection = fetchCollection();
+
+    console.log(collection);
+
+    if (!collection) {
+        return;
+    }
+
+    let settings = fetchSettings();
+
+    markCollectedCards(collection, settings);
+}
+
+function markCollectedCards(collection, settings) {
+
+    const cards = document.querySelectorAll(".card-table tr[data-card-reference]");
+    var finalCollection = {};
+    var familyCollection = {};
+
+    if (settings.mergeSets) {
+        for (let [reference, quantity] of Object.entries(collection)) {
+            let cardFamily = reference.split("_").slice(3, 6).join("_");
+            if (!cardFamily.includes("_U")) {
+                familyCollection[cardFamily] = quantity + (familyCollection[cardFamily] || 0);
+            } else {
+                finalCollection[reference] = 1;
+            }
+        }
+    } else {
+        finalCollection = { ...collection };
+    }
+
+    for (let card of cards) {
+        const cardReference = card.getAttribute('data-card-reference');
+
+        if (finalCollection[cardReference]) {
+            setCardCount(card, finalCollection[cardReference]);
+            continue;
+        }
+        const cardFamily = card.getAttribute('data-card-family');
+
+        if (familyCollection[cardFamily]) {
+            setCardCount(card, familyCollection[cardFamily]);
+            continue;
+        }
+    }
+}
+
+function setCardCount(parentElement, count) {
+    const badge = document.createElement('td');
+    badge.textContent = count;
+    badge.className = 'card-badge px-2 py-1 border border-white';
+
+    parentElement.style.position = 'relative';
+    parentElement.insertBefore(badge, parentElement.querySelector(".after-collection"));
+}
+
+startCollection();
