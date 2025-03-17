@@ -56,6 +56,7 @@
                     <b>{% translate "Legality" %}</b>
                     {% translate "Standard" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="standard" label="Standard" %}
                     {% translate "ExAlts" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="exalts" label="ExAlts" %}
+                    {% translate "Doubles" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="doubles" label="Doubles" %}
                     {% translate "Draft" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="draft" label="Draft" %}
                 </div>
 
@@ -81,7 +82,7 @@
                     </div>
                     <div class="form-check">
                         <input class="form-check-input altered-style" type="checkbox" value="description" id="filterDescription" {% if "description" in checked_filters %}checked{% endif %}>
-                        <label class="form-check-label d-block user-select-none" for="filterDescription" style="cursor: pointer;"><span class="{{value}}">{% translate "With description" %}</span></label>
+                        <label class="form-check-label d-block user-select-none" for="filterDescription" style="cursor: pointer;"><span class="description">{% translate "With description" %}</span></label>
                     </div>
                 </div>
 

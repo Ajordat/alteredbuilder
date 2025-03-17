@@ -1,6 +1,7 @@
 from http import HTTPStatus
 from typing import Any
 import json
+import os
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -684,6 +685,17 @@ class CardListView(ListView):
             else:
                 filters &= Q(faction__in=factions)
 
+        # Retrieve the Other filters.
+        other_filters = self.request.GET.get("other")
+        if other_filters:
+            filters &= Q(
+                is_promo="Promo" in other_filters, is_alt_art="AltArt" in other_filters
+            )
+            retrieve_owned = "Owned" in other_filters
+        else:
+            filters &= Q(is_promo=False, is_alt_art=False)
+            retrieve_owned = False
+
         # Retrieve the Rarity filters.
         # If any value is invalid, this filter will not be applied.
         rarities = self.request.GET.get("rarity")
@@ -693,7 +705,17 @@ class CardListView(ListView):
             except ValueError:
                 pass
             else:
-                filters &= Q(rarity__in=rarities)
+                if Card.Rarity.UNIQUE in rarities and retrieve_owned:
+                    rarities.remove(Card.Rarity.UNIQUE)
+                    if self.request.user.is_authenticated:
+                        filters &= Q(rarity__in=rarities) | (
+                            Q(rarity=Card.Rarity.UNIQUE)
+                            & Q(favorited_by__user=self.request.user)
+                        )
+                    else:
+                        filters &= Q(rarity__in=rarities)
+                else:
+                    filters &= Q(rarity__in=rarities)
         else:
             filters &= ~Q(rarity=Card.Rarity.UNIQUE)
 
@@ -719,7 +741,6 @@ class CardListView(ListView):
 
         query_order = []
         order_param = self.request.GET.get("order")
-
         if order_param:
             # Subtract the "-" simbol pointing that the order will be inversed
             if desc := "-" in order_param:
@@ -764,6 +785,8 @@ class CardListView(ListView):
             dict[str, Any]: The template's context.
         """
         context = super().get_context_data(**kwargs)
+
+        context["all_cards"] = {}
         if self.request.user.is_authenticated:
             # If the user is authenticated, add the list of decks owned to be displayed
             # on the sidebar
@@ -776,17 +799,19 @@ class CardListView(ListView):
             if edit_deck_id:
                 # If a Deck is currently being edited, add its data to the context
                 try:
-                    context["edit_deck"] = Deck.objects.filter(
+                    deck = Deck.objects.filter(
                         pk=edit_deck_id, owner=self.request.user
                     ).get()
+                    context["edit_deck"] = deck
                     edit_deck_cards = (
-                        CardInDeck.objects.filter(deck=context["edit_deck"])
+                        CardInDeck.objects.filter(deck=deck)
                         .select_related("card")
                         .order_by("card__reference")
                     )
                     characters = []
                     spells = []
                     permanents = []
+                    all_cards = {deck.hero.reference: 1} if deck.hero else {}
 
                     for cid in edit_deck_cards:
                         match cid.card.type:
@@ -794,11 +819,16 @@ class CardListView(ListView):
                                 characters.append(cid)
                             case Card.Type.SPELL:
                                 spells.append(cid)
-                            case Card.Type.PERMANENT:
+                            case (
+                                Card.Type.LANDMARK_PERMANENT
+                                | Card.Type.EXPEDITION_PERMANENT
+                            ):
                                 permanents.append(cid)
+                        all_cards[cid.card.reference] = cid.quantity
                     context["character_cards"] = characters
                     context["spell_cards"] = spells
                     context["permanent_cards"] = permanents
+                    context["all_cards"] = all_cards
 
                 except Deck.DoesNotExist:
                     pass
@@ -806,7 +836,7 @@ class CardListView(ListView):
         # Retrieve the selected filters and structure them so that they can be marked
         # as checked
         checked_filters = []
-        for filter in ["faction", "rarity", "type", "set"]:
+        for filter in ["faction", "rarity", "type", "set", "other"]:
             if filter in self.request.GET:
                 checked_filters += self.request.GET[filter].split(",")
         context["checked_filters"] = checked_filters
@@ -819,6 +849,11 @@ class CardListView(ListView):
 
         # Add all sets to the context
         context["sets"] = Set.objects.all()
+        context["other_filters"] = [
+            ("Promo", _("Promo")),
+            ("AltArt", _("Alternate Art")),
+            ("Owned", _("In my collection")),
+        ]
 
         return context
 
@@ -883,3 +918,19 @@ def import_card(request: HttpRequest) -> HttpResponse:
     )
 
     return render(request, "decks/import_card.html", context)
+
+
+def deck_legality_view(request):
+    json_path = os.path.join(os.path.dirname(__file__), "data", "legality.json")
+
+    with open(json_path, "r", encoding="utf-8") as json_file:
+        data = json.load(json_file)
+
+    last_update_date = data.get("last_update", "Unknown date")
+    patches = data.get("patches", [])
+
+    return render(
+        request,
+        "decks/legality_changelog.html",
+        {"last_update_date": last_update_date, "patches": patches},
+    )

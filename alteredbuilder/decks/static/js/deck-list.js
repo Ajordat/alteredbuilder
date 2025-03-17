@@ -21,7 +21,7 @@ function parseFilter(labels) {
     for (let label of labels) {
         let labelElement = document.getElementById("filter" + label);
         if (labelElement.checked) {
-          filter.push(labelElement.value);
+            filter.push(labelElement.value);
         }
     }
     return filter;
@@ -44,7 +44,7 @@ function searchCards(e) {
     }
 
     // Retrieve the LEGALITY filters
-    let legality = parseFilter(["Standard", "ExAlts", "Draft"]);
+    let legality = parseFilter(["Standard", "ExAlts", "Doubles", "Draft"]);
     if (legality.length > 0) {
         params.append("legality", legality.join(","));
     }

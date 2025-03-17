@@ -364,7 +364,13 @@
                 </tbody>
             </table>
             <!-- Deck's legality on different formats -->
-            <h5>{% translate "Format legality" %}</h5>
+            <h5>
+                <span class="h-100 d-flex align-items-center" style="cursor: pointer;">
+                    {% translate "Format legality" %}&nbsp;<a href="{% url 'legality_changelog' %}">
+                        <i class="fa fa-circle-info altered-style"></i>
+                    </a>
+                </span>
+            </h5>
             <table class="table table-striped table-sm" id="probability-table" aria-describedby="Probability to draw">
                 <thead>
                     <tr>
@@ -396,6 +402,16 @@
     {% else %}
                         <td>{% translate "No" %}</td>
                         <td>{% translate "This mode works the same as Standard but replaces the 3 uniques with 3 extra rares." %}</td>
+    {% endif %}
+                    </tr>
+                    <tr>
+                        <td>{% translate "Doubles" %}</td>
+    {% if deck.is_doubles_legal %}
+                        <td>{% translate "Yes" %}</td>
+                        <td></td>
+    {% else %}
+                        <td>{% translate "No" %}</td>
+                        <td>{% translate "This mode works the same as Standard but requires the use of two different factions." %}</td>
     {% endif %}
                     </tr>
                     <tr>

@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.generic import TemplateView
 
 from decks import views
 
@@ -14,6 +15,16 @@ urlpatterns = [
         name="private-url-deck-detail",
     ),
     path("cards/", views.CardListView.as_view(), name="cards"),
+    path(
+        "collection/",
+        TemplateView.as_view(template_name="decks/collection.html"),
+        name="collection",
+    ),
+    path(
+        "legality/",
+        views.deck_legality_view,
+        name="legality_changelog",
+    ),
     path("new/", views.NewDeckFormView.as_view(), name="new-deck"),
     path("<int:pk>/update/", views.update_deck, name="update-deck-id"),
     path(

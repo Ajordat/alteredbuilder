@@ -87,7 +87,7 @@ class DecksModelsTestCase(TestCase):
             reference=cls.PERMANENT_REFERENCE,
             name="The Ouroboros, Lyra Bastion",
             faction=Card.Faction.AXIOM,
-            type=Card.Type.PERMANENT,
+            type=Card.Type.LANDMARK_PERMANENT,
             rarity=Card.Rarity.RARE,
             main_cost=3,
             recall_cost=3,

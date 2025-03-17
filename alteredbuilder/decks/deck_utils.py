@@ -17,7 +17,7 @@ from decks.game_modes import (
     StandardGameMode,
     update_deck_legality,
 )
-from decks.models import Card, CardInDeck, Deck, LovePoint, Subtype
+from decks.models import Card, CardInDeck, Deck, FavoriteCard, LovePoint, Subtype
 from decks.exceptions import AlteredAPIError, CardAlreadyExists, MalformedDeckException
 
 
@@ -88,10 +88,15 @@ def create_new_deck(user: User, deck_form: dict) -> Deck:
         try:
             card = Card.objects.get(reference=reference)
         except Card.DoesNotExist:
-            # The Card's reference needs to exist on the database
-            raise MalformedDeckException(
-                _("Card '%(reference)s' does not exist") % {"reference": reference}
-            )
+            try:
+                card = import_unique_card(reference)
+                FavoriteCard.objects.get_or_create(user=user, card=card)
+                print(f"Created card '{reference}'")
+            except AlteredAPIError:
+                # The Card's reference needs to exist on the database
+                raise MalformedDeckException(
+                    _("Card '%(reference)s' wasn't found and couldn't be imported") % {"reference": reference}
+                )
 
         if card.type == Card.Type.HERO:
             if not has_hero:
@@ -133,7 +138,8 @@ def get_deck_details(deck: Deck) -> dict:
     d = {
         Card.Type.CHARACTER: [[], 0],
         Card.Type.SPELL: [[], 0],
-        Card.Type.PERMANENT: [[], 0],
+        Card.Type.LANDMARK_PERMANENT: [[], 0],
+        Card.Type.EXPEDITION_PERMANENT: [[], 0],
     }
     for cid in decklist:
         # Append the card to its own type card list
@@ -155,16 +161,19 @@ def get_deck_details(deck: Deck) -> dict:
         "decklist": decklist_text,
         "character_list": d[Card.Type.CHARACTER][0],
         "spell_list": d[Card.Type.SPELL][0],
-        "permanent_list": d[Card.Type.PERMANENT][0],
+        "permanent_list": d[Card.Type.LANDMARK_PERMANENT][0]
+        + d[Card.Type.EXPEDITION_PERMANENT][0],
         "stats": {
             "type_distribution": {
                 "characters": d[Card.Type.CHARACTER][1],
                 "spells": d[Card.Type.SPELL][1],
-                "permanents": d[Card.Type.PERMANENT][1],
+                "permanents": d[Card.Type.LANDMARK_PERMANENT][1]
+                + d[Card.Type.EXPEDITION_PERMANENT][1],
             },
             "total_count": d[Card.Type.CHARACTER][1]
             + d[Card.Type.SPELL][1]
-            + d[Card.Type.PERMANENT][1],
+            + d[Card.Type.LANDMARK_PERMANENT][1]
+            + d[Card.Type.EXPEDITION_PERMANENT][1],
             "mana_distribution": {
                 "hand": hand_counter,
                 "recall": recall_counter,
@@ -341,9 +350,12 @@ def import_unique_card(reference) -> Card:  # pragma: no cover
     if response.status_code == HTTPStatus.OK:
         card_data = response.json()
         family = "_".join(reference.split("_")[:-2])
-        og_card = Card.objects.filter(
-            reference__startswith=family, rarity=Card.Rarity.COMMON
-        ).get()
+        try:
+            og_card = Card.objects.filter(
+                reference__startswith=family, rarity=Card.Rarity.COMMON
+            ).get()
+        except Card.DoesNotExist:
+            raise AlteredAPIError(f"The card family '{family}' does not exist in the database", status_code=HTTPStatus.NOT_FOUND)
         card_dict = {
             "reference": reference,
             "name": og_card.name,
@@ -454,6 +466,8 @@ def filter_by_legality(qs: QuerySet[Deck], legality: str) -> QuerySet[Deck]:
             qs = qs.filter(is_draft_legal=True)
         if "exalts" in legality:
             qs = qs.filter(is_exalts_legal=True)
+        if "doubles" in legality:
+            qs = qs.filter(is_doubles_legal=True)
 
     return qs
 

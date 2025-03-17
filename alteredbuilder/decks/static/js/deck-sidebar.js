@@ -4,7 +4,7 @@
 class DecklistChanges {
     #changes;
     #snapshot;
-    constructor (storageKey) {
+    constructor(storageKey) {
         this.storageKey = storageKey;
         this.#changes = {};
         this.#snapshot = {};
@@ -52,7 +52,7 @@ class DecklistChanges {
                     delete this.#changes[reference];
                     return;
                 }
-            } else if(value["quantity"] == 0) {
+            } else if (value["quantity"] == 0) {
                 delete this.#changes[reference];
                 return;
 
@@ -118,8 +118,16 @@ class DecklistChanges {
     }
 }
 
+
+document.addEventListener("DOMContentLoaded", () => {
+    initSidebar();
+    initDecklistCount();
+    updateCardCount();
+    assertHasChangesWarning();
+});
+
 /**
- * Returns the expected ID of the HTMLelement containing the card.
+ * Returns the expected ID of the HTMLelement containing the card in the sidebar.
  * 
  * @param {string} cardReference The card to retrieve the HTMLelement for
  * @returns string
@@ -129,13 +137,23 @@ function getRowId(cardReference) {
 }
 
 /**
+ * Returns the expected ID of the HTMLelement containing the card display on the main panel.
+ * 
+ * @param {string} cardReference The card to retrieve the HTMLelement for
+ * @returns string
+ */
+function getDisplayId(cardReference) {
+    return "display-" + cardReference;
+}
+
+/**
  * Returns the element that should be displayed in the tooltip when hovering a card.
  * 
  * @param {string} imageUrl 
  * @returns string
  */
 function getImageElement(imageUrl) {
-    return "<img src='" + imageUrl +  "'/>";
+    return "<img src='" + imageUrl + "'/>";
 }
 
 /**
@@ -167,7 +185,7 @@ function sortDeckCards() {
     function sortByReference(a, b) {
         return a.id.localeCompare(b.id);
     }
-    
+
     let types = ["character", "spell", "permanent"];
     for (let type of types) {
         let decklistElement = document.getElementById(`decklist-${type}-cards`);
@@ -180,7 +198,7 @@ function sortDeckCards() {
 }
 
 function getRarityTranslated(rarity, count) {
-    switch(rarity) {
+    switch (rarity) {
         case "C":
             return ngettext("Common", "Commons", count);
         case "R":
@@ -209,7 +227,7 @@ function updateCardCount() {
             document.getElementById(`${rarity}-count-container`).hidden = false;
         } else {
             document.getElementById(`${rarity}-count-container`).hidden = true;
-        } 
+        }
     }
 
     if (cardsCount > 0) {
@@ -220,76 +238,92 @@ function updateCardCount() {
     }
 }
 
-// Declare the variables to track the changes
-var decklistChanges = new DecklistChanges("decklistChanges");
-decklistChanges.takeSnapshot();
-var params = new URLSearchParams(document.location.search);
-var deckId = params.get("deck") || 0;
-
-
-if (deckId != sessionStorage.getItem("deckId")) {
-    // If the stored deck ID is different than the deck editing, discard the tracked changes
-    sessionStorage.removeItem("decklistChanges");
-    sessionStorage.setItem("deckId", deckId);
-} else {
-    // Attempt to load any previous changes
-    let deckName = sessionStorage.getItem("deckName");
-    if (deckName) {
-        document.getElementById("deck-name").value = deckName;
-    }
-
-    decklistChanges.load();
-    if (decklistChanges.hasChanges()) {
-        // If there are previous changes, apply them so that they are reflected in the sidebar
-        for (let [cardReference, change] of decklistChanges.changes) {
-            let cardRow = document.getElementById(getRowId(cardReference));
-            // Check if the row exists
-            if (cardRow) {
-                if (change.quantity > 0) {
-                    // If the target quantity is positive, set the right quantity to the row
-                    cardRow.getElementsByClassName("card-quantity")[0].innerText = change.quantity;
-                    assertCardLimitWarning(cardRow, change.quantity);
-                } else {
-                    // If the target quantity is 0 or negative, remove the row
-                    cardRow.remove();
-                }
-            } else if (change.isHero) {
-                // Check if the change is related to a hero
-                let heroElement = document.getElementById("hero-name");
-                let tooltip = bootstrap.Tooltip.getOrCreateInstance("#row-hero");
-                if (change.quantity > 0) {
-                    // Add the hero if it has a positive quantity
-                    heroElement.value = change.name;
-                    heroElement.dataset.cardReference = cardReference;
-                    heroElement.nextElementSibling.disabled = false;
-                    heroElement.style["background-image"] = `url(${change.image})`;
-                    
-                    tooltip.setContent({".tooltip-inner": getImageElement(change.image)});
-                    tooltip.enable();
-                    document.getElementById("hero-sidebar-container").classList.remove("d-none");
-                } else if (change.quantity <= 0 && cardReference === heroElement.dataset.cardReference) {
-                    // Remove the hero if it doesn't have a positive quantity and the
-                    // displayed hero is the one removed
-                    heroElement.value = "";
-                    heroElement.dataset.cardReference = "";
-                    heroElement.nextElementSibling.disabled = true;
-                    heroElement.style["background-image"] = "";
-
-                    tooltip.disable();
-                }
-            } else {
-                if (change.quantity > 0) {
-                    // Create the card row if it's a positive quantity
-                    cardRow = createCardRow(change.quantity, cardReference, change.type, change.name, change.rarity, change.image);
-                    assertCardLimitWarning(cardRow, change.quantity);
-                }
-            }
-        }
-        sortDeckCards();
+function initDecklistCount() {
+    const cards = document.querySelectorAll(".card-display[data-card-type=hero] .max-deck-quantity, .card-display[data-card-rarity=U] .max-deck-quantity");
+    cards.forEach(card => card.textContent = 1);
+    for (let [cardReference, change] of decklistChanges.changes) {
+        updateDisplayCount(cardReference, change.quantity);
     }
 }
-updateCardCount();
-assertHasChangesWarning();
+
+function initSidebar() {
+
+    // Declare the variables to track the changes
+    decklistChanges = new DecklistChanges("decklistChanges");
+    decklistChanges.takeSnapshot();
+    let params = new URLSearchParams(document.location.search);
+    deckId = params.get("deck") || 0;
+
+    if (deckId != sessionStorage.getItem("deckId")) {
+        // If the stored deck ID is different than the deck editing, discard the tracked changes
+        sessionStorage.removeItem("decklistChanges");
+        sessionStorage.setItem("deckId", deckId);
+    } else {
+        // Attempt to load any previous changes
+        let deckName = sessionStorage.getItem("deckName");
+        if (deckName) {
+            document.getElementById("deck-name").value = deckName;
+        }
+
+        decklistChanges.load();
+        if (decklistChanges.hasChanges()) {
+            // If there are previous changes, apply them so that they are reflected in the sidebar
+            for (let [cardReference, change] of decklistChanges.changes) {
+                let cardRow = document.getElementById(getRowId(cardReference));
+                // Check if the row exists
+                if (cardRow) {
+                    if (change.quantity > 0) {
+                        // If the target quantity is positive, set the right quantity to the row
+                        cardRow.getElementsByClassName("card-quantity")[0].innerText = change.quantity;
+                        assertCardLimitWarning(cardRow, change.quantity);
+                    } else {
+                        // If the target quantity is 0 or negative, remove the row
+                        cardRow.remove();
+                    }
+                } else if (change.isHero) {
+                    // Check if the change is related to a hero
+                    let heroElement = document.getElementById("hero-name");
+                    let tooltip = bootstrap.Tooltip.getOrCreateInstance("#row-hero");
+                    if (change.quantity > 0) {
+                        // Add the hero if it has a positive quantity
+                        heroElement.value = change.name;
+                        heroElement.dataset.cardReference = cardReference;
+                        heroElement.nextElementSibling.disabled = false;
+                        heroElement.style["background-image"] = `url(${change.image})`;
+
+                        tooltip.setContent({ ".tooltip-inner": getImageElement(change.image) });
+                        tooltip.enable();
+                        document.getElementById("hero-sidebar-container").classList.remove("d-none");
+                    } else if (change.quantity <= 0 && cardReference === heroElement.dataset.cardReference) {
+                        // Remove the hero if it doesn't have a positive quantity and the
+                        // displayed hero is the one removed
+                        heroElement.value = "";
+                        heroElement.dataset.cardReference = "";
+                        heroElement.nextElementSibling.disabled = true;
+                        heroElement.style["background-image"] = "";
+
+                        tooltip.disable();
+                    }
+                } else {
+                    if (change.quantity > 0) {
+                        // Create the card row if it's a positive quantity
+                        cardRow = createCardRow(change.quantity, cardReference, change.type, change.name, change.rarity, change.image);
+                        assertCardLimitWarning(cardRow, change.quantity);
+                    }
+                }
+                updateDisplayCount(cardReference, change.quantity);
+            }
+            sortDeckCards();
+        }
+    }
+}
+
+function updateDisplayCount(reference, count) {
+    let cardDisplay = document.querySelector(`#${getDisplayId(reference)} .deck-quantity`);
+    if (cardDisplay) {
+        cardDisplay.textContent = count;
+    }
+}
 
 
 // Save the changes when modifying the deck's name
@@ -310,8 +344,8 @@ function decreaseCardQuantity(event) {
     // Retrieve the card reference and calculate the new quantity
     let quantityElement = event.currentTarget.nextElementSibling;
     let cardReference = quantityElement.dataset.cardReference;
-    let quantity = Number(quantityElement.innerText) - 1;
-    
+    let quantity = Math.max(Number(quantityElement.innerText) - 1, 0);
+
     let rowId = getRowId(cardReference);
     let cardRowElement = document.getElementById(rowId);
 
@@ -319,7 +353,7 @@ function decreaseCardQuantity(event) {
         // If the quantity is still positive, update the value
         quantityElement.innerText = quantity;
         assertCardLimitWarning(cardRowElement, quantity);
-        
+
         bootstrap.Tooltip.getInstance("#" + rowId).hide();
     } else {
         // If the quantity reaches 0, remove the card from the deck list
@@ -327,8 +361,9 @@ function decreaseCardQuantity(event) {
         cardRowElement.remove();
     }
     // Track the changes
-    decklistChanges.addChange(cardReference, {"quantity": Math.max(quantity, 0)});
+    decklistChanges.addChange(cardReference, { "quantity": quantity });
     decklistChanges.save();
+    updateDisplayCount(cardReference, quantity);
     updateCardCount();
     assertHasChangesWarning();
 }
@@ -348,7 +383,7 @@ function increaseCardQuantity(event) {
     // Update the value
     quantityElement.innerText = quantity;
     // Track the changes
-    decklistChanges.addChange(cardReference, {"quantity": quantity});
+    decklistChanges.addChange(cardReference, { "quantity": quantity });
     decklistChanges.save();
 
     let rowId = getRowId(cardReference);
@@ -356,25 +391,26 @@ function increaseCardQuantity(event) {
     assertCardLimitWarning(cardRowElement, quantity);
     let t = bootstrap.Tooltip.getInstance("#" + rowId);
     t.hide();
+    updateDisplayCount(cardReference, quantity);
     updateCardCount();
     assertHasChangesWarning();
 }
 
 // Retrieve all the buttons to decrease the card quantity
 let removeCardButtons = document.getElementsByClassName("remove-card-btn");
-Array.from(removeCardButtons).forEach(function(element) {
+Array.from(removeCardButtons).forEach(function (element) {
     element.addEventListener("click", decreaseCardQuantity);
 });
 
 // Retrieve all the buttons to increase the card quantity
 let addCardButtons = document.getElementsByClassName("add-card-btn");
-Array.from(addCardButtons).forEach(function(element) {
+Array.from(addCardButtons).forEach(function (element) {
     element.addEventListener("click", increaseCardQuantity);
 });
 
 // Remove the hero from the sidebar
 let removeHeroButton = document.getElementById("remove-hero");
-removeHeroButton.addEventListener("click", function(event) {
+removeHeroButton.addEventListener("click", function (event) {
     // Retrieve the relevant elements.
     let heroTextElement = event.currentTarget.previousElementSibling;
     let heroReference = heroTextElement.dataset.cardReference;
@@ -389,7 +425,7 @@ removeHeroButton.addEventListener("click", function(event) {
     bootstrap.Tooltip.getInstance("#row-hero").dispose();
 
     // Track the changes
-    decklistChanges.addChange(heroReference, {"quantity": 0, "isHero": true});
+    decklistChanges.addChange(heroReference, { "quantity": 0, "isHero": true });
     decklistChanges.save();
     assertHasChangesWarning();
 });
@@ -406,6 +442,9 @@ removeHeroButton.addEventListener("click", function(event) {
  * @param {string} image Image of the card
  */
 function createCardRow(quantity, reference, type, name, rarity, image) {
+    if (type.includes("permanent")) {
+        type = "permanent";
+    }
     // Retrieve the relevant elements
     let editDeckColumn = document.getElementById(`decklist-${type}-cards`);
     let newCardElement = editDeckColumn.lastElementChild.cloneNode(true);
@@ -436,6 +475,10 @@ function addCardFromDisplay(event) {
     let cardRarity = event.currentTarget.dataset.cardRarity;
     let cardImage = event.currentTarget.dataset.cardImage;
 
+    event.currentTarget.classList.remove("clicked");
+    void event.currentTarget.offsetWidth;
+    event.currentTarget.classList.add("clicked");
+
     if (cardType === "hero") {
         // If it's a hero and there's no hero on the deck, add it
         let heroElement = document.getElementById("hero-name");
@@ -449,13 +492,14 @@ function addCardFromDisplay(event) {
             heroElement.style["background-image"] = `url(${cardImage})`;
             removeHeroButton.disabled = false;
 
-            tooltip.setContent({".tooltip-inner": getImageElement(cardImage)});
+            tooltip.setContent({ ".tooltip-inner": getImageElement(cardImage) });
             tooltip.enable();
 
-            decklistChanges.addChange(cardReference, {"quantity": 1, "isHero": true, "name": cardName, "image": cardImage});
+            decklistChanges.addChange(cardReference, { "quantity": 1, "isHero": true, "name": cardName, "image": cardImage });
             decklistChanges.save();
-            
+
             document.getElementById("hero-sidebar-container").classList.remove("d-none");
+            updateDisplayCount(cardReference, 1);
             assertHasChangesWarning();
         }
         return;
@@ -464,21 +508,23 @@ function addCardFromDisplay(event) {
     // Attempt to retrieve the row of the clicked card
     let cardElement = document.getElementById(getRowId(cardReference));
 
-    if (cardElement){
+    if (cardElement) {
         // If the card exists, update the row's quantity value
         // decklistChanges is queried as a cache to avoid reading the document if possible
         let quantity = decklistChanges.getChange(cardReference, "quantity") || Number(cardElement.getElementsByClassName("card-quantity")[0].innerText);
         quantity += 1;
 
-        decklistChanges.addChange(cardReference, {"quantity": quantity});
+        decklistChanges.addChange(cardReference, { "quantity": quantity });
         cardElement.getElementsByClassName("card-quantity")[0].innerText = quantity;
+        updateDisplayCount(cardReference, quantity);
         assertCardLimitWarning(cardElement, quantity);
     } else {
         // If the card doesn't exist, create the card's row
         createCardRow(1, cardReference, cardType, cardName, cardRarity, cardImage);
         sortDeckCards();
         // Track the changes
-        decklistChanges.addChange(cardReference, {"quantity": 1, "name": cardName, "type": cardType, "rarity": cardRarity, "image": cardImage});
+        decklistChanges.addChange(cardReference, { "quantity": 1, "name": cardName, "type": cardType, "rarity": cardRarity, "image": cardImage });
+        updateDisplayCount(cardReference, 1);
     }
     decklistChanges.save();
     updateCardCount();
@@ -486,13 +532,13 @@ function addCardFromDisplay(event) {
 }
 // If a card display is clicked, add the card to the deck
 let cardDisplayElements = document.getElementsByClassName("card-display");
-Array.from(cardDisplayElements).forEach(function(element) {
+Array.from(cardDisplayElements).forEach(function (element) {
     element.addEventListener("click", addCardFromDisplay);
 });
 
 // When the `save` button is pressed, send a request to the server with the changes tracked
 let saveDeckButton = document.getElementById("save-deck");
-saveDeckButton.addEventListener("click", function(event) {
+saveDeckButton.addEventListener("click", function (event) {
     event.preventDefault();
     // Retrieve the deck's values and generate the URL to patch the deck
     let deckName = document.getElementById("deck-name").value;
@@ -513,24 +559,22 @@ saveDeckButton.addEventListener("click", function(event) {
         method: "POST",
         credentials: "same-origin",
         headers: {
-          "X-Requested-With": "XMLHttpRequest",
-          "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+            "X-Requested-With": "XMLHttpRequest",
+            "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
         },
         body: JSON.stringify({
             action: "patch",
             decklist: decklistChanges.toFormData(),
             name: deckName
         })
-    })
-    .then(response => {
+    }).then(response => {
         if (response.redirected) {
             let url = URL.parse(response.url);
             url.search = "?next=" + encodeURIComponent(window.location.pathname + window.location.search);
             window.open(url, "_self");
         }
         return response.json();
-    })
-    .then(payload => {
+    }).then(payload => {
         if ("error" in payload) {
             console.log("Unable to update deck:");
             console.log(payload);
@@ -556,7 +600,7 @@ saveDeckButton.addEventListener("click", function(event) {
     return false;
 });
 
-document.getElementById("startNewDeck").addEventListener("click", function(){
+document.getElementById("startNewDeck").addEventListener("click", function () {
     if (decklistChanges.hasChanges()) {
         decklistChanges.clean();
     }

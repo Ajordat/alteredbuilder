@@ -12,49 +12,85 @@ from decks.models import Card, Set, Subtype
 
 
 # Altered's API endpoint
-API_URL = "https://api.altered.gg/cards"
+CARDS_API_URL = "https://api.altered.gg/cards"
 # The amount of items per page. Set to a high number to avoid pagination
-ITEMS_PER_PAGE = 2000
+ITEMS_PER_PAGE = 36
 # If True, retrieve the unique cards
 UPDATE_UNIQUES = False
+QUERY_SET = ["CORE"]
 # The API currently returns a private image link for unique cards in these languages
 IMAGE_ERROR_LOCALES = ["es", "it", "de"]
+LOCALE_IRREGULAR_CODES = {"en": "en-us"}
 headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) Gecko/20100101 Firefox/134.0",
     "Origin": "https://www.altered.gg",
 }
+
+
+class SubTypeCache:
+
+    def __init__(self):
+        self.cache = {}
+
+    def add_subtype(self, reference, subtypes):
+        if "_U_" in reference:
+            return
+        family_id = self._get_family_id(reference)
+        if family_id not in self.cache:
+            self.cache[family_id] = subtypes
+
+    def get_subtype(self, reference):
+        return self.cache.get(self._get_family_id(reference), False)
+
+    def _get_family_id(self, reference):
+        # Remove the rarity from the reference to create the family id
+        return reference.rsplit("_", 1)[0]
+
+    def clear(self):
+        self.cache = {}
 
 
 class Command(BaseCommand):
     help = "Updates the card pool by adding the latest cards"
 
+    def __init__(self, **kwargs):
+        super().__init__(kwargs)
+        self.subtypes = SubTypeCache()
+        self.language_code = None
+
     def handle(self, *args: Any, **options: Any) -> None:
         """The command's entrypoint. Queries the API for each language."""
 
         for language, _ in settings.LANGUAGES:
-            activate(language)
-            self.query_page(language)
+            self.language_code = language
+            activate(self.language_code)
+            self.query_page()
+            self.subtypes.clear()
 
-    def query_page(self, language_code: str) -> None:
+    def query_page(self) -> None:
         """Query Altered's API to retrieve the card information.
-
-        Args:
-            language_code (str): The language to retrieve the cards in.
 
         Raises:
             CommandError: If the API returns a response in a different format.
         """
 
-        headers["Accept-Language"] = f"{language_code}-{language_code}"
+        locale = (
+            LOCALE_IRREGULAR_CODES[self.language_code]
+            if self.language_code in LOCALE_IRREGULAR_CODES
+            else f"{self.language_code}-{self.language_code}"
+        )
+        headers["Accept-Language"] = locale
         page_index = 1
         page_count = math.inf
         total_items = math.inf
 
         while page_index <= page_count:
-            params = f"?page={page_index}&itemsPerPage={ITEMS_PER_PAGE}"
+            params = f"?page={page_index}&itemsPerPage={ITEMS_PER_PAGE}&locale={locale}"
             if UPDATE_UNIQUES:
                 params += "&rarity[]=UNIQUE"
-            req = request.Request(API_URL + params, headers=headers)
+            if len(QUERY_SET) > 0:
+                params += "".join([f"&cardSet[]={card_set}" for card_set in QUERY_SET])
+            req = request.Request(CARDS_API_URL + params, headers=headers)
 
             # Query the API
             with request.urlopen(req) as response:
@@ -82,7 +118,7 @@ class Command(BaseCommand):
 
                 if (
                     card_dict["rarity"] == Card.Rarity.UNIQUE
-                    and language_code in IMAGE_ERROR_LOCALES
+                    and self.language_code in IMAGE_ERROR_LOCALES
                 ):
                     # If it's a unique card and one of the failing languages,
                     # skip the image
@@ -119,11 +155,13 @@ class Command(BaseCommand):
             "type": card["cardType"]["reference"],
             "rarity": card["rarity"]["reference"],
             "image_url": card["imagePath"],
-            "subtypes": [
+        }
+        if "cardSubTypes" in card:
+            card_dict["subtypes"] = [
                 (subtype["reference"], subtype["name"])
                 for subtype in card["cardSubTypes"]
-            ],
-        }
+            ]
+
         if "MAIN_EFFECT" in card["elements"]:
             card_dict["main_effect"] = card["elements"]["MAIN_EFFECT"]
 
@@ -148,8 +186,8 @@ class Command(BaseCommand):
             else:
                 card_dict.update(
                     {
-                        "main_cost": int(card["elements"]["MAIN_COST"]),
-                        "recall_cost": int(card["elements"]["RECALL_COST"]),
+                        "main_cost": int(card["elements"]["MAIN_COST"].strip("#")),
+                        "recall_cost": int(card["elements"]["RECALL_COST"].strip("#")),
                     }
                 )
 
@@ -158,9 +196,13 @@ class Command(BaseCommand):
             if card_dict["type"] == "CHARACTER":
                 card_dict.update(
                     {
-                        "forest_power": int(card["elements"]["FOREST_POWER"]),
-                        "mountain_power": int(card["elements"]["MOUNTAIN_POWER"]),
-                        "ocean_power": int(card["elements"]["OCEAN_POWER"]),
+                        "forest_power": int(
+                            card["elements"]["FOREST_POWER"].strip("#")
+                        ),
+                        "mountain_power": int(
+                            card["elements"]["MOUNTAIN_POWER"].strip("#")
+                        ),
+                        "ocean_power": int(card["elements"]["OCEAN_POWER"].strip("#")),
                     }
                 )
         return card_dict
@@ -172,9 +214,17 @@ class Command(BaseCommand):
         Args:
             card_dict (dict): The Card dict that needs to have its values cast.
         """
-        card_dict["faction"] = Card.Faction(card_dict["faction"])
-        card_dict["type"] = getattr(Card.Type, card_dict["type"])
-        card_dict["rarity"] = getattr(Card.Rarity, card_dict["rarity"])
+        try:
+            card_dict["faction"] = Card.Faction(card_dict["faction"])
+            card_dict["type"] = (
+                getattr(Card.Type, card_dict["type"])
+                if card_dict["type"] != "PERMANENT"
+                else Card.Type.LANDMARK_PERMANENT
+            )
+            card_dict["rarity"] = getattr(Card.Rarity, card_dict["rarity"])
+        except Exception as e:
+            print(card_dict)
+            raise e
 
         # Retrieve the Set. This could probably done better, but I'm unsure how to make
         # the reverse query to the db
@@ -184,6 +234,8 @@ class Command(BaseCommand):
             card_dict["set"] = Set.objects.get(code="CORE")
         elif "_COREKS_" in card_dict["reference"]:
             card_dict["set"] = Set.objects.get(code="COREKS")
+        elif "_ALIZE_" in card_dict["reference"]:
+            card_dict["set"] = Set.objects.get(code="ALIZE")
 
     def create_card(self, card_dict: dict) -> None:
         """Receive a card dict and store it as a Card object into the db.
@@ -192,21 +244,10 @@ class Command(BaseCommand):
             card_dict (dict): The card dict.
         """
         try:
-            self.stdout.write(f"{card_dict}")
-            subtypes = card_dict.pop("subtypes")
-            card = Card.objects.create(**card_dict)
+            subtypes = card_dict.pop("subtypes", False)
+            card = Card.objects.create_card(**card_dict)
 
-            for subtype in subtypes:
-                # Retrieve the Subtype and create a relationship with the Card
-                # If it doesn't exist, create it
-                st_reference, st_name = subtype
-                try:
-                    st = Subtype.objects.get(reference=st_reference)
-                    st.name = st_name
-                    st.save()
-                except Subtype.DoesNotExist:
-                    st = Subtype.objects.create(reference=st_reference, name=st_name)
-                card.subtypes.add(st)
+            self.link_subtypes(card, subtypes)
 
             self.stdout.write(f"card created: {card}")
         except KeyError:
@@ -238,7 +279,23 @@ class Command(BaseCommand):
 
         card_obj.stats = {field: card_dict[field] for field in stats_fields}
 
-        for subtype in card_dict["subtypes"]:
+        card_obj.save()
+
+        self.link_subtypes(card_obj, card_dict.get("subtypes", False))
+
+        self.stdout.write(f"card updated: {card_obj}")
+
+    def link_subtypes(self, card: Card, subtypes):
+        if not subtypes:
+            reference = card.reference
+            subtypes = self.subtypes.get_subtype(reference)
+            if not subtypes:
+                subtypes = self.fetch_subtypes(reference)
+                self.subtypes.add_subtype(reference, subtypes)
+
+        for subtype in subtypes:
+            # Retrieve the Subtype and create a relationship with the Card
+            # If it doesn't exist, create it
             st_reference, st_name = subtype
             try:
                 st = Subtype.objects.get(reference=st_reference)
@@ -246,6 +303,25 @@ class Command(BaseCommand):
                 st.save()
             except Subtype.DoesNotExist:
                 st = Subtype.objects.create(reference=st_reference, name=st_name)
-            card_obj.subtypes.add(st)
+            card.subtypes.add(st)
 
-        card_obj.save()
+    def fetch_subtypes(self, reference):
+
+        locale = (
+            LOCALE_IRREGULAR_CODES[self.language_code]
+            if self.language_code in LOCALE_IRREGULAR_CODES
+            else f"{self.language_code}-{self.language_code}"
+        )
+        headers["Accept-Language"] = locale
+        params = f"locale={locale}"
+        req = request.Request(f"{CARDS_API_URL}/{reference}?{params}", headers=headers)
+
+        # Query the API
+        with request.urlopen(req) as response:
+            page = response.read()
+            data = json.loads(page.decode("utf8"))
+
+        try:
+            return [(st["reference"], st["name"]) for st in data["cardSubTypes"]]
+        except KeyError:
+            return []

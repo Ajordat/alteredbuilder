@@ -14,6 +14,7 @@ class GameMode(ABC):
     a validation method.
     """
 
+    MIN_FACTION_COUNT = None
     MAX_FACTION_COUNT = None
     MIN_TOTAL_COUNT = None
     MAX_RARE_COUNT = None
@@ -21,6 +22,7 @@ class GameMode(ABC):
     ENFORCE_INDIVIDUAL_UNIQUES = True
     MAX_SAME_FAMILY_CARD_COUNT = None
     IS_HERO_MANDATORY = None
+    BANNED_FAMILY_CARDS = []
 
     @classmethod
     def validate(cls, **kwargs) -> list:
@@ -34,6 +36,8 @@ class GameMode(ABC):
         """
         error_list = []
 
+        if cls.MIN_FACTION_COUNT and (kwargs["faction_count"] < cls.MIN_FACTION_COUNT):
+            error_list.append(cls.ErrorCode.ERR_MISSING_FACTION_COUNT)
         if cls.MAX_FACTION_COUNT and (kwargs["faction_count"] > cls.MAX_FACTION_COUNT):
             error_list.append(cls.ErrorCode.ERR_EXCEED_FACTION_COUNT)
         if cls.MIN_TOTAL_COUNT and (kwargs["total_count"] < cls.MIN_TOTAL_COUNT):
@@ -51,10 +55,16 @@ class GameMode(ABC):
             error_list.append(cls.ErrorCode.ERR_EXCEED_SAME_FAMILY_COUNT)
         if cls.IS_HERO_MANDATORY and not kwargs["has_hero"]:
             error_list.append(cls.ErrorCode.ERR_MISSING_HERO)
+        if len(cls.BANNED_FAMILY_CARDS) > 0 and any(
+            ban in kwargs["card_families"] for ban in cls.BANNED_FAMILY_CARDS
+        ):
+            error_list.append(cls.ErrorCode.ERR_CONTAINS_BANNED_CARD)
 
         return error_list
 
     class ErrorCode(StrEnum):
+        # Does not reach the minimum faction count
+        ERR_MISSING_FACTION_COUNT = "ERR_MISSING_FACTION_COUNT"
         # Exceeds maximum faction count
         ERR_EXCEED_FACTION_COUNT = "ERR_EXCEED_FACTION_COUNT"
         # Does not reach minimum card count
@@ -69,6 +79,8 @@ class GameMode(ABC):
         ERR_EXCEED_SAME_FAMILY_COUNT = "ERR_EXCEED_SAME_FAMILY_COUNT"
         # No hero present in deck
         ERR_MISSING_HERO = "ERR_MISSING_HERO"
+        # Contains a banned card
+        ERR_CONTAINS_BANNED_CARD = "ERR_CONTAINS_BANNED_CARD"
 
         def to_user(self, gm) -> str:
             """Build an error message including the GameMode's relevant metrics.
@@ -104,6 +116,12 @@ class GameMode(ABC):
                     ) % {"count": gm.MAX_SAME_FAMILY_CARD_COUNT}
                 case GameMode.ErrorCode.ERR_MISSING_HERO:
                     return _("Missing hero")
+                case GameMode.ErrorCode.ERR_MISSING_FACTION_COUNT:
+                    return _("Does not reach the minimum faction count (%(count)s)") % {
+                        "count": gm.MIN_FACTION_COUNT
+                    }
+                case GameMode.ErrorCode.ERR_CONTAINS_BANNED_CARD:
+                    return _("Contains a banned card")
 
         @classmethod
         def from_list_to_user(cls, error_list: list[str], game_mode) -> list[str]:
@@ -129,6 +147,21 @@ class StandardGameMode(GameMode):
     MAX_UNIQUE_COUNT = 3
     MAX_SAME_FAMILY_CARD_COUNT = 3
     IS_HERO_MANDATORY = True
+    BANNED_FAMILY_CARDS = [
+        ("OR_11_C", Card.Faction.ORDIS),
+        ("OR_11_R1", Card.Faction.ORDIS),
+        ("BR_30_R2", Card.Faction.AXIOM),
+        ("YZ_05_U", Card.Faction.AXIOM),
+        ("YZ_05_U", Card.Faction.YZMIR),
+        ("AX_16_U", Card.Faction.BRAVOS),
+    ]
+
+
+class Doubles(StandardGameMode):
+    """Class to represent the Doubles game mode."""
+
+    MIN_FACTION_COUNT = 2
+    MAX_FACTION_COUNT = 2
 
 
 class ExaltsChampionship(StandardGameMode):
@@ -136,27 +169,6 @@ class ExaltsChampionship(StandardGameMode):
 
     MAX_RARE_COUNT = 18
     MAX_UNIQUE_COUNT = 0
-
-    @classmethod
-    def validate(cls, **kwargs) -> bool:
-        """Validate if the received parameters comply with this game mode's rules and
-        returns if the deck contains any errors.
-
-        Returns:
-            bool: If the deck contains any errors.
-        """
-        return (
-            (kwargs["faction_count"] > cls.MAX_FACTION_COUNT)
-            or (kwargs["total_count"] < cls.MIN_TOTAL_COUNT)
-            or (kwargs["rare_count"] > cls.MAX_RARE_COUNT)
-            or (kwargs["unique_count"] > cls.MAX_UNIQUE_COUNT)
-            or (kwargs["repeats_same_unique"])
-            or (
-                max(kwargs["family_count"].values(), default=0)
-                > cls.MAX_SAME_FAMILY_CARD_COUNT
-            )
-            or (not kwargs["has_hero"])
-        )
 
 
 class DraftGameMode(GameMode):
@@ -193,6 +205,7 @@ def update_deck_legality(deck: Deck) -> None:
     repeats_same_unique = False
     factions = [deck.hero.faction] if deck.hero else []
     family_count = defaultdict(int)
+    card_families = []
 
     decklist = deck.cardindeck_set.select_related("card").all()
 
@@ -208,6 +221,7 @@ def update_deck_legality(deck: Deck) -> None:
             factions.append(cid.card.faction)
         family_key = cid.card.get_family_code()
         family_count[family_key] += cid.quantity
+        card_families.append((cid.card.get_family(), cid.card.faction))
 
     data = {
         "faction_count": len(factions),
@@ -217,6 +231,7 @@ def update_deck_legality(deck: Deck) -> None:
         "family_count": family_count,
         "has_hero": bool(deck.hero),
         "repeats_same_unique": repeats_same_unique,
+        "card_families": card_families,
     }
 
     error_list = StandardGameMode.validate(**data)
@@ -229,3 +244,6 @@ def update_deck_legality(deck: Deck) -> None:
 
     has_errors = ExaltsChampionship.validate(**data)
     deck.is_exalts_legal = not has_errors
+
+    has_errors = Doubles.validate(**data)
+    deck.is_doubles_legal = not has_errors
