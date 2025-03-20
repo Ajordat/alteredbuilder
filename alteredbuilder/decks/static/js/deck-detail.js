@@ -375,6 +375,10 @@ function startCollection() {
 
 function markCollectedCards(collection, settings) {
 
+    if (Object.entries(collection).length === 0) {
+        return;
+    }
+
     const cards = document.querySelectorAll(".card-table tr[data-card-reference]");
     var finalCollection = {};
     var familyCollection = {};
@@ -405,16 +409,26 @@ function markCollectedCards(collection, settings) {
             setCardCount(card, familyCollection[cardFamily]);
             continue;
         }
+        setCardCount(card, 0);
+    }
+    
+    const tableTitles = document.querySelectorAll(".card-table .quantity-title");
+    for (let table of tableTitles) {
+        table.innerHTML += ' <small>/<i class="fa-regular fa-folder-open" style="margin-left: 3px"></i></small>'
     }
 }
 
 function setCardCount(parentElement, count) {
-    const badge = document.createElement('td');
-    badge.textContent = count;
-    badge.className = 'card-badge px-2 py-1 border border-white';
+    // const badge = document.createElement('td');
+    // badge.textContent = count;
+    // badge.className = 'card-badge px-2 py-1 border border-white';
 
-    parentElement.style.position = 'relative';
-    parentElement.insertBefore(badge, parentElement.querySelector(".after-collection"));
+    // parentElement.style.position = 'relative';
+    const cell = parentElement.querySelector(".quantity");
+    let quantity = parseInt(cell.innerText);
+    if (quantity > count) {
+        cell.innerHTML = cell.innerHTML + ` <small style="color: #808080">/<span style="margin-left: 1px">${count}</span></small>`;
+    }
 }
 
 startCollection();
