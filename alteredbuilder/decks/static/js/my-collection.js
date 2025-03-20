@@ -249,10 +249,9 @@ document.getElementById("save-collection").addEventListener("click", () => {
 
     let cardEntries = textCollectionToEntries(collectionListEl.value);
     let collection = parseCardEntries(cardEntries);
-    let previousCollection = fetchCollection();
 
     saveCollection(collection);
-    importUniqueCards(previousCollection, collection);
+    importUniqueCards(collection);
 
     let stats = generateStats(collection);
     drawStats(stats);

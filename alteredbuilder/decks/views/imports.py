@@ -1,4 +1,5 @@
 from http import HTTPStatus
+import json
 from typing import Any
 
 from django.contrib.auth.decorators import login_required
@@ -7,11 +8,13 @@ from django.contrib.auth.models import User
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
+from django.views.decorators.http import require_POST
 from django.views.generic.edit import FormView
 
+from api.utils import ApiJsonResponse
 from decks.deck_utils import create_new_deck, import_unique_card
 from decks.models import Card, FavoriteCard
-from decks.forms import CardImportForm, DecklistForm, MultipleCardsImportForm
+from decks.forms import CardImportForm, DecklistForm
 from decks.exceptions import AlteredAPIError, CardAlreadyExists, MalformedDeckException
 
 
@@ -86,7 +89,7 @@ def import_card(request: HttpRequest) -> HttpResponse:
         if form.is_valid():
             reference = form.cleaned_data["reference"]
             try:
-                import_card_by_reference(reference, request.user)
+                context |= import_card_by_reference(reference, request.user)
             except AlteredAPIError as e:
                 # If the import operation fails, attempt to explain the failure
                 if e.status_code == HTTPStatus.UNAUTHORIZED:
@@ -110,6 +113,7 @@ def import_card(request: HttpRequest) -> HttpResponse:
 
 
 @login_required
+@require_POST
 def import_multiple_cards(request: HttpRequest) -> HttpResponse:
     """Receive the reference of a unique card and import it into the database.
 
@@ -119,30 +123,27 @@ def import_multiple_cards(request: HttpRequest) -> HttpResponse:
     Returns:
         HttpResponse: The response object.
     """
-    context = {}
-    form = None
-    if request.method == "POST":
-        form = MultipleCardsImportForm(request.POST)
-        if form.is_valid():
-            references = form.cleaned_data["references"]
+    success = []
+    failure = []
 
-            for reference in references:
-                try:
-                    import_card_by_reference(reference, request.user)
-                except AlteredAPIError as e:
-                    # If the import operation fails, attempt to explain the failure
-                    if e.status_code == HTTPStatus.UNAUTHORIZED:
-                        form.add_error(
-                            "reference",
-                            _("The card '%(reference)s' is not public")
-                            % {"reference": reference},
-                        )
-                    else:
-                        form.add_error(
-                            "reference", _("Failed to fetch the card on the official API.")
-                        )
+    try:
+        data = json.loads(request.body)
+    except json.decoder.JSONDecodeError:
+        return ApiJsonResponse("Missing body", HTTPStatus.BAD_REQUEST)
 
-    return render(request, "decks/import_card.html", context)
+    if "references" not in data:
+        return ApiJsonResponse("Missing references", HTTPStatus.BAD_REQUEST)
+
+    references = data["references"]
+
+    for reference in references:
+        try:
+            import_card_by_reference(reference, request.user)
+            success.append(reference)
+        except AlteredAPIError:
+            failure.append(reference)
+
+    return ApiJsonResponse({"success": success, "failure": failure}, HTTPStatus.OK)
 
 
 def import_card_by_reference(reference: str, user: User):

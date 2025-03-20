@@ -116,7 +116,8 @@ class CreateDeckFormTestCase(BaseFormTestCase):
 
         self.assertTrue(form.has_error("decklist"))
         self.assertIn(
-            f"Card '{wrong_card_reference}' wasn't found and couldn't be imported", form.errors["decklist"]
+            f"Card '{wrong_card_reference}' wasn't found and couldn't be imported",
+            form.errors["decklist"],
         )
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
