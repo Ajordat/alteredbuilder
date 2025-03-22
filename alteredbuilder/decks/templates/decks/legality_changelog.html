@@ -76,7 +76,7 @@
                     <h5 class="mt-2">{% translate "Suspensions" %}</h5>
                     <ul>
             {% for suspension in patch.suspensions %}
-                        <li><a href="{{ suspension.link }}" target="_blank">{{ suspension.name }}</a></li>
+                        <li><a href="{{ suspension.link }}" target="_blank">{{ suspension.name }}</a>{% if suspension.fix %} <strong>[<a href="{{ suspension.fix.link }}" target="_blank">Fixed on {{ suspension.fix.patch }}</a>]</strong>{% endif %}</li>
             {% endfor %}
                     </ul>
         {% endif %}

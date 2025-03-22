@@ -251,6 +251,7 @@ document.getElementById("save-collection").addEventListener("click", () => {
     let collection = parseCardEntries(cardEntries);
 
     saveCollection(collection);
+    importUniqueCards(collection);
 
     let stats = generateStats(collection);
     drawStats(stats);

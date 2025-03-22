@@ -1,0 +1,89 @@
+{
+    "last_update": "2025-03-21",
+    "patches": [
+        {
+            "effective_date": "2025-03-21",
+            "article": {
+                "link": "https://www.altered.gg/news/trial-by-frost-mid-season-patch-introducing-the-watchlist",
+                "title": "Trial by Frost Mid-Season Patch - Introducing the Watchlist",
+                "date": "2025-03-21"
+            },
+            "erratas": [
+                {
+                    "name": "Haven, Bravos Bastion (Axiom Rare)",
+                    "link": "https://www.altered.gg/news/trial-by-frost-mid-season-patch-introducing-the-watchlist#widget0_subwidget15",
+                    "previous": "<span class=\"altered-etb\"></span> <strong>Resupply</strong>.<br>Your Characters have: \"<span class=\"altered-reserve\"></span> I gain 1 boost.\"",
+                    "updated": "<span class=\"altered-etb\"></span> <strong>Resupply</strong>.<br><span class=\"altered-exhaust\"></span> : The next Character you play from your Reserve this turn gains 1 boost."
+                },
+                {
+                    "name": "Ozma (Common & Ordis Rare)",
+                    "link": "https://www.altered.gg/news/trial-by-frost-mid-season-patch-introducing-the-watchlist#widget0_subwidget11",
+                    "previous": "<span class=\"altered-etb\"></span> If you control three or more other Characters, draw a card.",
+                    "updated": "<span class=\"altered-etb\"></span> If you control three or more other Characters, <strong>Resupply</strong>."
+                }
+            ]
+        },
+        {
+            "effective_date": "2025-01-30",
+            "article": {
+                "link": "https://www.altered.gg/news/trial-by-frost-season-patch",
+                "title": "Trial by Frost Season Patch",
+                "date": "2025-01-30"
+            },
+            "erratas": [
+                {
+                    "name": "Waru",
+                    "link": "https://www.altered.gg/news/trial-by-frost-season-patch#widget0_subwidget6",
+                    "previous": "At Noon &mdash; If you control one or more Bureaucrats, create an <strong>Ordis Recruit 1/1/1</strong> Soldier token in target Expedition.<br>When you play a Bureaucrat &mdash; You may have it gain <strong style=\"text-decoration: underline\">Asleep</strong>.",
+                    "updated": "When you play a Bureaucrat &mdash; It gains <strong style=\"text-decoration: underline\">Asleep</strong>."
+                }
+            ],
+            "suspensions": [
+                {
+                    "name": "Foundry Armorer (all Uniques, Bravos only)",
+                    "link": "https://www.altered.gg/news/trial-by-frost-season-patch#widget0_subwidget19"
+                },
+                {
+                    "name": "Gericht, Revered Dueslist (all Uniques, all factions)",
+                    "link": "https://www.altered.gg/news/trial-by-frost-season-patch#widget0_subwidget22"
+                },
+                {
+                    "name": "Haven, Bravos Bastion (Axiom Rare)",
+                    "link": "https://www.altered.gg/news/trial-by-frost-season-patch#widget0_subwidget12",
+                    "fix": {
+                        "patch": "2025-03-21",
+                        "link": "https://www.altered.gg/news/trial-by-frost-mid-season-patch-introducing-the-watchlist#widget0_subwidget15"
+                    }
+                },
+                {
+                    "name": "Moonlight Jellyfish (all Uniques, all factions)",
+                    "link": "https://www.altered.gg/news/trial-by-frost-season-patch#widget0_subwidget16"
+                },
+                {
+                    "name": "Ozma (Common & Ordis Rare)",
+                    "link": "https://www.altered.gg/news/trial-by-frost-season-patch#widget0_subwidget9",
+                    "fix": {
+                        "patch": "2025-03-21",
+                        "link": "https://www.altered.gg/news/trial-by-frost-mid-season-patch-introducing-the-watchlist#widget0_subwidget11"
+                    }
+                }
+            ]
+        },
+        {
+            "effective_date": "2024-11-15",
+            "article": {
+                "link": "https://www.altered.gg/news/addressing-robin-hoods-gameplay-experience",
+                "title": "Addressing Robin Hood's Gameplay Experience",
+                "date": "2024-11-14"
+            },
+            "erratas": [
+                {
+                    "name": "Robin Hood",
+                    "link": "https://www.altered.gg/news/addressing-robin-hoods-gameplay-experience#widget0_subwidget1",
+                    "previous": "Characters your opponents play cost <span class=\"altered-1\"></span> more.",
+                    "updated": "Cards your opponents play can't cost less than <span class=\"altered-2\"></span>. (If they would cost less, they cost <span class=\"altered-2\"></span> instead.)"
+                }
+            ]
+        }
+    ]
+}

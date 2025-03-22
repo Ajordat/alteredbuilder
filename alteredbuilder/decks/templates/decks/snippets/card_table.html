@@ -7,7 +7,7 @@
     <thead>
         <!-- Each card simply displays its quantity, name and mana cost -->
         <tr>
-            <th scope="col">#</th>
+            <th scope="col" class="quantity-title text-nowrap">#</th>
             <th scope="col">{% translate "Name" %}</th>
             <th scope="col">{% translate "Mana" %}</th>
             <th></th>
@@ -15,12 +15,12 @@
     </thead>
     <tbody class="table-group-divider">
 {% for quantity, card in card_list %}
-        <tr class="{% get_row_color_from_rarity card.get_rarity_display %} card-hover" data-rarity="{{ card.get_rarity_display }}" data-image-url="{% cdn_image_url card.image_url %}" data-faction="{{ card.faction }}">
+        <tr class="{% get_row_color_from_rarity card.get_rarity_display %} card-hover" data-card-reference="{{ card.reference }}" data-card-family="{{ card.get_family }}" data-rarity="{{ card.get_rarity_display }}" data-image-url="{% cdn_image_url card.image_url %}" data-faction="{{ card.faction }}">
             <link rel="prefetch" href="{% cdn_image_url card.image_url %}"/>
-            <td class="user-select-none">{{ quantity }}</td>
+            <td class="quantity user-select-none text-nowrap" style="width: 8%;">{{ quantity }}</td>
             <td><span class="user-select-all">{{ card.name }}</span></td>
-            <td><span class="altered-{{ card.stats.main_cost }} hand-mana"></span>/<span class="altered-{{ card.stats.recall_cost }} reserve-mana"></span></td>
-            <td class="text-end pe-3" style="width: 1%;">
+            <td class="pe-3 text-nowrap" style="width: 1%;"><span class="altered-{{ card.stats.main_cost }} hand-mana"></span>/<span class="altered-{{ card.stats.recall_cost }} reserve-mana"></span></td>
+            <td class="text-end px-3" style="width: 1%;">
                 <div class="dropdown">
                     <button class="btn altered-style row-button dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>
                     <ul class="dropdown-menu altered-style">

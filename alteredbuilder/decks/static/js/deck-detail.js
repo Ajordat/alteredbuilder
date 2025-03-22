@@ -356,3 +356,74 @@ if (changeToCardDisplayButton) {
 }
 
 changeDisplay(getDisplayMode());
+
+
+function startCollection() {
+
+    let collection = fetchCollection();
+
+    console.log(collection);
+
+    if (!collection) {
+        return;
+    }
+
+    let settings = fetchSettings();
+
+    markCollectedCards(collection, settings);
+}
+
+function markCollectedCards(collection, settings) {
+
+    if (Object.entries(collection).length === 0) {
+        return;
+    }
+    var finalCollection = {};
+    var familyCollection = {};
+
+    if (settings.mergeSets) {
+        for (let [reference, quantity] of Object.entries(collection)) {
+            let cardFamily = reference.split("_").slice(3, 6).join("_");
+            if (!cardFamily.includes("_U")) {
+                familyCollection[cardFamily] = quantity + (familyCollection[cardFamily] || 0);
+            } else {
+                finalCollection[reference] = 1;
+            }
+        }
+    } else {
+        finalCollection = { ...collection };
+    }
+
+    const cards = document.querySelectorAll(".card-table tr[data-card-reference]");
+
+    for (let card of cards) {
+        const cardReference = card.getAttribute('data-card-reference');
+
+        if (finalCollection[cardReference]) {
+            setCardCount(card, finalCollection[cardReference]);
+            continue;
+        }
+        const cardFamily = card.getAttribute('data-card-family');
+
+        if (familyCollection[cardFamily]) {
+            setCardCount(card, familyCollection[cardFamily]);
+            continue;
+        }
+        setCardCount(card, 0);
+    }
+    
+    const tableTitles = document.querySelectorAll(".card-table .quantity-title");
+    for (let table of tableTitles) {
+        table.innerHTML += ' <small>/<i class="fa-regular fa-folder-open" style="margin-left: 3px"></i></small>'
+    }
+}
+
+function setCardCount(parentElement, count) {
+    const cell = parentElement.querySelector(".quantity");
+    let quantity = parseInt(cell.innerText);
+    if (quantity > count) {
+        cell.innerHTML = cell.innerHTML + ` <small style="color: #808080">/<span style="margin-left: 1px">${count}</span></small>`;
+    }
+}
+
+startCollection();

@@ -8,7 +8,7 @@ from config.tests.utils import get_login_url, silence_logging
 from decks.forms import CardImportForm, CommentForm, DecklistForm, DeckMetadataForm
 from decks.models import Card, Comment, Deck
 from decks.tests.utils import BaseFormTestCase
-from decks.views import NewDeckFormView
+from decks.views.imports import NewDeckFormView
 
 
 class CreateDeckFormTestCase(BaseFormTestCase):
@@ -116,7 +116,8 @@ class CreateDeckFormTestCase(BaseFormTestCase):
 
         self.assertTrue(form.has_error("decklist"))
         self.assertIn(
-            f"Card '{wrong_card_reference}' wasn't found and couldn't be imported", form.errors["decklist"]
+            f"Card '{wrong_card_reference}' wasn't found and couldn't be imported",
+            form.errors["decklist"],
         )
         self.assertEqual(response.status_code, HTTPStatus.OK)
 

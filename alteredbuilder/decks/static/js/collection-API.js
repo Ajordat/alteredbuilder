@@ -50,3 +50,25 @@ function parseCardEntries(cardEntries) {
 function collectionToText(collection) {
     return Object.entries(collection).map(([reference, quantity]) => `${quantity} ${reference}`).join("\n");
 }
+
+function importUniqueCards(collection) {
+    const uniqueCards = Object.keys(collection).filter((reference) => reference.includes("_U_"));
+
+    if (uniqueCards.length == 0) {
+        return;
+    }
+    console.log(uniqueCards);
+
+    fetch("/es/decks/import-multiple-cards/", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+            "X-Requested-With": "XMLHttpRequest",
+            "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            references: uniqueCards
+        })
+    })
+}

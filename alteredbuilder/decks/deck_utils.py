@@ -95,7 +95,8 @@ def create_new_deck(user: User, deck_form: dict) -> Deck:
             except AlteredAPIError:
                 # The Card's reference needs to exist on the database
                 raise MalformedDeckException(
-                    _("Card '%(reference)s' wasn't found and couldn't be imported") % {"reference": reference}
+                    _("Card '%(reference)s' wasn't found and couldn't be imported")
+                    % {"reference": reference}
                 )
 
         if card.type == Card.Type.HERO:
@@ -355,7 +356,10 @@ def import_unique_card(reference) -> Card:  # pragma: no cover
                 reference__startswith=family, rarity=Card.Rarity.COMMON
             ).get()
         except Card.DoesNotExist:
-            raise AlteredAPIError(f"The card family '{family}' does not exist in the database", status_code=HTTPStatus.NOT_FOUND)
+            raise AlteredAPIError(
+                f"The card family '{family}' does not exist in the database",
+                status_code=HTTPStatus.NOT_FOUND,
+            )
         card_dict = {
             "reference": reference,
             "name": og_card.name,
