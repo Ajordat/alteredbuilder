@@ -19,7 +19,7 @@ defaults:
 
 jobs:
   deploy:
-    name: Deploy to Cloud Run
+    name: Deploy command '${{ matrix.command }}' to Cloud Run
     runs-on: ubuntu-22.04
     permissions:
       contents: 'read'
@@ -37,12 +37,14 @@ jobs:
       uses: google-github-actions/auth@v2
       with:
         credentials_json: ${{ secrets.GCP_GITHUB_SA_JSON }}
+    - name: Prepare job name
+      run: echo "JOB_NAME=${{ matrix.command }} | sed 's/_/-/g' >> $GITHUB_OUTPUT"
     - name: Deploy to Cloud Run
       uses: google-github-actions/deploy-cloudrun@v2
       with:
         project_id: ${{ vars.GCP_PROJECT }}
         region: ${{ vars.REGION }}
-        job: ${{ matrix.command }}
+        job: ${{ steps.vars.outputs.JOB_NAME }}
         image: ${{ secrets.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
         flags: |
           --command=python
