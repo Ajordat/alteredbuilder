@@ -18,7 +18,7 @@
         <tr class="{% get_row_color_from_rarity card.get_rarity_display %} card-hover" data-card-reference="{{ card.reference }}" data-card-family="{{ card.get_family }}" data-rarity="{{ card.get_rarity_display }}" data-image-url="{% cdn_image_url card.image_url %}" data-faction="{{ card.faction }}">
             <link rel="prefetch" href="{% cdn_image_url card.image_url %}"/>
             <td class="quantity user-select-none text-nowrap" style="width: 8%;">{{ quantity }}</td>
-            <td class="after-collection"><span class="user-select-all">{{ card.name }}</span></td>
+            <td><span class="user-select-all">{{ card.name }}</span></td>
             <td class="pe-3 text-nowrap" style="width: 1%;"><span class="altered-{{ card.stats.main_cost }} hand-mana"></span>/<span class="altered-{{ card.stats.recall_cost }} reserve-mana"></span></td>
             <td class="text-end px-3" style="width: 1%;">
                 <div class="dropdown">

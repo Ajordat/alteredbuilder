@@ -378,8 +378,6 @@ function markCollectedCards(collection, settings) {
     if (Object.entries(collection).length === 0) {
         return;
     }
-
-    const cards = document.querySelectorAll(".card-table tr[data-card-reference]");
     var finalCollection = {};
     var familyCollection = {};
 
@@ -395,6 +393,8 @@ function markCollectedCards(collection, settings) {
     } else {
         finalCollection = { ...collection };
     }
+
+    const cards = document.querySelectorAll(".card-table tr[data-card-reference]");
 
     for (let card of cards) {
         const cardReference = card.getAttribute('data-card-reference');
@@ -419,11 +419,6 @@ function markCollectedCards(collection, settings) {
 }
 
 function setCardCount(parentElement, count) {
-    // const badge = document.createElement('td');
-    // badge.textContent = count;
-    // badge.className = 'card-badge px-2 py-1 border border-white';
-
-    // parentElement.style.position = 'relative';
     const cell = parentElement.querySelector(".quantity");
     let quantity = parseInt(cell.innerText);
     if (quantity > count) {
