@@ -5,8 +5,9 @@ on:
     branches:
     - master
     paths:
-    - "alteredbuilder/trends/management/commands/generate_trends.py"
-    - ".github/workflows/trends_cicd.yml"
+    - "alteredbuilder/*/management/commands/*.py"
+    - "alteredbuilder/config/commands.py"
+    - ".github/workflows/commands_cicd.yml"
 
 env:
   DEBUG: False
@@ -23,6 +24,11 @@ jobs:
     permissions:
       contents: 'read'
       id-token: 'write'
+    strategy:
+      matrix:
+        command:
+        - generate_trends
+        - calculate_deck_legality
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -36,11 +42,11 @@ jobs:
       with:
         project_id: ${{ vars.GCP_PROJECT }}
         region: ${{ vars.REGION }}
-        job: ${{ vars.GENERATE_TRENDS_JOB_NAME }}
+        job: ${{ matrix.command }}
         image: ${{ secrets.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
         flags: |
           --command=python
-          --args manage.py,generate_trends
+          --args manage.py,${{ matrix.command }}
           --set-cloudsql-instances=${{ secrets.CLOUD_SQL_INSTANCE }}
           --service-account=${{ secrets.CLOUD_RUN_SA_NAME }}
           --cpu=1000m
