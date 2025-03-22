@@ -38,6 +38,7 @@ jobs:
       with:
         credentials_json: ${{ secrets.GCP_GITHUB_SA_JSON }}
     - name: Prepare job name
+      id: vars
       run: echo "JOB_NAME=${{ matrix.command }} | sed 's/_/-/g' >> $GITHUB_OUTPUT"
     - name: Deploy to Cloud Run
       uses: google-github-actions/deploy-cloudrun@v2
