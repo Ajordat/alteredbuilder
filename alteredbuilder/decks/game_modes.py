@@ -148,9 +148,6 @@ class StandardGameMode(GameMode):
     MAX_SAME_FAMILY_CARD_COUNT = 3
     IS_HERO_MANDATORY = True
     BANNED_FAMILY_CARDS = [
-        ("OR_11_C", Card.Faction.ORDIS),
-        ("OR_11_R1", Card.Faction.ORDIS),
-        ("BR_30_R2", Card.Faction.AXIOM),
         ("YZ_05_U", Card.Faction.AXIOM),
         ("YZ_05_U", Card.Faction.YZMIR),
         ("AX_16_U", Card.Faction.BRAVOS),

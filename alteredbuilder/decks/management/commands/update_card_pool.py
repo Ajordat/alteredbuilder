@@ -4,9 +4,10 @@ from typing import Any
 from urllib import request
 
 from django.conf import settings
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import CommandError
 from django.utils.translation import activate
 
+from config.commands import BaseCommand
 from decks.exceptions import IgnoreCardType
 from decks.models import Card, Set, Subtype
 
@@ -52,6 +53,7 @@ class SubTypeCache:
 
 class Command(BaseCommand):
     help = "Updates the card pool by adding the latest cards"
+    version = "1.0.0"
 
     def __init__(self, **kwargs):
         super().__init__(kwargs)
