@@ -39,13 +39,13 @@ jobs:
         credentials_json: ${{ secrets.GCP_GITHUB_SA_JSON }}
     - name: Prepare job name
       id: vars
-      run: echo "JOB_NAME=${{ matrix.command }} | sed 's/_/-/g' >> $GITHUB_OUTPUT"
+      run: echo "name=${{ matrix.command }}" | sed 's/_/-/g' >> $GITHUB_OUTPUT
     - name: Deploy to Cloud Run
       uses: google-github-actions/deploy-cloudrun@v2
       with:
         project_id: ${{ vars.GCP_PROJECT }}
         region: ${{ vars.REGION }}
-        job: ${{ steps.vars.outputs.JOB_NAME }}
+        job: ${{ steps.vars.outputs.name }}
         image: ${{ secrets.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
         flags: |
           --command=python
