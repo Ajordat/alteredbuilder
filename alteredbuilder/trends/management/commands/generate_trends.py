@@ -1,11 +1,12 @@
 from datetime import timedelta
 from typing import Any
 
-from django.core.management.base import BaseCommand, CommandParser
+from django.core.management.base import CommandParser
 from django.db.models import Count, F, OuterRef, Q, Subquery
 from django.utils.timezone import localdate
 from hitcount.models import Hit
 
+from config.commands import BaseCommand
 from decks.models import Card, CardInDeck, Deck, Set
 from trends.models import CardTrend, DeckTrend, FactionTrend, HeroTrend
 
@@ -24,6 +25,7 @@ class Command(BaseCommand):
     """
 
     help = "Generates statistics for the past X (default=7) days"
+    version = "1.0.0"
 
     def add_arguments(self, parser: CommandParser) -> None:
         """Add the `days` argument to the CLI to modify the amount of days the trends
