@@ -236,6 +236,20 @@ function updateCardCount() {
     } else {
         document.getElementById("cards-count-container").hidden = true;
     }
+
+    let types = ["character", "spell", "permanent"];
+    for (let type of types) {
+        let typeCards = document.querySelectorAll(`#decklist-${type}-cards .card-quantity`);
+        let count = 0;
+        for (let card of typeCards) {
+            count += Number(card.innerText);
+        }
+        if (count > 0) {
+            document.getElementById(`decklist-${type}-quantity`).innerText = count;
+        } else {
+            document.getElementById(`${type}-sidebar-container`).classList.add("d-none");
+        }
+    }
 }
 
 function initDecklistCount() {
