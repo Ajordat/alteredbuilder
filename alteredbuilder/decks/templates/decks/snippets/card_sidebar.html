@@ -17,7 +17,7 @@
         <div class="col d-flex align-items-center">
             <!-- Card name with quantity warning -->
             <span class="d-inline-block text-truncate card-row-text w-100 max-width-xs max-width-sm max-width-md max-width-lg max-width-xl">
-                <span class="card-warning" {% if cid.card.rarity != "U" and cid.quantity < 4 or cid.card.rarity == "U" and cid.quantity == 1%} hidden{% endif %}><i class="warning-card fa-solid fa-triangle-exclamation"></i> </span>
+                <span class="card-warning" {% if cid.card.rarity != "U" and cid.quantity < 4 or cid.card.rarity == "U" and cid.quantity == 1 %} hidden{% endif %}><i class="warning-card fa-solid fa-triangle-exclamation"></i> </span>
                 <span class="card-name user-select-none">{{ cid.card.name }}</span>
             </span>
         </div>
