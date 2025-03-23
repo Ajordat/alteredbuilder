@@ -215,19 +215,19 @@
     {% if character_list %}
             <!-- Card table of characters -->
             {% translate "Spells" noop as _ %}
-            {% include "decks/snippets/card_list.html" with type="Characters" card_list=character_list %}
+            {% include "decks/snippets/card_list.html" with type="Characters" card_list=character_list type_count=stats.type_distribution.characters %}
     {% endif %}
 
     {% if spell_list %}
             <!-- Card table of spells -->
             {% translate "Spells" noop as _ %}
-            {% include "decks/snippets/card_list.html" with type="Spells" card_list=spell_list %}
+            {% include "decks/snippets/card_list.html" with type="Spells" card_list=spell_list type_count=stats.type_distribution.spells %}
     {% endif %}
 
     {% if permanent_list %}
             <!-- Card table of permanents -->
             {% translate "Permanents" noop as _ %}
-            {% include "decks/snippets/card_list.html" with type="Permanents" card_list=permanent_list %}
+            {% include "decks/snippets/card_list.html" with type="Permanents" card_list=permanent_list type_count=stats.type_distribution.permanents %}
     {% endif %}
 
         </div>
@@ -272,13 +272,13 @@
 
     {% if spell_list %}
             <!-- Card table of spells -->
-            <p class="mt-4"><i class="fa-solid fa-hat-wizard"></i> {% translate "Spells" %}</p>
+            <p class="mt-4"><i class="fa-solid fa-hat-wizard"></i> {% translate "Spells" %} ({{ stats.type_distribution.spells }})</p>
             {% include "decks/snippets/card_table.html" with type="spell" card_list=spell_list %}
     {% endif %}
 
     {% if permanent_list %}
             <!-- Card table of permanents -->
-            <p class="mt-4"><i class="fa-solid fa-landmark"></i> {% translate "Permanents" %}</p>
+            <p class="mt-4"><i class="fa-solid fa-landmark"></i> {% translate "Permanents" %} ({{ stats.type_distribution.permanents }})</p>
             {% include "decks/snippets/card_table.html" with type="permanent" card_list=permanent_list %}
     {% endif %}
 
@@ -286,7 +286,7 @@
 
         <div class="card-table-view d-none col-lg-4 col-sm-6 col-12 offset-sm-6 offset-lg-0 mt-lg-0 mt-4">
             <!-- Card table of characters -->
-            <p><i class="fa-solid fa-people-group"></i> {% translate "Characters" %}</p>
+            <p><i class="fa-solid fa-people-group"></i> {% translate "Characters" %} ({{ stats.type_distribution.characters }})</p>
             {% include "decks/snippets/card_table.html" with type="character" card_list=character_list %}
         </div>
     </div>
