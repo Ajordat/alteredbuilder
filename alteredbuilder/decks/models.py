@@ -87,6 +87,7 @@ class Set(models.Model):
     short_name = models.CharField(null=False, blank=False, unique=True)
     code = models.CharField(max_length=8, null=False, blank=False, unique=True)
     reference_code = models.CharField(null=False, blank=False, unique=True)
+    release_date = models.DateField(null=False, blank=False)
 
     def __str__(self) -> str:
         return self.name
@@ -112,6 +113,10 @@ class Card(models.Model):
         MUNA = "MU", "muna"
         ORDIS = "OR", "ordis"
         YZMIR = "YZ", "yzmir"
+
+        @classmethod
+        def as_list(cls):
+            return [cls.AXIOM, cls.BRAVOS, cls.LYRA, cls.MUNA, cls.ORDIS, cls.YZMIR]
 
     class Type(models.TextChoices):
         SPELL = "spell"
@@ -157,7 +162,7 @@ class Card(models.Model):
     def get_family_code(self):
         return "_".join(self.reference.split("_")[3:5])
 
-    def get_family(self):
+    def get_card_code(self):
         return "_".join(self.reference.split("_")[3:6])
 
     def get_display_image(self) -> str:

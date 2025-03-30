@@ -218,7 +218,7 @@ def update_deck_legality(deck: Deck) -> None:
             factions.append(cid.card.faction)
         family_key = cid.card.get_family_code()
         family_count[family_key] += cid.quantity
-        card_families.append((cid.card.get_family(), cid.card.faction))
+        card_families.append((cid.card.get_card_code(), cid.card.faction))
 
     data = {
         "faction_count": len(factions),

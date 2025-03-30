@@ -1,7 +1,6 @@
 from collections import defaultdict
 from http import HTTPStatus
 import re
-import requests
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -9,6 +8,7 @@ from django.db import transaction
 from django.db.models import Exists, F, OuterRef, Q
 from django.db.models.query import QuerySet
 from django.utils.translation import activate, gettext_lazy as _
+import requests
 
 from api.utils import locale_agnostic
 from decks.game_modes import (
@@ -348,65 +348,7 @@ def import_unique_card(reference) -> Card:  # pragma: no cover
     api_url = f"{ALTERED_TCG_API_URL}/{reference}/"
     response = requests.get(api_url)
 
-    if response.status_code == HTTPStatus.OK:
-        card_data = response.json()
-        family = "_".join(reference.split("_")[:-2])
-        try:
-            og_card = Card.objects.filter(
-                reference__startswith=family, rarity=Card.Rarity.COMMON
-            ).get()
-        except Card.DoesNotExist:
-            raise AlteredAPIError(
-                f"The card family '{family}' does not exist in the database",
-                status_code=HTTPStatus.NOT_FOUND,
-            )
-        card_dict = {
-            "reference": reference,
-            "name": og_card.name,
-            "faction": card_data["mainFaction"]["reference"],
-            "type": Card.Type.CHARACTER,
-            "rarity": Card.Rarity.UNIQUE,
-            "image_url": card_data["imagePath"],
-            "set": og_card.set,
-            "stats": {
-                "main_cost": int(card_data["elements"]["MAIN_COST"]),
-                "recall_cost": int(card_data["elements"]["RECALL_COST"]),
-                "forest_power": int(card_data["elements"]["FOREST_POWER"]),
-                "mountain_power": int(card_data["elements"]["MOUNTAIN_POWER"]),
-                "ocean_power": int(card_data["elements"]["OCEAN_POWER"]),
-            },
-        }
-        if "MAIN_EFFECT" in card_data["elements"]:
-            card_dict["main_effect"] = card_data["elements"]["MAIN_EFFECT"]
-        if "ECHO_EFFECT" in card_data["elements"]:
-            card_dict["echo_effect"] = card_data["elements"]["ECHO_EFFECT"]
-
-        card = Card(**card_dict)
-
-        for language, _ in settings.LANGUAGES:  # noqa: F402
-            if language == settings.LANGUAGE_CODE:
-                continue
-            activate(language)
-            headers = {"Accept-Language": f"{language}-{language}"}
-            response = requests.get(api_url, headers=headers)
-            card_data = response.json()
-            card.name = og_card.name
-
-            card.main_effect
-            if "MAIN_EFFECT" in card_data["elements"]:
-                card.main_effect = card_data["elements"]["MAIN_EFFECT"]
-            if "ECHO_EFFECT" in card_data["elements"]:
-                card.echo_effect = card_data["elements"]["ECHO_EFFECT"]
-            if language not in IMAGE_ERROR_LOCALES:
-                card.image_url = card_data["imagePath"]
-
-        with transaction.atomic():
-            card.save()
-            card.subtypes.add(*og_card.subtypes.all())
-
-        return card
-
-    else:
+    if response.status_code != HTTPStatus.OK:
         match response.status_code:
             case HTTPStatus.UNAUTHORIZED:
                 msg = f"The card {reference} is not public"
@@ -415,6 +357,63 @@ def import_unique_card(reference) -> Card:  # pragma: no cover
             case _:
                 msg = "Couldn't access the Altered API"
         raise AlteredAPIError(msg, status_code=response.status_code)
+
+    card_data = response.json()
+    family = "_".join(reference.split("_")[:-2])
+    try:
+        og_card = Card.objects.filter(
+            reference__startswith=family, rarity=Card.Rarity.COMMON
+        ).get()
+    except Card.DoesNotExist:
+        raise AlteredAPIError(
+            f"The card family '{family}' does not exist in the database",
+            status_code=HTTPStatus.NOT_FOUND,
+        )
+    card_dict = {
+        "reference": reference,
+        "name": og_card.name,
+        "faction": card_data["mainFaction"]["reference"],
+        "type": Card.Type.CHARACTER,
+        "rarity": Card.Rarity.UNIQUE,
+        "image_url": card_data["imagePath"],
+        "set": og_card.set,
+        "stats": {
+            "main_cost": int(card_data["elements"]["MAIN_COST"]),
+            "recall_cost": int(card_data["elements"]["RECALL_COST"]),
+            "forest_power": int(card_data["elements"]["FOREST_POWER"]),
+            "mountain_power": int(card_data["elements"]["MOUNTAIN_POWER"]),
+            "ocean_power": int(card_data["elements"]["OCEAN_POWER"]),
+        },
+    }
+    if "MAIN_EFFECT" in card_data["elements"]:
+        card_dict["main_effect"] = card_data["elements"]["MAIN_EFFECT"]
+    if "ECHO_EFFECT" in card_data["elements"]:
+        card_dict["echo_effect"] = card_data["elements"]["ECHO_EFFECT"]
+
+    card = Card(**card_dict)
+
+    for language, _ in settings.LANGUAGES:  # noqa: F402
+        if language == settings.LANGUAGE_CODE:
+            continue
+        activate(language)
+        headers = {"Accept-Language": f"{language}-{language}"}
+        response = requests.get(api_url, headers=headers)
+        card_data = response.json()
+        card.name = og_card.name
+
+        card.main_effect
+        if "MAIN_EFFECT" in card_data["elements"]:
+            card.main_effect = card_data["elements"]["MAIN_EFFECT"]
+        if "ECHO_EFFECT" in card_data["elements"]:
+            card.echo_effect = card_data["elements"]["ECHO_EFFECT"]
+        if language not in IMAGE_ERROR_LOCALES:
+            card.image_url = card_data["imagePath"]
+
+    with transaction.atomic():
+        card.save()
+        card.subtypes.add(*og_card.subtypes.all())
+
+    return card
 
 
 def filter_by_query(qs: QuerySet[Deck], query: str) -> QuerySet[Deck]:
