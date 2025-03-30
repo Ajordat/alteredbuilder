@@ -493,3 +493,7 @@ def filter_by_other(qs: QuerySet[Deck], other_filters: str, user) -> QuerySet[De
         if "description" in other_filters:
             qs = qs.exclude(description="")
     return qs
+
+
+def card_code_from_reference(reference):
+    return "_".join(reference.split("_")[3:6])

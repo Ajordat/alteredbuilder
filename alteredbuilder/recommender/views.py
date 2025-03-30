@@ -1,48 +1,79 @@
+from http import HTTPStatus
+import json
+
+from django.db.models import Case, IntegerField, Q, When
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-import json
-import numpy as np
 
-from recommender.model_utils import ModelHelper
-from recommender.models import TrainedModel, Card
+from decks.deck_utils import card_code_from_reference
+from decks.models import Card
+from recommender.model_utils import RecommenderHelper
 
 
-@csrf_exempt  # Exempt from CSRF for testing; add proper CSRF handling in production
-def get_recommendations_view(request, faction):
+@csrf_exempt
+def get_next_card(request):
     if request.method == "POST":
         try:
             # Parse the received JSON data
             data = json.loads(request.body)
+            hero = card_code_from_reference(data["hero"])
+            faction = data["faction"]
+            decklist = {
+                card_code_from_reference(k): v for k, v in data["decklist"].items()
+            }
 
             # Load the model for the given faction
-            model = ModelHelper.load_model(faction)
+            model = RecommenderHelper.load_model(faction)
             if not model:
                 return JsonResponse(
-                    {"error": "Model for this faction is not available"}, status=404
+                    {"error": "Model for this faction is not available"},
+                    status=HTTPStatus.NOT_FOUND,
                 )
 
-            ModelHelper.build_card_pool()
-            deck_vector = ModelHelper.generate_vector_for_deck(
-                cards=data["decklist"], faction=faction, hero=data["hero"]
+            RecommenderHelper.build_card_pool()
+            deck_vector = RecommenderHelper.generate_vector_for_deck(
+                cards=decklist, faction=faction, hero=hero
             )
 
-            recommended_card_ids = ModelHelper.get_recommended_cards(
+            recommended_cards = RecommenderHelper.get_recommended_cards(
                 model, deck_vector, faction
             )
 
-            # Get the card details from the database based on recommended card IDs
-            recommended_cards = Card.objects.filter(id__in=recommended_card_ids)
-            recommended_card_names = [card.name for card in recommended_cards]
-            print(recommended_card_names)
+            query = Q()
+            order_cases = []
+            for index, (reference, rarity) in enumerate(recommended_cards):
+                query |= Q(
+                    reference__contains=reference, rarity=rarity, faction=faction
+                )
+                order_cases.append(
+                    When(reference__contains=reference, rarity=rarity, then=index)
+                )
+                
+            recommended_cards = (
+                Card.objects.filter(query)
+                .annotate(order=Case(*order_cases, output_field=IntegerField()))
+                .exclude(set__code="COREKS")
+                .exclude(is_alt_art=True)
+                .order_by("order")
+            )
+            recommended_card_names = [card.reference for card in recommended_cards if card.reference not in data["decklist"].keys()]
+
 
             # Return the recommendations as a response
             return JsonResponse(
-                {"recommended_cards": recommended_card_names}, status=200
+                {"recommended_cards": recommended_card_names}, status=HTTPStatus.OK
             )
 
         except json.JSONDecodeError:
-            return JsonResponse({"error": "Invalid JSON data"}, status=400)
-        except Exception as e:
-            return JsonResponse({"error": str(e)}, status=500)
+            return JsonResponse(
+                {"error": "Invalid JSON data"}, status=HTTPStatus.BAD_REQUEST
+            )
+        # except Exception as e:
+        #     return JsonResponse(
+        #         {"error": str(e)}, status=HTTPStatus.INTERNAL_SERVER_ERROR
+        #     )
     else:
-        return JsonResponse({"error": "Only POST requests are allowed"}, status=405)
+        return JsonResponse(
+            {"error": "Only POST requests are allowed"},
+            status=HTTPStatus.METHOD_NOT_ALLOWED,
+        )

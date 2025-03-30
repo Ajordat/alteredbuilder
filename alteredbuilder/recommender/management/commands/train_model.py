@@ -12,9 +12,10 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.multioutput import MultiOutputClassifier
 
-from recommender.model_utils import ModelHelper
-from decks.models import Card
 from config.commands import BaseCommand
+from decks.deck_utils import card_code_from_reference
+from decks.models import Card
+from recommender.model_utils import RecommenderHelper
 from recommender.models import Tournament, TournamentDeck, TrainedModel
 
 
@@ -37,9 +38,9 @@ class Command(BaseCommand):
         if options["refresh_data"]:
             self.fetch_tournaments()
 
-        ModelHelper.build_card_pool()
+        RecommenderHelper.build_card_pool()
 
-        for faction in ModelHelper.FACTIONS:
+        for faction in RecommenderHelper.FACTIONS:
             self.create_model(faction)
 
     def fetch_tournaments(self):
@@ -88,9 +89,8 @@ class Command(BaseCommand):
             try:
                 card: dict[str, str]
                 for card in d["deck"]["deckList"]:
-                    card_code = "_".join(card["ref"].split("_")[3:6])
-                    card_map[card_code] += int(card["n"])
-                del card_map["_".join(hero_reference.split("_")[3:6])]
+                    card_map[card_code_from_reference(card["ref"])] += int(card["n"])
+                del card_map[card_code_from_reference(hero_reference)]
 
             except KeyError as e:
                 self.stderr.write(d)
@@ -122,10 +122,10 @@ class Command(BaseCommand):
         # Generate a matrix of decks and their cards
         decks = TournamentDeck.objects.filter(hero__faction=faction)
         decks_matrix = np.zeros(
-            (len(decks), ModelHelper.get_vector_size(faction)), dtype=np.int8
+            (len(decks), RecommenderHelper.get_vector_size(faction)), dtype=np.int8
         )
         for deck_index, deck in enumerate(decks):
-            deck_vector = ModelHelper.generate_vector_for_deck(deck)
+            deck_vector = RecommenderHelper.generate_vector_for_deck(deck)
             decks_matrix[deck_index] = deck_vector
 
         # Train the model
@@ -152,4 +152,5 @@ class Command(BaseCommand):
             active=True,
             period_start=min(deck.tournament.date for deck in decks),
             period_end=max(deck.tournament.date for deck in decks),
+            model="logistic regression"
         )

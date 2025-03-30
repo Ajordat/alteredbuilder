@@ -132,6 +132,10 @@ class Card(models.Model):
         RARE = "R", "rare"
         UNIQUE = "U", "unique"
 
+        @classmethod
+        def as_list(cls):
+            return [cls.COMMON, cls.RARE, cls.UNIQUE]
+
     reference = models.CharField(primary_key=True)
     name = models.CharField(null=False, blank=False)
     faction = models.CharField(max_length=2, choices=Faction)

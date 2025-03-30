@@ -8,7 +8,7 @@ from decks.models import Card
 from recommender.models import TournamentDeck, TrainedModel
 
 
-class ModelHelper:
+class RecommenderHelper:
     FACTIONS = Card.Faction.as_list()
     HEROES = {
         Card.Faction.AXIOM: ["AX_01_C", "AX_02_C", "AX_03_C"],
@@ -19,6 +19,14 @@ class ModelHelper:
         Card.Faction.YZMIR: ["YZ_01_C", "YZ_02_C", "YZ_03_C"],
     }
     CARD_POOL = {
+        Card.Faction.AXIOM: [],
+        Card.Faction.BRAVOS: [],
+        Card.Faction.LYRA: [],
+        Card.Faction.MUNA: [],
+        Card.Faction.ORDIS: [],
+        Card.Faction.YZMIR: [],
+    }
+    OFFSETS = {
         Card.Faction.AXIOM: [],
         Card.Faction.BRAVOS: [],
         Card.Faction.LYRA: [],
@@ -43,6 +51,15 @@ class ModelHelper:
                 family_code = card.get_family_code()
                 if family_code not in cls.CARD_POOL[faction]:
                     cls.CARD_POOL[faction].append(family_code)
+
+            hero_pool_length = len(cls.HEROES[faction])
+            card_pool_length = len(cls.CARD_POOL[faction])
+            cls.OFFSETS[faction] = [
+                0,  # heroes
+                hero_pool_length,  # commons
+                hero_pool_length + card_pool_length,  # rares
+                hero_pool_length + card_pool_length * 2,  # uniques
+            ]
 
     @staticmethod
     def load_model(faction: Card.Faction) -> ClassifierMixin:
@@ -93,7 +110,10 @@ class ModelHelper:
 
         return vector
 
-    def get_recommended_cards(model: ClassifierMixin, deck_vector: npt.NDArray, faction: Card.Faction):
+    @classmethod
+    def get_recommended_cards(
+        cls, model: ClassifierMixin, deck_vector: npt.NDArray, faction: Card.Faction
+    ):
 
         # Reshape the vector to match the input shape (1, n_features)
         deck_vector = deck_vector.reshape(1, -1)
@@ -102,7 +122,23 @@ class ModelHelper:
         predictions = model.predict(deck_vector)
 
         # Collect recommended cards (indices where prediction is 1)
-        return [index for index, value in enumerate(predictions[0]) if value == 1]
+        indexes = [index for index, value in enumerate(predictions[0]) if value == 1]
+
+        card_pool_size = len(cls.CARD_POOL[faction])
+
+        offsets = iter(cls.OFFSETS[faction][1:])
+        rarities = iter(Card.Rarity.as_list())
+
+        cards = []
+        offset = next(offsets)
+        rarity = next(rarities)
+        for index in indexes:
+            while index >= offset + card_pool_size:
+                offset = next(offsets)
+                rarity = next(rarities)
+            cards.append((cls.CARD_POOL[faction][index - offset], rarity))
+
+        return cards
 
     @classmethod
     def get_vector_size(cls, faction):
