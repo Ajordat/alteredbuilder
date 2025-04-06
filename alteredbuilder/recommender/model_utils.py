@@ -79,7 +79,7 @@ class RecommenderHelper:
     ):
         faction = faction if faction else Card.Faction(deck.hero.faction)
         hero = hero if hero else deck.hero.get_card_code()
-        cards = cards if cards else deck.cards
+        cards = cards if cards else deck.cards if deck else {}
 
         # size = amount_of_heroes + faction_card_pool * card_variants_in_a_faction
         vector = np.zeros(cls.get_vector_size(faction), dtype=np.int8)

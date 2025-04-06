@@ -50,7 +50,6 @@ urlpatterns = [
         {"sitemaps": sitemaps},
         name="django.contrib.sitemaps.views.sitemap",
     ),
-    path("recommender/", include("recommender.urls"))
 ]
 
 urlpatterns += i18n_patterns(
@@ -63,6 +62,7 @@ urlpatterns += i18n_patterns(
         ),
         name="javascript-catalog",
     ),
+    path("recommender/", include("recommender.urls")),
     path("accounts/", include("allauth.account.urls")),
     path("accounts/", include("allauth.socialaccount.urls")),
     path("profiles/", include("profiles.urls")),

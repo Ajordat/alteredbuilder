@@ -1,12 +1,14 @@
 from http import HTTPStatus
 import json
 
+from django.conf import settings
 from django.db.models import Case, IntegerField, Q, When
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from decks.deck_utils import card_code_from_reference
 from decks.models import Card
+from decks.templatetags.deck_styles import cdn_image_url
 from recommender.model_utils import RecommenderHelper
 
 
@@ -14,7 +16,7 @@ from recommender.model_utils import RecommenderHelper
 def get_next_card(request):
     if request.method == "POST":
         try:
-            # Parse the received JSON data
+            # Parse the request
             data = json.loads(request.body)
             hero = card_code_from_reference(data["hero"])
             faction = data["faction"]
@@ -22,7 +24,7 @@ def get_next_card(request):
                 card_code_from_reference(k): v for k, v in data["decklist"].items()
             }
 
-            # Load the model for the given faction
+            # Load model
             model = RecommenderHelper.load_model(faction)
             if not model:
                 return JsonResponse(
@@ -30,11 +32,13 @@ def get_next_card(request):
                     status=HTTPStatus.NOT_FOUND,
                 )
 
+            # Prepare to query the model
             RecommenderHelper.build_card_pool()
             deck_vector = RecommenderHelper.generate_vector_for_deck(
                 cards=decklist, faction=faction, hero=hero
             )
 
+            # Obtain recommendations
             recommended_cards = RecommenderHelper.get_recommended_cards(
                 model, deck_vector, faction
             )
@@ -48,7 +52,7 @@ def get_next_card(request):
                 order_cases.append(
                     When(reference__contains=reference, rarity=rarity, then=index)
                 )
-                
+
             recommended_cards = (
                 Card.objects.filter(query)
                 .annotate(order=Case(*order_cases, output_field=IntegerField()))
@@ -56,8 +60,18 @@ def get_next_card(request):
                 .exclude(is_alt_art=True)
                 .order_by("order")
             )
-            recommended_card_names = [card.reference for card in recommended_cards if card.reference not in data["decklist"].keys()]
-
+            recommended_card_names = [
+                {
+                    "reference": card.reference,
+                    "image": cdn_image_url(card.image_url),
+                    "name": card.name,
+                    "type": card.type,
+                    "rarity": card.rarity,
+                    "family": card.get_card_code(),
+                }
+                for card in recommended_cards
+                if card.reference not in data["decklist"].keys()
+            ]
 
             # Return the recommendations as a response
             return JsonResponse(
@@ -68,10 +82,12 @@ def get_next_card(request):
             return JsonResponse(
                 {"error": "Invalid JSON data"}, status=HTTPStatus.BAD_REQUEST
             )
-        # except Exception as e:
-        #     return JsonResponse(
-        #         {"error": str(e)}, status=HTTPStatus.INTERNAL_SERVER_ERROR
-        #     )
+        except Exception as e:
+            if settings.DEBUG:
+                raise e
+            return JsonResponse(
+                {"error": str(e)}, status=HTTPStatus.INTERNAL_SERVER_ERROR
+            )
     else:
         return JsonResponse(
             {"error": "Only POST requests are allowed"},

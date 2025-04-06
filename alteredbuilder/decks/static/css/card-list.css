@@ -71,6 +71,9 @@ html[data-bs-theme="dark"] .card-name {
 #advancedSearchModal .modal-dialog {
     max-width: 700px;
 }
+#recommenderModal .modal-dialog {
+    max-width: 900px;
+}
 
 #C-count {
     background-color: var(--C-color);
