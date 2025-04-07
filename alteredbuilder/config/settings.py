@@ -226,6 +226,9 @@ AUTHENTICATION_BACKENDS = [
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
+USER_AGENT_BASE = "AjordatBot/1.0 (Altered TCG Builder; {}; https://altered.ajordat.com; altered-tcg-builder@ajordat.com)"
+
+
 if DEBUG or not SERVICE_PUBLIC_URL:
     SITE_ID = 1
 else:  # pragma: no cover

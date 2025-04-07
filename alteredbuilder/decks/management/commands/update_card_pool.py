@@ -8,6 +8,7 @@ from django.core.management.base import CommandError
 from django.utils.translation import activate
 
 from config.commands import BaseCommand
+from config.utils import get_user_agent
 from decks.exceptions import IgnoreCardType
 from decks.models import Card, Set, Subtype
 
@@ -18,14 +19,11 @@ CARDS_API_URL = "https://api.altered.gg/cards"
 ITEMS_PER_PAGE = 36
 # If True, retrieve the unique cards
 UPDATE_UNIQUES = False
-QUERY_SET = ["CORE"]
+QUERY_SET = ["ALIZE"]
 # The API currently returns a private image link for unique cards in these languages
 IMAGE_ERROR_LOCALES = ["es", "it", "de"]
 LOCALE_IRREGULAR_CODES = {"en": "en-us"}
-headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) Gecko/20100101 Firefox/134.0",
-    "Origin": "https://www.altered.gg",
-}
+headers = {"User-Agent": get_user_agent("CardImporter")}
 
 
 class SubTypeCache:
@@ -230,14 +228,16 @@ class Command(BaseCommand):
 
         # Retrieve the Set. This could probably done better, but I'm unsure how to make
         # the reverse query to the db
-        if "_CORE_P_" in card_dict["reference"]:
-            card_dict["set"] = Set.objects.get(code="COREP")
-        elif "_CORE_" in card_dict["reference"]:
+        reference = card_dict["reference"]
+        if "_CORE_" in reference:
             card_dict["set"] = Set.objects.get(code="CORE")
-        elif "_COREKS_" in card_dict["reference"]:
+        elif "_COREKS_" in reference:
             card_dict["set"] = Set.objects.get(code="COREKS")
-        elif "_ALIZE_" in card_dict["reference"]:
+        elif "_ALIZE_" in reference:
             card_dict["set"] = Set.objects.get(code="ALIZE")
+
+        card_dict["is_promo"] = "_P_" in reference
+        card_dict["is_alt_art"] = "_A_" in reference
 
     def create_card(self, card_dict: dict) -> None:
         """Receive a card dict and store it as a Card object into the db.
@@ -263,7 +263,7 @@ class Command(BaseCommand):
             card_obj (Card): The Card object on the database.
         """
 
-        card_fields = ["name", "faction", "image_url", "set"]
+        card_fields = Card.get_base_fields()
         if "main_effect" in card_dict:
             card_fields += ["main_effect"]
         if "echo_effect" in card_dict:

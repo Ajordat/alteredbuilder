@@ -13,6 +13,7 @@ from sklearn.multiclass import OneVsRestClassifier
 from sklearn.multioutput import MultiOutputClassifier
 
 from config.commands import BaseCommand
+from config.utils import get_user_agent
 from decks.deck_utils import card_code_from_reference
 from decks.models import Card
 from recommender.model_utils import RecommenderHelper
@@ -21,9 +22,7 @@ from recommender.models import Tournament, TournamentDeck, TrainedModel
 
 API_ENDPOINT_LIST_TOURNAMENTS = "https://39cards.com/api/tournaments"
 API_ENDPOINT_FETCH_TOURNAMENT = "https://39cards.com/api/tournament/{id}"
-HEADERS = {
-    "User-Agent": "Ajordat-Recommender/1.0 (Altered TCG Builder; Model Training; https://altered.ajordat.com; Discord: ajordat)"
-}
+HEADERS = {"User-Agent": get_user_agent("Recommender")}
 
 
 class Command(BaseCommand):
@@ -120,13 +119,20 @@ class Command(BaseCommand):
     def create_model(self, faction):
 
         # Generate a matrix of decks and their cards
-        decks = TournamentDeck.objects.filter(hero__faction=faction)
+        decks = [deck for deck in TournamentDeck.objects.filter(hero__faction=faction)]
+        if len(decks) == 0:
+            raise CommandError(f"No decks found for {faction}")
         decks_matrix = np.zeros(
             (len(decks), RecommenderHelper.get_vector_size(faction)), dtype=np.int8
         )
-        for deck_index, deck in enumerate(decks):
-            deck_vector = RecommenderHelper.generate_vector_for_deck(deck)
-            decks_matrix[deck_index] = deck_vector
+        try:
+            for deck_index, deck in enumerate(decks):
+                deck_vector = RecommenderHelper.generate_vector_for_deck(deck)
+                decks_matrix[deck_index] = deck_vector
+        except KeyError as e:
+            raise CommandError(
+                f"Failed to find card family {e} in card pool for faction {Card.Faction(faction).name}"
+            )
 
         # Train the model
         x_train = decks_matrix.copy()
@@ -152,5 +158,5 @@ class Command(BaseCommand):
             active=True,
             period_start=min(deck.tournament.date for deck in decks),
             period_end=max(deck.tournament.date for deck in decks),
-            model="logistic regression"
+            model="logistic regression",
         )

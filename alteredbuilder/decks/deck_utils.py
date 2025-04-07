@@ -11,6 +11,7 @@ from django.utils.translation import activate, gettext_lazy as _
 import requests
 
 from api.utils import locale_agnostic
+from config.utils import get_user_agent
 from decks.game_modes import (
     DraftGameMode,
     GameMode,
@@ -23,6 +24,7 @@ from decks.exceptions import AlteredAPIError, CardAlreadyExists, MalformedDeckEx
 
 # Altered's API endpoint
 ALTERED_TCG_API_URL = "https://api.altered.gg/cards"
+HEADERS = {"User-Agent": get_user_agent("UniqueCardImporter")}
 # The API currently returns a private image link for unique cards in these languages
 IMAGE_ERROR_LOCALES = ["es", "it", "de"]
 
@@ -346,7 +348,7 @@ def import_unique_card(reference) -> Card:  # pragma: no cover
 
     # Fetch the card data from the official API
     api_url = f"{ALTERED_TCG_API_URL}/{reference}/"
-    response = requests.get(api_url)
+    response = requests.get(api_url, headers=HEADERS)
 
     if response.status_code != HTTPStatus.OK:
         match response.status_code:
