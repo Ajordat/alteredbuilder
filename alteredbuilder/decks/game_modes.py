@@ -14,15 +14,15 @@ class GameMode(ABC):
     a validation method.
     """
 
-    MIN_FACTION_COUNT = None
-    MAX_FACTION_COUNT = None
-    MIN_TOTAL_COUNT = None
-    MAX_RARE_COUNT = None
-    MAX_UNIQUE_COUNT = None
-    ENFORCE_INDIVIDUAL_UNIQUES = True
-    MAX_SAME_FAMILY_CARD_COUNT = None
-    IS_HERO_MANDATORY = None
-    BANNED_FAMILY_CARDS = []
+    MIN_FACTION_COUNT: int = None
+    MAX_FACTION_COUNT: int = None
+    MIN_TOTAL_COUNT: int = None
+    MAX_RARE_COUNT: int = None
+    MAX_UNIQUE_COUNT: int = None
+    ENFORCE_INDIVIDUAL_UNIQUES: bool = True
+    MAX_SAME_FAMILY_CARD_COUNT: int = None
+    IS_HERO_MANDATORY: bool = False
+    BANNED_FAMILY_CARDS: list[str, Card.Faction] = []
 
     @classmethod
     def validate(cls, **kwargs) -> list:
@@ -82,7 +82,7 @@ class GameMode(ABC):
         # Contains a banned card
         ERR_CONTAINS_BANNED_CARD = "ERR_CONTAINS_BANNED_CARD"
 
-        def to_user(self, gm) -> str:
+        def to_user(self, game_mode: "GameMode") -> str:
             """Build an error message including the GameMode's relevant metrics.
 
             Args:
@@ -94,31 +94,31 @@ class GameMode(ABC):
             match self.value:
                 case GameMode.ErrorCode.ERR_EXCEED_FACTION_COUNT:
                     return _("Exceeds maximum faction count (%(count)s)") % {
-                        "count": gm.MAX_FACTION_COUNT
+                        "count": game_mode.MAX_FACTION_COUNT
                     }
                 case GameMode.ErrorCode.ERR_NOT_ENOUGH_CARD_COUNT:
                     return _("Does not have enough cards (%(count)s)") % {
-                        "count": gm.MIN_TOTAL_COUNT
+                        "count": game_mode.MIN_TOTAL_COUNT
                     }
                 case GameMode.ErrorCode.ERR_EXCEED_RARE_COUNT:
                     return _("Exceeds the maximum RARE card count (%(count)s)") % {
-                        "count": gm.MAX_RARE_COUNT
+                        "count": game_mode.MAX_RARE_COUNT
                     }
                 case GameMode.ErrorCode.ERR_EXCEED_UNIQUE_COUNT:
                     return _("Exceeds the maximum UNIQUE card count (%(count)s)") % {
-                        "count": gm.MAX_UNIQUE_COUNT
+                        "count": game_mode.MAX_UNIQUE_COUNT
                     }
                 case GameMode.ErrorCode.ERR_UNIQUE_IS_REPEATED:
                     return _("There's more than a single copy of a UNIQUE card")
                 case GameMode.ErrorCode.ERR_EXCEED_SAME_FAMILY_COUNT:
                     return _(
                         "Exceeds the maximum card count for any given family (%(count)s)"
-                    ) % {"count": gm.MAX_SAME_FAMILY_CARD_COUNT}
+                    ) % {"count": game_mode.MAX_SAME_FAMILY_CARD_COUNT}
                 case GameMode.ErrorCode.ERR_MISSING_HERO:
                     return _("Missing hero")
                 case GameMode.ErrorCode.ERR_MISSING_FACTION_COUNT:
                     return _("Does not reach the minimum faction count (%(count)s)") % {
-                        "count": gm.MIN_FACTION_COUNT
+                        "count": game_mode.MIN_FACTION_COUNT
                     }
                 case GameMode.ErrorCode.ERR_CONTAINS_BANNED_CARD:
                     return _("Contains a banned card")

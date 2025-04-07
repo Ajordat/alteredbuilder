@@ -167,10 +167,10 @@ class Card(models.Model):
     def get_official_link(self) -> str:
         return f"{ALTERED_TCG_URL}/cards/{self.reference}"
 
-    def get_family_code(self):
+    def get_family_code(self) -> str:
         return "_".join(self.reference.split("_")[3:5])
 
-    def get_card_code(self):
+    def get_card_code(self) -> str:
         return "_".join(self.reference.split("_")[3:6])
 
     def get_display_image(self) -> str:

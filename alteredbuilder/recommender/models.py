@@ -22,7 +22,9 @@ class TournamentDeck(models.Model):
     hero = models.ForeignKey(Card, blank=False, null=False, on_delete=models.PROTECT)
     cards = models.JSONField()
 
-    def from_deck(tournament: Tournament, placement: int, deck: Deck):
+    def from_deck(
+        tournament: Tournament, placement: int, deck: Deck
+    ) -> "TournamentDeck":
         t_deck = TournamentDeck(
             player=deck.owner.username,
             tournament=tournament,
@@ -49,5 +51,5 @@ class TrainedModel(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Model for {self.faction} trained from {self.period_start} to {self.period_end}"

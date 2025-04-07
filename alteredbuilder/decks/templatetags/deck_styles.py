@@ -1,3 +1,4 @@
+from typing import Any
 from django import template
 
 from decks.models import Card
@@ -7,7 +8,7 @@ register = template.Library()
 
 
 @register.simple_tag
-def dict_get(d: dict, key, default):
+def dict_get(d: dict, key: Any, default: Any) -> Any:
     return d.get(key, default)
 
 

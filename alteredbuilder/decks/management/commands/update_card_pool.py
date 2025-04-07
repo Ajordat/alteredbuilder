@@ -23,7 +23,7 @@ QUERY_SET = ["ALIZE"]
 # The API currently returns a private image link for unique cards in these languages
 IMAGE_ERROR_LOCALES = ["es", "it", "de"]
 LOCALE_IRREGULAR_CODES = {"en": "en-us"}
-headers = {"User-Agent": get_user_agent("CardImporter")}
+HEADERS = {"User-Agent": get_user_agent("CardImporter")}
 
 
 class SubTypeCache:
@@ -31,17 +31,17 @@ class SubTypeCache:
     def __init__(self):
         self.cache = {}
 
-    def add_subtype(self, reference, subtypes):
+    def add_subtype(self, reference: str, subtype: str) -> None:
         if "_U_" in reference:
             return
         family_id = self._get_family_id(reference)
         if family_id not in self.cache:
-            self.cache[family_id] = subtypes
+            self.cache[family_id] = subtype
 
-    def get_subtype(self, reference):
-        return self.cache.get(self._get_family_id(reference), False)
+    def get_subtype(self, reference: str) -> str | None:
+        return self.cache.get(self._get_family_id(reference), None)
 
-    def _get_family_id(self, reference):
+    def _get_family_id(self, reference: str):
         # Remove the rarity from the reference to create the family id
         return reference.rsplit("_", 1)[0]
 
@@ -79,7 +79,7 @@ class Command(BaseCommand):
             if self.language_code in LOCALE_IRREGULAR_CODES
             else f"{self.language_code}-{self.language_code}"
         )
-        headers["Accept-Language"] = locale
+        HEADERS["Accept-Language"] = locale
         page_index = 1
         page_count = math.inf
         total_items = math.inf
@@ -90,7 +90,7 @@ class Command(BaseCommand):
                 params += "&rarity[]=UNIQUE"
             if len(QUERY_SET) > 0:
                 params += "".join([f"&cardSet[]={card_set}" for card_set in QUERY_SET])
-            req = request.Request(CARDS_API_URL + params, headers=headers)
+            req = request.Request(CARDS_API_URL + params, headers=HEADERS)
 
             # Query the API
             with request.urlopen(req) as response:
@@ -283,11 +283,11 @@ class Command(BaseCommand):
 
         card_obj.save()
 
-        self.link_subtypes(card_obj, card_dict.get("subtypes", False))
+        self.link_subtypes(card_obj, card_dict.get("subtypes", None))
 
         self.stdout.write(f"card updated: {card_obj}")
 
-    def link_subtypes(self, card: Card, subtypes):
+    def link_subtypes(self, card: Card, subtypes: list[str]) -> None:
         if not subtypes:
             reference = card.reference
             subtypes = self.subtypes.get_subtype(reference)
@@ -307,16 +307,16 @@ class Command(BaseCommand):
                 st = Subtype.objects.create(reference=st_reference, name=st_name)
             card.subtypes.add(st)
 
-    def fetch_subtypes(self, reference):
+    def fetch_subtypes(self, reference: str) -> list[(str, str)]:
 
         locale = (
             LOCALE_IRREGULAR_CODES[self.language_code]
             if self.language_code in LOCALE_IRREGULAR_CODES
             else f"{self.language_code}-{self.language_code}"
         )
-        headers["Accept-Language"] = locale
+        HEADERS["Accept-Language"] = locale
         params = f"locale={locale}"
-        req = request.Request(f"{CARDS_API_URL}/{reference}?{params}", headers=headers)
+        req = request.Request(f"{CARDS_API_URL}/{reference}?{params}", headers=HEADERS)
 
         # Query the API
         with request.urlopen(req) as response:

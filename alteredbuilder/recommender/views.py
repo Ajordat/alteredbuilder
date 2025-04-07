@@ -3,7 +3,7 @@ import json
 
 from django.conf import settings
 from django.db.models import Case, IntegerField, Q, When
-from django.http import JsonResponse
+from django.http import HttpRequest, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from decks.deck_utils import card_code_from_reference
@@ -13,7 +13,7 @@ from recommender.model_utils import RecommenderHelper
 
 
 @csrf_exempt
-def get_next_card(request):
+def get_next_card(request: HttpRequest) -> JsonResponse:
     if request.method == "POST":
         try:
             # Parse the request

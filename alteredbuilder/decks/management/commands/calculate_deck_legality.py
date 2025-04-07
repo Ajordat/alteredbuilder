@@ -1,3 +1,4 @@
+from argparse import ArgumentParser
 from typing import Any
 
 from config.commands import BaseCommand
@@ -9,7 +10,7 @@ class Command(BaseCommand):
     help = "Recalculates the legality of the decks"
     version = "1.0.0"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser: ArgumentParser):
         parser.add_argument(
             "--only-illegal",
             action="store_true",

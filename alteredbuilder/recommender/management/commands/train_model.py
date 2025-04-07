@@ -42,7 +42,7 @@ class Command(BaseCommand):
         for faction in RecommenderHelper.FACTIONS:
             self.create_model(faction)
 
-    def fetch_tournaments(self):
+    def fetch_tournaments(self) -> None:
 
         response = requests.get(API_ENDPOINT_LIST_TOURNAMENTS, headers=HEADERS)
         if response.status_code != HTTPStatus.OK:
@@ -66,7 +66,7 @@ class Command(BaseCommand):
             if created:
                 self.fetch_tournament_decks(tournament)
 
-    def fetch_tournament_decks(self, tournament: Tournament):
+    def fetch_tournament_decks(self, tournament: Tournament) -> None:
         response = requests.get(
             API_ENDPOINT_FETCH_TOURNAMENT.format(id=tournament.remote_id),
             headers=HEADERS,
@@ -116,7 +116,7 @@ class Command(BaseCommand):
                 self.stderr.write(d)
                 raise e
 
-    def create_model(self, faction):
+    def create_model(self, faction: Card.Faction) -> None:
 
         # Generate a matrix of decks and their cards
         decks = [deck for deck in TournamentDeck.objects.filter(hero__faction=faction)]

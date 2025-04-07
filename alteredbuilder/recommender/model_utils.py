@@ -36,7 +36,7 @@ class RecommenderHelper:
     }
 
     @classmethod
-    def build_card_pool(cls):
+    def build_card_pool(cls) -> None:
         if len(cls.CARD_POOL.get(Card.Faction.AXIOM)) > 0:
             return
         for faction in cls.FACTIONS:
@@ -76,7 +76,7 @@ class RecommenderHelper:
         faction: Card.Faction = None,
         hero: str = None,
         cards: dict[str, int] = None,
-    ):
+    ) -> npt.NDArray:
         faction = faction if faction else Card.Faction(deck.hero.faction)
         hero = hero if hero else deck.hero.get_card_code()
         cards = cards if cards else deck.cards if deck else {}
@@ -113,7 +113,7 @@ class RecommenderHelper:
     @classmethod
     def get_recommended_cards(
         cls, model: ClassifierMixin, deck_vector: npt.NDArray, faction: Card.Faction
-    ):
+    ) -> list[str, Card.Rarity]:
 
         # Reshape the vector to match the input shape (1, n_features)
         deck_vector = deck_vector.reshape(1, -1)
@@ -141,5 +141,5 @@ class RecommenderHelper:
         return cards
 
     @classmethod
-    def get_vector_size(cls, faction):
+    def get_vector_size(cls, faction: Card.Faction) -> int:
         return len(cls.HEROES[faction]) + len(cls.CARD_POOL[faction]) * 3

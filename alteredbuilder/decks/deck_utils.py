@@ -205,7 +205,7 @@ def get_deck_details(deck: Deck) -> dict:
 
 
 @transaction.atomic
-def patch_deck(deck, name, changes):
+def patch_deck(deck: Deck, name: str, changes: dict[str, int]) -> None:
     deck.name = name
 
     for card_reference, quantity in changes.items():
@@ -230,7 +230,7 @@ def patch_deck(deck, name, changes):
                 CardInDeck.objects.create(card=card, deck=deck, quantity=quantity)
 
 
-def remove_card_from_deck(deck, reference):
+def remove_card_from_deck(deck: Deck, reference: str) -> None:
     card = Card.objects.get(reference=reference)
     if card.type == Card.Type.HERO and deck.hero.reference == card.reference:
         # If it's the Deck's hero, remove the reference
@@ -241,7 +241,9 @@ def remove_card_from_deck(deck, reference):
         cid.delete()
 
 
-def parse_card_query_syntax(qs, query):
+def parse_card_query_syntax(
+    qs: QuerySet[Card], query: str
+) -> tuple[QuerySet[Card], list[(str, str, str)], bool]:
     filters = Q()
     tags = []
 
@@ -340,7 +342,7 @@ def parse_card_query_syntax(qs, query):
 
 
 @locale_agnostic
-def import_unique_card(reference) -> Card:  # pragma: no cover
+def import_unique_card(reference: str) -> Card:  # pragma: no cover
 
     # Check if the card already exists in the database
     if Card.objects.filter(reference=reference).exists():
@@ -497,5 +499,5 @@ def filter_by_other(qs: QuerySet[Deck], other_filters: str, user) -> QuerySet[De
     return qs
 
 
-def card_code_from_reference(reference):
+def card_code_from_reference(reference: str) -> str:
     return "_".join(reference.split("_")[3:6])

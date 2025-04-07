@@ -97,7 +97,7 @@ class DeckDetailView(HitCountDetailView):
 class PrivateLinkDeckDetailView(LoginRequiredMixin, DeckDetailView):
     """DetailView to display the detail of a Deck model by using a private link."""
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs) -> HttpResponse:
         self.object: Deck = self.get_object()
         if self.object.owner == request.user or self.object.is_public:
             # If the owner is accessing with the private link or the Deck is public,
