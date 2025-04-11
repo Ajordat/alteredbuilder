@@ -2,7 +2,7 @@ import pickle
 
 import numpy as np
 import numpy.typing as npt
-from sklearn.base import ClassifierMixin
+from sklearn.multioutput import MultiOutputClassifier
 
 from decks.models import Card
 from recommender.models import TournamentDeck, TrainedModel
@@ -47,22 +47,27 @@ class RecommenderHelper:
                 .exclude(type=Card.Type.HERO)
                 .order_by("set__release_date", "reference")
             )
-            for card in cards:
-                family_code = card.get_family_code()
-                if family_code not in cls.CARD_POOL[faction]:
-                    cls.CARD_POOL[faction].append(family_code)
 
-            hero_pool_length = len(cls.HEROES[faction])
-            card_pool_length = len(cls.CARD_POOL[faction])
-            cls.OFFSETS[faction] = [
-                0,  # heroes
-                hero_pool_length,  # commons
-                hero_pool_length + card_pool_length,  # rares
-                hero_pool_length + card_pool_length * 2,  # uniques
-            ]
+            cls.CARD_POOL[faction] = []
+            for card in cards:
+                family_code = card.get_card_code()
+                cls.CARD_POOL[faction].append(family_code)
+                if card.type == Card.Type.CHARACTER:
+                    unique_code = card.get_family_code() + "_U"
+                    if unique_code not in cls.CARD_POOL[faction]:
+                        cls.CARD_POOL[faction].append(unique_code)
+
+            # hero_pool_length = len(cls.HEROES[faction])
+            # card_pool_length = len(cls.CARD_POOL[faction])
+            # cls.OFFSETS[faction] = [
+            #     0,  # heroes
+            #     hero_pool_length,  # commons
+            #     hero_pool_length + card_pool_length,  # rares
+            #     hero_pool_length + card_pool_length * 2,  # uniques
+            # ]
 
     @staticmethod
-    def load_model(faction: Card.Faction) -> ClassifierMixin:
+    def load_model(faction: Card.Faction) -> MultiOutputClassifier:
         try:
             trained_model = TrainedModel.objects.get(faction=faction, active=True)
             return pickle.loads(trained_model.model_data)
@@ -85,34 +90,25 @@ class RecommenderHelper:
         vector = np.zeros(cls.get_vector_size(faction), dtype=np.int8)
         vector[cls.HEROES[faction].index(hero)] = 1
 
-        family_counts = {
-            card_family: {
-                Card.Rarity.COMMON: 0,
-                Card.Rarity.RARE: 0,
-                Card.Rarity.UNIQUE: 0,
-            }
-            for card_family in cls.CARD_POOL[faction]
-        }
+        offset = len(cls.HEROES[faction])
 
         for card_code, quantity in cards.items():
-            family_code, rarity = card_code.rsplit("_", 1)
-            rarity = Card.Rarity(rarity[0])
-            family_counts[family_code][rarity] += quantity
+            try:
+                card_index = cls.CARD_POOL[faction].index(card_code)
+            except ValueError:
+                card_code = f"{card_code[:-1]}{2 if card_code[-1] == '1' else 1}"
+                card_index = cls.CARD_POOL[faction].index(card_code)
 
-        offset_common = len(cls.HEROES[faction])
-        offset_rare = offset_common + len(cls.CARD_POOL[faction])
-        offset_unique = offset_rare + len(cls.CARD_POOL[faction])
-
-        for i, family in enumerate(cls.CARD_POOL[faction]):
-            vector[offset_common + i] = family_counts[family][Card.Rarity.COMMON]
-            vector[offset_rare + i] = family_counts[family][Card.Rarity.RARE]
-            vector[offset_unique + i] = family_counts[family][Card.Rarity.UNIQUE]
+            vector[offset + card_index] += quantity
 
         return vector
 
     @classmethod
     def get_recommended_cards(
-        cls, model: ClassifierMixin, deck_vector: npt.NDArray, faction: Card.Faction
+        cls,
+        model: MultiOutputClassifier,
+        deck_vector: npt.NDArray,
+        faction: Card.Faction,
     ) -> list[str, Card.Rarity]:
 
         # Reshape the vector to match the input shape (1, n_features)
@@ -124,22 +120,15 @@ class RecommenderHelper:
         # Collect recommended cards (indices where prediction is 1)
         indexes = [index for index, value in enumerate(predictions[0]) if value == 1]
 
-        card_pool_size = len(cls.CARD_POOL[faction])
-
-        offsets = iter(cls.OFFSETS[faction][1:])
-        rarities = iter(Card.Rarity.as_list())
-
         cards = []
-        offset = next(offsets)
-        rarity = next(rarities)
+        offset = len(cls.HEROES[faction])
         for index in indexes:
-            while index >= offset + card_pool_size:
-                offset = next(offsets)
-                rarity = next(rarities)
-            cards.append((cls.CARD_POOL[faction][index - offset], rarity))
+            if index < offset:
+                continue
+            cards.append(cls.CARD_POOL[faction][index - offset])
 
         return cards
 
     @classmethod
     def get_vector_size(cls, faction: Card.Faction) -> int:
-        return len(cls.HEROES[faction]) + len(cls.CARD_POOL[faction]) * 3
+        return len(cls.HEROES[faction]) + len(cls.CARD_POOL[faction])

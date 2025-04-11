@@ -62,6 +62,10 @@ function displayRecommendations(recommendations) {
     while (container.firstChild) {
         container.removeChild(container.firstChild);
     }
+    if (recommendations["recommended_cards"].length == 0) {
+        displayRecommenderError("Add more cards to receive a recommendation!");
+        return;
+    }
 
     recommendations["recommended_cards"].forEach(card => {
         const cardElement = document.createElement("div");

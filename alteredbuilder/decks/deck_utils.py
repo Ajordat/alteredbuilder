@@ -501,3 +501,7 @@ def filter_by_other(qs: QuerySet[Deck], other_filters: str, user) -> QuerySet[De
 
 def card_code_from_reference(reference: str) -> str:
     return "_".join(reference.split("_")[3:6])
+
+
+def family_code_from_reference(reference: str) -> str:
+    return "_".join(reference.split("_")[3:5])

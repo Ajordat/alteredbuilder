@@ -1,3 +1,4 @@
+from collections import defaultdict
 from http import HTTPStatus
 import json
 
@@ -6,7 +7,8 @@ from django.db.models import Case, IntegerField, Q, When
 from django.http import HttpRequest, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from decks.deck_utils import card_code_from_reference
+from decks.deck_utils import card_code_from_reference, family_code_from_reference
+from decks.game_modes import StandardGameMode
 from decks.models import Card
 from decks.templatetags.deck_styles import cdn_image_url
 from recommender.model_utils import RecommenderHelper
@@ -20,9 +22,11 @@ def get_next_card(request: HttpRequest) -> JsonResponse:
             data = json.loads(request.body)
             hero = card_code_from_reference(data["hero"])
             faction = data["faction"]
-            decklist = {
-                card_code_from_reference(k): v for k, v in data["decklist"].items()
-            }
+            decklist = defaultdict(int)
+            decklist_family_codes = defaultdict(int)
+            for reference, quantity in data["decklist"].items():
+                decklist[card_code_from_reference(reference)] += quantity
+                decklist_family_codes[family_code_from_reference(reference)] += quantity
 
             # Load model
             model = RecommenderHelper.load_model(faction)
@@ -43,39 +47,55 @@ def get_next_card(request: HttpRequest) -> JsonResponse:
                 model, deck_vector, faction
             )
 
+            # Filter cards (cards already in the deck or the max family count has been reached)
+            filtered_cards = []
+            banned_cards = StandardGameMode.get_banned_cards_for_faction(faction)
+            for card in recommended_cards:
+                family_code = "_".join(card.split("_")[:-1])
+                if (
+                    family_code in decklist_family_codes
+                    and decklist_family_codes[family_code]
+                    >= StandardGameMode.MAX_SAME_FAMILY_CARD_COUNT
+                ):
+                    continue
+                if card in banned_cards:
+                    continue
+                filtered_cards.append(card)
+
+            if not filtered_cards:
+                return JsonResponse({"recommended_cards": []}, status=HTTPStatus.OK)
+
             query = Q()
             order_cases = []
-            for index, (reference, rarity) in enumerate(recommended_cards):
-                query |= Q(
-                    reference__contains=reference, rarity=rarity, faction=faction
-                )
-                order_cases.append(
-                    When(reference__contains=reference, rarity=rarity, then=index)
-                )
+            for index, reference in enumerate(filtered_cards):
+                query |= Q(reference__contains=reference, faction=faction)
+                order_cases.append(When(reference__contains=reference, then=index))
 
-            recommended_cards = (
+            object_cards = (
                 Card.objects.filter(query)
                 .annotate(order=Case(*order_cases, output_field=IntegerField()))
+                .exclude(rarity=Card.Rarity.UNIQUE)
                 .exclude(set__code="COREKS")
                 .exclude(is_alt_art=True)
                 .order_by("order")
             )
-            recommended_card_names = [
-                {
-                    "reference": card.reference,
-                    "image": cdn_image_url(card.image_url),
-                    "name": card.name,
-                    "type": card.type,
-                    "rarity": card.rarity,
-                    "family": card.get_card_code(),
-                }
-                for card in recommended_cards
-                if card.reference not in data["decklist"].keys()
-            ]
 
+            filtered_cards = []
+            for card in object_cards:
+
+                filtered_cards.append(
+                    {
+                        "reference": card.reference,
+                        "image": cdn_image_url(card.image_url),
+                        "name": card.name,
+                        "type": card.type,
+                        "rarity": card.rarity,
+                        "family": card.get_card_code(),
+                    }
+                )
             # Return the recommendations as a response
             return JsonResponse(
-                {"recommended_cards": recommended_card_names}, status=HTTPStatus.OK
+                {"recommended_cards": filtered_cards}, status=HTTPStatus.OK
             )
 
         except json.JSONDecodeError:

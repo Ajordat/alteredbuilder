@@ -1,3 +1,4 @@
+from argparse import ArgumentParser
 from collections import defaultdict
 from datetime import datetime
 from http import HTTPStatus
@@ -28,8 +29,9 @@ HEADERS = {"User-Agent": get_user_agent("Recommender")}
 class Command(BaseCommand):
     version = "0.1.0"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser: ArgumentParser):
         parser.add_argument("--refresh-data", action="store_true")
+        parser.add_argument("--faction", action="store")
 
     def handle(self, *args: Any, **options: Any) -> None:
 
@@ -39,7 +41,11 @@ class Command(BaseCommand):
 
         RecommenderHelper.build_card_pool()
 
-        for faction in RecommenderHelper.FACTIONS:
+        if options["faction"]:
+            factions = [Card.Faction(options["faction"])]
+        else:
+            factions = RecommenderHelper.FACTIONS
+        for faction in factions:
             self.create_model(faction)
 
     def fetch_tournaments(self) -> None:
@@ -127,6 +133,7 @@ class Command(BaseCommand):
         )
         try:
             for deck_index, deck in enumerate(decks):
+                print(deck)
                 deck_vector = RecommenderHelper.generate_vector_for_deck(deck)
                 decks_matrix[deck_index] = deck_vector
         except KeyError as e:

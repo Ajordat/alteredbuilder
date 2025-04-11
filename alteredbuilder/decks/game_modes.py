@@ -137,6 +137,14 @@ class GameMode(ABC):
             """
             return [cls(error).to_user(game_mode) for error in error_list]
 
+    @classmethod
+    def get_banned_cards_for_faction(cls, faction: Card.Faction):
+        return [
+            card_code
+            for card_code, _faction in cls.BANNED_FAMILY_CARDS
+            if _faction == faction
+        ]
+
 
 class StandardGameMode(GameMode):
     """Class to represent the Standard game mode."""

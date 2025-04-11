@@ -11,6 +11,7 @@ class TournamentAdmin(admin.ModelAdmin):
 @admin.register(TournamentDeck)
 class TournamentDeckAdmin(admin.ModelAdmin):
     list_display = ["remote_id", "placement", "hero"]
+    search_fields = ["id", "remote_id"]
 
 
 @admin.register(TrainedModel)
