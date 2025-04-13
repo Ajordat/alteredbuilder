@@ -1,17 +1,21 @@
 from argparse import ArgumentParser
 from collections import defaultdict
 from datetime import datetime
+from enum import Enum
 from http import HTTPStatus
 import pickle
 import re
 from typing import Any
 
 from django.core.management.base import CommandError
+from lightgbm import LGBMClassifier
 import numpy as np
 import requests
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.multioutput import MultiOutputClassifier
+from xgboost import XGBClassifier
 
 from config.commands import BaseCommand
 from config.utils import get_user_agent
@@ -26,14 +30,24 @@ API_ENDPOINT_FETCH_TOURNAMENT = "https://39cards.com/api/tournament/{id}"
 HEADERS = {"User-Agent": get_user_agent("Recommender")}
 
 
+class ModelType(str, Enum):
+    LR = "logistic regression"
+    RANDOM_FOREST = "random forest"
+    LIGHT_GBM = "light gbm"
+    XGBOOST = "xgboost"
+
+
 class Command(BaseCommand):
     version = "0.1.0"
 
     def add_arguments(self, parser: ArgumentParser):
         parser.add_argument("--refresh-data", action="store_true")
         parser.add_argument("--faction", action="store")
+        parser.add_argument("model", choices=[model.name.lower() for model in ModelType])
 
     def handle(self, *args: Any, **options: Any) -> None:
+
+        model_type = ModelType[options["model"].upper()]
 
         # Optionally, refresh the data used to generate the models
         if options["refresh_data"]:
@@ -46,7 +60,7 @@ class Command(BaseCommand):
         else:
             factions = RecommenderHelper.FACTIONS
         for faction in factions:
-            self.create_model(faction)
+            self.create_model(model_type, faction)
 
     def fetch_tournaments(self) -> None:
 
@@ -122,7 +136,7 @@ class Command(BaseCommand):
                 self.stderr.write(d)
                 raise e
 
-    def create_model(self, faction: Card.Faction) -> None:
+    def create_model(self, model_type: ModelType, faction: Card.Faction) -> None:
 
         # Generate a matrix of decks and their cards
         decks = [deck for deck in TournamentDeck.objects.filter(hero__faction=faction)]
@@ -133,7 +147,6 @@ class Command(BaseCommand):
         )
         try:
             for deck_index, deck in enumerate(decks):
-                print(deck)
                 deck_vector = RecommenderHelper.generate_vector_for_deck(deck)
                 decks_matrix[deck_index] = deck_vector
         except KeyError as e:
@@ -145,8 +158,8 @@ class Command(BaseCommand):
         x_train = decks_matrix.copy()
         y_train = (decks_matrix > 0).astype(int)
 
-        model = MultiOutputClassifier(
-            OneVsRestClassifier(
+        if model_type == ModelType.LR:
+            base_model = OneVsRestClassifier(
                 LogisticRegression(
                     max_iter=1000,
                     solver="saga",
@@ -155,7 +168,36 @@ class Command(BaseCommand):
                     C=0.1,
                 )
             )
-        )
+        elif model_type == ModelType.RANDOM_FOREST:
+            base_model = RandomForestClassifier(
+                n_estimators=100,
+                n_jobs=-1,
+                class_weight="balanced",
+                random_state=42,
+            )
+        elif model_type == ModelType.LIGHT_GBM:
+            base_model = LGBMClassifier(
+                objective="binary",
+                n_estimators=100,
+                class_weight="balanced",
+                n_jobs=-1,
+                random_state=42,
+                verbosity=-1
+            )
+        elif model_type == ModelType.XGBOOST:
+            base_model = XGBClassifier(
+                objective="binary:logistic",
+                use_label_encoder=False,
+                eval_metric="logloss",
+                base_score=0.5,
+                n_estimators=100,
+                learning_rate=0.1,
+                n_jobs=-1,
+            )
+        else:
+            raise CommandError(f"Unsupported model type: {model_type}")
+
+        model = MultiOutputClassifier(base_model)
         model.fit(x_train, y_train)
 
         TrainedModel.objects.filter(faction=faction).update(active=False)
@@ -165,5 +207,5 @@ class Command(BaseCommand):
             active=True,
             period_start=min(deck.tournament.date for deck in decks),
             period_end=max(deck.tournament.date for deck in decks),
-            model="logistic regression",
+            model=model_type.value,
         )
