@@ -69,7 +69,7 @@ function displayRecommendations(recommendations) {
 
     recommendations["recommended_cards"].forEach(card => {
         const cardElement = document.createElement("div");
-        cardElement.classList.add("card-display", "click-animation", "rounded-3")
+        cardElement.classList.add("card-display", "click-animation", "rounded-3", "px-0", "mx-2")
         cardElement.dataset.cardReference = card.reference;
         cardElement.dataset.cardName = card.name;
         cardElement.dataset.cardType = card.type;
