@@ -1,4 +1,5 @@
 from collections.abc import Generator
+from datetime import datetime
 from http import HTTPStatus
 from random import randint
 
@@ -58,7 +59,7 @@ def generate_card(
 
     if card_set:
         data["card_set"] = Set.objects.get_or_create(
-            name=card_set, short_name=card_set, code=card_set, reference_code=card_set
+            name=card_set, short_name=card_set, code=card_set, reference_code=card_set, release_date=datetime.today()
         )[0]
 
     match card_type:
