@@ -8,6 +8,7 @@ from django.core.management.base import CommandError
 from django.utils.translation import activate
 
 from config.commands import BaseCommand
+from config.utils import get_user_agent
 from decks.exceptions import IgnoreCardType
 from decks.models import Card, Set, Subtype
 
@@ -18,14 +19,11 @@ CARDS_API_URL = "https://api.altered.gg/cards"
 ITEMS_PER_PAGE = 36
 # If True, retrieve the unique cards
 UPDATE_UNIQUES = False
-QUERY_SET = ["CORE"]
+QUERY_SET = ["ALIZE"]
 # The API currently returns a private image link for unique cards in these languages
 IMAGE_ERROR_LOCALES = ["es", "it", "de"]
 LOCALE_IRREGULAR_CODES = {"en": "en-us"}
-headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) Gecko/20100101 Firefox/134.0",
-    "Origin": "https://www.altered.gg",
-}
+HEADERS = {"User-Agent": get_user_agent("CardImporter")}
 
 
 class SubTypeCache:
@@ -33,17 +31,17 @@ class SubTypeCache:
     def __init__(self):
         self.cache = {}
 
-    def add_subtype(self, reference, subtypes):
+    def add_subtype(self, reference: str, subtype: str) -> None:
         if "_U_" in reference:
             return
         family_id = self._get_family_id(reference)
         if family_id not in self.cache:
-            self.cache[family_id] = subtypes
+            self.cache[family_id] = subtype
 
-    def get_subtype(self, reference):
-        return self.cache.get(self._get_family_id(reference), False)
+    def get_subtype(self, reference: str) -> str | None:
+        return self.cache.get(self._get_family_id(reference), None)
 
-    def _get_family_id(self, reference):
+    def _get_family_id(self, reference: str):
         # Remove the rarity from the reference to create the family id
         return reference.rsplit("_", 1)[0]
 
@@ -81,7 +79,7 @@ class Command(BaseCommand):
             if self.language_code in LOCALE_IRREGULAR_CODES
             else f"{self.language_code}-{self.language_code}"
         )
-        headers["Accept-Language"] = locale
+        HEADERS["Accept-Language"] = locale
         page_index = 1
         page_count = math.inf
         total_items = math.inf
@@ -92,7 +90,7 @@ class Command(BaseCommand):
                 params += "&rarity[]=UNIQUE"
             if len(QUERY_SET) > 0:
                 params += "".join([f"&cardSet[]={card_set}" for card_set in QUERY_SET])
-            req = request.Request(CARDS_API_URL + params, headers=headers)
+            req = request.Request(CARDS_API_URL + params, headers=HEADERS)
 
             # Query the API
             with request.urlopen(req) as response:
@@ -230,14 +228,16 @@ class Command(BaseCommand):
 
         # Retrieve the Set. This could probably done better, but I'm unsure how to make
         # the reverse query to the db
-        if "_CORE_P_" in card_dict["reference"]:
-            card_dict["set"] = Set.objects.get(code="COREP")
-        elif "_CORE_" in card_dict["reference"]:
+        reference = card_dict["reference"]
+        if "_CORE_" in reference:
             card_dict["set"] = Set.objects.get(code="CORE")
-        elif "_COREKS_" in card_dict["reference"]:
+        elif "_COREKS_" in reference:
             card_dict["set"] = Set.objects.get(code="COREKS")
-        elif "_ALIZE_" in card_dict["reference"]:
+        elif "_ALIZE_" in reference:
             card_dict["set"] = Set.objects.get(code="ALIZE")
+
+        card_dict["is_promo"] = "_P_" in reference
+        card_dict["is_alt_art"] = "_A_" in reference
 
     def create_card(self, card_dict: dict) -> None:
         """Receive a card dict and store it as a Card object into the db.
@@ -263,7 +263,7 @@ class Command(BaseCommand):
             card_obj (Card): The Card object on the database.
         """
 
-        card_fields = ["name", "faction", "image_url", "set"]
+        card_fields = Card.get_base_fields()
         if "main_effect" in card_dict:
             card_fields += ["main_effect"]
         if "echo_effect" in card_dict:
@@ -283,11 +283,11 @@ class Command(BaseCommand):
 
         card_obj.save()
 
-        self.link_subtypes(card_obj, card_dict.get("subtypes", False))
+        self.link_subtypes(card_obj, card_dict.get("subtypes", None))
 
         self.stdout.write(f"card updated: {card_obj}")
 
-    def link_subtypes(self, card: Card, subtypes):
+    def link_subtypes(self, card: Card, subtypes: list[str]) -> None:
         if not subtypes:
             reference = card.reference
             subtypes = self.subtypes.get_subtype(reference)
@@ -307,16 +307,16 @@ class Command(BaseCommand):
                 st = Subtype.objects.create(reference=st_reference, name=st_name)
             card.subtypes.add(st)
 
-    def fetch_subtypes(self, reference):
+    def fetch_subtypes(self, reference: str) -> list[(str, str)]:
 
         locale = (
             LOCALE_IRREGULAR_CODES[self.language_code]
             if self.language_code in LOCALE_IRREGULAR_CODES
             else f"{self.language_code}-{self.language_code}"
         )
-        headers["Accept-Language"] = locale
+        HEADERS["Accept-Language"] = locale
         params = f"locale={locale}"
-        req = request.Request(f"{CARDS_API_URL}/{reference}?{params}", headers=headers)
+        req = request.Request(f"{CARDS_API_URL}/{reference}?{params}", headers=HEADERS)
 
         # Query the API
         with request.urlopen(req) as response:

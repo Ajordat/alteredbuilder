@@ -7,6 +7,8 @@ class BaseCommand(BaseCommand):
         "--verbosity",
         "--settings",
         "--pythonpath",
+        "--no-color",
+        "--force-color",
         "--skip-checks",
     ]
 

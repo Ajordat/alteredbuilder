@@ -51,7 +51,7 @@ class HomeView(TemplateView):
 
     def extract_faction_trends(
         self, faction: Optional[Card.Faction], hero: Optional[Card]
-    ) -> dict[str:int]:
+    ) -> dict[str, int]:
         """Extract the faction trends based on the filters received.
 
         The actual trends are only necessary when there are no filters selected. That's
@@ -82,8 +82,8 @@ class HomeView(TemplateView):
         return faction_trends
 
     def extract_hero_trends(
-        self, faction: Optional[Card.Faction], hero: Optional[Card]
-    ) -> dict[str : dict[str, Any]]:  # noqa: E203
+        self, faction: Card.Faction | None, hero: Card | None
+    ) -> dict[str, dict[str, Any]]:  # noqa: E203
         """Extract the hero trends based on the filters received.
 
         The actual trends are only necessary when not filtering by hero. That's because
@@ -120,7 +120,7 @@ class HomeView(TemplateView):
         return hero_trends
 
     def extract_card_trends(
-        self, faction: Optional[Card.Faction], hero: Optional[Card]
+        self, faction: Card.Faction | None, hero: Card | None
     ) -> QuerySet[CardTrend]:
         """Extract the card trends based on the filters received.
 
@@ -150,7 +150,7 @@ class HomeView(TemplateView):
         )
 
     def extract_deck_trends(
-        self, faction: Optional[Card.Faction], hero: Optional[Card]
+        self, faction: Card.Faction | None, hero: Card | None
     ) -> QuerySet[Deck]:
         """Extract the deck trends based on the filters received.
 

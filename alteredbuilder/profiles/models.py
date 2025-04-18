@@ -17,19 +17,19 @@ class UserProfile(models.Model):
     altered_handle = models.CharField(null=True)
     discord_public = models.BooleanField(default=False)
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse("profile-detail", kwargs={"code": self.code})
 
-    def get_followers_url(self):
+    def get_followers_url(self) -> str:
         return reverse("follow-list", kwargs={"code": self.code})
 
-    def get_follow_url(self):
+    def get_follow_url(self) -> str:
         return reverse("profile-follow", kwargs={"code": self.code})
 
-    def get_unfollow_url(self):
+    def get_unfollow_url(self) -> str:
         return reverse("profile-unfollow", kwargs={"code": self.code})
 
-    def get_avatar_image(self):
+    def get_avatar_image(self) -> str:
         return static(f"/img/avatars/{self.avatar}")
 
 

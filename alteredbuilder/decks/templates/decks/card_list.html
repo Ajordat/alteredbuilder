@@ -140,22 +140,27 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end altered-style">
                             <li><a class="dropdown-item {% if not order %}active{% endif %}" href="?{% inject_params request.GET order=None %}">{% translate "Default" %}</a></li>
-                            <li><a class="dropdown-item {% if order == "name" %}active{% endif %}" href="?{% inject_params request.GET order="name" %}">{% translate "Name A-Z" %}</a></li>
-                            <li><a class="dropdown-item {% if order == "-name" %}active{% endif %}" href="?{% inject_params request.GET order="-name" %}">{% translate "Name Z-A" %}</a></li>
-                            <li><a class="dropdown-item {% if order == "rarity" %}active{% endif %}" href="?{% inject_params request.GET order="rarity" %}">{% translate "Rarity" %}</a></li>
-                            <li><a class="dropdown-item {% if order == "mana" %}active{% endif %}" href="?{% inject_params request.GET order="mana" %}">{% translate "Hand Cost ASC" %}</a></li>
-                            <li><a class="dropdown-item {% if order == "-mana" %}active{% endif %}" href="?{% inject_params request.GET order="-mana" %}">{% translate "Hand Cost DESC" %}</a></li>
-                            <li><a class="dropdown-item {% if order == "reserve" %}active{% endif %}" href="?{% inject_params request.GET order="reserve" %}">{% translate "Reserve Cost ASC" %}</a></li>
-                            <li><a class="dropdown-item {% if order == "-reserve" %}active{% endif %}" href="?{% inject_params request.GET order="-reserve" %}">{% translate "Reserve Cost DESC" %}</a></li>
+                            <li><a class="dropdown-item {% if order == 'name' %}active{% endif %}" href="?{% inject_params request.GET order='name' %}">{% translate "Name A-Z" %}</a></li>
+                            <li><a class="dropdown-item {% if order == '-name' %}active{% endif %}" href="?{% inject_params request.GET order='-name' %}">{% translate "Name Z-A" %}</a></li>
+                            <li><a class="dropdown-item {% if order == 'rarity' %}active{% endif %}" href="?{% inject_params request.GET order='rarity' %}">{% translate "Rarity" %}</a></li>
+                            <li><a class="dropdown-item {% if order == 'mana' %}active{% endif %}" href="?{% inject_params request.GET order='mana' %}">{% translate "Hand Cost ASC" %}</a></li>
+                            <li><a class="dropdown-item {% if order == '-mana' %}active{% endif %}" href="?{% inject_params request.GET order='-mana' %}">{% translate "Hand Cost DESC" %}</a></li>
+                            <li><a class="dropdown-item {% if order == 'reserve' %}active{% endif %}" href="?{% inject_params request.GET order='reserve' %}">{% translate "Reserve Cost ASC" %}</a></li>
+                            <li><a class="dropdown-item {% if order == '-reserve' %}active{% endif %}" href="?{% inject_params request.GET order='-reserve' %}">{% translate "Reserve Cost DESC" %}</a></li>
                         </ul>
                     </div>
                 </div>
+    {% if perms.recommender.can_use_recommender %}
+                <div>
+                    <button id="recommenderModalTrigger" type="button" class="btn altered-style" data-bs-toggle="modal" data-bs-target="#recommenderModal"><i class="fa-solid fa-wand-magic-sparkles"></i>&nbsp;{% translate "Magic" %}</button>
+                </div>
+    {% endif %}
             </div>
             <div class="row gy-3 infinite-container">
                 <!-- Card list with infinite scroll -->
     {% for card in card_list %}
                 <div class="col-xxxl-2 col-xxl-3 col-xl-4 col-lg-6 col-12 infinite-item d-flex justify-content-center">
-                    <div id="display-{{ card.reference }}" class="card-display click-animation rounded-3" data-card-reference="{{ card.reference }}" data-card-name="{{ card.name }}" data-card-type="{{ card.type }}" data-card-rarity="{{ card.rarity }}" data-card-family="{{ card.get_family }}" data-card-image="{% cdn_image_url card.image_url %}" style="position: relative;">
+                    <div id="display-{{ card.reference }}" class="card-display click-animation rounded-3" data-card-reference="{{ card.reference }}" data-card-name="{{ card.name }}" data-card-type="{{ card.type }}" data-card-rarity="{{ card.rarity }}" data-card-family="{{ card.get_card_code }}" data-card-image="{% cdn_image_url card.image_url %}" style="position: relative;">
                         <img src="{% cdn_image_url card.image_url %}" class="card-img-top rounded-3" alt="{{ card.name }}">
                         <div class="card-badge px-2 py-1 border border-white text-center"><span class="card-in-collection d-none"><span class="collection-count"></span> <i class="fa-regular fa-folder-open"></i><hr class="my-1"></span><span class="deck-quantity">{% dict_get all_cards card.reference 0 %}</span>/<span class="max-deck-quantity">3</span></div>
                     </div>
@@ -331,12 +336,43 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline altered-style" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-outline altered-style" data-bs-dismiss="modal">{% translate "Close" %}</button>
                     <button id="update-collection-settings" type="button" class="btn altered-style" data-bs-dismiss="modal">{% translate "Save" %}</button>
                 </div>
             </div>
         </div>
     </div>
+
+    {% if perms.recommender.can_use_recommender %}
+    <!-- Recommender modal -->
+    <div class="modal altered-style fade" id="recommenderModal" tabindex="-1" aria-labelledby="recommenderModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="recommenderModalLabel">{% translate "Card recommender" %}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-start">
+                        <div id="recommenderMissingCards" class="status-report d-none">
+                            {% translate "Hi! Start your deck by selecting a hero and adding some cards!" %}
+                        </div>
+                        <div id="recommenderLoading" class="status-report">
+                            {% translate "Thinking about your deck..." %}
+                        </div>
+                        <div id="recommenderResults" class="status-report row d-none gy-3">
+                        </div>
+                        <div id="recommenderError" class="status-report d-none">
+                            <span class="status-message"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <!-- Simple toaster -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="simple-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -360,6 +396,8 @@
     <script src="{% static 'js/card-list.js' %}"></script>
     <!-- Deck sidebar manipulation script -->
     <script src="{% static 'js/deck-sidebar.js' %}"></script>
+    <!-- Recommender script -->
+    <script src="{% static 'js/recommender.js' %}"></script>
     <!-- Infinite scroll scripts -->
     <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
     <script src="{% static 'js/infinite.min.js' %}"></script>

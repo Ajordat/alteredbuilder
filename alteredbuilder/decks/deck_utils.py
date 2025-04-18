@@ -1,7 +1,6 @@
 from collections import defaultdict
 from http import HTTPStatus
 import re
-import requests
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -9,8 +8,10 @@ from django.db import transaction
 from django.db.models import Exists, F, OuterRef, Q
 from django.db.models.query import QuerySet
 from django.utils.translation import activate, gettext_lazy as _
+import requests
 
 from api.utils import locale_agnostic
+from config.utils import get_user_agent
 from decks.game_modes import (
     DraftGameMode,
     GameMode,
@@ -23,6 +24,7 @@ from decks.exceptions import AlteredAPIError, CardAlreadyExists, MalformedDeckEx
 
 # Altered's API endpoint
 ALTERED_TCG_API_URL = "https://api.altered.gg/cards"
+HEADERS = {"User-Agent": get_user_agent("UniqueCardImporter")}
 # The API currently returns a private image link for unique cards in these languages
 IMAGE_ERROR_LOCALES = ["es", "it", "de"]
 
@@ -203,7 +205,7 @@ def get_deck_details(deck: Deck) -> dict:
 
 
 @transaction.atomic
-def patch_deck(deck, name, changes):
+def patch_deck(deck: Deck, name: str, changes: dict[str, int]) -> None:
     deck.name = name
 
     for card_reference, quantity in changes.items():
@@ -228,7 +230,7 @@ def patch_deck(deck, name, changes):
                 CardInDeck.objects.create(card=card, deck=deck, quantity=quantity)
 
 
-def remove_card_from_deck(deck, reference):
+def remove_card_from_deck(deck: Deck, reference: str) -> None:
     card = Card.objects.get(reference=reference)
     if card.type == Card.Type.HERO and deck.hero.reference == card.reference:
         # If it's the Deck's hero, remove the reference
@@ -239,7 +241,9 @@ def remove_card_from_deck(deck, reference):
         cid.delete()
 
 
-def parse_card_query_syntax(qs, query):
+def parse_card_query_syntax(
+    qs: QuerySet[Card], query: str
+) -> tuple[QuerySet[Card], list[(str, str, str)], bool]:
     filters = Q()
     tags = []
 
@@ -338,7 +342,7 @@ def parse_card_query_syntax(qs, query):
 
 
 @locale_agnostic
-def import_unique_card(reference) -> Card:  # pragma: no cover
+def import_unique_card(reference: str) -> Card:  # pragma: no cover
 
     # Check if the card already exists in the database
     if Card.objects.filter(reference=reference).exists():
@@ -346,67 +350,9 @@ def import_unique_card(reference) -> Card:  # pragma: no cover
 
     # Fetch the card data from the official API
     api_url = f"{ALTERED_TCG_API_URL}/{reference}/"
-    response = requests.get(api_url)
+    response = requests.get(api_url, headers=HEADERS)
 
-    if response.status_code == HTTPStatus.OK:
-        card_data = response.json()
-        family = "_".join(reference.split("_")[:-2])
-        try:
-            og_card = Card.objects.filter(
-                reference__startswith=family, rarity=Card.Rarity.COMMON
-            ).get()
-        except Card.DoesNotExist:
-            raise AlteredAPIError(
-                f"The card family '{family}' does not exist in the database",
-                status_code=HTTPStatus.NOT_FOUND,
-            )
-        card_dict = {
-            "reference": reference,
-            "name": og_card.name,
-            "faction": card_data["mainFaction"]["reference"],
-            "type": Card.Type.CHARACTER,
-            "rarity": Card.Rarity.UNIQUE,
-            "image_url": card_data["imagePath"],
-            "set": og_card.set,
-            "stats": {
-                "main_cost": int(card_data["elements"]["MAIN_COST"]),
-                "recall_cost": int(card_data["elements"]["RECALL_COST"]),
-                "forest_power": int(card_data["elements"]["FOREST_POWER"]),
-                "mountain_power": int(card_data["elements"]["MOUNTAIN_POWER"]),
-                "ocean_power": int(card_data["elements"]["OCEAN_POWER"]),
-            },
-        }
-        if "MAIN_EFFECT" in card_data["elements"]:
-            card_dict["main_effect"] = card_data["elements"]["MAIN_EFFECT"]
-        if "ECHO_EFFECT" in card_data["elements"]:
-            card_dict["echo_effect"] = card_data["elements"]["ECHO_EFFECT"]
-
-        card = Card(**card_dict)
-
-        for language, _ in settings.LANGUAGES:  # noqa: F402
-            if language == settings.LANGUAGE_CODE:
-                continue
-            activate(language)
-            headers = {"Accept-Language": f"{language}-{language}"}
-            response = requests.get(api_url, headers=headers)
-            card_data = response.json()
-            card.name = og_card.name
-
-            card.main_effect
-            if "MAIN_EFFECT" in card_data["elements"]:
-                card.main_effect = card_data["elements"]["MAIN_EFFECT"]
-            if "ECHO_EFFECT" in card_data["elements"]:
-                card.echo_effect = card_data["elements"]["ECHO_EFFECT"]
-            if language not in IMAGE_ERROR_LOCALES:
-                card.image_url = card_data["imagePath"]
-
-        with transaction.atomic():
-            card.save()
-            card.subtypes.add(*og_card.subtypes.all())
-
-        return card
-
-    else:
+    if response.status_code != HTTPStatus.OK:
         match response.status_code:
             case HTTPStatus.UNAUTHORIZED:
                 msg = f"The card {reference} is not public"
@@ -415,6 +361,63 @@ def import_unique_card(reference) -> Card:  # pragma: no cover
             case _:
                 msg = "Couldn't access the Altered API"
         raise AlteredAPIError(msg, status_code=response.status_code)
+
+    card_data = response.json()
+    family = "_".join(reference.split("_")[:-2])
+    try:
+        og_card = Card.objects.filter(
+            reference__startswith=family, rarity=Card.Rarity.COMMON
+        ).get()
+    except Card.DoesNotExist:
+        raise AlteredAPIError(
+            f"The card family '{family}' does not exist in the database",
+            status_code=HTTPStatus.NOT_FOUND,
+        )
+    card_dict = {
+        "reference": reference,
+        "name": og_card.name,
+        "faction": card_data["mainFaction"]["reference"],
+        "type": Card.Type.CHARACTER,
+        "rarity": Card.Rarity.UNIQUE,
+        "image_url": card_data["imagePath"],
+        "set": og_card.set,
+        "stats": {
+            "main_cost": int(card_data["elements"]["MAIN_COST"]),
+            "recall_cost": int(card_data["elements"]["RECALL_COST"]),
+            "forest_power": int(card_data["elements"]["FOREST_POWER"]),
+            "mountain_power": int(card_data["elements"]["MOUNTAIN_POWER"]),
+            "ocean_power": int(card_data["elements"]["OCEAN_POWER"]),
+        },
+    }
+    if "MAIN_EFFECT" in card_data["elements"]:
+        card_dict["main_effect"] = card_data["elements"]["MAIN_EFFECT"]
+    if "ECHO_EFFECT" in card_data["elements"]:
+        card_dict["echo_effect"] = card_data["elements"]["ECHO_EFFECT"]
+
+    card = Card(**card_dict)
+
+    for language, _ in settings.LANGUAGES:  # noqa: F402
+        if language == settings.LANGUAGE_CODE:
+            continue
+        activate(language)
+        headers = {"Accept-Language": f"{language}-{language}"}
+        response = requests.get(api_url, headers=headers)
+        card_data = response.json()
+        card.name = og_card.name
+
+        card.main_effect
+        if "MAIN_EFFECT" in card_data["elements"]:
+            card.main_effect = card_data["elements"]["MAIN_EFFECT"]
+        if "ECHO_EFFECT" in card_data["elements"]:
+            card.echo_effect = card_data["elements"]["ECHO_EFFECT"]
+        if language not in IMAGE_ERROR_LOCALES:
+            card.image_url = card_data["imagePath"]
+
+    with transaction.atomic():
+        card.save()
+        card.subtypes.add(*og_card.subtypes.all())
+
+    return card
 
 
 def filter_by_query(qs: QuerySet[Deck], query: str) -> QuerySet[Deck]:
@@ -494,3 +497,11 @@ def filter_by_other(qs: QuerySet[Deck], other_filters: str, user) -> QuerySet[De
         if "description" in other_filters:
             qs = qs.exclude(description="")
     return qs
+
+
+def card_code_from_reference(reference: str) -> str:
+    return "_".join(reference.split("_")[3:6])
+
+
+def family_code_from_reference(reference: str) -> str:
+    return "_".join(reference.split("_")[3:5])

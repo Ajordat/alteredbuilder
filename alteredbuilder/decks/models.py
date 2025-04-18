@@ -87,6 +87,7 @@ class Set(models.Model):
     short_name = models.CharField(null=False, blank=False, unique=True)
     code = models.CharField(max_length=8, null=False, blank=False, unique=True)
     reference_code = models.CharField(null=False, blank=False, unique=True)
+    release_date = models.DateField(null=False, blank=False)
 
     def __str__(self) -> str:
         return self.name
@@ -113,6 +114,10 @@ class Card(models.Model):
         ORDIS = "OR", "ordis"
         YZMIR = "YZ", "yzmir"
 
+        @classmethod
+        def as_list(cls):
+            return [cls.AXIOM, cls.BRAVOS, cls.LYRA, cls.MUNA, cls.ORDIS, cls.YZMIR]
+
     class Type(models.TextChoices):
         SPELL = "spell"
         LANDMARK_PERMANENT = "landmark_permanent"
@@ -126,6 +131,10 @@ class Card(models.Model):
         COMMON = "C", "common"
         RARE = "R", "rare"
         UNIQUE = "U", "unique"
+
+        @classmethod
+        def as_list(cls):
+            return [cls.COMMON, cls.RARE, cls.UNIQUE]
 
     reference = models.CharField(primary_key=True)
     name = models.CharField(null=False, blank=False)
@@ -148,16 +157,20 @@ class Card(models.Model):
 
     objects = CardManager()
 
+    @staticmethod
+    def get_base_fields():
+        return ["name", "faction", "image_url", "set", "is_promo", "is_alt_art"]
+
     def __str__(self) -> str:
         return f"[{self.faction}] - {self.name} ({self.rarity})"
 
     def get_official_link(self) -> str:
         return f"{ALTERED_TCG_URL}/cards/{self.reference}"
 
-    def get_family_code(self):
+    def get_family_code(self) -> str:
         return "_".join(self.reference.split("_")[3:5])
 
-    def get_family(self):
+    def get_card_code(self) -> str:
         return "_".join(self.reference.split("_")[3:6])
 
     def get_display_image(self) -> str:

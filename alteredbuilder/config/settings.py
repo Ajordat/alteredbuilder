@@ -134,6 +134,7 @@ INSTALLED_APPS = [
     "trends.apps.TrendsConfig",
     "notifications.apps.NotificationsConfig",
     "profiles.apps.ProfilesConfig",
+    "recommender.apps.RecommenderConfig",
 ]
 
 MIDDLEWARE = [
@@ -224,6 +225,9 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
+
+USER_AGENT_BASE = "AjordatBot/1.0 (Altered TCG Builder; {}; https://altered.ajordat.com; altered-tcg-builder@ajordat.com)"
+
 
 if DEBUG or not SERVICE_PUBLIC_URL:
     SITE_ID = 1

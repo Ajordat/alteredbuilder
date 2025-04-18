@@ -167,6 +167,8 @@ class CardAdmin(admin.ModelAdmin):
             "subtypes",
             "rarity",
             "image_url",
+            "is_promo",
+            "is_alt_art"
         ]
         i18n_fields = ["name", "image_url", "main_effect"]
 
