@@ -14,6 +14,9 @@ from decks.templatetags.deck_styles import cdn_image_url
 from recommender.model_utils import RecommenderHelper
 
 
+RECOMMENDATIONS_COUNT = 5
+
+
 @csrf_exempt
 def get_next_card(request: HttpRequest) -> JsonResponse:
     if request.method == "POST":
@@ -44,7 +47,7 @@ def get_next_card(request: HttpRequest) -> JsonResponse:
 
             # Obtain recommendations
             recommended_cards = RecommenderHelper.get_recommended_cards(
-                model, deck_vector, faction
+                model, deck_vector, faction, RECOMMENDATIONS_COUNT
             )
 
             # Filter cards (cards already in the deck or the max family count has been reached)
@@ -77,6 +80,7 @@ def get_next_card(request: HttpRequest) -> JsonResponse:
                 .exclude(rarity=Card.Rarity.UNIQUE)
                 .exclude(set__code="COREKS")
                 .exclude(is_alt_art=True)
+                .exclude(is_promo=True)
                 .order_by("order")
             )
 

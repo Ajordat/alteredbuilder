@@ -2,6 +2,7 @@ import pickle
 
 import numpy as np
 import numpy.typing as npt
+import pandas as pd
 from sklearn.multioutput import MultiOutputClassifier
 
 from decks.models import Card
@@ -45,26 +46,22 @@ class RecommenderHelper:
                     faction=faction, rarity__in=[Card.Rarity.COMMON, Card.Rarity.RARE]
                 )
                 .exclude(type=Card.Type.HERO)
+                .exclude(set__code="COREKS")
+                .exclude(is_alt_art=True)
+                .exclude(is_promo=True)
                 .order_by("set__release_date", "reference")
             )
 
             cls.CARD_POOL[faction] = []
             for card in cards:
                 family_code = card.get_card_code()
+                if family_code in cls.CARD_POOL[faction]:
+                    continue
                 cls.CARD_POOL[faction].append(family_code)
                 if card.type == Card.Type.CHARACTER:
                     unique_code = card.get_family_code() + "_U"
                     if unique_code not in cls.CARD_POOL[faction]:
                         cls.CARD_POOL[faction].append(unique_code)
-
-            # hero_pool_length = len(cls.HEROES[faction])
-            # card_pool_length = len(cls.CARD_POOL[faction])
-            # cls.OFFSETS[faction] = [
-            #     0,  # heroes
-            #     hero_pool_length,  # commons
-            #     hero_pool_length + card_pool_length,  # rares
-            #     hero_pool_length + card_pool_length * 2,  # uniques
-            # ]
 
     @staticmethod
     def load_model(faction: Card.Faction) -> MultiOutputClassifier:
@@ -82,6 +79,7 @@ class RecommenderHelper:
         hero: str = None,
         cards: dict[str, int] = None,
     ) -> npt.NDArray:
+
         faction = faction if faction else Card.Faction(deck.hero.faction)
         hero = hero if hero else deck.hero.get_card_code()
         cards = cards if cards else deck.cards if deck else {}
@@ -109,20 +107,33 @@ class RecommenderHelper:
         model: MultiOutputClassifier,
         deck_vector: npt.NDArray,
         faction: Card.Faction,
+        top_n: int,
     ) -> list[str, Card.Rarity]:
 
         # Reshape the vector to match the input shape (1, n_features)
         deck_vector = deck_vector.reshape(1, -1)
+        feature_names = RecommenderHelper.get_feature_names(faction)
+        df = pd.DataFrame(deck_vector, columns=feature_names)
 
         # Predict with the model
-        predictions = model.predict(deck_vector)
+        predictions = model.predict_proba(df)
 
-        # Collect recommended cards (indices where prediction is 1)
-        indexes = [index for index, value in enumerate(predictions[0]) if value == 1]
+        present_mask = deck_vector[0] > 0
+        probas_flat = np.array(
+            [
+                p[0][1] if isinstance(p[0], (list, np.ndarray)) else p[0]
+                for p in predictions
+            ]
+        )
+        probas_flat[present_mask] = 0
+
+        indexes = probas_flat.argsort()[::-1][:top_n]
 
         cards = []
         offset = len(cls.HEROES[faction])
         for index in indexes:
+            if not probas_flat[index]:
+                continue
             if index < offset:
                 continue
             cards.append(cls.CARD_POOL[faction][index - offset])
@@ -132,3 +143,7 @@ class RecommenderHelper:
     @classmethod
     def get_vector_size(cls, faction: Card.Faction) -> int:
         return len(cls.HEROES[faction]) + len(cls.CARD_POOL[faction])
+
+    @classmethod
+    def get_feature_names(cls, faction: Card.Faction) -> list[str]:
+        return cls.HEROES[faction] + cls.CARD_POOL[faction]

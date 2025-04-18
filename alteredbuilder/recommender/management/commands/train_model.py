@@ -10,6 +10,7 @@ from typing import Any
 from django.core.management.base import CommandError
 from lightgbm import LGBMClassifier
 import numpy as np
+import pandas as pd
 import requests
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
@@ -32,13 +33,17 @@ HEADERS = {"User-Agent": get_user_agent("Recommender")}
 
 class ModelType(str, Enum):
     LR = "logistic regression"
+    LR_TUNED = "logistic regression tuned"
     RANDOM_FOREST = "random forest"
+    RANDOM_FOREST_TUNED = "random forest tuned"
     LIGHT_GBM = "light gbm"
+    LIGHT_GBM_TUNED = "light gbm tuned"
     XGBOOST = "xgboost"
+    XGBOOST_TUNED = "xgboost tuned"
 
 
 class Command(BaseCommand):
-    version = "0.1.0"
+    version = "1.0.0"
 
     def add_arguments(self, parser: ArgumentParser):
         parser.add_argument("--refresh-data", action="store_true")
@@ -155,7 +160,8 @@ class Command(BaseCommand):
             )
 
         # Train the model
-        x_train = decks_matrix.copy()
+        feature_names = RecommenderHelper.get_feature_names(faction)
+        x_train = pd.DataFrame(decks_matrix, columns=feature_names)
         y_train = (decks_matrix > 0).astype(int)
 
         if model_type == ModelType.LR:
@@ -168,11 +174,31 @@ class Command(BaseCommand):
                     C=0.1,
                 )
             )
+        elif model_type == ModelType.LR_TUNED:
+            base_model = OneVsRestClassifier(
+                LogisticRegression(
+                    max_iter=2000,
+                    solver="saga",
+                    penalty="elasticnet",
+                    l1_ratio=0.5,
+                    class_weight="balanced",
+                    C=0.5,
+                )
+            )
         elif model_type == ModelType.RANDOM_FOREST:
             base_model = RandomForestClassifier(
                 n_estimators=100,
                 n_jobs=-1,
                 class_weight="balanced",
+                random_state=42,
+            )
+        elif model_type == ModelType.RANDOM_FOREST_TUNED:
+            base_model = RandomForestClassifier(
+                n_estimators=300,
+                max_depth=20,
+                min_samples_leaf=2,
+                n_jobs=-1,
+                class_weight="balanced_subsample",
                 random_state=42,
             )
         elif model_type == ModelType.LIGHT_GBM:
@@ -184,15 +210,42 @@ class Command(BaseCommand):
                 random_state=42,
                 verbosity=-1
             )
+        elif model_type == ModelType.LIGHT_GBM_TUNED:
+            base_model = LGBMClassifier(
+                objective="binary",
+                n_estimators=300,
+                learning_rate=0.05,
+                num_leaves=31,
+                min_child_samples=10,
+                class_weight="balanced",
+                subsample=0.8,
+                colsample_bytree=0.8,
+                n_jobs=-1,
+                random_state=42,
+                verbosity=-1
+            )
         elif model_type == ModelType.XGBOOST:
             base_model = XGBClassifier(
                 objective="binary:logistic",
-                use_label_encoder=False,
                 eval_metric="logloss",
                 base_score=0.5,
                 n_estimators=100,
                 learning_rate=0.1,
                 n_jobs=-1,
+            )
+        elif model_type == ModelType.XGBOOST_TUNED:
+            base_model = XGBClassifier(
+                objective="binary:logistic",
+                eval_metric="logloss",
+                base_score=0.01,
+                n_estimators=300,
+                learning_rate=0.05,
+                max_depth=6,
+                subsample=0.8,
+                colsample_bytree=0.8,
+                reg_alpha=0.1,
+                reg_lambda=1.0,
+                n_jobs=-1
             )
         else:
             raise CommandError(f"Unsupported model type: {model_type}")
