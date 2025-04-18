@@ -14,7 +14,8 @@ async function fetchRecommendations() {
         const response = await fetch(recommenderUrl, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
             },
             body: JSON.stringify(deckData)
         });

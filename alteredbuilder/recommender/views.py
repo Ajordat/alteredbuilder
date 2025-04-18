@@ -3,6 +3,7 @@ from http import HTTPStatus
 import json
 
 from django.conf import settings
+from django.contrib.auth.decorators import permission_required
 from django.db.models import Case, IntegerField, Q, When
 from django.http import HttpRequest, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -17,7 +18,7 @@ from recommender.model_utils import RecommenderHelper
 RECOMMENDATIONS_COUNT = 5
 
 
-@csrf_exempt
+@permission_required("recommender.can_use_recommender", raise_exception=True)
 def get_next_card(request: HttpRequest) -> JsonResponse:
     if request.method == "POST":
         try:
