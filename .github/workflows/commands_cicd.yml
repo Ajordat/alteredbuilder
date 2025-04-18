@@ -1,4 +1,4 @@
-name: Trends CICD
+name: Django commands CICD
 
 on:
   push:
@@ -27,8 +27,9 @@ jobs:
     strategy:
       matrix:
         command:
-        - generate_trends
         - calculate_deck_legality
+        - generate_trends
+        - train_model
     steps:
     - name: Checkout
       uses: actions/checkout@v4
