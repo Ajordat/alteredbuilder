@@ -336,7 +336,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline altered-style" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-outline altered-style" data-bs-dismiss="modal">{% translate "Close" %}</button>
                     <button id="update-collection-settings" type="button" class="btn altered-style" data-bs-dismiss="modal">{% translate "Save" %}</button>
                 </div>
             </div>
@@ -355,10 +355,10 @@
                 <div class="modal-body">
                     <div class="text-start">
                         <div id="recommenderMissingCards" class="status-report d-none">
-                            Hi! Start your deck by selecting a hero and adding some cards!
+                            {% translate "Hi! Start your deck by selecting a hero and adding some cards!" %}
                         </div>
                         <div id="recommenderLoading" class="status-report">
-                            Thinking about your deck...
+                            {% translate "Thinking about your deck..." %}
                         </div>
                         <div id="recommenderResults" class="status-report row d-none gy-3">
                         </div>
