@@ -367,7 +367,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer"></div>
+                <div class="modal-footer">
+                    <button id="recommender-feedback-button" class="btn altered-style" type="submit" data-prefill-username="{{ user.username }}">Feedback</button>
+                </div>
             </div>
         </div>
     </div>
@@ -412,6 +414,27 @@
                     element.addEventListener("click", addCardFromDisplay);
                 });
             }
+        });
+    </script>
+    <script>
+        const googleFormsURL = (documentId, username) => `https://docs.google.com/forms/d/e/${documentId}/viewform?usp=pp_url&entry.280343752=${encodeURIComponent(username)}`;
+        const feedbackDocuments = {
+            "AX": "1FAIpQLSeLCd-kgdB4vYsdB_Yckg7l2VVQZ4W4I4HnSj0LMcM02m7Www",
+            "BR": "1FAIpQLSf5Xfu_iwXYrn1Ce0ORDsJBuFx9X_uvrjj00xTQ41me4pc0TA",
+            "LY": "1FAIpQLSfh6f0ZoRJFm-zGhTjtzByMf4VaZ2VLg1Wa0eAqUbwXI6optA",
+            "MU": "1FAIpQLScj16U9CnItlr2EkbWXwyuHwO_rGusY3h-AAVgeO4-kalRp6A",
+            "OR": "1FAIpQLSfNKQMdftyVoLfQdqEQ1-sxc82I6X97oeTrkTPAQgEJOLbU7A",
+            "YZ": "1FAIpQLSe9AXmj5GTntKTvzR7K3U6mwuU1bMadY04DQKbMpugNYDisJw",
+        }
+        document.getElementById("recommender-feedback-button").addEventListener("click", event => {
+            const username = event.currentTarget.dataset.prefillUsername;
+            const faction = document.getElementById("hero-name").dataset.cardReference.split("_").at(-3);
+            if (faction == undefined) {
+                displaySimpleToast("Select a hero to redirect to the faction's form");
+                return;
+            }
+            let formURL = googleFormsURL(feedbackDocuments[faction], username);
+            window.open(formURL, "_blank").focus();
         });
     </script>
     {% comment %} <script src="{% static 'js/scrollToTop.js' %}"></script> {% endcomment %}
