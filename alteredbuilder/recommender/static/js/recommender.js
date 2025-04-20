@@ -21,7 +21,11 @@ async function fetchRecommendations() {
         });
 
         if (!response.ok) {
-            displayRecommenderError("Unable to retrieve a recommendation. Try it again later.");
+            const failedResponse = await response.json();
+            if (failedResponse.human_readable) {
+                displayRecommenderError(failedResponse.error);
+                return;
+            }
             throw new Error(`API error: ${response.statusText}`);
         }
 

@@ -6,7 +6,6 @@ from django.conf import settings
 from django.contrib.auth.decorators import permission_required
 from django.db.models import Case, IntegerField, Q, When
 from django.http import HttpRequest, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 
 from decks.deck_utils import card_code_from_reference, family_code_from_reference
 from decks.game_modes import StandardGameMode
@@ -36,15 +35,27 @@ def get_next_card(request: HttpRequest) -> JsonResponse:
             model = RecommenderHelper.load_model(faction)
             if not model:
                 return JsonResponse(
-                    {"error": "Model for this faction is not available"},
+                    {
+                        "error": "Model for this faction is not available. No recommendations can be given.",
+                        "human_readable": True,
+                    },
                     status=HTTPStatus.NOT_FOUND,
                 )
 
             # Prepare to query the model
             RecommenderHelper.build_card_pool()
-            deck_vector = RecommenderHelper.generate_vector_for_deck(
-                cards=decklist, faction=faction, hero=hero
-            )
+            try:
+                deck_vector = RecommenderHelper.generate_vector_for_deck(
+                    cards=decklist, faction=faction, hero=hero
+                )
+            except ValueError:
+                return JsonResponse(
+                    {
+                        "error": "The deck contains an unexpected card.",
+                        "human_readable": True,
+                    },
+                    status=HTTPStatus.BAD_REQUEST,
+                )
 
             # Obtain recommendations
             recommended_cards = RecommenderHelper.get_recommended_cards(
@@ -105,7 +116,8 @@ def get_next_card(request: HttpRequest) -> JsonResponse:
 
         except json.JSONDecodeError:
             return JsonResponse(
-                {"error": "Invalid JSON data"}, status=HTTPStatus.BAD_REQUEST
+                {"error": "Invalid JSON data", "human_readable": False},
+                status=HTTPStatus.BAD_REQUEST,
             )
         except Exception as e:
             if settings.DEBUG:
@@ -115,6 +127,6 @@ def get_next_card(request: HttpRequest) -> JsonResponse:
             )
     else:
         return JsonResponse(
-            {"error": "Only POST requests are allowed"},
+            {"error": "Only POST requests are allowed", "human_readable": False},
             status=HTTPStatus.METHOD_NOT_ALLOWED,
         )
