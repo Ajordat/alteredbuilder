@@ -37,7 +37,7 @@ class DecksModelsTestCase(TestCase):
             short_name=cls.SET_CODE,
             code=cls.SET_CODE,
             reference_code=cls.SET_CODE,
-            release_date=datetime.today()
+            release_date=datetime.today(),
         )
         Subtype.objects.create(
             reference=cls.SUBTYPE_REFERENCE, name=cls.SUBTYPE_REFERENCE

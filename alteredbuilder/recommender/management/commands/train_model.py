@@ -48,7 +48,9 @@ class Command(BaseCommand):
     def add_arguments(self, parser: ArgumentParser):
         parser.add_argument("--refresh-data", action="store_true")
         parser.add_argument("--faction", action="store")
-        parser.add_argument("model", choices=[model.name.lower() for model in ModelType])
+        parser.add_argument(
+            "model", choices=[model.name.lower() for model in ModelType]
+        )
 
     def handle(self, *args: Any, **options: Any) -> None:
 
@@ -208,7 +210,7 @@ class Command(BaseCommand):
                 class_weight="balanced",
                 n_jobs=-1,
                 random_state=42,
-                verbosity=-1
+                verbosity=-1,
             )
         elif model_type == ModelType.LIGHT_GBM_TUNED:
             base_model = LGBMClassifier(
@@ -222,7 +224,7 @@ class Command(BaseCommand):
                 colsample_bytree=0.8,
                 n_jobs=-1,
                 random_state=42,
-                verbosity=-1
+                verbosity=-1,
             )
         elif model_type == ModelType.XGBOOST:
             base_model = XGBClassifier(
@@ -245,7 +247,7 @@ class Command(BaseCommand):
                 colsample_bytree=0.8,
                 reg_alpha=0.1,
                 reg_lambda=1.0,
-                n_jobs=-1
+                n_jobs=-1,
             )
         else:
             raise CommandError(f"Unsupported model type: {model_type}")

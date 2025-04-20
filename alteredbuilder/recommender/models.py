@@ -52,9 +52,7 @@ class TrainedModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        permissions = [
-            ("can_use_recommender", "Can use deck recommender")
-        ]
+        permissions = [("can_use_recommender", "Can use deck recommender")]
 
     def __str__(self) -> str:
         return f"Model for {self.faction} trained from {self.period_start} to {self.period_end}"
