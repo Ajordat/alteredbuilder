@@ -7,9 +7,15 @@ from decks.models import Card
 register = template.Library()
 
 
+# TODO: Separate common tags into their own templatetags file
 @register.simple_tag
 def dict_get(d: dict, key: Any, default: Any) -> Any:
     return d.get(key, default)
+
+
+@register.simple_tag
+def subtract(minuend: Any, subtrahend: Any) -> Any:
+    return minuend - subtrahend
 
 
 @register.simple_tag

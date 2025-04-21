@@ -4,6 +4,8 @@ from django.db import models
 
 from decks.models import Card, Deck
 
+EXTERNAL_DECK_URL_39CARDS = "https://39cards.com/tr/{}/p/{}"
+
 
 # Create your models here.
 class Tournament(models.Model):
@@ -15,7 +17,7 @@ class Tournament(models.Model):
 
 
 class TournamentDeck(models.Model):
-    remote_id = models.IntegerField()
+    player_id = models.IntegerField()
     player = models.CharField()
     tournament = models.ForeignKey(Tournament, null=True, on_delete=models.CASCADE)
     placement = models.IntegerField()
@@ -38,6 +40,11 @@ class TournamentDeck(models.Model):
             card_map[card_code] += cid.quantity
         t_deck.cards = card_map
         return t_deck
+
+    def get_absolute_url(self):
+        return EXTERNAL_DECK_URL_39CARDS.format(
+            self.tournament.remote_id, self.player_id
+        )
 
 
 class TrainedModel(models.Model):

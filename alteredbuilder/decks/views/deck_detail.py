@@ -55,7 +55,7 @@ class DeckDetailView(HitCountDetailView):
         )
         return (
             qs.filter(filter)
-            .select_related("hero", "owner", "owner__profile")
+            .select_related("hero", "owner", "owner__profile", "copies_from")
             .prefetch_related("tags")
         )
 
@@ -65,6 +65,7 @@ class DeckDetailView(HitCountDetailView):
         Returns:
             dict[str, Any]: The view's context.
         """
+        self.object: Deck
 
         context = super().get_context_data(**kwargs)
         context |= get_deck_details(self.object)
@@ -82,6 +83,7 @@ class DeckDetailView(HitCountDetailView):
         comments_qs = Comment.objects.filter(deck=self.object).select_related(
             "user", "user__profile"
         )
+        inspirations_filter = Q(target_deck__is_public=True)
         if self.request.user.is_authenticated:
             comments_qs = comments_qs.annotate(
                 is_upvoted=Exists(
@@ -90,7 +92,16 @@ class DeckDetailView(HitCountDetailView):
                     )
                 )
             )
+            inspirations_filter |= Q(target_deck__owner=self.request.user)
         context["comments"] = comments_qs
+
+        context["inspirations"] = [
+            deck.target_deck
+            for deck in self.object.copies_to.filter(
+                inspirations_filter
+            ).select_related("target_deck__owner")
+        ]
+
         return context
 
 

@@ -131,6 +131,7 @@ class="container py-4"
                                 </div>
                             </div>
                         </div>
+                        <input id="{{ form.copy_of.auto_id }}" type="hidden" name="{{ form.copy_of.name }}" value="{{ form.copy_of.value }}">
 
                         <button id="submit-new-deck" type="submit" class="btn altered-style">{% translate "Import" %}</button>
                     </form>

@@ -12,6 +12,7 @@ from decks.models import (
     Comment,
     CommentVote,
     Deck,
+    DeckCopy,
     FavoriteCard,
     LovePoint,
     PrivateLink,
@@ -53,11 +54,38 @@ class ReadOnlyAdminMixin(object):
         pass
 
 
+class HeroFilter(admin.SimpleListFilter):
+    title = "Hero"
+    parameter_name = "hero"
+
+    def lookups(self, request, model_admin):
+        filter = [
+            (card.name_en, card.name_en)
+            for card in Card.objects.filter(
+                type=Card.Type.HERO, set__code="COREKS"
+            ).exclude(is_promo=True)
+        ]
+        return filter
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(hero__name_en=self.value())
+        return queryset
+
+
 @admin.register(Deck)
 class DeckAdmin(admin.ModelAdmin):
-    list_display = ["id", "owner", "name", "is_public", "modified_at", "created_at"]
+    list_display = [
+        "id",
+        "owner",
+        "name",
+        "hero_name",
+        "is_public",
+        "modified_at",
+        "created_at",
+    ]
     search_fields = ["id", "name", "owner__username"]
-    list_filter = ["is_public"]
+    list_filter = ["is_public", HeroFilter]
     list_display_links = ["id", "name"]
     show_facets = admin.ShowFacets.ALWAYS
     readonly_fields = [
@@ -105,6 +133,13 @@ class DeckAdmin(admin.ModelAdmin):
         ),
     ]
     actions = ["make_public", "make_private", "change_deck_owner"]
+
+    def hero_name(self, deck: Deck):
+        if deck.hero:
+            return deck.hero.name
+        return "-"
+
+    hero_name.short_description = "Hero"
 
     @admin.action(description="Mark selected Decks as public")
     def make_public(self, request, queryset):
@@ -302,3 +337,8 @@ class TagAdmin(admin.ModelAdmin):
 class FavoriteCardAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
     list_display = ["__str__"]
     search_fields = ["user", "card"]
+
+
+@admin.register(DeckCopy)
+class DeckCopyAdmin(admin.ModelAdmin):
+    pass

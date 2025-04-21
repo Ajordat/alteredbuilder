@@ -150,7 +150,7 @@
             </div>
             <div class="ms-2">
                 <!-- Copy Deck button-->
-                <a type="button" class="btn altered-style btn-sm" href="{% url 'new-deck' %}?decklist={{ decklist|urlencode }}">
+                <a type="button" class="btn altered-style btn-sm" href="{% url 'new-deck' %}?decklist={{ decklist|urlencode }}&source={{ deck.id }}">
                     <i class="fa-solid fa-copy"></i>
                 </a>
             </div>
@@ -434,7 +434,60 @@
         <div class="col-12 col-xl-4 col-md-8">
             <!-- Mana curve bar chart -->
             <h5>{% translate "Mana curve" %}</h5>
-            <div id="mana-curve-chart" class="mt-4"></div>
+            <div id="mana-curve-chart" class="my-4"></div>
+
+    {% with source_deck=deck.copies_from.source_deck %}
+        {% if source_deck and source_deck.is_public %}
+            <!-- Mana curve bar chart -->
+            <h5>{% translate "Inspired by" %}</h5>
+
+            <table class="table table-striped table-sm mb-5" id="inspired-by-table" aria-describedby="Inspired by deck">
+                <thead>
+                    <tr>
+                        <th scope="col" class="w-25">{% translate "Creator" %}</th>
+                        <th scope="col">{% translate "Name" %}</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr>
+                        <td>{{ source_deck.owner }}</td>
+                        <td><a href="{{ source_deck.get_absolute_url }}">{{ source_deck.name }}</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        {% endif %}
+    {% endwith %}
+
+    {% if deck.copy_count %}
+            <!-- Mana curve bar chart -->
+            <h5>{% translate "Inspired decks" %}</h5>
+            <table class="table table-striped table-sm mb-5" id="inspired-by-table" aria-describedby="Inspired decks">
+                <thead>
+                    <tr>
+                        <th scope="col" class="w-25">{% translate "Creator" %}</th>
+                        <th scope="col">{% translate "Name" %}</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+        {% for copied_deck in inspirations %}
+                    <tr>
+                        <td>{{ copied_deck.owner }}</td>
+                        <td><a href="{{ copied_deck.get_absolute_url }}">{{ copied_deck.name }}</a></td>
+                    </tr>
+            {% if forloop.last and forloop.counter < deck.copy_count %}
+                    {% subtract deck.copy_count forloop.counter as missing_deck_count %}
+                    <tr>
+                        <td colspan="2" class="text-center"><small>{% blocktranslate count count=missing_deck_count %}and 1 private deck{% plural %}and {{ count }} private decks{% endblocktranslate %}</small></td>
+                    </tr>
+            {% endif %}
+        {% empty %}
+                    <tr>
+                        <td colspan="2" class="text-center"><small>{% blocktranslate count count=deck.copy_count %}1 private deck{% plural %}{{ deck.copy_count }} private decks{% endblocktranslate %}</small></td>
+                    </tr>
+        {% endfor %}
+                </tbody>
+            </table>
+    {% endif %}
         </div>
     </div>
     <!-- Simple toast -->

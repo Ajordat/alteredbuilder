@@ -218,6 +218,7 @@ class Deck(models.Model, HitCountMixin):
 
     love_count = models.PositiveIntegerField(default=0)
     comment_count = models.PositiveIntegerField(default=0)
+    copy_count = models.PositiveIntegerField(default=0)
     hit_count_generic = GenericRelation(
         HitCount,
         object_id_field="object_pk",
@@ -311,3 +312,15 @@ class FavoriteCard(models.Model):
 
     class Meta:
         unique_together = ("user", "card")
+
+
+class DeckCopy(models.Model):
+    target_deck = models.OneToOneField(
+        Deck, on_delete=models.CASCADE, related_name="copies_from"
+    )
+    source_deck = models.ForeignKey(
+        Deck, on_delete=models.CASCADE, null=True, blank=True, related_name="copies_to"
+    )
+    source_tournament_deck = models.ForeignKey(
+        "recommender.TournamentDeck", on_delete=models.CASCADE, null=True, blank=True
+    )

@@ -13,7 +13,7 @@ from django.views.generic.edit import FormView
 
 from api.utils import ApiJsonResponse
 from decks.deck_utils import create_new_deck, import_unique_card
-from decks.models import Card, FavoriteCard
+from decks.models import Card, DeckCopy, FavoriteCard
 from decks.forms import CardImportForm, DecklistForm
 from decks.exceptions import AlteredAPIError, CardAlreadyExists, MalformedDeckException
 
@@ -38,6 +38,8 @@ class NewDeckFormView(LoginRequiredMixin, FormView):
         elif "hero" in self.request.GET:
             initial["decklist"] = f"1 {self.request.GET['hero']}"
 
+        initial["copy_of"] = self.request.GET.get("source")
+
         return initial
 
     def form_valid(self, form: DecklistForm) -> HttpResponse:
@@ -53,7 +55,12 @@ class NewDeckFormView(LoginRequiredMixin, FormView):
         """
         # Create deck
         try:
-            self.deck = create_new_deck(self.request.user, form.cleaned_data)
+            data = form.cleaned_data
+            self.deck = create_new_deck(self.request.user, data)
+            if data["copy_of"]:
+                DeckCopy.objects.create(
+                    source_deck_id=data["copy_of"], target_deck=self.deck
+                )
 
         except MalformedDeckException as e:
             # If the deck contains any error, render it to the user
