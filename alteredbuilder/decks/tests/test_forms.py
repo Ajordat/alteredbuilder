@@ -67,14 +67,14 @@ class CreateDeckFormTestCase(BaseFormTestCase):
         response = self.client.get(reverse("new-deck") + f"?decklist={initial_value}")
 
         self.assertDictEqual(
-            response.context["form"].initial, {"decklist": initial_value}
+            response.context["form"].initial, {"decklist": initial_value, "copy_of": None}
         )
 
         # Test the `hero` parameter
         response = self.client.get(reverse("new-deck") + f"?hero={initial_value}")
 
         self.assertDictEqual(
-            response.context["form"].initial, {"decklist": f"1 {initial_value}"}
+            response.context["form"].initial, {"decklist": f"1 {initial_value}", "copy_of": None}
         )
 
     def test_valid_deck_authenticated(self):
