@@ -436,8 +436,7 @@
             <h5>{% translate "Mana curve" %}</h5>
             <div id="mana-curve-chart" class="my-4"></div>
 
-    {% with source_deck=deck.copies_from.source_deck %}
-        {% if source_deck and source_deck.is_public %}
+    {% if inspiration %}
             <!-- Mana curve bar chart -->
             <h5>{% translate "Inspired by" %}</h5>
 
@@ -450,13 +449,12 @@
                 </thead>
                 <tbody class="table-group-divider">
                     <tr>
-                        <td>{{ source_deck.owner }}</td>
-                        <td><a href="{{ source_deck.get_absolute_url }}">{{ source_deck.name }}</a></td>
+                        <td>{{ inspiration.owner }}</td>
+                        <td><a href="{{ inspiration.get_absolute_url }}">{{ inspiration.name }}</a></td>
                     </tr>
                 </tbody>
             </table>
-        {% endif %}
-    {% endwith %}
+    {% endif %}
 
     {% if deck.copy_count %}
             <!-- Mana curve bar chart -->

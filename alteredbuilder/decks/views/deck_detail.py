@@ -95,6 +95,11 @@ class DeckDetailView(HitCountDetailView):
             inspirations_filter |= Q(target_deck__owner=self.request.user)
         context["comments"] = comments_qs
 
+        if hasattr(self.object, "copies_from"):
+            inspiration = self.object.copies_from.source_deck
+            if inspiration.is_public or self.request.user.is_authenticated and inspiration.owner == self.request.user:
+                context["inspiration"] = inspiration
+
         context["inspirations"] = [
             deck.target_deck
             for deck in self.object.copies_to.filter(
