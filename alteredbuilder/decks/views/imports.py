@@ -38,7 +38,7 @@ class NewDeckFormView(LoginRequiredMixin, FormView):
         elif "hero" in self.request.GET:
             initial["decklist"] = f"1 {self.request.GET['hero']}"
 
-        initial["copy_of"] = self.request.GET.get("source")
+        initial["copy_of"] = self.request.GET.get("source", "")
 
         return initial
 
