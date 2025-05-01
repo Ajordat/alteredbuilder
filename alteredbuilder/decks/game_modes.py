@@ -36,19 +36,29 @@ class GameMode(ABC):
         """
         error_list = []
 
-        if cls.MIN_FACTION_COUNT and (kwargs["faction_count"] < cls.MIN_FACTION_COUNT):
+        if cls.MIN_FACTION_COUNT is not None and (
+            kwargs["faction_count"] < cls.MIN_FACTION_COUNT
+        ):
             error_list.append(cls.ErrorCode.ERR_MISSING_FACTION_COUNT)
-        if cls.MAX_FACTION_COUNT and (kwargs["faction_count"] > cls.MAX_FACTION_COUNT):
+        if cls.MAX_FACTION_COUNT is not None and (
+            kwargs["faction_count"] > cls.MAX_FACTION_COUNT
+        ):
             error_list.append(cls.ErrorCode.ERR_EXCEED_FACTION_COUNT)
-        if cls.MIN_TOTAL_COUNT and (kwargs["total_count"] < cls.MIN_TOTAL_COUNT):
+        if cls.MIN_TOTAL_COUNT is not None and (
+            kwargs["total_count"] < cls.MIN_TOTAL_COUNT
+        ):
             error_list.append(cls.ErrorCode.ERR_NOT_ENOUGH_CARD_COUNT)
-        if cls.MAX_RARE_COUNT and (kwargs["rare_count"] > cls.MAX_RARE_COUNT):
+        if cls.MAX_RARE_COUNT is not None and (
+            kwargs["rare_count"] > cls.MAX_RARE_COUNT
+        ):
             error_list.append(cls.ErrorCode.ERR_EXCEED_RARE_COUNT)
-        if cls.MAX_UNIQUE_COUNT and (kwargs["unique_count"] > cls.MAX_UNIQUE_COUNT):
+        if cls.MAX_UNIQUE_COUNT is not None and (
+            kwargs["unique_count"] > cls.MAX_UNIQUE_COUNT
+        ):
             error_list.append(cls.ErrorCode.ERR_EXCEED_UNIQUE_COUNT)
         if cls.ENFORCE_INDIVIDUAL_UNIQUES and kwargs["repeats_same_unique"]:
             error_list.append(cls.ErrorCode.ERR_UNIQUE_IS_REPEATED)
-        if cls.MAX_SAME_FAMILY_CARD_COUNT and (
+        if cls.MAX_SAME_FAMILY_CARD_COUNT is not None and (
             max(kwargs["family_count"].values(), default=0)
             > cls.MAX_SAME_FAMILY_CARD_COUNT
         ):
@@ -248,6 +258,7 @@ def update_deck_legality(deck: Deck) -> None:
     deck.draft_legality_errors = error_list
 
     has_errors = ExaltsChampionship.validate(**data)
+    print(has_errors)
     deck.is_exalts_legal = not has_errors
 
     has_errors = Doubles.validate(**data)
