@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.http import HttpRequest
 from django.template.response import TemplateResponse
+from django.utils.html import format_html
 
 from decks.forms import ChangeDeckOwnerForm
 from decks.models import (
@@ -335,10 +336,18 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(FavoriteCard)
 class FavoriteCardAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
-    list_display = ["__str__"]
     search_fields = ["user", "card"]
 
 
 @admin.register(DeckCopy)
-class DeckCopyAdmin(admin.ModelAdmin):
-    pass
+class DeckCopyAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
+    list_display = ["__str__", "description"]
+
+    def description(self, obj: DeckCopy):
+        return format_html(
+            '<a href="{}" target="_blank">{}</a> -> <a href="{}" target="_blank">{}</a>',
+            obj.source_deck.get_absolute_url(),
+            obj.source_deck.name,
+            obj.target_deck.get_absolute_url(),
+            obj.target_deck.name,
+        )
