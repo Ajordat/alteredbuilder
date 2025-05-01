@@ -5,11 +5,12 @@ const chartBackgroundColor = "#212529";
 const chartTextColor = "white";
 
 google.charts.load('current', { 'packages': ['corechart', 'bar'] });
-google.charts.setOnLoadCallback(drawChart);
+google.charts.setOnLoadCallback(drawTypeChart);
+google.charts.setOnLoadCallback(drawPowerChart);
 google.charts.setOnLoadCallback(drawStats);
 google.charts.setOnLoadCallback(drawManaCurve);
 
-function drawChart() {
+function drawTypeChart() {
     // Draw the card type distribution in a pie chart
     let chartElement = document.getElementById('distribution-pie-chart');
     let deckStatsI18n = {};
@@ -25,14 +26,61 @@ function drawChart() {
         backgroundColor: "transparent",
         chartArea: {
             left: "25%",
-            top: 0,
+            top: "4%",
             width: "100%",
-            height: "100%"
+            height: "92%"
         },
         slices: [
             { color: "#3F9B0B" },
             { color: "#CD853F" },
             { color: "#D4A017" },
+        ],
+        fontName: "Gabriela"
+    };
+
+    if (document.documentElement.getAttribute("data-bs-theme") === "dark") {
+        options["legend"] = {
+            textStyle: {
+                color: chartTextColor
+            }
+        };
+    }
+
+    let chart = new google.visualization.PieChart(chartElement);
+
+    chart.draw(data, options);
+}
+
+function drawPowerChart() {
+    // Draw the card type distribution in a pie chart
+    let chartElement = document.getElementById('power-distribution-pie-chart');
+    let deckStatsI18n = {};
+    deckStatsI18n[gettext("forest")] = deckStats["region_distribution"]["forest"];
+    deckStatsI18n[gettext("mountain")] = deckStats["region_distribution"]["mountain"];
+    deckStatsI18n[gettext("ocean")] = deckStats["region_distribution"]["ocean"];
+
+    let totalPower = Object.values(deckStatsI18n).reduce((sum, val) => sum + val, 0);
+    if (totalPower == 0) {
+        document.getElementById('power-distribution-container').classList.add("d-none");
+    }
+
+    let data = google.visualization.arrayToDataTable(
+        [['Region', 'Power']].concat(Object.entries(deckStatsI18n))
+    );
+
+    let options = {
+        backgroundColor: "transparent",
+        pieSliceText: "value",
+        chartArea: {
+            left: "25%",
+            top: "4%",
+            width: "100%",
+            height: "92%"
+        },
+        slices: [
+            { color: "#91b14e" },
+            { color: "#c17e51" },
+            { color: "#6075a4" },
         ],
         fontName: "Gabriela"
     };

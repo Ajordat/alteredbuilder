@@ -135,6 +135,7 @@ def get_deck_details(deck: Deck) -> dict:
     hand_counter = defaultdict(int)
     recall_counter = defaultdict(int)
     rarity_counter = defaultdict(int)
+    power_counter = defaultdict(int)
 
     # This dictionary will hold all metadata based on the card's type by using the
     # type as a key
@@ -155,6 +156,9 @@ def get_deck_details(deck: Deck) -> dict:
         recall_counter[cid.card.stats["recall_cost"]] += cid.quantity
         # Count the amount of cards with the same rarity
         rarity_counter[cid.card.rarity] += cid.quantity
+        power_counter["forest"] += cid.card.stats.get("forest_power", 0)
+        power_counter["mountain"] += cid.card.stats.get("mountain_power", 0)
+        power_counter["ocean"] += cid.card.stats.get("ocean_power", 0)
 
     decklist_text = f"1 {deck.hero.reference}\n" if deck.hero else ""
     decklist_text += "\n".join(
@@ -186,6 +190,7 @@ def get_deck_details(deck: Deck) -> dict:
                 "rare": rarity_counter[Card.Rarity.RARE],
                 "unique": rarity_counter[Card.Rarity.UNIQUE],
             },
+            "region_distribution": power_counter
         },
         "legality": {
             "standard": {
