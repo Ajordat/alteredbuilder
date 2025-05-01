@@ -97,7 +97,11 @@ class DeckDetailView(HitCountDetailView):
 
         if hasattr(self.object, "copies_from"):
             inspiration = self.object.copies_from.source_deck
-            if inspiration.is_public or self.request.user.is_authenticated and inspiration.owner == self.request.user:
+            if (
+                inspiration.is_public
+                or self.request.user.is_authenticated
+                and inspiration.owner == self.request.user
+            ):
                 context["inspiration"] = inspiration
 
         context["inspirations"] = [

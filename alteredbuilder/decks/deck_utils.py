@@ -190,7 +190,7 @@ def get_deck_details(deck: Deck) -> dict:
                 "rare": rarity_counter[Card.Rarity.RARE],
                 "unique": rarity_counter[Card.Rarity.UNIQUE],
             },
-            "region_distribution": power_counter
+            "region_distribution": power_counter,
         },
         "legality": {
             "standard": {
