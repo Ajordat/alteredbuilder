@@ -4,7 +4,7 @@ import re
 
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.db import transaction
+from django.db import IntegrityError, transaction
 from django.db.models import Exists, F, OuterRef, Q
 from django.db.models.query import QuerySet
 from django.utils.translation import activate, gettext_lazy as _
@@ -419,7 +419,22 @@ def import_unique_card(reference: str) -> Card:  # pragma: no cover
             card.image_url = card_data["imagePath"]
 
     with transaction.atomic():
-        card.save()
+        try:
+            card.save()
+        except IntegrityError as e:
+            if (
+                'duplicate key value violates unique constraint "decks_card_pkey"'
+                in str(e)
+            ):
+                # This can happen if the user attempts to import a deck and submits
+                # another import with the same unique card while it hasn't been fully
+                # imported.
+                # I could use `get_or_create` but that would imply dealing with the
+                # i18n attributes of the Card table, which I don't fancy.
+                print("Duplicate primary key detected. Skip the commit into the db.")
+                return Card.objects.get(reference=card.reference)
+            else:
+                raise
         card.subtypes.add(*og_card.subtypes.all())
 
     return card
