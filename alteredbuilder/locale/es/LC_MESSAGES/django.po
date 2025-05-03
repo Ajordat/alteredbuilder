@@ -8,20 +8,20 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-04-18 19:03+0200\n"
-"PO-Revision-Date: 2025-02-02 23:33+0000\n"
-"Last-Translator: Deleted User <noreply+48943@weblate.org>\n"
-"Language-Team: Spanish <https://hosted.weblate.org/projects/altered-tcg-"
-"builder/server-strings/es/>\n"
+"PO-Revision-Date: 2025-04-21 10:44+0000\n"
+"Last-Translator: Ajordat <alexjortri@gmail.com>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/"
+"altered-tcg-builder/server-strings/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10-dev\n"
+"X-Generator: Weblate 5.11.1-dev\n"
 
 #: api/utils.py:20 decks/views/deck_metadata.py:105
 msgid "Invalid payload"
-msgstr "Mensaje inválido"
+msgstr "Mensaje malformado"
 
 #: api/utils.py:23 api/utils.py:25 decks/views/deck_detail.py:155
 msgid "Invalid request"
@@ -54,10 +54,9 @@ msgid "Failed to unpack '%(line)s'"
 msgstr "No se puede interpretar '%(line)s'"
 
 #: decks/deck_utils.py:100
-#, fuzzy, python-format
-#| msgid "Card '%(reference)s' does not exist"
+#, python-format
 msgid "Card '%(reference)s' wasn't found and couldn't be imported"
-msgstr "La carta '%(reference)s' no existe"
+msgstr "No se ha encontrado la carta '%(reference)s' y no se ha podido importar"
 
 #: decks/deck_utils.py:111
 msgid "Multiple heroes present in the decklist"
@@ -173,7 +172,7 @@ msgstr "No llega al mínimo de factiones necesario (%(count)s)"
 
 #: decks/game_modes.py:124 decks/migrations/0073_force_update_legality.py:123
 msgid "Contains a banned card"
-msgstr ""
+msgstr "Contiene una carta prohibida"
 
 #: decks/templates/decks/card_list.html:8
 #: decks/templates/decks/card_list.html:38
@@ -309,7 +308,7 @@ msgstr "Coste de Reserva DESC"
 
 #: decks/templates/decks/card_list.html:155
 msgid "Magic"
-msgstr ""
+msgstr "Magia"
 
 #: decks/templates/decks/card_list.html:169
 msgid "No cards found with the current filter."
@@ -528,18 +527,18 @@ msgid "Close"
 msgstr "Cerrar"
 
 #: decks/templates/decks/card_list.html:352
-#, fuzzy
-#| msgid "Card Reference"
 msgid "Card recommender"
-msgstr "Referencia de la carta"
+msgstr "Recomendador de cartas"
 
 #: decks/templates/decks/card_list.html:358
 msgid "Hi! Start your deck by selecting a hero and adding some cards!"
 msgstr ""
+"¡Hola! ¡Empieza con tu mazo seleccionando un héroe y añadiendo algunas "
+"cartas!"
 
 #: decks/templates/decks/card_list.html:361
 msgid "Thinking about your deck..."
-msgstr ""
+msgstr "Pensando sobre tu mazo..."
 
 #: decks/templates/decks/collection.html:13
 #: decks/templates/decks/tooltips/import_collection.html:9
@@ -1041,12 +1040,13 @@ msgid ""
 "href=\"%(cards_tab_url)s\">Build</a>' tab by using an advanced filter with "
 "the card's reference. For example:"
 msgstr ""
+"Puedes buscar por cualquier carta importada en la pestaña '<a href="
+"\"%(cards_tab_url)s\">Crear</a>' y usando un filtro avanzado con la "
+"referencia de la carta. Por ejemplo:"
 
 #: decks/templates/decks/legality_changelog.html:25
-#, fuzzy
-#| msgid "Legality"
 msgid "Deck Legality"
-msgstr "Legalidad"
+msgstr "Legalidad de los mazos"
 
 #: decks/templates/decks/legality_changelog.html:27
 msgid ""
@@ -1055,6 +1055,10 @@ msgid ""
 "abilities adjusted. Whether you're a competitive player or a casual deck "
 "builder, knowing which cards are allowed in official formats is essential."
 msgstr ""
+"Mantente al día con los últimos cambios sobre la legalidad de las cartas. "
+"Esta sección provee información de las cartas que se han suspendido, o han "
+"sido ajustadas. Ya seas un jugador competitivo o casual, saber qué cartas "
+"son legales en los formatos oficiales es esencial."
 
 #: decks/templates/decks/legality_changelog.html:30
 msgid ""
@@ -1062,43 +1066,43 @@ msgid ""
 "season-patch\" target=\"_blank\">Trial by Frost Season Patch</a>) to "
 "understand the reasoning behind banning or suspending cards."
 msgstr ""
+"Lee este artículo (<a href="
+"\"https://www.altered.gg/news/trial-by-frost-season-patch\" target=\"_blank\""
+">Trial by Frost Season Patch</a>) para entender el razonamiento tras "
+"prohibir o suspender una carta."
 
 #: decks/templates/decks/legality_changelog.html:33
 #, python-format
 msgid "Last updated: %(last_update_date)s"
-msgstr ""
+msgstr "Última actualización: %(last_update_date)s"
 
 #: decks/templates/decks/legality_changelog.html:44
 msgid "Season Patches"
-msgstr ""
+msgstr "Parches de temporada"
 
 #: decks/templates/decks/legality_changelog.html:52
 msgid "Article:"
-msgstr ""
+msgstr "Artículo:"
 
 #: decks/templates/decks/legality_changelog.html:54
-#, fuzzy
-#| msgid "Announcements:"
 msgid "Announcement date:"
-msgstr "Novedades:"
+msgstr "Fecha de anuncio:"
 
 #: decks/templates/decks/legality_changelog.html:59
 msgid "Erratas"
-msgstr ""
+msgstr "Erratas"
 
 #: decks/templates/decks/legality_changelog.html:65
 msgid "Previous:"
-msgstr ""
+msgstr "Anterior:"
 
 #: decks/templates/decks/legality_changelog.html:67
-#, fuzzy
-#| msgid "Update password"
 msgid "Updated:"
-msgstr "Actualizar contraseña"
+msgstr "Actualización:"
 
 #: decks/templates/decks/legality_changelog.html:76
 msgid "Suspensions"
-msgstr ""
+msgstr "Suspensiones"
 
 #: decks/templates/decks/new_deck.html:6 decks/templates/decks/new_deck.html:7
 msgid "New Deck"
@@ -1979,10 +1983,8 @@ msgid ""
 "make an impact. You can help us by:"
 msgstr ""
 "¿Eres desarrollador, diseñador o alguien apasionado por mejorar las "
-"herramientas para la comunidad?\n"
-"Contribuir a nuestro proyecto de código abierto es una gran manera de crear "
-"un impacto. \n"
-"Puede ayudarnos:"
+"herramientas para la comunidad? Contribuir a nuestro proyecto de código "
+"abierto es una gran manera de crear un impacto. Puedes ayudarnos:"
 
 #: templates/contribute.html:63
 msgid "Building new features to make the platform even better."
