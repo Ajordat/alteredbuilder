@@ -9,6 +9,13 @@ services:
     - POSTGRES_DB=${POSTGRES_DB}
     - POSTGRES_USER=${POSTGRES_USER}
     - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $POSTGRES_DB -U $POSTGRES_USER"]
+      interval: 60s
+      timeout: 5s
+      retries: 5
+      start_period: 2s
+      start_interval: 3s
   web:
     build: ./alteredbuilder
     command: python manage.py runserver 0.0.0.0:8000
@@ -19,7 +26,8 @@ services:
     env_file:
     - .env
     depends_on:
-    - db
+      db:
+        condition: service_healthy
     restart: on-failure
     deploy:
       resources:
