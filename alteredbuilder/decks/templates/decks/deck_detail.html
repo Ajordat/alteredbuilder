@@ -182,7 +182,7 @@
             <!-- Card display -->
             <!-- It will show the first image available in this order: hero, characters, spells, permanents -->
             {% firstof deck.hero.image_url character_list.0.1.image_url spell_list.0.1.image_url permanent_list.0.1.image_url "" as display_image %}
-            <img class="img-fluid rounded-4" id="card-showcase" src="{% cdn_image_url display_image %}">
+            <img class="img-fluid rounded-4" id="card-showcase" src="{% cdn_image_url display_image %}" style="box-shadow: 0 0 12px var(--deck-display-shadow);">
         </div>
 
         <div class="col card-display-view d-none">
@@ -290,7 +290,6 @@
             {% include "decks/snippets/card_table.html" with type="character" card_list=character_list %}
         </div>
     </div>
-
 
     <div class="row mt-4">
         <!-- Stats row -->
