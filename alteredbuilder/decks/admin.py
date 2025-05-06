@@ -55,25 +55,6 @@ class ReadOnlyAdminMixin(object):
         pass
 
 
-class HeroFilter(admin.SimpleListFilter):
-    title = "Hero"
-    parameter_name = "hero"
-
-    def lookups(self, request, model_admin):
-        filter = [
-            (card.name_en, card.name_en)
-            for card in Card.objects.filter(
-                type=Card.Type.HERO, set__code="COREKS"
-            ).exclude(is_promo=True)
-        ]
-        return filter
-
-    def queryset(self, request, queryset):
-        if self.value():
-            return queryset.filter(hero__name_en=self.value())
-        return queryset
-
-
 @admin.register(Deck)
 class DeckAdmin(admin.ModelAdmin):
     list_display = [
@@ -86,7 +67,7 @@ class DeckAdmin(admin.ModelAdmin):
         "created_at",
     ]
     search_fields = ["id", "name", "owner__username"]
-    list_filter = ["is_public", HeroFilter]
+    list_filter = ["is_public", "hero__faction", ("hero", admin.RelatedOnlyFieldListFilter)]
     list_display_links = ["id", "name"]
     show_facets = admin.ShowFacets.ALWAYS
     readonly_fields = [
