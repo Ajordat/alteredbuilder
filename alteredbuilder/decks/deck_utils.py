@@ -175,9 +175,9 @@ def get_deck_details(deck: Deck) -> dict:
         recall_counter[cid.card.stats["recall_cost"]] += cid.quantity
         # Count the amount of cards with the same rarity
         rarity_counter[cid.card.rarity] += cid.quantity
-        power_counter["forest"] += cid.card.stats.get("forest_power", 0)
-        power_counter["mountain"] += cid.card.stats.get("mountain_power", 0)
-        power_counter["ocean"] += cid.card.stats.get("ocean_power", 0)
+        power_counter["forest"] += cid.card.stats.get("forest_power", 0) * cid.quantity
+        power_counter["mountain"] += cid.card.stats.get("mountain_power", 0) * cid.quantity
+        power_counter["ocean"] += cid.card.stats.get("ocean_power", 0) * cid.quantity
 
     decklist_text = f"1 {deck.hero.reference}\n" if deck.hero else ""
     decklist_text += "\n".join(
