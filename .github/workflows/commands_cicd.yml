@@ -30,6 +30,7 @@ jobs:
         - calculate_deck_legality
         - generate_trends
         - train_model
+        - update_card_prices
     steps:
     - name: Checkout
       uses: actions/checkout@v4
