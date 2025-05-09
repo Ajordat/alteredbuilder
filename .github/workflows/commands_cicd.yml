@@ -49,6 +49,9 @@ jobs:
         region: ${{ vars.REGION }}
         job: ${{ steps.vars.outputs.name }}
         image: ${{ secrets.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
+        env_vars: |-
+          SECRET_KEY=${{ secrets.SECRET_KEY }}
+        env_vars_update_strategy: merge
         flags: |
           --command=python
           --args manage.py,${{ matrix.command }}
