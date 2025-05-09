@@ -54,6 +54,9 @@
             <div class="me-3 d-none d-sm-inline">
                 <span><i class="fa-solid fa-eye"></i> {{ deck.hit_count_generic.first.hits }}</span>
             </div>
+            <div class="me-3 d-none d-sm-inline">
+                <span><i class="fa-solid fa-money-bill-wave"></i>&nbsp;<span id="deck-price-tag"></span>€</span>
+            </div>
             <div class="me-3">
     {% if user.is_authenticated %}
                 <!-- Love count and button -->
@@ -181,8 +184,16 @@
         <div class="col-12 col-sm-6 col-lg-4 col-xl-3 sticky-column justify-content-center">
             <!-- Card display -->
             <!-- It will show the first image available in this order: hero, characters, spells, permanents -->
-            {% firstof deck.hero.image_url character_list.0.1.image_url spell_list.0.1.image_url permanent_list.0.1.image_url "" as display_image %}
-            <img class="img-fluid rounded-4" id="card-showcase" src="{% cdn_image_url display_image %}" style="box-shadow: 0 0 12px var(--deck-display-shadow);">
+            {% first_nonnull deck.hero character_list.0.1 spell_list.0.1 permanent_list.0.1 as display_card %}
+            <div class="sticky-container">
+                <img class="img-fluid rounded-4" id="card-showcase" src="{% cdn_image_url display_card.image_url %}">
+                <div class="mt-3">
+                    {% with display_card.prices.last.price as price %}
+                    <a id="marketplace-link-showcase" class="btn btn-outline altered-style" href="https://www.altered.gg/cards/{{ display_card.reference }}/offers" target="_blank">
+                        <i class="fa-solid fa-cart-shopping"></i>&nbsp;<span id="price-showcase">{% display_price price %}{% endwith %}</span>&nbsp;€
+                    </a>
+                </div>
+            </div>
         </div>
 
         <div class="col card-display-view d-none">
@@ -192,7 +203,7 @@
                 <h3 class="mb-0">{% translate "Hero" %}</h3>
                 <hr class="altered-style mt-0"/>
                 <div class="col-xxl-2 col-xl-3 col-md-4 col-sm-6 mb-3">
-                    <div class="card-display rounded-3 card-hover" data-rarity="{{ deck.hero.get_rarity_display }}" data-image-url="{% cdn_image_url deck.hero.image_url %}" data-faction="{{ deck.hero.faction }}">
+                    <div class="card-display rounded-3 card-hover" data-card-reference="{{ deck.hero.reference }}" data-rarity="{{ deck.hero.get_rarity_display }}" data-image-url="{% cdn_image_url deck.hero.image_url %}" data-faction="{{ deck.hero.faction }}" data-price="{% firstof deck.hero.prices.last.price '' %}">
                         <img src="{% cdn_image_url deck.hero.image_url %}" class="card-img-top rounded-3" alt="{{ deck.hero.name }}">
                     </div>
 
@@ -245,7 +256,7 @@
                 </thead>
                 <tbody class="table-group-divider">
     {% if deck.hero %}
-                    <tr class="table-light card-hover" data-image-url="{% cdn_image_url deck.hero.image_url %}">
+                    <tr class="table-light card-hover" data-image-url="{% cdn_image_url deck.hero.image_url %}" data-card-reference="{{ deck.hero.reference }}" data-price="{% firstof deck.hero.prices.last.price '' %}">
                         <!-- Hero name -->
                         <td class="user-select-all">{{ deck.hero.name }}</td>
                         <!-- Hero faction -->

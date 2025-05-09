@@ -324,3 +324,13 @@ class DeckCopy(models.Model):
     source_tournament_deck = models.ForeignKey(
         "recommender.TournamentDeck", on_delete=models.CASCADE, null=True, blank=True
     )
+
+
+class CardPrice(models.Model):
+    card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name="prices")
+    price = models.PositiveIntegerField(null=True)
+    count = models.PositiveIntegerField(default=1)
+    date = models.DateField(auto_now_add=True)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["card", "date"], name="unique_card_date_price")]

@@ -175,8 +175,10 @@
                                 <li><a class="dropdown-item" href="{% url 'admin:index' %}"><i class="fa-solid fa-gears"></i> Admin Panel</a></li>
                                 <li><hr class="dropdown-divider"></li>
             {% endif %}
+            {% if user.is_superuser %}
                                 <li><a class="dropdown-item" href="{% url 'troubleshoot:session' %}">Sessions</a></li>
                                 <li><a class="dropdown-item" href="{% url 'troubleshoot:deck_descriptions' %}">Decks</a></li>
+            {% endif %}
                             </ul>
                         </li>
         {% endif %}

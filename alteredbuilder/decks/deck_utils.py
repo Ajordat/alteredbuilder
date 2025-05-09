@@ -5,7 +5,7 @@ import re
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import IntegrityError, transaction
-from django.db.models import Exists, F, OuterRef, Q
+from django.db.models import Exists, F, IntegerField, OuterRef, Q, Subquery
 from django.db.models.query import QuerySet
 from django.utils.translation import activate, gettext_lazy as _
 import requests
@@ -18,7 +18,15 @@ from decks.game_modes import (
     StandardGameMode,
     update_deck_legality,
 )
-from decks.models import Card, CardInDeck, Deck, FavoriteCard, LovePoint, Subtype
+from decks.models import (
+    Card,
+    CardInDeck,
+    CardPrice,
+    Deck,
+    FavoriteCard,
+    LovePoint,
+    Subtype,
+)
 from decks.exceptions import AlteredAPIError, CardAlreadyExists, MalformedDeckException
 
 
@@ -128,8 +136,19 @@ def create_new_deck(user: User, deck_form: dict) -> Deck:
 
 def get_deck_details(deck: Deck) -> dict:
 
+    cid_queryset: QuerySet[CardInDeck] = deck.cardindeck_set
     decklist = (
-        deck.cardindeck_set.select_related("card").order_by("card__reference").all()
+        cid_queryset.select_related("card").prefetch_related("card__prices")
+        .annotate(
+            last_price=Subquery(
+                CardPrice.objects.filter(card=OuterRef("card__pk"))
+                .order_by("-date")
+                .values("price")[:1],
+                output_field=IntegerField(),
+            )
+        )
+        .order_by("card__reference")
+        .all()
     )
 
     hand_counter = defaultdict(int)
@@ -139,7 +158,7 @@ def get_deck_details(deck: Deck) -> dict:
 
     # This dictionary will hold all metadata based on the card's type by using the
     # type as a key
-    d = {
+    type_stats = {
         Card.Type.CHARACTER: [[], 0],
         Card.Type.SPELL: [[], 0],
         Card.Type.LANDMARK_PERMANENT: [[], 0],
@@ -147,9 +166,9 @@ def get_deck_details(deck: Deck) -> dict:
     }
     for cid in decklist:
         # Append the card to its own type card list
-        d[cid.card.type][0].append((cid.quantity, cid.card))
+        type_stats[cid.card.type][0].append((cid.quantity, cid.card, cid.last_price))
         # Count the card count of the card's type
-        d[cid.card.type][1] += cid.quantity
+        type_stats[cid.card.type][1] += cid.quantity
         # Count the amount of cards with the same hand cost
         hand_counter[cid.card.stats["main_cost"]] += cid.quantity
         # Count the amount of cards with the same recall cost
@@ -166,21 +185,21 @@ def get_deck_details(deck: Deck) -> dict:
     )
     return {
         "decklist": decklist_text,
-        "character_list": d[Card.Type.CHARACTER][0],
-        "spell_list": d[Card.Type.SPELL][0],
-        "permanent_list": d[Card.Type.LANDMARK_PERMANENT][0]
-        + d[Card.Type.EXPEDITION_PERMANENT][0],
+        "character_list": type_stats[Card.Type.CHARACTER][0],
+        "spell_list": type_stats[Card.Type.SPELL][0],
+        "permanent_list": type_stats[Card.Type.LANDMARK_PERMANENT][0]
+        + type_stats[Card.Type.EXPEDITION_PERMANENT][0],
         "stats": {
             "type_distribution": {
-                "characters": d[Card.Type.CHARACTER][1],
-                "spells": d[Card.Type.SPELL][1],
-                "permanents": d[Card.Type.LANDMARK_PERMANENT][1]
-                + d[Card.Type.EXPEDITION_PERMANENT][1],
+                "characters": type_stats[Card.Type.CHARACTER][1],
+                "spells": type_stats[Card.Type.SPELL][1],
+                "permanents": type_stats[Card.Type.LANDMARK_PERMANENT][1]
+                + type_stats[Card.Type.EXPEDITION_PERMANENT][1],
             },
-            "total_count": d[Card.Type.CHARACTER][1]
-            + d[Card.Type.SPELL][1]
-            + d[Card.Type.LANDMARK_PERMANENT][1]
-            + d[Card.Type.EXPEDITION_PERMANENT][1],
+            "total_count": type_stats[Card.Type.CHARACTER][1]
+            + type_stats[Card.Type.SPELL][1]
+            + type_stats[Card.Type.LANDMARK_PERMANENT][1]
+            + type_stats[Card.Type.EXPEDITION_PERMANENT][1],
             "mana_distribution": {
                 "hand": hand_counter,
                 "recall": recall_counter,

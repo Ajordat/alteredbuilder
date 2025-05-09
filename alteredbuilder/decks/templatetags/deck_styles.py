@@ -19,6 +19,18 @@ def subtract(minuend: Any, subtrahend: Any) -> Any:
 
 
 @register.simple_tag
+def display_price(dividend: Any) -> Any:
+    if not dividend:
+        return "-"
+    return dividend / 100
+
+
+@register.simple_tag
+def first_nonnull(*values):
+    return next((v for v in values if v), "")
+
+
+@register.simple_tag
 def get_row_color_from_rarity(rarity: str) -> str:
     """Return the desired row color depending on a card's rarity.
 

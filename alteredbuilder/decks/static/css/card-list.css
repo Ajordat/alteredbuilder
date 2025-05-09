@@ -2,6 +2,7 @@
 .card-display {
     max-width: 280px;
     transition: .3s;
+    box-shadow: 0 0 5px var(--deck-display-shadow);
 }
 
 .card-display:hover{

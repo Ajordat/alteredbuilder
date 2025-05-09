@@ -25,6 +25,9 @@ html[data-bs-theme="dark"] {
 
 #card-showcase {
     max-height: 500px;
+    box-shadow: 0 0 12px var(--deck-display-shadow);
+}
+.sticky-container {
     position: sticky;
     top: 70px;
 }

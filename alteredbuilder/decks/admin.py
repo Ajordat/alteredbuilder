@@ -10,6 +10,7 @@ from decks.forms import ChangeDeckOwnerForm
 from decks.models import (
     Card,
     CardInDeck,
+    CardPrice,
     Comment,
     CommentVote,
     Deck,
@@ -67,7 +68,11 @@ class DeckAdmin(admin.ModelAdmin):
         "created_at",
     ]
     search_fields = ["id", "name", "owner__username"]
-    list_filter = ["is_public", "hero__faction", ("hero", admin.RelatedOnlyFieldListFilter)]
+    list_filter = [
+        "is_public",
+        "hero__faction",
+        ("hero", admin.RelatedOnlyFieldListFilter),
+    ]
     list_display_links = ["id", "name"]
     show_facets = admin.ShowFacets.ALWAYS
     readonly_fields = [
@@ -322,7 +327,7 @@ class FavoriteCardAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
 
 @admin.register(DeckCopy)
 class DeckCopyAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
-    list_display = ["__str__", "description"]
+    list_display = ["__str__", "description", "date"]
 
     def description(self, obj: DeckCopy):
         return format_html(
@@ -332,3 +337,13 @@ class DeckCopyAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
             obj.target_deck.get_absolute_url(),
             obj.target_deck.name,
         )
+
+    def date(self, obj: DeckCopy):
+        return obj.target_deck.created_at
+
+
+@admin.register(CardPrice)
+class CardPriceAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
+    list_display = ["card", "price", "count", "date"]
+    search_fields = ["card__name"]
+    list_filter = ["date"]
