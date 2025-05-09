@@ -134,7 +134,7 @@ def get_detail_card_list(deck: Deck, card_type: Card.Type) -> list[int, Card]:
         list[int, Card]: The list of cards with their amount.
     """
     return [
-        (c.quantity, c.card)
+        (c.quantity, c.card, None)
         for c in deck.cardindeck_set.all()
         if c.card.type == card_type
     ]
