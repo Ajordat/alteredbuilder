@@ -266,9 +266,21 @@ function initSidebar() {
     decklistChanges = new DecklistChanges("decklistChanges");
     decklistChanges.takeSnapshot();
     let params = new URLSearchParams(document.location.search);
-    deckId = params.get("deck") || 0;
+    deckId = params.get("deck");
+    let storedDeckId = sessionStorage.getItem("deckId");
 
-    if (deckId != sessionStorage.getItem("deckId")) {
+    if (!deckId) {
+        decklistChanges.load();
+        if (decklistChanges.hasChanges()) {
+            let params = new URLSearchParams(window.location.search);
+            params.append("deck", storedDeckId);
+            window.open(window.location.pathname + "?" + params.toString(), "_self");
+            return;
+        }
+        deckId = 0;
+    }
+
+    if (deckId != storedDeckId) {
         // If the stored deck ID is different than the deck editing, discard the tracked changes
         sessionStorage.removeItem("decklistChanges");
         sessionStorage.setItem("deckId", deckId);
