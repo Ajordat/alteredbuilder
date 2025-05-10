@@ -5,9 +5,9 @@ on:
     branches:
     - master
     paths:
-    - "alteredbuilder/*/management/commands/*.py"
-    - "alteredbuilder/config/commands.py"
-    - ".github/workflows/commands_cicd.yml"
+    - alteredbuilder/*/management/commands/*.py
+    - alteredbuilder/config/commands.py
+    - .github/workflows/commands_cicd.yml
 
 env:
   DEBUG: False
@@ -50,7 +50,7 @@ jobs:
         job: ${{ steps.vars.outputs.name }}
         image: ${{ secrets.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
         env_vars: |-
-          SECRET_KEY=${{ secrets.SECRET_KEY }}
+          SETTINGS_NAME=${{ secrets.SETTINGS_NAME }}
         env_vars_update_strategy: merge
         flags: |
           --command=python
