@@ -1,4 +1,4 @@
-from http import HTTPStatus
+from http import HTTPMethod, HTTPStatus
 
 from django.contrib.auth.decorators import login_required
 from django.db.models import F
@@ -26,7 +26,7 @@ def create_comment(request: HttpRequest, pk: int) -> HttpResponse:
 
     deck = get_object_or_404(Deck, pk=pk, is_public=True)
 
-    if request.method == "POST":
+    if request.method == HTTPMethod.POST:
         # Instantiate the form with the POST data
         form = CommentForm(request.POST)
         if form.is_valid():

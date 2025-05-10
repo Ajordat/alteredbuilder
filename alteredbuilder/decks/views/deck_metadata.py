@@ -1,4 +1,4 @@
-from http import HTTPStatus
+from http import HTTPMethod, HTTPStatus
 import json
 
 from django.contrib.auth.decorators import login_required
@@ -126,7 +126,7 @@ def update_deck_metadata(request: HttpRequest, pk: int) -> HttpResponse:
         # For some unknown reason, this is returning 405 instead of 403
         raise PermissionDenied
 
-    if request.method == "POST":
+    if request.method == HTTPMethod.POST:
         # Instantiate the form with the POST data
         form = DeckMetadataForm(request.POST)
         if form.is_valid():
@@ -141,7 +141,7 @@ def update_deck_metadata(request: HttpRequest, pk: int) -> HttpResponse:
 
 @login_required
 def update_tags(request: HttpRequest, pk: int) -> HttpResponse:
-    if request.method == "POST":
+    if request.method == HTTPMethod.POST:
         form = DeckTagsForm(request.POST)
         if form.is_valid():
             try:

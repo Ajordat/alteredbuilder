@@ -150,11 +150,9 @@
                         </ul>
                     </div>
                 </div>
-    {% if perms.recommender.can_use_recommender %}
                 <div>
                     <button id="recommenderModalTrigger" type="button" class="btn altered-style" data-bs-toggle="modal" data-bs-target="#recommenderModal"><i class="fa-solid fa-wand-magic-sparkles"></i>&nbsp;{% translate "Magic" %}</button>
                 </div>
-    {% endif %}
             </div>
             <div class="row gy-3 infinite-container">
                 <!-- Card list with infinite scroll -->
@@ -346,7 +344,6 @@
         </div>
     </div>
 
-    {% if perms.recommender.can_use_recommender %}
     <!-- Recommender modal -->
     <div class="modal altered-style fade" id="recommenderModal" tabindex="-1" aria-labelledby="recommenderModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -377,7 +374,6 @@
             </div>
         </div>
     </div>
-    {% endif %}
 
     <!-- Simple toaster -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">

@@ -1,4 +1,4 @@
-from http import HTTPStatus
+from http import HTTPMethod, HTTPStatus
 import json
 from typing import Any
 
@@ -91,7 +91,7 @@ def import_card(request: HttpRequest) -> HttpResponse:
     """
     context = {}
     form = None
-    if request.method == "POST":
+    if request.method == HTTPMethod.POST:
         form = CardImportForm(request.POST)
         if form.is_valid():
             reference = form.cleaned_data["reference"]
