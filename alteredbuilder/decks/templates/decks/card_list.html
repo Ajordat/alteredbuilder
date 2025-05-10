@@ -240,8 +240,11 @@
                     </div>
                 </div>
                 <!-- Save button -->
-                <div class="row position-fixed bottom-0 end-0 z-2 me-auto pb-2 pe-5">
+                <div class="d-flex position-fixed bottom-0 end-0 z-2 me-auto pb-2 pe-5 gap-2">
                     <button class="btn altered-style" id="save-deck"><i id="changes-warning" class="fa-solid fa-triangle-exclamation"></i> {% translate "Save" %}</button>
+    {% if edit_deck %}
+                    <a class="btn altered-style" id="view-deck" href="{{ edit_deck.get_absolute_url }}"><i class="fa-solid fa-eye"></i></a>
+    {% endif %}
                 </div>
                 <hr class="altered-style my-0 d-block d-sm-none"/>
             </div>
