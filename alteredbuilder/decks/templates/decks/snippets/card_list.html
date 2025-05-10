@@ -17,6 +17,7 @@
                     <button class="btn btn-outline altered-style dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>
                     <ul class="dropdown-menu dropdown-menu-end altered-style">
                         <li><a class="dropdown-item" href="{{ card.get_official_link }}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> {% translate "Go to details" %}</a></li>
+                        <li><a class="dropdown-item" href="https://www.altered.gg/cards/{{ card.reference }}/offers" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-cart-shopping"></i> {% translate "Go to marketplace" %}</a></li>
                         <li><a class="dropdown-item card-reference-container" href="#" data-card-reference="{{ card.reference }}"><i class="fa-regular fa-copy"></i> {% translate "Copy card reference" %}</a></li>
     {% if object.owner == user %}
                         <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ card.reference }}"><i class="fa-solid fa-trash"></i> {% translate "Remove card" %}</a></li>
