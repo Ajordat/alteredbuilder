@@ -465,7 +465,7 @@
                 </thead>
                 <tbody class="table-group-divider">
                     <tr>
-                        <td>{{ inspiration.owner }}</td>
+                        <td>{{ inspiration.owner|safe_username }}</td>
                         <td><a href="{{ inspiration.get_absolute_url }}">{{ inspiration.name }}</a></td>
                     </tr>
                 </tbody>
@@ -485,7 +485,7 @@
                 <tbody class="table-group-divider">
         {% for copied_deck in inspirations %}
                     <tr>
-                        <td>{{ copied_deck.owner }}</td>
+                        <td>{{ copied_deck.owner|safe_username }}</td>
                         <td><a href="{{ copied_deck.get_absolute_url }}">{{ copied_deck.name }}</a></td>
                     </tr>
             {% if forloop.last and forloop.counter < deck.copy_count %}
