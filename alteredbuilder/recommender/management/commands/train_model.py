@@ -130,7 +130,7 @@ class Command(BaseCommand):
                         re.search(r"^\d+", d["finalRank"]["bracket"]).group()
                     )
                 TournamentDeck.objects.update_or_create(
-                    remote_id=d["id"],
+                    player_id=d["id"],
                     tournament=tournament,
                     defaults={
                         "player": d["name"],
