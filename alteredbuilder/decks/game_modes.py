@@ -166,9 +166,10 @@ class StandardGameMode(GameMode):
     MAX_SAME_FAMILY_CARD_COUNT = 3
     IS_HERO_MANDATORY = True
     BANNED_FAMILY_CARDS = [
-        ("YZ_05_U", Card.Faction.AXIOM),
-        ("YZ_05_U", Card.Faction.YZMIR),
-        ("AX_16_U", Card.Faction.BRAVOS),
+        ("YZ_05_U", Card.Faction.AXIOM),  # "Moonlight Jellyfish" Axiom Unique
+        ("YZ_05_U", Card.Faction.YZMIR),  # "Moonlight Jellyfish" Yzmir Unique
+        ("YZ_11_R2", Card.Faction.ORDIS),  # "Baba Yaga" Ordis Rare
+        ("BR_25_R2", Card.Faction.YZMIR),  # "Helping Hand" Yzmir Rare
     ]
 
 

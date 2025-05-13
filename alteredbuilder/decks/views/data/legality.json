@@ -1,6 +1,69 @@
 {
-    "last_update": "2025-03-21",
+    "last_update": "2025-05-13",
     "patches": [
+        {
+            "effective_date": "2025-05-13",
+            "article": {
+                "link": "https://www.altered.gg/news/whispers-from-the-maze-season-patch",
+                "title": "Whispers from the Maze Season Patch",
+                "date": "2025-05-13"
+            },
+            "erratas": [
+                {
+                    "name": "Victory Check Rework",
+                    "link": "https://www.altered.gg/news/whispers-from-the-maze-season-patch#widget0_subwidget4",
+                    "previous": "If a player's Expedition would move to the same region as that player's other Expedition, or move to a region further from their starting region than that player's other Expedition, the endgame procedure begins.",
+                    "updated": "The timing to check if a player wins due to the Expeditions progression (or if tiebreakers should start) has changed: instead of being checked continuously, it is now only checked at the end of Night, during a new daily effect called Check Victory. During Check Victory, before starting a new Day, check if at least one player's hero Expedition and companion Expedition have met or crossed each other."
+                }
+            ],
+            "suspensions": {
+                "add": [
+                    {
+                        "name": "Baba Yaga (Ordis Rare)",
+                        "link": "https://www.altered.gg/news/whispers-from-the-maze-season-patch#widget0_subwidget6"
+                    },
+                    {
+                        "name": "Helping Hand (Yzmir Rare)",
+                        "link": "https://www.altered.gg/news/whispers-from-the-maze-season-patch#widget0_subwidget9"
+                    }
+                ],
+                "stay": [
+                    {
+                        "name": "Moonlight Jellyfish (all Uniques, all factions)",
+                        "link": "https://www.altered.gg/news/trial-by-frost-season-patch#widget0_subwidget16"
+                    }
+                ],
+                "remove": [
+                    {
+                        "name": "Foundry Armorer (all Uniques, Bravos only)"
+                    },
+                    {
+                        "name": "Gericht, Revered Dueslist (all Uniques, all factions)"
+                    }
+                ]
+            },
+            "watchlist": {
+                "stay": [
+                    {
+                        "name": "Kadigiran Mage-Dancer (Common & Yzmir Rare)"
+                    },
+                    {
+                        "name": "Ordis Attorney (Ordis Rare & Yzmir Rare)"
+                    }
+                ],
+                "remove": [
+                    {
+                        "name": "Baba Yaga (Ordis Rare)"
+                    },
+                    {
+                        "name": "Helping Hand (Yzmir Rare)"
+                    },
+                    {
+                        "name": "Small Step, Giant Leap (All versions)"
+                    }
+                ]
+            }
+        },
         {
             "effective_date": "2025-03-21",
             "article": {
@@ -21,7 +84,50 @@
                     "previous": "<span class=\"altered-etb\"></span> If you control three or more other Characters, draw a card.",
                     "updated": "<span class=\"altered-etb\"></span> If you control three or more other Characters, <strong>Resupply</strong>."
                 }
-            ]
+            ],
+            "suspensions": {
+                "stay": [
+                    {
+                        "name": "Foundry Armorer (all Uniques, Bravos only)",
+                        "link": "https://www.altered.gg/news/trial-by-frost-season-patch#widget0_subwidget19"
+                    },
+                    {
+                        "name": "Gericht, Revered Dueslist (all Uniques, all factions)",
+                        "link": "https://www.altered.gg/news/trial-by-frost-season-patch#widget0_subwidget22"
+                    },
+                    {
+                        "name": "Moonlight Jellyfish (all Uniques, all factions)",
+                        "link": "https://www.altered.gg/news/trial-by-frost-season-patch#widget0_subwidget16"
+                    }
+                ],
+                "remove": [
+                    {
+                        "name": "Haven, Bravos Bastion (Axiom Rare)"
+                    },
+                    {
+                        "name": "Ozma (Common & Ordis Rare)"
+                    }
+                ]
+            },
+            "watchlist": {
+                "add": [
+                    {
+                        "name": "Small Step, Giant Leap (All versions)"
+                    },
+                    {
+                        "name": "Helping Hand (Yzmir Rare)"
+                    },
+                    {
+                        "name": "Kadigiran Mage-Dancer (Common & Yzmir Rare)"
+                    },
+                    {
+                        "name": "Baba Yaga (Ordis Rare)"
+                    },
+                    {
+                        "name": "Ordis Attorney (Ordis Rare & Yzmir Rare)"
+                    }
+                ]
+            }
         },
         {
             "effective_date": "2025-01-30",
@@ -38,36 +144,46 @@
                     "updated": "When you play a Bureaucrat &mdash; It gains <strong style=\"text-decoration: underline\">Asleep</strong>."
                 }
             ],
-            "suspensions": [
-                {
-                    "name": "Foundry Armorer (all Uniques, Bravos only)",
-                    "link": "https://www.altered.gg/news/trial-by-frost-season-patch#widget0_subwidget19"
-                },
-                {
-                    "name": "Gericht, Revered Dueslist (all Uniques, all factions)",
-                    "link": "https://www.altered.gg/news/trial-by-frost-season-patch#widget0_subwidget22"
-                },
-                {
-                    "name": "Haven, Bravos Bastion (Axiom Rare)",
-                    "link": "https://www.altered.gg/news/trial-by-frost-season-patch#widget0_subwidget12",
-                    "fix": {
-                        "patch": "2025-03-21",
-                        "link": "https://www.altered.gg/news/trial-by-frost-mid-season-patch-introducing-the-watchlist#widget0_subwidget15"
+            "suspensions": {
+                "add": [
+                    {
+                        "name": "Foundry Armorer (all Uniques, Bravos only)",
+                        "link": "https://www.altered.gg/news/trial-by-frost-season-patch#widget0_subwidget19",
+                        "fix": {
+                            "patch": "2025-05-13",
+                            "link": "https://www.altered.gg/news/whispers-from-the-maze-season-patch#widget0_subwidget12"
+                        }
+                    },
+                    {
+                        "name": "Gericht, Revered Dueslist (all Uniques, all factions)",
+                        "link": "https://www.altered.gg/news/trial-by-frost-season-patch#widget0_subwidget22",
+                        "fix": {
+                            "patch": "2025-05-13",
+                            "link": "https://www.altered.gg/news/whispers-from-the-maze-season-patch#widget0_subwidget14"
+                        }
+                    },
+                    {
+                        "name": "Haven, Bravos Bastion (Axiom Rare)",
+                        "link": "https://www.altered.gg/news/trial-by-frost-season-patch#widget0_subwidget12",
+                        "fix": {
+                            "patch": "2025-03-21",
+                            "link": "https://www.altered.gg/news/trial-by-frost-mid-season-patch-introducing-the-watchlist#widget0_subwidget15"
+                        }
+                    },
+                    {
+                        "name": "Moonlight Jellyfish (all Uniques, all factions)",
+                        "link": "https://www.altered.gg/news/trial-by-frost-season-patch#widget0_subwidget16"
+                    },
+                    {
+                        "name": "Ozma (Common & Ordis Rare)",
+                        "link": "https://www.altered.gg/news/trial-by-frost-season-patch#widget0_subwidget9",
+                        "fix": {
+                            "patch": "2025-03-21",
+                            "link": "https://www.altered.gg/news/trial-by-frost-mid-season-patch-introducing-the-watchlist#widget0_subwidget11"
+                        }
                     }
-                },
-                {
-                    "name": "Moonlight Jellyfish (all Uniques, all factions)",
-                    "link": "https://www.altered.gg/news/trial-by-frost-season-patch#widget0_subwidget16"
-                },
-                {
-                    "name": "Ozma (Common & Ordis Rare)",
-                    "link": "https://www.altered.gg/news/trial-by-frost-season-patch#widget0_subwidget9",
-                    "fix": {
-                        "patch": "2025-03-21",
-                        "link": "https://www.altered.gg/news/trial-by-frost-mid-season-patch-introducing-the-watchlist#widget0_subwidget11"
-                    }
-                }
-            ]
+                ]
+            }
         },
         {
             "effective_date": "2024-11-15",
