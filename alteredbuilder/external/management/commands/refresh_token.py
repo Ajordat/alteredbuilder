@@ -68,7 +68,7 @@ class Command(BaseCommand):
         if not access_token or not expires:
             raise CommandError("Access token or expiry not found in session response")
 
-        AccessToken.objects.get_or_create(
+        AccessToken.objects.update_or_create(
             service=TOKEN_DOMAIN,
             defaults={"token": access_token, "expires_at": expires},
         )

@@ -47,15 +47,14 @@ class Command(BaseCommand):
         if not auth_token:
             try:
                 token_obj = AccessToken.objects.get(service="altered.gg")
-                if token_obj.expires_at < NOW:
-                    raise CommandError("The access token has expired")
-                auth_token = token_obj.token
-                self.stdout.write(f"Using token from database: {token_obj})")
-                return
             except AccessToken.DoesNotExist:
                 raise CommandError(
                     "Unable to retrieve data from the marketplace without an Authorization token"
                 )
+            if token_obj.expires_at < NOW:
+                raise CommandError("The access token has expired")
+            auth_token = token_obj.token
+            self.stdout.write(f"Using token from database: {token_obj})")
 
         try:
             for faction in Card.Faction:
