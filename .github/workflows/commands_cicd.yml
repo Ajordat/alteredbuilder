@@ -31,6 +31,7 @@ jobs:
         - generate_trends
         - train_model
         - update_card_prices
+        - refresh_token
     steps:
     - name: Checkout
       uses: actions/checkout@v4
