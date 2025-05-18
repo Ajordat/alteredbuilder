@@ -1,7 +1,7 @@
 import json
 import math
 from typing import Any, Generator
-from urllib import request
+from urllib.request import Request, urlopen
 from django.conf import settings
 
 
@@ -34,10 +34,8 @@ def altered_api_paginator(
         if params:
             query_params += "&" + "&".join([f"{k}={v}" for k, v in params.items()])
 
-        req = request.Request(url + query_params, headers=headers)
-
         # Query the API
-        with request.urlopen(req) as response:
+        with urlopen(Request(url + query_params, headers=headers)) as response:
             page = response.read()
             data = json.loads(page.decode("utf8"))
 

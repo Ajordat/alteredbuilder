@@ -11,11 +11,12 @@ from config.commands import BaseCommand
 from config.utils import altered_api_paginator
 from decks.deck_utils import family_code_from_reference
 from decks.models import Card, CardPrice
+from external.models import AccessToken
 
 
 # Altered's API endpoint
 CARDS_API_ENDPOINT = "/cards/stats"
-TODAY = timezone.now().date()
+NOW = timezone.now()
 IGNORED_CARDS = [
     "AX_31",  # Brassbug
     "BR_31",  # Booda
@@ -44,9 +45,17 @@ class Command(BaseCommand):
         auth_token = options["token"] or settings.BOT_AUTHORIZATION_TOKEN
 
         if not auth_token:
-            raise CommandError(
-                "Unable to retrieve data from the marketplace without an Authorization token"
-            )
+            try:
+                token_obj = AccessToken.objects.get(service="altered.gg")
+                if token_obj.expires_at < NOW:
+                    raise CommandError("The access token has expired")
+                auth_token = token_obj.token
+                self.stdout.write(f"Using token from database: {token_obj})")
+                return
+            except AccessToken.DoesNotExist:
+                raise CommandError(
+                    "Unable to retrieve data from the marketplace without an Authorization token"
+                )
 
         try:
             for faction in Card.Faction:
@@ -75,8 +84,8 @@ class Command(BaseCommand):
             try:
                 CardPrice.objects.update_or_create(
                     card_id=reference,
-                    date=TODAY,
+                    date=NOW.date(),
                     defaults={"price": price, "count": count},
                 )
             except IntegrityError:
-                print(f"Failed to insert {reference}")
+                self.stdout.write(f"Failed to insert {reference}")

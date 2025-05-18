@@ -305,9 +305,7 @@ class SubtypeAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
         self, request: HttpRequest, obj: Card
     ) -> list[tuple[str | None, dict[str, Any]]]:
 
-        base_fieldset = ["reference", "name"]
-
-        fieldsets = [(None, {"fields": base_fieldset})]
+        fieldsets = [(None, {"fields": ["reference", "name"]})]
 
         for code, name in settings.LANGUAGES:
             lang_fieldset = (name, {"fields": [f"name_{code}"]})

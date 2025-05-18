@@ -137,6 +137,7 @@ INSTALLED_APPS = [
     "notifications.apps.NotificationsConfig",
     "profiles.apps.ProfilesConfig",
     "recommender.apps.RecommenderConfig",
+    "external.apps.ExternalConfig",
 ]
 
 MIDDLEWARE = [
