@@ -1,5 +1,6 @@
 from collections import OrderedDict
 from typing import Any
+
 from django.conf import settings
 from django.contrib import admin
 from django.http import HttpRequest
@@ -345,5 +346,5 @@ class DeckCopyAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
 @admin.register(CardPrice)
 class CardPriceAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
     list_display = ["card", "price", "count", "date"]
-    search_fields = ["card__name"]
+    search_fields = ["card__name", "card__reference"]
     list_filter = ["date"]
