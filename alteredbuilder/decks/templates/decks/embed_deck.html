@@ -1,0 +1,239 @@
+{% load static %}
+{% load deck_styles %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="{% static 'css/altered-icons.css' %}">
+        <title>{{ deck.metadata.name }}</title>
+        <style>
+            body {
+                font-family: "Gabriela", Verdana, Tahoma, Geneva, sans-serif;
+                margin: 0.5em;
+            }
+            .deck-container {
+{% if not view.transparent_body %}
+                background: white;
+{% endif %}
+                border-radius: 8px;
+                padding: 1em;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+            .deck-title {
+                font-size: 1.5em;
+                margin-bottom: 0.2em;
+            }
+            .deck-author {
+                font-size: 0.9em;
+                color: #666;
+                margin-bottom: 1em;
+            }
+            ul.card-list {
+                list-style: none;
+                padding: 0;
+            }
+            ul.card-list li {
+                padding: 0.2em 0.5em;
+                border-bottom: 1px solid #eee;
+            }
+            .view-link {
+                margin-top: 1em;
+                display: block;
+                font-size: 0.9em;
+                color: #0073aa;
+                text-decoration: none;
+            }
+            .row-C {
+                background: #f8f9fa;
+            }
+            .row-R {
+                background: #cfe2ff;
+            }
+            .row-U {
+                background: #f8d7da;
+            }
+            li span.hand-mana {
+                color: #5095c9;
+            }
+            li[data-faction="AX"] span.reserve-mana {
+                color: #7e4b36;
+            }
+            li[data-faction="BR"] span.reserve-mana {
+                color: #b24848;
+            }
+            li[data-faction="LY"] span.reserve-mana {
+                color: #d12358;
+            }
+            li[data-faction="MU"] span.reserve-mana {
+                color: #4c7245;
+            }
+            li[data-faction="OR"] span.reserve-mana {
+                color: #00628b;
+            }
+            li[data-faction="YZ"] span.reserve-mana {
+                color: #483b66;
+            }
+            .card-name {
+                position: relative;
+                flex: 1;
+            }
+            .mana-cost {
+                font-weight: bold;
+                color: #444;
+                flex-shrink: 0;
+                margin-left: auto;
+            }
+            #card-preview {
+                display: none;
+                position: fixed;
+                z-index: 1000;
+                pointer-events: none;
+                border: 1px solid #ccc;
+                background: white;
+                padding: 0.3em;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+            .card-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                position: relative;
+                padding-left: 0.5em;
+
+                transition: background-color 0.2s ease, transform 0.2s ease;
+                cursor: pointer;
+            }
+{% if view.hover_animation %}
+            .card-row:hover {
+                transform: scale(1.01);
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+                border-radius: 4px;
+            }
+{% endif %}
+            .card-row:hover #card-preview {
+                display: block;
+            }
+            #card-preview img {
+                max-height: {{ view.display_height }}px;
+                display: block;
+            }
+
+            .deck-sections-flex {
+                column-count: {{ view.columns }};
+                column-gap: 1em;
+            }
+            .deck-section {
+                margin-top: 7px;
+                margin-bottom: 1em;
+                break-inside: avoid;
+                background: white;
+{% if view.section_box %}
+                padding: 0.8em;
+                border-radius: 8px;
+                box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+{% endif %}
+            }
+            .section-header {
+                font-weight: bold;
+                font-size: 1.2em;
+                display: block;
+                margin-bottom: 0.5em;
+            }
+            @media (max-width: 600px) {
+                .deck-sections-flex {
+                    column-count: 1;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="deck-container">
+{% if view.show_name %}
+            <div class="deck-title">{{ deck.metadata.name }}</div>
+{% endif %}
+{% if view.show_author %}
+            <div class="deck-author">by {{ deck.metadata.owner.username|safe_username }}</div>
+{% endif %}
+            <div class="deck-sections-flex">
+                <div class="deck-section">
+                    <span class="section-header">Hero</span>
+                    <ul class="card-list">
+                        <li class="card-row row-{{ deck.metadata.hero.rarity }}" data-image="{{ deck.metadata.hero.image_url }}" data-faction="{{ deck.metadata.hero.faction }}">
+                            <span class="card-name">
+                                {{ deck.metadata.hero.name }}
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="deck-section">
+                    <span class="section-header">Characters</span>
+                    <ul class="card-list">
+                        {% include "decks/snippets/embedded_cards.html" with cards=deck.characters %}
+                    </ul>
+                </div>
+                <div class="deck-section">
+                    <span class="section-header">Spells</span>
+                    <ul class="card-list">
+                        {% include "decks/snippets/embedded_cards.html" with cards=deck.spells %}
+                    </ul>
+                </div>
+                <div class="deck-section">
+                    <span class="section-header">Permanents</span>
+                    <ul class="card-list">
+                        {% include "decks/snippets/embedded_cards.html" with cards=deck.permanents %}
+                    </ul>
+                </div>
+            </div>
+            <a class="view-link" href="{{ deck.metadata.get_absolute_url }}" target="_blank">
+            View full deck on Ajordat
+            </a>
+        </div>
+        <div id="card-preview">
+            <img id="preview-img" src="" alt="" />
+        </div>
+
+{% if view.hover_display %}
+        <script>
+            const previewBox = document.getElementById("card-preview");
+            const previewImg = document.getElementById("preview-img");
+
+            document.querySelectorAll(".card-row").forEach(item => {
+                item.addEventListener("mouseenter", (e) => {
+                    previewImg.src = e.currentTarget.dataset.image;
+                    previewBox.style.display = "block";
+                });
+
+                item.addEventListener("mousemove", (e) => {
+                    const margin = 12;
+                    const previewWidth = previewBox.offsetWidth;
+                    const previewHeight = previewBox.offsetHeight;
+                    const viewportHeight = window.innerHeight;
+                    const viewportWidth = window.innerWidth;
+
+                    let left = e.clientX + margin;
+                    let top;
+
+                    if (e.clientY + previewHeight + margin > viewportHeight) {
+                        top = e.clientY - previewHeight - margin;
+                    } else {
+                        top = e.clientY + margin;
+                    }
+
+                    if (left + previewWidth > viewportWidth) {
+                        left = viewportWidth - previewWidth - margin;
+                    }
+
+                    previewBox.style.left = left + "px";
+                    previewBox.style.top = top + "px";
+                });
+
+                item.addEventListener("mouseleave", () => {
+                    previewBox.style.display = "none";
+                });
+            });
+        </script>
+{% endif %}
+    </body>
+</html>

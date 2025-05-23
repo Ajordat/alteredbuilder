@@ -1,0 +1,16 @@
+
+{% for cid in cards %}
+    {% with cid.card as card %}
+
+<li class="card-row row-{{ card.rarity }}" data-image="{{ card.image_url }}" data-faction="{{ card.faction }}">
+    <span class="card-name">
+        {% include "decks/snippets/picture_webp.html" with img_name=card.get_rarity_display width=20 height=11 %}
+        &nbsp;<strong>{{ cid.quantity }}</strong>&nbsp;{{ card.name }}
+    </span>
+    <span class="mana-cost">
+        <span class="altered-{{ card.stats.main_cost }} hand-mana"></span>&nbsp;/&nbsp;<span class="altered-{{ card.stats.recall_cost }} reserve-mana"></span>
+    </span>
+</li>
+
+    {% endwith %}
+{% endfor %}

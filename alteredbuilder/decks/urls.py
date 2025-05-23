@@ -6,6 +6,7 @@ from decks.views import comments as comment_views
 from decks.views import deck_detail as deck_detail_views
 from decks.views import deck_lists as deck_lists_views
 from decks.views import deck_metadata as deck_metadata_views
+from decks.views import embeds as embeds_views
 from decks.views import imports as import_views
 from decks.views import general as general_views
 
@@ -65,5 +66,10 @@ urlpatterns = [
         "import-multiple-cards/",
         import_views.import_multiple_cards,
         name="import-multiple-cards",
+    ),
+    path(
+        "embed/deck/<int:deck_id>",
+        embeds_views.deck_embed_view,
+        name="embed-deck",
     ),
 ]
