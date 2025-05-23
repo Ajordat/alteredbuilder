@@ -68,7 +68,7 @@ urlpatterns = [
         name="import-multiple-cards",
     ),
     path(
-        "embed/deck/<int:deck_id>",
+        "<int:deck_id>/embed/",
         embeds_views.deck_embed_view,
         name="embed-deck",
     ),

@@ -89,6 +89,31 @@ if (copyQRElement) {
     });
 }
 
+// Functionality to save a QR with a link of the deck into the clipboard
+let copyHTMLiframe = document.getElementById("share-iframe");
+if (copyHTMLiframe) {
+    copyHTMLiframe.addEventListener("click", () => {
+        let embedURL = window.location.href + "embed/";
+
+        navigator.clipboard.writeText(`
+<center>
+    <iframe
+        src="${embedURL}?columns=2&display_height=300&section_box=false&hover_display=true&hover_animation=true&show_name=true&show_author=true&transparent_body=false&shadow_body=true"
+        width="100%"
+        height="600px"
+        style="border: none;"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+</center>`);
+
+        displaySimpleToast(gettext("HTML iframe copied into clipboard!"));
+
+        // Return false to avoid redirection
+        return false;
+    });
+}
+
 // Functionality to remove all copies of a Card from the deck
 let removeCardEls = document.getElementsByClassName("remove-card-trigger");
 for (let element of removeCardEls) {
