@@ -167,7 +167,7 @@
                         <li id="copy-self-link"><a class="dropdown-item" href="#"><i class="fa-regular fa-copy"></i> {% translate "Copy link" %}</a></li>
                         <li id="copy-decklist"><a class="dropdown-item" href="#"><i class="fa-regular fa-copy"></i> {% translate "Copy decklist" %}</a></li>
     {% if deck.is_public %}
-                        <li id="share-iframe"><a class="dropdown-item" href="#"><i class="fa-brands fa-wordpress-simple"></i> Wordpress</a></li>
+                        <li id="share-iframe"><a class="dropdown-item" href=""><i class="fa-brands fa-wordpress-simple"></i> Wordpress</a></li>
                         <li id="share-qr-code"><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#qr-code-modal"><i class="fa-solid fa-qrcode"></i> {% translate "QR Code" %}</a></li>
                         <li id="share-facebook"><a class="dropdown-item" href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-facebook"></i> Facebook</a></li>
                         <li id="share-telegram"><a class="dropdown-item" href="https://telegram.me/share/url?url={{ request.build_absolute_uri }}" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram</a></li>
