@@ -1,3 +1,4 @@
+from functools import lru_cache
 import json
 import math
 from typing import Any
@@ -19,11 +20,15 @@ CARDS_API_URL = "https://api.altered.gg/cards"
 ITEMS_PER_PAGE = 36
 # If True, retrieve the unique cards
 UPDATE_UNIQUES = False
-QUERY_SET = ["ALIZE"]
+QUERY_SET = ["BISE"]
 # The API currently returns a private image link for unique cards in these languages
 IMAGE_ERROR_LOCALES = ["es", "it", "de"]
 LOCALE_IRREGULAR_CODES = {"en": "en-us"}
 HEADERS = {"User-Agent": get_user_agent("CardImporter")}
+if QUERY_SET:
+    SET_CACHE = [Set.objects.get(code=card_set) for card_set in QUERY_SET]
+else:
+    SET_CACHE = [card_set for card_set in Set.objects.all()]
 
 
 class SubTypeCache:
@@ -162,8 +167,10 @@ class Command(BaseCommand):
                 for subtype in card["cardSubTypes"]
             ]
 
-        if "MAIN_EFFECT" in card["elements"]:
-            card_dict["main_effect"] = card["elements"]["MAIN_EFFECT"]
+        main_effect, echo_effect = self.fetch_effects(card_dict["reference"])
+
+        if main_effect:
+            card_dict["main_effect"] = main_effect
 
         if card_dict["type"] in ["TOKEN", "TOKEN_MANA", "FOILER"]:
             # Stop the parsing if the Card is one of these
@@ -191,8 +198,9 @@ class Command(BaseCommand):
                     }
                 )
 
-            if "ECHO_EFFECT" in card["elements"]:
-                card_dict["echo_effect"] = card["elements"]["ECHO_EFFECT"]
+            if echo_effect:
+                card_dict["echo_effect"] = echo_effect
+
             if card_dict["type"] == "CHARACTER":
                 card_dict.update(
                     {
@@ -226,15 +234,11 @@ class Command(BaseCommand):
             print(card_dict)
             raise e
 
-        # Retrieve the Set. This could probably done better, but I'm unsure how to make
-        # the reverse query to the db
         reference = card_dict["reference"]
-        if "_CORE_" in reference:
-            card_dict["set"] = Set.objects.get(code="CORE")
-        elif "_COREKS_" in reference:
-            card_dict["set"] = Set.objects.get(code="COREKS")
-        elif "_ALIZE_" in reference:
-            card_dict["set"] = Set.objects.get(code="ALIZE")
+        for card_set in SET_CACHE:
+            if card_set.reference_code in reference:
+                card_dict["set"] = card_set
+                break
 
         card_dict["is_promo"] = "_P_" in reference
         card_dict["is_alt_art"] = "_A_" in reference
@@ -309,10 +313,33 @@ class Command(BaseCommand):
 
     def fetch_subtypes(self, reference: str) -> list[(str, str)]:
 
+        data = self._fetch_details(reference, self.language_code)
+
+        try:
+            return [(st["reference"], st["name"]) for st in data["cardSubTypes"]]
+        except KeyError:
+            return []
+
+    def fetch_effects(self, reference: str) -> tuple[str | None, str | None]:
+
+        data: dict = self._fetch_details(reference, self.language_code)
+        stats: dict = data.get("elements", {})
+        return stats.get("MAIN_EFFECT"), stats.get("ECHO_EFFECT")
+
+    @lru_cache(maxsize=16)
+    def _fetch_details(self, reference: str, locale: str) -> dict:
+        # Adding a cache to this call allows us to prevent repeated calls to the remote
+        # API. This is very useful because each reference is extracted twice:
+        #  1 - Extracting the card effects
+        #  2 - Extracting the subtypes
+        # However, we need to add the locale in the header because we want to get the
+        # details in other languages as well. If we didn't, we'd be getting the same
+        # language for all versions of each card.
+
         locale = (
-            LOCALE_IRREGULAR_CODES[self.language_code]
-            if self.language_code in LOCALE_IRREGULAR_CODES
-            else f"{self.language_code}-{self.language_code}"
+            LOCALE_IRREGULAR_CODES[locale]
+            if locale in LOCALE_IRREGULAR_CODES
+            else f"{locale}-{locale}"
         )
         HEADERS["Accept-Language"] = locale
         params = f"locale={locale}"
@@ -321,9 +348,4 @@ class Command(BaseCommand):
         # Query the API
         with request.urlopen(req) as response:
             page = response.read()
-            data = json.loads(page.decode("utf8"))
-
-        try:
-            return [(st["reference"], st["name"]) for st in data["cardSubTypes"]]
-        except KeyError:
-            return []
+            return json.loads(page.decode("utf8"))
