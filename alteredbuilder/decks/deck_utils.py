@@ -481,6 +481,15 @@ def filter_by_query(qs: QuerySet[Deck], query: str) -> QuerySet[Deck]:
                 tags.append((_("hero"), ":", hero))
             query = re.sub(h_regex, "", query)
 
+        ref_regex = r"ref:(?P<reference>\w+)"
+
+        if matches := re.finditer(ref_regex, query):
+            for re_match in matches:
+                reference = re_match.group("reference")
+                filters &= Q(cards__reference=reference)
+                tags.append((_("reference"), ":", reference))
+            query = re.sub(ref_regex, "", query)
+
         query = query.strip()
         if query:
             tags.append((_("query"), ":", query))
