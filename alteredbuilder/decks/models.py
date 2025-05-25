@@ -58,6 +58,8 @@ class CardManager(models.Manager):
         forest_power=0,
         mountain_power=0,
         ocean_power=0,
+        is_promo=False,
+        is_alt_art=False,
     ):
         stats = {"main_cost": main_cost, "recall_cost": recall_cost}
         if type == Card.Type.CHARACTER:
@@ -79,6 +81,8 @@ class CardManager(models.Manager):
             main_effect=main_effect,
             echo_effect=echo_effect,
             stats=stats,
+            is_promo=is_promo,
+            is_alt_art=is_alt_art,
         )
 
 
@@ -333,4 +337,8 @@ class CardPrice(models.Model):
     date = models.DateField(auto_now_add=True)
 
     class Meta:
-        constraints = [models.UniqueConstraint(fields=["card", "date"], name="unique_card_date_price")]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["card", "date"], name="unique_card_date_price"
+            )
+        ]
