@@ -633,14 +633,14 @@ msgstr "Crear enlace privado"
 #: decks/templates/decks/snippets/card_list.html:19
 #: decks/templates/decks/snippets/card_table.html:27
 msgid "Go to details"
-msgstr "Ir a detalles"
+msgstr "Ver detalles"
 
 #: decks/templates/decks/deck_detail.html:216
 #: decks/templates/decks/deck_detail.html:272
 #: decks/templates/decks/snippets/card_list.html:20
 #: decks/templates/decks/snippets/card_table.html:28
 msgid "Go to marketplace"
-msgstr "Ir al marketplace"
+msgstr "Ver en el marketplace"
 
 #: decks/templates/decks/deck_detail.html:217
 #: decks/templates/decks/deck_detail.html:273
