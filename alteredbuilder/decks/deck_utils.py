@@ -429,7 +429,6 @@ def import_unique_card(reference: str) -> Card:  # pragma: no cover
         card_data = response.json()
         card.name = og_card.name
 
-        card.main_effect
         if "MAIN_EFFECT" in card_data["elements"]:
             card.main_effect = card_data["elements"]["MAIN_EFFECT"]
         if "ECHO_EFFECT" in card_data["elements"]:
