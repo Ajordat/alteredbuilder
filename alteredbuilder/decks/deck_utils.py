@@ -138,7 +138,8 @@ def get_deck_details(deck: Deck) -> dict:
 
     cid_queryset: QuerySet[CardInDeck] = deck.cardindeck_set
     decklist = (
-        cid_queryset.select_related("card").prefetch_related("card__prices")
+        cid_queryset.select_related("card")
+        .prefetch_related("card__prices")
         .annotate(
             last_price=Subquery(
                 CardPrice.objects.filter(card=OuterRef("card__pk"))
@@ -176,7 +177,9 @@ def get_deck_details(deck: Deck) -> dict:
         # Count the amount of cards with the same rarity
         rarity_counter[cid.card.rarity] += cid.quantity
         power_counter["forest"] += cid.card.stats.get("forest_power", 0) * cid.quantity
-        power_counter["mountain"] += cid.card.stats.get("mountain_power", 0) * cid.quantity
+        power_counter["mountain"] += (
+            cid.card.stats.get("mountain_power", 0) * cid.quantity
+        )
         power_counter["ocean"] += cid.card.stats.get("ocean_power", 0) * cid.quantity
 
     decklist_text = f"1 {deck.hero.reference}\n" if deck.hero else ""
@@ -441,10 +444,7 @@ def import_unique_card(reference: str) -> Card:  # pragma: no cover
             card.save()
             card.subtypes.add(*og_card.subtypes.all())
     except IntegrityError as e:
-        if (
-            'duplicate key value violates unique constraint "decks_card_pkey"'
-            in str(e)
-        ):
+        if 'duplicate key value violates unique constraint "decks_card_pkey"' in str(e):
             # This can happen if the user attempts to import a deck and submits
             # another import with the same unique card while it hasn't been fully
             # imported.
