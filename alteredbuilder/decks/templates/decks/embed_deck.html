@@ -175,6 +175,7 @@
             <div class="deck-author">{% blocktranslate with owner=deck.metadata.owner.username|safe_username %}by {{ owner }}{% endblocktranslate %}</div>
 {% endif %}
             <div class="deck-sections-flex">
+{% if deck.metadata.hero %}
                 <div class="deck-section">
                     <span class="section-header">{% translate "Hero" %}</span>
                     <ul class="card-list">
@@ -185,24 +186,31 @@
                         </li>
                     </ul>
                 </div>
+{% endif %}
+{% if deck.characters %}
                 <div class="deck-section">
                     <span class="section-header">{% translate "Characters" %}</span>
                     <ul class="card-list">
                         {% include "decks/snippets/embedded_cards.html" with cards=deck.characters %}
                     </ul>
                 </div>
+{% endif %}
+{% if deck.spells %}
                 <div class="deck-section">
                     <span class="section-header">{% translate "Spells" %}</span>
                     <ul class="card-list">
                         {% include "decks/snippets/embedded_cards.html" with cards=deck.spells %}
                     </ul>
                 </div>
+{% endif %}
+{% if deck.permanents %}
                 <div class="deck-section">
                     <span class="section-header">{% translate "Permanents" %}</span>
                     <ul class="card-list">
                         {% include "decks/snippets/embedded_cards.html" with cards=deck.permanents %}
                     </ul>
                 </div>
+{% endif %}
             </div>
             <div>
                 <a class="view-link" href="{{ deck.metadata.get_absolute_url }}" target="_blank">
