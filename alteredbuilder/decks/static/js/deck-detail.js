@@ -92,7 +92,8 @@ if (copyQRElement) {
 // Functionality to save a QR with a link of the deck into the clipboard
 let copyHTMLiframe = document.getElementById("share-iframe");
 if (copyHTMLiframe) {
-    copyHTMLiframe.addEventListener("click", () => {
+    copyHTMLiframe.addEventListener("click", (event) => {
+        event.preventDefault();
         let embedURL = window.location.href + "embed/";
 
         navigator.clipboard.writeText(`
