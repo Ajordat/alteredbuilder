@@ -32,6 +32,7 @@ jobs:
         - train_model
         - update_card_prices
         - refresh_token
+        - update_card_pool
     steps:
     - name: Checkout
       uses: actions/checkout@v4
