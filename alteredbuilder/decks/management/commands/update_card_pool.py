@@ -1,29 +1,29 @@
 from functools import lru_cache
-import json
 import math
 from typing import Any
-from urllib import request
 
 from django.conf import settings
 from django.core.management.base import CommandError
 from django.utils.translation import activate
 
 from config.commands import BaseCommand
-from config.utils import get_user_agent
+from config.utils import (
+    altered_api_paginator,
+    fetch_with_backoff,
+    get_altered_api_locale,
+    get_user_agent,
+)
 from decks.exceptions import IgnoreCardType
 from decks.models import Card, Set, Subtype
 
 
 # Altered's API endpoint
-CARDS_API_URL = "https://api.altered.gg/cards"
-# The amount of items per page. Set to a high number to avoid pagination
-ITEMS_PER_PAGE = 36
+CARDS_API_ENDPOINT = "/cards"
 # If True, retrieve the unique cards
 UPDATE_UNIQUES = False
 QUERY_SET = ["BISE"]
 # The API currently returns a private image link for unique cards in these languages
 IMAGE_ERROR_LOCALES = ["es", "it", "de"]
-LOCALE_IRREGULAR_CODES = {"en": "en-us"}
 HEADERS = {"User-Agent": get_user_agent("CardImporter")}
 if QUERY_SET:
     SET_CACHE = [Set.objects.get(code=card_set) for card_set in QUERY_SET]
@@ -79,67 +79,50 @@ class Command(BaseCommand):
             CommandError: If the API returns a response in a different format.
         """
 
-        locale = (
-            LOCALE_IRREGULAR_CODES[self.language_code]
-            if self.language_code in LOCALE_IRREGULAR_CODES
-            else f"{self.language_code}-{self.language_code}"
-        )
-        HEADERS["Accept-Language"] = locale
-        page_index = 1
-        page_count = math.inf
-        total_items = math.inf
+        locale = get_altered_api_locale(self.language_code)
 
-        while page_index <= page_count:
-            params = f"?page={page_index}&itemsPerPage={ITEMS_PER_PAGE}&locale={locale}"
-            if UPDATE_UNIQUES:
-                params += "&rarity[]=UNIQUE"
-            if len(QUERY_SET) > 0:
-                params += "".join([f"&cardSet[]={card_set}" for card_set in QUERY_SET])
-            req = request.Request(CARDS_API_URL + params, headers=HEADERS)
+        params = []
+        if UPDATE_UNIQUES:
+            params.append(("rarity[]", "UNIQUE"))
+        if len(QUERY_SET) > 0:
+            params.extend([("cardSet[]", card_set) for card_set in QUERY_SET])
 
-            # Query the API
-            with request.urlopen(req) as response:
-                page = response.read()
-                data = json.loads(page.decode("utf8"))
+        for card in altered_api_paginator(
+            CARDS_API_ENDPOINT, user_agent_task="CardImporter", params=params, locale=locale
+        ):
 
-            total_items = min(data["hydra:totalItems"], total_items)
-            page_count = min(math.ceil(total_items / ITEMS_PER_PAGE), page_count)
+            # Iterate each card retrieved
+            try:
+                card_dict = self.extract_card(card)
+            except IgnoreCardType:
+                continue
+            except KeyError:
+                self.stderr.write(card)
+                raise CommandError("Invalid card format encountered")
 
-            for card in data["hydra:member"]:
-                # Iterate each card retrieved
-                try:
-                    card_dict = self.extract_card(card)
-                except IgnoreCardType:
-                    continue
-                except KeyError:
-                    self.stderr.write(card)
-                    raise CommandError("Invalid card format encountered")
+            try:
+                # Cast RAW values into the rightful Enum/class/Model
+                self.convert_choices(card_dict)
+            except ValueError:
+                continue
 
-                try:
-                    # Cast RAW values into the rightful Enum/class/Model
-                    self.convert_choices(card_dict)
-                except ValueError:
-                    continue
+            if (
+                card_dict["rarity"] == Card.Rarity.UNIQUE
+                and self.language_code in IMAGE_ERROR_LOCALES
+            ):
+                # If it's a unique card and one of the failing languages,
+                # skip the image
+                card_dict["image_url"] = None
 
-                if (
-                    card_dict["rarity"] == Card.Rarity.UNIQUE
-                    and self.language_code in IMAGE_ERROR_LOCALES
-                ):
-                    # If it's a unique card and one of the failing languages,
-                    # skip the image
-                    card_dict["image_url"] = None
-
-                try:
-                    # Attempt to retrieve the Card using the reference
-                    card_obj = Card.objects.get(reference=card_dict["reference"])
-                except Card.DoesNotExist:
-                    # If it doesn't exist, create the card
-                    self.create_card(card_dict)
-                else:
-                    # If the card exists, update it
-                    self.update_card(card_dict, card_obj)
-
-            page_index += 1
+            try:
+                # Attempt to retrieve the Card using the reference
+                card_obj = Card.objects.get(reference=card_dict["reference"])
+            except Card.DoesNotExist:
+                # If it doesn't exist, create the card
+                self.create_card(card_dict)
+            else:
+                # If the card exists, update it
+                self.update_card(card_dict, card_obj)
 
     def extract_card(self, card: dict) -> dict:
         """Recieve the API response and extract the relevant values into a dictionary.
@@ -336,16 +319,9 @@ class Command(BaseCommand):
         # details in other languages as well. If we didn't, we'd be getting the same
         # language for all versions of each card.
 
-        locale = (
-            LOCALE_IRREGULAR_CODES[locale]
-            if locale in LOCALE_IRREGULAR_CODES
-            else f"{locale}-{locale}"
-        )
+        locale = get_altered_api_locale(self.language_code)
         HEADERS["Accept-Language"] = locale
         params = f"locale={locale}"
-        req = request.Request(f"{CARDS_API_URL}/{reference}?{params}", headers=HEADERS)
 
         # Query the API
-        with request.urlopen(req) as response:
-            page = response.read()
-            return json.loads(page.decode("utf8"))
+        return fetch_with_backoff(f"{settings.ALTERED_API_BASE_URL}{CARDS_API_ENDPOINT}/{reference}?{params}", HEADERS)
