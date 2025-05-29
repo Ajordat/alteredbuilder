@@ -25,7 +25,7 @@ function parseFilter(labels) {
 
     for (let label of labels) {
         let labelElement = document.getElementById("filter" + label);
-        if (labelElement.checked) {
+        if (!!labelElement && labelElement.checked) {
           filter.push(labelElement.value);
         }
     }
@@ -67,7 +67,7 @@ function searchCards(e) {
     }
 
     // Retrieve the SET filters
-    let sets = parseFilter(["BTG", "BTG-KS", "TBF"]);
+    let sets = parseFilter(["BTG", "BTG-KS", "TBF", "WFM"]);
     if (sets.length > 0) {
         params.append("set", sets.join(","));
     }

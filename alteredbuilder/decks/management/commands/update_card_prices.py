@@ -66,7 +66,7 @@ class Command(BaseCommand):
 
         for card in altered_api_paginator(
             CARDS_API_ENDPOINT,
-            params={"factions[]": faction},
+            params=[("factions[]", faction)],
             user_agent_task="MarketplaceImporter",
             auth_token=auth_token,
         ):

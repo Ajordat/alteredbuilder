@@ -2,12 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-23 21:44+0200\n"
+"POT-Creation-Date: 2025-05-26 00:52+0200\n"
 "PO-Revision-Date: 2025-01-02 18:00+0000\n"
 "Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/altered-tcg-"
@@ -63,39 +63,39 @@ msgstr "Karte „%(reference)s“ existiert nicht"
 msgid "Multiple heroes present in the decklist"
 msgstr "Mehrere Helden in der Deckliste vorhanden"
 
-#: decks/deck_utils.py:279
+#: decks/deck_utils.py:282 decks/deck_utils.py:490
 msgid "reference"
 msgstr "Referenz"
 
-#: decks/deck_utils.py:299
+#: decks/deck_utils.py:302
 msgid "hand cost"
 msgstr "Handkosten"
 
-#: decks/deck_utils.py:319
+#: decks/deck_utils.py:322
 msgid "reserve cost"
 msgstr "Reservekosten"
 
-#: decks/deck_utils.py:328
+#: decks/deck_utils.py:331
 msgid "ability"
 msgstr "Fähigkeit"
 
-#: decks/deck_utils.py:341
+#: decks/deck_utils.py:344
 msgid "subtype"
 msgstr "Subtyp"
 
-#: decks/deck_utils.py:355
+#: decks/deck_utils.py:358
 msgid "trigger"
 msgstr "Auslöser"
 
-#: decks/deck_utils.py:362 decks/deck_utils.py:487
+#: decks/deck_utils.py:365 decks/deck_utils.py:495
 msgid "query"
 msgstr "Abfrage"
 
-#: decks/deck_utils.py:473
+#: decks/deck_utils.py:472
 msgid "user"
 msgstr "anmeldename"
 
-#: decks/deck_utils.py:482
+#: decks/deck_utils.py:481
 msgid "hero"
 msgstr "Held"
 
@@ -373,6 +373,7 @@ msgstr "Handkosten:"
 #: decks/templates/decks/card_list.html:290
 #: decks/templates/decks/deck_list.html:139
 #: decks/templates/decks/deck_list.html:144
+#: decks/templates/decks/deck_list.html:149
 #: decks/templates/decks/own_deck_list.html:140
 #: decks/templates/decks/tooltips/card_query_search.html:10
 #: decks/templates/decks/tooltips/card_query_search.html:15
@@ -391,6 +392,7 @@ msgstr "Operatoren:"
 #: decks/templates/decks/card_list.html:291
 #: decks/templates/decks/deck_list.html:140
 #: decks/templates/decks/deck_list.html:145
+#: decks/templates/decks/deck_list.html:150
 #: decks/templates/decks/own_deck_list.html:141
 #: decks/templates/decks/tooltips/card_query_search.html:11
 #: decks/templates/decks/tooltips/card_query_search.html:16
@@ -420,8 +422,8 @@ msgstr "Fähigkeiten:"
 
 #: decks/templates/decks/card_list.html:276
 #: decks/templates/decks/card_list.html:286
-#: decks/templates/decks/deck_list.html:140
 #: decks/templates/decks/deck_list.html:145
+#: decks/templates/decks/deck_list.html:150
 #: decks/templates/decks/own_deck_list.html:141
 #: decks/templates/decks/tooltips/card_query_search.html:21
 #: decks/templates/decks/tooltips/card_query_search.html:31
@@ -450,7 +452,7 @@ msgid "Reference:"
 msgstr "Referenz:"
 
 #: decks/templates/decks/card_list.html:294
-#: decks/templates/decks/deck_list.html:148
+#: decks/templates/decks/deck_list.html:153
 #: decks/templates/decks/own_deck_list.html:144
 #: decks/templates/decks/tooltips/card_query_search.html:39
 #: decks/templates/decks/tooltips/own_deck_query_search.html:15
@@ -864,7 +866,7 @@ msgstr[1] ""
 #, fuzzy, python-format
 #| msgid "Latest decks"
 msgid "1 private deck"
-msgid_plural "%(deck.copy_count)s private decks"
+msgid_plural "%(count)s private decks"
 msgstr[0] "Neueste Decks"
 msgstr[1] "Neueste Decks"
 
@@ -1017,31 +1019,47 @@ msgid "Most views"
 msgstr "Meistbesucht"
 
 #: decks/templates/decks/deck_list.html:138
+#, fuzzy
+#| msgid "Cards:"
+msgid "Card:"
+msgstr "Karten:"
+
+#: decks/templates/decks/deck_list.html:140
+msgid "Card reference"
+msgstr "Referenz der Karte"
+
+#: decks/templates/decks/deck_list.html:143
 #: decks/templates/decks/own_deck_list.html:139
 #: decks/templates/decks/tooltips/own_deck_query_search.html:10
 msgid "Hero:"
 msgstr "Held:"
 
-#: decks/templates/decks/deck_list.html:143
+#: decks/templates/decks/deck_list.html:148
 msgid "User:"
 msgstr "Anmeldename:"
 
-#: decks/templates/decks/deck_list.html:152
+#: decks/templates/decks/deck_list.html:157
 #, python-format
 msgid "Search decks created by the user \"%(username)s\":"
 msgstr "Suche nach Decks, die vom Benutzer \"%(username)s\" erstellt wurden:"
 
-#: decks/templates/decks/deck_list.html:155
+#: decks/templates/decks/deck_list.html:160
 msgid "Search decks with the hero \"Teija\" created by the user \"Equinox\":"
 msgstr ""
 "Suche nach Decks mit dem Helden \"Teija\", die vom Benutzer \"Equinox\" "
 "erstellt wurden:"
 
-#: decks/templates/decks/deck_list.html:158
+#: decks/templates/decks/deck_list.html:163
 msgid ""
 "Search decks where its the name contains \"Starter\" with the hero \"Kojo\":"
 msgstr ""
 "Suche nach Decks, deren Name \"Starter\" mit dem Helden \"Kojo\" enthält:"
+
+#: decks/templates/decks/deck_list.html:166
+#, fuzzy
+#| msgid "Search decks with the hero \"Teija\":"
+msgid "Search decks that have the card \"Haven Seiringar\":"
+msgstr "Suche nach Decks mit dem Helden \"Haven-Seiringar\":"
 
 #: decks/templates/decks/embed_deck.html:175
 #, python-format
@@ -2260,9 +2278,6 @@ msgstr "Angesagte Decks"
 
 #~ msgid "Deck name:"
 #~ msgstr "Deckname:"
-
-#~ msgid "Cards:"
-#~ msgstr "Karten:"
 
 #~ msgid "Share"
 #~ msgstr "Teilen"

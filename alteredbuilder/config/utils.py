@@ -1,8 +1,17 @@
+from http import HTTPStatus
 import json
 import math
+import random
+import time
 from typing import Any, Generator
+from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
+
 from django.conf import settings
+
+from decks.exceptions import AlteredAPIError
+
+LOCALE_IRREGULAR_CODES = {"en": "en-us"}
 
 
 def get_user_agent(task: str) -> str:
@@ -12,7 +21,7 @@ def get_user_agent(task: str) -> str:
 def altered_api_paginator(
     endpoint: str,
     user_agent_task,
-    params: dict = None,
+    params: list[tuple[str, str]] = None,
     locale: str = "en-us",
     auth_token: bool = False,
 ) -> Generator[dict[str, Any], None, None]:
@@ -32,12 +41,10 @@ def altered_api_paginator(
     while page_index <= page_count:
         query_params = f"?page={page_index}&itemsPerPage={settings.ALTERED_API_ITEMS_PER_PAGE}&locale={locale}"
         if params:
-            query_params += "&" + "&".join([f"{k}={v}" for k, v in params.items()])
+            query_params += "&" + "&".join([f"{k}={v}" for k, v in params])
 
         # Query the API
-        with urlopen(Request(url + query_params, headers=headers)) as response:
-            page = response.read()
-            data = json.loads(page.decode("utf8"))
+        data = fetch_with_backoff(url + query_params, headers)
 
         total_items = min(data["hydra:totalItems"], total_items)
         page_count = min(
@@ -48,3 +55,40 @@ def altered_api_paginator(
             yield item
 
         page_index += 1
+
+
+def fetch_with_backoff(url, headers, max_retries=5):
+    for attempt in range(max_retries):
+        try:
+            with urlopen(Request(url, headers=headers)) as response:
+                return json.loads(response.read().decode("utf8"))
+        except HTTPError as e:
+            if attempt + 1 >= max_retries:
+                raise
+            if e.code != HTTPStatus.TOO_MANY_REQUESTS:
+                raise
+            retry_after = e.headers.get("Retry-After")
+            if retry_after:
+                wait = int(retry_after)
+            else:
+                wait = __get_backoff_time(attempt)
+            print(f"HTTP status 429 received. Retrying in {wait:.2f} seconds...")
+            time.sleep(wait)
+        except URLError as e:
+            if attempt + 1 >= max_retries:
+                raise
+            print(f"Network error: {e}. Retrying...")
+            time.sleep(__get_backoff_time(attempt))
+    raise AlteredAPIError(f"Failed to fetch URL: {url}")
+
+
+def __get_backoff_time(times):
+    return (2**times) + random.uniform(0, 1)
+
+
+def get_altered_api_locale(language_code):
+    return (
+        LOCALE_IRREGULAR_CODES[language_code]
+        if language_code in LOCALE_IRREGULAR_CODES
+        else f"{language_code}-{language_code}"
+    )

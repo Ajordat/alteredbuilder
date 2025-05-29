@@ -138,7 +138,8 @@ def get_deck_details(deck: Deck) -> dict:
 
     cid_queryset: QuerySet[CardInDeck] = deck.cardindeck_set
     decklist = (
-        cid_queryset.select_related("card").prefetch_related("card__prices")
+        cid_queryset.select_related("card")
+        .prefetch_related("card__prices")
         .annotate(
             last_price=Subquery(
                 CardPrice.objects.filter(card=OuterRef("card__pk"))
@@ -176,7 +177,9 @@ def get_deck_details(deck: Deck) -> dict:
         # Count the amount of cards with the same rarity
         rarity_counter[cid.card.rarity] += cid.quantity
         power_counter["forest"] += cid.card.stats.get("forest_power", 0) * cid.quantity
-        power_counter["mountain"] += cid.card.stats.get("mountain_power", 0) * cid.quantity
+        power_counter["mountain"] += (
+            cid.card.stats.get("mountain_power", 0) * cid.quantity
+        )
         power_counter["ocean"] += cid.card.stats.get("ocean_power", 0) * cid.quantity
 
     decklist_text = f"1 {deck.hero.reference}\n" if deck.hero else ""
@@ -429,7 +432,6 @@ def import_unique_card(reference: str) -> Card:  # pragma: no cover
         card_data = response.json()
         card.name = og_card.name
 
-        card.main_effect
         if "MAIN_EFFECT" in card_data["elements"]:
             card.main_effect = card_data["elements"]["MAIN_EFFECT"]
         if "ECHO_EFFECT" in card_data["elements"]:
@@ -442,10 +444,7 @@ def import_unique_card(reference: str) -> Card:  # pragma: no cover
             card.save()
             card.subtypes.add(*og_card.subtypes.all())
     except IntegrityError as e:
-        if (
-            'duplicate key value violates unique constraint "decks_card_pkey"'
-            in str(e)
-        ):
+        if 'duplicate key value violates unique constraint "decks_card_pkey"' in str(e):
             # This can happen if the user attempts to import a deck and submits
             # another import with the same unique card while it hasn't been fully
             # imported.
@@ -481,6 +480,15 @@ def filter_by_query(qs: QuerySet[Deck], query: str) -> QuerySet[Deck]:
                 filters &= Q(hero__name__icontains=hero)
                 tags.append((_("hero"), ":", hero))
             query = re.sub(h_regex, "", query)
+
+        ref_regex = r"ref:(?P<reference>\w+)"
+
+        if matches := re.finditer(ref_regex, query):
+            for re_match in matches:
+                reference = re_match.group("reference")
+                filters &= Q(cards__reference=reference)
+                tags.append((_("reference"), ":", reference))
+            query = re.sub(ref_regex, "", query)
 
         query = query.strip()
         if query:

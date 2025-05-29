@@ -92,15 +92,25 @@ if (copyQRElement) {
 // Functionality to save a QR with a link of the deck into the clipboard
 let copyHTMLiframe = document.getElementById("share-iframe");
 if (copyHTMLiframe) {
-    copyHTMLiframe.addEventListener("click", () => {
+    copyHTMLiframe.addEventListener("click", (event) => {
+        event.preventDefault();
         let embedURL = window.location.href + "embed/";
 
         navigator.clipboard.writeText(`
+<!-- These two scripts simply modify the size of the iframe to its content, allowing for dynamic height -->
+<!-- If you display multiple decks in the same post, only add these two lines once at the beginning -->
+<script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/parent@5.4.6"></script>
+<script>window.addEventListener("DOMContentLoaded", () => {iframeResize({license: 'GPLv3', log: 'collapsed', waitForLoad: true,}, '.ajordat-deck')});</script>
+
+<!-- The code for the deck display. -->
+<!-- Feel free to remove the parent "center" tag if you don't want the content centered -->
+<!-- Inside the "iframe" tag, the "src" attribute indicates the deck being retrieved as well as multiple optional parameters that affect how the page will be rendered (everything after the "?") -->
+<!-- The provided options are the default, but feel free to experiment with them to achieve the most suitable render for your website -->
 <center>
     <iframe
+        class="ajordat-deck"
         src="${embedURL}?columns=2&display_height=300&section_box=false&hover_display=true&hover_animation=true&show_name=true&show_author=true&transparent_body=false&shadow_body=true"
         width="100%"
-        height="600px"
         style="border: none;"
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade">

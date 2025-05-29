@@ -497,7 +497,7 @@
             {% endif %}
         {% empty %}
                     <tr>
-                        <td colspan="2" class="text-center"><small>{% blocktranslate count count=deck.copy_count %}1 private deck{% plural %}{{ deck.copy_count }} private decks{% endblocktranslate %}</small></td>
+                        <td colspan="2" class="text-center"><small>{% blocktranslate count count=deck.copy_count %}1 private deck{% plural %}{{ count }} private decks{% endblocktranslate %}</small></td>
                     </tr>
         {% endfor %}
                 </tbody>

@@ -10,6 +10,11 @@
         <link rel="stylesheet" href="{% static 'css/altered-icons.css' %}">
         <link href="https://fonts.googleapis.com/css2?family=Gabriela&display=swap" rel="stylesheet">
         <title>{{ deck.metadata.name }}</title>
+        <script
+            src="https://cdn.jsdelivr.net/npm/@iframe-resizer/child@5.4.6"
+            type="text/javascript"
+            async
+        ></script>
         <style>
             body {
                 font-family: "Gabriela", Verdana, Tahoma, Geneva, sans-serif;
@@ -108,10 +113,12 @@
                 position: fixed;
                 z-index: 1000;
                 pointer-events: none;
-                border: 1px solid #ccc;
                 background: white;
-                padding: 0.3em;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                box-shadow: 0 0 12px #625948;
+                border-radius: 1rem;
+            }
+            #preview-img {
+                border-radius: 1rem;
             }
             .card-row {
                 display: grid;
@@ -175,6 +182,7 @@
             <div class="deck-author">{% blocktranslate with owner=deck.metadata.owner.username|safe_username %}by {{ owner }}{% endblocktranslate %}</div>
 {% endif %}
             <div class="deck-sections-flex">
+{% if deck.metadata.hero %}
                 <div class="deck-section">
                     <span class="section-header">{% translate "Hero" %}</span>
                     <ul class="card-list">
@@ -185,24 +193,31 @@
                         </li>
                     </ul>
                 </div>
+{% endif %}
+{% if deck.characters %}
                 <div class="deck-section">
                     <span class="section-header">{% translate "Characters" %}</span>
                     <ul class="card-list">
                         {% include "decks/snippets/embedded_cards.html" with cards=deck.characters %}
                     </ul>
                 </div>
+{% endif %}
+{% if deck.spells %}
                 <div class="deck-section">
                     <span class="section-header">{% translate "Spells" %}</span>
                     <ul class="card-list">
                         {% include "decks/snippets/embedded_cards.html" with cards=deck.spells %}
                     </ul>
                 </div>
+{% endif %}
+{% if deck.permanents %}
                 <div class="deck-section">
                     <span class="section-header">{% translate "Permanents" %}</span>
                     <ul class="card-list">
                         {% include "decks/snippets/embedded_cards.html" with cards=deck.permanents %}
                     </ul>
                 </div>
+{% endif %}
             </div>
             <div>
                 <a class="view-link" href="{{ deck.metadata.get_absolute_url }}" target="_blank">
