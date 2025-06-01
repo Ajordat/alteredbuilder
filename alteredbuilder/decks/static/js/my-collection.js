@@ -216,6 +216,7 @@ function drawStats(stats) {
         drawProgressStat(set, "rare", stats.getRareCount(set), CARD_SETS[set].rare_count);
         drawProgressStat(set, "unique", stats.getUniqueCount(set), CARD_SETS[set].unique_count);
         drawProgressStat(set, "all", stats.getTotalCount(set), CARD_SETS[set].total_count);
+        drawProgressStat(set, "summary", stats.getTotalCount(set), CARD_SETS[set].total_count);
     });
 }
 

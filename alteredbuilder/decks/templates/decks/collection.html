@@ -11,16 +11,17 @@
     <h2>{% translate "My Collection" %}</h2>
 
     <button type="button" class="btn altered-style mb-3" data-bs-toggle="modal" data-bs-target="#importCollectionModal">{% translate "Import Collection" %}</button>
+    <div class="row row-cols-1 row-cols-md-3 row-cols-xl-4 g-4">
+    
+    {% for set in card_sets %}
+        {% include "decks/snippets/collection_set_summary.html" with set=set %}
+    {% endfor %}
 
-    {% translate "Whispers from the Maze" as wfm %}
-    {% include "decks/snippets/collection_individual_set.html" with set_id="BISE" set_name=wfm %}
+    </div>
 
-    {% translate "Trial by Frost" as tbf %}
-    {% include "decks/snippets/collection_individual_set.html" with set_id="ALIZE" set_name=tbf %}
-
-    {% translate "Beyond The Gates" as btg %}
-    {% translate "Kickstarter Edition" as kse %}
-    {% include "decks/snippets/collection_individual_set.html" with set_id="CORE" set_name=btg|add:" + "|add:kse %}
+    {% for set in card_sets %}
+        {% include "decks/snippets/collection_individual_set.html" with set=set %}
+    {% endfor %}
 
     <!-- Manage collection modal -->
     {% include "decks/tooltips/import_collection.html"%}

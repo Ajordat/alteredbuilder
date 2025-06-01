@@ -1,7 +1,7 @@
 from django.urls import path
-from django.views.generic import TemplateView
 
 from decks.views import card_list as card_list_views
+from decks.views import collection as collection_views
 from decks.views import comments as comment_views
 from decks.views import deck_detail as deck_detail_views
 from decks.views import deck_lists as deck_lists_views
@@ -23,7 +23,7 @@ urlpatterns = [
     path("cards/", card_list_views.CardListView.as_view(), name="cards"),
     path(
         "collection/",
-        TemplateView.as_view(template_name="decks/collection.html"),
+        collection_views.display_collection,
         name="collection",
     ),
     path(

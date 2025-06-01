@@ -3,9 +3,9 @@
 
 <div class="row">
     <div class="col-12 mb-4">
-        <div id="{{ set_id }}-card" class="card">
+        <div id="{{ set.code }}-card" class="card">
             <div class="card-body">
-                <h2 class="card-title">{{ set_name }}</h2>
+                <h2 class="card-title">{{ set.name }}</h2>
                 <hr class="altered-style mt-1 mb-2">
                 <p class="card-text mt-4 mb-1 ">
                     <strong>{% translate "Breakdown of owned cards by rarity" %}</strong>
@@ -23,12 +23,12 @@
                         <tbody class="table-group-divider">
                             <tr>
                                 <th scope="row">Hero</th>
-                                <td><span id="{{ set_id }}-owned-hero-count">0</span></td>
-                                <td><span id="{{ set_id }}-total-hero-count"></span></td>
+                                <td><span id="{{ set.code }}-owned-hero-count">0</span></td>
+                                <td><span id="{{ set.code }}-total-hero-count"></span></td>
                                 <td>
                                     <div class="progress">
                                         <div
-                                            id="{{ set_id }}-hero-progress"
+                                            id="{{ set.code }}-hero-progress"
                                             class="progress-bar" 
                                             role="progressbar" 
                                             style="width: 0%;" 
@@ -42,12 +42,12 @@
                             </tr>
                             <tr>
                                 <th scope="row">Common</th>
-                                <td><span id="{{ set_id }}-owned-common-count">0</span></td>
-                                <td><span id="{{ set_id }}-total-common-count"></span></td>
+                                <td><span id="{{ set.code }}-owned-common-count">0</span></td>
+                                <td><span id="{{ set.code }}-total-common-count"></span></td>
                                 <td>
                                     <div class="progress">
                                         <div
-                                            id="{{ set_id }}-common-progress"
+                                            id="{{ set.code }}-common-progress"
                                             class="progress-bar" 
                                             role="progressbar" 
                                             style="width: 0%;" 
@@ -61,12 +61,12 @@
                             </tr>
                             <tr>
                                 <th scope="row">Rare</th>
-                                <td><span id="{{ set_id }}-owned-rare-count">0</span></td>
-                                <td><span id="{{ set_id }}-total-rare-count"></span></td>
+                                <td><span id="{{ set.code }}-owned-rare-count">0</span></td>
+                                <td><span id="{{ set.code }}-total-rare-count"></span></td>
                                 <td>
                                     <div class="progress">
                                         <div
-                                            id="{{ set_id }}-rare-progress"
+                                            id="{{ set.code }}-rare-progress"
                                             class="progress-bar" 
                                             role="progressbar" 
                                             style="width: 0%;" 
@@ -80,12 +80,12 @@
                             </tr>
                             <tr>
                                 <th scope="row">Unique<sup>1</sup></th>
-                                <td><span id="{{ set_id }}-owned-unique-count">0</span></td>
-                                <td><span id="{{ set_id }}-total-unique-count"></span></td>
+                                <td><span id="{{ set.code }}-owned-unique-count">0</span></td>
+                                <td><span id="{{ set.code }}-total-unique-count"></span></td>
                                 <td>
                                     <div class="progress">
                                         <div
-                                            id="{{ set_id }}-unique-progress"
+                                            id="{{ set.code }}-unique-progress"
                                             class="progress-bar" 
                                             role="progressbar" 
                                             style="width: 0%;" 
@@ -101,12 +101,12 @@
                         <tfoot class="table-group-divider">
                             <tr>
                                 <th scope="row">Total</th>
-                                <td><span id="{{ set_id }}-owned-count">0</span></td>
-                                <td><span id="{{ set_id }}-total-count"></span></td>
+                                <td><span id="{{ set.code }}-owned-count">0</span></td>
+                                <td><span id="{{ set.code }}-total-count"></span></td>
                                 <td>
                                     <div class="progress">
                                         <div
-                                            id="{{ set_id }}-all-progress"
+                                            id="{{ set.code }}-all-progress"
                                             class="progress-bar" 
                                             role="progressbar" 
                                             style="width: 0%;" 
@@ -137,21 +137,21 @@
                         <tbody class="table-group-divider">
                             <tr>
                                 <th scope="row">Hero</th>
-                                <td><span id="{{ set_id }}-new-hero-chance">100</span>%</td>
-                                <td><span id="{{ set_id }}-new-hero-booster-block">1 in <span id="{{ set_id }}-new-hero-booster">1</span> packs</span><span id="{{ set_id }}-new-hero-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
-                                <td><span id="{{ set_id }}-new-no-unique-hero-chance">100</span>%</td>
+                                <td><span id="{{ set.code }}-new-hero-chance">100</span>%</td>
+                                <td><span id="{{ set.code }}-new-hero-booster-block">1 in <span id="{{ set.code }}-new-hero-booster">1</span> packs</span><span id="{{ set.code }}-new-hero-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
+                                <td><span id="{{ set.code }}-new-no-unique-hero-chance">100</span>%</td>
                             </tr>
                             <tr>
                                 <th scope="row">Common</th>
-                                <td><span id="{{ set_id }}-new-common-chance">100</span>%</td>
-                                <td><span id="{{ set_id }}-new-common-booster-block">1 in <span id="{{ set_id }}-new-common-booster">1</span> packs</span><span id="{{ set_id }}-new-common-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
-                                <td><span id="{{ set_id }}-new-no-unique-common-chance">100</span>%</td>
+                                <td><span id="{{ set.code }}-new-common-chance">100</span>%</td>
+                                <td><span id="{{ set.code }}-new-common-booster-block">1 in <span id="{{ set.code }}-new-common-booster">1</span> packs</span><span id="{{ set.code }}-new-common-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
+                                <td><span id="{{ set.code }}-new-no-unique-common-chance">100</span>%</td>
                             </tr>
                             <tr>
                                 <th scope="row">Rare</th>
-                                <td><span id="{{ set_id }}-new-rare-chance">100</span>%</td>
-                                <td><span id="{{ set_id }}-new-rare-booster-block">1 in <span id="{{ set_id }}-new-rare-booster">1</span> packs</span><span id="{{ set_id }}-new-rare-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
-                                <td><span id="{{ set_id }}-new-no-unique-rare-chance">100</span>%</td>
+                                <td><span id="{{ set.code }}-new-rare-chance">100</span>%</td>
+                                <td><span id="{{ set.code }}-new-rare-booster-block">1 in <span id="{{ set.code }}-new-rare-booster">1</span> packs</span><span id="{{ set.code }}-new-rare-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
+                                <td><span id="{{ set.code }}-new-no-unique-rare-chance">100</span>%</td>
                             </tr>
                             <tr>
                                 <th scope="row">Unique</th>
@@ -163,9 +163,9 @@
                         <tfoot class="table-group-divider">
                             <tr>
                                 <th scope="row">Total</th>
-                                <td><span id="{{ set_id }}-new-card-chance">100</span>%</td>
-                                <td>1 in <span id="{{ set_id }}-new-card-booster">1</span> packs</td>
-                                <td><span id="{{ set_id }}-new-no-unique-card-chance"></span>%</td>
+                                <td><span id="{{ set.code }}-new-card-chance">100</span>%</td>
+                                <td>1 in <span id="{{ set.code }}-new-card-booster">1</span> packs</td>
+                                <td><span id="{{ set.code }}-new-no-unique-card-chance"></span>%</td>
                             </tr>
                         </tfoot>
                     </table>
@@ -185,25 +185,25 @@
                         <tbody class="table-group-divider">
                             <tr>
                                 <th scope="row">Common</th>
-                                <td><span id="{{ set_id }}-playset-common-chance">100</span>%</td>
-                                <td><span id="{{ set_id }}-playset-common-booster-block">1 in <span id="{{ set_id }}-playset-common-booster">1</span> packs</span><span id="{{ set_id }}-playset-common-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
+                                <td><span id="{{ set.code }}-playset-common-chance">100</span>%</td>
+                                <td><span id="{{ set.code }}-playset-common-booster-block">1 in <span id="{{ set.code }}-playset-common-booster">1</span> packs</span><span id="{{ set.code }}-playset-common-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
                             </tr>
                             <tr>
                                 <th scope="row">Rare</th>
-                                <td><span id="{{ set_id }}-playset-rare-chance">100</span>%</td>
-                                <td><span id="{{ set_id }}-playset-rare-booster-block">1 in <span id="{{ set_id }}-playset-rare-booster">1</span> packs</span><span id="{{ set_id }}-playset-rare-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
+                                <td><span id="{{ set.code }}-playset-rare-chance">100</span>%</td>
+                                <td><span id="{{ set.code }}-playset-rare-booster-block">1 in <span id="{{ set.code }}-playset-rare-booster">1</span> packs</span><span id="{{ set.code }}-playset-rare-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
                             </tr>
                             <tr>
                                 <th scope="row">Unique<sup>1</sup></th>
-                                <td><span id="{{ set_id }}-playset-unique-chance">12.50</span>%</td>
-                                <td><span id="{{ set_id }}-playset-unique-booster-block">1 in <span id="{{ set_id }}-playset-unique-booster">1</span> packs</span><span id="{{ set_id }}-playset-unique-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
+                                <td><span id="{{ set.code }}-playset-unique-chance">12.50</span>%</td>
+                                <td><span id="{{ set.code }}-playset-unique-booster-block">1 in <span id="{{ set.code }}-playset-unique-booster">1</span> packs</span><span id="{{ set.code }}-playset-unique-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
                             </tr>
                         </tbody>
                         <tfoot class="table-group-divider">
                             <tr>
                                 <th scope="row">Total</th>
-                                <td><span id="{{ set_id }}-playset-card-chance">100</span>%</td>
-                                <td><span id="{{ set_id }}-playset-card-booster-block">1 in <span id="{{ set_id }}-playset-card-booster">1</span> packs</span><span id="{{ set_id }}-playset-card-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
+                                <td><span id="{{ set.code }}-playset-card-chance">100</span>%</td>
+                                <td><span id="{{ set.code }}-playset-card-booster-block">1 in <span id="{{ set.code }}-playset-card-booster">1</span> packs</span><span id="{{ set.code }}-playset-card-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
                             </tr>
                         </tfoot>
                     </table>
