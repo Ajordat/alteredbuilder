@@ -23,6 +23,10 @@ def import_data(apps, schema_editor):
     Card.objects.all().delete()
     Deck.objects.all().delete()
     CardInDeck.objects.all().delete()
+    # Probably these commands fail. This happens because loaddata seems to take the
+    # current version of the model, despite being in a migration and all that data
+    # being from a previous version of the models.
+    # I should find a way to make these imports respecting the model version.
     call_command("loaddata", "sets_04092024", verbosity=0)
     call_command("loaddata", "subtypes_04092024", verbosity=0)
     call_command("loaddata", "cards_04092024", verbosity=0)

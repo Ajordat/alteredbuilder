@@ -267,7 +267,7 @@ msgstr "Permanente"
 
 #: decks/templates/decks/card_list.html:101
 msgid "Spell"
-msgstr "Magia"
+msgstr "Incantesimo"
 
 #: decks/templates/decks/card_list.html:105
 msgid "Set"
@@ -690,7 +690,7 @@ msgstr "Rimuovere la carta"
 #: decks/templates/decks/deck_detail.html:372
 #: decks/templates/decks/embed_deck.html:195
 msgid "Spells"
-msgstr "Magie"
+msgstr "Incantesimi"
 
 #: decks/templates/decks/deck_detail.html:242
 #: decks/templates/decks/deck_detail.html:295

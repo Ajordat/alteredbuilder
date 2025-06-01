@@ -110,7 +110,7 @@ msgstr "caratteri"
 
 #: decks/static/js/deck-stats.js:18
 msgid "spells"
-msgstr "magie"
+msgstr "incantesimi"
 
 #: decks/static/js/deck-stats.js:19
 msgid "permanents"
