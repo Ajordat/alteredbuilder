@@ -1772,9 +1772,7 @@ msgid ""
 msgstr ""
 "<strong>Annonces de versions :</strong> Soyez le premier à connaître les "
 "nouvelles fonctionnalités, les mises à jour et les améliorations apportées à "
-"la plateforme.<strong>Annonces de versions :</strong> Soyez le premier à "
-"connaître les nouvelles fonctionnalités, les mises à jour et les "
-"améliorations apportées à la plateforme."
+"la plateforme."
 
 #: profiles/templates/profiles/userprofile_list.html:166
 msgid ""
@@ -2049,7 +2047,7 @@ msgid ""
 "strong>."
 msgstr ""
 "Nous pensons pouvoir rendre cette plateforme disponible dans toutes les "
-"langues où le jeu est disponible : <strong>anglais, français, allemand, "
+"langues où le jeu est disponible : <strong>anglais, français, allemand, "
 "italien et espagnol</strong>."
 
 #: templates/contribute.html:40
