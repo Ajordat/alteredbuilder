@@ -107,17 +107,17 @@ class="container py-5"
         <div class="col-lg-4 col-md-6 mb-4">
             <div class="card">
                 <div class="card-header bg-success text-white">
-                    <h2 class="h5 mb-0">{% translate "Most Viewed" %}</h2>
+                    <h2 class="h5 mb-0">{% translate "Currently Trending" %}</h2>
                 </div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
-    {% for user in most_viewed_users %}
+    {% for usertrend in most_viewed_users %}
                         <li class="list-group-item ps-2">
-                            <a href="{{ user.profile.get_absolute_url }}" class="d-flex align-items-center text-decoration-none">
-                                <img src="{{ user.profile.get_avatar_image }}" alt="{{ user.username }}'s profile picture" class="user-profile-pic rounded-circle me-2" width="50" height="50">
+                            <a href="{{ usertrend.user.profile.get_absolute_url }}" class="d-flex align-items-center text-decoration-none">
+                                <img src="{{ usertrend.user.profile.get_avatar_image }}" alt="{{ usertrend.user.username }}'s profile picture" class="user-profile-pic rounded-circle me-2" width="50" height="50">
                                 <div>
-                                    {% if user.is_followed %}<i class="fa-solid fa-star"></i>{% endif %} <strong>{{ user.username|safe_username }}</strong><br>
-                                    <small>{% blocktranslate count deck_count=user.deck_count %}{{ deck_count }} deck{% plural %}{{ deck_count }} decks{% endblocktranslate %}</small>
+                                    {% if usertrend.user.is_followed %}<i class="fa-solid fa-star"></i>{% endif %} <strong>{{ usertrend.user.username|safe_username }}</strong><br>
+                                    <small>{% blocktranslate count deck_count=usertrend.deck_count %}{{ deck_count }} deck{% plural %}{{ deck_count }} decks{% endblocktranslate %}</small>
                                 </div>
                             </a>
                         </li>

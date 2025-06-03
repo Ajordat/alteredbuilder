@@ -10,7 +10,7 @@ from django.db.models import Count, Exists, F, OuterRef, Q, Sum
 from django.db.models.query import QuerySet
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect
-from django.utils.timezone import localtime
+from django.utils.timezone import localdate, localtime
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
@@ -19,6 +19,7 @@ from hitcount.models import Hit
 from decks.models import Card, Deck, LovePoint
 from profiles.forms import UserProfileForm
 from profiles.models import Follow, UserProfile
+from trends.models import UserTrend
 
 
 class ProfileListView(ListView):
@@ -66,12 +67,12 @@ class ProfileListView(ListView):
         context = super().get_context_data(**kwargs)
 
         # Extract the most viewed users
+        yesterday = localdate() - timedelta(days=1)
         most_viewed_users = (
-            get_user_model()
-            .objects.alias(total_hits=Sum("deck__hit_count_generic__hits"))
-            .annotate(deck_count=Count("deck", filter=Q(deck__is_public=True)))
-            .select_related("profile")
-            .order_by(F("total_hits").desc(nulls_last=True))[: self.USER_COUNT_DISPLAY]
+            UserTrend.objects.filter(date=yesterday)
+            .annotate(deck_count=Count("user__deck", filter=Q(user__deck__is_public=True)))
+            .select_related("user", "user__profile")
+            .order_by("-count")[: self.USER_COUNT_DISPLAY]
         )
 
         # Extract the most followed users
