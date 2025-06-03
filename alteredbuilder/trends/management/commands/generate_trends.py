@@ -381,11 +381,12 @@ class Command(BaseCommand):
             .annotate(recent_hits=Sum("recent_hits"))
             .order_by(F("recent_hits").desc(nulls_last=True))[:USER_RANKING_LIMIT]
         )
+        print(user_hits, flush=True)
 
         for user in user_hits:
-            print(user)
+            print(user, flush=True)
             UserTrend.objects.update_or_create(
-                user__pk=user["owner"],
+                user__pk=user.get("owner"),
                 day_count=self.day_count,
                 date=self.end_lapse,
                 defaults={"count": user.get("recent_hits", 0)},
