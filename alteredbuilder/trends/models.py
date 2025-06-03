@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 from decks.models import Card, Deck
@@ -65,3 +66,15 @@ class DeckTrend(models.Model):
 
     class Meta:
         ordering = ["-date", "-hero", "-faction", "ranking"]
+
+
+class UserTrend(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    count = models.PositiveIntegerField(default=0)
+
+    day_count = models.PositiveIntegerField(default=7)
+    date = models.DateField()
+
+    class Meta:
+        ordering = ["-date", "-count"]

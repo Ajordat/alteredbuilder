@@ -1,19 +1,21 @@
 from datetime import timedelta
 from typing import Any
 
+from django.contrib.auth import get_user_model
 from django.core.management.base import CommandParser
-from django.db.models import Count, F, OuterRef, Q, Subquery
+from django.db.models import Count, F, IntegerField, OuterRef, Q, Subquery, Sum
 from django.utils.timezone import localdate
 from hitcount.models import Hit
 
 from config.commands import BaseCommand
 from decks.models import Card, CardInDeck, Deck, Set
-from trends.models import CardTrend, DeckTrend, FactionTrend, HeroTrend
+from trends.models import CardTrend, DeckTrend, FactionTrend, HeroTrend, UserTrend
 
 
 DEFAULT_TIME_LAPSE = 7
 CARD_RANKING_LIMIT = 10
 DECK_RANKING_LIMIT = 10
+USER_RANKING_LIMIT = 10
 
 
 class Command(BaseCommand):
@@ -53,10 +55,11 @@ class Command(BaseCommand):
         self.start_lapse = self.end_lapse - timedelta(days=self.day_count)
 
         # Generate the trends
-        self.generate_faction_trends()
-        self.generate_hero_trends()
-        self.generate_card_trends()
-        self.generate_deck_trends()
+        # self.generate_faction_trends()
+        # self.generate_hero_trends()
+        # self.generate_card_trends()
+        # self.generate_deck_trends()
+        self.generate_user_trends()
 
     def generate_faction_trends(self):
         """Generate the faction trends."""
@@ -359,3 +362,30 @@ class Command(BaseCommand):
                     date=self.end_lapse,
                     defaults={"ranking": rank},
                 )
+
+    def generate_user_trends(self):
+
+        latest_hits = (
+            Hit.objects.filter(
+                created__date__gte=self.start_lapse,
+                hitcount__object_pk=OuterRef("pk"),
+            )
+            .values("hitcount__object_pk")
+            .annotate(hit_count=Count("pk"))
+            .values("hit_count")
+        )
+        user_hits = (
+            Deck.objects.filter(is_public=True)
+            .annotate(recent_hits=Subquery(latest_hits, output_field=IntegerField()))
+            .values("owner")
+            .annotate(recent_hits=Sum("recent_hits"))
+            .order_by(F("recent_hits").desc(nulls_last=True))[:USER_RANKING_LIMIT]
+        )
+
+        for user in user_hits:
+            UserTrend.objects.update_or_create(
+                user__pk=user["owner"],
+                day_count=self.day_count,
+                date=self.end_lapse,
+                defaults={"count": user.get("recent_hits", 0)},
+            )

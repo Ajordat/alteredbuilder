@@ -88,7 +88,10 @@ class Command(BaseCommand):
             params.extend([("cardSet[]", card_set) for card_set in QUERY_SET])
 
         for card in altered_api_paginator(
-            CARDS_API_ENDPOINT, user_agent_task="CardImporter", params=params, locale=locale
+            CARDS_API_ENDPOINT,
+            user_agent_task="CardImporter",
+            params=params,
+            locale=locale,
         ):
 
             # Iterate each card retrieved
@@ -324,4 +327,7 @@ class Command(BaseCommand):
         params = f"locale={locale}"
 
         # Query the API
-        return fetch_with_backoff(f"{settings.ALTERED_API_BASE_URL}{CARDS_API_ENDPOINT}/{reference}?{params}", HEADERS)
+        return fetch_with_backoff(
+            f"{settings.ALTERED_API_BASE_URL}{CARDS_API_ENDPOINT}/{reference}?{params}",
+            HEADERS,
+        )
