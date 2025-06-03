@@ -383,6 +383,7 @@ class Command(BaseCommand):
         )
 
         for user in user_hits:
+            print(user)
             UserTrend.objects.update_or_create(
                 user__pk=user["owner"],
                 day_count=self.day_count,
