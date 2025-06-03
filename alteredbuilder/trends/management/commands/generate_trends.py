@@ -383,11 +383,11 @@ class Command(BaseCommand):
         )
         print(user_hits, flush=True)
 
-        for user in user_hits:
-            print(user, flush=True)
+        for record in user_hits:
+            print(record, flush=True)
             UserTrend.objects.update_or_create(
-                user__pk=user.get("owner"),
+                user=get_user_model().objects.get(pk=record.get("owner")),
                 day_count=self.day_count,
                 date=self.end_lapse,
-                defaults={"count": user.get("recent_hits", 0)},
+                defaults={"count": record.get("recent_hits", 0)},
             )
