@@ -55,10 +55,10 @@ class Command(BaseCommand):
         self.start_lapse = self.end_lapse - timedelta(days=self.day_count)
 
         # Generate the trends
-        # self.generate_faction_trends()
-        # self.generate_hero_trends()
-        # self.generate_card_trends()
-        # self.generate_deck_trends()
+        self.generate_faction_trends()
+        self.generate_hero_trends()
+        self.generate_card_trends()
+        self.generate_deck_trends()
         self.generate_user_trends()
 
     def generate_faction_trends(self):
@@ -381,10 +381,8 @@ class Command(BaseCommand):
             .annotate(recent_hits=Sum("recent_hits"))
             .order_by(F("recent_hits").desc(nulls_last=True))[:USER_RANKING_LIMIT]
         )
-        print(user_hits, flush=True)
 
         for record in user_hits:
-            print(record, flush=True)
             UserTrend.objects.update_or_create(
                 user=get_user_model().objects.get(pk=record.get("owner")),
                 day_count=self.day_count,
