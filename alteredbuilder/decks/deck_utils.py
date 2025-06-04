@@ -186,12 +186,18 @@ def get_deck_details(deck: Deck) -> dict:
     decklist_text += "\n".join(
         [f"{cid.quantity} {cid.card.reference}" for cid in decklist]
     )
+
     return {
         "decklist": decklist_text,
-        "character_list": type_stats[Card.Type.CHARACTER][0],
-        "spell_list": type_stats[Card.Type.SPELL][0],
-        "permanent_list": type_stats[Card.Type.LANDMARK_PERMANENT][0]
-        + type_stats[Card.Type.EXPEDITION_PERMANENT][0],
+        "character_list": sorted(
+            type_stats[Card.Type.CHARACTER][0], key=sort_by_mana_cost
+        ),
+        "spell_list": sorted(type_stats[Card.Type.SPELL][0], key=sort_by_mana_cost),
+        "permanent_list": sorted(
+            type_stats[Card.Type.LANDMARK_PERMANENT][0]
+            + type_stats[Card.Type.EXPEDITION_PERMANENT][0],
+            key=sort_by_mana_cost,
+        ),
         "stats": {
             "type_distribution": {
                 "characters": type_stats[Card.Type.CHARACTER][1],
@@ -229,6 +235,10 @@ def get_deck_details(deck: Deck) -> dict:
             },
         },
     }
+
+
+def sort_by_mana_cost(row):
+    return row[1].stats["main_cost"], row[1].stats["recall_cost"]
 
 
 @transaction.atomic
