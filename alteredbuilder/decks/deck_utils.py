@@ -50,6 +50,7 @@ TRIGGER_TRANSLATION = {
     "reserve": "{R}",
     "discard": "{D}",
     "exhaust": "{T}",
+    "passive": "{I}",
 }
 
 
@@ -361,7 +362,7 @@ def parse_card_query_syntax(
             try:
                 trigger = re_match.group("trigger")
                 value = TRIGGER_TRANSLATION[trigger]
-                if trigger == "discard":
+                if trigger in ["discard", "passive"]:
                     filters &= Q(echo_effect__contains=value)
                 else:
                     filters &= Q(main_effect__contains=value)

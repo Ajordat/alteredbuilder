@@ -20,6 +20,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <!-- Styles adding the fonts used to display the Altered icons -->
     <link rel="stylesheet" href="{% static 'css/altered-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/alteredicons.css' %}">
     {% if 'Owned' in checked_filters %}
     <style>
         .infinite-item:has(> .card-display .card-in-collection.d-none) {
@@ -278,7 +279,7 @@
                             <!-- Triggers -->
                             <li>{% translate "Triggers:" %} <code class="inline">t</code><br>
                                 {% translate "Operators:" %} <code class="inline">:</code><br>
-                                {% translate "Values:" %} <code class="inline">etb</code>(<span class="altered-etb"></span>), <code class="inline">hand</code>(<span class="altered-hand"></span>), <code class="inline">reserve</code>(<span class="altered-reserve"></span>), <code class="inline">discard</code>(<span class="altered-discard"></span>), <code class="inline">exhaust</code>(<span class="altered-exhaust"></span>)
+                                {% translate "Values:" %} <code class="inline">etb</code>(<span class="altered-etb"></span>), <code class="inline">hand</code>(<span class="altered-hand"></span>), <code class="inline">reserve</code>(<span class="altered-reserve"></span>), <code class="inline">discard</code>(<span class="altered-discard"></span>), <code class="inline">exhaust</code>(<span class="altered-exhaust"></span>), <code class="inline">passive</code>(<i class="fa-kit fa-altered-i"></i>)
                             </li>
                             <!-- Subtypes -->
                             <li>{% translate "Subtypes:" %} <code class="inline">st</code><br>
