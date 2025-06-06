@@ -320,8 +320,8 @@ class OwnDeckListViewTestCase(BaseViewTestCase):
         )
 
     def test_context_own_deck_list(self):
-        # Get only hero
-        first_axiom = Card.objects.first()
+        # Get the only hero
+        first_axiom = Card.objects.filter(type=Card.Type.HERO).first()
         # Create more heroes
         second_axiom = generate_card(Card.Faction.AXIOM, Card.Type.HERO)
         only_lyra_hero = generate_card(Card.Faction.LYRA, Card.Type.HERO)
