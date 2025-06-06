@@ -140,3 +140,19 @@ class OwnDeckListView(LoginRequiredMixin, DeckListView):
         qs = super().get_queryset()
 
         return qs.filter(owner=self.request.user)
+
+    def get_context_data(self, *args, **kwargs):
+        """Add all heroes to the context, splitted by faction. Used to filter decks by hero."""
+        heroes_data = {}
+
+        for faction in Card.Faction.as_list():
+            heroes = [
+                card.name
+                for card in Card.objects.filter(type=Card.Type.HERO, faction=faction)
+            ]
+
+            heroes_data[faction.label.capitalize()] = heroes
+
+        context = super().get_context_data(*args, **kwargs)
+        context["factions_heroes"] = heroes_data
+        return context

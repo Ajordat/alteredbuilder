@@ -319,6 +319,27 @@ class OwnDeckListViewTestCase(BaseViewTestCase):
             own_decks, response.context["deck_list"], ordered=False
         )
 
+    def test_context_own_deck_list(self):
+        # Get only hero
+        first_axiom = Card.objects.first()
+        # Create more heroes
+        second_axiom = generate_card(Card.Faction.AXIOM, Card.Type.HERO)
+        only_lyra_hero = generate_card(Card.Faction.LYRA, Card.Type.HERO)
+
+        expected_heroes_data: dict[str, list[str]] = {
+            "Axiom": [first_axiom.name, second_axiom.name],
+            "Bravos": [],
+            "Lyra": [only_lyra_hero.name],
+            "Muna": [],
+            "Ordis": [],
+            "Yzmir": [],
+        }
+
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("own-deck"))
+
+        assert response.context["factions_heroes"] == expected_heroes_data
+
 
 class CardListViewTestCase(BaseViewTestCase):
     """Test case focusing on the Card ListView."""
