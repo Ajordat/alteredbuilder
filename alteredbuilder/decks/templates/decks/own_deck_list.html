@@ -15,6 +15,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/deck-list.css' %}">
+    <link rel="stylesheet" href="{% static 'css/own-deck-list.css' %}">
+
 {% endblock %}
 
 
@@ -32,9 +34,16 @@
         </form>
     </div>
     <div class="col p-0">
-        <span class="h-100 d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#advancedSearchModal" style="cursor: pointer;">
-            {% translate "Advanced Search" %}&nbsp;<i class="fa fa-circle-info altered-style"></i>
-        </span>
+        <div class="col">
+            <!-- Filter button -->
+            <button id="filterModalTrigger" 
+                    type="button" 
+                    class="btn altered-style" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#filtersModal">
+                <i class="fa-solid fa-filter"></i>&nbsp;{% translate "Filters" %}
+            </button>
+        </div>
     </div>
 </div>
 <!-- List of public Decks -->
@@ -124,33 +133,44 @@
     {% endif %}
 </div>
 
-<div class="modal altered-style fade" id="advancedSearchModal" tabindex="-1" aria-labelledby="advancedSearchModalLabel" aria-hidden="true">
+<div class="modal altered-style fade" id="filtersModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="advancedSearchModalLabel">{% translate "Advanced Search" %}</h5>
+                <h5 class="modal-title" id="filterModalLabel">{% translate "Filters" %}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body"><!-- Advanced Deck filtering instructions -->
-                <div class="text-start">
-                    {% translate "Advanced search filters" %}:
-                    <ul>
-                        <!-- Hero -->
-                        <li>{% translate "Hero:" %} <code class="inline">h</code><br>
-                            {% translate "Operators:" %} <code class="inline">:</code><br>
-                            {% translate "Value:" %} <code class="inline">{% translate "Single word" %}</code>
-                        </li>
-                    </ul>
-                    {% translate "Examples:" %}
-                    <!-- Examples -->
-                    <ul>
-                        <li>{% translate 'Search decks with the hero "Teija":' %}<br>
-                            <code class="inline">h:teija</code>
-                        </li>
-                    </ul>
+
+            <div class="modal-body">
+                <div class="accordion altered-style" id="heroes-accordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" 
+                                    data-bs-toggle="collapse" data-bs-target="#heroes-select" 
+                                    aria-expanded="false" aria-controls="heroes-select">
+                                {% translate "Heroes" %}
+                            </button>
+                        </h2>
+                        <div id="heroes-select" class="accordion-collapse collapse">
+                            <div class="accordion-body p-0">
+                                {% for faction, heroes in factions_heroes.items %}
+                                    <b>{{ faction }}</b>
+                                    {% for hero in heroes %}
+                                        <div id="hero-checkbox">
+                                            {% include "decks/snippets/filter_checkbox.html" with value=hero label=hero %}
+                                        </div>
+                                    {% endfor %}
+                                    <hr>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="modal-footer"></div>
+            
+            <div class="modal-footer">
+                <button id="apply-filters-button" class="btn altered-style" type="submit">{% translate "Filter" %}</button>
+            </div>
         </div>
     </div>
 </div>
