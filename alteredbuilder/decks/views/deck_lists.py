@@ -12,7 +12,7 @@ from decks.deck_utils import (
     filter_by_tags,
     filter_by_query,
 )
-from decks.models import Deck, LovePoint, Tag
+from decks.models import Card, Deck, LovePoint, Tag
 from profiles.models import Follow
 
 
