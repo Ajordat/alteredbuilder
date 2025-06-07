@@ -1,7 +1,7 @@
 
 const CARD_SETS = {
     CORE: { hero_count: 18, common_count: 162, rare_count: 324, unique_count: 109, total_count: 504 },
-    ALIZE: { hero_count: 12, common_count: 90, rare_count: 180, unique_count: 52, total_count: 282 },
+    ALIZE: { hero_count: 12, common_count: 91, rare_count: 182, unique_count: 52, total_count: 285 },
     BISE: { hero_count: 12, common_count: 90, rare_count: 180, unique_count: 58, total_count: 282 },
 };
 
