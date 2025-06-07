@@ -21,7 +21,7 @@ from decks.models import Card, Set, Subtype
 CARDS_API_ENDPOINT = "/cards"
 # If True, retrieve the unique cards
 UPDATE_UNIQUES = False
-QUERY_SET = ["BISE"]
+QUERY_SET = ["ALIZE"]
 # The API currently returns a private image link for unique cards in these languages
 IMAGE_ERROR_LOCALES = ["es", "it", "de"]
 HEADERS = {"User-Agent": get_user_agent("CardImporter")}
