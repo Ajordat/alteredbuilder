@@ -158,7 +158,7 @@ def import_card_by_reference(reference: str, user: User):
         # Attempt to import a unique card
         card = import_unique_card(reference)
         # Automatically favorite the card
-        FavoriteCard.objects.create(user=user, card=card)
+        FavoriteCard.objects.get_or_create(user=user, card=card)
 
         # Fill the context
         message = _(
