@@ -1,9 +1,28 @@
 
 const CARD_SETS = {
-    CORE: { hero_count: 18, common_count: 162, rare_count: 324, unique_count: 109, total_count: 504 },
-    ALIZE: { hero_count: 12, common_count: 90, rare_count: 180, unique_count: 52, total_count: 282 },
-    BISE: { hero_count: 12, common_count: 90, rare_count: 180, unique_count: 58, total_count: 282 },
+    CORE: {
+        booster: { hero_count: 18, common_count: 162, rare_count: 324, unique_count: 109 },
+        gift: { common_count: 0, rare_count: 0 },
+        total: { hero_count: 18, common_count: 162, rare_count: 324, unique_count: 109, total_count: 504 }
+    },
+    ALIZE: {
+        booster: { hero_count: 12, common_count: 90, rare_count: 180, unique_count: 52 },
+        gift: { common_count: 1, rare_count: 2 },
+        total: { hero_count: 12, common_count: 91, rare_count: 182, unique_count: 52, total_count: 285 }
+    },
+    BISE: {
+        booster: { hero_count: 12, common_count: 90, rare_count: 180, unique_count: 58 },
+        gift: { common_count: 0, rare_count: 0 },
+        total: { hero_count: 12, common_count: 90, rare_count: 180, unique_count: 58, total_count: 282 }
+    },
 };
+
+const IGNORED_IDS = {
+    CORE: ["AX_31_C", "BR_31_C", "OR_31_C", "YZ_31_C"],
+    // ALIZE: ["OR_48_C", "OR_48_R1", "OR_48_R2"],
+    ALIZE: [],
+    BISE: []
+}
 
 class CollectionStats {
     constructor() {
@@ -31,24 +50,36 @@ class CollectionStats {
     add(reference, quantity) {
         let [alt, set, product, faction, nif, rarity] = reference.split("_");
         let cardId = [faction, nif, rarity].join("_");
+        if (nif == "FOILER") {
+            return;
+        }
         if (set == "COREKS") {
             set = "CORE";
         }
         if (!CARD_SETS[set]) {
             return;
         }
-        let allowCount = !this.cards[set].includes(cardId);
-        if (allowCount) this.stats[set].total_count += 1;
+        if (this.isIgnored(set, cardId)) {
+            return;
+        }
+        let isNewCard = this.isNewCard(set, cardId);
         this.collection[set][cardId] = quantity + (this.collection[set][cardId] || 0);
-        if (this.#isHero(nif)) {
-            if (allowCount) this.stats[set].hero_count += 1;
-        } else if (this.#isCommon(rarity)) {
-            if (allowCount) this.stats[set].common_count += 1;
-            if (this.collection[set][cardId] >= 3 && (this.collection[set][cardId] - quantity) < 3) {
+
+        if (isNewCard) {
+            this.stats[set].total_count += 1;
+            if (this.#isHero(nif)) {
+                this.stats[set].hero_count += 1;
+            } else if (this.#isCommon(rarity)) {
+                this.stats[set].common_count += 1;
+            } else if (this.#isRare(rarity)) {
+                this.stats[set].rare_count += 1;
+            }
+        }
+        if (!this.#isHero(nif) && this.#isCommon(rarity)) {
+            if (this.collection[set][cardId] >= 3 && (this.collection[set][cardId] - quantity) < 3 && !IGNORED_IDS[set].includes(cardId)) {
                 this.stats[set].common_playset_count += 1;
             }
         } else if (this.#isRare(rarity)) {
-            if (allowCount) this.stats[set].rare_count += 1;
             if (this.collection[set][cardId] >= 3 && (this.collection[set][cardId] - quantity) < 3) {
                 this.stats[set].rare_playset_count += 1;
             }
@@ -77,6 +108,13 @@ class CollectionStats {
         }
     }
 
+    isNewCard(set, cardId) {
+        return !this.cards[set].includes(cardId);
+    }
+    isIgnored(set, cardId) {
+        return !!IGNORED_IDS[set].includes(cardId);
+    }
+
     getTotalCount(set) {
         return this.stats[set].total_count;
     }
@@ -93,50 +131,60 @@ class CollectionStats {
         return this.stats[set].unique_count;
     }
 
+    getHeroPercentage(set) {
+        return this.stats[set].hero_count / CARD_SETS[set].booster.hero_count;
+    }
+    getCommonPercentage(set) {
+        return (this.stats[set].common_count - CARD_SETS[set].gift.common_count) / CARD_SETS[set].booster.common_count;
+    }
+    getRarePercentage(set) {
+        return (this.stats[set].rare_count - CARD_SETS[set].gift.rare_count) / CARD_SETS[set].booster.rare_count;
+    }
+    getUniquePercentage(set) {
+        return this.stats[set].unique_playset_count / CARD_SETS[set].booster.unique_count;
+    }
+
+    getCommonPlaysetPercentage(set) {
+        return (this.stats[set].common_playset_count - CARD_SETS[set].gift.common_count) / CARD_SETS[set].booster.common_count;
+    }
+    getRarePlaysetPercentage(set) {
+        return (this.stats[set].rare_playset_count - CARD_SETS[set].gift.rare_count) / CARD_SETS[set].booster.rare_count;
+    }
+
     getHeroChance(set) {
-        return 1 - (this.stats[set].hero_count / CARD_SETS[set].hero_count);
+        return 1 - this.getHeroPercentage(set);
     }
     getCommonChance(set) {
-        return 1 - (this.stats[set].common_count / CARD_SETS[set].common_count) ** 8;
+        return 1 - this.getCommonPercentage(set) ** 8;
     }
     getRareChance(set) {
-        let rareChance = this.stats[set].rare_count / CARD_SETS[set].rare_count;
+        let rareChance = this.getRarePercentage(set);
         return 1 - 7 / 8 * (rareChance) ** 3 - 1 / 8 * (rareChance) ** 2;
     }
     getUniqueChance(set) {
-        return (1 - this.stats[set].unique_playset_count / CARD_SETS[set].unique_count) / 8;
+        return (1 - this.getUniquePercentage(set)) / 8;
     }
     getCardChance(set) {
-        let heroChance = this.stats[set].hero_count / CARD_SETS[set].hero_count;
-        let commonChance = this.stats[set].common_count / CARD_SETS[set].common_count;
-        let rareChance = this.stats[set].rare_count / CARD_SETS[set].rare_count;
-        return 7 / 8 * (1 - heroChance * (commonChance ** 8) * (rareChance ** 3)) + 1 / 8;
+        return 7 / 8 * (1 - this.getHeroPercentage(set) * (this.getCommonPercentage(set) ** 8) * (this.getRarePercentage(set) ** 3)) + 1 / 8;
     }
 
     getRareChanceNoUnique(set) {
-        return 1 - (this.stats[set].rare_count / CARD_SETS[set].rare_count) ** 3;
+        return 1 - this.getRarePercentage(set) ** 3;
     }
     getCardChanceNoUnique(set) {
-        let heroChance = this.stats[set].hero_count / CARD_SETS[set].hero_count;
-        let commonChance = this.stats[set].common_count / CARD_SETS[set].common_count;
-        let rareChance = this.stats[set].rare_count / CARD_SETS[set].rare_count;
-        return 1 - heroChance * (commonChance ** 8) * (rareChance ** 3);
+        return 1 - this.getHeroPercentage(set) * (this.getCommonPercentage(set) ** 8) * (this.getRarePercentage(set) ** 3);
     }
 
     getCommonPlaysetChance(set) {
-        return 1 - (this.stats[set].common_playset_count / CARD_SETS[set].common_count) ** 8;
+        return 1 - this.getCommonPlaysetPercentage(set) ** 8;
     }
     getRarePlaysetChance(set) {
-        let rareBooster = (this.stats[set].rare_playset_count / CARD_SETS[set].rare_count) ** 3;
-        let uniqueBooster = (this.stats[set].rare_playset_count / CARD_SETS[set].rare_count) ** 2;
-        return 1 - 7 / 8 * rareBooster - 1 / 8 * uniqueBooster;
+        let rarePercentage = this.getRarePlaysetPercentage(set);
+        return 1 - 7 / 8 * (rarePercentage ** 3) - 1 / 8 * (rarePercentage ** 2);
     }
     getCardPlaysetChance(set) {
-        let commonChance = (this.stats[set].common_playset_count / CARD_SETS[set].common_count) ** 8;
-        let rareBooster = (this.stats[set].rare_playset_count / CARD_SETS[set].rare_count) ** 3;
-        let uniqueBooster = (this.stats[set].rare_playset_count / CARD_SETS[set].rare_count) ** 2;
-        let uniqueChance = this.stats[set].unique_playset_count / CARD_SETS[set].unique_count;
-        return 1 - (7 / 8 * rareBooster + 1 / 8 * uniqueBooster) * commonChance * (uniqueChance / 8);
+        let rarePercentage = this.getRarePlaysetPercentage(set);
+        return 1 - (7 / 8 * (rarePercentage ** 3) + 1 / 8 * (rarePercentage ** 2)) * (this.getCommonPlaysetPercentage(set) ** 8) * (this.getUniquePercentage(set) / 8);
     }
 
     #isHero(nif) {
@@ -182,7 +230,7 @@ function drawStats(stats) {
     Object.keys(CARD_SETS).forEach(set => {
 
         document.getElementById(`${set}-owned-count`).textContent = stats.getTotalCount(set);
-        document.getElementById(`${set}-total-count`).textContent = CARD_SETS[set].total_count;
+        document.getElementById(`${set}-total-count`).textContent = CARD_SETS[set].total.total_count;
 
         let heroChance = stats.getHeroChance(set);
         let commonChance = stats.getCommonChance(set);
@@ -206,17 +254,17 @@ function drawStats(stats) {
         drawCountStat(set, "owned", "rare", stats.getRareCount(set));
         drawCountStat(set, "owned", "unique", stats.getUniqueCount(set));
 
-        drawCountStat(set, "total", "hero", CARD_SETS[set].hero_count);
-        drawCountStat(set, "total", "common", CARD_SETS[set].common_count);
-        drawCountStat(set, "total", "rare", CARD_SETS[set].rare_count);
-        drawCountStat(set, "total", "unique", CARD_SETS[set].unique_count);
+        drawCountStat(set, "total", "hero", CARD_SETS[set].total.hero_count);
+        drawCountStat(set, "total", "common", CARD_SETS[set].total.common_count);
+        drawCountStat(set, "total", "rare", CARD_SETS[set].total.rare_count);
+        drawCountStat(set, "total", "unique", CARD_SETS[set].total.unique_count);
 
-        drawProgressStat(set, "hero", stats.getHeroCount(set), CARD_SETS[set].hero_count);
-        drawProgressStat(set, "common", stats.getCommonCount(set), CARD_SETS[set].common_count);
-        drawProgressStat(set, "rare", stats.getRareCount(set), CARD_SETS[set].rare_count);
-        drawProgressStat(set, "unique", stats.getUniqueCount(set), CARD_SETS[set].unique_count);
-        drawProgressStat(set, "all", stats.getTotalCount(set), CARD_SETS[set].total_count);
-        drawProgressStat(set, "summary", stats.getTotalCount(set), CARD_SETS[set].total_count);
+        drawProgressStat(set, "hero", stats.getHeroCount(set), CARD_SETS[set].total.hero_count);
+        drawProgressStat(set, "common", stats.getCommonCount(set), CARD_SETS[set].total.common_count);
+        drawProgressStat(set, "rare", stats.getRareCount(set), CARD_SETS[set].total.rare_count);
+        drawProgressStat(set, "unique", stats.getUniqueCount(set), CARD_SETS[set].total.unique_count);
+        drawProgressStat(set, "all", stats.getTotalCount(set), CARD_SETS[set].total.total_count);
+        drawProgressStat(set, "summary", stats.getTotalCount(set), CARD_SETS[set].total.total_count);
     });
 }
 
