@@ -27,6 +27,9 @@ urlpatterns = [
         name="collection",
     ),
     path(
+        "collection/update/", collection_views.save_collection, name="save-collection"
+    ),
+    path(
         "legality/",
         general_views.deck_legality_view,
         name="legality_changelog",

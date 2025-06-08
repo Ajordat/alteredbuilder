@@ -6,12 +6,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.getElementById("save-collection").addEventListener("click", () => {
 
-    const collectionListEl = document.getElementById("collection-list");
+    const textCollection = document.getElementById("collection-list").value;
 
-    let cardEntries = textCollectionToEntries(collectionListEl.value);
-    let collection = parseCardEntries(cardEntries);
+    let collection = textCollectionToEntries(textCollection);
 
-    saveCollection(collection);
+    saveCollectionLocal(collection);
+    // We parse again the collection from the entries because there might have been changes
+    saveCollectionRemote(collectionToText(collection), true);
     importUniqueCards(collection);
 
     startCollection();

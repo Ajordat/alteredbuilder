@@ -247,18 +247,23 @@ function drawProgressStat(set, target, owned, total) {
 // IMPORT COLLECTION
 document.getElementById("save-collection").addEventListener("click", () => {
 
-    const collectionListEl = document.getElementById("collection-list");
+    const textCollection = document.getElementById("collection-list").value;
 
-    let cardEntries = textCollectionToEntries(collectionListEl.value);
-    let collection = parseCardEntries(cardEntries);
+    let collection = textCollectionToEntries(textCollection);
 
-    saveCollection(collection);
+    saveCollectionLocal(collection);
+    // We parse again the collection from the entries because there might have been changes
+    saveCollectionRemote(collectionToText(collection), true);
     importUniqueCards(collection);
 
     let stats = generateStats(collection);
     drawStats(stats);
     printCollection(collection);
 });
+
 function printCollection(collection) {
+    if (!collection) {
+        return;
+    }
     document.getElementById("collection-list").value = collectionToText(collection);
 }

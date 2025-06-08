@@ -698,9 +698,13 @@
     {% csrf_token %}
     <!-- Deck statistics to be picked up by JS -->
     {{ stats|json_script:"deck-stats" }}
+    <!-- User collection -->
+    {{ user.profile.collection|json_script:"user-collection" }}
 {% endblock %}
 
 {% block bodyscripts %}
+    <!-- utils script to display a toast -->
+    <script src="{% static 'js/utils.js' %}"></script>
     <!-- Import deckfmt module -->
     <script src="{% static 'js/altered-deckfmt.umd.cjs' %}"></script>
     <!-- Collections -->

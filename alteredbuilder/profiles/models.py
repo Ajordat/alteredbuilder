@@ -14,6 +14,8 @@ class UserProfile(models.Model):
     bio = models.TextField(max_length=1000, blank=True)
     avatar = models.CharField(default="NE_DEFAULT.png")
 
+    collection = models.CharField(null=True, blank=True)
+
     altered_handle = models.CharField(null=True)
     discord_public = models.BooleanField(default=False)
 
