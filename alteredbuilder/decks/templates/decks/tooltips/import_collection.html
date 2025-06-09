@@ -10,22 +10,19 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p class="mb-2">Use a tool like our extension to export your personal collection from the official site:</p>
+                <p class="mb-2">{% translate "Use a tool like our extension to export your personal collection from the official site:" %}</p>
                 <ul>
-                    <li>For <a href="https://chromewebstore.google.com/detail/altered-tcg-builder/fhagbomlpphplemfbeiokgaiiknggpgh" target="_blank">Chrome and Edge</a></li>
-                    <li>For <a href="https://addons.mozilla.org/en-US/firefox/addon/altered-tcg-builder/" target="_blank">Firefox</a></li>
+                    <li>{% blocktranslate with url="https://chromewebstore.google.com/detail/altered-tcg-builder/fhagbomlpphplemfbeiokgaiiknggpgh" %}For <a href="{{ url }}" target="_blank">Chrome and Edge</a>{% endblocktranslate %}</li>
+                    <li>{% blocktranslate with url="https://addons.mozilla.org/en-US/firefox/addon/altered-tcg-builder/" %}For <a href="{{ url }}" target="_blank">Firefox</a>{% endblocktranslate %}</li>
                 </ul>
-                <label class="form-label" for="collection-list">Collection</label>
+                <label class="form-label" for="collection-list">{% translate "Collection" %}</label>
                 <textarea id="collection-list" class="form-control altered-style mb-2" rows="7" placeholder="3 ALT_CORE_B_AX_01_C&#10;2 ALT_CORE_B_AX_02_C&#10;2 ALT_CORE_B_AX_03_C&#10;3 ALT_CORE_B_AX_04_C&#10;1 ALT_CORE_B_AX_04_R1&#10;..."></textarea>
-                <p>The collection will be saved in the browser's local storage and is not refreshed automatically.</p>
-                <p class="mb-2">This means that you will need to import your collection again (or modify it manually):</p>
-                <ul>
-                    <li>If there's a change in your collection.</li>
-                    <li>If you login from another browser.</li>
-                </ul>
+
+                <p>{% translate "Your collection is saved on our servers, so it's shared among your devices." %}</p>
+                <p class="mb-2">{% translate "However, you will need to import your collection again (or modify it manually) if there's a change to in. For example if you acquire or sell any cards." %}</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline altered-style" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-outline altered-style" data-bs-dismiss="modal">{% translate "Close" %}</button>
                 <button id="save-collection" type="button" class="btn altered-style" data-bs-dismiss="modal">{% translate "Update Collection" %}</button>
             </div>
         </div>
