@@ -300,13 +300,14 @@ function enableCheckboxes(element) {
 }
 
 function countCheckedCheckboxes(element) {
-    return element.querySelectorAll(".secondary-tag-selector .form-check-input:checked").length
+    return element.querySelectorAll(".secondary-tag-selector .form-check-input:checked").length;
 }
 
 // Functionality to limit the amount of checkbox selected as secondary tags
 let secondaryTagSelectors = document.getElementsByClassName("secondary-tag-selector");
 for (let element of secondaryTagSelectors) {
-    element.addEventListener("click", (event) => {
+    element.querySelector(".form-check-input").addEventListener("click", (event) => event.preventDefault());
+    element.addEventListener("pointerdown", (event) => {
         event.preventDefault();
 
         let parentElement = element.parentElement;
