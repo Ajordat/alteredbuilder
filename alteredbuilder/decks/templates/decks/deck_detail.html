@@ -152,10 +152,20 @@
     {% endif %}
             </div>
             <div class="ms-2">
-                <!-- Copy Deck button-->
-                <a type="button" class="btn altered-style btn-sm" href="{% url 'new-deck' %}?decklist={{ decklist|urlencode }}&source={{ deck.id }}">
-                    <i class="fa-solid fa-copy"></i>
-                </a>
+                <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'Copy deck' %}">
+                    <!-- Copy Deck button-->
+                    <a type="button" class="btn altered-style btn-sm" href="{% url 'new-deck' %}?decklist={{ decklist|urlencode }}&source={{ deck.id }}">
+                        <i class="fa-solid fa-copy"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ms-2">
+                <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% translate 'Export into altered.gg' %}">
+                    <!-- Copy Deck button-->
+                     <a type="button" class="btn altered-style btn-sm" href="#" data-bs-toggle="modal" data-bs-target="#announce-extension-modal">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </a>
+                </div>
             </div>
             <div class="ms-2">
                 <!-- Share dropdown -->
@@ -602,6 +612,28 @@
                 <div class="modal-footer">
                     <a type="button" class="btn btn-outline altered-style" data-bs-dismiss="modal">{% translate "Close" %}</a>
                     <a type="button" class="btn btn-danger altered-style" href="{% url 'delete-deck-id' pk=deck.id %}">{% translate "Delete" %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal to confirm the deletion of the Deck -->
+    <div class="modal fade" id="announce-extension-modal" tabindex="-1" aria-labelledby="announce-extension-modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="announce-extension-modalLabel">{% translate "Altered TCG Builder - Browser Extension" %}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-2">{% translate "Use our extension to export your decks into the official site:" %}</p>
+                    <ul>
+                        <li>{% blocktranslate with url="https://chromewebstore.google.com/detail/altered-tcg-builder/fhagbomlpphplemfbeiokgaiiknggpgh" %}For <a href="{{ url }}" target="_blank">Chrome and Edge</a>{% endblocktranslate %}</li>
+                        <li>{% blocktranslate with url="https://addons.mozilla.org/en-US/firefox/addon/altered-tcg-builder/" %}For <a href="{{ url }}" target="_blank">Firefox</a>{% endblocktranslate %}</li>
+                    </ul>
+                    <p>{% translate 'Simply copy the decklist (<i class="fa-solid fa-share-nodes"></i> &rarr; "Copy decklist") and paste it into the extension.' %}</p>
+                </div>
+                <div class="modal-footer">
+                    <a type="button" class="btn btn-outline altered-style" data-bs-dismiss="modal">{% translate "Close" %}</a>
                 </div>
             </div>
         </div>
