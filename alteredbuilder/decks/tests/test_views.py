@@ -320,11 +320,34 @@ class OwnDeckListViewTestCase(BaseViewTestCase):
         )
 
     def test_context_own_deck_list(self):
-        # Get the only hero
-        first_axiom = Card.objects.filter(type=Card.Type.HERO).first()
-        # Create more heroes
-        second_axiom = generate_card(Card.Faction.AXIOM, Card.Type.HERO)
-        only_lyra_hero = generate_card(Card.Faction.LYRA, Card.Type.HERO)
+        first_axiom = generate_card(
+            faction=Card.Faction.AXIOM,
+            card_type=Card.Type.HERO,
+            card_set="CORE",
+        )
+        second_axiom = generate_card(
+            faction=Card.Faction.AXIOM,
+            card_type=Card.Type.HERO,
+            card_set="CORE",
+        )
+        only_lyra_hero = generate_card(
+            faction=Card.Faction.LYRA,
+            card_type=Card.Type.HERO,
+            card_set="CORE",
+        )
+
+        # Heroes that should not be in the list to avoid duplicates
+        generate_card(
+            faction=Card.Faction.BRAVOS,
+            card_type=Card.Type.HERO,
+            card_set="COREKS",  # Wrong set
+        )
+        generate_card(
+            faction=Card.Faction.YZMIR,
+            card_type=Card.Type.HERO,
+            is_promo=True,  # is promo
+            card_set="CORE",
+        )
 
         expected_heroes_data: dict[str, list[str]] = {
             "Axiom": [first_axiom.name, second_axiom.name],
@@ -338,7 +361,9 @@ class OwnDeckListViewTestCase(BaseViewTestCase):
         self.client.force_login(self.user)
         response = self.client.get(reverse("own-deck"))
 
-        assert response.context["factions_heroes"] == expected_heroes_data
+        assert (
+            response.context["factions_heroes"] == expected_heroes_data
+        ), response.context["factions_heroes"]
 
 
 class CardListViewTestCase(BaseViewTestCase):
