@@ -30,7 +30,8 @@ def generate_card(
     faction: Card.Faction,
     card_type: Card.Type,
     rarity: Card.Rarity = Card.Rarity.COMMON,
-    card_set: str = None,
+    card_set: str | None = None,
+    is_promo: bool = False,
 ) -> Card:
     """Generate a new card from a Faction, Type and Rarity.
 
@@ -72,7 +73,8 @@ def generate_card(
                 reference=data["reference"],
                 name=data["name"],
                 faction=faction,
-                card_set=data["card_set"] if card_set else None,
+                set=data["card_set"] if card_set else None,
+                is_promo=is_promo,
             )
         case Card.Type.CHARACTER:
             card = Card.objects.create_card(
@@ -81,13 +83,14 @@ def generate_card(
                 forest_power=randint(0, 10),
                 mountain_power=randint(0, 10),
                 ocean_power=randint(0, 10),
+                is_promo=is_promo,
             )
         case (
             Card.Type.SPELL
             | Card.Type.LANDMARK_PERMANENT
             | Card.Type.EXPEDITION_PERMANENT
         ):
-            card = Card.objects.create_card(**data, **cost)
+            card = Card.objects.create_card(**data, **cost, is_promo=is_promo)
 
     return card
 
