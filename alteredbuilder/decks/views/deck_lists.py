@@ -7,6 +7,7 @@ from django.views.generic.list import ListView
 
 from decks.deck_utils import (
     filter_by_faction,
+    filter_by_heroes,
     filter_by_legality,
     filter_by_other,
     filter_by_tags,
@@ -138,6 +139,9 @@ class OwnDeckListView(LoginRequiredMixin, DeckListView):
             QuerySet[Deck]: Decks created by the user.
         """
         qs = super().get_queryset()
+
+        heroes = self.request.GET.get("heroes")
+        qs = filter_by_heroes(qs, heroes)
 
         return qs.filter(owner=self.request.user)
 

@@ -236,7 +236,13 @@ class BaseViewTestCase(TestCase):
         cls.create_decks_for_user(cls.other_user, hero, [character, spell, permanent])
 
     @classmethod
-    def create_decks_for_user(cls, user: User, hero: Card, cards: list[Card]):
+    def create_decks_for_user(
+        cls,
+        user: User,
+        hero: Card,
+        cards: list[Card],
+        public_deck_name: str | None = None,
+    ):
         """Create a public and a private deck based on the received parameters.
 
         Args:
@@ -244,9 +250,12 @@ class BaseViewTestCase(TestCase):
             hero (Card): The Deck's Hero.
             cards (list[Card]): The Deck's cards.
         """
+        if public_deck_name is None:
+            public_deck_name = cls.PUBLIC_DECK_NAME
+
         public_deck = Deck.objects.create(
             owner=user,
-            name=cls.PUBLIC_DECK_NAME,
+            name=public_deck_name,
             hero=hero,
             is_public=True,
             comment_count=1,

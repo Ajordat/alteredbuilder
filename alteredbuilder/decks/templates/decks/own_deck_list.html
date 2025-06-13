@@ -152,7 +152,7 @@
                             </button>
                         </h2>
                         <div id="heroes-select" class="accordion-collapse collapse">
-                            <div class="accordion-body p-0">
+                            <div class="accordion-body p-0" id="heroes-selection-div">
                                 {% for faction, heroes in factions_heroes.items %}
                                     <b>{{ faction }}</b>
                                     {% for hero in heroes %}
@@ -169,7 +169,7 @@
             </div>
             
             <div class="modal-footer">
-                <button id="apply-filters-button" class="btn altered-style" type="submit">{% translate "Filter" %}</button>
+                <button id="advanced-filter-apply-button" class="btn altered-style" type="submit">{% translate "Filter" %}</button>
             </div>
         </div>
     </div>
