@@ -79,7 +79,22 @@ function searchCards(e) {
     return false;
 }
 
+function advancedSearchCards(e) {
+    e.preventDefault();
+    let params = new URLSearchParams();
+
+    let checkedHeroes = Array.from(document.getElementById("heroes-selection-div").querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+    if (checkedHeroes.length > 0) {
+        params.append('heroes', checkedHeroes.join(','));
+    }
+    
+    let url = window.location.pathname + "?" + params.toString();
+    window.open(url, "_self");
+}
+
 let element = document.getElementById("filterSearchButton");
 if (element) element.addEventListener("click", searchCards);
 element = document.getElementById("querySearchForm");
 if (element) element.addEventListener("submit", searchCards);
+element = document.getElementById("advanced-filter-apply-button");
+if (element) element.addEventListener("click", advancedSearchCards);

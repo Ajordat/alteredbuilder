@@ -30,7 +30,8 @@ def generate_card(
     faction: Card.Faction,
     card_type: Card.Type,
     rarity: Card.Rarity = Card.Rarity.COMMON,
-    card_set: str = None,
+    card_set: str | None = None,
+    is_promo: bool = False,
 ) -> Card:
     """Generate a new card from a Faction, Type and Rarity.
 
@@ -72,7 +73,8 @@ def generate_card(
                 reference=data["reference"],
                 name=data["name"],
                 faction=faction,
-                card_set=data["card_set"] if card_set else None,
+                set=data["card_set"] if card_set else None,
+                is_promo=is_promo,
             )
         case Card.Type.CHARACTER:
             card = Card.objects.create_card(
@@ -81,13 +83,14 @@ def generate_card(
                 forest_power=randint(0, 10),
                 mountain_power=randint(0, 10),
                 ocean_power=randint(0, 10),
+                is_promo=is_promo,
             )
         case (
             Card.Type.SPELL
             | Card.Type.LANDMARK_PERMANENT
             | Card.Type.EXPEDITION_PERMANENT
         ):
-            card = Card.objects.create_card(**data, **cost)
+            card = Card.objects.create_card(**data, **cost, is_promo=is_promo)
 
     return card
 
@@ -233,7 +236,13 @@ class BaseViewTestCase(TestCase):
         cls.create_decks_for_user(cls.other_user, hero, [character, spell, permanent])
 
     @classmethod
-    def create_decks_for_user(cls, user: User, hero: Card, cards: list[Card]):
+    def create_decks_for_user(
+        cls,
+        user: User,
+        hero: Card,
+        cards: list[Card],
+        public_deck_name: str | None = None,
+    ):
         """Create a public and a private deck based on the received parameters.
 
         Args:
@@ -241,9 +250,12 @@ class BaseViewTestCase(TestCase):
             hero (Card): The Deck's Hero.
             cards (list[Card]): The Deck's cards.
         """
+        if public_deck_name is None:
+            public_deck_name = cls.PUBLIC_DECK_NAME
+
         public_deck = Deck.objects.create(
             owner=user,
-            name=cls.PUBLIC_DECK_NAME,
+            name=public_deck_name,
             hero=hero,
             is_public=True,
             comment_count=1,

@@ -40,6 +40,7 @@ class CardManager(models.Manager):
             set=set,
             main_effect=main_effect,
             stats={"reserve_count": reserve_count, "permanent_count": permanent_count},
+            **kwargs,
         )
 
     def create_playable_card(
