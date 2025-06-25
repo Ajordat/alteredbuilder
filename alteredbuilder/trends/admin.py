@@ -9,7 +9,7 @@ from django.http import HttpRequest
 from django.utils.timezone import localdate
 
 from decks.models import Card
-from trends.models import CardTrend, DeckTrend, FactionTrend, HeroTrend
+from trends.models import CardTrend, DeckTrend, FactionTrend, HeroTrend, UserTrend
 
 
 class FilterHeroForm(forms.ModelForm):
@@ -18,9 +18,10 @@ class FilterHeroForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(FilterHeroForm, self).__init__(*args, **kwargs)
-        self.fields["hero"].queryset = Card.objects.filter(
-            type=Card.Type.HERO, set__code="CORE"
-        )
+        if "hero" in self.fields:
+            self.fields["hero"].queryset = Card.objects.filter(
+                type=Card.Type.HERO, set__code="CORE"
+            )
 
 
 class TrendUtilities:
@@ -63,3 +64,10 @@ class DeckTrendAdmin(TrendUtilities, admin.ModelAdmin):
     list_display = ["date", "ranking", "deck", "faction", "hero"]
     search_fields = ["hero__name_en", "deck__name"]
     list_filter = ["faction", "ranking"]
+
+
+@admin.register(UserTrend)
+class UserTrendAdmin(TrendUtilities, admin.ModelAdmin):
+    list_display = ["date", "count", "user"]
+    search_fields = ["user"]
+    list_filter = ["date"]

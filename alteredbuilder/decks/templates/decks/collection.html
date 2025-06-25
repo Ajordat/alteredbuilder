@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+{% load static %}
+{% load deck_styles %}
+
+
+{% block content-div %}class="container my-3"{% endblock %}
+
+{% block content %}
+    <h2>{% translate "My Collection" %}</h2>
+
+    <button type="button" class="btn altered-style mb-3" data-bs-toggle="modal" data-bs-target="#importCollectionModal">{% translate "Import Collection" %}</button>
+    <div class="row row-cols-1 row-cols-md-3 row-cols-xl-4 g-4">
+    
+    {% for set in card_sets %}
+        {% include "decks/snippets/collection_set_summary.html" with set=set %}
+    {% endfor %}
+
+    </div>
+
+    {% for set in card_sets %}
+        {% include "decks/snippets/collection_individual_set.html" with set=set %}
+    {% endfor %}
+
+    <!-- Manage collection modal -->
+    {% include "decks/tooltips/import_collection.html"%}
+
+    <style>
+        .table td, .table th {
+            padding-left: 20px;
+            padding-right: 20px;
+            vertical-align: middle;
+        }
+        .progress {
+            min-width: 200px;
+            flex-grow: 1;
+            background-color: #e9ecef;
+        }
+        .progress-bar {
+            background-color: var(--cta-bg-active-color);
+            color: black;
+            overflow: visible;
+            display: flex;
+            justify-content: center;
+            padding-left: 2px;
+        }
+    </style>
+
+    <!-- Simple toaster -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="simple-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-body d-flex">
+                <span id="toast-text"></span>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    {% csrf_token %}
+    <!-- User collection -->
+    {{ user.profile.collection|json_script:"user-collection" }}
+{% endblock %}
+
+
+{% block bodyscripts %}
+    <!-- utils script to display a toast -->
+    <script src="{% static 'js/utils.js' %}"></script>
+    <!-- Import deckfmt module -->
+    <script src="{% static 'js/altered-deckfmt.umd.cjs' %}"></script>
+    <!-- Collection scripts -->
+    <script src="{% static 'js/collection-API.js' %}"></script>
+    <script src="{% static 'js/my-collection.js' %}"></script>
+{% endblock %}

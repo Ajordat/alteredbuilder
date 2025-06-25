@@ -68,6 +68,7 @@ env = environ.Env(
     GCS_BUCKET_STATICS=(str, None),
     SECRET_KEY=(str, None),
     GCP_GITHUB_SA=(str, None),
+    BOT_AUTHORIZATION_TOKEN=(str, None),
 )
 
 try:
@@ -88,6 +89,7 @@ else:
 
 DEBUG = env("DEBUG")
 SECRET_KEY = env("SECRET_KEY")
+BOT_AUTHORIZATION_TOKEN = env("BOT_AUTHORIZATION_TOKEN")
 
 if SERVICE_PUBLIC_URL := env("SERVICE_PUBLIC_URL"):  # pragma: no cover
     # If SERVICE_PUBLIC_URL is set it means we're serving publicly
@@ -135,6 +137,8 @@ INSTALLED_APPS = [
     "notifications.apps.NotificationsConfig",
     "profiles.apps.ProfilesConfig",
     "news.apps.NewsConfig",
+    "recommender.apps.RecommenderConfig",
+    "external.apps.ExternalConfig",
 ]
 
 MIDDLEWARE = [
@@ -225,6 +229,11 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
+
+USER_AGENT_BASE = "AjordatBot/1.0 (Altered TCG Builder; {}; https://altered.ajordat.com; altered-tcg-builder@ajordat.com)"
+ALTERED_API_BASE_URL = "https://api.altered.gg"
+ALTERED_API_ITEMS_PER_PAGE = 36
+
 
 if DEBUG or not SERVICE_PUBLIC_URL:
     SITE_ID = 1

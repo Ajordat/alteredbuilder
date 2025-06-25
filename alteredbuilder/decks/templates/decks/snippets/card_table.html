@@ -7,24 +7,25 @@
     <thead>
         <!-- Each card simply displays its quantity, name and mana cost -->
         <tr>
-            <th scope="col">#</th>
+            <th scope="col" class="quantity-title text-nowrap">#</th>
             <th scope="col">{% translate "Name" %}</th>
             <th scope="col">{% translate "Mana" %}</th>
             <th></th>
         </tr>
     </thead>
     <tbody class="table-group-divider">
-{% for quantity, card in card_list %}
-        <tr class="{% get_row_color_from_rarity card.get_rarity_display %} card-hover" data-rarity="{{ card.get_rarity_display }}" data-image-url="{% cdn_image_url card.image_url %}" data-faction="{{ card.faction }}">
+{% for quantity, card, price in card_list %}
+        <tr class="{% get_row_color_from_rarity card.get_rarity_display %} card-hover count-quantity" data-card-reference="{{ card.reference }}" data-card-family="{{ card.get_card_code }}" data-rarity="{{ card.get_rarity_display }}" data-image-url="{% cdn_image_url card.image_url %}" data-faction="{{ card.faction }}" data-price="{% firstof price '' %}">
             <link rel="prefetch" href="{% cdn_image_url card.image_url %}"/>
-            <td class="user-select-none">{{ quantity }}</td>
+            <td class="quantity user-select-none text-nowrap" style="width: 8%;">{{ quantity }}</td>
             <td><span class="user-select-all">{{ card.name }}</span></td>
-            <td><span class="altered-{{ card.stats.main_cost }} hand-mana"></span>/<span class="altered-{{ card.stats.recall_cost }} reserve-mana"></span></td>
-            <td class="text-end pe-3" style="width: 1%;">
+            <td class="pe-3 text-nowrap" style="width: 1%;"><span class="altered-{{ card.stats.main_cost }} hand-mana"></span>/<span class="altered-{{ card.stats.recall_cost }} reserve-mana"></span></td>
+            <td class="text-end px-3" style="width: 1%;">
                 <div class="dropdown">
                     <button class="btn altered-style row-button dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>
                     <ul class="dropdown-menu altered-style">
                         <li><a class="dropdown-item" href="{{ card.get_official_link }}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> {% translate "Go to details" %}</a></li>
+                        <li><a class="dropdown-item" href="https://www.altered.gg/cards/{{ card.reference }}/offers" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-cart-shopping"></i> {% translate "Go to marketplace" %}</a></li>
                         <li><a class="dropdown-item card-reference-container" href="#" data-card-reference="{{ card.reference }}"><i class="fa-regular fa-copy"></i> {% translate "Copy card reference" %}</a></li>
     {% if object.owner == user %}
                         <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ card.reference }}"><i class="fa-solid fa-trash"></i> {% translate "Remove card" %}</a></li>

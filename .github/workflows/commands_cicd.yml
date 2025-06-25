@@ -1,0 +1,69 @@
+name: Django commands CICD
+
+on:
+  push:
+    branches:
+    - master
+    paths:
+    - alteredbuilder/*/management/commands/*.py
+    - alteredbuilder/config/commands.py
+    - .github/workflows/commands_cicd.yml
+
+env:
+  DEBUG: False
+  USE_GCS_STATICS: False
+
+defaults:
+  run:
+    working-directory: ./alteredbuilder
+
+jobs:
+  deploy:
+    name: Deploy command '${{ matrix.command }}' to Cloud Run
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    strategy:
+      matrix:
+        command:
+        - calculate_deck_legality
+        - generate_trends
+        - train_model
+        - update_card_prices
+        - refresh_token
+        - update_card_pool
+        include:
+        - cpu: 500m
+          memory: 256Mi
+        - command: train_model
+          cpu: 1000m
+          memory: 1500Mi
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Authenticate into GCP
+      id: auth
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_GITHUB_SA_JSON }}
+    - name: Prepare job name
+      id: vars
+      run: echo "name=${{ matrix.command }}" | sed 's/_/-/g' >> $GITHUB_OUTPUT
+    - name: Deploy to Cloud Run
+      uses: google-github-actions/deploy-cloudrun@v2
+      with:
+        project_id: ${{ vars.GCP_PROJECT }}
+        region: ${{ vars.REGION }}
+        job: ${{ steps.vars.outputs.name }}
+        image: ${{ secrets.AR_REPOSITORY }}/${{ vars.CLOUD_RUN_SERVICE_NAME }}
+        env_vars: |-
+          SETTINGS_NAME=${{ secrets.SETTINGS_NAME }}
+        env_vars_update_strategy: merge
+        flags: |
+          --command=python
+          --args manage.py,${{ matrix.command }}
+          --set-cloudsql-instances=${{ secrets.CLOUD_SQL_INSTANCE }}
+          --service-account=${{ secrets.CLOUD_RUN_SA_NAME }}
+          --cpu=${{ matrix.cpu }}
+          --memory=${{ matrix.memory }}

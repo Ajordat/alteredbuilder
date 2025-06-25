@@ -1,4 +1,4 @@
-FROM python:3.12-alpine
+FROM python:3.12-slim
 
 # Keep Python from generating .pyc files in the container
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -6,7 +6,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 # Install the gettext to translate to different locales
-RUN apk add --no-cache gettext
+RUN apt update && apt install -y gettext
 
 # Set the working directory
 WORKDIR /code
@@ -20,4 +20,4 @@ RUN pip3 install -r requirements.txt --no-cache-dir
 COPY . .
 
 # Start gunicorn
-CMD exec gunicorn --bind 0.0.0.0:8000 --workers 1 --threads 8 --timeout 0 config.wsgi:application
+CMD exec gunicorn --bind 0.0.0.0:8000 --workers 1 --threads 8 --timeout 15 config.wsgi:application

@@ -21,3 +21,8 @@ services:
     depends_on:
     - db
     restart: on-failure
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 2G

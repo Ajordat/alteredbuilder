@@ -183,4 +183,4 @@ jobs:
           --allow-unauthenticated
           --service-account=${{ secrets.CLOUD_RUN_SA_NAME }}
           --cpu=1000m
-          --memory=256Mi
+          --memory=2Gi

@@ -25,7 +25,7 @@ function parseFilter(labels) {
 
     for (let label of labels) {
         let labelElement = document.getElementById("filter" + label);
-        if (labelElement.checked) {
+        if (!!labelElement && labelElement.checked) {
           filter.push(labelElement.value);
         }
     }
@@ -61,15 +61,21 @@ function searchCards(e) {
     }
 
     // Retrieve the TYPE filters
-    let types = parseFilter(["Character", "Hero", "Permanent", "Spell"]);
+    let types = parseFilter(["Character", "Hero", "Landmark Permanent", "Expedition Permanent", "Spell"]);
     if (types.length > 0) {
         params.append("type", types.join(","));
     }
 
     // Retrieve the SET filters
-    let sets = parseFilter(["BTG", "BTG-KS", "BTG-P"]);
+    let sets = parseFilter(["BTG", "BTG-KS", "TBF", "WFM"]);
     if (sets.length > 0) {
         params.append("set", sets.join(","));
+    }
+
+    // Retrieve the OTHER filters
+    let other = parseFilter(["Promo", "AltArt", "Owned"]);
+    if (other.length > 0) {
+        params.append("other", other.join(","));
     }
 
     // Retrieve the QUERY from the search input

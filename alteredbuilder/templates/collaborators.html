@@ -1,109 +1,159 @@
 {% extends "base.html" %}
 
+{% load i18n %}
 
-{% block title %}Collaborators{% endblock %}
-{% block meta_title %}Collaborators{% endblock %}
+{% block title %}{% translate "Collaborators" %}{% endblock %}
+{% block meta_title %}{% translate "Collaborators" %}{% endblock %}
+
+{% block content-div %}
+class="container py-5"
+{% endblock %}
 
 {% block content %}
-    <h3 id="collaborators">Collaborators</h3>
-    <p>Whilst this web is designed, developed and maintained by a single individual, it has received help from different people.</p>
-    <p>This is a space to give credit where credit is due.</p>
 
-    <h4 id="patrons" style="scroll-margin-top: 60px;">Patrons</h4>
-    <p>
-        Here are the amazing supporters who have contributed to the growth of this project through their patronage.
-        Their continued support on various platforms helps keep this platform thriving and evolving.
-        A huge thanks to each and every one of you!
-    </p>
-    <p>OtterSpren, Hauru, PhilippeP</p>
-
-    <h4>Special mentions</h4>
-    <p>
-        Special thanks to these individuals who have gone above and beyond in their support and contributions.
-        Their dedication and efforts have played a vital role in shaping this project!
-    </p>
-    <ul>
-        <li>Aran: For suggesting multiple enhancements, and gathering opinions on the potential tags to describe decks and elaborating a proposal.</li>
-        <li>Barcelberg: As the UX/UI Designer who redisigned usability and look and feel of this portal.</li>
-        <li>Maverick: Besides multiple helpful advice, he provided Altered's symbols as SVG so that they can be used as icons.</li>
-        <li><a href="https://github.com/mariags803" target="_blank">Mariags803</a>: For developing the card count on the deckbuilding view.</li>
-        <li>Pioupiou: As the developer of <a href="https://exalts-table.com" target="_blank">Exalts Table</a>, which is used to playtest the decks.</li>
-        <li>Pollux Troy: As the developer of <a href="https://altered-db.com/" target="_blank">Altered DB</a>, who provided the icons for the factions.</li>
-        <li>Taum: As the developer of <a href="https://deck-showcase.vercel.app/" target="_blank">Deck showcase</a> and designer of <a href="https://github.com/Taum/altered-deckfmt/tree/main" target="_blank">deckfmt</a>, which are used to showcase the decks with a global view.</li>
-    </ul>
-
-    <h4>Translators</h4>
-    <p>
-        A big thank you to the talented people who have translated this project and made it accessible to a wider audience.
-        Their work helps bridge communities and bring more people into our growing platform!
-    </p>
-    <div class="row">
-        <div class="col">
-            <strong>German</strong>
-            <ul>
-                <li>Melle</li>
-            </ul>
-        </div>
-        <div class="col">
-            <strong>Spanish</strong>
-            <ul>
-                <li>Ajordat</li>
-                <li>gallegonovato</li>
-            </ul>
-        </div>
-        <div class="col">
-            <strong>French</strong>
-            <ul>
-                <li>ChristianWia</li>
-                <li>Eazy</li>
-                <li>Keyuko</li>
-                <li>Maverick</li>
-                <li>Pioupiou</li>
-                <li>Yutsa</li>
-            </ul>
-        </div>
-        <div class="col">
-            <strong>Italian</strong>
-            <ul>
-                <li>Astuni</li>
-            </ul>
+<div class="row">
+    <div class="col-12 mb-4">
+        <div id="collaborators" class="card">
+            <div class="card-body">
+                <h2 class="card-title">{% translate "Collaborators" %}</h2>
+                <hr class="altered-style mt-1 mb-2">
+                <p class="card-text">
+                    {% translate "Whilst this web is designed, developed and maintained by a single individual, it has received help from different people." %}
+                </p>
+                <p class="card-text">
+                    {% translate "This is a space to give credit where credit is due." %}
+                </p>
+            </div>
         </div>
     </div>
 
-    <h4>Bug reports</h4>
-    <p>
-        A heartfelt thanks to those who have taken the time to report bugs and issues. Their feedback helps us improve the platform and deliver a smoother experience for everyone!
-    </p>
-    <ul>
-        <li>Astuni</li>
-        <li>JoliRougeGorge</li>
-        <li>N0oh</li>
-        <li>Pioupiou</li>
-        <li>Tomawaky</li>
-        <li>zadibouc</li>
-    </ul>
-    
-    <h4>Feature Requests</h4>
-    <p>
-        We're always looking for ways to improve and enhance your experience.
-        If you have ideas or suggestions for new features that could make the platform better, this is the place to share them!
-        Whether it's a small tweak or a game-changing idea, we'd love to hear your thoughts.
-        Every contribution helps shape the future of the project!<br>
-        Here's a list of people who gave us feedback on desired features and ended up being implemented:
-    </p>
-    <ul>
-        <li>Anvyl: Add a button on the deck's page to make a shortcut to the edit view.</li>
-        <li>Aran: Increase the length of the deck description, Comments on decks{% comment %}, Sideboard for decks{% endcomment %}</li>
-        <li>Eazy: Goldfishing</li>
-        <li>Kawa: Different views for decks</li>
-        <li>Maverick: Internationalization and localization</li>
-        <li>Melle: Advanced card filtering syntax</li>
-        <li>N0oh: Dark mode{% comment %}, ability to print decks (TBA){% endcomment %}</li>
-        <li>Shisu: Sort the decks by likes and view count</li>
-        <li>Zadibouc: Filter the list of own decks (imagine how many they have){% comment %}, Modify a deck's visibility from the deck sidebar{% endcomment %}</li>
-    </ul>
+    <div class="col-12 mb-4 px-4">
+        <div id="patrons" class="card">
+            <div class="card-body">
+                <h3 class="card-title">{% translate "Patrons" %}</h3>
+                <p class="card-text">
+                    {% translate "Here are the amazing supporters who have contributed to the growth of this project through their patronage. Their continued support on various platforms helps keep this platform thriving and evolving. A huge thanks to each and every one of you!" %}
+                </p>
+                <p class="card-text">
+                    <i class="fa-solid fa-star"></i> OtterSpren, Hauru, PhilippeP, Hechigenio, Cohlrabi <i class="fa-solid fa-star"></i>
+                </p>
+            </div>
+        </div>
+    </div>
 
-    <h4>Discussions</h4>
-    <p>Most of the discussions regarding this (and other Altered-related programming stuff) have happened in this <i class="fab fa-discord"></i> Discord server: <a href="https://discord.gg/bCWrw8vXUm" target="_blank">Altered Programming <i class="fa-solid fa-arrow-up-right-from-square"></i></a></p>
-    <p>This server has proved to be a very good source of suggestions, bug reports and feature requests. Without this subcommunity of Altered enjoyers this site wouldn't be half as good as it is.</p>
+    <div class="col-12 mb-4 px-4">
+        <div id="special_mentions" class="card">
+            <div class="card-body">
+                <h3 class="card-title">{% translate "Special mentions" %}</h3>
+                <p class="card-text">
+                    {% translate "Special thanks to these individuals who have gone above and beyond in their support and contributions. Their dedication and efforts have played a vital role in shaping this project!" %}
+                </p>
+                <p class="card-text">
+                    <ul>
+                        <li><strong>Aran</strong>: For suggesting multiple enhancements, and gathering opinions on the potential tags to describe decks and elaborating a proposal.</li>
+                        <li><strong>Barcelberg</strong>: As the UX/UI Designer who redisigned usability and look and feel of this portal.</li>
+                        <li><strong>Maverick</strong>: Besides multiple helpful advice, he provided Altered's symbols as SVG so that they can be used as icons.</li>
+                        <li><a href="https://github.com/mariags803" target="_blank"><strong>Mariags803</strong></a>: For developing the card count on the deckbuilding view.</li>
+                        <li><strong>Pioupiou</strong>: As the developer of <a href="https://exalts-table.com" target="_blank">Exalts Table</a>, which is used to playtest the decks.</li>
+                        <li><strong>Pollux Troy</strong>: As the developer of <a href="https://altered-db.com/" target="_blank">Altered DB</a>, who provided the latest version of the icons.</li>
+                        <li><strong>Taum</strong>: As the developer of <a href="https://deck-showcase.vercel.app/" target="_blank">Deck showcase</a> and designer of <a href="https://github.com/Taum/altered-deckfmt/tree/main" target="_blank">deckfmt</a>, which are used to showcase the decks with a global view.</li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 mb-4 px-4">
+        <div id="translators" class="card">
+            <div class="card-body">
+                <h3 class="card-title">{% translate "Translators" %}</h3>
+                <p class="card-text">
+                    {% translate "A big thank you to the talented people who have translated this project and made it accessible to a wider audience. Their work helps bridge communities and bring more people into our growing platform!" %}
+                </p>
+                <div class="row">
+                    <div class="col">
+                        <strong>German</strong>
+                        <ul>
+                            <li>Melle</li>
+                            <li>Ettore Atalan</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <strong>Spanish</strong>
+                        <ul>
+                            <li>Ajordat</li>
+                            <li>gallegonovato</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <strong>French</strong>
+                        <ul>
+                            <li>ChristianWia</li>
+                            <li>Eazy</li>
+                            <li>Keyuko</li>
+                            <li>Maverick</li>
+                            <li>Pioupiou</li>
+                            <li>Yutsa</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <strong>Italian</strong>
+                        <ul>
+                            <li>Astuni</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-6 mb-4 px-4">
+        <div id="bug_reports" class="card">
+            <div class="card-body">
+                <h3 class="card-title">{% translate "Bug reports" %}</h3>
+                <p class="card-text">
+                    {% translate "A heartfelt thanks to those who have taken the time to report bugs and issues. Their feedback helps us improve the platform and deliver a smoother experience for everyone!" %}
+                </p>
+                <p class="card-text">
+                    <ul>
+                        <li>Astuni</li>
+                        <li>JoliRougeGorge</li>
+                        <li>N0oh</li>
+                        <li>Pioupiou</li>
+                        <li>Tomawaky</li>
+                        <li>zadibouc</li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-6 mb-4 px-4">
+        <div id="feature_requests" class="card">
+            <div class="card-body">
+                <h3 class="card-title">{% translate "Feature Requests" %}</h3>
+                <p class="card-text">
+                    {% translate "We're always looking for ways to improve and enhance your experience. If you have ideas or suggestions for new features that could make the platform better, this is the place to share them! Whether it's a small tweak or a game-changing idea, we'd love to hear your thoughts. Every contribution helps shape the future of the project!" %}
+                </p>
+                <p class="card-text">
+                    {% translate "Here's a list of people who gave us feedback on desired features and ended up being implemented:" %}
+                </p>
+                <p class="card-text">
+                    <ul>
+                        <li><strong>Anvyl</strong>: Add a button on the deck's page to make a shortcut to the edit view.</li>
+                        <li><strong>Aran</strong>: Increase the length of the deck description, Comments on decks{% comment %}, Sideboard for decks{% endcomment %}</li>
+                        <li><strong>Eazy</strong>: Goldfishing</li>
+                        <li><strong>Kawa</strong>: Different views for decks</li>
+                        <li><strong>Maverick</strong>: Internationalization and localization</li>
+                        <li><strong>Melle</strong>: Advanced card filtering syntax</li>
+                        <li><strong>N0oh</strong>: Dark mode{% comment %}, ability to print decks (TBA){% endcomment %}</li>
+                        <li><strong>Shisu</strong>: Sort the decks by likes and view count</li>
+                        <li><strong>The Bravos Hatter</strong>: Provide an HTML iframe to display decks from blogs</li>
+                        <li><strong>Zadibouc</strong>: Filter the list of own decks (imagine how many they have){% comment %}, Modify a deck's visibility from the deck sidebar{% endcomment %}</li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

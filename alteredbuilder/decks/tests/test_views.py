@@ -235,7 +235,7 @@ class DeckDetailViewTestCase(BaseViewTestCase):
             get_detail_card_list(deck, Card.Type.SPELL), response.context["spell_list"]
         )
         self.assertListEqual(
-            get_detail_card_list(deck, Card.Type.PERMANENT),
+            get_detail_card_list(deck, Card.Type.LANDMARK_PERMANENT),
             response.context["permanent_list"],
         )
         self.assertIn("stats", response.context)
@@ -403,14 +403,18 @@ class CardListViewTestCase(BaseViewTestCase):
         self.assertQuerySetEqual(cid, response.context["spell_cards"], ordered=False)
 
         self.assertIn("permanent_cards", response.context)
-        cid = CardInDeck.objects.filter(deck=deck, card__type=Card.Type.PERMANENT)
+        cid = CardInDeck.objects.filter(
+            deck=deck, card__type=Card.Type.LANDMARK_PERMANENT
+        )
         self.assertQuerySetEqual(
             cid, response.context["permanent_cards"], ordered=False
         )
 
     def test_card_list_filters(self):
         """Test the view of all the Cards after applying filters on the query."""
-        generate_card(Card.Faction.AXIOM, Card.Type.PERMANENT, Card.Rarity.COMMON)
+        generate_card(
+            Card.Faction.AXIOM, Card.Type.LANDMARK_PERMANENT, Card.Rarity.COMMON
+        )
         generate_card(Card.Faction.MUNA, Card.Type.CHARACTER, Card.Rarity.RARE)
 
         card = Card.objects.first()
@@ -502,11 +506,11 @@ class CardListViewTestCase(BaseViewTestCase):
             )
 
         # Search all the cards of type CHARACTER or PERMANENT
-        filter = "?type=character,permanent"
+        filter = "?type=character,landmark_permanent"
         with self.subTest(filter=filter):
             response = self.client.get(url + filter)
             query_cards = Card.objects.filter(
-                type__in=[Card.Type.CHARACTER, Card.Type.PERMANENT]
+                type__in=[Card.Type.CHARACTER, Card.Type.LANDMARK_PERMANENT]
             )
             self.assertQuerySetEqual(
                 query_cards, response.context["card_list"], ordered=False
@@ -548,13 +552,13 @@ class CardListViewTestCase(BaseViewTestCase):
 
         # Search all the COMMON CHARACTERS or PERMANENTS of AXIOM ordered by inverse
         # NAME order
-        filter = "?faction=AX&rarity=C&type=character,permanent&order=-name"
+        filter = "?faction=AX&rarity=C&type=character,landmark_permanent&order=-name"
         with self.subTest(filter=filter):
             response = self.client.get(url + filter)
             query_cards = Card.objects.filter(
                 faction=Card.Faction.AXIOM,
                 rarity=Card.Rarity.COMMON,
-                type__in=[Card.Type.CHARACTER, Card.Type.PERMANENT],
+                type__in=[Card.Type.CHARACTER, Card.Type.LANDMARK_PERMANENT],
             ).order_by("-name", "-reference")
             self.assertQuerySetEqual(query_cards, response.context["card_list"])
 
@@ -717,7 +721,7 @@ class CardListViewTestCase(BaseViewTestCase):
         character = Card.objects.filter(type=Card.Type.CHARACTER).first()
         character.main_effect = "{J} I trigger when played"
         character.save()
-        permanent = Card.objects.filter(type=Card.Type.PERMANENT).first()
+        permanent = Card.objects.filter(type=Card.Type.LANDMARK_PERMANENT).first()
         permanent.main_effect = "{H} I trigger from hand {T} You can exhaust me"
         permanent.save()
         spell = Card.objects.filter(type=Card.Type.SPELL).first()

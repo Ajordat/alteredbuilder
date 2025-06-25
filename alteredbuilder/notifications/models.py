@@ -56,7 +56,7 @@ class Notification(models.Model):
             case _:
                 return _("New notification")
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse("notification-detail", kwargs={"pk": self.pk})
 
     class Meta:

@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-11 14:44+0100\n"
+"POT-Creation-Date: 2025-05-23 21:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,39 +18,45 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: decks/static/js/deck-detail.js:22 decks/static/js/deck-detail.js:144
+#: decks/static/js/deck-detail.js:39 decks/static/js/deck-detail.js:186
 msgid "Link copied into clipboard!"
 msgstr "Link copiato negli appunti!"
 
-#: decks/static/js/deck-detail.js:36
+#: decks/static/js/deck-detail.js:53
 msgid "Decklist copied into clipboard!"
 msgstr "Lista del mazzo copiata negli appunti!"
 
-#: decks/static/js/deck-detail.js:49
+#: decks/static/js/deck-detail.js:66
 msgid "QR downloaded!"
 msgstr "QR scaricato!"
 
-#: decks/static/js/deck-detail.js:66
+#: decks/static/js/deck-detail.js:83
 msgid "QR copied into clipboard!"
 msgstr "QR copiato negli appunti!"
 
-#: decks/static/js/deck-detail.js:94
+#: decks/static/js/deck-detail.js:110
+#, fuzzy
+#| msgid "Link copied into clipboard!"
+msgid "HTML iframe copied into clipboard!"
+msgstr "Link copiato negli appunti!"
+
+#: decks/static/js/deck-detail.js:136
 msgid "Unable to delete card from deck"
 msgstr "Impossibile eliminare la carta dal mazzo"
 
-#: decks/static/js/deck-detail.js:116
+#: decks/static/js/deck-detail.js:158
 msgid "Card reference copied into clipboard!"
 msgstr "Riferimento della carta copiato negli appunti!"
 
-#: decks/static/js/deck-detail.js:135
+#: decks/static/js/deck-detail.js:177
 msgid "Cannot create a private link"
 msgstr "Impossibile creare un link privato"
 
-#: decks/static/js/deck-detail.js:167
+#: decks/static/js/deck-detail.js:209
 msgid "Unable to upvote the comment"
 msgstr "Impossibile votare il commento"
 
-#: decks/static/js/deck-detail.js:204
+#: decks/static/js/deck-detail.js:246
 msgid "Unable to delete the comment"
 msgstr "Impossibile eliminare il commento"
 
@@ -62,63 +68,75 @@ msgstr "Il mazzo con ID “%(code)s” non è stato trovato."
 msgid "Input the Deck's ID or its URL."
 msgstr "Immettere l'ID del mazzo o il suo URL."
 
-#: decks/static/js/deck-sidebar.js:185
+#: decks/static/js/deck-sidebar.js:203
 msgid "Common"
 msgid_plural "Commons"
 msgstr[0] "Comune"
 msgstr[1] "Comuni"
 
-#: decks/static/js/deck-sidebar.js:187
+#: decks/static/js/deck-sidebar.js:205
 msgid "Rare"
 msgid_plural "Rares"
 msgstr[0] "Rara"
 msgstr[1] "Rare"
 
-#: decks/static/js/deck-sidebar.js:189
+#: decks/static/js/deck-sidebar.js:207
 msgid "Unique"
 msgid_plural "Uniques"
 msgstr[0] "Unica"
 msgstr[1] "Uniche"
 
-#: decks/static/js/deck-sidebar.js:216
+#: decks/static/js/deck-sidebar.js:234
 msgid "Card"
 msgid_plural "Cards"
 msgstr[0] "Carta"
 msgstr[1] "Carte"
 
-#: decks/static/js/deck-sidebar.js:502
+#: decks/static/js/deck-sidebar.js:574
 msgid "The deck must have a name"
 msgstr "Il mazzo deve avere un nome"
 
-#: decks/static/js/deck-sidebar.js:507
+#: decks/static/js/deck-sidebar.js:579
 msgid "There are no changes to save"
 msgstr "Non ci sono modifiche da salvare"
 
-#: decks/static/js/deck-sidebar.js:538
+#: decks/static/js/deck-sidebar.js:608
 msgid "Unable to update deck"
 msgstr "Impossibile aggiornare il mazzo"
 
-#: decks/static/js/deck-stats.js:16
+#: decks/static/js/deck-stats.js:17
 msgid "characters"
 msgstr "caratteri"
 
-#: decks/static/js/deck-stats.js:17
-msgid "spells"
-msgstr "magie"
-
 #: decks/static/js/deck-stats.js:18
+msgid "spells"
+msgstr "incantesimi"
+
+#: decks/static/js/deck-stats.js:19
 msgid "permanents"
 msgstr "permanenti"
 
-#: decks/static/js/deck-stats.js:86
+#: decks/static/js/deck-stats.js:58
+msgid "forest"
+msgstr ""
+
+#: decks/static/js/deck-stats.js:59
+msgid "mountain"
+msgstr ""
+
+#: decks/static/js/deck-stats.js:60
+msgid "ocean"
+msgstr ""
+
+#: decks/static/js/deck-stats.js:140
 msgid "Cost"
 msgstr "Costo"
 
-#: decks/static/js/deck-stats.js:86
+#: decks/static/js/deck-stats.js:140
 msgid "Hand"
 msgstr "Mano"
 
-#: decks/static/js/deck-stats.js:86
+#: decks/static/js/deck-stats.js:140
 msgid "Reserve"
 msgstr "Riserva"
 

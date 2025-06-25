@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load deck_styles %}
 
-<div class="row"><h5 class="px-0 mb-1 mt-2">{% translate title %}</h5></div>
+<div class="row"><h5 class="px-0 mb-1 mt-2">{% translate title %} (<span id="decklist-{{ type }}-quantity"></span>)</h5></div>
 <div id="decklist-{{ type }}-cards">
     <!-- Display cards -->
 {% for cid in card_list %}
@@ -17,7 +17,7 @@
         <div class="col d-flex align-items-center">
             <!-- Card name with quantity warning -->
             <span class="d-inline-block text-truncate card-row-text w-100 max-width-xs max-width-sm max-width-md max-width-lg max-width-xl">
-                <span class="card-warning" {% if cid.card.rarity != "U" and cid.quantity < 4 or cid.card.rarity == "U" and cid.quantity == 1%} hidden{% endif %}><i class="fa-solid fa-triangle-exclamation"></i> </span>
+                <span class="card-warning" {% if cid.card.rarity != "U" and cid.quantity < 4 or cid.card.rarity == "U" and cid.quantity == 1 %} hidden{% endif %}><i class="warning-card fa-solid fa-triangle-exclamation"></i> </span>
                 <span class="card-name user-select-none">{{ cid.card.name }}</span>
             </span>
         </div>
@@ -29,14 +29,14 @@
             <div class="input-group input-group-sm">
                 <!-- Quantity buttons and display -->
                 <button class="remove-card-btn btn" type="button">-</button>
-                <span class="d-flex justify-content-center align-items-center input-group-text card-quantity user-select-none" data-card-reference="empty"></span>
+                <span class="d-flex justify-content-center align-items-center input-group-text card-quantity user-select-none" data-card-reference="empty" style="width:28px;"></span>
                 <button class="add-card-btn btn" type="button">+</button>
             </div>
         </div>
         <div class="col d-flex align-items-center">
             <!-- Card name with quantity warning -->
             <span class="d-inline-block text-truncate card-row-text w-100 max-width-xs max-width-sm max-width-md max-width-lg max-width-xl">
-                <span class="card-warning" hidden><i class="fa-solid fa-triangle-exclamation"></i> </span>
+                <span class="card-warning" hidden><i class="warning-card fa-solid fa-triangle-exclamation"></i> </span>
                 <span class="card-name user-select-none"></span>
             </span>
         </div>

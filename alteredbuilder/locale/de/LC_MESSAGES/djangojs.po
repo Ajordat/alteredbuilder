@@ -2,55 +2,62 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-11 14:44+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2025-05-23 21:44+0200\n"
+"PO-Revision-Date: 2025-03-09 15:03+0000\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/altered-tcg-"
+"builder/client-strings/de/>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.10.3-dev\n"
 
-#: decks/static/js/deck-detail.js:22 decks/static/js/deck-detail.js:144
+#: decks/static/js/deck-detail.js:39 decks/static/js/deck-detail.js:186
 msgid "Link copied into clipboard!"
 msgstr "Link in Zwischenablage kopiert!"
 
-#: decks/static/js/deck-detail.js:36
+#: decks/static/js/deck-detail.js:53
 msgid "Decklist copied into clipboard!"
 msgstr "Deckliste in Zwischenablage kopiert!"
 
-#: decks/static/js/deck-detail.js:49
+#: decks/static/js/deck-detail.js:66
 msgid "QR downloaded!"
 msgstr "QR heruntergeladen!"
 
-#: decks/static/js/deck-detail.js:66
+#: decks/static/js/deck-detail.js:83
 msgid "QR copied into clipboard!"
 msgstr "QR in Zwischenablage kopiert!"
 
-#: decks/static/js/deck-detail.js:94
+#: decks/static/js/deck-detail.js:110
+#, fuzzy
+#| msgid "Link copied into clipboard!"
+msgid "HTML iframe copied into clipboard!"
+msgstr "Link in Zwischenablage kopiert!"
+
+#: decks/static/js/deck-detail.js:136
 msgid "Unable to delete card from deck"
 msgstr "Karte konnte nicht aus dem Deck gelöscht werden"
 
-#: decks/static/js/deck-detail.js:116
+#: decks/static/js/deck-detail.js:158
 msgid "Card reference copied into clipboard!"
 msgstr "Kartenreferenz in die Zwischenablage kopiert!"
 
-#: decks/static/js/deck-detail.js:135
+#: decks/static/js/deck-detail.js:177
 msgid "Cannot create a private link"
 msgstr "Kann keinen privaten Link erstellen"
 
-#: decks/static/js/deck-detail.js:167
+#: decks/static/js/deck-detail.js:209
 msgid "Unable to upvote the comment"
 msgstr "Der Kommentar kann nicht hochgestuft werden"
 
-#: decks/static/js/deck-detail.js:204
+#: decks/static/js/deck-detail.js:246
 msgid "Unable to delete the comment"
 msgstr "Kann den Kommentar nicht löschen"
 
@@ -62,69 +69,81 @@ msgstr "Das Deck mit der ID \"%(code)s\" wurde nicht gefunden"
 msgid "Input the Deck's ID or its URL."
 msgstr "Geben Sie die ID des Decks oder seine URL ein."
 
-#: decks/static/js/deck-sidebar.js:185
+#: decks/static/js/deck-sidebar.js:203
 msgid "Common"
 msgid_plural "Commons"
 msgstr[0] "Gewöhnlich"
 msgstr[1] "Gewöhnlich"
 
-#: decks/static/js/deck-sidebar.js:187
+#: decks/static/js/deck-sidebar.js:205
 msgid "Rare"
 msgid_plural "Rares"
 msgstr[0] "Seltene"
 msgstr[1] "Seltene"
 
-#: decks/static/js/deck-sidebar.js:189
+#: decks/static/js/deck-sidebar.js:207
 msgid "Unique"
 msgid_plural "Uniques"
 msgstr[0] "Einzigartig"
 msgstr[1] "Einzigartig"
 
-#: decks/static/js/deck-sidebar.js:216
+#: decks/static/js/deck-sidebar.js:234
 msgid "Card"
 msgid_plural "Cards"
 msgstr[0] "Karte"
 msgstr[1] "Karte"
 
-#: decks/static/js/deck-sidebar.js:502
+#: decks/static/js/deck-sidebar.js:574
 msgid "The deck must have a name"
 msgstr "Das Deck muss einen Namen haben"
 
-#: decks/static/js/deck-sidebar.js:507
+#: decks/static/js/deck-sidebar.js:579
 msgid "There are no changes to save"
 msgstr "Es sind keine Änderungen zu speichern"
 
-#: decks/static/js/deck-sidebar.js:538
+#: decks/static/js/deck-sidebar.js:608
 msgid "Unable to update deck"
 msgstr "Deck kann nicht aktualisiert werden"
 
-#: decks/static/js/deck-stats.js:16
+#: decks/static/js/deck-stats.js:17
 msgid "characters"
 msgstr "Zeichen"
 
-#: decks/static/js/deck-stats.js:17
+#: decks/static/js/deck-stats.js:18
 msgid "spells"
 msgstr "Zauber"
 
-#: decks/static/js/deck-stats.js:18
+#: decks/static/js/deck-stats.js:19
 msgid "permanents"
 msgstr "permanent"
 
-#: decks/static/js/deck-stats.js:86
+#: decks/static/js/deck-stats.js:58
+msgid "forest"
+msgstr ""
+
+#: decks/static/js/deck-stats.js:59
+msgid "mountain"
+msgstr ""
+
+#: decks/static/js/deck-stats.js:60
+msgid "ocean"
+msgstr ""
+
+#: decks/static/js/deck-stats.js:140
 msgid "Cost"
 msgstr "Kosten"
 
-#: decks/static/js/deck-stats.js:86
+#: decks/static/js/deck-stats.js:140
 msgid "Hand"
-msgstr ""
+msgstr "Hand"
 
-#: decks/static/js/deck-stats.js:86
+#: decks/static/js/deck-stats.js:140
 msgid "Reserve"
 msgstr "Reserve"
 
 #: notifications/static/js/notifications.js:27
 msgid "Loading..."
-msgstr ""
+msgstr "Wird geladen ..."
 
 #: notifications/static/js/notifications.js:45
 msgid "Authentication required"

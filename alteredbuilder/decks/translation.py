@@ -1,6 +1,11 @@
 from modeltranslation.translator import register, TranslationOptions
 
-from decks.models import Card, Subtype, Tag
+from decks.models import Card, Set, Subtype, Tag
+
+
+@register(Set)
+class SetTranslationOptions(TranslationOptions):
+    fields = ("name",)
 
 
 @register(Card)

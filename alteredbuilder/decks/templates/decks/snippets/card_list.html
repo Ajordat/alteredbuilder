@@ -3,25 +3,27 @@
 {% load deck_styles %}
 
 <div class="row">
-    <h3 class="mb-0">{% translate type %}</h3>
+    <h3 class="mb-0">{% translate type %} ({{ type_count }})</h3>
     <hr class="altered-style mt-0"/>
-{% for quantity, card in card_list %}
+{% for quantity, card, price in card_list %}
     <div class="col-xxl-2 col-xl-3 col-md-4 col-sm-6 mb-3">
-        <div class="card-display rounded-3 card-hover" data-rarity="{{ card.get_rarity_display }}" data-image-url="{% cdn_image_url card.image_url %}" data-faction="{{ card.faction }}">
+        <div class="rounded-3 card-hover" data-card-reference="{{ card.reference }}" data-rarity="{{ card.get_rarity_display }}" data-image-url="{% cdn_image_url card.image_url %}" data-faction="{{ card.faction }}" data-price="{% firstof price '' %}">
             <img src="{% cdn_image_url card.image_url %}" class="card-img-top rounded-3" alt="{{ card.name }}">
         </div>
-        <div class="d-flex justify-content-end text-end mt-1">
-            <span class="user-select-none">{{ quantity }}</span>
-
-            <div class="dropdown ms-2">
-                <button class="btn btn-outline altered-style dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>
-                <ul class="dropdown-menu dropdown-menu-end altered-style">
-                    <li><a class="dropdown-item" href="{{ card.get_official_link }}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> {% translate "Go to details" %}</a></li>
-                    <li><a class="dropdown-item card-reference-container" href="#" data-card-reference="{{ card.reference }}"><i class="fa-regular fa-copy"></i> {% translate "Copy card reference" %}</a></li>
+        <div class="d-flex justify-content-end align-items-center mt-1">
+            <div class="d-flex align-items-center text-end">
+                <span class="user-select-none">{{ quantity }}</span>
+                <div class="dropdown ms-2">
+                    <button class="btn btn-outline altered-style dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="--bs-btn-padding-y: .01rem;"></button>
+                    <ul class="dropdown-menu dropdown-menu-end altered-style">
+                        <li><a class="dropdown-item" href="{{ card.get_official_link }}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> {% translate "Go to details" %}</a></li>
+                        <li><a class="dropdown-item" href="https://www.altered.gg/cards/{{ card.reference }}/offers" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-cart-shopping"></i> {% translate "Go to marketplace" %}</a></li>
+                        <li><a class="dropdown-item card-reference-container" href="#" data-card-reference="{{ card.reference }}"><i class="fa-regular fa-copy"></i> {% translate "Copy card reference" %}</a></li>
     {% if object.owner == user %}
-                    <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ card.reference }}"><i class="fa-solid fa-trash"></i> {% translate "Remove card" %}</a></li>
+                        <li><a class="dropdown-item remove-card-trigger" href="#" data-card-reference="{{ card.reference }}"><i class="fa-solid fa-trash"></i> {% translate "Remove card" %}</a></li>
     {% endif %}
-                </ul>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

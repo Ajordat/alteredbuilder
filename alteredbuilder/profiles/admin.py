@@ -10,6 +10,7 @@ class UserProfileAdmin(admin.ModelAdmin):
     readonly_fields = ["user", "code", "altered_handle", "discord_public"]
     fieldsets = [
         (None, {"fields": ["user", "code", "bio", "avatar"]}),
+        ("Platform", {"fields": ["collection"]}),
         ("Social accounts", {"fields": ["altered_handle", "discord_public"]}),
     ]
 

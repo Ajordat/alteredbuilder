@@ -110,7 +110,6 @@ li.nav-item .dropdown-item.active {
     background-color: var(--cta-bg-active-color);
 }
 
-
 .navbar img.logo {
     max-height: 40px;
     margin-top: -12px;
@@ -205,11 +204,18 @@ textarea.form-control {
 
 svg > g > g.google-visualization-tooltip { pointer-events: none }
 
+div.card {
+    scroll-margin-top: 70px;
+}
+div.card-body {
+    scroll-margin-top: 30px;
+}
+
 /* ALTERED STYLE */
 hr.altered-style {
     height: 9px;
     background: rgb(255,255,255);
-    background: linear-gradient(90deg, var(--content-bg-color) 0%, var(--cta-bg-active-color) 30%, var(--content-bg-color) 100%);
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, var(--cta-bg-active-color) 30%, rgba(0, 0, 0, 0) 100%);
     border: 0;
     opacity: 1;
 }
@@ -234,18 +240,10 @@ hr.altered-style {
     --bs-btn-disabled-color: var(--btn-outline-color);
     --bs-btn-disabled-border-color: var(--btn-outline-color);
 }
-/* .btn-outline-danger.altered-style {
-    --bs-btn-color: #ff4545;
-    --bs-btn-border-color: #ff4545;
-    --bs-btn-hover-color: var(--btn-outline-hover-color);
-    --bs-btn-hover-bg: #ff4545;
-    --bs-btn-hover-border-color: #ff4545;
-    --bs-btn-active-color: var(--btn-outline-hover-color);
-    --bs-btn-active-bg: #ff4545;
-    --bs-btn-active-border-color: #ff4545;
-    --bs-btn-disabled-color: #ff4545;
-    --bs-btn-disabled-border-color: #ff4545;
-} */
+
+.btn-group > .btn.altered-style:not(:first-child) {
+    border-left-color: var(--content-bg-color);
+}
 
 span.badge.altered-style {
     background-color: var(--cta-active-color);

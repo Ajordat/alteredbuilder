@@ -1,18 +1,21 @@
 from datetime import timedelta
 from typing import Any
 
-from django.core.management.base import BaseCommand, CommandParser
-from django.db.models import Count, F, OuterRef, Q, Subquery
+from django.contrib.auth import get_user_model
+from django.core.management.base import CommandParser
+from django.db.models import Count, F, IntegerField, OuterRef, Q, Subquery, Sum
 from django.utils.timezone import localdate
 from hitcount.models import Hit
 
+from config.commands import BaseCommand
 from decks.models import Card, CardInDeck, Deck, Set
-from trends.models import CardTrend, DeckTrend, FactionTrend, HeroTrend
+from trends.models import CardTrend, DeckTrend, FactionTrend, HeroTrend, UserTrend
 
 
 DEFAULT_TIME_LAPSE = 7
 CARD_RANKING_LIMIT = 10
 DECK_RANKING_LIMIT = 10
+USER_RANKING_LIMIT = 10
 
 
 class Command(BaseCommand):
@@ -24,6 +27,7 @@ class Command(BaseCommand):
     """
 
     help = "Generates statistics for the past X (default=7) days"
+    version = "1.0.0"
 
     def add_arguments(self, parser: CommandParser) -> None:
         """Add the `days` argument to the CLI to modify the amount of days the trends
@@ -55,6 +59,7 @@ class Command(BaseCommand):
         self.generate_hero_trends()
         self.generate_card_trends()
         self.generate_deck_trends()
+        self.generate_user_trends()
 
     def generate_faction_trends(self):
         """Generate the faction trends."""
@@ -103,7 +108,11 @@ class Command(BaseCommand):
         # Create a HeroTrend record for each hero
         for record in hero_trends:
             hero = Card.objects.get(
-                type=Card.Type.HERO, name=record["hero_name"], set=core_set
+                type=Card.Type.HERO,
+                name=record["hero_name"],
+                set=core_set,
+                is_promo=False,
+                is_alt_art=False,
             )
 
             HeroTrend.objects.update_or_create(
@@ -149,16 +158,17 @@ class Command(BaseCommand):
             .alias(count=Count("name"))
             .order_by("-count")[:CARD_RANKING_LIMIT]
         )
-        # Get the card from the core set
-        core_set = Set.objects.get(code="CORE")
+        # Exclude the cards from the KS set
+        ks_set = Set.objects.get(code="COREKS")
 
         # Create a record for each card
         for rank, record in enumerate(card_trends, start=1):
-            card = Card.objects.get(
+            card = Card.objects.exclude(set=ks_set).get(
                 name=record["name"],
                 rarity=record["card__rarity"],
                 faction=record["card__faction"],
-                set=core_set,
+                is_promo=False,
+                is_alt_art=False,
             )
             CardTrend.objects.update_or_create(
                 card=card,
@@ -187,11 +197,12 @@ class Command(BaseCommand):
 
             # Create a record for each card
             for rank, record in enumerate(card_trends, start=1):
-                card = Card.objects.get(
+                card = Card.objects.exclude(set=ks_set).get(
                     name=record["name"],
                     rarity=record["card__rarity"],
                     faction=record["card__faction"],
-                    set=core_set,
+                    is_promo=False,
+                    is_alt_art=False,
                 )
                 CardTrend.objects.update_or_create(
                     card=card,
@@ -218,11 +229,12 @@ class Command(BaseCommand):
 
             # Create a record for each card
             for rank, record in enumerate(card_trends, start=1):
-                card = Card.objects.get(
+                card = Card.objects.exclude(set=ks_set).get(
                     name=record["name"],
                     rarity=record["card__rarity"],
                     faction=record["card__faction"],
-                    set=core_set,
+                    is_promo=False,
+                    is_alt_art=False,
                 )
                 CardTrend.objects.update_or_create(
                     card=card,
@@ -350,3 +362,30 @@ class Command(BaseCommand):
                     date=self.end_lapse,
                     defaults={"ranking": rank},
                 )
+
+    def generate_user_trends(self):
+
+        latest_hits = (
+            Hit.objects.filter(
+                created__date__gte=self.start_lapse,
+                hitcount__object_pk=OuterRef("pk"),
+            )
+            .values("hitcount__object_pk")
+            .annotate(hit_count=Count("pk"))
+            .values("hit_count")
+        )
+        user_hits = (
+            Deck.objects.filter(is_public=True)
+            .annotate(recent_hits=Subquery(latest_hits, output_field=IntegerField()))
+            .values("owner")
+            .annotate(recent_hits=Sum("recent_hits"))
+            .order_by(F("recent_hits").desc(nulls_last=True))[:USER_RANKING_LIMIT]
+        )
+
+        for record in user_hits:
+            UserTrend.objects.update_or_create(
+                user=get_user_model().objects.get(pk=record.get("owner")),
+                day_count=self.day_count,
+                date=self.end_lapse,
+                defaults={"count": record.get("recent_hits", 0)},
+            )

@@ -8,7 +8,7 @@ User = get_user_model()
 
 
 @receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created: bool, **kwargs):
+def create_user_profile(sender, instance, created: bool, **kwargs) -> None:
     """Signal that triggers after saving a User object.
 
     When a User is created, create the corresponding Profile.

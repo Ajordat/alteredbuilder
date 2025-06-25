@@ -2,19 +2,36 @@
 let deckRows = document.querySelectorAll(".card-hover");
 function displayCard(event) {
     let element = event.currentTarget;
-    // Change the display image to show the current (or last) card hovered
-    if (element.dataset.imageUrl !== undefined) {
-        document.getElementById("card-showcase").src = element.dataset.imageUrl;
+    // If the hovered card does not have an image, we don't want to update the other fields
+    if (element.dataset.imageUrl == undefined) {
+        return;
     }
+    // Change the display image to show the current card hovered
+    document.getElementById("card-showcase").src = element.dataset.imageUrl;
+
+    // Update the displayed price
+    let price = element.dataset.price;
+    let priceTag;
+    let marketplaceButton = document.getElementById("marketplace-link-showcase");
+    if (!price) {
+        priceTag = "-";
+        marketplaceButton.style.pointerEvents = "none";
+        marketplaceButton.href = "";
+    } else {
+        priceTag = (price / 100).toFixed(2);
+        marketplaceButton.style.pointerEvents = "auto";
+        marketplaceButton.href = `https://www.altered.gg/cards/${element.dataset.cardReference}/offers`;
+    }
+    document.getElementById("price-showcase").innerText = priceTag;
 }
-deckRows.forEach(function(element) {
+deckRows.forEach(function (element) {
     element.addEventListener("mouseover", displayCard);
     element.addEventListener("click", displayCard);
 });
 
 // Functionality to save the link of a deck into the clipboard 
 let copyLinkElement = document.getElementById("copy-self-link");
-copyLinkElement.addEventListener("click", function() {
+copyLinkElement.addEventListener("click", function () {
     // Retrieve self-link and write it into the clipboard
     navigator.clipboard.writeText(window.location.href);
 
@@ -27,7 +44,7 @@ copyLinkElement.addEventListener("click", function() {
 
 // Functionality to save the decklist of a deck into the clipboard
 let copyDecklistElement = document.getElementById("copy-decklist");
-copyDecklistElement.addEventListener("click", function() {
+copyDecklistElement.addEventListener("click", function () {
     // Retrieve self-link and write it into the clipboard
     let decklistElement = document.getElementById("decklist-text");
     navigator.clipboard.writeText(decklistElement.dataset.decklist);
@@ -48,7 +65,7 @@ if (downloadQRElement) {
             // Initialize toaster and show it
             displaySimpleToast(gettext("QR downloaded!"));
         });
-    
+
         // Return false to avoid redirection
         return false;
     });
@@ -60,7 +77,7 @@ if (copyQRElement) {
     copyQRElement.addEventListener("click", () => {
         html2canvas(document.getElementById("deck-qr-code")).then(canvas => {
             canvas.toBlob((blob) => {
-                let item = new ClipboardItem({"image/png": blob});
+                let item = new ClipboardItem({ "image/png": blob });
                 navigator.clipboard.write([item]);
                 // Initialize toaster and show it
                 displaySimpleToast(gettext("QR copied into clipboard!"));
@@ -72,34 +89,69 @@ if (copyQRElement) {
     });
 }
 
+// Functionality to save a QR with a link of the deck into the clipboard
+let copyHTMLiframe = document.getElementById("share-iframe");
+if (copyHTMLiframe) {
+    copyHTMLiframe.addEventListener("click", (event) => {
+        event.preventDefault();
+        let embedURL = window.location.href + "embed/";
+
+        navigator.clipboard.writeText(`
+<!-- These two scripts simply modify the size of the iframe to its content, allowing for dynamic height -->
+<!-- If you display multiple decks in the same post, only add these two lines once at the beginning -->
+<script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/parent@5.4.6"></script>
+<script>window.addEventListener("DOMContentLoaded", () => {iframeResize({license: 'GPLv3', log: 'collapsed', waitForLoad: true,}, '.ajordat-deck')});</script>
+
+<!-- The code for the deck display. -->
+<!-- Feel free to remove the parent "center" tag if you don't want the content centered -->
+<!-- Inside the "iframe" tag, the "src" attribute indicates the deck being retrieved as well as multiple optional parameters that affect how the page will be rendered (everything after the "?") -->
+<!-- The provided options are the default, but feel free to experiment with them to achieve the most suitable render for your website -->
+<center>
+    <iframe
+        class="ajordat-deck"
+        src="${embedURL}?columns=2&display_height=300&section_box=false&hover_display=true&hover_animation=true&show_name=true&show_author=true&transparent_body=false&shadow_body=true"
+        width="100%"
+        style="border: none;"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+</center>`);
+
+        displaySimpleToast(gettext("HTML iframe copied into clipboard!"));
+
+        // Return false to avoid redirection
+        return false;
+    });
+}
+
 // Functionality to remove all copies of a Card from the deck
 let removeCardEls = document.getElementsByClassName("remove-card-trigger");
 for (let element of removeCardEls) {
-    
+
     element.addEventListener("click", (event) => {
         event.preventDefault();
         let url = window.location.pathname + "update/";
-    
+
         cardReference = element.dataset.cardReference;
         ajaxRequest(url, {
             action: "delete",
             card_reference: cardReference
         })
-        .then(response => response.json())
-        .then(payload => {
-            if ("error" in payload) {
-                console.log("Unable to delete card:");
-                console.log(payload);
-                if (payload.error.code == 400) {
-                    displaySimpleToast(gettext("Unable to delete card from deck"));
+            .then(response => response.json())
+            .then(payload => {
+                if ("error" in payload) {
+                    console.log("Unable to delete card:");
+                    console.log(payload);
+                    if (payload.error.code == 400) {
+                        displaySimpleToast(gettext("Unable to delete card from deck"));
+                    } else {
+                        displaySimpleToast(payload.error.message);
+                    }
                 } else {
-                    displaySimpleToast(payload.error.message);
+                    location.reload();
                 }
-            } else {
-                location.reload();
-            }
-            return false;
-        });
+                return false;
+            });
         return false;
     });
 };
@@ -111,10 +163,10 @@ for (let element of copyReferenceEls) {
         event.preventDefault();
         // Retrieve the card link from the container and write it into the clipboard
         navigator.clipboard.writeText(event.target.dataset.cardReference);
-    
+
         // Initialize toaster and show it
         displaySimpleToast(gettext("Card reference copied into clipboard!"));
-    
+
         // Return false to avoid redirection
         return false;
     });
@@ -126,25 +178,25 @@ if (createPrivateLink) {
     createPrivateLink.addEventListener("click", (event) => {
         event.preventDefault();
         let url = window.location.origin + window.location.pathname + "privatelink/";
-    
+
         ajaxRequest(url)
-        .then(response => response.json())
-        .then(payload => {
-            if ("error" in payload) {
-                if (payload.error.code == 400) {
-                    displaySimpleToast(gettext("Cannot create a private link"));
+            .then(response => response.json())
+            .then(payload => {
+                if ("error" in payload) {
+                    if (payload.error.code == 400) {
+                        displaySimpleToast(gettext("Cannot create a private link"));
+                    } else {
+                        displaySimpleToast(payload.error.message);
+                    }
                 } else {
-                    displaySimpleToast(payload.error.message);
+                    let url = window.location.origin + payload["data"]["link"]
+                    navigator.clipboard.writeText(url);
+
+                    // Initialize toaster and show it
+                    displaySimpleToast(gettext("Link copied into clipboard!"));
                 }
-            } else {
-                let url = window.location.origin + payload["data"]["link"]
-                navigator.clipboard.writeText(url);
-            
-                // Initialize toaster and show it
-                displaySimpleToast(gettext("Link copied into clipboard!"));
-            }
-            return false;
-        });
+                return false;
+            });
         return false;
     });
 }
@@ -152,35 +204,35 @@ if (createPrivateLink) {
 // Functionality to upvote/downvote a Comment on the comments section
 let upvoteCommentsEls = document.getElementsByClassName("upvote-comment");
 for (let element of upvoteCommentsEls) {
-    
+
     element.addEventListener("click", (event) => {
         event.preventDefault();
         let url = element.pathname;
-    
+
         ajaxRequest(url)
-        .then(response => response.json())
-        .then(payload => {
-            if ("error" in payload) {
-                console.log("Unable to upvote comment:");
-                console.log(payload);
-                if (payload.error.code == 400) {
-                    displaySimpleToast(gettext("Unable to upvote the comment"));
+            .then(response => response.json())
+            .then(payload => {
+                if ("error" in payload) {
+                    console.log("Unable to upvote comment:");
+                    console.log(payload);
+                    if (payload.error.code == 400) {
+                        displaySimpleToast(gettext("Unable to upvote the comment"));
+                    } else {
+                        displaySimpleToast(payload.error.message);
+                    }
                 } else {
-                    displaySimpleToast(payload.error.message);
+                    let voteCountEl = element.getElementsByClassName("comment-count")[0];
+                    if ("created" in payload.data && payload.data["created"]) {
+                        voteCountEl.innerText = Number(voteCountEl.innerText) + 1;
+                        // change class
+                        element.classList.remove("btn-outline");
+                    } else if ("deleted" in payload.data && payload.data["deleted"]) {
+                        voteCountEl.innerText = Number(voteCountEl.innerText) - 1;
+                        element.classList.add("btn-outline");
+                    }
                 }
-            } else {
-                let voteCountEl = element.getElementsByClassName("comment-count")[0];
-                if ("created" in payload.data && payload.data["created"]) {
-                    voteCountEl.innerText = Number(voteCountEl.innerText) + 1;
-                    // change class
-                    element.classList.remove("btn-outline");
-                } else if ("deleted" in payload.data && payload.data["deleted"]) {
-                    voteCountEl.innerText = Number(voteCountEl.innerText) - 1;
-                    element.classList.add("btn-outline");
-                }
-            }
-            return false;
-        });
+                return false;
+            });
         return false;
     });
 };
@@ -188,32 +240,32 @@ for (let element of upvoteCommentsEls) {
 // Functionality to delete a Comment on the comments section
 let deleteCommentsEls = document.getElementsByClassName("delete-comment");
 for (let element of deleteCommentsEls) {
-    
+
     element.addEventListener("click", (event) => {
         event.preventDefault();
 
         let url = element.pathname;
-    
+
         ajaxRequest(url)
-        .then(response => response.json())
-        .then(payload => {
-            if ("error" in payload) {
-                console.log("Unable to delete comment:");
-                console.log(payload);
-                if (payload.error.code == 400) {
-                    displaySimpleToast(gettext("Unable to delete the comment"));
+            .then(response => response.json())
+            .then(payload => {
+                if ("error" in payload) {
+                    console.log("Unable to delete comment:");
+                    console.log(payload);
+                    if (payload.error.code == 400) {
+                        displaySimpleToast(gettext("Unable to delete the comment"));
+                    } else {
+                        displaySimpleToast(payload.error.message);
+                    }
                 } else {
-                    displaySimpleToast(payload.error.message);
+                    if ("deleted" in payload.data && payload.data["deleted"]) {
+                        document.querySelectorAll(`.comment-body:has(a[href='${url}'])`)[0].remove();
+                        let commentCount = Number(document.getElementById("comment-count-total").innerText);
+                        document.getElementById("comment-count-total").innerText = commentCount - 1;
+                    }
                 }
-            } else {
-                if ("deleted" in payload.data && payload.data["deleted"]) {
-                    document.querySelectorAll(`.comment-body:has(a[href='${url}'])`)[0].remove();
-                    let commentCount = Number(document.getElementById("comment-count-total").innerText);
-                    document.getElementById("comment-count-total").innerText = commentCount - 1;
-                }
-            }
-            return false;
-        });
+                return false;
+            });
         return false;
     });
 };
@@ -248,13 +300,14 @@ function enableCheckboxes(element) {
 }
 
 function countCheckedCheckboxes(element) {
-    return element.querySelectorAll(".secondary-tag-selector .form-check-input:checked").length
+    return element.querySelectorAll(".secondary-tag-selector .form-check-input:checked").length;
 }
 
 // Functionality to limit the amount of checkbox selected as secondary tags
 let secondaryTagSelectors = document.getElementsByClassName("secondary-tag-selector");
 for (let element of secondaryTagSelectors) {
-    element.addEventListener("click", (event) => {
+    element.querySelector(".form-check-input").addEventListener("click", (event) => event.preventDefault());
+    element.addEventListener("pointerdown", (event) => {
         event.preventDefault();
 
         let parentElement = element.parentElement;
@@ -291,12 +344,31 @@ if (deckShowcaseButton) {
         let decklistElement = document.getElementById("decklist-text");
         let deckName = document.getElementById("deckName").innerText;
         let encodedList = deckfmt.encodeList(decklistElement.dataset.decklist);
-        
+
         window.open(showcaseEndpoint + encodedList + "?name=" + encodeURIComponent(deckName), "_blank").focus();
         return false;
     });
 }
 
+function calculateDeckPrice() {
+    const pricedRows = document.querySelectorAll(".card-table tr[data-price]");
+    let totalPrice = 0;
+    for (let row of pricedRows) {
+        price = parseInt(row.dataset.price);
+        if (!price) {
+            continue;
+        }
+        quantityEl = row.querySelector(".quantity");
+        if (!quantityEl) {
+            quantity = 1;
+        } else {
+            quantity = parseInt(quantityEl.innerText);
+        }
+        totalPrice += price * quantity;
+    }
+    document.getElementById("deck-price-tag").innerText = (totalPrice / 100).toFixed(2);
+}
+calculateDeckPrice();
 
 const displayStoreKey = "deckDisplayPreference";
 const DISPLAY_MODE_TABLE = "table";
@@ -356,3 +428,74 @@ if (changeToCardDisplayButton) {
 }
 
 changeDisplay(getDisplayMode());
+
+
+function startCollection() {
+
+    let collection = fetchCollection();
+
+    console.log(collection);
+
+    if (!collection) {
+        return;
+    }
+
+    let settings = fetchSettings();
+
+    markCollectedCards(collection, settings);
+}
+
+function markCollectedCards(collection, settings) {
+
+    if (Object.entries(collection).length === 0) {
+        return;
+    }
+    var finalCollection = {};
+    var familyCollection = {};
+
+    if (settings.mergeSets) {
+        for (let [reference, quantity] of Object.entries(collection)) {
+            let cardFamily = reference.split("_").slice(3, 6).join("_");
+            if (!cardFamily.includes("_U")) {
+                familyCollection[cardFamily] = quantity + (familyCollection[cardFamily] || 0);
+            } else {
+                finalCollection[reference] = 1;
+            }
+        }
+    } else {
+        finalCollection = { ...collection };
+    }
+
+    const cards = document.querySelectorAll(".card-table tr.count-quantity");
+
+    for (let card of cards) {
+        const cardReference = card.getAttribute('data-card-reference');
+
+        if (finalCollection[cardReference]) {
+            setCardCount(card, finalCollection[cardReference]);
+            continue;
+        }
+        const cardFamily = card.getAttribute('data-card-family');
+
+        if (familyCollection[cardFamily]) {
+            setCardCount(card, familyCollection[cardFamily]);
+            continue;
+        }
+        setCardCount(card, 0);
+    }
+
+    const tableTitles = document.querySelectorAll(".card-table .quantity-title");
+    for (let table of tableTitles) {
+        table.innerHTML += ' <small>/<i class="fa-regular fa-folder-open" style="margin-left: 3px"></i></small>'
+    }
+}
+
+function setCardCount(parentElement, count) {
+    const cell = parentElement.querySelector(".quantity");
+    let quantity = parseInt(cell.innerText);
+    if (quantity > count) {
+        cell.innerHTML = cell.innerHTML + ` <small style="color: #808080">/<span style="margin-left: 1px">${count}</span></small>`;
+    }
+}
+
+startCollection();

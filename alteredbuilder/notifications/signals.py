@@ -13,7 +13,7 @@ from profiles.models import Follow
 @receiver(post_save, sender=Comment)
 def create_comment_notification(
     sender: Type[Comment], instance: Comment, created: bool, **kwargs
-):
+) -> None:
     """Signal that triggers after saving a Comment object.
 
     When a User Comments on a Deck, create a Notification to all Users who had
@@ -51,7 +51,7 @@ def create_comment_notification(
 @receiver(post_save, sender=Follow)
 def create_follow_notifications(
     sender: Type[Follow], instance: Follow, created: bool, **kwargs
-):
+) -> None:
     """Signal that triggers after saving a Follow object.
 
     When a User starts Following another User, create a Notification for the affected
@@ -74,7 +74,9 @@ def create_follow_notifications(
 
 
 @receiver(pre_delete, sender=Follow)
-def delete_follow_notification(sender: Type[Follow], instance: Follow, **kwargs):
+def delete_follow_notification(
+    sender: Type[Follow], instance: Follow, **kwargs
+) -> None:
     """Signal that triggers before deleting a Follow object.
 
     When a User starts stops Following another User, delete the Notification that
@@ -94,7 +96,7 @@ def delete_follow_notification(sender: Type[Follow], instance: Follow, **kwargs)
 @receiver(post_save, sender=LovePoint)
 def create_love_notification(
     sender: Type[LovePoint], instance: LovePoint, created: bool, **kwargs
-):
+) -> None:
     """Signal that triggers after saving a LovePoint object.
 
     When a User Loves a Deck, create a Notification for the Deck's creator. If it
@@ -119,7 +121,9 @@ def create_love_notification(
 
 
 @receiver(post_delete, sender=LovePoint)
-def delete_love_notification(sender: Type[LovePoint], instance: LovePoint, **kwargs):
+def delete_love_notification(
+    sender: Type[LovePoint], instance: LovePoint, **kwargs
+) -> None:
     """Signal that triggers after deleting a LovePoint object.
 
     When a User removes a LovePoint from a Deck, delete the Notification unless the
@@ -162,7 +166,9 @@ def delete_love_notification(sender: Type[LovePoint], instance: LovePoint, **kwa
 
 
 @receiver(post_save, sender=Deck)
-def create_deck_notification(sender: Type[Deck], instance: Deck, created, **kwargs):
+def create_deck_notification(
+    sender: Type[Deck], instance: Deck, created, **kwargs
+) -> None:
     """Signal that triggers after saving a Deck object.
 
     When a User creates a Deck, if it's public create a Notification for all the
@@ -201,7 +207,7 @@ def create_deck_notification(sender: Type[Deck], instance: Deck, created, **kwar
 
 
 @receiver(pre_delete, sender=Deck)
-def delete_deck_notification(sender: Type[Deck], instance: Deck, **kwargs):
+def delete_deck_notification(sender: Type[Deck], instance: Deck, **kwargs) -> None:
     """Signal that triggers before deleting a Deck object.
 
     When a User deletes a Deck, delete any related Notifications.

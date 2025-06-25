@@ -23,6 +23,7 @@ class DecklistForm(forms.Form):
         max_length=Deck._meta.get_field("description").max_length,
         required=False,
     )
+    copy_of = forms.CharField(required=False)
     decklist = forms.CharField(
         label=_("decklist"),
         widget=forms.Textarea,

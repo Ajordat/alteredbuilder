@@ -20,6 +20,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <!-- Styles adding the fonts used to display the Altered icons -->
     <link rel="stylesheet" href="{% static 'css/altered-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/alteredicons.css' %}">
+    {% if 'Owned' in checked_filters %}
+    <style>
+        .infinite-item:has(> .card-display .card-in-collection.d-none) {
+            display: none !important;
+        }
+    </style>
+    {% endif %}
 {% endblock %}
 
 
@@ -89,7 +97,8 @@
                                                 <b>{% translate "Type" %}</b>
                                                 {% translate "Character" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="character" label="Character" %}
                                                 {% translate "Hero" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="hero" label="Hero" %}
-                                                {% translate "Permanent" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="permanent" label="Permanent" %}
+                                                {% translate "Landmark Permanent" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="landmark_permanent" label="Landmark Permanent" %}
+                                                {% translate "Expedition Permanent" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="expedition_permanent" label="Expedition Permanent" %}
                                                 {% translate "Spell" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="spell" label="Spell" %}
                                             </div>
                                             <div class="col">
@@ -98,7 +107,17 @@
     {% for set in sets %}
                                                 <div class="form-check">
                                                     <input class="form-check-input altered-style" type="checkbox" value="{{ set.code }}" id="filter{{ set.short_name }}" {% if set.code in checked_filters %}checked{% endif %}>
-                                                    <label class="form-check-label d-block user-select-none" for="filter{{ set.short_name }}"><span class="{{ set.code }}">{{ set.name }}</span></label>
+                                                    <label class="form-check-label d-block user-select-none" for="filter{{ set.short_name }}" style="cursor: pointer;"><span class="{{ set.code }}">{% translate set.name %}</span></label>
+                                                </div>
+    {% endfor %}
+                                            </div>
+                                            <div class="col">
+                                                <!-- Set filters -->
+                                                <b>{% translate "Other" %}</b>
+    {% for tag, label in other_filters %}
+                                                <div class="form-check">
+                                                    <input class="form-check-input altered-style" type="checkbox" value="{{ tag }}" id="filter{{ tag }}" {% if tag in checked_filters %}checked{% endif %}>
+                                                    <label class="form-check-label d-block user-select-none" for="filter{{ tag }}" style="cursor: pointer;">{{ label }}</label>
                                                 </div>
     {% endfor %}
                                             </div>
@@ -122,23 +141,27 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end altered-style">
                             <li><a class="dropdown-item {% if not order %}active{% endif %}" href="?{% inject_params request.GET order=None %}">{% translate "Default" %}</a></li>
-                            <li><a class="dropdown-item {% if order == "name" %}active{% endif %}" href="?{% inject_params request.GET order="name" %}">{% translate "Name A-Z" %}</a></li>
-                            <li><a class="dropdown-item {% if order == "-name" %}active{% endif %}" href="?{% inject_params request.GET order="-name" %}">{% translate "Name Z-A" %}</a></li>
-                            <li><a class="dropdown-item {% if order == "rarity" %}active{% endif %}" href="?{% inject_params request.GET order="rarity" %}">{% translate "Rarity" %}</a></li>
-                            <li><a class="dropdown-item {% if order == "mana" %}active{% endif %}" href="?{% inject_params request.GET order="mana" %}">{% translate "Hand Cost ASC" %}</a></li>
-                            <li><a class="dropdown-item {% if order == "-mana" %}active{% endif %}" href="?{% inject_params request.GET order="-mana" %}">{% translate "Hand Cost DESC" %}</a></li>
-                            <li><a class="dropdown-item {% if order == "reserve" %}active{% endif %}" href="?{% inject_params request.GET order="reserve" %}">{% translate "Reserve Cost ASC" %}</a></li>
-                            <li><a class="dropdown-item {% if order == "-reserve" %}active{% endif %}" href="?{% inject_params request.GET order="-reserve" %}">{% translate "Reserve Cost DESC" %}</a></li>
+                            <li><a class="dropdown-item {% if order == 'name' %}active{% endif %}" href="?{% inject_params request.GET order='name' %}">{% translate "Name A-Z" %}</a></li>
+                            <li><a class="dropdown-item {% if order == '-name' %}active{% endif %}" href="?{% inject_params request.GET order='-name' %}">{% translate "Name Z-A" %}</a></li>
+                            <li><a class="dropdown-item {% if order == 'rarity' %}active{% endif %}" href="?{% inject_params request.GET order='rarity' %}">{% translate "Rarity" %}</a></li>
+                            <li><a class="dropdown-item {% if order == 'mana' %}active{% endif %}" href="?{% inject_params request.GET order='mana' %}">{% translate "Hand Cost ASC" %}</a></li>
+                            <li><a class="dropdown-item {% if order == '-mana' %}active{% endif %}" href="?{% inject_params request.GET order='-mana' %}">{% translate "Hand Cost DESC" %}</a></li>
+                            <li><a class="dropdown-item {% if order == 'reserve' %}active{% endif %}" href="?{% inject_params request.GET order='reserve' %}">{% translate "Reserve Cost ASC" %}</a></li>
+                            <li><a class="dropdown-item {% if order == '-reserve' %}active{% endif %}" href="?{% inject_params request.GET order='-reserve' %}">{% translate "Reserve Cost DESC" %}</a></li>
                         </ul>
                     </div>
+                </div>
+                <div>
+                    <button id="recommenderModalTrigger" type="button" class="btn altered-style" data-bs-toggle="modal" data-bs-target="#recommenderModal"><i class="fa-solid fa-wand-magic-sparkles"></i>&nbsp;{% translate "Magic" %}</button>
                 </div>
             </div>
             <div class="row gy-3 infinite-container">
                 <!-- Card list with infinite scroll -->
     {% for card in card_list %}
                 <div class="col-xxxl-2 col-xxl-3 col-xl-4 col-lg-6 col-12 infinite-item d-flex justify-content-center">
-                    <div class="card-display rounded-3" data-card-reference="{{ card.reference }}" data-card-name="{{ card.name }}" data-card-type="{{ card.type }}" data-card-rarity="{{ card.rarity }}" data-card-image="{% cdn_image_url card.image_url %}">
+                    <div id="display-{{ card.reference }}" class="card-display click-animation rounded-3" data-card-reference="{{ card.reference }}" data-card-name="{{ card.name }}" data-card-type="{{ card.type }}" data-card-rarity="{{ card.rarity }}" data-card-family="{{ card.get_card_code }}" data-card-image="{% cdn_image_url card.image_url %}" style="position: relative;">
                         <img src="{% cdn_image_url card.image_url %}" class="card-img-top rounded-3" alt="{{ card.name }}">
+                        <div class="card-badge px-2 py-1 border border-white text-center"><span class="card-in-collection d-none"><span class="collection-count"></span> <i class="fa-regular fa-folder-open"></i><hr class="my-1"></span><span class="deck-quantity">{% dict_get all_cards card.reference 0 %}</span>/<span class="max-deck-quantity">3</span></div>
                     </div>
                 </div>
     {% empty %}
@@ -154,8 +177,13 @@
             </div>
         </div>
         <!-- Deck sidebar -->
-        <div class="col-xxxl-2 col-xxl-3 col-lg-4 col-sm-6 col-12 order-sm-2 order-1 vh-sm-100 sticky-sm-top d-flex overflow-y-scroll z-0 ps-0 pt-sm-5">
-            <div id="decklist-column" class="p-3 ps-0 ps-sm-3 w-100"><!-- scroll-box --> 
+        <div class="col-xxxl-2 col-xxl-3 col-lg-4 col-sm-6 col-12 order-sm-2 order-1 vh-sm-100 sticky-sm-top d-flex overflow-y-scroll z-0 ps-0 pt-sm-0" style="scrollbar-width: none;">
+            <!-- scroll-box -->
+            <div id="decklist-column" class="p-3 ps-0 ps-sm-3 w-100">
+                <div class="btn-group" role="group" aria-label="My collection">
+                    <button type="button" class="btn altered-style mb-3" data-bs-toggle="modal" data-bs-target="#importCollectionModal">{% translate "My Collection" %}</button>
+                    <button type="button" class="btn altered-style mb-3" data-bs-toggle="modal" data-bs-target="#manageCollectionModal"><i class="fa-solid fa-gears"></i></button>
+                </div>
                 <div class="ps-3 pe-1 pt-2 pb-sm-5 pb-3">
                     <div class="row row-cols-auto justify-content-between align-items-center">
                         <a id="startNewDeck" href="{% url "cards" %}" class="btn altered-style mb-3"><i class="fa-solid fa-wrench"></i> {% translate "New deck" %}</a>
@@ -164,9 +192,9 @@
                                 {% translate "Decks" %}
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end altered-style">
-        {% for deck in own_decks %}
+    {% for deck in own_decks %}
                                 <li><a class="dropdown-item" data-faction="{% firstof deck.hero__faction '' %}" href="?deck={{ deck.id }}{% if deck.hero__faction %}&faction={{ deck.hero__faction }}{% endif %}">{{ deck.name }}</a></li>
-        {% endfor %}
+    {% endfor %}
                             </ul>
                         </div>
                     </div>
@@ -211,8 +239,11 @@
                     </div>
                 </div>
                 <!-- Save button -->
-                <div class="row position-fixed bottom-0 end-0 z-2 me-auto pb-2 pe-5">
+                <div class="d-flex position-fixed bottom-0 end-0 z-2 me-auto pb-2 pe-5 gap-2">
                     <button class="btn altered-style" id="save-deck"><i id="changes-warning" class="fa-solid fa-triangle-exclamation"></i> {% translate "Save" %}</button>
+    {% if edit_deck %}
+                    <a class="btn altered-style" id="view-deck" href="{{ edit_deck.get_absolute_url }}"><i class="fa-solid fa-eye"></i></a>
+    {% endif %}
                 </div>
                 <hr class="altered-style my-0 d-block d-sm-none"/>
             </div>
@@ -248,7 +279,7 @@
                             <!-- Triggers -->
                             <li>{% translate "Triggers:" %} <code class="inline">t</code><br>
                                 {% translate "Operators:" %} <code class="inline">:</code><br>
-                                {% translate "Values:" %} <code class="inline">etb</code>(<span class="altered-etb"></span>), <code class="inline">hand</code>(<span class="altered-hand"></span>), <code class="inline">reserve</code>(<span class="altered-reserve"></span>), <code class="inline">discard</code>(<span class="altered-discard"></span>), <code class="inline">exhaust</code>(<span class="altered-exhaust"></span>)
+                                {% translate "Values:" %} <code class="inline">etb</code>(<span class="altered-etb"></span>), <code class="inline">hand</code>(<span class="altered-hand"></span>), <code class="inline">reserve</code>(<span class="altered-reserve"></span>), <code class="inline">discard</code>(<span class="altered-discard"></span>), <code class="inline">exhaust</code>(<span class="altered-exhaust"></span>), <code class="inline">passive</code>(<i class="fa-kit fa-altered-i"></i>)
                             </li>
                             <!-- Subtypes -->
                             <li>{% translate "Subtypes:" %} <code class="inline">st</code><br>
@@ -289,6 +320,63 @@
             </div>
         </div>
     </div>
+    <!-- Manage collection modal -->
+    {% include "decks/tooltips/import_collection.html"%}
+    <!-- Filter collection modal -->
+    <div class="modal altered-style fade" id="manageCollectionModal" tabindex="-1" aria-labelledby="manageCollectionModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="manageCollectionModalLabel">{% translate "Manage Collection" %}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <p>Display the sum of CORE and KS copies as one instead of as individual sets:</p>
+                        <input class="form-check-input altered-style" id="merge-sets-check" type="checkbox">
+                        <label class="form-check-label" for="merge-sets-check">Merge</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline altered-style" data-bs-dismiss="modal">{% translate "Close" %}</button>
+                    <button id="update-collection-settings" type="button" class="btn altered-style" data-bs-dismiss="modal">{% translate "Save" %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommender modal -->
+    <div class="modal altered-style fade" id="recommenderModal" tabindex="-1" aria-labelledby="recommenderModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="recommenderModalLabel">{% translate "Card recommender" %}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-start">
+                        <div id="recommenderMissingCards" class="status-report d-none">
+                            {% translate "Hi! Start your deck by selecting a hero and adding some cards!" %}
+                        </div>
+                        <div id="recommenderLoading" class="status-report">
+                            {% translate "Thinking about your deck..." %}
+                        </div>
+                        <div id="recommenderResults" class="status-report row d-none gy-3">
+                        </div>
+                        <div id="recommenderError" class="status-report d-none">
+                            <span class="status-message"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <div>Powered by <a href="https://39cards.com/" target="_blank">39cards</a></div>
+                    <span class="me-2">This feature is in <strong>beta</strong></span>
+                    <button id="recommender-feedback-button" class="btn altered-style" type="submit" data-prefill-username="{{ user.username }}">Feedback</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Simple toaster -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="simple-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -299,15 +387,27 @@
         </div>
     </div>
     {% csrf_token %}
+    <!-- User collection -->
+    {{ user.profile.collection|json_script:"user-collection" }}
 {% endblock %}
 
+
 {% block bodyscripts %}
+    <!-- utils script to display a toast -->
+    <script src="{% static 'js/utils.js' %}"></script>
+    <!-- Import deckfmt module -->
+    <script src="{% static 'js/altered-deckfmt.umd.cjs' %}"></script>
+    <!-- Collections -->
+    <script src="{% static 'js/collection-API.js' %}"></script>
+    <script src="{% static 'js/card-list-collection.js' %}"></script>
     <!-- Enable tooltips -->
     <script src="{% static 'js/tooltip-enable.js' %}"></script>
     <!-- Card list visualization script -->
     <script src="{% static 'js/card-list.js' %}"></script>
     <!-- Deck sidebar manipulation script -->
     <script src="{% static 'js/deck-sidebar.js' %}"></script>
+    <!-- Recommender script -->
+    <script src="{% static 'js/recommender.js' %}"></script>
     <!-- Infinite scroll scripts -->
     <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
     <script src="{% static 'js/infinite.min.js' %}"></script>
@@ -315,6 +415,8 @@
         var infinite = new Waypoint.Infinite({
             element: $('.infinite-container')[0],
             onAfterPageLoad: function ($items) {
+                initDecklistCount();
+                startCollection();
                 let cardDisplayElements = document.getElementsByClassName("card-display");
                 Array.from(cardDisplayElements).forEach(function(element) {
                     element.addEventListener("click", addCardFromDisplay);
@@ -322,5 +424,26 @@
             }
         });
     </script>
-    <script src="{% static 'js/scrollToTop.js' %}"></script>
+    <script>
+        const googleFormsURL = (documentId, username) => `https://docs.google.com/forms/d/e/${documentId}/viewform?usp=pp_url&entry.280343752=${encodeURIComponent(username)}`;
+        const feedbackDocuments = {
+            "AX": "1FAIpQLSeLCd-kgdB4vYsdB_Yckg7l2VVQZ4W4I4HnSj0LMcM02m7Www",
+            "BR": "1FAIpQLSf5Xfu_iwXYrn1Ce0ORDsJBuFx9X_uvrjj00xTQ41me4pc0TA",
+            "LY": "1FAIpQLSfh6f0ZoRJFm-zGhTjtzByMf4VaZ2VLg1Wa0eAqUbwXI6optA",
+            "MU": "1FAIpQLScj16U9CnItlr2EkbWXwyuHwO_rGusY3h-AAVgeO4-kalRp6A",
+            "OR": "1FAIpQLSfNKQMdftyVoLfQdqEQ1-sxc82I6X97oeTrkTPAQgEJOLbU7A",
+            "YZ": "1FAIpQLSe9AXmj5GTntKTvzR7K3U6mwuU1bMadY04DQKbMpugNYDisJw",
+        }
+        document.getElementById("recommender-feedback-button").addEventListener("click", event => {
+            const username = event.currentTarget.dataset.prefillUsername;
+            const faction = document.getElementById("hero-name").dataset.cardReference.split("_").at(-3);
+            if (faction == undefined) {
+                displaySimpleToast("Select a hero to redirect to the faction's form");
+                return;
+            }
+            let formURL = googleFormsURL(feedbackDocuments[faction], username);
+            window.open(formURL, "_blank").focus();
+        });
+    </script>
+    {% comment %} <script src="{% static 'js/scrollToTop.js' %}"></script> {% endcomment %}
 {% endblock %}

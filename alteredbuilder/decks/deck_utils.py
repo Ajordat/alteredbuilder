@@ -1,28 +1,38 @@
 from collections import defaultdict
 from http import HTTPStatus
 import re
-import requests
 
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.db import transaction
-from django.db.models import Exists, F, OuterRef, Q
+from django.db import IntegrityError, transaction
+from django.db.models import Exists, F, IntegerField, OuterRef, Q, Subquery
 from django.db.models.query import QuerySet
 from django.utils.translation import activate, gettext_lazy as _
+import requests
 
 from api.utils import locale_agnostic
+from config.utils import get_user_agent
 from decks.game_modes import (
     DraftGameMode,
     GameMode,
     StandardGameMode,
     update_deck_legality,
 )
-from decks.models import Card, CardInDeck, Deck, LovePoint, Subtype
+from decks.models import (
+    Card,
+    CardInDeck,
+    CardPrice,
+    Deck,
+    FavoriteCard,
+    LovePoint,
+    Subtype,
+)
 from decks.exceptions import AlteredAPIError, CardAlreadyExists, MalformedDeckException
 
 
 # Altered's API endpoint
 ALTERED_TCG_API_URL = "https://api.altered.gg/cards"
+HEADERS = {"User-Agent": get_user_agent("UniqueCardImporter")}
 # The API currently returns a private image link for unique cards in these languages
 IMAGE_ERROR_LOCALES = ["es", "it", "de"]
 
@@ -40,6 +50,7 @@ TRIGGER_TRANSLATION = {
     "reserve": "{R}",
     "discard": "{D}",
     "exhaust": "{T}",
+    "passive": "{I}",
 }
 
 
@@ -88,10 +99,16 @@ def create_new_deck(user: User, deck_form: dict) -> Deck:
         try:
             card = Card.objects.get(reference=reference)
         except Card.DoesNotExist:
-            # The Card's reference needs to exist on the database
-            raise MalformedDeckException(
-                _("Card '%(reference)s' does not exist") % {"reference": reference}
-            )
+            try:
+                card = import_unique_card(reference)
+                FavoriteCard.objects.get_or_create(user=user, card=card)
+                print(f"Created card '{reference}'")
+            except AlteredAPIError:
+                # The Card's reference needs to exist on the database
+                raise MalformedDeckException(
+                    _("Card '%(reference)s' wasn't found and couldn't be imported")
+                    % {"reference": reference}
+                )
 
         if card.type == Card.Type.HERO:
             if not has_hero:
@@ -120,51 +137,79 @@ def create_new_deck(user: User, deck_form: dict) -> Deck:
 
 def get_deck_details(deck: Deck) -> dict:
 
+    cid_queryset: QuerySet[CardInDeck] = deck.cardindeck_set
     decklist = (
-        deck.cardindeck_set.select_related("card").order_by("card__reference").all()
+        cid_queryset.select_related("card")
+        .prefetch_related("card__prices")
+        .annotate(
+            last_price=Subquery(
+                CardPrice.objects.filter(card=OuterRef("card__pk"))
+                .order_by("-date")
+                .values("price")[:1],
+                output_field=IntegerField(),
+            )
+        )
+        .order_by("card__reference")
+        .all()
     )
 
     hand_counter = defaultdict(int)
     recall_counter = defaultdict(int)
     rarity_counter = defaultdict(int)
+    power_counter = defaultdict(int)
 
     # This dictionary will hold all metadata based on the card's type by using the
     # type as a key
-    d = {
+    type_stats = {
         Card.Type.CHARACTER: [[], 0],
         Card.Type.SPELL: [[], 0],
-        Card.Type.PERMANENT: [[], 0],
+        Card.Type.LANDMARK_PERMANENT: [[], 0],
+        Card.Type.EXPEDITION_PERMANENT: [[], 0],
     }
     for cid in decklist:
         # Append the card to its own type card list
-        d[cid.card.type][0].append((cid.quantity, cid.card))
+        type_stats[cid.card.type][0].append((cid.quantity, cid.card, cid.last_price))
         # Count the card count of the card's type
-        d[cid.card.type][1] += cid.quantity
+        type_stats[cid.card.type][1] += cid.quantity
         # Count the amount of cards with the same hand cost
         hand_counter[cid.card.stats["main_cost"]] += cid.quantity
         # Count the amount of cards with the same recall cost
         recall_counter[cid.card.stats["recall_cost"]] += cid.quantity
         # Count the amount of cards with the same rarity
         rarity_counter[cid.card.rarity] += cid.quantity
+        power_counter["forest"] += cid.card.stats.get("forest_power", 0) * cid.quantity
+        power_counter["mountain"] += (
+            cid.card.stats.get("mountain_power", 0) * cid.quantity
+        )
+        power_counter["ocean"] += cid.card.stats.get("ocean_power", 0) * cid.quantity
 
     decklist_text = f"1 {deck.hero.reference}\n" if deck.hero else ""
     decklist_text += "\n".join(
         [f"{cid.quantity} {cid.card.reference}" for cid in decklist]
     )
+
     return {
         "decklist": decklist_text,
-        "character_list": d[Card.Type.CHARACTER][0],
-        "spell_list": d[Card.Type.SPELL][0],
-        "permanent_list": d[Card.Type.PERMANENT][0],
+        "character_list": sorted(
+            type_stats[Card.Type.CHARACTER][0], key=sort_by_mana_cost
+        ),
+        "spell_list": sorted(type_stats[Card.Type.SPELL][0], key=sort_by_mana_cost),
+        "permanent_list": sorted(
+            type_stats[Card.Type.LANDMARK_PERMANENT][0]
+            + type_stats[Card.Type.EXPEDITION_PERMANENT][0],
+            key=sort_by_mana_cost,
+        ),
         "stats": {
             "type_distribution": {
-                "characters": d[Card.Type.CHARACTER][1],
-                "spells": d[Card.Type.SPELL][1],
-                "permanents": d[Card.Type.PERMANENT][1],
+                "characters": type_stats[Card.Type.CHARACTER][1],
+                "spells": type_stats[Card.Type.SPELL][1],
+                "permanents": type_stats[Card.Type.LANDMARK_PERMANENT][1]
+                + type_stats[Card.Type.EXPEDITION_PERMANENT][1],
             },
-            "total_count": d[Card.Type.CHARACTER][1]
-            + d[Card.Type.SPELL][1]
-            + d[Card.Type.PERMANENT][1],
+            "total_count": type_stats[Card.Type.CHARACTER][1]
+            + type_stats[Card.Type.SPELL][1]
+            + type_stats[Card.Type.LANDMARK_PERMANENT][1]
+            + type_stats[Card.Type.EXPEDITION_PERMANENT][1],
             "mana_distribution": {
                 "hand": hand_counter,
                 "recall": recall_counter,
@@ -174,6 +219,7 @@ def get_deck_details(deck: Deck) -> dict:
                 "rare": rarity_counter[Card.Rarity.RARE],
                 "unique": rarity_counter[Card.Rarity.UNIQUE],
             },
+            "region_distribution": power_counter,
         },
         "legality": {
             "standard": {
@@ -192,8 +238,12 @@ def get_deck_details(deck: Deck) -> dict:
     }
 
 
+def sort_by_mana_cost(row):
+    return row[1].stats["main_cost"], row[1].stats["recall_cost"]
+
+
 @transaction.atomic
-def patch_deck(deck, name, changes):
+def patch_deck(deck: Deck, name: str, changes: dict[str, int]) -> None:
     deck.name = name
 
     for card_reference, quantity in changes.items():
@@ -218,7 +268,7 @@ def patch_deck(deck, name, changes):
                 CardInDeck.objects.create(card=card, deck=deck, quantity=quantity)
 
 
-def remove_card_from_deck(deck, reference):
+def remove_card_from_deck(deck: Deck, reference: str) -> None:
     card = Card.objects.get(reference=reference)
     if card.type == Card.Type.HERO and deck.hero.reference == card.reference:
         # If it's the Deck's hero, remove the reference
@@ -229,7 +279,9 @@ def remove_card_from_deck(deck, reference):
         cid.delete()
 
 
-def parse_card_query_syntax(qs, query):
+def parse_card_query_syntax(
+    qs: QuerySet[Card], query: str
+) -> tuple[QuerySet[Card], list[(str, str, str)], bool]:
     filters = Q()
     tags = []
 
@@ -310,7 +362,7 @@ def parse_card_query_syntax(qs, query):
             try:
                 trigger = re_match.group("trigger")
                 value = TRIGGER_TRANSLATION[trigger]
-                if trigger == "discard":
+                if trigger in ["discard", "passive"]:
                     filters &= Q(echo_effect__contains=value)
                 else:
                     filters &= Q(main_effect__contains=value)
@@ -328,7 +380,7 @@ def parse_card_query_syntax(qs, query):
 
 
 @locale_agnostic
-def import_unique_card(reference) -> Card:  # pragma: no cover
+def import_unique_card(reference: str) -> Card:  # pragma: no cover
 
     # Check if the card already exists in the database
     if Card.objects.filter(reference=reference).exists():
@@ -336,61 +388,9 @@ def import_unique_card(reference) -> Card:  # pragma: no cover
 
     # Fetch the card data from the official API
     api_url = f"{ALTERED_TCG_API_URL}/{reference}/"
-    response = requests.get(api_url)
+    response = requests.get(api_url, headers=HEADERS)
 
-    if response.status_code == HTTPStatus.OK:
-        card_data = response.json()
-        family = "_".join(reference.split("_")[:-2])
-        og_card = Card.objects.filter(
-            reference__startswith=family, rarity=Card.Rarity.COMMON
-        ).get()
-        card_dict = {
-            "reference": reference,
-            "name": og_card.name,
-            "faction": card_data["mainFaction"]["reference"],
-            "type": Card.Type.CHARACTER,
-            "rarity": Card.Rarity.UNIQUE,
-            "image_url": card_data["imagePath"],
-            "set": og_card.set,
-            "stats": {
-                "main_cost": int(card_data["elements"]["MAIN_COST"]),
-                "recall_cost": int(card_data["elements"]["RECALL_COST"]),
-                "forest_power": int(card_data["elements"]["FOREST_POWER"]),
-                "mountain_power": int(card_data["elements"]["MOUNTAIN_POWER"]),
-                "ocean_power": int(card_data["elements"]["OCEAN_POWER"]),
-            },
-        }
-        if "MAIN_EFFECT" in card_data["elements"]:
-            card_dict["main_effect"] = card_data["elements"]["MAIN_EFFECT"]
-        if "ECHO_EFFECT" in card_data["elements"]:
-            card_dict["echo_effect"] = card_data["elements"]["ECHO_EFFECT"]
-
-        card = Card(**card_dict)
-
-        for language, _ in settings.LANGUAGES:  # noqa: F402
-            if language == settings.LANGUAGE_CODE:
-                continue
-            activate(language)
-            headers = {"Accept-Language": f"{language}-{language}"}
-            response = requests.get(api_url, headers=headers)
-            card_data = response.json()
-            card.name = og_card.name
-
-            card.main_effect
-            if "MAIN_EFFECT" in card_data["elements"]:
-                card.main_effect = card_data["elements"]["MAIN_EFFECT"]
-            if "ECHO_EFFECT" in card_data["elements"]:
-                card.echo_effect = card_data["elements"]["ECHO_EFFECT"]
-            if language not in IMAGE_ERROR_LOCALES:
-                card.image_url = card_data["imagePath"]
-
-        with transaction.atomic():
-            card.save()
-            card.subtypes.add(*og_card.subtypes.all())
-
-        return card
-
-    else:
+    if response.status_code != HTTPStatus.OK:
         match response.status_code:
             case HTTPStatus.UNAUTHORIZED:
                 msg = f"The card {reference} is not public"
@@ -399,6 +399,74 @@ def import_unique_card(reference) -> Card:  # pragma: no cover
             case _:
                 msg = "Couldn't access the Altered API"
         raise AlteredAPIError(msg, status_code=response.status_code)
+
+    card_data = response.json()
+    family = "_".join(reference.split("_")[:-2])
+    try:
+        og_card = Card.objects.filter(
+            reference__startswith=family, rarity=Card.Rarity.COMMON
+        ).get()
+    except Card.DoesNotExist:
+        raise AlteredAPIError(
+            f"The card family '{family}' does not exist in the database",
+            status_code=HTTPStatus.NOT_FOUND,
+        )
+    card_dict = {
+        "reference": reference,
+        "name": og_card.name,
+        "faction": card_data["mainFaction"]["reference"],
+        "type": Card.Type.CHARACTER,
+        "rarity": Card.Rarity.UNIQUE,
+        "image_url": card_data["imagePath"],
+        "set": og_card.set,
+        "stats": {
+            "main_cost": int(card_data["elements"]["MAIN_COST"]),
+            "recall_cost": int(card_data["elements"]["RECALL_COST"]),
+            "forest_power": int(card_data["elements"]["FOREST_POWER"]),
+            "mountain_power": int(card_data["elements"]["MOUNTAIN_POWER"]),
+            "ocean_power": int(card_data["elements"]["OCEAN_POWER"]),
+        },
+    }
+    if "MAIN_EFFECT" in card_data["elements"]:
+        card_dict["main_effect"] = card_data["elements"]["MAIN_EFFECT"]
+    if "ECHO_EFFECT" in card_data["elements"]:
+        card_dict["echo_effect"] = card_data["elements"]["ECHO_EFFECT"]
+
+    card = Card(**card_dict)
+
+    for language, _ in settings.LANGUAGES:  # noqa: F402
+        if language == settings.LANGUAGE_CODE:
+            continue
+        activate(language)
+        headers = {"Accept-Language": f"{language}-{language}"}
+        response = requests.get(api_url, headers=headers)
+        card_data = response.json()
+        card.name = og_card.name
+
+        if "MAIN_EFFECT" in card_data["elements"]:
+            card.main_effect = card_data["elements"]["MAIN_EFFECT"]
+        if "ECHO_EFFECT" in card_data["elements"]:
+            card.echo_effect = card_data["elements"]["ECHO_EFFECT"]
+        if language not in IMAGE_ERROR_LOCALES:
+            card.image_url = card_data["imagePath"]
+
+    try:
+        with transaction.atomic():
+            card.save()
+            card.subtypes.add(*og_card.subtypes.all())
+    except IntegrityError as e:
+        if 'duplicate key value violates unique constraint "decks_card_pkey"' in str(e):
+            # This can happen if the user attempts to import a deck and submits
+            # another import with the same unique card while it hasn't been fully
+            # imported.
+            # I could use `get_or_create` but that would imply dealing with the
+            # i18n attributes of the Card table, which I don't fancy.
+            print("Duplicate primary key detected. Skip the commit into the db.")
+            return Card.objects.get(reference=card.reference)
+        else:
+            raise
+
+    return card
 
 
 def filter_by_query(qs: QuerySet[Deck], query: str) -> QuerySet[Deck]:
@@ -423,6 +491,15 @@ def filter_by_query(qs: QuerySet[Deck], query: str) -> QuerySet[Deck]:
                 filters &= Q(hero__name__icontains=hero)
                 tags.append((_("hero"), ":", hero))
             query = re.sub(h_regex, "", query)
+
+        ref_regex = r"ref:(?P<reference>\w+)"
+
+        if matches := re.finditer(ref_regex, query):
+            for re_match in matches:
+                reference = re_match.group("reference")
+                filters &= Q(cards__reference=reference)
+                tags.append((_("reference"), ":", reference))
+            query = re.sub(ref_regex, "", query)
 
         query = query.strip()
         if query:
@@ -454,6 +531,8 @@ def filter_by_legality(qs: QuerySet[Deck], legality: str) -> QuerySet[Deck]:
             qs = qs.filter(is_draft_legal=True)
         if "exalts" in legality:
             qs = qs.filter(is_exalts_legal=True)
+        if "doubles" in legality:
+            qs = qs.filter(is_doubles_legal=True)
 
     return qs
 
@@ -476,3 +555,11 @@ def filter_by_other(qs: QuerySet[Deck], other_filters: str, user) -> QuerySet[De
         if "description" in other_filters:
             qs = qs.exclude(description="")
     return qs
+
+
+def card_code_from_reference(reference: str) -> str:
+    return "_".join(reference.split("_")[3:6])
+
+
+def family_code_from_reference(reference: str) -> str:
+    return "_".join(reference.split("_")[3:5])

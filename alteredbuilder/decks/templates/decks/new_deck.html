@@ -60,6 +60,7 @@ class="container py-4"
                             </h2>
                             <div id="disclaimer" class="accordion-collapse collapse">
                                 <div class="accordion-body">
+                                    <div class="mb-3 text-center"><strong>{% translate "It seems that as of late this might be unnecessary. It's worth to try and import a deck directly without going through this process." %}</strong></div>
                                     <figure class="m-0">
                                         <img class="border-bottom img-fluid" src="{% static "img/public_guide.png"%}">
                                         <figcaption class="pb-2 text-center text-muted">{% blocktranslate %}After clicking on the pencil, modify the checkbox so that it's public.{% endblocktranslate %}</figcaption>
@@ -70,8 +71,6 @@ class="container py-4"
                     </div>
                 </div>
             </div>
-            
-            
         </div>
         <div class="col-lg-6">
             <div class="card">
@@ -131,6 +130,7 @@ class="container py-4"
                                 </div>
                             </div>
                         </div>
+                        <input id="{{ form.copy_of.auto_id }}" type="hidden" name="{{ form.copy_of.name }}" value="{{ form.copy_of.value }}">
 
                         <button id="submit-new-deck" type="submit" class="btn altered-style">{% translate "Import" %}</button>
                     </form>

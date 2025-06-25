@@ -1,17 +1,21 @@
 from collections import OrderedDict
 from typing import Any
+
 from django.conf import settings
 from django.contrib import admin
 from django.http import HttpRequest
 from django.template.response import TemplateResponse
+from django.utils.html import format_html
 
 from decks.forms import ChangeDeckOwnerForm
 from decks.models import (
     Card,
     CardInDeck,
+    CardPrice,
     Comment,
     CommentVote,
     Deck,
+    DeckCopy,
     FavoriteCard,
     LovePoint,
     PrivateLink,
@@ -55,9 +59,21 @@ class ReadOnlyAdminMixin(object):
 
 @admin.register(Deck)
 class DeckAdmin(admin.ModelAdmin):
-    list_display = ["id", "owner", "name", "is_public", "modified_at", "created_at"]
+    list_display = [
+        "id",
+        "owner",
+        "name",
+        "hero_name",
+        "is_public",
+        "modified_at",
+        "created_at",
+    ]
     search_fields = ["id", "name", "owner__username"]
-    list_filter = ["is_public"]
+    list_filter = [
+        "is_public",
+        "hero__faction",
+        ("hero", admin.RelatedOnlyFieldListFilter),
+    ]
     list_display_links = ["id", "name"]
     show_facets = admin.ShowFacets.ALWAYS
     readonly_fields = [
@@ -105,6 +121,13 @@ class DeckAdmin(admin.ModelAdmin):
         ),
     ]
     actions = ["make_public", "make_private", "change_deck_owner"]
+
+    def hero_name(self, deck: Deck):
+        if deck.hero:
+            return deck.hero.name
+        return "-"
+
+    hero_name.short_description = "Hero"
 
     @admin.action(description="Mark selected Decks as public")
     def make_public(self, request, queryset):
@@ -167,6 +190,8 @@ class CardAdmin(admin.ModelAdmin):
             "subtypes",
             "rarity",
             "image_url",
+            "is_promo",
+            "is_alt_art",
         ]
         i18n_fields = ["name", "image_url", "main_effect"]
 
@@ -191,7 +216,11 @@ class CardAdmin(admin.ModelAdmin):
                 card_stats_fields = ["reserve_count", "permanent_count"]
             case Card.Type.CHARACTER:
                 card_stats_fields = ["mana_cost", "power"]
-            case Card.Type.SPELL | Card.Type.PERMANENT:
+            case (
+                Card.Type.SPELL
+                | Card.Type.LANDMARK_PERMANENT
+                | Card.Type.EXPEDITION_PERMANENT
+            ):
                 card_stats_fields = ["mana_cost"]
             case _:
                 card_stats_fields = None
@@ -252,7 +281,7 @@ class PrivateLinkAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
 
 
 @admin.register(Set)
-class SetAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
+class SetAdmin(admin.ModelAdmin):
     list_display = ["name", "short_name", "code", "reference_code"]
 
 
@@ -276,9 +305,7 @@ class SubtypeAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
         self, request: HttpRequest, obj: Card
     ) -> list[tuple[str | None, dict[str, Any]]]:
 
-        base_fieldset = ["reference", "name"]
-
-        fieldsets = [(None, {"fields": base_fieldset})]
+        fieldsets = [(None, {"fields": ["reference", "name"]})]
 
         for code, name in settings.LANGUAGES:
             lang_fieldset = (name, {"fields": [f"name_{code}"]})
@@ -294,5 +321,28 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(FavoriteCard)
 class FavoriteCardAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
-    list_display = ["__str__"]
     search_fields = ["user", "card"]
+
+
+@admin.register(DeckCopy)
+class DeckCopyAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
+    list_display = ["__str__", "description", "date"]
+
+    def description(self, obj: DeckCopy):
+        return format_html(
+            '<a href="{}" target="_blank">{}</a> -> <a href="{}" target="_blank">{}</a>',
+            obj.source_deck.get_absolute_url(),
+            obj.source_deck.name,
+            obj.target_deck.get_absolute_url(),
+            obj.target_deck.name,
+        )
+
+    def date(self, obj: DeckCopy):
+        return obj.target_deck.created_at
+
+
+@admin.register(CardPrice)
+class CardPriceAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
+    list_display = ["card", "price", "count", "date"]
+    search_fields = ["card__name", "card__reference"]
+    list_filter = ["date"]

@@ -13,6 +13,7 @@ def init_models(apps):
 
 
 def import_data(apps, schema_editor):
+    return
     init_models(apps)
 
     if not settings.DEBUG:
@@ -31,6 +32,7 @@ def import_data(apps, schema_editor):
 
 
 def delete_data(apps, schema_editor):
+    return
     init_models(apps)
 
     if not settings.DEBUG:

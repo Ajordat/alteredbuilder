@@ -62,12 +62,18 @@ urlpatterns += i18n_patterns(
         ),
         name="javascript-catalog",
     ),
+    path("recommender/", include("recommender.urls")),
     path("accounts/", include("allauth.account.urls")),
     path("accounts/", include("allauth.socialaccount.urls")),
     path("profiles/", include("profiles.urls")),
     path("notifications/", include("notifications.urls")),
     path("news/", include("news.urls")),
     path("about/", TemplateView.as_view(template_name="about.html"), name="about"),
+    path(
+        "contribute/",
+        TemplateView.as_view(template_name="contribute.html"),
+        name="contribute",
+    ),
     path(
         "collaborators/",
         TemplateView.as_view(template_name="collaborators.html"),

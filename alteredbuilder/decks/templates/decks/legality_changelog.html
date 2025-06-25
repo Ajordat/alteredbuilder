@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+{% load static %}
+
+
+{% block head %}
+    {{ block.super }}
+    <!-- Styles adding the fonts used to display the Altered icons -->
+    <link rel="stylesheet" href="{% static 'css/altered-icons.css' %}">
+    <style>
+        li.add::marker {
+            content: "❗️"
+        }
+        li.stay::marker {
+            content: "😐"
+        }
+        li.remove::marker {
+            content: "🔚"
+        }
+    </style>
+{% endblock %}
+
+
+{% block content-div %}class="container my-3"{% endblock %}
+
+
+{% block content %}
+
+    <div class="row">
+
+        <!-- Introduction -->
+        <div class="mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">{% translate "Deck Legality" %}</h2>
+                    <p class="card-text">
+                        {% translate "Stay up to date with the latest changes in card legality for the game. This section provides information on cards that have been suspended, or had their abilities adjusted. Whether you're a competitive player or a casual deck builder, knowing which cards are allowed in official formats is essential." %}
+                    </p>
+                    <p class="card-text">
+                        {% translate 'Read this article (<a href="https://www.altered.gg/news/trial-by-frost-season-patch" target="_blank">Trial by Frost Season Patch</a>) to understand the reasoning behind banning or suspending cards.' %}
+                    </p>
+                    <p class="text-muted small mt-4 mb-0">
+                        {% blocktranslate %}Last updated: {{ last_update_date }}{% endblocktranslate %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="mb-4">
+            <div class="card pb-3">
+                <div class="card-body pb-0">
+                    <h2 class="card-title">{% translate "Season Patches" %}</h2>
+                </div>
+    {% for patch in patches %}
+                <div id="{{ patch.effective_date }}" class="card-body py-1">
+                    <hr>
+
+                    <h4 class="mt-3">{{ patch.effective_date }}</h4>
+                    <p class="card-text">
+                        <strong>{% translate "Article:" %}</strong> 
+                        <a href="{{ patch.article.link }}" target="_blank">{{ patch.article.title }}</a><br>
+                        <strong>{% translate "Announcement date:" %}</strong> {{ patch.article.date }}
+                    </p>
+
+        {% if patch.erratas %}
+                    <!-- Erratas -->
+                    <h5 class="mt-2">{% translate "Erratas" %}</h5>
+                    <ul>
+            {% for errata in patch.erratas %}
+                        <li>
+                            <a href="{{ errata.link }}" target="_blank">{{ errata.name }}</a>
+                            <div class="mt-2">
+                                <strong>{% translate "Previous:" %}</strong>
+                                <div class="text-muted border p-2">{{ errata.previous | safe }}</div>
+                                <strong>{% translate "Updated:" %}</strong>
+                                <div class="text-muted border p-2">{{ errata.updated | safe }}</div>
+                            </div>
+                        </li>
+            {% endfor %}
+                    </ul>
+        {% endif %}
+        {% if patch.suspensions %}
+                    <!-- Suspensions -->
+                    <h5 class="mt-2">{% translate "Suspensions" %}</h5>
+                    <ul>
+            {% for suspension in patch.suspensions.add %}
+                        <li class="add"><a href="{{ suspension.link }}" target="_blank">{{ suspension.name }}</a>{% if suspension.fix %} <strong>[<a href="{{ suspension.fix.link }}" target="_blank">Fixed on {{ suspension.fix.patch }}</a>]</strong>{% endif %}</li>
+            {% endfor %}
+            {% for suspension in patch.suspensions.stay %}
+                        <li class="stay"><a href="{{ suspension.link }}" target="_blank">{{ suspension.name }}</a>{% if suspension.fix %} <strong>[<a href="{{ suspension.fix.link }}" target="_blank">Fixed on {{ suspension.fix.patch }}</a>]</strong>{% endif %}</li>
+            {% endfor %}
+            {% for suspension in patch.suspensions.remove %}
+                        <li class="remove"><s>{{ suspension.name }}</s></li>
+            {% endfor %}
+                    </ul>
+        {% endif %}
+        {% if patch.watchlist %}
+                    <!-- Watchlist -->
+                    <h5 class="mt-2">{% translate "Watchlist" %}</h5>
+                    <ul>
+            {% for card in patch.watchlist.add %}
+                        <li class="add">{{ card.name }}</li>
+            {% endfor %}
+            {% for card in patch.watchlist.stay %}
+                        <li class="stay">{{ card.name }}</li>
+            {% endfor %}
+            {% for card in patch.watchlist.remove %}
+                        <li class="remove"><s>{{ card.name }}</s></li>
+            {% endfor %}
+                    </ul>
+        {% endif %}
+                </div>
+    {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,4 +1,5 @@
 from collections.abc import Generator
+from datetime import datetime
 from http import HTTPStatus
 from random import randint
 
@@ -58,7 +59,11 @@ def generate_card(
 
     if card_set:
         data["card_set"] = Set.objects.get_or_create(
-            name=card_set, short_name=card_set, code=card_set, reference_code=card_set
+            name=card_set,
+            short_name=card_set,
+            code=card_set,
+            reference_code=card_set,
+            release_date=datetime.today(),
         )[0]
 
     match card_type:
@@ -77,7 +82,11 @@ def generate_card(
                 mountain_power=randint(0, 10),
                 ocean_power=randint(0, 10),
             )
-        case Card.Type.SPELL | Card.Type.PERMANENT:
+        case (
+            Card.Type.SPELL
+            | Card.Type.LANDMARK_PERMANENT
+            | Card.Type.EXPEDITION_PERMANENT
+        ):
             card = Card.objects.create_card(**data, **cost)
 
     return card
@@ -125,7 +134,7 @@ def get_detail_card_list(deck: Deck, card_type: Card.Type) -> list[int, Card]:
         list[int, Card]: The list of cards with their amount.
     """
     return [
-        (c.quantity, c.card)
+        (c.quantity, c.card, None)
         for c in deck.cardindeck_set.all()
         if c.card.type == card_type
     ]
@@ -215,7 +224,7 @@ class BaseViewTestCase(TestCase):
         )
         spell = generate_card(Card.Faction.AXIOM, Card.Type.SPELL, Card.Rarity.RARE)
         permanent = generate_card(
-            Card.Faction.AXIOM, Card.Type.PERMANENT, Card.Rarity.RARE
+            Card.Faction.AXIOM, Card.Type.LANDMARK_PERMANENT, Card.Rarity.RARE
         )
 
         cls.user = User.objects.create_user(username=cls.TEST_USER)

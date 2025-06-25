@@ -12,16 +12,24 @@ CARD_DISPLAY_URL_FORMAT = "https://altered-prod-eu.s3.amazonaws.com/Art/CORE/CAR
 
 
 class CardManager(models.Manager):
+
+    def create_card(self, **kwargs):
+        if kwargs["type"] == Card.Type.HERO:
+            return self.create_hero(**kwargs)
+        else:
+            return self.create_playable_card(**kwargs)
+
     def create_hero(
         self,
         reference,
         name,
         faction,
         image_url=None,
-        card_set=None,
+        set=None,
         main_effect=None,
         reserve_count=2,
         permanent_count=2,
+        **kwargs,
     ):
         return self.create(
             reference=reference,
@@ -29,12 +37,12 @@ class CardManager(models.Manager):
             faction=faction,
             type=Card.Type.HERO,
             image_url=image_url,
-            set=card_set,
+            set=set,
             main_effect=main_effect,
             stats={"reserve_count": reserve_count, "permanent_count": permanent_count},
         )
 
-    def create_card(
+    def create_playable_card(
         self,
         reference,
         name,
@@ -42,7 +50,7 @@ class CardManager(models.Manager):
         faction,
         rarity,
         image_url=None,
-        card_set=None,
+        set=None,
         main_effect=None,
         echo_effect=None,
         main_cost=0,
@@ -50,6 +58,8 @@ class CardManager(models.Manager):
         forest_power=0,
         mountain_power=0,
         ocean_power=0,
+        is_promo=False,
+        is_alt_art=False,
     ):
         stats = {"main_cost": main_cost, "recall_cost": recall_cost}
         if type == Card.Type.CHARACTER:
@@ -67,10 +77,12 @@ class CardManager(models.Manager):
             type=type,
             rarity=rarity,
             image_url=image_url,
-            set=card_set,
+            set=set,
             main_effect=main_effect,
             echo_effect=echo_effect,
             stats=stats,
+            is_promo=is_promo,
+            is_alt_art=is_alt_art,
         )
 
 
@@ -79,6 +91,7 @@ class Set(models.Model):
     short_name = models.CharField(null=False, blank=False, unique=True)
     code = models.CharField(max_length=8, null=False, blank=False, unique=True)
     reference_code = models.CharField(null=False, blank=False, unique=True)
+    release_date = models.DateField(null=False, blank=False)
 
     def __str__(self) -> str:
         return self.name
@@ -105,9 +118,14 @@ class Card(models.Model):
         ORDIS = "OR", "ordis"
         YZMIR = "YZ", "yzmir"
 
+        @classmethod
+        def as_list(cls):
+            return [cls.AXIOM, cls.BRAVOS, cls.LYRA, cls.MUNA, cls.ORDIS, cls.YZMIR]
+
     class Type(models.TextChoices):
         SPELL = "spell"
-        PERMANENT = "permanent"
+        LANDMARK_PERMANENT = "landmark_permanent"
+        EXPEDITION_PERMANENT = "expedition_permanent"
         TOKEN = "token"
         CHARACTER = "character"
         HERO = "hero"
@@ -118,10 +136,14 @@ class Card(models.Model):
         RARE = "R", "rare"
         UNIQUE = "U", "unique"
 
-    reference = models.CharField(max_length=32, primary_key=True)
-    name = models.CharField(max_length=48, null=False, blank=False)
+        @classmethod
+        def as_list(cls):
+            return [cls.COMMON, cls.RARE, cls.UNIQUE]
+
+    reference = models.CharField(primary_key=True)
+    name = models.CharField(null=False, blank=False)
     faction = models.CharField(max_length=2, choices=Faction)
-    type = models.CharField(max_length=16, choices=Type)
+    type = models.CharField(choices=Type)
     subtypes = models.ManyToManyField(Subtype, blank=True)
     rarity = models.CharField(max_length=1, choices=Rarity)
     image_url = models.URLField(null=False, blank=True)
@@ -130,11 +152,18 @@ class Card(models.Model):
     main_effect = models.TextField(blank=True)
     echo_effect = models.TextField(blank=True)
 
+    is_promo = models.BooleanField(default=False)
+    is_alt_art = models.BooleanField(default=False)
+
     stats = models.JSONField(blank=True, default=dict)
 
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     objects = CardManager()
+
+    @staticmethod
+    def get_base_fields():
+        return ["name", "faction", "image_url", "set", "is_promo", "is_alt_art"]
 
     def __str__(self) -> str:
         return f"[{self.faction}] - {self.name} ({self.rarity})"
@@ -142,8 +171,11 @@ class Card(models.Model):
     def get_official_link(self) -> str:
         return f"{ALTERED_TCG_URL}/cards/{self.reference}"
 
-    def get_family_code(self):
+    def get_family_code(self) -> str:
         return "_".join(self.reference.split("_")[3:5])
+
+    def get_card_code(self) -> str:
+        return "_".join(self.reference.split("_")[3:6])
 
     def get_display_image(self) -> str:
         short_reference = self.reference[-7:]
@@ -176,7 +208,7 @@ class Tag(models.Model):
 class Deck(models.Model, HitCountMixin):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
-    description = models.TextField(blank=True, max_length=2500)
+    description = models.TextField(blank=True, max_length=3000)
     cards = models.ManyToManyField(Card, through="CardInDeck", related_name="decks")
     hero = models.ForeignKey(Card, blank=True, null=True, on_delete=models.SET_NULL)
     is_public = models.BooleanField(default=False)
@@ -186,9 +218,11 @@ class Deck(models.Model, HitCountMixin):
     is_draft_legal = models.BooleanField(null=True)
     draft_legality_errors = models.JSONField(default=list, blank=True)
     is_exalts_legal = models.BooleanField(null=True)
+    is_doubles_legal = models.BooleanField(null=True)
 
     love_count = models.PositiveIntegerField(default=0)
     comment_count = models.PositiveIntegerField(default=0)
+    copy_count = models.PositiveIntegerField(default=0)
     hit_count_generic = GenericRelation(
         HitCount,
         object_id_field="object_pk",
@@ -282,3 +316,29 @@ class FavoriteCard(models.Model):
 
     class Meta:
         unique_together = ("user", "card")
+
+
+class DeckCopy(models.Model):
+    target_deck = models.OneToOneField(
+        Deck, on_delete=models.CASCADE, related_name="copies_from"
+    )
+    source_deck = models.ForeignKey(
+        Deck, on_delete=models.CASCADE, null=True, blank=True, related_name="copies_to"
+    )
+    source_tournament_deck = models.ForeignKey(
+        "recommender.TournamentDeck", on_delete=models.CASCADE, null=True, blank=True
+    )
+
+
+class CardPrice(models.Model):
+    card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name="prices")
+    price = models.PositiveIntegerField(null=True)
+    count = models.PositiveIntegerField(default=1)
+    date = models.DateField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["card", "date"], name="unique_card_date_price"
+            )
+        ]
