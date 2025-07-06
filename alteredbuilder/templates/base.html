@@ -61,10 +61,6 @@
                 </button>
                 <div class="collapse navbar-collapse mt-2 mt-xl-0" id="navbarSupportedContent">
                     <ul id="navbar-traversal" class="navbar-nav me-auto">
-                        {% url 'home' as item_url %}
-                        <li class="nav-item {{ nav_item_classes }} {% if request.path == item_url %}current-nav-tab{% endif %}">
-                            <a class="nav-link" href="{{ item_url }}"><i class="fa-solid fa-house"></i> {% translate "Home" %}</a>
-                        </li>
                         {% url 'deck-list' as item_url %}
                         <li class="nav-item {{ nav_item_classes }} {% if request.path == item_url %}current-nav-tab{% endif %}">
                             <a class="nav-link" href="{{ item_url }}"><i class="fa-solid fa-layer-group"></i> {% translate "Decks" %}</a>
