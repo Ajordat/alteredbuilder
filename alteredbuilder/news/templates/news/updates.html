@@ -6,6 +6,39 @@
 
 {% block title %}{% translate "News" %}{% endblock %}
 
+{% block head %}
+    {{ block.super }}
+    <style>
+        .video-scroll {
+            overflow-x: auto;
+        }
+
+        .video-card {
+            display: inline-block;
+            width: 300px;
+            margin-right: 1rem;
+            vertical-align: top;
+        }
+
+        .video-card img {
+            width: 100%;
+            height: auto;
+            border-top-left-radius: .25rem;
+            border-top-right-radius: .25rem;
+        }
+
+        .video-title {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #212529;
+            text-decoration: none;
+        }
+
+        .video-title:hover {
+            color: #0d6efd;
+        }
+    </style>
+{% endblock %}
 
 {% block content %}
 
@@ -23,11 +56,28 @@
 </ul>
 
 <h2>Latest YouTube Videos</h2>
+
+{% comment %} <div class="container">
+    <div class="video-scroll d-flex">
+        {% for video in youtube_videos %}
+        <div class="card video-card shadow-sm">
+            <a href="https://www.youtube.com/watch?v={{ video.video_id }}" target="_blank">
+                <img src="{{ video.thumbnail }}" class="card-img-top" alt="{{ video.title }}">
+            </a>
+            <div class="card-body">
+                <a href="https://www.youtube.com/watch?v={{ video.video_id }}" target="_blank" class="video-title d-block">
+                    {{ video.title }}
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div> {% endcomment %}
 <ul>
     {% for video in youtube_videos %}
     <li>
-        <a href="https://www.youtube.com/watch?v={{ video.id.videoId }}">{{ video.snippet.title }}</a>
-        <small>{{ video.snippet.publishedAt }}</small>
+        <a href="https://www.youtube.com/watch?v={{ video.video_id }}" target="_blank">{{ video.title }}</a>
+        <small>{{ video.published_at }}</small>
     </li>
     {% endfor %}
 </ul>
@@ -36,7 +86,7 @@
 <ul>
     {% for stream in twitch_streams %}
     <li>
-        <a href="https://twitch.tv/{{ stream.user_name }}">{{ stream.user_name }}</a>
+        <a href="https://twitch.tv/{{ stream.user_name }}">{{ stream.title }} - {{ stream.user_name }}</a>
         <small>{{ stream.viewer_count }} viewers</small>
     </li>
     {% endfor %}

@@ -330,3 +330,7 @@ DISALLOWED_USER_AGENTS = [re.compile(user_agent) for user_agent in user_agents]
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+YOUTUBE_API_KEY = env("YOUTUBE_API_KEY")
+TWITCH_CLIENT_ID = env("TWITCH_CLIENT_ID")
+TWITCH_SECRET_KEY = env("TWITCH_SECRET_KEY")
