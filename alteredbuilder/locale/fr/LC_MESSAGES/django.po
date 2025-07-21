@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-10 02:07+0200\n"
-"PO-Revision-Date: 2024-12-04 14:00+0000\n"
-"Last-Translator: Loic D <loic.danj@gmail.com>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/altered-tcg-"
-"builder/server-strings/fr/>\n"
+"PO-Revision-Date: 2025-07-22 06:07+0000\n"
+"Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/"
+"altered-tcg-builder/server-strings/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.9-dev\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: api/utils.py:20 decks/views/deck_metadata.py:105
 msgid "Invalid payload"
@@ -54,10 +54,9 @@ msgid "Failed to unpack '%(line)s'"
 msgstr "Échec d'extraction '%(line)s'"
 
 #: decks/deck_utils.py:109
-#, fuzzy, python-format
-#| msgid "Card '%(reference)s' does not exist"
+#, python-format
 msgid "Card '%(reference)s' wasn't found and couldn't be imported"
-msgstr "La carte '%(reference)s' n'existe pas"
+msgstr "La carte '%(reference)s' n'existe pas et n'a pas pu être importée"
 
 #: decks/deck_utils.py:120
 msgid "Multiple heroes present in the decklist"
@@ -168,14 +167,13 @@ msgstr "Héros manquant"
 
 #: decks/game_modes.py:130 decks/migrations/0069_force_update_legality.py:112
 #: decks/migrations/0073_force_update_legality.py:119
-#, fuzzy, python-format
-#| msgid "Exceeds maximum faction count (%(count)s)"
+#, python-format
 msgid "Does not reach the minimum faction count (%(count)s)"
-msgstr "Dépasse le nombre maximal de factions (%(count)s)"
+msgstr "N'atteint pas le nombre minimal de factions (%(count)s)"
 
 #: decks/game_modes.py:134 decks/migrations/0073_force_update_legality.py:123
 msgid "Contains a banned card"
-msgstr ""
+msgstr "Contient une carte interdite"
 
 #: decks/templates/decks/card_list.html:8
 #: decks/templates/decks/card_list.html:39
@@ -262,7 +260,7 @@ msgstr "Sort"
 
 #: decks/templates/decks/card_list.html:106
 msgid "Set"
-msgstr ""
+msgstr "Extension"
 
 #: decks/templates/decks/card_list.html:116
 #: decks/templates/decks/deck_list.html:71
@@ -605,7 +603,7 @@ msgstr "Vitrine"
 
 #: decks/templates/decks/deck_detail.html:147
 msgid "The deck needs a hero!"
-msgstr "Le deck a besoin d'un héros !"
+msgstr "Le deck doit avoir un héros !"
 
 #: decks/templates/decks/deck_detail.html:155
 msgid "Copy deck"
@@ -811,7 +809,7 @@ msgstr ""
 #: decks/templates/decks/deck_list.html:60
 #: decks/templates/decks/own_deck_list.html:61
 msgid "Draft"
-msgstr ""
+msgstr "Ebauche"
 
 #: decks/templates/decks/deck_detail.html:463
 msgid "Mana curve"
