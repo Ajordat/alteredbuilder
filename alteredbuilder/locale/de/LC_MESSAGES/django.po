@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-10 02:07+0200\n"
-"PO-Revision-Date: 2025-01-02 18:00+0000\n"
-"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
-"Language-Team: German <https://hosted.weblate.org/projects/altered-tcg-"
-"builder/server-strings/de/>\n"
+"PO-Revision-Date: 2025-07-30 16:36+0000\n"
+"Last-Translator: Manuel Kerschner <manuel.umfragen123@gmail.com>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/"
+"altered-tcg-builder/server-strings/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10-dev\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: api/utils.py:20 decks/views/deck_metadata.py:105
 msgid "Invalid payload"
@@ -176,7 +176,7 @@ msgstr "Überschreitet die maximale Fraktionsanzahl (%(count)s)"
 
 #: decks/game_modes.py:134 decks/migrations/0073_force_update_legality.py:123
 msgid "Contains a banned card"
-msgstr ""
+msgstr "Beinhaltet eine gebannte Karte"
 
 #: decks/templates/decks/card_list.html:8
 #: decks/templates/decks/card_list.html:39
@@ -269,7 +269,7 @@ msgstr "Zauber"
 
 #: decks/templates/decks/card_list.html:106
 msgid "Set"
-msgstr ""
+msgstr "Sammlung"
 
 #: decks/templates/decks/card_list.html:116
 #: decks/templates/decks/deck_list.html:71
@@ -319,7 +319,7 @@ msgstr "Reservekosten DESC"
 
 #: decks/templates/decks/card_list.html:155
 msgid "Magic"
-msgstr ""
+msgstr "Magie"
 
 #: decks/templates/decks/card_list.html:168
 msgid "No cards found with the current filter."
@@ -328,7 +328,7 @@ msgstr "Mit dem aktuellen Filter wurden keine Karten gefunden."
 #: decks/templates/decks/card_list.html:184
 #: decks/templates/decks/collection.html:11 templates/base.html:86
 msgid "My Collection"
-msgstr ""
+msgstr "Meine sammlung"
 
 #: decks/templates/decks/card_list.html:189
 msgid "New deck"
@@ -529,7 +529,7 @@ msgstr "Suchen Sie die Karte mit der Referenz `ALT_COREKS_B_OR_21_U_2139`:"
 
 #: decks/templates/decks/card_list.html:330
 msgid "Manage Collection"
-msgstr ""
+msgstr "Sammlung bearbeiten"
 
 #: decks/templates/decks/card_list.html:341
 #: decks/templates/decks/deck_detail.html:613
@@ -549,6 +549,8 @@ msgstr "Referenz der Karte"
 #: decks/templates/decks/card_list.html:359
 msgid "Hi! Start your deck by selecting a hero and adding some cards!"
 msgstr ""
+"Hallo! Erstelle ein Deck durch das wählen eines Helden und hinzufügen von "
+"Karten!"
 
 #: decks/templates/decks/card_list.html:362
 msgid "Thinking about your deck..."
@@ -613,10 +615,8 @@ msgid "Showcase"
 msgstr ""
 
 #: decks/templates/decks/deck_detail.html:147
-#, fuzzy
-#| msgid "Deck already has a hero"
 msgid "The deck needs a hero!"
-msgstr "Deck hat bereits einen Helden"
+msgstr "Das deck benötigt einen Helden!"
 
 #: decks/templates/decks/deck_detail.html:155
 msgid "Copy deck"
@@ -653,10 +653,8 @@ msgstr "Zu den Details gehen"
 #: decks/templates/decks/deck_detail.html:282
 #: decks/templates/decks/snippets/card_list.html:20
 #: decks/templates/decks/snippets/card_table.html:28
-#, fuzzy
-#| msgid "Go to details"
 msgid "Go to marketplace"
-msgstr "Zu den Details gehen"
+msgstr "Zum Marktplatz gehen"
 
 #: decks/templates/decks/deck_detail.html:227
 #: decks/templates/decks/deck_detail.html:283
@@ -737,10 +735,8 @@ msgid "Count"
 msgstr "Zählung"
 
 #: decks/templates/decks/deck_detail.html:359
-#, fuzzy
-#| msgid "Count"
 msgid "Total Count"
-msgstr "Zählung"
+msgstr "Insgesammte Zählung"
 
 #: decks/templates/decks/deck_detail.html:360
 msgid "(+ 1 hero)"
@@ -764,7 +760,7 @@ msgstr "Formatlegalität"
 
 #: decks/templates/decks/deck_detail.html:404
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: decks/templates/decks/deck_detail.html:405
 msgid "Is it legal?"
@@ -812,25 +808,21 @@ msgstr ""
 #: decks/templates/decks/deck_list.html:59
 #: decks/templates/decks/own_deck_list.html:60
 msgid "Doubles"
-msgstr ""
+msgstr "Doppelte"
 
 #: decks/templates/decks/deck_detail.html:441
-#, fuzzy
-#| msgid ""
-#| "This mode works the same as Standard but replaces the 3 uniques with 3 "
-#| "extra rares."
 msgid ""
 "This mode works the same as Standard but requires the use of two different "
 "factions."
 msgstr ""
-"Dieser Modus funktioniert genauso wie Standard, ersetzt aber die 3 Unikate "
-"durch 3 zusätzliche Rares."
+"Dieser Modus funktioniert genauso wie Standard, benötigt jedoch zwei "
+"verschiedene Fraktionen"
 
 #: decks/templates/decks/deck_detail.html:445
 #: decks/templates/decks/deck_list.html:60
 #: decks/templates/decks/own_deck_list.html:61
 msgid "Draft"
-msgstr ""
+msgstr "Draft"
 
 #: decks/templates/decks/deck_detail.html:463
 msgid "Mana curve"
@@ -838,35 +830,30 @@ msgstr "Manakurve"
 
 #: decks/templates/decks/deck_detail.html:468
 msgid "Inspired by"
-msgstr ""
+msgstr "Inspiriert durch"
 
 #: decks/templates/decks/deck_detail.html:473
 #: decks/templates/decks/deck_detail.html:492
-#, fuzzy
-#| msgid "Collaborators"
 msgid "Creator"
-msgstr "Mitarbeiter"
+msgstr "Ersteller"
 
 #: decks/templates/decks/deck_detail.html:488
-#, fuzzy
-#| msgid "Trending decks"
 msgid "Inspired decks"
-msgstr "Angesagte Decks"
+msgstr "Inspirierte Decks"
 
 #: decks/templates/decks/deck_detail.html:505
 #, python-format
 msgid "and 1 private deck"
 msgid_plural "and %(count)s private decks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Füge 1 Deck hinzu"
+msgstr[1] "Füge %(count)s Decks hinzu"
 
 #: decks/templates/decks/deck_detail.html:510
-#, fuzzy, python-format
-#| msgid "Latest decks"
+#, python-format
 msgid "1 private deck"
 msgid_plural "%(count)s private decks"
-msgstr[0] "Neueste Decks"
-msgstr[1] "Neueste Decks"
+msgstr[0] "1 privates Deck"
+msgstr[1] "%(count)s Private Decks"
 
 #: decks/templates/decks/deck_detail.html:544
 #: decks/templates/decks/deck_detail.html:595
@@ -1043,10 +1030,8 @@ msgid "Most views"
 msgstr "Meistbesucht"
 
 #: decks/templates/decks/deck_list.html:138
-#, fuzzy
-#| msgid "Cards:"
 msgid "Card:"
-msgstr "Karten:"
+msgstr "Karte:"
 
 #: decks/templates/decks/deck_list.html:140
 msgid "Card reference"
