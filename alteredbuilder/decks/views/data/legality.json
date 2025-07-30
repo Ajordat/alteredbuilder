@@ -1,6 +1,51 @@
 {
-    "last_update": "2025-05-13",
+    "last_update": "2025-07-30",
     "patches": [
+        {
+            "effective_date": "2025-08-11",
+            "article": {
+                "link": "https://www.altered.gg/news/whispers-from-the-maze-mid-season-patch",
+                "title": "Whispers from the Maze Mid-Season Patch",
+                "date": "2025-07-29"
+            },
+            "erratas": [
+                {
+                    "name": "Afanas & Senka",
+                    "link": "https://www.altered.gg/news/whispers-from-the-maze-mid-season-patch#widget0_subwidget3",
+                    "previous": "When you play a Spell &mdash; Target Character you control gains 1 boost.",
+                    "updated": "Spells you play with Hand Cost <span class=\"altered-1\"></span> or less are <strong>Fleeting</strong>.<br>When you play a Spell &mdash; Target Character you control gains 1 boost."
+                }
+            ],
+            "suspensions": {
+                "stay": [
+                    {
+                        "name": "Baba Yaga (Ordis Rare)",
+                        "link": "https://www.altered.gg/news/whispers-from-the-maze-season-patch#widget0_subwidget6"
+                    },
+                    {
+                        "name": "Helping Hand (Yzmir Rare)",
+                        "link": "https://www.altered.gg/news/whispers-from-the-maze-season-patch#widget0_subwidget9"
+                    },
+                    {
+                        "name": "Moonlight Jellyfish (all Uniques, all factions)",
+                        "link": "https://www.altered.gg/news/trial-by-frost-season-patch#widget0_subwidget16"
+                    }
+                ]
+            },
+            "watchlist": {
+                "stay": [
+                    {
+                        "name": "Bugfix (Common & Axiom Rare)"
+                    },
+                    {
+                        "name": "Kadigiran Mage-Dancer (Common & Yzmir Rare)"
+                    },
+                    {
+                        "name": "Ordis Attorney (Ordis Rare & Yzmir Rare)"
+                    }
+                ]
+            }
+        },
         {
             "effective_date": "2025-05-13",
             "article": {
