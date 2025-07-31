@@ -2,12 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-10 02:07+0200\n"
+"POT-Creation-Date: 2025-07-31 22:03+0200\n"
 "PO-Revision-Date: 2024-12-04 14:00+0000\n"
 "Last-Translator: Loic D <loic.danj@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/altered-tcg-"
@@ -319,7 +319,7 @@ msgid "No cards found with the current filter."
 msgstr "Aucune carte trouvée avec les filtres choisis."
 
 #: decks/templates/decks/card_list.html:184
-#: decks/templates/decks/collection.html:11 templates/base.html:86
+#: decks/templates/decks/collection.html:11 templates/base.html:82
 msgid "My Collection"
 msgstr ""
 
@@ -328,7 +328,7 @@ msgid "New deck"
 msgstr "Nouveau deck"
 
 #: decks/templates/decks/card_list.html:191
-#: decks/templates/decks/card_list.html:192 templates/base.html:70
+#: decks/templates/decks/card_list.html:192 templates/base.html:66
 msgid "Decks"
 msgstr "Decks"
 
@@ -336,7 +336,7 @@ msgstr "Decks"
 msgid "Deck Name"
 msgstr "Nom du Deck"
 
-#: decks/templates/decks/card_list.html:205 templates/base.html:94
+#: decks/templates/decks/card_list.html:205 templates/base.html:90
 msgid "Deck"
 msgstr "Deck"
 
@@ -934,7 +934,7 @@ msgstr "Commentaires"
 msgid "Login to use this feature!"
 msgstr "Connectez-vous pour utiliser cette fonction !"
 
-#: decks/templates/decks/deck_detail.html:686 templates/base.html:199
+#: decks/templates/decks/deck_detail.html:686 templates/base.html:195
 msgid "Login"
 msgstr "Se connecter"
 
@@ -1316,13 +1316,13 @@ msgstr "Voulez-vous que votre deck soit public ?"
 msgid "Public"
 msgstr "Publique"
 
-#: decks/templates/decks/new_deck.html:135 templates/base.html:92
+#: decks/templates/decks/new_deck.html:135 templates/base.html:88
 msgid "Import"
 msgstr "Importer"
 
 #: decks/templates/decks/own_deck_list.html:9
 #: decks/templates/decks/own_deck_list.html:10
-#: decks/templates/decks/own_deck_list.html:97 templates/base.html:80
+#: decks/templates/decks/own_deck_list.html:97 templates/base.html:76
 msgid "My decks"
 msgstr "Mes decks"
 
@@ -1503,12 +1503,12 @@ msgid "Notifications"
 msgstr "Notifications"
 
 #: notifications/templates/notifications/notification_list.html:12
-#: templates/base.html:166
+#: templates/base.html:162
 msgid "Mark all notifications as read"
 msgstr "Marquer toutes les notifications comme lues"
 
 #: notifications/templates/notifications/notification_list.html:26
-#: templates/base.html:164
+#: templates/base.html:160
 msgid "No notifications"
 msgstr "Pas de notifications"
 
@@ -1661,7 +1661,7 @@ msgstr "Decks de %(username)s"
 msgid "No decks found"
 msgstr "Aucun deck trouvé"
 
-#: profiles/templates/profiles/userprofile_list.html:9 templates/base.html:102
+#: profiles/templates/profiles/userprofile_list.html:9 templates/base.html:98
 #: templates/releases/1.10.1.html:11
 msgid "Community"
 msgstr "Communauté"
@@ -1868,97 +1868,93 @@ msgid "The place to build, analyze and share Altered TCG decks."
 msgstr ""
 "L'endroit pour construire, analyser et partager des decks d'Altered TCG."
 
-#: templates/base.html:66
-msgid "Home"
-msgstr "Accueil"
-
-#: templates/base.html:74
+#: templates/base.html:70
 msgid "Build"
 msgstr "Constuction"
 
-#: templates/base.html:96
+#: templates/base.html:92
 msgid "Unique card"
 msgstr "Carte unique"
 
-#: templates/base.html:109 templates/contribute.html:6
+#: templates/base.html:105 templates/contribute.html:6
 #: templates/contribute.html:7
 msgid "Contribute"
 msgstr "Contribuer"
 
-#: templates/base.html:119 templates/base.html:141
+#: templates/base.html:115 templates/base.html:137
 msgid "Select site language"
 msgstr "Sélectionnez la langue du site"
 
-#: templates/base.html:125
+#: templates/base.html:121
 msgid "Light"
 msgstr "Clair"
 
-#: templates/base.html:130
+#: templates/base.html:126
 msgid "Dark"
 msgstr "Sombre"
 
-#: templates/base.html:135
+#: templates/base.html:131
 msgid "Auto"
 msgstr "Automatique"
 
-#: templates/base.html:162
+#: templates/base.html:158
 msgid "View all notifications"
 msgstr "Voir toutes les notifications"
 
-#: templates/base.html:188
+#: templates/base.html:184
 msgid "Profile"
 msgstr "Profil"
 
-#: templates/base.html:190
+#: templates/base.html:186
 msgid "Update email"
 msgstr "Changer l'e-mail"
 
-#: templates/base.html:191
+#: templates/base.html:187
 msgid "Update password"
 msgstr "Changer le mot de passe"
 
-#: templates/base.html:193
+#: templates/base.html:189
 msgid "Logout"
 msgstr "Se déconnecter"
 
-#: templates/base.html:217
+#: templates/base.html:213
 msgid "Links"
 msgstr "Liens"
 
-#: templates/base.html:220
+#: templates/base.html:216
 msgid "About the project"
 msgstr "À propos du projet"
 
-#: templates/base.html:223
+#: templates/base.html:219
 msgid "GitHub repository"
 msgstr "Dépôt GitHub"
 
-#: templates/base.html:226 templates/collaborators.html:5
+#: templates/base.html:222 templates/collaborators.html:5
 #: templates/collaborators.html:6 templates/collaborators.html:18
 msgid "Collaborators"
 msgstr "Collaborateurs"
 
-#: templates/base.html:229
+#: templates/base.html:225
 msgid "Privacy policy"
 msgstr "Politique de confidentialité"
 
-#: templates/base.html:232
+#: templates/base.html:228
 msgid "Terms and conditions"
 msgstr "Conditions générales"
 
-#: templates/base.html:237
+#: templates/base.html:233
 msgid "Support the project"
 msgstr "Contribuer au projet"
 
-#: templates/base.html:238
+#: templates/base.html:234
 msgid "All funds are used to cover the hosting costs."
 msgstr "Tous les fonds servent à couvrir les frais d'hébergement."
 
-#: templates/base.html:243
+#: templates/base.html:239
 msgid "Our Patrons"
 msgstr "Nos Mécènes"
 
-#: templates/base.html:247
+#: templates/base.html:243
 msgid "Get in touch"
 msgstr "Contacter"
 
@@ -2017,11 +2013,11 @@ msgstr ""
 " Leur travail aide à rapprocher les communautés et à attirer plus de gens "
 "sur notre plateforme !"
 
-#: templates/collaborators.html:113
+#: templates/collaborators.html:114
 msgid "Bug reports"
 msgstr "Rapports de bogues"
 
-#: templates/collaborators.html:115
+#: templates/collaborators.html:116
 msgid ""
 "A heartfelt thanks to those who have taken the time to report bugs and "
 "issues. Their feedback helps us improve the platform and deliver a smoother "
@@ -2031,11 +2027,11 @@ msgstr ""
 "les problèmes. Leurs commentaires nous aident à améliorer la plateforme et à "
 "offrir une expérience plus fluide pour tout le monde !"
 
-#: templates/collaborators.html:134
+#: templates/collaborators.html:135
 msgid "Feature Requests"
 msgstr "Demandes de fonctionnalité"
 
-#: templates/collaborators.html:136
+#: templates/collaborators.html:137
 msgid ""
 "We're always looking for ways to improve and enhance your experience. If you "
 "have ideas or suggestions for new features that could make the platform "
@@ -2050,7 +2046,7 @@ msgstr ""
 "nous aimerions avoir votre avis.\n"
 "Chaque contribution contribue à façonner l’avenir du projet !"
 
-#: templates/collaborators.html:139
+#: templates/collaborators.html:140
 msgid ""
 "Here's a list of people who gave us feedback on desired features and ended "
 "up being implemented:"
@@ -2307,6 +2303,9 @@ msgstr "Cartes populaires"
 #: trends/templates/trends/home.html:96
 msgid "Trending decks"
 msgstr "Decks tendances"
+
+#~ msgid "Home"
+#~ msgstr "Accueil"
 
 #, fuzzy
 #~| msgid "Collaborators"
