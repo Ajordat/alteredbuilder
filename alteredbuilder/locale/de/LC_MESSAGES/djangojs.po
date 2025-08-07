@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-23 21:44+0200\n"
-"PO-Revision-Date: 2025-03-09 15:03+0000\n"
-"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
-"Language-Team: German <https://hosted.weblate.org/projects/altered-tcg-"
-"builder/client-strings/de/>\n"
+"PO-Revision-Date: 2025-07-31 15:02+0000\n"
+"Last-Translator: Manuel Kerschner <manuel.umfragen123@gmail.com>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/"
+"altered-tcg-builder/client-strings/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.3-dev\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: decks/static/js/deck-detail.js:39 decks/static/js/deck-detail.js:186
 msgid "Link copied into clipboard!"
@@ -73,25 +73,25 @@ msgstr "Geben Sie die ID des Decks oder seine URL ein."
 msgid "Common"
 msgid_plural "Commons"
 msgstr[0] "Gewöhnlich"
-msgstr[1] "Gewöhnlich"
+msgstr[1] "Gewöhnliche"
 
 #: decks/static/js/deck-sidebar.js:205
 msgid "Rare"
 msgid_plural "Rares"
-msgstr[0] "Seltene"
+msgstr[0] "Selten"
 msgstr[1] "Seltene"
 
 #: decks/static/js/deck-sidebar.js:207
 msgid "Unique"
 msgid_plural "Uniques"
 msgstr[0] "Einzigartig"
-msgstr[1] "Einzigartig"
+msgstr[1] "Einzigartige"
 
 #: decks/static/js/deck-sidebar.js:234
 msgid "Card"
 msgid_plural "Cards"
 msgstr[0] "Karte"
-msgstr[1] "Karte"
+msgstr[1] "Karten"
 
 #: decks/static/js/deck-sidebar.js:574
 msgid "The deck must have a name"
@@ -119,15 +119,15 @@ msgstr "permanent"
 
 #: decks/static/js/deck-stats.js:58
 msgid "forest"
-msgstr ""
+msgstr "Wald"
 
 #: decks/static/js/deck-stats.js:59
 msgid "mountain"
-msgstr ""
+msgstr "Berg"
 
 #: decks/static/js/deck-stats.js:60
 msgid "ocean"
-msgstr ""
+msgstr "Meer"
 
 #: decks/static/js/deck-stats.js:140
 msgid "Cost"
