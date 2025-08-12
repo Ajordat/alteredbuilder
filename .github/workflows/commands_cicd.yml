@@ -34,7 +34,7 @@ jobs:
         - refresh_token
         - update_card_pool
         include:
-        - cpu: 500m
+        - cpu: 1000m
           memory: 256Mi
         - command: train_model
           cpu: 1000m
@@ -65,7 +65,7 @@ jobs:
         env_vars_update_strategy: merge
         flags: |
           --command=python
-          --args manage.py,${{ matrix.command }},${{ join(matrix.arguments, ',') }}
+          --args manage.py,${{ matrix.command }},${{ join(matrix.arguments) }}
           --set-cloudsql-instances=${{ secrets.CLOUD_SQL_INSTANCE }}
           --service-account=${{ secrets.CLOUD_RUN_SA_NAME }}
           --cpu=${{ matrix.cpu }}
