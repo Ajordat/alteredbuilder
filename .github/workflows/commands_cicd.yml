@@ -35,7 +35,7 @@ jobs:
         - update_card_pool
         include:
         - cpu: 1000m
-          memory: 256Mi
+          memory: 512Mi
         - command: train_model
           cpu: 1000m
           memory: 1500Mi
