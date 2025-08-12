@@ -39,6 +39,9 @@ jobs:
         - command: train_model
           cpu: 1000m
           memory: 1500Mi
+          arguments:
+          - xgboost_tuned
+          - --refresh-data
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -62,7 +65,7 @@ jobs:
         env_vars_update_strategy: merge
         flags: |
           --command=python
-          --args manage.py,${{ matrix.command }}
+          --args manage.py,${{ matrix.command }},${{ join(matrix.arguments, ',') }}
           --set-cloudsql-instances=${{ secrets.CLOUD_SQL_INSTANCE }}
           --service-account=${{ secrets.CLOUD_RUN_SA_NAME }}
           --cpu=${{ matrix.cpu }}
