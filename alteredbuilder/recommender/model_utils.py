@@ -55,7 +55,8 @@ class RecommenderHelper:
                 .only("reference", "type")
             )
 
-            if len(exceptions := cls.SPECIAL_ADDITIONS.get(faction, [])) > 0:
+            exceptions = cls.SPECIAL_ADDITIONS.get(faction, [])
+            if len(exceptions) > 0:
                 cards = cards.union(
                     Card.objects.annotate(release_date=F("set__release_date"))
                     .filter(reference__in=exceptions)
