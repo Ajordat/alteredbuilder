@@ -253,16 +253,16 @@ ACCOUNT_EMAIL_NOTIFICATIONS = True
 ACCOUNT_MAX_EMAIL_ADDRESSES = 3
 
 # Email settings
-if SENDGRID_API_KEY := env("SENDGRID_API_KEY", default=None):  # pragma: no cover
-    EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+if EMAIL_API_KEY := env("EMAIL_API_KEY", default=None):  # pragma: no cover
+    EMAIL_BACKEND = env("EMAIL_BACKEND_CLASS")
     SENDGRID_SANDBOX_MODE_IN_DEBUG = True
 
-    EMAIL_HOST = "smtp.sendgrid.net"
-    EMAIL_HOST_USER = "apikey"
-    EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+    EMAIL_HOST = env("EMAIL_HOST")
+    EMAIL_HOST_USER = env("EMAIL_USER")
+    EMAIL_HOST_PASSWORD = EMAIL_API_KEY
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
-    DEFAULT_FROM_EMAIL = env("SENDGRID_FROM_EMAIL")
+    DEFAULT_FROM_EMAIL = env("EMAIL_FROM_ADDRESS")
 else:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
