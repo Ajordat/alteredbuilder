@@ -7,12 +7,13 @@ from django.views.generic.list import ListView
 
 from decks.deck_utils import (
     filter_by_faction,
+    filter_by_heroes,
     filter_by_legality,
     filter_by_other,
     filter_by_tags,
     filter_by_query,
 )
-from decks.models import Deck, LovePoint, Tag
+from decks.models import Card, Deck, LovePoint, Tag
 from profiles.models import Follow
 
 
@@ -139,4 +140,26 @@ class OwnDeckListView(LoginRequiredMixin, DeckListView):
         """
         qs = super().get_queryset()
 
+        heroes = self.request.GET.get("heroes")
+        qs = filter_by_heroes(qs, heroes)
+
         return qs.filter(owner=self.request.user)
+
+    def get_context_data(self, *args, **kwargs):
+        """Add all heroes to the context, splitted by faction. Used to filter decks by hero."""
+        heroes_data = {}
+        heroes = Card.objects.filter(
+            type=Card.Type.HERO,
+            set__code="CORE",
+            is_promo=False,
+        )
+
+        for faction in Card.Faction.as_list():
+            faction_heroes = list(
+                heroes.filter(faction=faction).values_list("name", flat=True)
+            )
+            heroes_data[faction.label.capitalize()] = faction_heroes
+
+        context = super().get_context_data(*args, **kwargs)
+        context["factions_heroes"] = heroes_data
+        return context

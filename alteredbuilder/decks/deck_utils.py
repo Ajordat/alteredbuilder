@@ -557,6 +557,12 @@ def filter_by_other(qs: QuerySet[Deck], other_filters: str, user) -> QuerySet[De
     return qs
 
 
+def filter_by_heroes(qs: QuerySet[Deck], heroes: str | None) -> QuerySet[Deck]:
+    if heroes:
+        qs = qs.filter(hero__name__in=heroes.split(",")).distinct()
+    return qs
+
+
 def card_code_from_reference(reference: str) -> str:
     return "_".join(reference.split("_")[3:6])
 

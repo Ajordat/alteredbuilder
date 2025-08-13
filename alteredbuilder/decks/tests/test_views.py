@@ -319,6 +319,107 @@ class OwnDeckListViewTestCase(BaseViewTestCase):
             own_decks, response.context["deck_list"], ordered=False
         )
 
+    def test_context_own_deck_list(self):
+        first_axiom = generate_card(
+            faction=Card.Faction.AXIOM,
+            card_type=Card.Type.HERO,
+            card_set="CORE",
+        )
+        second_axiom = generate_card(
+            faction=Card.Faction.AXIOM,
+            card_type=Card.Type.HERO,
+            card_set="CORE",
+        )
+        only_lyra_hero = generate_card(
+            faction=Card.Faction.LYRA,
+            card_type=Card.Type.HERO,
+            card_set="CORE",
+        )
+
+        # Heroes that should not be in the list to avoid duplicates
+        generate_card(
+            faction=Card.Faction.BRAVOS,
+            card_type=Card.Type.HERO,
+            card_set="COREKS",  # Wrong set
+        )
+        generate_card(
+            faction=Card.Faction.YZMIR,
+            card_type=Card.Type.HERO,
+            is_promo=True,  # is promo
+            card_set="CORE",
+        )
+
+        expected_heroes_data: dict[str, list[str]] = {
+            "Axiom": [first_axiom.name, second_axiom.name],
+            "Bravos": [],
+            "Lyra": [only_lyra_hero.name],
+            "Muna": [],
+            "Ordis": [],
+            "Yzmir": [],
+        }
+
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("own-deck"))
+
+        assert (
+            response.context["factions_heroes"] == expected_heroes_data
+        ), response.context["factions_heroes"]
+
+    def test_hero_filter_deck_correctly(self) -> None:
+        self.client.force_login(self.user)
+
+        first_hero = generate_card(
+            faction=Card.Faction.AXIOM,
+            card_type=Card.Type.HERO,
+            card_set="CORE",
+        )
+        second_hero = generate_card(
+            faction=Card.Faction.AXIOM,
+            card_type=Card.Type.HERO,
+            card_set="CORE",
+        )
+        third_hero = generate_card(
+            faction=Card.Faction.LYRA,
+            card_type=Card.Type.HERO,
+            card_set="CORE",
+        )
+        self.create_decks_for_user(
+            user=self.user,
+            hero=first_hero,
+            cards=[],
+            public_deck_name="First_deck",
+        )
+        self.create_decks_for_user(
+            user=self.user,
+            hero=second_hero,
+            cards=[],
+            public_deck_name="Second_deck",
+        )
+        self.create_decks_for_user(
+            user=self.user,
+            hero=third_hero,
+            cards=[],
+            public_deck_name="Third_deck",
+        )
+
+        # Filter using the query for the second and the third
+        query = f"?hero={second_hero.name},{third_hero.name}"
+        response = self.client.get(reverse("own-deck") + query)
+
+        assert "First_deck" not in response.content.decode("utf-8")
+        assert "Second_deck" in response.content.decode("utf-8")
+        assert "Third_deck" in response.content.decode("utf-8")
+
+        # Filter using the query for the first
+        query = f"?hero={first_hero.name}"
+        response = self.client.get(reverse("own-deck") + query)
+        assert "First_deck" in response.content.decode("utf-8")
+        assert "Second_deck" not in response.content.decode("utf-8")
+        assert "Third_deck" not in response.content.decode("utf-8")
+
+        # TODO check search bar prefill
+        # TODO check filters prefill with current value
+
 
 class CardListViewTestCase(BaseViewTestCase):
     """Test case focusing on the Card ListView."""

@@ -1,0 +1,20 @@
+#heroes-accordion {
+    width: 17rem;
+}
+
+#heroes-select {
+    padding: 1rem;
+}
+
+#hero-checkbox{
+    padding-left: 1rem;
+}
+
+.accordion-body{
+    max-height: 17rem;
+    overflow-y: auto;
+}
+
+.accordion-body hr {
+    margin-right: 1rem;
+}
