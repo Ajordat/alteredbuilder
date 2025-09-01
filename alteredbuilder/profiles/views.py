@@ -70,7 +70,9 @@ class ProfileListView(ListView):
         yesterday = localdate() - timedelta(days=1)
         most_viewed_users = (
             UserTrend.objects.filter(date=yesterday)
-            .annotate(deck_count=Count("user__deck", filter=Q(user__deck__is_public=True)))
+            .annotate(
+                deck_count=Count("user__deck", filter=Q(user__deck__is_public=True))
+            )
             .select_related("user", "user__profile")
             .order_by("-count")[: self.USER_COUNT_DISPLAY]
         )

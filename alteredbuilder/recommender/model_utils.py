@@ -1,5 +1,7 @@
+from collections import OrderedDict
 import pickle
 
+from django.db.models import F
 import numpy as np
 import numpy.typing as npt
 import pandas as pd
@@ -27,13 +29,13 @@ class RecommenderHelper:
         Card.Faction.ORDIS: [],
         Card.Faction.YZMIR: [],
     }
-    OFFSETS = {
+    SPECIAL_ADDITIONS = {
         Card.Faction.AXIOM: [],
         Card.Faction.BRAVOS: [],
         Card.Faction.LYRA: [],
         Card.Faction.MUNA: [],
-        Card.Faction.ORDIS: [],
-        Card.Faction.YZMIR: [],
+        Card.Faction.ORDIS: ["ALT_ALIZE_P_OR_48_C", "ALT_ALIZE_P_OR_48_R1"],
+        Card.Faction.YZMIR: ["ALT_ALIZE_P_OR_48_R2"],
     }
 
     @classmethod
@@ -42,26 +44,38 @@ class RecommenderHelper:
             return
         for faction in cls.FACTIONS:
             cards = (
-                Card.objects.filter(
+                Card.objects.annotate(release_date=F("set__release_date"))
+                .filter(
                     faction=faction, rarity__in=[Card.Rarity.COMMON, Card.Rarity.RARE]
                 )
                 .exclude(type=Card.Type.HERO)
                 .exclude(set__code="COREKS")
                 .exclude(is_alt_art=True)
                 .exclude(is_promo=True)
-                .order_by("set__release_date", "reference")
+                .only("reference", "type")
             )
 
-            cls.CARD_POOL[faction] = []
+            exceptions = cls.SPECIAL_ADDITIONS.get(faction, [])
+            if len(exceptions) > 0:
+                cards = cards.union(
+                    Card.objects.annotate(release_date=F("set__release_date"))
+                    .filter(reference__in=exceptions)
+                    .only("reference", "type")
+                )
+
+            cards = cards.order_by("set__release_date", "reference")
+
+            codes = OrderedDict()
             for card in cards:
                 family_code = card.get_card_code()
-                if family_code in cls.CARD_POOL[faction]:
-                    continue
-                cls.CARD_POOL[faction].append(family_code)
-                if card.type == Card.Type.CHARACTER:
-                    unique_code = card.get_family_code() + "_U"
-                    if unique_code not in cls.CARD_POOL[faction]:
-                        cls.CARD_POOL[faction].append(unique_code)
+                if family_code not in codes:
+                    codes[family_code] = None
+
+                    if card.type == Card.Type.CHARACTER:
+                        unique_code = card.get_family_code() + "_U"
+                        codes[unique_code] = None
+
+            cls.CARD_POOL[faction] = list(codes.keys())
 
     @staticmethod
     def load_model(faction: Card.Faction) -> MultiOutputClassifier:

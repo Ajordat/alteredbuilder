@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-10 02:07+0200\n"
-"PO-Revision-Date: 2025-01-02 18:00+0000\n"
-"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
+"PO-Revision-Date: 2025-07-30 16:36+0000\n"
+"Last-Translator: Manuel Kerschner <manuel.umfragen123@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/altered-tcg-"
 "builder/server-strings/de/>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10-dev\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: api/utils.py:20 decks/views/deck_metadata.py:105
 msgid "Invalid payload"
@@ -55,7 +55,6 @@ msgstr "'%(line)s' konnte nicht entpackt werden"
 
 #: decks/deck_utils.py:109
 #, fuzzy, python-format
-#| msgid "Card '%(reference)s' does not exist"
 msgid "Card '%(reference)s' wasn't found and couldn't be imported"
 msgstr "Karte „%(reference)s“ existiert nicht"
 
@@ -170,13 +169,12 @@ msgstr "Fehlender Held"
 #: decks/game_modes.py:130 decks/migrations/0069_force_update_legality.py:112
 #: decks/migrations/0073_force_update_legality.py:119
 #, fuzzy, python-format
-#| msgid "Exceeds maximum faction count (%(count)s)"
 msgid "Does not reach the minimum faction count (%(count)s)"
 msgstr "Überschreitet die maximale Fraktionsanzahl (%(count)s)"
 
 #: decks/game_modes.py:134 decks/migrations/0073_force_update_legality.py:123
 msgid "Contains a banned card"
-msgstr ""
+msgstr "Beinhaltet eine gebannte Karte"
 
 #: decks/templates/decks/card_list.html:8
 #: decks/templates/decks/card_list.html:39
@@ -186,7 +184,6 @@ msgstr "Kartenliste"
 
 #: decks/templates/decks/card_list.html:51
 #, fuzzy
-#| msgid "Search by name or use advanced filters"
 msgid "Search by name or use advanced filters (hc<4 t:hand)"
 msgstr "Suche nach Namen oder mit erweiterten Filtern"
 
@@ -253,13 +250,11 @@ msgstr "Held"
 
 #: decks/templates/decks/card_list.html:100
 #, fuzzy
-#| msgid "Permanent"
 msgid "Landmark Permanent"
 msgstr "Bleibende Karte"
 
 #: decks/templates/decks/card_list.html:101
 #, fuzzy
-#| msgid "Permanent"
 msgid "Expedition Permanent"
 msgstr "Bleibende Karte"
 
@@ -319,7 +314,7 @@ msgstr "Reservekosten DESC"
 
 #: decks/templates/decks/card_list.html:155
 msgid "Magic"
-msgstr ""
+msgstr "Magie"
 
 #: decks/templates/decks/card_list.html:168
 msgid "No cards found with the current filter."
@@ -328,7 +323,7 @@ msgstr "Mit dem aktuellen Filter wurden keine Karten gefunden."
 #: decks/templates/decks/card_list.html:184
 #: decks/templates/decks/collection.html:11 templates/base.html:86
 msgid "My Collection"
-msgstr ""
+msgstr "Meine sammlung"
 
 #: decks/templates/decks/card_list.html:189
 msgid "New deck"
@@ -336,6 +331,7 @@ msgstr "Neues Deck"
 
 #: decks/templates/decks/card_list.html:191
 #: decks/templates/decks/card_list.html:192 templates/base.html:70
+#: templates/base.html:66
 msgid "Decks"
 msgstr "Decks"
 
@@ -344,6 +340,7 @@ msgid "Deck Name"
 msgstr "Deckname:"
 
 #: decks/templates/decks/card_list.html:205 templates/base.html:94
+#: templates/base.html:90
 msgid "Deck"
 msgstr "Deck"
 
@@ -529,7 +526,7 @@ msgstr "Suchen Sie die Karte mit der Referenz `ALT_COREKS_B_OR_21_U_2139`:"
 
 #: decks/templates/decks/card_list.html:330
 msgid "Manage Collection"
-msgstr ""
+msgstr "Sammlung bearbeiten"
 
 #: decks/templates/decks/card_list.html:341
 #: decks/templates/decks/deck_detail.html:613
@@ -542,13 +539,14 @@ msgstr "Schließen"
 
 #: decks/templates/decks/card_list.html:353
 #, fuzzy
-#| msgid "Card Reference"
 msgid "Card recommender"
 msgstr "Referenz der Karte"
 
 #: decks/templates/decks/card_list.html:359
 msgid "Hi! Start your deck by selecting a hero and adding some cards!"
 msgstr ""
+"Hallo! Erstelle ein Deck durch das wählen eines Helden und hinzufügen von "
+"Karten!"
 
 #: decks/templates/decks/card_list.html:362
 msgid "Thinking about your deck..."
@@ -557,7 +555,6 @@ msgstr ""
 #: decks/templates/decks/collection.html:13
 #: decks/templates/decks/tooltips/import_collection.html:9
 #, fuzzy
-#| msgid "Import a Deck"
 msgid "Import Collection"
 msgstr "Deck importieren"
 
@@ -590,7 +587,6 @@ msgstr "Deck löschen"
 
 #: decks/templates/decks/deck_detail.html:126
 #, fuzzy
-#| msgid "Try it in Exalts Table"
 msgid "Try it in Exalts Table without unique cards"
 msgstr "Probieren Sie es in der Exalts-Tabelle aus"
 
@@ -613,10 +609,8 @@ msgid "Showcase"
 msgstr ""
 
 #: decks/templates/decks/deck_detail.html:147
-#, fuzzy
-#| msgid "Deck already has a hero"
 msgid "The deck needs a hero!"
-msgstr "Deck hat bereits einen Helden"
+msgstr "Das deck benötigt einen Helden!"
 
 #: decks/templates/decks/deck_detail.html:155
 msgid "Copy deck"
@@ -653,10 +647,8 @@ msgstr "Zu den Details gehen"
 #: decks/templates/decks/deck_detail.html:282
 #: decks/templates/decks/snippets/card_list.html:20
 #: decks/templates/decks/snippets/card_table.html:28
-#, fuzzy
-#| msgid "Go to details"
 msgid "Go to marketplace"
-msgstr "Zu den Details gehen"
+msgstr "Zum Marktplatz gehen"
 
 #: decks/templates/decks/deck_detail.html:227
 #: decks/templates/decks/deck_detail.html:283
@@ -724,7 +716,6 @@ msgstr "Kartentypverteilung"
 
 #: decks/templates/decks/deck_detail.html:329
 #, fuzzy
-#| msgid "Faction Distribution"
 msgid "Power Distribution"
 msgstr "Fraktionsverteilung"
 
@@ -737,10 +728,8 @@ msgid "Count"
 msgstr "Zählung"
 
 #: decks/templates/decks/deck_detail.html:359
-#, fuzzy
-#| msgid "Count"
 msgid "Total Count"
-msgstr "Zählung"
+msgstr "Insgesammte Zählung"
 
 #: decks/templates/decks/deck_detail.html:360
 msgid "(+ 1 hero)"
@@ -764,7 +753,7 @@ msgstr "Formatlegalität"
 
 #: decks/templates/decks/deck_detail.html:404
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: decks/templates/decks/deck_detail.html:405
 msgid "Is it legal?"
@@ -812,25 +801,21 @@ msgstr ""
 #: decks/templates/decks/deck_list.html:59
 #: decks/templates/decks/own_deck_list.html:60
 msgid "Doubles"
-msgstr ""
+msgstr "Doppelte"
 
 #: decks/templates/decks/deck_detail.html:441
-#, fuzzy
-#| msgid ""
-#| "This mode works the same as Standard but replaces the 3 uniques with 3 "
-#| "extra rares."
 msgid ""
 "This mode works the same as Standard but requires the use of two different "
 "factions."
 msgstr ""
-"Dieser Modus funktioniert genauso wie Standard, ersetzt aber die 3 Unikate "
-"durch 3 zusätzliche Rares."
+"Dieser Modus funktioniert genauso wie Standard, benötigt jedoch zwei "
+"verschiedene Fraktionen"
 
 #: decks/templates/decks/deck_detail.html:445
 #: decks/templates/decks/deck_list.html:60
 #: decks/templates/decks/own_deck_list.html:61
 msgid "Draft"
-msgstr ""
+msgstr "Draft"
 
 #: decks/templates/decks/deck_detail.html:463
 msgid "Mana curve"
@@ -838,35 +823,30 @@ msgstr "Manakurve"
 
 #: decks/templates/decks/deck_detail.html:468
 msgid "Inspired by"
-msgstr ""
+msgstr "Inspiriert durch"
 
 #: decks/templates/decks/deck_detail.html:473
 #: decks/templates/decks/deck_detail.html:492
-#, fuzzy
-#| msgid "Collaborators"
 msgid "Creator"
-msgstr "Mitarbeiter"
+msgstr "Ersteller"
 
 #: decks/templates/decks/deck_detail.html:488
-#, fuzzy
-#| msgid "Trending decks"
 msgid "Inspired decks"
-msgstr "Angesagte Decks"
+msgstr "Inspirierte Decks"
 
 #: decks/templates/decks/deck_detail.html:505
 #, python-format
 msgid "and 1 private deck"
 msgid_plural "and %(count)s private decks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Füge 1 Deck hinzu"
+msgstr[1] "Füge %(count)s Decks hinzu"
 
 #: decks/templates/decks/deck_detail.html:510
-#, fuzzy, python-format
-#| msgid "Latest decks"
+#, python-format
 msgid "1 private deck"
 msgid_plural "%(count)s private decks"
-msgstr[0] "Neueste Decks"
-msgstr[1] "Neueste Decks"
+msgstr[0] "1 privates Deck"
+msgstr[1] "%(count)s Private Decks"
 
 #: decks/templates/decks/deck_detail.html:544
 #: decks/templates/decks/deck_detail.html:595
@@ -954,6 +934,7 @@ msgid "Login to use this feature!"
 msgstr "Melden Sie sich an, um diese Funktion zu nutzen!"
 
 #: decks/templates/decks/deck_detail.html:686 templates/base.html:199
+#: templates/base.html:195
 msgid "Login"
 msgstr "Anmelden"
 
@@ -974,7 +955,6 @@ msgstr "Neueste Decks"
 #: decks/templates/decks/deck_list.html:26
 #: decks/templates/decks/own_deck_list.html:27
 #, fuzzy
-#| msgid "Search by name or use advanced filters"
 msgid "Search by name or use advanced filters (starter h:kojo)"
 msgstr "Suche nach Namen oder mit erweiterten Filtern"
 
@@ -1011,14 +991,12 @@ msgstr "Melden Sie sich an, um Ihre geliebten Decks zu speichern!"
 #: decks/templates/decks/deck_list.html:85
 #: decks/templates/decks/own_deck_list.html:86
 #, fuzzy
-#| msgid "description"
 msgid "With description"
 msgstr "Mit Beschreibung"
 
 #: decks/templates/decks/deck_list.html:90
 #: decks/templates/decks/own_deck_list.html:91
 #, fuzzy
-#| msgid "Filters"
 msgid "Apply Filters"
 msgstr "Filter anwenden"
 
@@ -1043,10 +1021,8 @@ msgid "Most views"
 msgstr "Meistbesucht"
 
 #: decks/templates/decks/deck_list.html:138
-#, fuzzy
-#| msgid "Cards:"
 msgid "Card:"
-msgstr "Karten:"
+msgstr "Karte:"
 
 #: decks/templates/decks/deck_list.html:140
 msgid "Card reference"
@@ -1081,7 +1057,6 @@ msgstr ""
 
 #: decks/templates/decks/deck_list.html:166
 #, fuzzy
-#| msgid "Search decks with the hero \"Teija\":"
 msgid "Search decks that have the card \"Haven Seiringar\":"
 msgstr "Suche nach Decks mit dem Helden \"Haven-Seiringar\":"
 
@@ -1142,11 +1117,6 @@ msgstr ""
 
 #: decks/templates/decks/import_card.html:76
 #, fuzzy, python-format
-#| msgid ""
-#| "The imported Unique card will appear on the '<a "
-#| "href=\"%(cards_tab_url)s\">Cards</a>' tab and it'll be possible to search "
-#| "for it in all languages, but the image will be strictly in English or "
-#| "French."
 msgid ""
 "The imported Unique card will appear on the '<a "
 "href=\"%(cards_tab_url)s\">Build</a>' tab and it'll be possible to search "
@@ -1178,7 +1148,6 @@ msgstr ""
 
 #: decks/templates/decks/legality_changelog.html:36
 #, fuzzy
-#| msgid "Legality"
 msgid "Deck Legality"
 msgstr "Legalität"
 
@@ -1212,7 +1181,6 @@ msgstr ""
 
 #: decks/templates/decks/legality_changelog.html:65
 #, fuzzy
-#| msgid "Announcements:"
 msgid "Announcement date:"
 msgstr "Ankündigungen:"
 
@@ -1226,7 +1194,6 @@ msgstr ""
 
 #: decks/templates/decks/legality_changelog.html:78
 #, fuzzy
-#| msgid "Update password"
 msgid "Updated:"
 msgstr "Passwort aktualisieren"
 
@@ -1315,9 +1282,6 @@ msgstr "Bitte benennen Sie Ihr Deck"
 
 #: decks/templates/decks/new_deck.html:98
 #, fuzzy, python-format
-#| msgid ""
-#| "Optionally, add a description/explanation of your deck (feel free to use "
-#| "<a href=\"%(md_url)s\">markdown</a>): "
 msgid ""
 "Optionally, add a description/explanation of your deck (feel free to use <a "
 "href=\"%(md_url)s\">markdown</a>):"
@@ -1352,12 +1316,14 @@ msgid "Public"
 msgstr "Öffentlich"
 
 #: decks/templates/decks/new_deck.html:135 templates/base.html:92
+#: templates/base.html:88
 msgid "Import"
 msgstr "Importieren"
 
 #: decks/templates/decks/own_deck_list.html:9
 #: decks/templates/decks/own_deck_list.html:10
 #: decks/templates/decks/own_deck_list.html:97 templates/base.html:80
+#: templates/base.html:76
 msgid "My decks"
 msgstr "Meine Decks"
 
@@ -1417,7 +1383,6 @@ msgstr ""
 
 #: decks/templates/decks/tooltips/import_collection.html:18
 #, fuzzy
-#| msgid "Import a Deck"
 msgid "Collection"
 msgstr "Deck importieren"
 
@@ -1435,7 +1400,6 @@ msgstr ""
 
 #: decks/templates/decks/tooltips/import_collection.html:26
 #, fuzzy
-#| msgid "Update email"
 msgid "Update Collection"
 msgstr "E-Mail aktualisieren"
 
@@ -1465,7 +1429,6 @@ msgstr ""
 
 #: decks/views/card_list.py:216
 #, fuzzy
-#| msgid "Import a Deck"
 msgid "In my collection"
 msgstr "Deck importieren"
 
@@ -1541,14 +1504,13 @@ msgid "Notifications"
 msgstr "Notifikationen"
 
 #: notifications/templates/notifications/notification_list.html:12
-#: templates/base.html:166
+#: templates/base.html:166 templates/base.html:162
 #, fuzzy
-#| msgid "View all notifications"
 msgid "Mark all notifications as read"
 msgstr "Alle Benachrichtigungen anzeigen"
 
 #: notifications/templates/notifications/notification_list.html:26
-#: templates/base.html:164
+#: templates/base.html:164 templates/base.html:160
 msgid "No notifications"
 msgstr "Keine Notifikationen"
 
@@ -1700,7 +1662,7 @@ msgid "No decks found"
 msgstr "Keine Decks gefunden"
 
 #: profiles/templates/profiles/userprofile_list.html:9 templates/base.html:102
-#: templates/releases/1.10.1.html:11
+#: templates/releases/1.10.1.html:11 templates/base.html:98
 msgid "Community"
 msgstr "Gemeinschaft"
 
@@ -1826,7 +1788,6 @@ msgstr[1] "%(deck_count)s Decks"
 
 #: profiles/templates/profiles/userprofile_list.html:136
 #, fuzzy
-#| msgid "Most Followed Users"
 msgid "Most Followed"
 msgstr "Meistgefolgte Benutzer"
 
@@ -1908,95 +1869,96 @@ msgstr ""
 msgid "Home"
 msgstr "Zuhause"
 
-#: templates/base.html:74
+#: templates/base.html:74 templates/base.html:70
 #, fuzzy
-#| msgid "Builders"
 msgid "Build"
 msgstr "Benutzer"
 
-#: templates/base.html:96
+#: templates/base.html:96 templates/base.html:92
 msgid "Unique card"
 msgstr "Einzigartige Karte"
 
 #: templates/base.html:109 templates/contribute.html:6
-#: templates/contribute.html:7
+#: templates/contribute.html:7 templates/base.html:105
 msgid "Contribute"
 msgstr ""
 
-#: templates/base.html:119 templates/base.html:141
+#: templates/base.html:119 templates/base.html:141 templates/base.html:115
+#: templates/base.html:137
 msgid "Select site language"
 msgstr ""
 
-#: templates/base.html:125
+#: templates/base.html:125 templates/base.html:121
 msgid "Light"
 msgstr "Licht"
 
-#: templates/base.html:130
+#: templates/base.html:130 templates/base.html:126
 msgid "Dark"
 msgstr "Dunkel"
 
-#: templates/base.html:135
+#: templates/base.html:135 templates/base.html:131
 msgid "Auto"
 msgstr ""
 
-#: templates/base.html:162
+#: templates/base.html:162 templates/base.html:158
 msgid "View all notifications"
 msgstr "Alle Benachrichtigungen anzeigen"
 
-#: templates/base.html:188
+#: templates/base.html:188 templates/base.html:184
 msgid "Profile"
 msgstr "Profil"
 
-#: templates/base.html:190
+#: templates/base.html:190 templates/base.html:186
 msgid "Update email"
 msgstr "E-Mail aktualisieren"
 
-#: templates/base.html:191
+#: templates/base.html:191 templates/base.html:187
 msgid "Update password"
 msgstr "Passwort aktualisieren"
 
-#: templates/base.html:193
+#: templates/base.html:193 templates/base.html:189
 msgid "Logout"
 msgstr "Abmelden"
 
-#: templates/base.html:217
+#: templates/base.html:217 templates/base.html:213
 msgid "Links"
 msgstr "Links"
 
-#: templates/base.html:220
+#: templates/base.html:220 templates/base.html:216
 msgid "About the project"
 msgstr "Über das Projekt"
 
-#: templates/base.html:223
+#: templates/base.html:223 templates/base.html:219
 msgid "GitHub repository"
 msgstr "GitHub-Repository"
 
 #: templates/base.html:226 templates/collaborators.html:5
 #: templates/collaborators.html:6 templates/collaborators.html:18
+#: templates/base.html:222
 msgid "Collaborators"
 msgstr "Mitarbeiter"
 
-#: templates/base.html:229
+#: templates/base.html:229 templates/base.html:225
 msgid "Privacy policy"
 msgstr "Datenschutzerklärung"
 
-#: templates/base.html:232
+#: templates/base.html:232 templates/base.html:228
 msgid "Terms and conditions"
 msgstr "Allgemeine Geschäftsbedingungen"
 
-#: templates/base.html:237
+#: templates/base.html:237 templates/base.html:233
 msgid "Support the project"
 msgstr "Unterstützung des Projekts"
 
-#: templates/base.html:238
+#: templates/base.html:238 templates/base.html:234
 msgid "All funds are used to cover the hosting costs."
 msgstr ""
 
-#: templates/base.html:243
+#: templates/base.html:243 templates/base.html:239
 msgid "Our Patrons"
 msgstr "Unsere Unterstützer"
 
-#: templates/base.html:247
+#: templates/base.html:247 templates/base.html:243
 msgid "Get in touch"
 msgstr "Nehmen Sie Kontakt auf"
 
@@ -2012,7 +1974,6 @@ msgstr ""
 
 #: templates/collaborators.html:33
 #, fuzzy
-#| msgid "Our Patrons"
 msgid "Patrons"
 msgstr "Unsere Unterstützer"
 
@@ -2046,22 +2007,22 @@ msgid ""
 "and bring more people into our growing platform!"
 msgstr ""
 
-#: templates/collaborators.html:113
+#: templates/collaborators.html:113 templates/collaborators.html:114
 msgid "Bug reports"
 msgstr ""
 
-#: templates/collaborators.html:115
+#: templates/collaborators.html:115 templates/collaborators.html:116
 msgid ""
 "A heartfelt thanks to those who have taken the time to report bugs and "
 "issues. Their feedback helps us improve the platform and deliver a smoother "
 "experience for everyone!"
 msgstr ""
 
-#: templates/collaborators.html:134
+#: templates/collaborators.html:134 templates/collaborators.html:135
 msgid "Feature Requests"
 msgstr ""
 
-#: templates/collaborators.html:136
+#: templates/collaborators.html:136 templates/collaborators.html:137
 msgid ""
 "We're always looking for ways to improve and enhance your experience. If you "
 "have ideas or suggestions for new features that could make the platform "
@@ -2070,7 +2031,7 @@ msgid ""
 "helps shape the future of the project!"
 msgstr ""
 
-#: templates/collaborators.html:139
+#: templates/collaborators.html:139 templates/collaborators.html:140
 msgid ""
 "Here's a list of people who gave us feedback on desired features and ended "
 "up being implemented:"
@@ -2096,7 +2057,6 @@ msgstr ""
 
 #: templates/contribute.html:35
 #, fuzzy
-#| msgid "From another platform"
 msgid "Translating the Platform"
 msgstr "Von einer anderen Plattform"
 
@@ -2273,14 +2233,12 @@ msgstr ""
 
 #: trends/templates/trends/home.html:22
 #, fuzzy
-#| msgid "The place to build, analyze and share Altered TCG decks."
 msgid "Build, analyze, and share your decks effortlessly."
 msgstr ""
 "Der Ort zum Bauen, Analysieren und Austauschen von Decks des Altered TCG."
 
 #: trends/templates/trends/home.html:23
 #, fuzzy
-#| msgid "Add to a deck"
 msgid "Build a deck"
 msgstr "Zu einem Deck hinzufügen"
 
@@ -2301,7 +2259,6 @@ msgid "Trending decks"
 msgstr "Angesagte Decks"
 
 #, fuzzy
-#~| msgid "Collaborators"
 #~ msgid "Create a copy"
 #~ msgstr "Mitarbeiter"
 
@@ -2315,7 +2272,6 @@ msgstr "Angesagte Decks"
 #~ "uniquesranking.onrender.com/\">Uniques Ranking</a>!"
 
 #, fuzzy
-#~| msgid "Most Viewed Users"
 #~ msgid "Most Viewed"
 #~ msgstr "Meistgesehene Benutzer"
 
@@ -2373,7 +2329,6 @@ msgstr "Angesagte Decks"
 #~ "einzugrenzen!"
 
 #, fuzzy
-#~| msgid "This feature cannot be used with unique cards"
 #~ msgid "This feature cannot be used with unique cards<br>(Work In Progress)"
 #~ msgstr "Diese Funktion kann nicht mit einzigartigen Karten verwendet werden"
 
