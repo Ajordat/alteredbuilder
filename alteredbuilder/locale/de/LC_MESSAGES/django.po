@@ -264,7 +264,7 @@ msgstr "Zauber"
 
 #: decks/templates/decks/card_list.html:106
 msgid "Set"
-msgstr "Sammlung"
+msgstr ""
 
 #: decks/templates/decks/card_list.html:116
 #: decks/templates/decks/deck_list.html:71

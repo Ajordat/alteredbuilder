@@ -248,11 +248,11 @@ msgstr "Héros"
 
 #: decks/templates/decks/card_list.html:100
 msgid "Landmark Permanent"
-msgstr "Repère permanent"
+msgstr "Repère Permanent"
 
 #: decks/templates/decks/card_list.html:101
 msgid "Expedition Permanent"
-msgstr "Permanent expéditions"
+msgstr "Permanent d'Expédition"
 
 #: decks/templates/decks/card_list.html:102
 msgid "Spell"
@@ -260,7 +260,7 @@ msgstr "Sort"
 
 #: decks/templates/decks/card_list.html:106
 msgid "Set"
-msgstr "Extension"
+msgstr ""
 
 #: decks/templates/decks/card_list.html:116
 #: decks/templates/decks/deck_list.html:71
@@ -319,7 +319,7 @@ msgstr "Aucune carte trouvée avec les filtres choisis."
 #: decks/templates/decks/card_list.html:184
 #: decks/templates/decks/collection.html:11 templates/base.html:86
 msgid "My Collection"
-msgstr "Ma collection"
+msgstr "Ma Collection"
 
 #: decks/templates/decks/card_list.html:189
 msgid "New deck"
@@ -471,7 +471,7 @@ msgid ""
 "class=\"altered-2\"></span>:"
 msgstr ""
 "Rechercher les cartes comprenant `scarabot` dans leur nom et coûtant <span "
-"class=\"altered-2\"></span> :"
+"class=\"altered-2\"></span> :"
 
 #: decks/templates/decks/card_list.html:302
 #: decks/templates/decks/tooltips/card_query_search.html:46
@@ -499,7 +499,7 @@ msgid ""
 "span> or less from reserve:"
 msgstr ""
 "Rechercher les cartes où des ancres sont définies et coûtant <span "
-"class=\"altered-3\"></span> ou moins de la réserve :"
+"class=\"altered-3\"></span> ou moins de la réserve :"
 
 #: decks/templates/decks/card_list.html:308
 #: decks/templates/decks/tooltips/card_query_search.html:52
@@ -524,7 +524,7 @@ msgstr "Recherchez la carte avec la référence `ALT_COREKS_B_OR_21_U_2139` :"
 
 #: decks/templates/decks/card_list.html:330
 msgid "Manage Collection"
-msgstr "Gérer la collection"
+msgstr "Gérer la Collection"
 
 #: decks/templates/decks/card_list.html:341
 #: decks/templates/decks/deck_detail.html:613
@@ -542,8 +542,8 @@ msgstr "Recommandeur de cartes"
 #: decks/templates/decks/card_list.html:359
 msgid "Hi! Start your deck by selecting a hero and adding some cards!"
 msgstr ""
-"Bonjour ! Commencez votre deck en sélectionnant un héro et en ajoutant "
-"quelques cartes !"
+"Bonjour ! Commencez votre deck en sélectionnant un héro et en ajoutant "
+"quelques cartes !"
 
 #: decks/templates/decks/card_list.html:362
 msgid "Thinking about your deck..."
@@ -552,7 +552,7 @@ msgstr "En pensant à votre deck..."
 #: decks/templates/decks/collection.html:13
 #: decks/templates/decks/tooltips/import_collection.html:9
 msgid "Import Collection"
-msgstr "Importer une collection"
+msgstr "Importer une Collection"
 
 #: decks/templates/decks/deck_detail.html:67
 msgid "Login to share your love!"
@@ -605,7 +605,7 @@ msgstr "Vitrine"
 
 #: decks/templates/decks/deck_detail.html:147
 msgid "The deck needs a hero!"
-msgstr "Le deck doit avoir un héros !"
+msgstr "Le deck doit avoir un héros !"
 
 #: decks/templates/decks/deck_detail.html:155
 msgid "Copy deck"
@@ -888,7 +888,7 @@ msgstr "Altered TCG Builder - Extension du navigateur"
 #: decks/templates/decks/deck_detail.html:628
 msgid "Use our extension to export your decks into the official site:"
 msgstr ""
-"Utilisez notre extension pour exporter vos decks vers le site officiel :"
+"Utilisez notre extension pour exporter vos decks vers le site officiel :"
 
 #: decks/templates/decks/deck_detail.html:630
 #: decks/templates/decks/tooltips/import_collection.html:15
@@ -1016,7 +1016,7 @@ msgstr "Les plus visités"
 
 #: decks/templates/decks/deck_list.html:138
 msgid "Card:"
-msgstr "Carte :"
+msgstr "Carte :"
 
 #: decks/templates/decks/deck_list.html:140
 msgid "Card reference"
@@ -1093,7 +1093,7 @@ msgstr "Comment obtenir la référence d'une carte ?"
 
 #: decks/templates/decks/import_card.html:61
 msgid "Find the card's reference in the URL!"
-msgstr "Trouvez la référence de la carte dans l'URL !"
+msgstr "Trouvez la référence de la carte dans l'URL !"
 
 #: decks/templates/decks/import_card.html:69
 msgid "Notes on Functionality and Usage"
@@ -1141,7 +1141,7 @@ msgid ""
 msgstr ""
 "Vous pouvez chercher une carte importante quelconque dans l'onglet '<a "
 "href=\"%(cards_tab_url)s\">Construction</a>' en utilisant un filtre avancé "
-"avec la référence de la carte. Par exemple :"
+"avec la référence de la carte. Par exemple :"
 
 #: decks/templates/decks/legality_changelog.html:36
 msgid "Deck Legality"
@@ -1175,7 +1175,7 @@ msgstr ""
 #: decks/templates/decks/legality_changelog.html:44
 #, python-format
 msgid "Last updated: %(last_update_date)s"
-msgstr "Dernière mise à jour : %(last_update_date)s"
+msgstr "Dernière mise à jour : %(last_update_date)s"
 
 #: decks/templates/decks/legality_changelog.html:55
 msgid "Season Patches"
@@ -1183,11 +1183,11 @@ msgstr "Correctifs saisonniers"
 
 #: decks/templates/decks/legality_changelog.html:63
 msgid "Article:"
-msgstr "Article :"
+msgstr "Article :"
 
 #: decks/templates/decks/legality_changelog.html:65
 msgid "Announcement date:"
-msgstr "Date de l'annonce :"
+msgstr "Date de l'annonce :"
 
 #: decks/templates/decks/legality_changelog.html:70
 msgid "Erratas"
@@ -1195,11 +1195,11 @@ msgstr "Erreurs"
 
 #: decks/templates/decks/legality_changelog.html:76
 msgid "Previous:"
-msgstr "Précédent :"
+msgstr "Précédent :"
 
 #: decks/templates/decks/legality_changelog.html:78
 msgid "Updated:"
-msgstr "Mise à jour :"
+msgstr "Mise à jour :"
 
 #: decks/templates/decks/legality_changelog.html:87
 msgid "Suspensions"
@@ -1292,7 +1292,7 @@ msgid ""
 "href=\"%(md_url)s\">markdown</a>):"
 msgstr ""
 "De manière optionnelle, ajoutez une description/explication de votre deck "
-"(n'hésitez pas à utiliser du <a href=\"%(md_url)s\">markdown</a>) :"
+"(n'hésitez pas à utiliser du <a href=\"%(md_url)s\">markdown</a>) :"
 
 #: decks/templates/decks/new_deck.html:100
 #: decks/templates/forms/submit_deck_metadata.html:24
@@ -1391,7 +1391,7 @@ msgid ""
 "Use our extension to export your personal collection from the official site:"
 msgstr ""
 "Utilisez notre extension pour exporter votre collection personnelle à partir "
-"du site officiel :"
+"du site officiel :"
 
 #: decks/templates/decks/tooltips/import_collection.html:18
 msgid "Collection"
@@ -1440,7 +1440,7 @@ msgstr "Promotion"
 
 #: decks/views/card_list.py:215
 msgid "Alternate Art"
-msgstr "Art alternatif"
+msgstr "Art Alternatif"
 
 #: decks/views/card_list.py:216
 msgid "In my collection"
@@ -1554,7 +1554,7 @@ msgstr "Comptes sociaux"
 
 #: profiles/templates/profiles/edit_profile.html:70
 msgid "Altered handle:"
-msgstr "Profil de Altered :"
+msgstr "Profil de Altered :"
 
 #: profiles/templates/profiles/edit_profile.html:85
 msgid "Make your Discord handle public?"
@@ -1622,8 +1622,8 @@ msgstr "avatar"
 #, python-format
 msgid "%(follower_count)s Follower"
 msgid_plural "%(follower_count)s Followers"
-msgstr[0] "%(follower_count)s follower"
-msgstr[1] "%(follower_count)s followers"
+msgstr[0] "%(follower_count)s Follower"
+msgstr[1] "%(follower_count)s Followers"
 
 #: profiles/templates/profiles/tooltips/user_profile.html:15
 #: profiles/templates/profiles/userprofile_detail.html:40
@@ -1789,7 +1789,7 @@ msgstr "Pas d'utilisateurs trouvés"
 
 #: profiles/templates/profiles/userprofile_list.html:110
 msgid "Currently Trending"
-msgstr "Tendance actuelle"
+msgstr "Tendance Actuelle"
 
 #: profiles/templates/profiles/userprofile_list.html:120
 #, python-format
@@ -1865,7 +1865,7 @@ msgstr ""
 
 #: recommender/views.py:30
 msgid "Login into the platform to use the recommender!"
-msgstr "Connectez-vous sur la plateforme pour utiliser les recommandations !"
+msgstr "Connectez-vous sur la plateforme pour utiliser les recommandations !"
 
 #: recommender/views.py:53
 msgid ""
@@ -2004,7 +2004,7 @@ msgstr ""
 "Voici les charmants supporters qui ont contribué à la croissance de ce "
 "projet au travers de leur mécennat. Leur support continu sur différentes "
 "plateformes permet à ces plateformes de se développer et d'évoluer. Un grand "
-"merci à tous et à chacun d'entre vous !"
+"merci à tous et à chacun d'entre vous !"
 
 #: templates/collaborators.html:47
 msgid "Special mentions"
@@ -2018,7 +2018,7 @@ msgid ""
 msgstr ""
 "Je tiens à remercier chaleureusement toutes ces personnes qui ont apporté "
 "leur soutien et leurs contributions. Leur dévouement et leurs efforts ont "
-"joué un rôle essentiel dans la mise en place de ce projet !"
+"joué un rôle essentiel dans la mise en place de ce projet !"
 
 #: templates/collaborators.html:69
 msgid "Translators"
@@ -2030,9 +2030,9 @@ msgid ""
 "made it accessible to a wider audience. Their work helps bridge communities "
 "and bring more people into our growing platform!"
 msgstr ""
-"Un grand merci aux personnes talentueuses qui ont traduit ce projet et l’ont "
+"Un grand merci aux personnes talentueuses qui ont traduit ce projet et l'ont "
 "rendu accessible à un public plus large. Leur travail aide à rapprocher les "
-"communautés et à attirer plus de gens sur notre plateforme !"
+"communautés et à attirer plus de gens sur notre plateforme !"
 
 #: templates/collaborators.html:113 templates/collaborators.html:114
 msgid "Bug reports"
@@ -2046,7 +2046,7 @@ msgid ""
 msgstr ""
 "Un énorme merci à tous ceux qui ont pris le temps de signaler les bugs et "
 "les problèmes. Leurs commentaires nous aident à améliorer la plateforme et à "
-"offrir une expérience plus fluide pour tout le monde !"
+"offrir une expérience plus fluide pour tout le monde !"
 
 #: templates/collaborators.html:134 templates/collaborators.html:135
 msgid "Feature Requests"
@@ -2060,11 +2060,11 @@ msgid ""
 "game-changing idea, we'd love to hear your thoughts. Every contribution "
 "helps shape the future of the project!"
 msgstr ""
-"Nous cherchons toujours des façons d’améliorer votre expérience. Si vous "
+"Nous cherchons toujours des façons d'améliorer votre expérience. Si vous "
 "avez des idées ou des suggestions qui pourraient améliorer la plateforme, "
-"n'hésitez pas à les partager ! Qu'il s'agisse d'une petite modification ou "
+"n'hésitez pas à les partager ! Qu'il s'agisse d'une petite modification ou "
 "d'une nouvelle fonctionnalité, nous aimerions avoir votre avis. Chaque "
-"contribution aide à façonner l’avenir du projet !"
+"contribution aide à façonner l'avenir du projet !"
 
 #: templates/collaborators.html:139 templates/collaborators.html:140
 msgid ""
@@ -2072,7 +2072,7 @@ msgid ""
 "up being implemented:"
 msgstr ""
 "Voici une liste de personnes qui nous ont fait part de leurs commentaires "
-"sur des fonctionnalités qu'ils souhaités et qui ont été ajoutées :"
+"sur des fonctionnalités qu'ils souhaités et qui ont été ajoutées :"
 
 #: templates/contribute.html:21
 msgid "Contribute to Our Deckbuilder"
@@ -2086,7 +2086,7 @@ msgid ""
 msgstr ""
 "Chaque contribution nous aide à construire une plateforme qui sert toujours "
 "mieux la communauté. Merci pour votre aide, vos idées, et votre enthousiasme "
-"pour que ce projet devienne un succès !"
+"pour que ce projet devienne un succès !"
 
 #: templates/contribute.html:26
 #, python-format
@@ -2094,9 +2094,9 @@ msgid ""
 "Questions? Suggestions? Reach out to us on <a href=\"%(discord_link)s\" "
 "target=\"_blank\"><i class=\"fa-brands fa-discord\"></i> Discord</a>!"
 msgstr ""
-"Des questions ? Des suggestions ? Contactez-nous sur <a "
+"Des questions ? Des suggestions ? Contactez-nous sur <a "
 "href=\"%(discord_link)s\" target=\"_blank\"><i class=\"fa-brands fa-"
-"discord\"></i> Discord</a> !"
+"discord\"></i> Discord</a> !"
 
 #: templates/contribute.html:35
 msgid "Translating the Platform"
@@ -2135,7 +2135,7 @@ msgstr ""
 
 #: templates/contribute.html:46
 msgid "Take a look!"
-msgstr "Allez-y !"
+msgstr "Allez-y !"
 
 #: templates/contribute.html:58
 msgid "Open Source Contributions"
@@ -2147,10 +2147,10 @@ msgid ""
 "for the community? Contributing to our open-source project is a great way to "
 "make an impact. You can help us by:"
 msgstr ""
-"Êtes-vous un développeur, un concepteur ou quelqu’un qui se passionne pour "
-"l’amélioration des outils communautaires ? Contribuer à notre projet open-"
+"Êtes-vous un développeur, un concepteur ou quelqu'un qui se passionne pour "
+"l'amélioration des outils communautaires ? Contribuer à notre projet open-"
 "source est le meilleur moyen d'impacter son développement. Vous pouvez nous "
-"aider en :"
+"aider en :"
 
 #: templates/contribute.html:63
 msgid "Building new features to make the platform even better."
@@ -2178,7 +2178,7 @@ msgstr ""
 "Nous sommes ouverts à toutes les contributions, peu importe votre niveau de "
 "compétence. Si vous êtes encore novice en open source, n'hésitez pas à "
 "regarder les problèmes marqués <a href=\"%(github_url)s\" "
-"target=\"_blank\">premiers bons problèmes</a> !"
+"target=\"_blank\">premiers bons problèmes</a> !"
 
 #: templates/contribute.html:82
 msgid "Support Through Patronage"
@@ -2355,7 +2355,7 @@ msgstr "Decks tendances"
 
 #~ msgid "How can I make a card publicly visible? Does it have any risk?"
 #~ msgstr ""
-#~ "Comment rendre une carte visible publiquement ? Y-a-t-il un risque ?"
+#~ "Comment rendre une carte visible publiquement ? Y-a-t-il un risque ?"
 
 #~ msgid ""
 #~ "Currently, the only way to make a unique card publicly visible is to add "
