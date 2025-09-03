@@ -438,7 +438,7 @@ def import_unique_card(reference: str) -> Card:  # pragma: no cover
         if language == settings.LANGUAGE_CODE:
             continue
         activate(language)
-        headers = {"Accept-Language": f"{language}-{language}"}
+        headers = HEADERS | {"Accept-Language": f"{language}-{language}"}
         response = requests.get(api_url, headers=headers)
         card_data = response.json()
         card.name = og_card.name
