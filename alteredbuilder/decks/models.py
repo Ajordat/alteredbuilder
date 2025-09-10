@@ -147,6 +147,7 @@ class Card(models.Model):
     subtypes = models.ManyToManyField(Subtype, blank=True)
     rarity = models.CharField(max_length=1, choices=Rarity)
     image_url = models.URLField(null=False, blank=True)
+    display_image_url = models.URLField(null=False, blank=True)
     set = models.ForeignKey(Set, null=True, on_delete=models.SET_NULL)
 
     main_effect = models.TextField(blank=True)

@@ -1,5 +1,5 @@
+from argparse import ArgumentParser
 from functools import lru_cache
-import math
 from typing import Any
 
 from django.conf import settings
@@ -13,22 +13,20 @@ from config.utils import (
     get_altered_api_locale,
     get_user_agent,
 )
-from decks.exceptions import IgnoreCardType
+from decks.exceptions import CardParseError, IgnoreCardType
 from decks.models import Card, Set, Subtype
 
 
 # Altered's API endpoint
 CARDS_API_ENDPOINT = "/cards"
+USER_AGENT = "CardImporter"
 # If True, retrieve the unique cards
 UPDATE_UNIQUES = False
-QUERY_SET = ["BISE"]
+QUERY_SET = ["CYCLONE"]
 # The API currently returns a private image link for unique cards in these languages
 IMAGE_ERROR_LOCALES = ["es", "it", "de"]
-HEADERS = {"User-Agent": get_user_agent("CardImporter")}
-if QUERY_SET:
-    SET_CACHE = [Set.objects.get(code=card_set) for card_set in QUERY_SET]
-else:
-    SET_CACHE = [card_set for card_set in Set.objects.all()]
+HEADERS = {"User-Agent": get_user_agent(USER_AGENT)}
+SET_CACHE = [card_set for card_set in Set.objects.all()]
 
 
 class SubTypeCache:
@@ -63,14 +61,34 @@ class Command(BaseCommand):
         self.subtypes = SubTypeCache()
         self.language_code = None
 
+    def add_arguments(self, parser: ArgumentParser):
+        parser.add_argument(
+            "--heal", type=str, help="Comma-separated list of IDs to force an update to"
+        )
+
     def handle(self, *args: Any, **options: Any) -> None:
         """The command's entrypoint. Queries the API for each language."""
 
-        for language, _ in settings.LANGUAGES:
-            self.language_code = language
-            activate(self.language_code)
-            self.query_page()
-            self.subtypes.clear()
+        if heal := options.get("heal"):
+
+            for card_reference in heal.split(","):
+
+                for language, _ in settings.LANGUAGES:
+                    self.language_code = language
+                    activate(self.language_code)
+                    card = self._fetch_details(card_reference, self.language_code)
+                    try:
+                        self.handle_card(card)
+                    except (IgnoreCardType, CardParseError):
+                        pass
+
+        else:
+
+            for language, _ in settings.LANGUAGES:
+                self.language_code = language
+                activate(self.language_code)
+                self.query_page()
+                self.subtypes.clear()
 
     def query_page(self) -> None:
         """Query Altered's API to retrieve the card information.
@@ -93,39 +111,43 @@ class Command(BaseCommand):
             params=params,
             locale=locale,
         ):
-
-            # Iterate each card retrieved
             try:
-                card_dict = self.extract_card(card)
-            except IgnoreCardType:
-                continue
-            except KeyError:
-                self.stderr.write(card)
-                raise CommandError("Invalid card format encountered")
+                self.handle_card(card)
+            except (IgnoreCardType, CardParseError):
+                pass
 
-            try:
-                # Cast RAW values into the rightful Enum/class/Model
-                self.convert_choices(card_dict)
-            except ValueError:
-                continue
+    def handle_card(self, card: dict):
 
-            if (
-                card_dict["rarity"] == Card.Rarity.UNIQUE
-                and self.language_code in IMAGE_ERROR_LOCALES
-            ):
-                # If it's a unique card and one of the failing languages,
-                # skip the image
-                card_dict["image_url"] = None
+        # Iterate each card retrieved
+        try:
+            card_dict = self.extract_card(card)
+        except KeyError:
+            self.stderr.write(card)
+            raise CommandError("Invalid card format encountered")
 
-            try:
-                # Attempt to retrieve the Card using the reference
-                card_obj = Card.objects.get(reference=card_dict["reference"])
-            except Card.DoesNotExist:
-                # If it doesn't exist, create the card
-                self.create_card(card_dict)
-            else:
-                # If the card exists, update it
-                self.update_card(card_dict, card_obj)
+        try:
+            # Cast RAW values into the rightful Enum/class/Model
+            self.convert_choices(card_dict)
+        except ValueError:
+            raise CardParseError()
+
+        if (
+            card_dict["rarity"] == Card.Rarity.UNIQUE
+            and self.language_code in IMAGE_ERROR_LOCALES
+        ):
+            # If it's a unique card and one of the failing languages,
+            # skip the image
+            card_dict["image_url"] = None
+
+        try:
+            # Attempt to retrieve the Card using the reference
+            card_obj = Card.objects.get(reference=card_dict["reference"])
+        except Card.DoesNotExist:
+            # If it doesn't exist, create the card
+            self.create_card(card_dict)
+        else:
+            # If the card exists, update it
+            self.update_card(card_dict, card_obj)
 
     def extract_card(self, card: dict) -> dict:
         """Recieve the API response and extract the relevant values into a dictionary.
@@ -163,6 +185,8 @@ class Command(BaseCommand):
             raise IgnoreCardType()
 
         if card_dict["type"] == "HERO":
+            if "WEB" in card["assets"]:
+                card_dict["display_image_url"] = card["assets"]["WEB"][0]
             try:
                 card_dict.update(
                     {
@@ -254,10 +278,9 @@ class Command(BaseCommand):
         """
 
         card_fields = Card.get_base_fields()
-        if "main_effect" in card_dict:
-            card_fields += ["main_effect"]
-        if "echo_effect" in card_dict:
-            card_fields += ["echo_effect"]
+        for extra_attrs in ["main_effect", "echo_effect", "display_image_url"]:
+            if extra_attrs in card_dict:
+                card_fields += [extra_attrs]
 
         if card_obj.type == Card.Type.HERO:
             stats_fields = ["reserve_count", "permanent_count"]

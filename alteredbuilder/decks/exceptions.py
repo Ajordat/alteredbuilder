@@ -28,3 +28,6 @@ class IgnoreCardType(AlteredBuilderException):
 
 class CardAlreadyExists(AlteredBuilderException):
     pass
+
+class CardParseError(AlteredBuilderException):
+    pass

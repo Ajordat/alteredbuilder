@@ -190,6 +190,7 @@ class CardAdmin(admin.ModelAdmin):
             "subtypes",
             "rarity",
             "image_url",
+            "display_image_url",
             "is_promo",
             "is_alt_art",
         ]
