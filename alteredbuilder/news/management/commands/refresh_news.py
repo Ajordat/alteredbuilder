@@ -88,9 +88,9 @@ class Command(BaseCommand):
 
         article.update(self.fetch_extra_attrs(entry.link))
 
-        self.stdout.write(f'Added RSS item: "{entry.title}"')
         self.stdout.write(f"{article}")
         NewsItem.objects.create(**article)
+        self.stdout.write(f'Added RSS item: "{entry.title}"')
         return True
 
     def fetch_extra_attrs(self, link):

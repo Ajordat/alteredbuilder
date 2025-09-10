@@ -9,6 +9,8 @@
 {% block head %}
     {{ block.super }}
     <style>
+        .news-card { display: none; }
+
         .video-scroll {
             overflow-x: auto;
         }
@@ -46,14 +48,55 @@
 <h1>Latest Updates</h1>
 
 <h2>Latest News</h2>
-<ul>
-    {% for article in blogs %}
-    <li>
-        <a href="{{ article.link }}">{{ article.title }}</a>
-        <small>{{ article.published }}</small>
-    </li>
-    {% endfor %}
-</ul>
+
+<div class="row g-3">
+    
+    <div class="row g-3" id="newsContainer">
+        {% for item in blogs %}
+        <div class="col-md-2 news-card">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{{ item.link }}" target="_blank" class="text-decoration-none">
+                            {{ item.title|truncatewords:10 }}
+                        </a>
+                    </h5>
+                    <p class="card-text small text-muted">
+                        {{ item.description|truncatewords:20 }}
+                    </p>
+                </div>
+                <div class="card-footer text-muted small">
+                    {{ item.published_at }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="d-flex justify-content-center mt-3">
+        <button id="prevBtn" class="btn btn-outline-primary me-2" disabled>Previous</button>
+        <button id="nextBtn" class="btn btn-primary">Next</button>
+    </div>
+    {% comment %} {% for item in blogs %}
+    <div class="col-md-2">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <a href="{{ item.link }}" target="_blank" class="stretched-link text-decoration-none">
+                        {{ item.title|truncatewords:10 }}
+                    </a>
+                </h5>
+                <p class="card-text small text-muted">
+                    {{ item.description|truncatewords:20 }}
+                </p>
+            </div>
+            <div class="card-footer text-muted small">
+                {{ item.published_at|timesince }}
+            </div>
+        </div>
+    </div>
+    {% endfor %} {% endcomment %}
+</div>
 
 <h2>Latest YouTube Videos</h2>
 
@@ -92,4 +135,44 @@
     {% endfor %}
 </ul>
 
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const cards = document.querySelectorAll(".news-card");
+    const perPage = 6;
+    let currentPage = 0;
+
+    function showPage(page) {
+        // hide all
+        cards.forEach(c => c.style.display = "none");
+
+        // show only the group
+        const start = page * perPage;
+        const end = start + perPage;
+        for (let i = start; i < end && i < cards.length; i++) {
+            cards[i].style.display = "block";
+        }
+
+        // enable/disable buttons
+        document.getElementById("prevBtn").disabled = (page === 0);
+        document.getElementById("nextBtn").disabled = (end >= cards.length);
+    }
+
+    document.getElementById("prevBtn").addEventListener("click", function() {
+        if (currentPage > 0) {
+            currentPage--;
+            showPage(currentPage);
+        }
+    });
+
+    document.getElementById("nextBtn").addEventListener("click", function() {
+        if ((currentPage + 1) * perPage < cards.length) {
+            currentPage++;
+            showPage(currentPage);
+        }
+    });
+
+    // init
+    showPage(currentPage);
+});
+</script>
 {% endblock %}
