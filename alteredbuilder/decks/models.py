@@ -178,10 +178,6 @@ class Card(models.Model):
     def get_card_code(self) -> str:
         return "_".join(self.reference.split("_")[3:6])
 
-    def get_display_image(self) -> str:
-        short_reference = self.reference[-7:]
-        return CARD_DISPLAY_URL_FORMAT.format(short_reference[:-2], short_reference)
-
     def is_oof(self) -> bool:
         return f"_{self.faction}_" not in self.reference
 
