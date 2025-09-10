@@ -229,12 +229,15 @@ class Command(BaseCommand):
 
             # Create a record for each card
             for rank, record in enumerate(card_trends, start=1):
-                card = Card.objects.exclude(set=ks_set).get(
-                    name=record["name"],
-                    rarity=record["card__rarity"],
-                    faction=record["card__faction"],
-                    is_promo=False,
-                    is_alt_art=False,
+                card = (
+                    Card.objects.exclude(set=ks_set)
+                    .filter(
+                        name=record["name"],
+                        rarity=record["card__rarity"],
+                        faction=record["card__faction"],
+                        is_alt_art=False,
+                    )
+                    .order_by("is_promo")[0]
                 )
                 CardTrend.objects.update_or_create(
                     card=card,
