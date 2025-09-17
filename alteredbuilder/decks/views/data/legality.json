@@ -1,6 +1,59 @@
 {
-    "last_update": "2025-07-30",
+    "last_update": "2025-09-16",
     "patches": [
+        {
+            "effective_date": "2025-10-03",
+            "article": {
+                "link": "https://www.altered.gg/en-us/news/skybound-odyssey-season-patch",
+                "title": "Skybound Odyssey Season Patch",
+                "date": "2025-09-16"
+            },
+            "erratas": [
+                {
+                    "name": "Will-o'-the-Wisp",
+                    "link": "https://www.altered.gg/en-us/news/skybound-odyssey-season-patch#widget0_subwidget11",
+                    "previous": "If an expedition facing me is in <span class=\"altered-water\"></span>, it can't move forward except due to <span class=\"altered-water\"></span>.",
+                    "updated": "If an expedition facing me is in <span class=\"altered-water\"></span>, it can't move forward during Dusk, except due to <span class=\"altered-water\"></span>."
+                }
+            ],
+            "suspensions": {
+                "add": [
+                    {
+                        "name": "Bugfix (Common & Axiom Rare)",
+                        "link": "https://www.altered.gg/en-us/news/skybound-odyssey-season-patch#widget0_subwidget5"
+                    }
+                ],
+                "stay": [
+                    {
+                        "name": "Baba Yaga (Ordis Rare)",
+                        "link": "https://www.altered.gg/news/whispers-from-the-maze-season-patch#widget0_subwidget6"
+                    }
+                ],
+                "remove": [
+                    {
+                        "name": "Helping Hand (Yzmir Rare)"
+                    }
+                ]
+            },
+            "watchlist": {
+                "stay": [
+                    {
+                        "name": "Ordis Attorney (Ordis Rare & Yzmir Rare)"
+                    }
+                ],
+                "remove": [
+                    {
+                        "name": "Kadigiran Mage-Dancer (Common & Yzmir Rare)"
+                    }
+                ]
+            },
+            "banned": [
+                {
+                    "name": "Moonlight Jellyfish (all Uniques, all factions)",
+                    "link": "https://www.altered.gg/en-us/news/skybound-odyssey-season-patch#widget0_subwidget8"
+                }
+            ]
+        },
         {
             "effective_date": "2025-08-11",
             "article": {
