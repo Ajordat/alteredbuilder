@@ -22,7 +22,7 @@ CARDS_API_ENDPOINT = "/cards"
 USER_AGENT = "CardImporter"
 # If True, retrieve the unique cards
 UPDATE_UNIQUES = False
-QUERY_SET = ["BISE"]
+QUERY_SET = ["CYCLONE"]
 # The API currently returns a private image link for unique cards in these languages
 IMAGE_ERROR_LOCALES = ["es", "it", "de"]
 HEADERS = {"User-Agent": get_user_agent(USER_AGENT)}
