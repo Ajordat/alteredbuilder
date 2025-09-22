@@ -35,9 +35,11 @@ class HomeView(TemplateView):
         try:
             # Convert the selected hero to the Card in the CORE set
             hero_name = self.request.GET.get("hero")
-            hero = Card.objects.filter(
-                type=Card.Type.HERO, name__startswith=hero_name, set__code="CORE"
-            ).first()
+            hero = (
+                Card.objects.filter(type=Card.Type.HERO, name__startswith=hero_name)
+                .filter(Q(set__code="CORE") | Q(set__code="CYCLONE"))
+                .first()
+            )
         except (ValueError, Card.DoesNotExist):
             hero = None
 
