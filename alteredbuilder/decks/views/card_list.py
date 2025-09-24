@@ -209,7 +209,7 @@ class CardListView(ListView):
             context["query_tags"] = self.query_tags
 
         # Add all sets to the context
-        context["sets"] = Set.objects.all()
+        context["sets"] = Set.objects.filter(is_main_set=True)
         context["other_filters"] = [
             ("Promo", _("Promo")),
             ("AltArt", _("Alternate Art")),

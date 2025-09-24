@@ -92,6 +92,7 @@ class Set(models.Model):
     code = models.CharField(max_length=8, null=False, blank=False, unique=True)
     reference_code = models.CharField(null=False, blank=False, unique=True)
     release_date = models.DateField(null=False, blank=False)
+    is_main_set = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return self.name

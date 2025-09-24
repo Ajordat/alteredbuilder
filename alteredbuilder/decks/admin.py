@@ -283,7 +283,7 @@ class PrivateLinkAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
 
 @admin.register(Set)
 class SetAdmin(admin.ModelAdmin):
-    list_display = ["name", "short_name", "code", "reference_code"]
+    list_display = ["name", "short_name", "code", "reference_code", "is_main_set"]
 
 
 @admin.register(Comment)
