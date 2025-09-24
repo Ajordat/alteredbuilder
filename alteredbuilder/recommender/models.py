@@ -11,7 +11,7 @@ EXTERNAL_DECK_URL_39CARDS = "https://39cards.com/tr/{}/p/{}"
 class Tournament(models.Model):
     remote_id = models.IntegerField(unique=True)
     name = models.CharField()
-    player_count = models.IntegerField()
+    player_count = models.IntegerField(null=True)
     date = models.DateField()
     location = models.CharField()
 
