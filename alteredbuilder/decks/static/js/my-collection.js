@@ -12,16 +12,42 @@ const CARD_SETS = {
     },
     BISE: {
         booster: { hero_count: 12, common_count: 90, rare_count: 180, unique_count: 58 },
+        gift: { common_count: 1, rare_count: 2 },
+        total: { hero_count: 12, common_count: 91, rare_count: 182, unique_count: 58, total_count: 285 }
+    },
+    CYCLONE: {
+        booster: { hero_count: 6, common_count: 102, rare_count: 204, unique_count: 63 },
         gift: { common_count: 0, rare_count: 0 },
-        total: { hero_count: 12, common_count: 90, rare_count: 180, unique_count: 58, total_count: 282 }
+        total: { hero_count: 6, common_count: 102, rare_count: 204, unique_count: 63, total_count: 312 }
     },
 };
 
 const IGNORED_IDS = {
-    CORE: ["AX_31_C", "BR_31_C", "OR_31_C", "YZ_31_C"],
-    // ALIZE: ["OR_48_C", "OR_48_R1", "OR_48_R2"],
-    ALIZE: [],
-    BISE: []
+    CORE: [
+        "AX_31_C",  // Brassbug
+        "BR_31_C",  // Booda
+        "OR_31_C",  // Ordis Recruit
+        "YZ_31_C",  // Maw
+    ],
+    ALIZE: [
+        "AX_31_C",  // Brassbug
+        "BR_31_C",  // Booda
+        "OR_31_C",  // Ordis Recruit
+        "YZ_47_C",  // Mana Moth
+        "NE_02_C",  // Dragon Shade
+    ],
+    BISE: [
+        "AX_31_C",  // Brassbug
+        "OR_31_C",  // Ordis Recruit
+        "YZ_47_C",  // Mana Moth
+    ],
+    CYCLONE: [
+        "AX_31_C",  // Brassbug
+        "BR_83_C",  // Halua
+        "MU_83_C",  // Woollyback
+        "YZ_47_C",  // Mana Moth
+        "NE_03_C",  // Aerolith
+    ]
 }
 
 class CollectionStats {
@@ -76,7 +102,7 @@ class CollectionStats {
             }
         }
         if (!this.#isHero(nif) && this.#isCommon(rarity)) {
-            if (this.collection[set][cardId] >= 3 && (this.collection[set][cardId] - quantity) < 3 && !IGNORED_IDS[set].includes(cardId)) {
+            if (this.collection[set][cardId] >= 3 && (this.collection[set][cardId] - quantity) < 3) {
                 this.stats[set].common_playset_count += 1;
             }
         } else if (this.#isRare(rarity)) {

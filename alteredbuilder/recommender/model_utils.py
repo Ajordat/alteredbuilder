@@ -14,12 +14,12 @@ from recommender.models import TournamentDeck, TrainedModel
 class RecommenderHelper:
     FACTIONS = Card.Faction.as_list()
     HEROES = {
-        Card.Faction.AXIOM: ["AX_01_C", "AX_02_C", "AX_03_C"],
-        Card.Faction.BRAVOS: ["BR_01_C", "BR_02_C", "BR_03_C"],
-        Card.Faction.LYRA: ["LY_01_C", "LY_02_C", "LY_03_C"],
-        Card.Faction.MUNA: ["MU_01_C", "MU_02_C", "MU_03_C"],
-        Card.Faction.ORDIS: ["OR_01_C", "OR_02_C", "OR_03_C"],
-        Card.Faction.YZMIR: ["YZ_01_C", "YZ_02_C", "YZ_03_C"],
+        Card.Faction.AXIOM: ["AX_01_C", "AX_02_C", "AX_03_C", "AX_65_C"],
+        Card.Faction.BRAVOS: ["BR_01_C", "BR_02_C", "BR_03_C", "BR_65_C"],
+        Card.Faction.LYRA: ["LY_01_C", "LY_02_C", "LY_03_C", "LY_65_C"],
+        Card.Faction.MUNA: ["MU_01_C", "MU_02_C", "MU_03_C", "MU_65_C"],
+        Card.Faction.ORDIS: ["OR_01_C", "OR_02_C", "OR_03_C", "OR_65_C"],
+        Card.Faction.YZMIR: ["YZ_01_C", "YZ_02_C", "YZ_03_C", "YZ_65_C"],
     }
     CARD_POOL = {
         Card.Faction.AXIOM: [],
@@ -31,11 +31,21 @@ class RecommenderHelper:
     }
     SPECIAL_ADDITIONS = {
         Card.Faction.AXIOM: [],
-        Card.Faction.BRAVOS: [],
+        Card.Faction.BRAVOS: [
+            "ALT_BISE_P_BR_64_C",  # Sofia, First Outpost
+            "ALT_BISE_P_BR_64_R1",  # Sofia, First Outpost
+        ],
         Card.Faction.LYRA: [],
-        Card.Faction.MUNA: [],
-        Card.Faction.ORDIS: ["ALT_ALIZE_P_OR_48_C", "ALT_ALIZE_P_OR_48_R1"],
-        Card.Faction.YZMIR: ["ALT_ALIZE_P_OR_48_R2"],
+        Card.Faction.MUNA: [
+            "ALT_BISE_P_BR_64_R2",  # Sofia, First Outpost
+        ],
+        Card.Faction.ORDIS: [
+            "ALT_ALIZE_P_OR_48_C",  # Kuraokami Unbound
+            "ALT_ALIZE_P_OR_48_R1",  # Kuraokami Unbound
+        ],
+        Card.Faction.YZMIR: [
+            "ALT_ALIZE_P_OR_48_R2",  # Kuraokami Unbound
+        ],
     }
 
     @classmethod

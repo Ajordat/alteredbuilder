@@ -65,6 +65,9 @@ class Command(BaseCommand):
         parser.add_argument(
             "--heal", type=str, help="Comma-separated list of IDs to force an update to"
         )
+        parser.add_argument(
+            "--sets", type=str, help="Comma-separated list of set codes to update"
+        )
 
     def handle(self, *args: Any, **options: Any) -> None:
         """The command's entrypoint. Queries the API for each language."""
@@ -83,14 +86,19 @@ class Command(BaseCommand):
                         pass
 
         else:
+            sets = options.get("sets")
+            if sets:
+                sets = sets.split(",")
+            else:
+                sets = QUERY_SET
 
             for language, _ in settings.LANGUAGES:
                 self.language_code = language
                 activate(self.language_code)
-                self.query_page()
+                self.query_page(sets)
                 self.subtypes.clear()
 
-    def query_page(self) -> None:
+    def query_page(self, sets) -> None:
         """Query Altered's API to retrieve the card information.
 
         Raises:
@@ -102,8 +110,8 @@ class Command(BaseCommand):
         params = []
         if UPDATE_UNIQUES:
             params.append(("rarity[]", "UNIQUE"))
-        if len(QUERY_SET) > 0:
-            params.extend([("cardSet[]", card_set) for card_set in QUERY_SET])
+        if len(sets) > 0:
+            params.extend([("cardSet[]", card_set) for card_set in sets])
 
         for card in altered_api_paginator(
             CARDS_API_ENDPOINT,
@@ -180,7 +188,7 @@ class Command(BaseCommand):
         if main_effect:
             card_dict["main_effect"] = main_effect
 
-        if card_dict["type"] in ["TOKEN", "TOKEN_MANA", "FOILER"]:
+        if  "TOKEN" in card_dict["type"] or card_dict["type"] in ["FOILER"]:
             # Stop the parsing if the Card is one of these
             raise IgnoreCardType()
 
