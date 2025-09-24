@@ -24,6 +24,7 @@ class CardListView(ListView):
         qs = super().get_queryset()
         filters = Q()
         self.filter_sets = None
+        query_sets = []
 
         # Retrieve the text query and search by name
         query = self.request.GET.get("query")
@@ -53,6 +54,8 @@ class CardListView(ListView):
                 is_promo="Promo" in other_filters, is_alt_art="AltArt" in other_filters
             )
             retrieve_owned = "Owned" in other_filters
+            if "COREKS" in other_filters:
+                query_sets.append("COREKS")
         else:
             filters &= Q(is_promo=False, is_alt_art=False)
             retrieve_owned = False
@@ -97,7 +100,9 @@ class CardListView(ListView):
         # If any value is invalid, this filter will not be applied.
         card_sets = self.request.GET.get("set")
         if card_sets:
-            self.filter_sets = Set.objects.filter(code__in=card_sets.split(","))
+            query_sets.extend(card_sets.split(","))
+        if query_sets:
+            self.filter_sets = Set.objects.filter(code__in=query_sets)
             filters &= Q(set__in=self.filter_sets)
 
         query_order = []
@@ -213,6 +218,7 @@ class CardListView(ListView):
         context["other_filters"] = [
             ("Promo", _("Promo")),
             ("AltArt", _("Alternate Art")),
+            ("COREKS", _("Kickstarter Edition")),
             ("Owned", _("In my collection")),
         ]
 
