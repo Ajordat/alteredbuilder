@@ -25,6 +25,7 @@ class CardManager(models.Manager):
         name,
         faction,
         image_url=None,
+        display_image_url="",
         set=None,
         main_effect=None,
         reserve_count=2,
@@ -36,7 +37,9 @@ class CardManager(models.Manager):
             name=name,
             faction=faction,
             type=Card.Type.HERO,
+            rarity=Card.Rarity.COMMON,
             image_url=image_url,
+            display_image_url=display_image_url,
             set=set,
             main_effect=main_effect,
             stats={"reserve_count": reserve_count, "permanent_count": permanent_count},
@@ -165,7 +168,7 @@ class Card(models.Model):
 
     @staticmethod
     def get_base_fields():
-        return ["name", "faction", "image_url", "set", "is_promo", "is_alt_art"]
+        return ["name", "faction", "rarity", "image_url", "set", "is_promo", "is_alt_art"]
 
     def __str__(self) -> str:
         return f"[{self.faction}] - {self.name} ({self.rarity})"
