@@ -83,7 +83,7 @@ function fetchSettings() {
 
     if (!settings) {
         settings = {
-            mergeSets: false
+            mergeSets: true
         }
         saveSettings(settings);
     }
