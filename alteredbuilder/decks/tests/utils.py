@@ -57,7 +57,7 @@ def generate_card(
         "recall_cost": randint(1, 10),
     }
 
-    data["card_set"] = Set.objects.get_or_create(
+    data["set"] = Set.objects.get_or_create(
         name=card_set,
         short_name=card_set,
         code=card_set,
@@ -72,7 +72,7 @@ def generate_card(
                 reference=data["reference"],
                 name=data["name"],
                 faction=faction,
-                card_set=data.get("card_set", None),
+                card_set=data.get("set", None),
             )
         case Card.Type.CHARACTER:
             card = Card.objects.create_card(
