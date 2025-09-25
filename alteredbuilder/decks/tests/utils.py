@@ -72,7 +72,7 @@ def generate_card(
                 reference=data["reference"],
                 name=data["name"],
                 faction=faction,
-                card_set=data.get("set", None),
+                set=data.get("set", None),
             )
         case Card.Type.CHARACTER:
             card = Card.objects.create_card(
