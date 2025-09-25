@@ -57,7 +57,7 @@ class CardListView(ListView):
             if "COREKS" in other_filters:
                 query_sets.append("COREKS")
         else:
-            filters &= Q(is_promo=False, is_alt_art=False)
+            filters &= Q(is_promo=False, is_alt_art=False, set__is_main_set=True)
             retrieve_owned = False
 
         # Retrieve the Rarity filters.
