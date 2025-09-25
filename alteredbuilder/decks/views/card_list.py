@@ -50,12 +50,16 @@ class CardListView(ListView):
         # Retrieve the Other filters.
         other_filters = self.request.GET.get("other")
         if other_filters:
-            filters &= Q(
-                is_promo="Promo" in other_filters, is_alt_art="AltArt" in other_filters
-            )
+            allow_promo = "Promo" in other_filters
+            allow_alt_art = "AltArt" in other_filters
             retrieve_owned = "Owned" in other_filters
-            if "COREKS" in other_filters:
+            query_ks = "COREKS" in other_filters
+            
+            filters &= Q(is_promo=allow_promo, is_alt_art=allow_alt_art)
+            if query_ks:
                 query_sets.append("COREKS")
+            if not (allow_promo or allow_alt_art or query_ks):
+                filters &= Q(set__is_main_set=True)
         else:
             filters &= Q(is_promo=False, is_alt_art=False, set__is_main_set=True)
             retrieve_owned = False
