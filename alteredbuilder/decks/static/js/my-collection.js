@@ -215,7 +215,7 @@ class CollectionStats {
 
     #isHero(nif) {
         nif = parseInt(nif);
-        return 1 <= nif && nif <= 3;
+        return (1 <= nif && nif <= 3) || nif === 65;
     }
     #isCommon(rarity) {
         return rarity == "C";
