@@ -25,6 +25,7 @@ class CardManager(models.Manager):
         name,
         faction,
         image_url=None,
+        display_image_url="",
         set=None,
         main_effect=None,
         reserve_count=2,
@@ -36,7 +37,9 @@ class CardManager(models.Manager):
             name=name,
             faction=faction,
             type=Card.Type.HERO,
+            rarity=Card.Rarity.COMMON,
             image_url=image_url,
+            display_image_url=display_image_url,
             set=set,
             main_effect=main_effect,
             stats={"reserve_count": reserve_count, "permanent_count": permanent_count},
@@ -92,6 +95,7 @@ class Set(models.Model):
     code = models.CharField(max_length=8, null=False, blank=False, unique=True)
     reference_code = models.CharField(null=False, blank=False, unique=True)
     release_date = models.DateField(null=False, blank=False)
+    is_main_set = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return self.name
@@ -147,6 +151,7 @@ class Card(models.Model):
     subtypes = models.ManyToManyField(Subtype, blank=True)
     rarity = models.CharField(max_length=1, choices=Rarity)
     image_url = models.URLField(null=False, blank=True)
+    display_image_url = models.URLField(null=False, blank=True)
     set = models.ForeignKey(Set, null=True, on_delete=models.SET_NULL)
 
     main_effect = models.TextField(blank=True)
@@ -163,7 +168,7 @@ class Card(models.Model):
 
     @staticmethod
     def get_base_fields():
-        return ["name", "faction", "image_url", "set", "is_promo", "is_alt_art"]
+        return ["name", "faction", "rarity", "image_url", "set", "is_promo", "is_alt_art"]
 
     def __str__(self) -> str:
         return f"[{self.faction}] - {self.name} ({self.rarity})"
@@ -176,10 +181,6 @@ class Card(models.Model):
 
     def get_card_code(self) -> str:
         return "_".join(self.reference.split("_")[3:6])
-
-    def get_display_image(self) -> str:
-        short_reference = self.reference[-7:]
-        return CARD_DISPLAY_URL_FORMAT.format(short_reference[:-2], short_reference)
 
     def is_oof(self) -> bool:
         return f"_{self.faction}_" not in self.reference

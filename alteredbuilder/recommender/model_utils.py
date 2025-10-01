@@ -1,5 +1,7 @@
+from collections import OrderedDict
 import pickle
 
+from django.db.models import F
 import numpy as np
 import numpy.typing as npt
 import pandas as pd
@@ -12,12 +14,12 @@ from recommender.models import TournamentDeck, TrainedModel
 class RecommenderHelper:
     FACTIONS = Card.Faction.as_list()
     HEROES = {
-        Card.Faction.AXIOM: ["AX_01_C", "AX_02_C", "AX_03_C"],
-        Card.Faction.BRAVOS: ["BR_01_C", "BR_02_C", "BR_03_C"],
-        Card.Faction.LYRA: ["LY_01_C", "LY_02_C", "LY_03_C"],
-        Card.Faction.MUNA: ["MU_01_C", "MU_02_C", "MU_03_C"],
-        Card.Faction.ORDIS: ["OR_01_C", "OR_02_C", "OR_03_C"],
-        Card.Faction.YZMIR: ["YZ_01_C", "YZ_02_C", "YZ_03_C"],
+        Card.Faction.AXIOM: ["AX_01_C", "AX_02_C", "AX_03_C", "AX_65_C"],
+        Card.Faction.BRAVOS: ["BR_01_C", "BR_02_C", "BR_03_C", "BR_65_C"],
+        Card.Faction.LYRA: ["LY_01_C", "LY_02_C", "LY_03_C", "LY_65_C"],
+        Card.Faction.MUNA: ["MU_01_C", "MU_02_C", "MU_03_C", "MU_65_C"],
+        Card.Faction.ORDIS: ["OR_01_C", "OR_02_C", "OR_03_C", "OR_65_C"],
+        Card.Faction.YZMIR: ["YZ_01_C", "YZ_02_C", "YZ_03_C", "YZ_65_C"],
     }
     CARD_POOL = {
         Card.Faction.AXIOM: [],
@@ -27,13 +29,23 @@ class RecommenderHelper:
         Card.Faction.ORDIS: [],
         Card.Faction.YZMIR: [],
     }
-    OFFSETS = {
+    SPECIAL_ADDITIONS = {
         Card.Faction.AXIOM: [],
-        Card.Faction.BRAVOS: [],
+        Card.Faction.BRAVOS: [
+            "ALT_BISE_P_BR_64_C",  # Sofia, First Outpost
+            "ALT_BISE_P_BR_64_R1",  # Sofia, First Outpost
+        ],
         Card.Faction.LYRA: [],
-        Card.Faction.MUNA: [],
-        Card.Faction.ORDIS: [],
-        Card.Faction.YZMIR: [],
+        Card.Faction.MUNA: [
+            "ALT_BISE_P_BR_64_R2",  # Sofia, First Outpost
+        ],
+        Card.Faction.ORDIS: [
+            "ALT_ALIZE_P_OR_48_C",  # Kuraokami Unbound
+            "ALT_ALIZE_P_OR_48_R1",  # Kuraokami Unbound
+        ],
+        Card.Faction.YZMIR: [
+            "ALT_ALIZE_P_OR_48_R2",  # Kuraokami Unbound
+        ],
     }
 
     @classmethod
@@ -42,26 +54,38 @@ class RecommenderHelper:
             return
         for faction in cls.FACTIONS:
             cards = (
-                Card.objects.filter(
+                Card.objects.annotate(release_date=F("set__release_date"))
+                .filter(
                     faction=faction, rarity__in=[Card.Rarity.COMMON, Card.Rarity.RARE]
                 )
                 .exclude(type=Card.Type.HERO)
                 .exclude(set__code="COREKS")
                 .exclude(is_alt_art=True)
                 .exclude(is_promo=True)
-                .order_by("set__release_date", "reference")
+                .only("reference", "type")
             )
 
-            cls.CARD_POOL[faction] = []
+            exceptions = cls.SPECIAL_ADDITIONS.get(faction, [])
+            if len(exceptions) > 0:
+                cards = cards.union(
+                    Card.objects.annotate(release_date=F("set__release_date"))
+                    .filter(reference__in=exceptions)
+                    .only("reference", "type")
+                )
+
+            cards = cards.order_by("set__release_date", "reference")
+
+            codes = OrderedDict()
             for card in cards:
                 family_code = card.get_card_code()
-                if family_code in cls.CARD_POOL[faction]:
-                    continue
-                cls.CARD_POOL[faction].append(family_code)
-                if card.type == Card.Type.CHARACTER:
-                    unique_code = card.get_family_code() + "_U"
-                    if unique_code not in cls.CARD_POOL[faction]:
-                        cls.CARD_POOL[faction].append(unique_code)
+                if family_code not in codes:
+                    codes[family_code] = None
+
+                    if card.type == Card.Type.CHARACTER:
+                        unique_code = card.get_family_code() + "_U"
+                        codes[unique_code] = None
+
+            cls.CARD_POOL[faction] = list(codes.keys())
 
     @staticmethod
     def load_model(faction: Card.Faction) -> MultiOutputClassifier:

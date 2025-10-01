@@ -24,7 +24,7 @@ class="container py-4"
                     <form id="load_deck_form" class="needs-validation" novalidate>
                         <label for="official_deck_id" class="form-label">{% translate "Official Deck" %}</label>
                         <div class="input-group has-validation">
-                            <input type="text" class="form-control altered-style" id="official_deck_id" name="deck_builder_id" placeholder="{% translate "Enter the deck's link or its ID" %}" aria-describedby="deck_builder_id-validation" required>
+                            <input type="text" class="form-control altered-style" id="official_deck_id" name="deck_builder_id" placeholder="{% translate "Enter the deck's link or its ID" %}" aria-describedby="deck_builder_id-validation" required autocapitalize="off">
                             <button class="btn altered-style" type="submit" id="load_deck">
                                 <span id="load-icon" class="spinner-border spinner-border-sm" aria-hidden="true" hidden></span>
                                 <i id="ready-icon" class="fa-solid fa-arrow-right-to-bracket"></i>

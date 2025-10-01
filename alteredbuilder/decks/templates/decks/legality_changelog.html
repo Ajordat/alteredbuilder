@@ -18,6 +18,9 @@
         li.remove::marker {
             content: "🔚"
         }
+        li.banned::marker {
+            content: "🚫"
+        }
     </style>
 {% endblock %}
 
@@ -109,6 +112,15 @@
             {% endfor %}
             {% for card in patch.watchlist.remove %}
                         <li class="remove"><s>{{ card.name }}</s></li>
+            {% endfor %}
+                    </ul>
+        {% endif %}
+        {% if patch.watchlist %}
+                    <!-- Bans -->
+                    <h5 class="mt-2">{% translate "Bans" %}</h5>
+                    <ul>
+            {% for card in patch.banned %}
+                        <li class="banned"><a href="{{ card.link }}" target="_blank">{{ card.name }}</a></li>
             {% endfor %}
                     </ul>
         {% endif %}

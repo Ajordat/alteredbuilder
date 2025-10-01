@@ -67,13 +67,13 @@ function searchCards(e) {
     }
 
     // Retrieve the SET filters
-    let sets = parseFilter(["BTG", "BTG-KS", "TBF", "WFM"]);
+    let sets = parseFilter(["BTG", "BTG-KS", "TBF", "WFM", "SKY"]);
     if (sets.length > 0) {
         params.append("set", sets.join(","));
     }
 
     // Retrieve the OTHER filters
-    let other = parseFilter(["Promo", "AltArt", "Owned"]);
+    let other = parseFilter(["Promo", "AltArt", "COREKS", "Owned"]);
     if (other.length > 0) {
         params.append("other", other.join(","));
     }

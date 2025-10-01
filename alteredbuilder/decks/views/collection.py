@@ -13,7 +13,7 @@ def display_collection(request: HttpRequest) -> HttpResponse:
     return render(
         request,
         "decks/collection.html",
-        {"card_sets": Set.objects.exclude(code="COREKS").order_by("-release_date")},
+        {"card_sets": Set.objects.filter(is_main_set=True).order_by("-release_date")},
     )
 
 

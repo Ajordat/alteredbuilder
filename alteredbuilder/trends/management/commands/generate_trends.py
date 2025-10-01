@@ -107,13 +107,21 @@ class Command(BaseCommand):
         core_set = Set.objects.get(code="CORE")
         # Create a HeroTrend record for each hero
         for record in hero_trends:
-            hero = Card.objects.get(
-                type=Card.Type.HERO,
-                name=record["hero_name"],
-                set=core_set,
-                is_promo=False,
-                is_alt_art=False,
-            )
+            try:
+                hero = Card.objects.get(
+                    type=Card.Type.HERO,
+                    name=record["hero_name"],
+                    set=core_set,
+                    is_promo=False,
+                    is_alt_art=False,
+                )
+            except Card.DoesNotExist:
+                hero = Card.objects.get(
+                    type=Card.Type.HERO,
+                    name=record["hero_name"],
+                    is_promo=False,
+                    is_alt_art=False,
+                )
 
             HeroTrend.objects.update_or_create(
                 hero=hero,
@@ -229,12 +237,15 @@ class Command(BaseCommand):
 
             # Create a record for each card
             for rank, record in enumerate(card_trends, start=1):
-                card = Card.objects.exclude(set=ks_set).get(
-                    name=record["name"],
-                    rarity=record["card__rarity"],
-                    faction=record["card__faction"],
-                    is_promo=False,
-                    is_alt_art=False,
+                card = (
+                    Card.objects.exclude(set=ks_set)
+                    .filter(
+                        name=record["name"],
+                        rarity=record["card__rarity"],
+                        faction=record["card__faction"],
+                        is_alt_art=False,
+                    )
+                    .order_by("is_promo")[0]
                 )
                 CardTrend.objects.update_or_create(
                     card=card,

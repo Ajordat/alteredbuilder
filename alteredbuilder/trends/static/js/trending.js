@@ -12,12 +12,12 @@ const factionNames = {
     "YZ": "Yzmir",
 }
 const heroColors = {
-    "AX": ["#7e4b36", "#a16045", "#ba7a5e"],
-    "BR": ["#ff1a1a", "#ff4d4d", "#ff8080"],
-    "LY": ["#d12358", "#de3b6c", "#e5668c"],
-    "MU": ["#4c7245", "#5f8f56", "#78a970"],
-    "OR": ["#00628b", "#007db3", "#00a1e6"],
-    "YZ": ["#483b66", "#5b4a82", "#725da2"],
+    "AX": ["#7e4b36", "#a16045", "#ba7a5e", "#d2947a"],
+    "BR": ["#ff1a1a", "#ff4d4d", "#ff8080", "#ffb3b3"],
+    "LY": ["#d12358", "#de3b6c", "#e5668c", "#ee8fab"],
+    "MU": ["#4c7245", "#5f8f56", "#78a970", "#92c089"],
+    "OR": ["#00628b", "#007db3", "#00a1e6", "#33bbff"],
+    "YZ": ["#483b66", "#5b4a82", "#725da2", "#8a74c2"],
 };
 
 function getFactionColor(faction) {

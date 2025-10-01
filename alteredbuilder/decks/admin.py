@@ -176,6 +176,7 @@ class CardAdmin(admin.ModelAdmin):
     list_filter = ["type", "faction", "rarity", "set"]
     show_facets = admin.ShowFacets.ALWAYS
     readonly_fields = ["reserve_count", "permanent_count", "power", "mana_cost"]
+    actions = ["change_rarity_to_common", "copy_display_image"]
 
     def get_fieldsets(
         self, request: HttpRequest, obj: Card
@@ -190,6 +191,7 @@ class CardAdmin(admin.ModelAdmin):
             "subtypes",
             "rarity",
             "image_url",
+            "display_image_url",
             "is_promo",
             "is_alt_art",
         ]
@@ -259,6 +261,21 @@ class CardAdmin(admin.ModelAdmin):
             obj.stats["ocean_power"],
         )
 
+    @admin.action(description="Change rarity to common")
+    def change_rarity_to_common(self, request, queryset):
+        updated = queryset.update(rarity=Card.Rarity.COMMON)
+
+        self.message_user(request, f"{updated} card(s) updated to common rarity.")
+
+    @admin.action(description="Copy display image")
+    def copy_display_image(self, request, queryset):
+        base_card = queryset.filter(is_promo=False).order_by("set__release_date")[0]
+        updated = queryset.filter(display_image_url="").update(
+            display_image_url=base_card.display_image_url
+        )
+
+        self.message_user(request, f"{updated} card(s) received a display image")
+
 
 @admin.register(CardInDeck)
 class CardInDeckAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
@@ -282,7 +299,7 @@ class PrivateLinkAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
 
 @admin.register(Set)
 class SetAdmin(admin.ModelAdmin):
-    list_display = ["name", "short_name", "code", "reference_code"]
+    list_display = ["name", "short_name", "code", "reference_code", "is_main_set"]
 
 
 @admin.register(Comment)

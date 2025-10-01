@@ -30,7 +30,7 @@ def generate_card(
     faction: Card.Faction,
     card_type: Card.Type,
     rarity: Card.Rarity = Card.Rarity.COMMON,
-    card_set: str = None,
+    card_set: str = "CORE",
 ) -> Card:
     """Generate a new card from a Faction, Type and Rarity.
 
@@ -57,14 +57,14 @@ def generate_card(
         "recall_cost": randint(1, 10),
     }
 
-    if card_set:
-        data["card_set"] = Set.objects.get_or_create(
-            name=card_set,
-            short_name=card_set,
-            code=card_set,
-            reference_code=card_set,
-            release_date=datetime.today(),
-        )[0]
+    data["set"] = Set.objects.get_or_create(
+        name=card_set,
+        short_name=card_set,
+        code=card_set,
+        reference_code=card_set,
+        release_date=datetime.today(),
+        is_main_set=True,
+    )[0]
 
     match card_type:
         case Card.Type.HERO:
@@ -72,7 +72,7 @@ def generate_card(
                 reference=data["reference"],
                 name=data["name"],
                 faction=faction,
-                card_set=data["card_set"] if card_set else None,
+                set=data.get("set", None),
             )
         case Card.Type.CHARACTER:
             card = Card.objects.create_card(
