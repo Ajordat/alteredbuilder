@@ -188,7 +188,7 @@ class Command(BaseCommand):
         if main_effect:
             card_dict["main_effect"] = main_effect
 
-        if  "TOKEN" in card_dict["type"] or card_dict["type"] in ["FOILER"]:
+        if "TOKEN" in card_dict["type"] or card_dict["type"] in ["FOILER"]:
             # Stop the parsing if the Card is one of these
             raise IgnoreCardType()
 

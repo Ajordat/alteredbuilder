@@ -168,7 +168,15 @@ class Card(models.Model):
 
     @staticmethod
     def get_base_fields():
-        return ["name", "faction", "rarity", "image_url", "set", "is_promo", "is_alt_art"]
+        return [
+            "name",
+            "faction",
+            "rarity",
+            "image_url",
+            "set",
+            "is_promo",
+            "is_alt_art",
+        ]
 
     def __str__(self) -> str:
         return f"[{self.faction}] - {self.name} ({self.rarity})"

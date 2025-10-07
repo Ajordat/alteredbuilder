@@ -54,7 +54,7 @@ class CardListView(ListView):
             allow_alt_art = "AltArt" in other_filters
             retrieve_owned = "Owned" in other_filters
             query_ks = "COREKS" in other_filters
-            
+
             filters &= Q(is_promo=allow_promo, is_alt_art=allow_alt_art)
             if query_ks:
                 query_sets.append("COREKS")
