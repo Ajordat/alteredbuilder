@@ -11,7 +11,7 @@ from django.utils.translation import activate, gettext_lazy as _
 import requests
 
 from api.utils import locale_agnostic
-from config.utils import get_user_agent
+from config.utils import get_altered_api_locale, get_user_agent
 from decks.game_modes import (
     DraftGameMode,
     GameMode,
@@ -438,7 +438,8 @@ def import_unique_card(reference: str) -> Card:  # pragma: no cover
         if language == settings.LANGUAGE_CODE:
             continue
         activate(language)
-        headers = {"Accept-Language": f"{language}-{language}"}
+        locale_code = get_altered_api_locale(language)
+        headers = {"Accept-Language": locale_code}
         response = requests.get(api_url, headers=headers)
         card_data = response.json()
         card.name = og_card.name
@@ -448,7 +449,10 @@ def import_unique_card(reference: str) -> Card:  # pragma: no cover
         if "ECHO_EFFECT" in card_data["elements"]:
             card.echo_effect = card_data["elements"]["ECHO_EFFECT"]
         if language not in IMAGE_ERROR_LOCALES:
-            card.image_url = card_data["imagePath"]
+            if "imagePath" in card_data:
+                card.image_url = card_data["imagePath"]
+            elif "allImagePath" in card_data:
+                card.image_url = card_data["allImagePath"].get(locale_code)
 
     try:
         with transaction.atomic():
@@ -460,7 +464,7 @@ def import_unique_card(reference: str) -> Card:  # pragma: no cover
             # another import with the same unique card while it hasn't been fully
             # imported.
             # I could use `get_or_create` but that would imply dealing with the
-            # i18n attributes of the Card table, which I don't fancy.
+            # i18n attributes of the Card table and I don't want to.
             print("Duplicate primary key detected. Skip the commit into the db.")
             return Card.objects.get(reference=card.reference)
         else:
