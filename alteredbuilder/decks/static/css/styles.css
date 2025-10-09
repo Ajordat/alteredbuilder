@@ -1,4 +1,3 @@
-
 .accordion-button {
     padding: 9px 9px;
 }
@@ -16,12 +15,12 @@
 }
 
 code.inline {
-    border-radius: 5px; 
-    -moz-border-radius: 5px; 
-    -webkit-border-radius: 5px; 
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
     border: 1px solid #BCBEC0;
     padding: 2px;
-    font:12px Monaco,Consolas,"Andale  Mono","DejaVu Sans Mono",monospace
+    font: 12px Monaco, Consolas, "Andale  Mono", "DejaVu Sans Mono", monospace
 }
 
 i.fa-circle-check {
@@ -34,4 +33,8 @@ i.fa-circle-check.exalts-legal {
 
 i.fa-circle-xmark {
     color: #d71b1b;
+}
+
+.min-w-0 {
+    min-width: 0;
 }

@@ -333,7 +333,7 @@ function initSidebar() {
                 } else {
                     if (change.quantity > 0) {
                         // Create the card row if it's a positive quantity
-                        cardRow = createCardRow(change.quantity, cardReference, change.type, change.name, change.rarity, change.image);
+                        cardRow = createCardRow(change.quantity, cardReference, change.type, change.name, change.rarity, change.image, change.mainCost, change.recallCost);
                         assertCardLimitWarning(cardRow, change.quantity);
                     }
                 }
@@ -467,7 +467,7 @@ removeHeroButton.addEventListener("click", function (event) {
  * @param {string} rarity Rarity of the card
  * @param {string} image Image of the card
  */
-function createCardRow(quantity, reference, type, name, rarity, image) {
+function createCardRow(quantity, reference, type, name, rarity, image, mainCost, recallCost) {
     if (type.includes("permanent")) {
         type = "permanent";
     }
@@ -481,6 +481,7 @@ function createCardRow(quantity, reference, type, name, rarity, image) {
     newCardElement.getElementsByClassName("card-quantity")[0].innerText = quantity;
     newCardElement.getElementsByClassName("card-quantity")[0].dataset.cardReference = reference;
     newCardElement.getElementsByClassName("card-name")[0].innerText = name;
+    newCardElement.getElementsByClassName("sidebar-mana")[0].innerHTML = buildManaCost(mainCost) + "/" + buildManaCost(recallCost);
     newCardElement.getElementsByClassName("remove-card-btn")[0].addEventListener("click", decreaseCardQuantity);
     newCardElement.getElementsByClassName("add-card-btn")[0].addEventListener("click", increaseCardQuantity);
     newCardElement.style["background-image"] = `url(${image})`;
@@ -493,13 +494,20 @@ function createCardRow(quantity, reference, type, name, rarity, image) {
     return newCardElement;
 }
 
+function buildManaCost(manaCost) {
+    return `<span class="altered-${manaCost}"></span>`;
+}
+
 function addCardFromDisplay(event) {
     // Retrieve the information from the card pressed
-    let cardReference = event.currentTarget.dataset.cardReference;
-    let cardName = event.currentTarget.dataset.cardName;
-    let cardType = event.currentTarget.dataset.cardType;
-    let cardRarity = event.currentTarget.dataset.cardRarity;
-    let cardImage = event.currentTarget.dataset.cardImage;
+    let dataset = event.currentTarget.dataset;
+    let cardReference = dataset.cardReference;
+    let cardName = dataset.cardName;
+    let cardType = dataset.cardType;
+    let cardRarity = dataset.cardRarity;
+    let cardImage = dataset.cardImage;
+    let mainCost = dataset.cardMainCost;
+    let recallCost = dataset.cardRecallCost;
 
     event.currentTarget.classList.remove("clicked");
     void event.currentTarget.offsetWidth;
@@ -546,10 +554,10 @@ function addCardFromDisplay(event) {
         assertCardLimitWarning(cardElement, quantity);
     } else {
         // If the card doesn't exist, create the card's row
-        createCardRow(1, cardReference, cardType, cardName, cardRarity, cardImage);
+        createCardRow(1, cardReference, cardType, cardName, cardRarity, cardImage, mainCost, recallCost);
         sortDeckCards();
         // Track the changes
-        decklistChanges.addChange(cardReference, { "quantity": 1, "name": cardName, "type": cardType, "rarity": cardRarity, "image": cardImage });
+        decklistChanges.addChange(cardReference, { "quantity": 1, "name": cardName, "type": cardType, "rarity": cardRarity, "image": cardImage, "mainCost": mainCost, "recallCost": recallCost });
         updateDisplayCount(cardReference, 1);
     }
     decklistChanges.save();
