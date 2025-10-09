@@ -182,15 +182,28 @@ function assertHasChangesWarning() {
  * Method to sort the card rows according to the Card references.
  */
 function sortDeckCards() {
-    function sortByReference(a, b) {
+    function sortByManaCost(a, b) {
+        let mainCostA = parseInt(a.dataset.cardMainCost, 10) || 0;
+        let mainCostB = parseInt(b.dataset.cardMainCost, 10) || 0;
+        if (mainCostA !== mainCostB) {
+            return mainCostA - mainCostB;
+        }
+
+        let recallCostA = parseInt(a.dataset.cardRecallCost, 10) || 0;
+        let recallCostB = parseInt(b.dataset.cardRecallCost, 10) || 0;
+        if (recallCostA !== recallCostB) {
+            return recallCostA - recallCostB;
+        }
+
         return a.id.localeCompare(b.id);
     }
+
 
     let types = ["character", "spell", "permanent"];
     for (let type of types) {
         let decklistElement = document.getElementById(`decklist-${type}-cards`);
         let cardRowElements = Array.prototype.slice.call(decklistElement.children, 0);
-        cardRowElements.sort(sortByReference);
+        cardRowElements.sort(sortByManaCost);
         for (let i = 0; i < cardRowElements.length; i++) {
             decklistElement.appendChild(cardRowElements[i]);
         }
@@ -339,8 +352,8 @@ function initSidebar() {
                 }
                 updateDisplayCount(cardReference, change.quantity);
             }
-            sortDeckCards();
         }
+        sortDeckCards();
     }
 }
 
@@ -478,6 +491,8 @@ function createCardRow(quantity, reference, type, name, rarity, image, mainCost,
     newCardElement.id = getRowId(reference);
     newCardElement.dataset.cardRarity = rarity;
     newCardElement.dataset.bsTitle = getImageElement(image);
+    newCardElement.dataset.cardMainCost = mainCost;
+    newCardElement.dataset.cardRecallCost = recallCost;
     newCardElement.getElementsByClassName("card-quantity")[0].innerText = quantity;
     newCardElement.getElementsByClassName("card-quantity")[0].dataset.cardReference = reference;
     newCardElement.getElementsByClassName("card-name")[0].innerText = name;

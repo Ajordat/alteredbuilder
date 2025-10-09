@@ -11,6 +11,8 @@
     <div class="row rounded align-items-center flex-nowrap my-1" id="row-{{ cid.card.reference }}"
         style="background-image: linear-gradient(to right, #FFFF, #FFF3, #FFF0), url({% cdn_image_url cid.card.image_url %});"
         data-card-rarity="{{ cid.card.rarity }}"
+        data-card-main-cost="{{ cid.card.stats.main_cost }}"
+        data-card-recall-cost="{{ cid.card.stats.recall_cost }}"
         data-bs-title="<img src='{% cdn_image_url cid.card.image_url %}'/>"
         data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="left">
 
