@@ -27,7 +27,7 @@ class DeckListView(ListView):
         .select_related("owner", "hero")
         .prefetch_related("tags")
     )
-    paginate_by = 30
+    paginate_by = 32
 
     def get_queryset(self) -> QuerySet[Deck]:
         """Return a queryset with the Decks that match the filters in the GET params.
