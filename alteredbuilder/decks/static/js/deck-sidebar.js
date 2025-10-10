@@ -496,7 +496,7 @@ function createCardRow(quantity, reference, type, name, rarity, image, mainCost,
     newCardElement.getElementsByClassName("card-quantity")[0].innerText = quantity;
     newCardElement.getElementsByClassName("card-quantity")[0].dataset.cardReference = reference;
     newCardElement.getElementsByClassName("card-name")[0].innerText = name;
-    newCardElement.getElementsByClassName("sidebar-mana")[0].innerHTML = buildManaCost(mainCost) + "/" + buildManaCost(recallCost);
+    newCardElement.getElementsByClassName("sidebar-mana")[0].innerHTML = buildManaCost(mainCost) + "&nbsp;" + buildManaCost(recallCost);
     newCardElement.getElementsByClassName("remove-card-btn")[0].addEventListener("click", decreaseCardQuantity);
     newCardElement.getElementsByClassName("add-card-btn")[0].addEventListener("click", increaseCardQuantity);
     newCardElement.style["background-image"] = `url(${image})`;

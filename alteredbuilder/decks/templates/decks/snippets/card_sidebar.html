@@ -8,17 +8,16 @@
 <div id="decklist-{{ type }}-cards">
     <!-- Display cards -->
     {% for cid in card_list %}
-    <div class="row rounded align-items-center flex-nowrap my-1" id="row-{{ cid.card.reference }}"
+    <div class="sidebar-card-item row rounded align-items-center flex-nowrap my-1" id="row-{{ cid.card.reference }}"
         style="background-image: linear-gradient(to right, #FFFF, #FFF3, #FFF0), url({% cdn_image_url cid.card.image_url %});"
-        data-card-rarity="{{ cid.card.rarity }}"
-        data-card-main-cost="{{ cid.card.stats.main_cost }}"
+        data-card-rarity="{{ cid.card.rarity }}" data-card-main-cost="{{ cid.card.stats.main_cost }}"
         data-card-recall-cost="{{ cid.card.stats.recall_cost }}"
-        data-bs-title="<img src='{% cdn_image_url cid.card.image_url %}'/>"
-        data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="left">
+        data-bs-title="<img src='{% cdn_image_url cid.card.image_url %}'/>" data-bs-toggle="tooltip" data-bs-html="true"
+        data-bs-placement="left">
 
         <!-- Quantity buttons -->
         <div class="col-auto px-0">
-            <div class="input-group input-group-sm">
+            <div class="quantity-controls input-group input-group-sm">
                 <button class="remove-card-btn btn" type="button">-</button>
                 <span
                     class="d-flex justify-content-center align-items-center input-group-text card-quantity user-select-none"
@@ -42,7 +41,8 @@
 
             <!-- Mana costs -->
             <div class="ms-2 flex-shrink-0 text-nowrap sidebar-mana">
-                <span class="altered-{{ cid.card.stats.main_cost }}"></span>/<span class="altered-{{ cid.card.stats.recall_cost }}"></span>
+                <span class="altered-{{ cid.card.stats.main_cost }}"></span>&nbsp;<span
+                    class="altered-{{ cid.card.stats.recall_cost }}"></span>
             </div>
 
         </div>
@@ -50,11 +50,11 @@
 
     {% endfor %}
     <!-- Hidden card row for empty decks to use as a a template for new cards -->
-    <div class="row rounded align-items-center flex-nowrap my-1" id="row-empty" data-card-rarity="" data-bs-toggle="tooltip"
-        data-bs-disable="true" data-bs-html="true" data-bs-placement="left" hidden>
+    <div class="row rounded align-items-center flex-nowrap my-1" id="row-empty" data-card-rarity=""
+        data-bs-toggle="tooltip" data-bs-disable="true" data-bs-html="true" data-bs-placement="left" hidden>
         <div class="col-auto px-0">
-            <div class="input-group input-group-sm">
-                <!-- Quantity buttons -->
+            <!-- Quantity buttons -->
+            <div class="quantity-controls input-group input-group-sm">
                 <button class="remove-card-btn btn" type="button">-</button>
                 <span
                     class="d-flex justify-content-center align-items-center input-group-text card-quantity user-select-none"
