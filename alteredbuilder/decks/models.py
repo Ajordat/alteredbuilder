@@ -3,6 +3,7 @@ import uuid
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
+from django.db.models import Q
 from django.urls import reverse
 from hitcount.models import HitCount, HitCountMixin
 
@@ -100,6 +101,9 @@ class Set(models.Model):
     def __str__(self) -> str:
         return self.name
 
+    class Meta:
+        indexes = [models.Index(fields=["id"], name="set_is_main_set_idx", condition=Q(is_main_set=True))]
+
 
 class Subtype(models.Model):
     reference = models.CharField(primary_key=True)
@@ -152,7 +156,7 @@ class Card(models.Model):
     rarity = models.CharField(max_length=1, choices=Rarity)
     image_url = models.URLField(null=False, blank=True)
     display_image_url = models.URLField(null=False, blank=True)
-    set = models.ForeignKey(Set, null=True, on_delete=models.SET_NULL)
+    set = models.ForeignKey(Set, null=True, on_delete=models.SET_NULL, db_index=True)
 
     main_effect = models.TextField(blank=True)
     echo_effect = models.TextField(blank=True)
@@ -195,7 +199,13 @@ class Card(models.Model):
 
     class Meta:
         ordering = ["reference"]
-        indexes = [models.Index(fields=["rarity"]), models.Index(fields=["faction"])]
+        indexes = [
+            models.Index(fields=["rarity"]),
+            models.Index(fields=["faction"]),
+            models.Index(
+                fields=["set", "rarity"], name="card_base_query_idx", condition=Q(is_alt_art=False, is_promo=False)
+            ),
+        ]
 
 
 class Tag(models.Model):
