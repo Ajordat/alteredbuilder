@@ -353,8 +353,8 @@ function initSidebar() {
                 updateDisplayCount(cardReference, change.quantity);
             }
         }
-        sortDeckCards();
     }
+    sortDeckCards();
 }
 
 function updateDisplayCount(reference, count) {
