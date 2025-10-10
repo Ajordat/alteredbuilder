@@ -49,12 +49,12 @@
     box-shadow: 0 0 6px rgba(0, 0, 0, 1);
 }
 
-#decklist-cards .row[data-card-rarity="R"] div.sidebar-mana span {
+/* #decklist-cards .row[data-card-rarity="R"] div.sidebar-mana span {
     color: var(--R-color);
 }
 #decklist-cards .row[data-card-rarity="U"] div.sidebar-mana span {
     color: var(--U-color);
-}
+} */
 
 #decklist-cards .row[data-card-rarity="R"] {
     box-shadow: 0 0 4px var(--R-shadow-color);
