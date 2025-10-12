@@ -25,6 +25,7 @@ class CardListView(ListView):
         filters = Q()
         self.filter_sets = None
         query_sets = []
+        filter_by_main_set = False
 
         # Retrieve the text query and search by name
         query = self.request.GET.get("query")
@@ -59,9 +60,10 @@ class CardListView(ListView):
             if query_ks:
                 query_sets.append("COREKS")
             if not (allow_promo or allow_alt_art or query_ks):
-                filters &= Q(set__is_main_set=True)
+                filter_by_main_set = True
         else:
-            filters &= Q(is_promo=False, is_alt_art=False, set__is_main_set=True)
+            filter_by_main_set = True
+            filters &= Q(is_promo=False, is_alt_art=False)
             retrieve_owned = False
 
         # Retrieve the Rarity filters.
@@ -75,6 +77,7 @@ class CardListView(ListView):
             else:
                 if Card.Rarity.UNIQUE in rarities and retrieve_owned:
                     rarities.remove(Card.Rarity.UNIQUE)
+                    filter_by_main_set = False
                     if self.request.user.is_authenticated:
                         filters &= Q(rarity__in=rarities) | (
                             Q(rarity=Card.Rarity.UNIQUE)
@@ -86,6 +89,10 @@ class CardListView(ListView):
                     filters &= Q(rarity__in=rarities)
         else:
             filters &= ~Q(rarity=Card.Rarity.UNIQUE)
+        
+        if filter_by_main_set:
+            filters &= Q(set__is_main_set=True)
+
 
         # Retrieve the Type filters.
         # If any value is invalid, this filter will not be applied.
