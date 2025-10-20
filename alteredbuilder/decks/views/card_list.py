@@ -89,10 +89,9 @@ class CardListView(ListView):
                     filters &= Q(rarity__in=rarities)
         else:
             filters &= ~Q(rarity=Card.Rarity.UNIQUE)
-        
+
         if filter_by_main_set:
             filters &= Q(set__is_main_set=True)
-
 
         # Retrieve the Type filters.
         # If any value is invalid, this filter will not be applied.

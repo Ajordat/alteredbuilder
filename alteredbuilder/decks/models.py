@@ -102,7 +102,11 @@ class Set(models.Model):
         return self.name
 
     class Meta:
-        indexes = [models.Index(fields=["id"], name="set_is_main_set_idx", condition=Q(is_main_set=True))]
+        indexes = [
+            models.Index(
+                fields=["id"], name="set_is_main_set_idx", condition=Q(is_main_set=True)
+            )
+        ]
 
 
 class Subtype(models.Model):
@@ -203,7 +207,9 @@ class Card(models.Model):
             models.Index(fields=["rarity"]),
             models.Index(fields=["faction"]),
             models.Index(
-                fields=["set", "rarity"], name="card_base_query_idx", condition=Q(is_alt_art=False, is_promo=False)
+                fields=["set", "rarity"],
+                name="card_base_query_idx",
+                condition=Q(is_alt_art=False, is_promo=False),
             ),
         ]
 
