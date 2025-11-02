@@ -158,20 +158,39 @@
             <div class="row gy-3 infinite-container">
                 <!-- Card list with infinite scroll -->
     {% for card in card_list %}
+        {% with is_released=card.set.is_released %}
                 <div class="col-xxxl-2 col-xxl-3 col-xl-4 col-lg-6 col-12 infinite-item d-flex justify-content-center">
-                    <div id="display-{{ card.reference }}" class="card-display click-animation rounded-3" style="position: relative;"
-                    data-card-reference="{{ card.reference }}"
-                    data-card-name="{{ card.name }}"
-                    data-card-type="{{ card.type }}"
-                    data-card-rarity="{{ card.rarity }}"
-                    data-card-family="{{ card.get_card_code }}"
-                    data-card-image="{% cdn_image_url card.image_url %}"
-                    data-card-main-cost="{{ card.stats.main_cost }}"
-                    data-card-recall-cost="{{ card.stats.recall_cost }}">
+                    <div id="display-{{ card.reference }}" class="{% if is_released %}card-display click-animation{% endif %} rounded-3" style="position: relative;"
+                        data-card-reference="{{ card.reference }}"
+                        data-card-name="{{ card.name }}"
+                        data-card-type="{{ card.type }}"
+                        data-card-rarity="{{ card.rarity }}"
+                        data-card-family="{{ card.get_card_code }}"
+                        data-card-image="{% cdn_image_url card.image_url %}"
+                        data-card-main-cost="{{ card.stats.main_cost }}"
+                        data-card-recall-cost="{{ card.stats.recall_cost }}"
+                        {% if not is_released %}
+                        data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{% blocktranslate with set_name=card.set.name %}Unavailable until {{ set_name }} releases{% endblocktranslate %}"
+                        {% endif %}
+                    >
                         <img src="{% cdn_image_url card.image_url %}" class="card-img-top rounded-3" alt="{{ card.name }}">
-                        <div class="card-badge px-2 py-1 border border-white text-center"><span class="card-in-collection d-none"><span class="collection-count"></span> <i class="fa-regular fa-folder-open"></i><hr class="my-1"></span><span class="deck-quantity">{% dict_get all_cards card.reference 0 %}</span>/<span class="max-deck-quantity">3</span></div>
+            {% if is_released %}
+                        <div class="card-badge px-2 py-1 border border-white text-center">
+                            <span class="card-in-collection d-none">
+                                <span class="collection-count"></span>
+                                <i class="fa-regular fa-folder-open"></i>
+                                <hr class="my-1">
+                            </span>
+                            <span class="deck-quantity">{% dict_get all_cards card.reference 0 %}</span>/<span class="max-deck-quantity">3</span>
+                        </div>
+            {% else %}
+                        <div class="card-badge px-2 py-1 border border-white text-center" >
+                            <span>🛇</span>
+                        </div>
+            {% endif %}
                     </div>
                 </div>
+        {% endwith %}
     {% empty %}
                 <p>{% translate "No cards found with the current filter." %}</p>
     {% endfor %}

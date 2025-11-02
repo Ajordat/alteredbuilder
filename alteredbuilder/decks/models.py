@@ -1,3 +1,4 @@
+from datetime import date
 import uuid
 
 from django.conf import settings
@@ -100,6 +101,10 @@ class Set(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+    @property
+    def is_released(self):
+        return date.today() >= self.release_date
 
     class Meta:
         indexes = [

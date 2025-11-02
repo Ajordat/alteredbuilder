@@ -21,7 +21,7 @@ class CardListView(ListView):
         Returns:
             QuerySet[Card]: The list of Cards.
         """
-        qs = super().get_queryset()
+        qs = super().get_queryset().select_related("set")
         filters = Q()
         self.filter_sets = None
         query_sets = []
