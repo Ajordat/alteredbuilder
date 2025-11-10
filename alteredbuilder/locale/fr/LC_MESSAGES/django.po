@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-10 02:07+0200\n"
-"PO-Revision-Date: 2025-11-10 11:51+0000\n"
+"PO-Revision-Date: 2025-11-11 15:51+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/"
 "altered-tcg-builder/server-strings/fr/>\n"
@@ -1622,8 +1622,8 @@ msgstr "avatar"
 #, python-format
 msgid "%(follower_count)s Follower"
 msgid_plural "%(follower_count)s Followers"
-msgstr[0] "%(follower_count)s Follower"
-msgstr[1] "%(follower_count)s Followers"
+msgstr[0] "%(follower_count)s suiveur"
+msgstr[1] "%(follower_count)s suiveurs"
 
 #: profiles/templates/profiles/tooltips/user_profile.html:15
 #: profiles/templates/profiles/userprofile_detail.html:40
