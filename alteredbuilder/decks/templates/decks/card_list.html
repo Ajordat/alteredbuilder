@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="{% static 'css/alteredicons.css' %}">
     {% if 'Owned' in checked_filters %}
     <style>
-        .infinite-item:has(> .card-display .card-in-collection.d-none) {
+        .infinite-item:has(> .card-display .card-in-collection.d-none), .infinite-item:has(.card-unreleased) {
             display: none !important;
         }
     </style>
@@ -186,7 +186,7 @@
                         </div>
             {% else %}
                         <div class="card-badge px-2 py-1 border border-white text-center" >
-                            <span>🛇</span>
+                            <span class="card-unreleased">🛇</span>
                         </div>
             {% endif %}
                     </div>

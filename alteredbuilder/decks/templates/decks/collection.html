@@ -11,8 +11,8 @@
     <h2>{% translate "My Collection" %}</h2>
 
     <button type="button" class="btn altered-style mb-3" data-bs-toggle="modal" data-bs-target="#importCollectionModal">{% translate "Import Collection" %}</button>
-    <div class="row row-cols-1 row-cols-md-3 row-cols-xl-4 g-4">
-    
+    <div class="row row-cols-1 row-cols-md-3 row-cols-xl-4">
+
     {% for set in card_sets %}
         {% include "decks/snippets/collection_set_summary.html" with set=set %}
     {% endfor %}
