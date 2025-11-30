@@ -91,6 +91,7 @@
                                                 {% translate "Common" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="C" label="Common" %}
                                                 {% translate "Rare" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="R" label="Rare" %}
                                                 {% translate "Unique" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="U" label="Unique" %}
+                                                {% translate "Exalted" noop as _ %}{% include "decks/snippets/filter_checkbox.html" with value="E" label="Exalted" %}
                                             </div>
                                             <div class="col">
                                                 <!-- Type filters -->
@@ -451,6 +452,7 @@
                 Array.from(cardDisplayElements).forEach(function(element) {
                     element.addEventListener("click", addCardFromDisplay);
                 });
+                enableTooltips();
             }
         });
     </script>

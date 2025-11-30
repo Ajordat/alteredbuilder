@@ -78,6 +78,7 @@ class Command(BaseCommand):
 
                 for language, _ in settings.LANGUAGES:
                     self.language_code = language
+                    self.language_code_api = get_altered_api_locale(self.language_code)
                     activate(self.language_code)
                     card = self._fetch_details(card_reference, self.language_code)
                     try:
@@ -94,6 +95,7 @@ class Command(BaseCommand):
 
             for language, _ in settings.LANGUAGES:
                 self.language_code = language
+                self.language_code_api = get_altered_api_locale(self.language_code)
                 activate(self.language_code)
                 self.query_page(sets)
                 self.subtypes.clear()
@@ -105,8 +107,6 @@ class Command(BaseCommand):
             CommandError: If the API returns a response in a different format.
         """
 
-        locale = get_altered_api_locale(self.language_code)
-
         params = []
         if UPDATE_UNIQUES:
             params.append(("rarity[]", "UNIQUE"))
@@ -117,7 +117,7 @@ class Command(BaseCommand):
             CARDS_API_ENDPOINT,
             user_agent_task="CardImporter",
             params=params,
-            locale=locale,
+            locale=self.language_code_api,
         ):
             try:
                 self.handle_card(card)
@@ -175,8 +175,12 @@ class Command(BaseCommand):
             "faction": card["mainFaction"]["reference"],
             "type": card["cardType"]["reference"],
             "rarity": card["rarity"]["reference"],
-            "image_url": card["imagePath"],
         }
+        if image_path := card.get("allImagePath", {}).get(self.language_code_api, None):
+            card_dict["image_url"] = image_path
+        else:
+            card_dict["image_url"] = None
+
         if "cardSubTypes" in card:
             card_dict["subtypes"] = [
                 (subtype["reference"], subtype["name"])
@@ -353,9 +357,8 @@ class Command(BaseCommand):
         # details in other languages as well. If we didn't, we'd be getting the same
         # language for all versions of each card.
 
-        locale = get_altered_api_locale(self.language_code)
-        HEADERS["Accept-Language"] = locale
-        params = f"locale={locale}"
+        HEADERS["Accept-Language"] = self.language_code_api
+        params = f"locale={self.language_code_api}"
 
         # Query the API
         return fetch_with_backoff(

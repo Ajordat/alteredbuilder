@@ -152,10 +152,11 @@ class Card(models.Model):
         COMMON = "C", "common"
         RARE = "R", "rare"
         UNIQUE = "U", "unique"
+        EXALTED = "E", "exalted"
 
         @classmethod
         def as_list(cls):
-            return [cls.COMMON, cls.RARE, cls.UNIQUE]
+            return [cls.COMMON, cls.RARE, cls.UNIQUE, cls.EXALTED]
 
     reference = models.CharField(primary_key=True)
     name = models.CharField(null=False, blank=False)

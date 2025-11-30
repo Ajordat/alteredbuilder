@@ -21,23 +21,24 @@ A big thank you to our growing community of users who have supported this projec
 -----
 
 **Table of Contents**
-- [Altered TCG Builder](#altered-tcg-builder)
-  - [Development](#development)
-    - [Initial setup](#initial-setup)
-    - [Build](#build)
-    - [Run](#run)
-    - [Code format and style](#code-format-and-style)
-    - [Unit testing](#unit-testing)
-  - [Database](#database)
-    - [Connect](#connect)
-    - [Create a Django migration](#create-a-django-migration)
-    - [Revert a Django migration](#revert-a-django-migration)
-    - [Import and export](#import-and-export)
-  - [Environmental variables](#environmental-variables)
-    - [At GCP](#at-gcp)
-    - [At local environment](#at-local-environment)
-  - [Translations](#translations)
-    - [Weblate](#weblate)
+- [Development](#development)
+  - [Initial setup](#initial-setup)
+  - [Build](#build)
+  - [Run](#run)
+  - [Code format and style](#code-format-and-style)
+  - [Unit testing](#unit-testing)
+- [Database](#database)
+  - [Connect](#connect)
+  - [Create a Django migration](#create-a-django-migration)
+  - [Revert a Django migration](#revert-a-django-migration)
+  - [Import and export](#import-and-export)
+- [Environmental variables](#environmental-variables)
+  - [At GCP](#at-gcp)
+  - [At local environment](#at-local-environment)
+- [Translations](#translations)
+  - [Weblate](#weblate)
+- [Operations](#operations)
+  - [Add a new set](#add-a-new-set)
 
 ## Development
 
@@ -244,3 +245,23 @@ Normaly the `.po` files should be given to translators but with the integration 
 
 Weblate hosts the platform's strings so that volunteers can translate them.
 Once some changes have been made, Weblate pushes the changes to the `translations` branch so that the files can be compiled and merged into production.
+
+## Operations
+
+### Add a new set
+
+1. Create the new set on the Admin panel with these values:
+   * **Name**. Name of the set but it will actually be replaced by the l10n name.
+   * **Name [en]**. Name of the set.
+   * **Short name**. Few characters to identify a set on the filters. Its use could probably be replaced by `code`.
+   * **Code**. Code of the set. Used to identify a set uniquely. It's easy to make it match the `reference_code`.
+   * **Reference code**. Code of the set in the cards' reference. Used to match a card with its set. It cannot be done without the `_` to avoid false matches like `CORE` being identified in a `COREKS` card.
+   * **Release date**. The date of release of the set. The cards will be displayed but they will not be usable until then.
+   * **Is main set**. Mark the checkbox if it's a main set.
+
+2. Import the card pool:
+   ```
+   docker compose run web python manage.py update_card_pool --sets <SET_CODE>
+   ```
+
+3. Add the set code to [card-list.js](alteredbuilder\decks\static\js\card-list.js)

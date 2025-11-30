@@ -55,7 +55,7 @@ function searchCards(e) {
     }
 
     // Retrieve the RARITY filters
-    let rarities = parseFilter(["Common", "Rare", "Unique"]);
+    let rarities = parseFilter(["Common", "Rare", "Unique", "Exalted"]);
     if (rarities.length > 0) {
         params.append("rarity", rarities.join(","));
     }
