@@ -48,8 +48,14 @@ class ReadOnlyAdminMixin(object):
     ) -> bool:
         if isinstance(obj, Card):
             return obj.rarity == Card.Rarity.UNIQUE
-        if request.get_raw_uri() == "/admin/auth/user/":
+
+        if (
+            request.user.is_staff
+            and request.path == "/admin/auth/user/"
+            and request.method == "POST"
+        ):
             return True
+
         return False
 
     def save_model(self, request: Any, obj: Any, form: Any, change: Any) -> None:
