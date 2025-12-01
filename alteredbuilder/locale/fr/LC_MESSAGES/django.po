@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-10 02:07+0200\n"
-"PO-Revision-Date: 2025-08-07 09:02+0000\n"
+"PO-Revision-Date: 2025-11-11 15:51+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/altered-tcg-"
-"builder/server-strings/fr/>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/"
+"altered-tcg-builder/server-strings/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 
 #: api/utils.py:20 decks/views/deck_metadata.py:105
 msgid "Invalid payload"
@@ -260,7 +260,7 @@ msgstr "Sort"
 
 #: decks/templates/decks/card_list.html:106
 msgid "Set"
-msgstr ""
+msgstr "Définir"
 
 #: decks/templates/decks/card_list.html:116
 #: decks/templates/decks/deck_list.html:71
@@ -1622,8 +1622,8 @@ msgstr "avatar"
 #, python-format
 msgid "%(follower_count)s Follower"
 msgid_plural "%(follower_count)s Followers"
-msgstr[0] "%(follower_count)s Follower"
-msgstr[1] "%(follower_count)s Followers"
+msgstr[0] "%(follower_count)s suiveur"
+msgstr[1] "%(follower_count)s suiveurs"
 
 #: profiles/templates/profiles/tooltips/user_profile.html:15
 #: profiles/templates/profiles/userprofile_detail.html:40
