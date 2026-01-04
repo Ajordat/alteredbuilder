@@ -7,6 +7,7 @@
             <div class="card-body">
                 <h2 class="card-title">{{ set.name }}</h2>
                 <hr class="altered-style mt-1 mb-2">
+                <p id="{{ set.code }}-booster-description"></p>
                 <p class="card-text mt-4 mb-1 ">
                     <strong>{% translate "Breakdown of owned cards by rarity" %}</strong>
                 </p>
@@ -122,7 +123,7 @@
                     </table>
                 </div>
                 <p class="card-text mt-4 mb-1 ">
-                    <strong>Chances to get a new card (not owned)</strong>
+                    <strong>Chances to get a new card (not owned) by opening one booster</strong>
                 </p>
                 <div class="d-flex justify-content-start table-responsive">
                     <table class="table table-striped table-sm w-auto">
@@ -131,7 +132,7 @@
                                 <th scope="col"></th>
                                 <th scope="col">Chances</th>
                                 <th scope="col">Booster count</th>
-                                <th scope="col">Chances excluding uniques</th>
+                                <th scope="col">Chances in regular packs</th>
                             </tr>
                         </thead>
                         <tbody class="table-group-divider">
@@ -154,9 +155,9 @@
                                 <td><span id="{{ set.code }}-new-no-unique-rare-chance">100</span>%</td>
                             </tr>
                             <tr>
-                                <th scope="row">Unique</th>
-                                <td>12.50%</td>
-                                <td>1 in 8 packs</td>
+                                <th scope="row">Unique<sup>1</sup></th>
+                                <td><span id="{{ set.code }}-new-unique-chance">12.50</span>%</td>
+                                <td><span id="{{ set.code }}-new-unique-booster-block">1 in <span id="{{ set.code }}-new-unique-booster">1</span> packs</span><span id="{{ set.code }}-new-unique-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
                                 <td>0.00%</td>
                             </tr>
                         </tbody>
@@ -171,7 +172,7 @@
                     </table>
                 </div>
                 <p class="card-text mt-4 mb-1 ">
-                    <strong>Chances to get a new card towards a complete playset (3 of each card or 1 unique)</strong>
+                    <strong>Chances to get a new card towards a complete playset (3 of each card or 1 unique) by opening one booster</strong>
                 </p>
                 <div class="d-flex justify-content-start table-responsive">
                     <table class="table table-striped table-sm w-auto">
