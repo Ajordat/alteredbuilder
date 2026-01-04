@@ -5,7 +5,7 @@ from profiles.models import Follow, UserProfile
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ["user"]
+    list_display = ["user", "bio"]
     search_fields = ["user__username"]
     readonly_fields = ["user", "code", "altered_handle", "discord_public"]
     fieldsets = [
