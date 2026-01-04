@@ -3,6 +3,7 @@ from typing import Any
 
 from django.conf import settings
 from django.contrib import admin
+from django.db.models.query import QuerySet
 from django.http import HttpRequest
 from django.template.response import TemplateResponse
 from django.utils.html import format_html
@@ -138,17 +139,17 @@ class DeckAdmin(admin.ModelAdmin):
     hero_name.short_description = "Hero"
 
     @admin.action(description="Mark selected Decks as public")
-    def make_public(self, request, queryset):
+    def make_public(self, request, queryset: QuerySet[Deck]):
         updated = queryset.update(is_public=True)
         self.message_user(request, f"{updated} deck(s) marked as public.")
 
     @admin.action(description="Mark selected Decks as private")
-    def make_private(self, request, queryset):
+    def make_private(self, request, queryset: QuerySet[Deck]):
         updated = queryset.update(is_public=False)
         self.message_user(request, f"{updated} deck(s) marked as private.")
 
     @admin.action(description="Change owner of selected decks")
-    def change_deck_owner(self, request, queryset):
+    def change_deck_owner(self, request, queryset: QuerySet[Deck]):
         form = None
 
         if "apply" in request.POST:
@@ -270,13 +271,13 @@ class CardAdmin(admin.ModelAdmin):
         )
 
     @admin.action(description="Change rarity to common")
-    def change_rarity_to_common(self, request, queryset):
+    def change_rarity_to_common(self, request, queryset: QuerySet[Card]):
         updated = queryset.update(rarity=Card.Rarity.COMMON)
 
         self.message_user(request, f"{updated} card(s) updated to common rarity.")
 
     @admin.action(description="Copy display image")
-    def copy_display_image(self, request, queryset):
+    def copy_display_image(self, request, queryset: QuerySet[Card]):
         base_card = queryset.filter(is_promo=False).order_by("set__release_date")[0]
         updated = queryset.filter(display_image_url="").update(
             display_image_url=base_card.display_image_url

@@ -42,6 +42,7 @@ class ProfileListView(ListView):
         qs = (
             get_user_model()
             .objects.select_related("profile")
+            .filter(profile__is_spam=False)
             .order_by("-date_joined")[: self.USER_COUNT_DISPLAY]
         )
 

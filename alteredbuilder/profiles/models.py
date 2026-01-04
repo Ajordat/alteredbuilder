@@ -13,6 +13,7 @@ class UserProfile(models.Model):
     )
     bio = models.TextField(max_length=1000, blank=True)
     avatar = models.CharField(default="NE_DEFAULT.png")
+    is_spam = models.BooleanField(default=False)
 
     collection = models.CharField(null=True, blank=True)
 
