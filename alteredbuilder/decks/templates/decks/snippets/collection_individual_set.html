@@ -79,6 +79,25 @@
                                     </div>
                                 </td>
                             </tr>
+                            <tr class="{{ set.code }}-exalt-row">
+                                <th scope="row">Exalted</th>
+                                <td><span id="{{ set.code }}-owned-exalt-count">0</span></td>
+                                <td><span id="{{ set.code }}-total-exalt-count"></span></td>
+                                <td>
+                                    <div class="progress">
+                                        <div
+                                            id="{{ set.code }}-exalt-progress"
+                                            class="progress-bar" 
+                                            role="progressbar" 
+                                            style="width: 0%;" 
+                                            aria-valuenow="0" 
+                                            aria-valuemin="0" 
+                                            aria-valuemax="100">
+                                            0%
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
                             <tr>
                                 <th scope="row">Unique<sup>1</sup></th>
                                 <td><span id="{{ set.code }}-owned-unique-count">0</span></td>
@@ -154,6 +173,12 @@
                                 <td><span id="{{ set.code }}-new-rare-booster-block">1 in <span id="{{ set.code }}-new-rare-booster">1</span> packs</span><span id="{{ set.code }}-new-rare-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
                                 <td><span id="{{ set.code }}-new-no-unique-rare-chance">100</span>%</td>
                             </tr>
+                            <tr class="{{ set.code }}-exalt-row">
+                                <th scope="row">Exalted</th>
+                                <td><span id="{{ set.code }}-new-exalt-chance">100</span>%</td>
+                                <td><span id="{{ set.code }}-new-exalt-booster-block">1 in <span id="{{ set.code }}-new-exalt-booster">1</span> packs</span><span id="{{ set.code }}-new-exalt-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
+                                <td>0.00%</td>
+                            </tr>
                             <tr>
                                 <th scope="row">Unique<sup>1</sup></th>
                                 <td><span id="{{ set.code }}-new-unique-chance">12.50</span>%</td>
@@ -193,6 +218,11 @@
                                 <th scope="row">Rare</th>
                                 <td><span id="{{ set.code }}-playset-rare-chance">100</span>%</td>
                                 <td><span id="{{ set.code }}-playset-rare-booster-block">1 in <span id="{{ set.code }}-playset-rare-booster">1</span> packs</span><span id="{{ set.code }}-playset-rare-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
+                            </tr>
+                            <tr class="{{ set.code }}-exalt-row">
+                                <th scope="row">Exalted</th>
+                                <td><span id="{{ set.code }}-playset-exalt-chance">100</span>%</td>
+                                <td><span id="{{ set.code }}-playset-exalt-booster-block">1 in <span id="{{ set.code }}-playset-exalt-booster">1</span> packs</span><span id="{{ set.code }}-playset-exalt-booster-zero-block" class="d-none">0 in &infin; packs</span></td>
                             </tr>
                             <tr>
                                 <th scope="row">Unique<sup>1</sup></th>

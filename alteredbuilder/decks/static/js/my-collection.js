@@ -122,44 +122,54 @@ function drawStats(manager) {
         set = manager.sets[code];
         booster = set.boosterType;
 
-        document.getElementById(`${code}-booster-description`).textContent = booster.getDescription();
+        document.getElementById(`${code}-booster-description`).innerHTML = booster.getDescription();
         document.getElementById(`${code}-owned-count`).textContent = set.getTotalCount();
-        document.getElementById(`${code}-total-count`).textContent = set.total.total_count;
+        document.getElementById(`${code}-total-count`).textContent = set.getTotalAggregation();
+        if (set.getExaltTotal() === 0) {
+            let exaltRows = document.getElementsByClassName(`${code}-exalt-row`);
+            for (let element of exaltRows) {
+                element.classList.add("d-none");
+            }
+        }
 
-        let heroChance = booster.getHeroChance();
         let commonChance = booster.getCommonChance();
-        drawChanceStat(code, "new", "hero", heroChance);
+        drawChanceStat(code, "new", "hero", booster.getHeroChance());
         drawChanceStat(code, "new", "common", commonChance);
         drawChanceStat(code, "new", "rare", booster.getRareChance());
+        drawChanceStat(code, "new", "exalt", booster.getExaltChance());
         drawChanceStat(code, "new", "unique", booster.getUniqueChance());
         drawChanceStat(code, "new", "card", booster.getNewCardChance());
 
-        drawChanceStat(code, "new-no-unique", "hero", heroChance);
+        drawChanceStat(code, "new-no-unique", "hero", booster.getHeroChanceNoUnique());
         drawChanceStat(code, "new-no-unique", "common", commonChance);
         drawChanceStat(code, "new-no-unique", "rare", booster.getRareChanceNoUnique());
         drawChanceStat(code, "new-no-unique", "card", booster.getCardChanceNoUnique());
 
         drawChanceStat(code, "playset", "common", booster.getCommonPlaysetChance());
         drawChanceStat(code, "playset", "rare", booster.getRarePlaysetChance());
-        drawChanceStat(code, "playset", "unique", booster.getUniqueChance());
+        drawChanceStat(code, "playset", "exalt", booster.getExaltPlaysetChance());
+        drawChanceStat(code, "playset", "unique", booster.getUniquePlaysetChance());
         drawChanceStat(code, "playset", "card", booster.getCardPlaysetChance());
 
         drawCountStat(code, "owned", "hero", set.getHeroCount());
         drawCountStat(code, "owned", "common", set.getCommonCount());
         drawCountStat(code, "owned", "rare", set.getRareCount());
+        drawCountStat(code, "owned", "exalt", set.getExaltCount());
         drawCountStat(code, "owned", "unique", set.getUniqueCount());
 
-        drawCountStat(code, "total", "hero", set.total.hero_count);
-        drawCountStat(code, "total", "common", set.total.common_count);
-        drawCountStat(code, "total", "rare", set.total.rare_count);
-        drawCountStat(code, "total", "unique", set.total.unique_count);
+        drawCountStat(code, "total", "hero", set.getHeroTotal());
+        drawCountStat(code, "total", "common", set.getCommonTotal());
+        drawCountStat(code, "total", "rare", set.getRareTotal());
+        drawCountStat(code, "total", "exalt", set.getExaltTotal());
+        drawCountStat(code, "total", "unique", set.getUniqueTotal());
 
-        drawProgressStat(code, "hero", set.getHeroCount(), set.total.hero_count);
-        drawProgressStat(code, "common", set.getCommonCount(), set.total.common_count);
-        drawProgressStat(code, "rare", set.getRareCount(), set.total.rare_count);
-        drawProgressStat(code, "unique", set.getUniqueCount(), set.total.unique_count);
-        drawProgressStat(code, "all", set.getTotalCount(), set.total.total_count);
-        drawProgressStat(code, "summary", set.getTotalCount(), set.total.total_count);
+        drawProgressStat(code, "hero", set.getHeroCount(), set.getHeroTotal());
+        drawProgressStat(code, "common", set.getCommonCount(), set.getCommonTotal());
+        drawProgressStat(code, "rare", set.getRareCount(), set.getRareTotal());
+        drawProgressStat(code, "exalt", set.getExaltCount(), set.getExaltTotal());
+        drawProgressStat(code, "unique", set.getUniqueCount(), set.getUniqueTotal());
+        drawProgressStat(code, "all", set.getTotalCount(), set.getTotalAggregation());
+        drawProgressStat(code, "summary", set.getTotalCount(), set.getTotalAggregation());
     });
 }
 

@@ -1,12 +1,11 @@
 
-class BoosterTypeGen1 {
-    constructor(set) {
-        this.set = set;
-        this.description = "Includes 1 hero, 8 commons, 3 rares. Once every 8 boosters, a rare slot is replaced with a unique card.";
-    }
+class BoosterTypeGen1 extends BoosterTypeBase {
 
     getDescription() {
-        return this.description;
+        return `
+            Includes 1 hero, 8 commons, 3 rares.<br>
+            Once every 8 boosters (12.5%), the third rare slot is replaced with a unique card.
+        `;
     }
 
     getHeroChance() {
@@ -22,7 +21,7 @@ class BoosterTypeGen1 {
         // There are 3 slots for rare cards except in 1 every 8 boosters, where there
         // are two (to make room for a unique)
         // 1 - (7/8*R^3 + 1/8*R^2)
-        let rarePercentage = this.set.getRarePercentage()
+        let rarePercentage = this.set.getRarePercentage();
         return 1 - (0.875 * rarePercentage ** 3 + 0.125 * rarePercentage ** 2);
     }
     getUniqueChance() {

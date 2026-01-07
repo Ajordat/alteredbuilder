@@ -112,8 +112,30 @@ class CardSet {
     getRareCount() {
         return this.stats.rare_count;
     }
+    getExaltCount() {
+        return this.stats.exalt_count;
+    }
     getUniqueCount() {
         return this.stats.unique_count;
+    }
+
+    getHeroTotal() {
+        return this.total.hero_count;
+    }
+    getCommonTotal() {
+        return this.total.common_count;
+    }
+    getRareTotal() {
+        return this.total.rare_count;
+    }
+    getExaltTotal() {
+        return this.total.exalt_count;
+    }
+    getUniqueTotal() {
+        return this.total.unique_count;
+    }
+    getTotalAggregation() {
+        return this.total.total_count;
     }
 
     getHeroPercentage() {
@@ -126,10 +148,10 @@ class CardSet {
         return (this.stats.rare_count - this.gift.rare_count) / this.booster.rare_count;
     }
     getUniquePercentage() {
-        return this.stats.unique_playset_count / this.booster.unique_count;
+        return this.stats.unique_count / this.booster.unique_count;
     }
     getExaltPercentage() {
-        return this.stats.exalt_playset_count / this.booster.exalt_count;
+        return this.stats.exalt_count / this.booster.exalt_count;
     }
 
     getCommonPlaysetPercentage() {
@@ -139,9 +161,9 @@ class CardSet {
         return (this.stats.rare_playset_count - this.gift.rare_count) / this.booster.rare_count;
     }
     getUniquePlaysetPercentage() {
-        return this.getUniquePercentage();
+        return this.stats.unique_playset_count / this.booster.unique_count;
     }
     getExaltPlaysetPercentage() {
-        return this.getExaltPercentage();
+        return this.stats.exalt_playset_count / this.booster.exalt_count;
     }
 }

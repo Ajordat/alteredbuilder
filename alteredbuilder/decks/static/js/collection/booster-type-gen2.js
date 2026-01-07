@@ -1,12 +1,16 @@
 
-class BoosterTypeGen2 {
-    constructor(set) {
-        this.set = set;
-        this.description = "Lorem Ipsum";
-    }
+class BoosterTypeGen2 extends BoosterTypeBase {
 
     getDescription() {
-        return this.description;
+        return `
+            Includes 9 commons, 3 rares and the last card has 70% chance of being a hero.<br>
+            The third rare slot has a chance of being replaced by another card:<br>
+            <ul>
+                <li>Once every 6 boosters (16.67%), it will be a unique card.</li>
+                <li>Once every 20 boosters (5%), it will be an exalt card.</li>
+                <li>Once every 80 boosters (1.25%), it will be a full art hero.</li>
+            </ul>
+        `;
     }
 
     getHeroChance() {
@@ -26,6 +30,9 @@ class BoosterTypeGen2 {
         let rarePercentage = this.set.getRarePercentage()
         return 1 - (0.7715 * rarePercentage ** 3 + 0.2285 * rarePercentage ** 2);
     }
+    getExaltChance() {
+        return (1 - this.set.getExaltPercentage()) * 0.05;
+    }
     getUniqueChance() {
         // There's 1 slot for a unique card once every 6 boosters
         // 1/6*(1-U)
@@ -43,10 +50,15 @@ class BoosterTypeGen2 {
         let uniquePercentage = this.set.getUniquePercentage();
         let exaltPercentage = this.set.getExaltPercentage();
 
-        let x = commonPercentage ** 9 * rarePercentage ** 2 * (0.7 * heroPercentage + 0.3);
+        let x = (commonPercentage ** 9) * (rarePercentage ** 2) * (0.7 * heroPercentage + 0.3);
         return 1 - x * (0.7715 * rarePercentage + 0.166 * uniquePercentage + 0.05 * exaltPercentage + 0.0125 * heroPercentage);
     }
 
+    getHeroChanceNoUnique() {
+        // Heroes have a 70% to appear on the 13th slot
+        // 0.7 * (1 - H)
+        return 0.70 * (1 - this.set.getHeroPercentage());
+    }
     getRareChanceNoUnique() {
         // There are 3 slots for rare cards
         // 1 - R^3
@@ -73,6 +85,10 @@ class BoosterTypeGen2 {
         // 1 - 0.7715*RP^3 - (1-0.7715)*RP^2
         let rarePercentage = this.set.getRarePlaysetPercentage();
         return 1 - 0.7715 * (rarePercentage ** 3) - 0.2285 * (rarePercentage ** 2);
+    }
+    getExaltPlaysetChance() {
+        let exaltPercentage = this.set.getExaltPlaysetPercentage();
+        return 0.05 * (1 - exaltPercentage);
     }
     getCardPlaysetChance() {
         let commonPercentage = this.set.getCommonPlaysetPercentage();
