@@ -19,6 +19,7 @@ class GameMode(ABC):
     MIN_TOTAL_COUNT: int = None
     MAX_RARE_COUNT: int = None
     MAX_UNIQUE_COUNT: int = None
+    MAX_EXALT_COUNT: int = None
     ENFORCE_INDIVIDUAL_UNIQUES: bool = True
     MAX_SAME_FAMILY_CARD_COUNT: int = None
     IS_HERO_MANDATORY: bool = False
@@ -56,6 +57,10 @@ class GameMode(ABC):
             kwargs["unique_count"] > cls.MAX_UNIQUE_COUNT
         ):
             error_list.append(cls.ErrorCode.ERR_EXCEED_UNIQUE_COUNT)
+        if cls.MAX_EXALT_COUNT is not None and (
+            kwargs["exalt_count"] > cls.MAX_EXALT_COUNT
+        ):
+            error_list.append(cls.ErrorCode.ERR_EXCEED_EXALT_COUNT)
         if cls.ENFORCE_INDIVIDUAL_UNIQUES and kwargs["repeats_same_unique"]:
             error_list.append(cls.ErrorCode.ERR_UNIQUE_IS_REPEATED)
         if cls.MAX_SAME_FAMILY_CARD_COUNT is not None and (
@@ -83,6 +88,8 @@ class GameMode(ABC):
         ERR_EXCEED_RARE_COUNT = "ERR_EXCEED_RARE_COUNT"
         # Exceeds maximum unique card count
         ERR_EXCEED_UNIQUE_COUNT = "ERR_EXCEED_UNIQUE_COUNT"
+        # Exceeds maximum exalt card count
+        ERR_EXCEED_EXALT_COUNT = "ERR_EXCEED_EXALT_COUNT"
         # There are multiple copies of a single unique
         ERR_UNIQUE_IS_REPEATED = "ERR_UNIQUE_IS_REPEATED"
         # Exceeds maximum card count of same family
@@ -117,6 +124,10 @@ class GameMode(ABC):
                 case GameMode.ErrorCode.ERR_EXCEED_UNIQUE_COUNT:
                     return _("Exceeds the maximum UNIQUE card count (%(count)s)") % {
                         "count": game_mode.MAX_UNIQUE_COUNT
+                    }
+                case GameMode.ErrorCode.ERR_EXCEED_EXALT_COUNT:
+                    return _("Exceeds the maximum EXALTED card count (%(count)s)") % {
+                        "count": game_mode.MAX_EXALT_COUNT
                     }
                 case GameMode.ErrorCode.ERR_UNIQUE_IS_REPEATED:
                     return _("There's more than a single copy of a UNIQUE card")
@@ -163,6 +174,7 @@ class StandardGameMode(GameMode):
     MIN_TOTAL_COUNT = 39
     MAX_RARE_COUNT = 15
     MAX_UNIQUE_COUNT = 3
+    MAX_EXALT_COUNT = 3
     MAX_SAME_FAMILY_CARD_COUNT = 3
     IS_HERO_MANDATORY = True
     BANNED_FAMILY_CARDS = [
@@ -219,6 +231,7 @@ def update_deck_legality(deck: Deck) -> None:
     total_count = 0
     rare_count = 0
     unique_count = 0
+    exalt_count = 0
     repeats_same_unique = False
     factions = [deck.hero.faction] if deck.hero else []
     family_count = defaultdict(int)
@@ -234,6 +247,8 @@ def update_deck_legality(deck: Deck) -> None:
             unique_count += cid.quantity
             if cid.quantity > 1:
                 repeats_same_unique = True
+        elif cid.card.rarity == Card.Rarity.EXALTED:
+            exalt_count += cid.quantity
         if cid.card.faction not in factions:
             factions.append(cid.card.faction)
         family_key = cid.card.get_family_code()
@@ -245,6 +260,7 @@ def update_deck_legality(deck: Deck) -> None:
         "total_count": total_count,
         "rare_count": rare_count,
         "unique_count": unique_count,
+        "exalt_count": exalt_count,
         "family_count": family_count,
         "has_hero": bool(deck.hero),
         "repeats_same_unique": repeats_same_unique,

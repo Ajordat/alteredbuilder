@@ -218,13 +218,15 @@ function getRarityTranslated(rarity, count) {
             return ngettext("Rare", "Rares", count);
         case "U":
             return ngettext("Unique", "Uniques", count);
+        case "E":
+            return ngettext("Exalted", "Exalted", count);
         default:
             return "";
     }
 }
 
 function updateCardCount() {
-    let rarities = ["C", "R", "U"];
+    let rarities = ["C", "R", "U", "E"];
     let cardsCount = 0;
 
     for (let rarity of rarities) {
