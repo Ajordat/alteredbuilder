@@ -193,10 +193,10 @@ class Doubles(StandardGameMode):
     MAX_FACTION_COUNT = 2
 
 
-class ExaltsChampionship(StandardGameMode):
+class NoUniqueChampionship(StandardGameMode):
     """Class to represent the Standard game mode."""
 
-    MAX_RARE_COUNT = 18
+    MAX_RARE_COUNT = 15
     MAX_UNIQUE_COUNT = 0
 
 
@@ -275,8 +275,8 @@ def update_deck_legality(deck: Deck) -> None:
     deck.is_draft_legal = not bool(error_list)
     deck.draft_legality_errors = error_list
 
-    has_errors = ExaltsChampionship.validate(**data)
-    deck.is_exalts_legal = not has_errors
+    has_errors = NoUniqueChampionship.validate(**data)
+    deck.is_nuc_legal = not has_errors
 
     has_errors = Doubles.validate(**data)
     deck.is_doubles_legal = not has_errors

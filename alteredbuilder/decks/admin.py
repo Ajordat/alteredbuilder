@@ -92,7 +92,7 @@ class DeckAdmin(admin.ModelAdmin):
         "standard_legality_errors",
         "is_draft_legal",
         "draft_legality_errors",
-        "is_exalts_legal",
+        "is_nuc_legal",
         "love_count",
         "hit_count",
         "comment_count",
@@ -124,7 +124,7 @@ class DeckAdmin(admin.ModelAdmin):
                 "fields": [
                     ("is_standard_legal", "standard_legality_errors"),
                     ("is_draft_legal", "draft_legality_errors"),
-                    "is_exalts_legal",
+                    "is_nuc_legal",
                 ]
             },
         ),

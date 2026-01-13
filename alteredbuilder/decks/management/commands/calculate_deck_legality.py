@@ -33,7 +33,7 @@ class Command(BaseCommand):
         update_fields = [
             "is_standard_legal",
             "standard_legality_errors",
-            "is_exalts_legal",
+            "is_nuc_legal",
             "is_doubles_legal",
         ]
         decks_chunk = []

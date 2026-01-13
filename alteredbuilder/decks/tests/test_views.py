@@ -112,10 +112,10 @@ class DeckListViewTestCase(BaseViewTestCase):
             )
 
         # Search all the decks that are legal on the Exalts format
-        filter = "?legality=exalts"
+        filter = "?legality=nuc"
         with self.subTest(filter=filter):
             response = self.client.get(url + filter)
-            query_decks = Deck.objects.filter(is_public=True, is_exalts_legal=True)
+            query_decks = Deck.objects.filter(is_public=True, is_nuc_legal=True)
             self.assertQuerySetEqual(
                 query_decks, response.context["deck_list"], ordered=False
             )

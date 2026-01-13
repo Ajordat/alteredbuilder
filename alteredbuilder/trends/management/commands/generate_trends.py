@@ -67,7 +67,7 @@ class Command(BaseCommand):
         # Extract the faction trends
         faction_trends = (
             Deck.objects.filter(
-                Q(is_standard_legal=True) | Q(is_exalts_legal=True),
+                Q(is_standard_legal=True) | Q(is_nuc_legal=True),
                 modified_at__date__gte=self.start_lapse,
                 is_public=True,
             )
@@ -93,7 +93,7 @@ class Command(BaseCommand):
         # promotional cards and the Kickstarter
         hero_trends = (
             Deck.objects.filter(
-                Q(is_standard_legal=True) | Q(is_exalts_legal=True),
+                Q(is_standard_legal=True) | Q(is_nuc_legal=True),
                 modified_at__date__gte=self.start_lapse,
                 is_public=True,
             )
@@ -139,7 +139,7 @@ class Command(BaseCommand):
 
         # Base filters that will be used recurrently when retrieving the cards
         legality_filter = [
-            Q(deck__is_standard_legal=True) | Q(deck__is_exalts_legal=True)
+            Q(deck__is_standard_legal=True) | Q(deck__is_nuc_legal=True)
         ]
         base_filter = {
             "deck__modified_at__date__gte": self.start_lapse,
@@ -264,7 +264,7 @@ class Command(BaseCommand):
         """
 
         # Base filters that will be used recurrently when retrieving the decks
-        legality_filter = [Q(is_standard_legal=True) | Q(is_exalts_legal=True)]
+        legality_filter = [Q(is_standard_legal=True) | Q(is_nuc_legal=True)]
         base_filter = {
             "is_public": True,
         }

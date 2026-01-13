@@ -422,13 +422,13 @@
     {% endif %}
                     </tr>
                     <tr>
-                        <td>{% translate "ExAlts Championship" %}</td>
-    {% if deck.is_exalts_legal %}
+                        <td>{% translate "No Uniques" %}</td>
+    {% if deck.is_nuc_legal %}
                         <td>{% translate "Yes" %}</td>
                         <td></td>
     {% else %}
                         <td>{% translate "No" %}</td>
-                        <td>{% translate "This mode works the same as Standard but replaces the 3 uniques with 3 extra rares." %}</td>
+                        <td>{% translate "This mode works the same as Standard but forbids the use of unique cards." %}</td>
     {% endif %}
                     </tr>
                     <tr>

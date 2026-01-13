@@ -29,7 +29,7 @@
     {% endif %} {% endcomment %}
     {% if deck.is_standard_legal %}
                 <i class="fa-regular fa-circle-check shadowed"></i>
-    {% elif deck.is_exalts_legal or deck.is_doubles_legal %}
+    {% elif deck.is_nuc_legal or deck.is_doubles_legal %}
                 <i class="fa-regular fa-circle-check exalts-legal shadowed"></i>
     {% else %}
                 <i class="fa-regular fa-circle-xmark shadowed"></i>

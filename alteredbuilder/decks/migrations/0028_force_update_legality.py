@@ -2,7 +2,7 @@ from collections import defaultdict
 
 from django.db import migrations
 
-from decks.game_modes import ExaltsChampionship
+from decks.game_modes import NoUniqueChampionship
 
 
 def update_deck_legality(deck) -> None:
@@ -47,7 +47,7 @@ def update_deck_legality(deck) -> None:
         "repeats_same_unique": repeats_same_unique,
     }
 
-    error_list = ExaltsChampionship.validate(**data)
+    error_list = NoUniqueChampionship.validate(**data)
     deck.is_exalts_legal = not bool(error_list)
 
 

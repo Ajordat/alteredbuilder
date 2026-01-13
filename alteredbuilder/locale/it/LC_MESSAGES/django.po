@@ -2,12 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-31 22:03+0200\n"
+"POT-Creation-Date: 2026-01-13 22:44+0100\n"
 "PO-Revision-Date: 2024-10-27 12:11+0000\n"
 "Last-Translator: Ajordat <alexjortri@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/altered-tcg-"
@@ -63,7 +63,7 @@ msgstr "La carta '%(reference)s' non esiste"
 msgid "Multiple heroes present in the decklist"
 msgstr "Più eroi presenti nella lista del mazzo"
 
-#: decks/deck_utils.py:293 decks/deck_utils.py:501
+#: decks/deck_utils.py:293 decks/deck_utils.py:505
 msgid "reference"
 msgstr "riferimento"
 
@@ -87,15 +87,15 @@ msgstr "sottotipo"
 msgid "trigger"
 msgstr "innesco"
 
-#: decks/deck_utils.py:376 decks/deck_utils.py:506
+#: decks/deck_utils.py:376 decks/deck_utils.py:510
 msgid "query"
 msgstr "consultazione"
 
-#: decks/deck_utils.py:483
+#: decks/deck_utils.py:487
 msgid "user"
 msgstr "utente"
 
-#: decks/deck_utils.py:492
+#: decks/deck_utils.py:496
 msgid "hero"
 msgstr "eroe"
 
@@ -113,7 +113,7 @@ msgstr ""
 "Ogni riga deve contenere una quantità (1, 2 o 3) e un riferimento della "
 "carta."
 
-#: decks/forms.py:92 decks/templates/decks/card_list.html:292
+#: decks/forms.py:92 decks/templates/decks/card_list.html:321
 #: decks/templates/decks/tooltips/card_query_search.html:36
 msgid "Card Reference"
 msgstr "Riferimento della carta"
@@ -126,55 +126,61 @@ msgstr ""
 "Valore non valido. Il riferimento dovrebbe essere simile a "
 "'ALT_COREKS_B_OR_21_U_2139'."
 
-#: decks/game_modes.py:106 decks/migrations/0069_force_update_legality.py:88
+#: decks/game_modes.py:113 decks/migrations/0069_force_update_legality.py:88
 #: decks/migrations/0073_force_update_legality.py:95
 #, python-format
 msgid "Exceeds maximum faction count (%(count)s)"
 msgstr "Supera il numero massimo di fazioni (%(count)s)"
 
-#: decks/game_modes.py:110 decks/migrations/0069_force_update_legality.py:92
+#: decks/game_modes.py:117 decks/migrations/0069_force_update_legality.py:92
 #: decks/migrations/0073_force_update_legality.py:99
 #, python-format
 msgid "Does not have enough cards (%(count)s)"
 msgstr "Non ha abbastanza carte (%(count)s)"
 
-#: decks/game_modes.py:114 decks/migrations/0069_force_update_legality.py:96
+#: decks/game_modes.py:121 decks/migrations/0069_force_update_legality.py:96
 #: decks/migrations/0073_force_update_legality.py:103
 #, python-format
 msgid "Exceeds the maximum RARE card count (%(count)s)"
 msgstr "Supera il conteggio massimo di carte RARE (%(count)s)"
 
-#: decks/game_modes.py:118 decks/migrations/0069_force_update_legality.py:100
+#: decks/game_modes.py:125 decks/migrations/0069_force_update_legality.py:100
 #: decks/migrations/0073_force_update_legality.py:107
 #, python-format
 msgid "Exceeds the maximum UNIQUE card count (%(count)s)"
 msgstr "Supera il conteggio massimo di carte UNICHE (%(count)s)"
 
-#: decks/game_modes.py:122 decks/migrations/0069_force_update_legality.py:104
+#: decks/game_modes.py:129
+#, fuzzy, python-format
+#| msgid "Exceeds the maximum RARE card count (%(count)s)"
+msgid "Exceeds the maximum EXALTED card count (%(count)s)"
+msgstr "Supera il conteggio massimo di carte RARE (%(count)s)"
+
+#: decks/game_modes.py:133 decks/migrations/0069_force_update_legality.py:104
 #: decks/migrations/0073_force_update_legality.py:111
 msgid "There's more than a single copy of a UNIQUE card"
 msgstr "Esiste più di una singola copia di una carta UNICA"
 
-#: decks/game_modes.py:125 decks/migrations/0069_force_update_legality.py:107
+#: decks/game_modes.py:136 decks/migrations/0069_force_update_legality.py:107
 #: decks/migrations/0073_force_update_legality.py:114
 #, python-format
 msgid "Exceeds the maximum card count for any given family (%(count)s)"
 msgstr ""
 "Supera il numero massimo di carte per una determinata famiglia (%(count)s)"
 
-#: decks/game_modes.py:128 decks/migrations/0069_force_update_legality.py:110
+#: decks/game_modes.py:139 decks/migrations/0069_force_update_legality.py:110
 #: decks/migrations/0073_force_update_legality.py:117
 msgid "Missing hero"
 msgstr "Eroe mancante"
 
-#: decks/game_modes.py:130 decks/migrations/0069_force_update_legality.py:112
+#: decks/game_modes.py:141 decks/migrations/0069_force_update_legality.py:112
 #: decks/migrations/0073_force_update_legality.py:119
 #, fuzzy, python-format
 #| msgid "Exceeds maximum faction count (%(count)s)"
 msgid "Does not reach the minimum faction count (%(count)s)"
 msgstr "Supera il numero massimo di fazioni (%(count)s)"
 
-#: decks/game_modes.py:134 decks/migrations/0073_force_update_legality.py:123
+#: decks/game_modes.py:145 decks/migrations/0073_force_update_legality.py:123
 msgid "Contains a banned card"
 msgstr ""
 
@@ -191,7 +197,7 @@ msgid "Search by name or use advanced filters (hc<4 t:hand)"
 msgstr "Cerca per nome o utilizza i filtri avanzati"
 
 #: decks/templates/decks/card_list.html:60
-#: decks/templates/decks/card_list.html:257
+#: decks/templates/decks/card_list.html:286
 #: decks/templates/decks/deck_list.html:35
 #: decks/templates/decks/deck_list.html:130
 #: decks/templates/decks/own_deck_list.html:36
@@ -214,7 +220,7 @@ msgid "Factions"
 msgstr "Fazioni"
 
 #: decks/templates/decks/card_list.html:90
-#: decks/templates/decks/card_list.html:146
+#: decks/templates/decks/card_list.html:147
 #: decks/templates/decks/deck_detail.html:340
 msgid "Rarity"
 msgstr "Rarità"
@@ -234,127 +240,136 @@ msgstr "Rara"
 msgid "Unique"
 msgstr "Unica"
 
-#: decks/templates/decks/card_list.html:97
+#: decks/templates/decks/card_list.html:94
+msgid "Exalted"
+msgstr ""
+
+#: decks/templates/decks/card_list.html:98
 #: decks/templates/decks/deck_detail.html:370
 msgid "Type"
 msgstr "Tipo"
 
-#: decks/templates/decks/card_list.html:98
+#: decks/templates/decks/card_list.html:99
 msgid "Character"
 msgstr "Personaggio"
 
-#: decks/templates/decks/card_list.html:99
-#: decks/templates/decks/card_list.html:219
+#: decks/templates/decks/card_list.html:100
+#: decks/templates/decks/card_list.html:248
 #: decks/templates/decks/deck_detail.html:214
 #: decks/templates/decks/deck_detail.html:259
 #: decks/templates/decks/embed_deck.html:187
 #: decks/templates/decks/snippets/public_deck_table.html:17
-#: profiles/templates/profiles/userprofile_detail.html:106
+#: profiles/templates/profiles/userprofile_detail.html:110
 msgid "Hero"
 msgstr "Eroe"
 
-#: decks/templates/decks/card_list.html:100
+#: decks/templates/decks/card_list.html:101
 #, fuzzy
 #| msgid "Permanent"
 msgid "Landmark Permanent"
 msgstr "Permanente"
 
-#: decks/templates/decks/card_list.html:101
+#: decks/templates/decks/card_list.html:102
 #, fuzzy
 #| msgid "Permanent"
 msgid "Expedition Permanent"
 msgstr "Permanente"
 
-#: decks/templates/decks/card_list.html:102
+#: decks/templates/decks/card_list.html:103
 msgid "Spell"
 msgstr "Incantesimo"
 
-#: decks/templates/decks/card_list.html:106
+#: decks/templates/decks/card_list.html:107
 msgid "Set"
 msgstr "Set"
 
-#: decks/templates/decks/card_list.html:116
+#: decks/templates/decks/card_list.html:117
 #: decks/templates/decks/deck_list.html:71
 #: decks/templates/decks/own_deck_list.html:72
 msgid "Other"
 msgstr "Altro"
 
-#: decks/templates/decks/card_list.html:127
+#: decks/templates/decks/card_list.html:128
 msgid "Search"
 msgstr "Cerca"
 
-#: decks/templates/decks/card_list.html:139
 #: decks/templates/decks/card_list.html:140
+#: decks/templates/decks/card_list.html:141
 #: decks/templates/decks/deck_list.html:102
 #: decks/templates/decks/own_deck_list.html:103
 #: decks/templates/decks/snippets/deck_order_filter.html:9
 msgid "Sort by"
 msgstr "Ordina per"
 
-#: decks/templates/decks/card_list.html:143
+#: decks/templates/decks/card_list.html:144
 msgid "Default"
 msgstr "Predefinito"
 
-#: decks/templates/decks/card_list.html:144
+#: decks/templates/decks/card_list.html:145
 msgid "Name A-Z"
 msgstr "Nome dalla A alla Z"
 
-#: decks/templates/decks/card_list.html:145
+#: decks/templates/decks/card_list.html:146
 msgid "Name Z-A"
 msgstr "Nome dalla Z alla A"
 
-#: decks/templates/decks/card_list.html:147
+#: decks/templates/decks/card_list.html:148
 msgid "Hand Cost ASC"
 msgstr "Costo dalla mano ASC"
 
-#: decks/templates/decks/card_list.html:148
+#: decks/templates/decks/card_list.html:149
 msgid "Hand Cost DESC"
 msgstr "Costo dalla mano DESC"
 
-#: decks/templates/decks/card_list.html:149
+#: decks/templates/decks/card_list.html:150
 msgid "Reserve Cost ASC"
 msgstr "Costo dalla Riserva ASC"
 
-#: decks/templates/decks/card_list.html:150
+#: decks/templates/decks/card_list.html:151
 msgid "Reserve Cost DESC"
 msgstr "Costo dalla Riserva DESC"
 
-#: decks/templates/decks/card_list.html:155
+#: decks/templates/decks/card_list.html:156
 msgid "Magic"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:168
+#: decks/templates/decks/card_list.html:174
+#, python-format
+msgid "Unavailable until %(set_name)s releases"
+msgstr ""
+
+#: decks/templates/decks/card_list.html:196
 msgid "No cards found with the current filter."
 msgstr "Nessuna carta trovata con il filtro attuale."
 
-#: decks/templates/decks/card_list.html:184
+#: decks/templates/decks/card_list.html:212
 #: decks/templates/decks/collection.html:11 templates/base.html:82
 msgid "My Collection"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:189
+#: decks/templates/decks/card_list.html:217
 msgid "New deck"
 msgstr "Nuovo mazzo"
 
-#: decks/templates/decks/card_list.html:191
-#: decks/templates/decks/card_list.html:192 templates/base.html:66
+#: decks/templates/decks/card_list.html:219
+#: decks/templates/decks/card_list.html:220 templates/base.html:66
 msgid "Decks"
 msgstr "Mazzi"
 
-#: decks/templates/decks/card_list.html:203
+#: decks/templates/decks/card_list.html:231
 msgid "Deck Name"
 msgstr "Nome del mazzo:"
 
-#: decks/templates/decks/card_list.html:205 templates/base.html:90
+#: decks/templates/decks/card_list.html:233 templates/base.html:90
 msgid "Deck"
 msgstr "Mazzo"
 
-#: decks/templates/decks/card_list.html:243
-#: decks/templates/decks/card_list.html:342
+#: decks/templates/decks/card_list.html:272
+#: decks/templates/decks/card_list.html:374
 msgid "Save"
 msgstr "Salva"
 
-#: decks/templates/decks/card_list.html:262
+#: decks/templates/decks/card_list.html:291
 #: decks/templates/decks/deck_list.html:135
 #: decks/templates/decks/own_deck_list.html:136
 #: decks/templates/decks/tooltips/card_query_search.html:6
@@ -362,17 +377,17 @@ msgstr "Salva"
 msgid "Advanced search filters"
 msgstr "Filtri di ricerca avanzati"
 
-#: decks/templates/decks/card_list.html:265
+#: decks/templates/decks/card_list.html:294
 #: decks/templates/decks/tooltips/card_query_search.html:9
 msgid "Hand cost:"
 msgstr "Costo dalla mano:"
 
-#: decks/templates/decks/card_list.html:266
-#: decks/templates/decks/card_list.html:271
-#: decks/templates/decks/card_list.html:276
-#: decks/templates/decks/card_list.html:281
-#: decks/templates/decks/card_list.html:286
-#: decks/templates/decks/card_list.html:291
+#: decks/templates/decks/card_list.html:295
+#: decks/templates/decks/card_list.html:300
+#: decks/templates/decks/card_list.html:305
+#: decks/templates/decks/card_list.html:310
+#: decks/templates/decks/card_list.html:315
+#: decks/templates/decks/card_list.html:320
 #: decks/templates/decks/deck_list.html:139
 #: decks/templates/decks/deck_list.html:144
 #: decks/templates/decks/deck_list.html:149
@@ -387,11 +402,11 @@ msgstr "Costo dalla mano:"
 msgid "Operators:"
 msgstr "Operatori:"
 
-#: decks/templates/decks/card_list.html:267
-#: decks/templates/decks/card_list.html:272
-#: decks/templates/decks/card_list.html:277
-#: decks/templates/decks/card_list.html:287
-#: decks/templates/decks/card_list.html:292
+#: decks/templates/decks/card_list.html:296
+#: decks/templates/decks/card_list.html:301
+#: decks/templates/decks/card_list.html:306
+#: decks/templates/decks/card_list.html:316
+#: decks/templates/decks/card_list.html:321
 #: decks/templates/decks/deck_list.html:140
 #: decks/templates/decks/deck_list.html:145
 #: decks/templates/decks/deck_list.html:150
@@ -405,25 +420,25 @@ msgstr "Operatori:"
 msgid "Value:"
 msgstr "Valore:"
 
-#: decks/templates/decks/card_list.html:267
-#: decks/templates/decks/card_list.html:272
+#: decks/templates/decks/card_list.html:296
+#: decks/templates/decks/card_list.html:301
 #: decks/templates/decks/tooltips/card_query_search.html:11
 #: decks/templates/decks/tooltips/card_query_search.html:16
 msgid "Number"
 msgstr "Numero"
 
-#: decks/templates/decks/card_list.html:270
+#: decks/templates/decks/card_list.html:299
 #: decks/templates/decks/tooltips/card_query_search.html:14
 msgid "Reserve cost:"
 msgstr "Costo dalla riserva:"
 
-#: decks/templates/decks/card_list.html:275
+#: decks/templates/decks/card_list.html:304
 #: decks/templates/decks/tooltips/card_query_search.html:19
 msgid "Abilities:"
 msgstr "Abilità:"
 
-#: decks/templates/decks/card_list.html:277
-#: decks/templates/decks/card_list.html:287
+#: decks/templates/decks/card_list.html:306
+#: decks/templates/decks/card_list.html:316
 #: decks/templates/decks/deck_list.html:145
 #: decks/templates/decks/deck_list.html:150
 #: decks/templates/decks/own_deck_list.html:141
@@ -433,27 +448,27 @@ msgstr "Abilità:"
 msgid "Single word"
 msgstr "Singola parola"
 
-#: decks/templates/decks/card_list.html:280
+#: decks/templates/decks/card_list.html:309
 #: decks/templates/decks/tooltips/card_query_search.html:24
 msgid "Triggers:"
 msgstr "Innesco"
 
-#: decks/templates/decks/card_list.html:282
+#: decks/templates/decks/card_list.html:311
 #: decks/templates/decks/tooltips/card_query_search.html:26
 msgid "Values:"
 msgstr "Valori:"
 
-#: decks/templates/decks/card_list.html:285
+#: decks/templates/decks/card_list.html:314
 #: decks/templates/decks/tooltips/card_query_search.html:29
 msgid "Subtypes:"
 msgstr "Sottotipi:"
 
-#: decks/templates/decks/card_list.html:290
+#: decks/templates/decks/card_list.html:319
 #: decks/templates/decks/tooltips/card_query_search.html:34
 msgid "Reference:"
 msgstr "Riferimento:"
 
-#: decks/templates/decks/card_list.html:295
+#: decks/templates/decks/card_list.html:324
 #: decks/templates/decks/deck_list.html:153
 #: decks/templates/decks/own_deck_list.html:144
 #: decks/templates/decks/tooltips/card_query_search.html:39
@@ -461,17 +476,17 @@ msgstr "Riferimento:"
 msgid "Examples:"
 msgstr "Esempi:"
 
-#: decks/templates/decks/card_list.html:298
+#: decks/templates/decks/card_list.html:327
 #: decks/templates/decks/tooltips/card_query_search.html:42
 msgid "Search bureaucrat cards that cost <span class=\"altered-3\"></span>:"
 msgstr "Cercare carte burocrate che costano <span class=\"altered-3\"></span>:"
 
-#: decks/templates/decks/card_list.html:299
+#: decks/templates/decks/card_list.html:328
 #: decks/templates/decks/tooltips/card_query_search.html:43
 msgid "st:bureaucrat hc=3"
 msgstr "st:burocrate hc=3"
 
-#: decks/templates/decks/card_list.html:301
+#: decks/templates/decks/card_list.html:330
 #: decks/templates/decks/tooltips/card_query_search.html:45
 #, fuzzy
 #| msgid ""
@@ -484,12 +499,12 @@ msgstr ""
 "Cerca carte con abilità `ancorato` che abbiano un costo dalla riserva di "
 "<span class=\"altered-3\"></span> o meno:"
 
-#: decks/templates/decks/card_list.html:302
+#: decks/templates/decks/card_list.html:331
 #: decks/templates/decks/tooltips/card_query_search.html:46
 msgid "training"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:304
+#: decks/templates/decks/card_list.html:333
 #: decks/templates/decks/tooltips/card_query_search.html:48
 #, fuzzy
 #| msgid ""
@@ -504,12 +519,12 @@ msgstr ""
 "class=\"altered-hand\"></span>) e che possono essere scartate (<span "
 "class=\"altered-discard\"></span>):"
 
-#: decks/templates/decks/card_list.html:305
+#: decks/templates/decks/card_list.html:334
 #: decks/templates/decks/tooltips/card_query_search.html:49
 msgid "OR"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:307
+#: decks/templates/decks/card_list.html:336
 #: decks/templates/decks/tooltips/card_query_search.html:51
 msgid ""
 "Search cards with `anchor` abilities that cost <span class=\"altered-3\"></"
@@ -518,12 +533,12 @@ msgstr ""
 "Cerca carte con abilità `ancorato` che abbiano un costo dalla riserva di "
 "<span class=\"altered-3\"></span> o meno:"
 
-#: decks/templates/decks/card_list.html:308
+#: decks/templates/decks/card_list.html:337
 #: decks/templates/decks/tooltips/card_query_search.html:52
 msgid "anchor"
 msgstr "ancorato"
 
-#: decks/templates/decks/card_list.html:310
+#: decks/templates/decks/card_list.html:339
 #: decks/templates/decks/tooltips/card_query_search.html:54
 msgid ""
 "Search cards that trigger when played from the hand (<span class=\"altered-"
@@ -534,16 +549,16 @@ msgstr ""
 "class=\"altered-hand\"></span>) e che possono essere scartate (<span "
 "class=\"altered-discard\"></span>):"
 
-#: decks/templates/decks/card_list.html:313
+#: decks/templates/decks/card_list.html:342
 #: decks/templates/decks/tooltips/card_query_search.html:57
 msgid "Search the card with the reference `ALT_COREKS_B_OR_21_U_2139`:"
 msgstr "Cercare la carta con il riferimento `ALT_COREKS_B_OR_21_U_2139`:"
 
-#: decks/templates/decks/card_list.html:330
+#: decks/templates/decks/card_list.html:359
 msgid "Manage Collection"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:341
+#: decks/templates/decks/card_list.html:373
 #: decks/templates/decks/deck_detail.html:613
 #: decks/templates/decks/deck_detail.html:636
 #: decks/templates/decks/deck_detail.html:655
@@ -552,17 +567,17 @@ msgstr ""
 msgid "Close"
 msgstr "Chiudi"
 
-#: decks/templates/decks/card_list.html:353
+#: decks/templates/decks/card_list.html:385
 #, fuzzy
 #| msgid "Card Reference"
 msgid "Card recommender"
 msgstr "Riferimento della carta"
 
-#: decks/templates/decks/card_list.html:359
+#: decks/templates/decks/card_list.html:391
 msgid "Hi! Start your deck by selecting a hero and adding some cards!"
 msgstr ""
 
-#: decks/templates/decks/card_list.html:362
+#: decks/templates/decks/card_list.html:394
 msgid "Thinking about your deck..."
 msgstr ""
 
@@ -704,7 +719,7 @@ msgstr "Permanenti"
 #: decks/templates/decks/snippets/card_table.html:11
 #: decks/templates/decks/snippets/public_deck_table.html:14
 #: decks/templates/forms/submit_deck_metadata.html:9
-#: profiles/templates/profiles/userprofile_detail.html:105
+#: profiles/templates/profiles/userprofile_detail.html:109
 #: trends/templates/trends/home.html:61
 msgid "Name"
 msgstr "Nome"
@@ -806,14 +821,21 @@ msgid "No"
 msgstr "No"
 
 #: decks/templates/decks/deck_detail.html:425
+#: decks/templates/decks/deck_list.html:58
+#: decks/templates/decks/own_deck_list.html:59
 #: decks/templates/decks/tooltips/legality.html:7
-msgid "ExAlts Championship"
-msgstr "ExAlts Championship"
+#, fuzzy
+#| msgid "Unique"
+msgid "No Uniques"
+msgstr "Unica"
 
 #: decks/templates/decks/deck_detail.html:431
+#, fuzzy
+#| msgid ""
+#| "This mode works the same as Standard but replaces the 3 uniques with 3 "
+#| "extra rares."
 msgid ""
-"This mode works the same as Standard but replaces the 3 uniques with 3 extra "
-"rares."
+"This mode works the same as Standard but forbids the use of unique cards."
 msgstr ""
 "Questa modalità funziona come la Standard, ma sostituisce le 3 carte uniche "
 "con 3 carte rare extra."
@@ -994,11 +1016,6 @@ msgstr "Cerca per nome o utilizza i filtri avanzati"
 msgid "Legality"
 msgstr "Legalità"
 
-#: decks/templates/decks/deck_list.html:58
-#: decks/templates/decks/own_deck_list.html:59
-msgid "ExAlts"
-msgstr "ExAlts"
-
 #: decks/templates/decks/deck_list.html:64
 #: decks/templates/decks/own_deck_list.html:65
 #: decks/templates/decks/snippets/public_deck_table.html:15
@@ -1036,7 +1053,7 @@ msgstr "Filtri"
 #: decks/templates/decks/own_deck_list.html:106
 #: decks/templates/decks/snippets/deck_order_filter.html:10
 #: decks/templates/decks/snippets/public_deck_table.html:23
-#: profiles/templates/profiles/userprofile_detail.html:107
+#: profiles/templates/profiles/userprofile_detail.html:111
 msgid "Last updated"
 msgstr "Ultimo aggiornamento"
 
@@ -1179,13 +1196,13 @@ msgid ""
 "the card's reference. For example:"
 msgstr ""
 
-#: decks/templates/decks/legality_changelog.html:36
+#: decks/templates/decks/legality_changelog.html:39
 #, fuzzy
 #| msgid "Legality"
 msgid "Deck Legality"
 msgstr "Legalità"
 
-#: decks/templates/decks/legality_changelog.html:38
+#: decks/templates/decks/legality_changelog.html:41
 msgid ""
 "Stay up to date with the latest changes in card legality for the game. This "
 "section provides information on cards that have been suspended, or had their "
@@ -1193,52 +1210,56 @@ msgid ""
 "builder, knowing which cards are allowed in official formats is essential."
 msgstr ""
 
-#: decks/templates/decks/legality_changelog.html:41
+#: decks/templates/decks/legality_changelog.html:44
 msgid ""
 "Read this article (<a href=\"https://www.altered.gg/news/trial-by-frost-"
 "season-patch\" target=\"_blank\">Trial by Frost Season Patch</a>) to "
 "understand the reasoning behind banning or suspending cards."
 msgstr ""
 
-#: decks/templates/decks/legality_changelog.html:44
+#: decks/templates/decks/legality_changelog.html:47
 #, python-format
 msgid "Last updated: %(last_update_date)s"
 msgstr ""
 
-#: decks/templates/decks/legality_changelog.html:55
+#: decks/templates/decks/legality_changelog.html:58
 msgid "Season Patches"
 msgstr ""
 
-#: decks/templates/decks/legality_changelog.html:63
+#: decks/templates/decks/legality_changelog.html:66
 msgid "Article:"
 msgstr ""
 
-#: decks/templates/decks/legality_changelog.html:65
+#: decks/templates/decks/legality_changelog.html:68
 #, fuzzy
 #| msgid "Announcements:"
 msgid "Announcement date:"
 msgstr "Annunci:"
 
-#: decks/templates/decks/legality_changelog.html:70
+#: decks/templates/decks/legality_changelog.html:73
 msgid "Erratas"
 msgstr ""
 
-#: decks/templates/decks/legality_changelog.html:76
+#: decks/templates/decks/legality_changelog.html:79
 msgid "Previous:"
 msgstr ""
 
-#: decks/templates/decks/legality_changelog.html:78
+#: decks/templates/decks/legality_changelog.html:81
 #, fuzzy
 #| msgid "Update password"
 msgid "Updated:"
 msgstr "Aggiorna password"
 
-#: decks/templates/decks/legality_changelog.html:87
+#: decks/templates/decks/legality_changelog.html:90
 msgid "Suspensions"
 msgstr ""
 
-#: decks/templates/decks/legality_changelog.html:102
+#: decks/templates/decks/legality_changelog.html:105
 msgid "Watchlist"
+msgstr ""
+
+#: decks/templates/decks/legality_changelog.html:120
+msgid "Bans"
 msgstr ""
 
 #: decks/templates/decks/new_deck.html:6 decks/templates/decks/new_deck.html:7
@@ -1377,11 +1398,11 @@ msgstr "Mana"
 msgid "No %(type)ss"
 msgstr "Nessun %(type)ss"
 
-#: decks/templates/decks/snippets/collection_individual_set.html:11
+#: decks/templates/decks/snippets/collection_individual_set.html:12
 msgid "Breakdown of owned cards by rarity"
 msgstr ""
 
-#: decks/templates/decks/snippets/collection_individual_set.html:213
+#: decks/templates/decks/snippets/collection_individual_set.html:244
 msgid ""
 "The count and chances of unique cards is considered by name. Therefore two "
 "different unique cards with the same name count as a single copy of it."
@@ -1457,15 +1478,19 @@ msgstr "Invia"
 msgid "Visibility"
 msgstr "Visibilità"
 
-#: decks/views/card_list.py:214
+#: decks/views/card_list.py:229
 msgid "Promo"
 msgstr ""
 
-#: decks/views/card_list.py:215
+#: decks/views/card_list.py:230
 msgid "Alternate Art"
 msgstr ""
 
-#: decks/views/card_list.py:216
+#: decks/views/card_list.py:231
+msgid "Kickstarter Edition"
+msgstr ""
+
+#: decks/views/card_list.py:232
 #, fuzzy
 #| msgid "Import a Deck"
 msgid "In my collection"
@@ -1686,16 +1711,27 @@ msgstr "Distribuzione delle fazioni"
 msgid "Bio"
 msgstr "Bio"
 
+#: profiles/templates/profiles/userprofile_detail.html:88
+msgid ""
+"This account is suspected from being spam. Therefore, it's been disabled."
+msgstr ""
+
 #: profiles/templates/profiles/userprofile_detail.html:90
+msgid ""
+"If you're the owner of this account and it's been incorrectly flagged, get "
+"in touch with us using the links on the footer."
+msgstr ""
+
+#: profiles/templates/profiles/userprofile_detail.html:94
 msgid "Empty bio"
 msgstr "Nessuna bio"
 
-#: profiles/templates/profiles/userprofile_detail.html:97
+#: profiles/templates/profiles/userprofile_detail.html:101
 #, python-format
 msgid "Decks by %(username)s"
 msgstr "Mazzi di %(username)s"
 
-#: profiles/templates/profiles/userprofile_detail.html:142
+#: profiles/templates/profiles/userprofile_detail.html:146
 msgid "No decks found"
 msgstr "Nessun mazzo trovato"
 
@@ -2041,22 +2077,22 @@ msgid ""
 "and bring more people into our growing platform!"
 msgstr ""
 
-#: templates/collaborators.html:114
+#: templates/collaborators.html:115
 msgid "Bug reports"
 msgstr ""
 
-#: templates/collaborators.html:116
+#: templates/collaborators.html:117
 msgid ""
 "A heartfelt thanks to those who have taken the time to report bugs and "
 "issues. Their feedback helps us improve the platform and deliver a smoother "
 "experience for everyone!"
 msgstr ""
 
-#: templates/collaborators.html:135
+#: templates/collaborators.html:136
 msgid "Feature Requests"
 msgstr ""
 
-#: templates/collaborators.html:137
+#: templates/collaborators.html:138
 msgid ""
 "We're always looking for ways to improve and enhance your experience. If you "
 "have ideas or suggestions for new features that could make the platform "
@@ -2065,7 +2101,7 @@ msgid ""
 "helps shape the future of the project!"
 msgstr ""
 
-#: templates/collaborators.html:140
+#: templates/collaborators.html:141
 msgid ""
 "Here's a list of people who gave us feedback on desired features and ended "
 "up being implemented:"
@@ -2295,6 +2331,19 @@ msgstr "Carte popolari"
 msgid "Trending decks"
 msgstr "Mazzi di tendenza"
 
+#~ msgid ""
+#~ "This mode works the same as Standard but replaces the 3 uniques with 3 "
+#~ "extra rares."
+#~ msgstr ""
+#~ "Questa modalità funziona come la Standard, ma sostituisce le 3 carte "
+#~ "uniche con 3 carte rare extra."
+
+#~ msgid "ExAlts Championship"
+#~ msgstr "ExAlts Championship"
+
+#~ msgid "ExAlts"
+#~ msgstr "ExAlts"
+
 #~ msgid "Home"
 #~ msgstr "Home"
 
@@ -2304,12 +2353,12 @@ msgstr "Mazzi di tendenza"
 #~ msgstr "Collaboratori"
 
 #~ msgid ""
-#~ "Image provided by <a href=\"https://discordapp.com/"
-#~ "users/134357944178442240\">Tristan</a>, check <a href=\"https://"
+#~ "Image provided by <a href=\"https://discordapp.com/users/"
+#~ "134357944178442240\">Tristan</a>, check <a href=\"https://"
 #~ "uniquesranking.onrender.com/\">Uniques Ranking</a>!"
 #~ msgstr ""
-#~ "Immagine fornita da <a href=\"https://discordapp.com/"
-#~ "users/134357944178442240\">Tristan</a>, consulta <a href=\"https://"
+#~ "Immagine fornita da <a href=\"https://discordapp.com/users/"
+#~ "134357944178442240\">Tristan</a>, consulta <a href=\"https://"
 #~ "uniquesranking.onrender.com/\">Uniques Ranking</a>!"
 
 #, fuzzy

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-23 21:44+0200\n"
+"POT-Creation-Date: 2026-01-13 18:59+0100\n"
 "PO-Revision-Date: 2024-09-26 17:16+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/altered-tcg-"
@@ -19,7 +19,20 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.8-dev\n"
 
-#: decks/static/js/deck-detail.js:39 decks/static/js/deck-detail.js:186
+#: decks/static/js/collection-API.js:17 decks/static/js/collection-API.js:31
+#: decks/static/js/collection-API.js:43
+msgid "Failed to save collection remotely."
+msgstr "Fallo al guardar la colección en el servidor."
+
+#: decks/static/js/collection-API.js:29
+msgid "Login to save your collection remotely."
+msgstr "Entra para guardar tu colección en el servidor."
+
+#: decks/static/js/collection-API.js:45
+msgid "Saved collection remotely."
+msgstr "Se ha guardado la colección en el servidor."
+
+#: decks/static/js/deck-detail.js:39 decks/static/js/deck-detail.js:196
 msgid "Link copied into clipboard!"
 msgstr "¡Enlace copiado en el portapapeles!"
 
@@ -35,27 +48,27 @@ msgstr "¡QR descargado!"
 msgid "QR copied into clipboard!"
 msgstr "¡QR copiado en el portapapeles!"
 
-#: decks/static/js/deck-detail.js:110
+#: decks/static/js/deck-detail.js:120
 msgid "HTML iframe copied into clipboard!"
 msgstr "¡Código HTML copiado en el portapapeles!"
 
-#: decks/static/js/deck-detail.js:136
+#: decks/static/js/deck-detail.js:146
 msgid "Unable to delete card from deck"
 msgstr "No se puede eliminar la carta del mazo"
 
-#: decks/static/js/deck-detail.js:158
+#: decks/static/js/deck-detail.js:168
 msgid "Card reference copied into clipboard!"
 msgstr "¡Referencia copiada en el portapapeles!"
 
-#: decks/static/js/deck-detail.js:177
+#: decks/static/js/deck-detail.js:187
 msgid "Cannot create a private link"
 msgstr "No se puede crear un enlace privado"
 
-#: decks/static/js/deck-detail.js:209
+#: decks/static/js/deck-detail.js:219
 msgid "Unable to upvote the comment"
 msgstr "No se pudo votar el comentario"
 
-#: decks/static/js/deck-detail.js:246
+#: decks/static/js/deck-detail.js:256
 msgid "Unable to delete the comment"
 msgstr "No se pudo eliminar el comentario"
 
@@ -67,39 +80,45 @@ msgstr "No se encontró el mazo con ID \"%(code)s\""
 msgid "Input the Deck's ID or its URL."
 msgstr "Introduce el ID o la URL del mazo."
 
-#: decks/static/js/deck-sidebar.js:203
+#: decks/static/js/deck-sidebar.js:216
 msgid "Common"
 msgid_plural "Commons"
 msgstr[0] "Común"
 msgstr[1] "Comunes"
 
-#: decks/static/js/deck-sidebar.js:205
+#: decks/static/js/deck-sidebar.js:218
 msgid "Rare"
 msgid_plural "Rares"
 msgstr[0] "Rara"
 msgstr[1] "Raras"
 
-#: decks/static/js/deck-sidebar.js:207
+#: decks/static/js/deck-sidebar.js:220
 msgid "Unique"
 msgid_plural "Uniques"
 msgstr[0] "Única"
 msgstr[1] "Únicas"
 
-#: decks/static/js/deck-sidebar.js:234
+#: decks/static/js/deck-sidebar.js:222
+msgid "Exalted"
+msgid_plural "Exalted"
+msgstr[0] ""
+msgstr[1] ""
+
+#: decks/static/js/deck-sidebar.js:249
 msgid "Card"
 msgid_plural "Cards"
 msgstr[0] "Carta"
 msgstr[1] "Cartas"
 
-#: decks/static/js/deck-sidebar.js:574
+#: decks/static/js/deck-sidebar.js:599
 msgid "The deck must have a name"
 msgstr "El mazo necesita un nombre"
 
-#: decks/static/js/deck-sidebar.js:579
+#: decks/static/js/deck-sidebar.js:604
 msgid "There are no changes to save"
 msgstr "No hay cambios que guardar"
 
-#: decks/static/js/deck-sidebar.js:608
+#: decks/static/js/deck-sidebar.js:633
 msgid "Unable to update deck"
 msgstr "No se puede actualizar el mazo"
 

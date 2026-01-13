@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-23 21:44+0200\n"
+"POT-Creation-Date: 2026-01-13 18:59+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,20 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: decks/static/js/deck-detail.js:39 decks/static/js/deck-detail.js:186
+#: decks/static/js/collection-API.js:17 decks/static/js/collection-API.js:31
+#: decks/static/js/collection-API.js:43
+msgid "Failed to save collection remotely."
+msgstr ""
+
+#: decks/static/js/collection-API.js:29
+msgid "Login to save your collection remotely."
+msgstr ""
+
+#: decks/static/js/collection-API.js:45
+msgid "Saved collection remotely."
+msgstr ""
+
+#: decks/static/js/deck-detail.js:39 decks/static/js/deck-detail.js:196
 msgid "Link copied into clipboard!"
 msgstr "Lien copié dans le presse-papier !"
 
@@ -34,29 +47,29 @@ msgstr "Code QR téléchargé !"
 msgid "QR copied into clipboard!"
 msgstr "QR copié dans le presse-papiers !"
 
-#: decks/static/js/deck-detail.js:110
+#: decks/static/js/deck-detail.js:120
 #, fuzzy
 #| msgid "Link copied into clipboard!"
 msgid "HTML iframe copied into clipboard!"
 msgstr "Lien copié dans le presse-papier !"
 
-#: decks/static/js/deck-detail.js:136
+#: decks/static/js/deck-detail.js:146
 msgid "Unable to delete card from deck"
 msgstr "Impossible de supprimer la carte du deck"
 
-#: decks/static/js/deck-detail.js:158
+#: decks/static/js/deck-detail.js:168
 msgid "Card reference copied into clipboard!"
 msgstr "Référence de la carte copiée dans le presse-papiers !"
 
-#: decks/static/js/deck-detail.js:177
+#: decks/static/js/deck-detail.js:187
 msgid "Cannot create a private link"
 msgstr "Impossible de créer un lien privé"
 
-#: decks/static/js/deck-detail.js:209
+#: decks/static/js/deck-detail.js:219
 msgid "Unable to upvote the comment"
 msgstr "Impossible de noter le commentaire en haut de page"
 
-#: decks/static/js/deck-detail.js:246
+#: decks/static/js/deck-detail.js:256
 msgid "Unable to delete the comment"
 msgstr "Impossible de supprimer le commentaire"
 
@@ -68,39 +81,45 @@ msgstr "Le deck avec l'ID « %(code)s » n'a pas été trouvé"
 msgid "Input the Deck's ID or its URL."
 msgstr "Saisissez l'identifiant du deck ou son URL."
 
-#: decks/static/js/deck-sidebar.js:203
+#: decks/static/js/deck-sidebar.js:216
 msgid "Common"
 msgid_plural "Commons"
 msgstr[0] "Commune"
 msgstr[1] "Communes"
 
-#: decks/static/js/deck-sidebar.js:205
+#: decks/static/js/deck-sidebar.js:218
 msgid "Rare"
 msgid_plural "Rares"
 msgstr[0] "Rare"
 msgstr[1] "Rares"
 
-#: decks/static/js/deck-sidebar.js:207
+#: decks/static/js/deck-sidebar.js:220
 msgid "Unique"
 msgid_plural "Uniques"
 msgstr[0] "Unique"
 msgstr[1] "Uniques"
 
-#: decks/static/js/deck-sidebar.js:234
+#: decks/static/js/deck-sidebar.js:222
+msgid "Exalted"
+msgid_plural "Exalted"
+msgstr[0] ""
+msgstr[1] ""
+
+#: decks/static/js/deck-sidebar.js:249
 msgid "Card"
 msgid_plural "Cards"
 msgstr[0] "Carte"
 msgstr[1] "Cartes"
 
-#: decks/static/js/deck-sidebar.js:574
+#: decks/static/js/deck-sidebar.js:599
 msgid "The deck must have a name"
 msgstr "Le deck doit avoir un nom"
 
-#: decks/static/js/deck-sidebar.js:579
+#: decks/static/js/deck-sidebar.js:604
 msgid "There are no changes to save"
 msgstr "Il n'y a pas de modifications à sauvegarder"
 
-#: decks/static/js/deck-sidebar.js:608
+#: decks/static/js/deck-sidebar.js:633
 msgid "Unable to update deck"
 msgstr "Impossible de mettre à jour le deck"
 

@@ -167,7 +167,7 @@ class HomeView(TemplateView):
         # Retrieve the trending decks
         deck_trends = (
             Deck.objects.filter(is_public=True)
-            .filter(Q(is_standard_legal=True) | Q(is_exalts_legal=True))
+            .filter(Q(is_standard_legal=True) | Q(is_nuc_legal=True))
             .filter(
                 Q(trend__date=self.current_date)
                 & Q(trend__hero=hero)

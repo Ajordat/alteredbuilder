@@ -44,7 +44,7 @@ function searchCards(e) {
     }
 
     // Retrieve the LEGALITY filters
-    let legality = parseFilter(["Standard", "ExAlts", "Doubles", "Draft"]);
+    let legality = parseFilter(["Standard", "NoUniques", "Doubles", "Draft"]);
     if (legality.length > 0) {
         params.append("legality", legality.join(","));
     }
