@@ -432,6 +432,20 @@
     {% endif %}
                     </tr>
                     <tr>
+                        <td>{% translate "Singleton" %}</td>
+    {% if deck.is_singleton_legal %}
+                        <td>{% translate "Yes" %}</td>
+                        <td></td>
+    {% else %}
+                        <td>{% translate "No" %}</td>
+                        <td>
+        {% for error in legality.singleton.errors %}
+                            {{ error }}<br>
+        {% endfor %}
+                        </td>
+    {% endif %}
+                    </tr>
+                    <tr>
                         <td>{% translate "Doubles" %}</td>
     {% if deck.is_doubles_legal %}
                         <td>{% translate "Yes" %}</td>

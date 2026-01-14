@@ -250,6 +250,8 @@ class Deck(models.Model, HitCountMixin):
     draft_legality_errors = models.JSONField(default=list, blank=True)
     is_nuc_legal = models.BooleanField(null=True)
     is_doubles_legal = models.BooleanField(null=True)
+    is_singleton_legal = models.BooleanField(null=True)
+    singleton_legality_errors = models.JSONField(default=list, blank=True)
 
     love_count = models.PositiveIntegerField(default=0)
     comment_count = models.PositiveIntegerField(default=0)

@@ -15,6 +15,7 @@ from config.utils import get_altered_api_locale, get_user_agent
 from decks.game_modes import (
     DraftGameMode,
     GameMode,
+    Singleton,
     StandardGameMode,
     update_deck_legality,
 )
@@ -160,7 +161,7 @@ def get_deck_details(deck: Deck) -> dict:
 
     # This dictionary will hold all metadata based on the card's type by using the
     # type as a key
-    type_stats = {
+    type_stats: dict[Card.Type, list[list, int]] = {
         Card.Type.CHARACTER: [[], 0],
         Card.Type.SPELL: [[], 0],
         Card.Type.LANDMARK_PERMANENT: [[], 0],
@@ -226,6 +227,12 @@ def get_deck_details(deck: Deck) -> dict:
                 "is_legal": deck.is_standard_legal,
                 "errors": GameMode.ErrorCode.from_list_to_user(
                     deck.standard_legality_errors, StandardGameMode
+                ),
+            },
+            "singleton": {
+                "is_legal": deck.is_singleton_legal,
+                "errors": GameMode.ErrorCode.from_list_to_user(
+                    deck.singleton_legality_errors, Singleton
                 ),
             },
             "draft": {
@@ -535,6 +542,8 @@ def filter_by_legality(qs: QuerySet[Deck], legality: str) -> QuerySet[Deck]:
             qs = qs.filter(is_draft_legal=True)
         if "nuc" in legality:
             qs = qs.filter(is_nuc_legal=True)
+        if "sing" in legality:
+            qs = qs.filter(is_singleton_legal=True)
         if "doubles" in legality:
             qs = qs.filter(is_doubles_legal=True)
 
