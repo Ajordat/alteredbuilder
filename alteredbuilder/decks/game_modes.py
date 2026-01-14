@@ -279,7 +279,9 @@ class Singleton(GameMode):
             error_list.append(cls.ErrorCode.ERR_EXCEED_CARD_COUNT)
         if data["repeats_same_unique"]:
             error_list.append(cls.ErrorCode.ERR_UNIQUE_IS_REPEATED)
-        if data["unique_count"] > cls.UNIQUE_COUNT_BY_HERO[data["hero"]]:
+        if data["unique_count"] > cls.UNIQUE_COUNT_BY_HERO.get(
+            data["hero"], StandardGameMode.MAX_UNIQUE_COUNT
+        ):
             error_list.append(cls.ErrorCode.ERR_EXCEED_UNIQUE_COUNT)
         if not data["has_only_single_copies"]:
             error_list.append(cls.ErrorCode.ERR_CONTAINS_MORE_THAN_ONE_COPY)
@@ -329,7 +331,7 @@ def update_deck_legality(deck: Deck) -> None:
         card_families.append(family_tuple)
 
     data = {
-        "hero": deck.hero.get_family_code(),
+        "hero": deck.hero.get_family_code() if deck.hero else None,
         "faction_count": len(factions),
         "total_count": total_count,
         "rare_count": rare_count,
