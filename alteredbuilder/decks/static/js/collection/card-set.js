@@ -88,7 +88,7 @@ class CardSet {
     }
     isHero(nif) {
         nif = parseInt(nif);
-        return (1 <= nif && nif <= 3) || nif === 65;
+        return [1, 2, 3, 65, 85].includes(nif);
     }
     isCommon(rarity) {
         return rarity == "C";
