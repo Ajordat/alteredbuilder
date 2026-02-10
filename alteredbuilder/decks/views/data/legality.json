@@ -1,6 +1,84 @@
 {
-    "last_update": "2025-09-16",
+    "last_update": "2026-02-10",
     "patches": [
+        {
+            "effective_date": "2026-02-12",
+            "article": {
+                "link": "https://www.altered.gg/en-us/news/seeds-of-unity-season-patch",
+                "title": "Seeds of Unity Season Patch",
+                "date": "2026-02-10"
+            },
+            "erratas": [
+                {
+                    "name": "Sigismar & Wingspan",
+                    "link": "https://www.altered.gg/en-us/news/seeds-of-unity-season-patch#widget0_subwidget3",
+                    "previous": "At Noon &mdash; Create an <strong>Ordis Recruit 1/1/1</strong> Soldier token in your Hero Expedition.",
+                    "updated": "At Noon &mdash; Create an <strong>Ordis Recruit 1/1/1</strong> Soldier token in your Hero Expedition.<br>Ignore my ability during the first Day."
+                }
+            ],
+            "suspensions": {
+                "add": [
+                    {
+                        "name": "Tiny Jinn (Common and Bravos Rare)",
+                        "link": "https://www.altered.gg/en-us/news/seeds-of-unity-season-patch#widget1_subwidget0"
+                    },
+                    {
+                        "name": "Haven Seiringar (Common and Bravos Rare)",
+                        "link": "https://www.altered.gg/en-us/news/seeds-of-unity-season-patch#widget1_subwidget0"
+                    },
+                    {
+                        "name": "Dr. Frankenstein (Axiom Rare)",
+                        "link": "https://www.altered.gg/en-us/news/seeds-of-unity-season-patch#widget2_subwidget0"
+                    },
+                    {
+                        "name": "The Grems (Common)",
+                        "link": "https://www.altered.gg/en-us/news/seeds-of-unity-season-patch#widget2_subwidget0"
+                    },
+                    {
+                        "name": "Restocking Station (Common & Bravos Rare)",
+                        "link": "https://www.altered.gg/en-us/news/seeds-of-unity-season-patch#widget2_subwidget0"
+                    },
+                    {
+                        "name": "Celebration Day (Ordis & Yzmir Rare)",
+                        "link": "https://www.altered.gg/en-us/news/seeds-of-unity-season-patch#widget3_subwidget0"
+                    }
+                ],
+                "stay": [
+                    {
+                        "name": "Baba Yaga (Ordis Rare)",
+                        "link": "https://www.altered.gg/news/whispers-from-the-maze-season-patch#widget0_subwidget6"
+                    },
+                    {
+                        "name": "Bugfix (Common & Axiom Rare)",
+                        "link": "https://www.altered.gg/en-us/news/skybound-odyssey-season-patch#widget0_subwidget5"
+                    }
+                ]
+            },
+            "watchlist": {
+                "add": [
+                    {
+                        "name": "Counting Sheep"
+                    },
+                    {
+                        "name": "Ouroboros, Lyra Bastion"
+                    },
+                    {
+                        "name": "Multi-Anchoring Uniques"
+                    }
+                ],
+                "stay": [
+                    {
+                        "name": "Treyst & Rossum"
+                    }
+                ]
+            },
+            "banned": [
+                {
+                    "name": "Moonlight Jellyfish (all Uniques, all factions)",
+                    "link": "https://www.altered.gg/en-us/news/skybound-odyssey-season-patch#widget0_subwidget8"
+                }
+            ]
+        },
         {
             "effective_date": "2025-12-17",
             "article": {
@@ -23,7 +101,7 @@
             "watchlist": {
                 "add": [
                     {
-                        "name": "Dr Frankenstein (Axiom Rare)"
+                        "name": "Dr. Frankenstein (Axiom Rare)"
                     },
                     {
                         "name": "Haven Seiringar (Bravos Common)"
