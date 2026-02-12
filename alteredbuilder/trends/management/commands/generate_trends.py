@@ -12,10 +12,11 @@ from decks.models import Card, CardInDeck, Deck, Set
 from trends.models import CardTrend, DeckTrend, FactionTrend, HeroTrend, UserTrend
 
 
-DEFAULT_TIME_LAPSE = 7
+DEFAULT_TIME_LAPSE = 14
 CARD_RANKING_LIMIT = 10
 DECK_RANKING_LIMIT = 10
 USER_RANKING_LIMIT = 10
+OLDEST_TRENDING_DECK = 120
 
 
 class Command(BaseCommand):
@@ -26,7 +27,7 @@ class Command(BaseCommand):
     days.
     """
 
-    help = "Generates statistics for the past X (default=7) days"
+    help = "Generates statistics for the past X (default=14) days"
     version = "1.0.0"
 
     def add_arguments(self, parser: CommandParser) -> None:
@@ -269,6 +270,7 @@ class Command(BaseCommand):
         legality_filter = [Q(is_standard_legal=True) | Q(is_nuc_legal=True)]
         base_filter = {
             "is_public": True,
+            "modified_at__date__gte": localdate() - timedelta(days=OLDEST_TRENDING_DECK),
         }
 
         # Extract the sorted list of Decks based on the hits created in the time lapse
