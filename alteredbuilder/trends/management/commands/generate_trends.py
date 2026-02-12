@@ -105,13 +105,17 @@ class Command(BaseCommand):
 
         # Create a HeroTrend record for each hero
         for record in hero_trends:
-            hero = Card.objects.filter(
-                type=Card.Type.HERO,
-                name=record["hero_name"],
-                set__is_main_set=True,
-                is_promo=False,
-                is_alt_art=False,
-            ).order_by("set__release_date").first()
+            hero = (
+                Card.objects.filter(
+                    type=Card.Type.HERO,
+                    name=record["hero_name"],
+                    set__is_main_set=True,
+                    is_promo=False,
+                    is_alt_art=False,
+                )
+                .order_by("set__release_date")
+                .first()
+            )
 
             HeroTrend.objects.update_or_create(
                 hero=hero,
@@ -138,9 +142,7 @@ class Command(BaseCommand):
         """
 
         # Base filters that will be used recurrently when retrieving the cards
-        legality_filter = [
-            Q(deck__is_standard_legal=True) | Q(deck__is_nuc_legal=True)
-        ]
+        legality_filter = [Q(deck__is_standard_legal=True) | Q(deck__is_nuc_legal=True)]
         base_filter = {
             "deck__modified_at__date__gte": self.start_lapse,
             "deck__is_public": True,

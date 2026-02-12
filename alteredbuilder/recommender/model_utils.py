@@ -56,10 +56,11 @@ class RecommenderHelper:
             cards = (
                 Card.objects.annotate(release_date=F("set__release_date"))
                 .filter(
-                    faction=faction, rarity__in=[Card.Rarity.COMMON, Card.Rarity.RARE]
+                    faction=faction,
+                    rarity__in=[Card.Rarity.COMMON, Card.Rarity.RARE],
+                    is_legal=True, is_main_set=True
                 )
                 .exclude(type=Card.Type.HERO)
-                .exclude(set__code="COREKS")
                 .exclude(is_alt_art=True)
                 .exclude(is_promo=True)
                 .only("reference", "type")

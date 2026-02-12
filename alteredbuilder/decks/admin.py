@@ -10,6 +10,7 @@ from django.utils.html import format_html
 
 from decks.forms import ChangeDeckOwnerForm
 from decks.models import (
+    BannedCard,
     Card,
     CardInDeck,
     CardPrice,
@@ -182,10 +183,15 @@ class CardAdmin(admin.ModelAdmin):
     list_display = ["reference", "name", "rarity", "faction", "set"]
     search_fields = ["reference", "name"]
     list_display_links = ["reference", "name"]
-    list_filter = ["type", "faction", "rarity", "set"]
+    list_filter = ["type", "faction", "rarity", "set", "is_legal"]
     show_facets = admin.ShowFacets.ALWAYS
     readonly_fields = ["reserve_count", "permanent_count", "power", "mana_cost"]
-    actions = ["change_rarity_to_common", "copy_display_image"]
+    actions = [
+        "change_rarity_to_common",
+        "copy_display_image",
+        "make_legal",
+        "make_illegal",
+    ]
 
     def get_fieldsets(
         self, request: HttpRequest, obj: Card
@@ -284,6 +290,23 @@ class CardAdmin(admin.ModelAdmin):
         )
 
         self.message_user(request, f"{updated} card(s) received a display image")
+
+    @admin.action(description="Make legal")
+    def make_legal(self, request, queryset: QuerySet[Card]):
+        updated = queryset.update(is_legal=True)
+
+        self.message_user(request, f"{updated} card(s) are now legal.")
+
+    @admin.action(description="Ban cards")
+    def make_illegal(self, request, queryset: QuerySet[Card]):
+        updated = queryset.update(is_legal=False)
+
+        self.message_user(request, f"{updated} card(s) have been banned.")
+
+
+@admin.register(BannedCard)
+class CardInDeckAdmin(admin.ModelAdmin):
+    list_display = ["name", "family_name", "faction"]
 
 
 @admin.register(CardInDeck)
