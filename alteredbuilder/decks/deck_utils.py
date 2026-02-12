@@ -20,6 +20,7 @@ from decks.game_modes import (
     update_deck_legality,
 )
 from decks.models import (
+    BannedCard,
     Card,
     CardInDeck,
     CardPrice,
@@ -440,6 +441,12 @@ def import_unique_card(reference: str) -> Card:  # pragma: no cover
         card_dict["echo_effect"] = card_data["elements"]["ECHO_EFFECT"]
 
     card = Card(**card_dict)
+
+    card_code = card.get_card_code()
+    banned_cards = BannedCard.objects.filter(
+        faction=card.faction, family_name__endswith="_U"
+    )
+    card.is_legal = not any([card_code == ban.family_name for ban in banned_cards])
 
     for language, _ in settings.LANGUAGES:  # noqa: F402
         if language == settings.LANGUAGE_CODE:

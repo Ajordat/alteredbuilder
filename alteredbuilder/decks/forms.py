@@ -93,7 +93,7 @@ class CardImportForm(forms.Form):
         max_length=Card._meta.get_field("reference").max_length,
         validators=[
             RegexValidator(
-                r"^ALT_[A-Z]{4,6}_(?:B|P|A)_[A-Z]{2}_\d{2}_U_\d+$",
+                r"^ALT_[A-Z]{4,7}_(?:B|P|A)_[A-Z]{2}_\d{2}_U_\d+$",
                 _(
                     "Invalid value. The reference should look similar to 'ALT_COREKS_B_OR_21_U_2139'."
                 ),
