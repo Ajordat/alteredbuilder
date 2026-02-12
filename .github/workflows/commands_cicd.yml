@@ -33,6 +33,7 @@ jobs:
         - update_card_prices
         - refresh_token
         - update_card_pool
+        - calculate_card_legality
         include:
         - cpu: 1000m
           memory: 512Mi
