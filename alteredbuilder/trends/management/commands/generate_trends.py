@@ -12,10 +12,11 @@ from decks.models import Card, CardInDeck, Deck, Set
 from trends.models import CardTrend, DeckTrend, FactionTrend, HeroTrend, UserTrend
 
 
-DEFAULT_TIME_LAPSE = 7
+DEFAULT_TIME_LAPSE = 14
 CARD_RANKING_LIMIT = 10
 DECK_RANKING_LIMIT = 10
 USER_RANKING_LIMIT = 10
+OLDEST_TRENDING_DECK = 120
 
 
 class Command(BaseCommand):
@@ -26,7 +27,7 @@ class Command(BaseCommand):
     days.
     """
 
-    help = "Generates statistics for the past X (default=7) days"
+    help = "Generates statistics for the past X (default=14) days"
     version = "1.0.0"
 
     def add_arguments(self, parser: CommandParser) -> None:
@@ -105,13 +106,17 @@ class Command(BaseCommand):
 
         # Create a HeroTrend record for each hero
         for record in hero_trends:
-            hero = Card.objects.filter(
-                type=Card.Type.HERO,
-                name=record["hero_name"],
-                set__is_main_set=True,
-                is_promo=False,
-                is_alt_art=False,
-            ).order_by("set__release_date").first()
+            hero = (
+                Card.objects.filter(
+                    type=Card.Type.HERO,
+                    name=record["hero_name"],
+                    set__is_main_set=True,
+                    is_promo=False,
+                    is_alt_art=False,
+                )
+                .order_by("set__release_date")
+                .first()
+            )
 
             HeroTrend.objects.update_or_create(
                 hero=hero,
@@ -138,9 +143,7 @@ class Command(BaseCommand):
         """
 
         # Base filters that will be used recurrently when retrieving the cards
-        legality_filter = [
-            Q(deck__is_standard_legal=True) | Q(deck__is_nuc_legal=True)
-        ]
+        legality_filter = [Q(deck__is_standard_legal=True) | Q(deck__is_nuc_legal=True)]
         base_filter = {
             "deck__modified_at__date__gte": self.start_lapse,
             "deck__is_public": True,
@@ -267,6 +270,7 @@ class Command(BaseCommand):
         legality_filter = [Q(is_standard_legal=True) | Q(is_nuc_legal=True)]
         base_filter = {
             "is_public": True,
+            "modified_at__date__gte": localdate() - timedelta(days=OLDEST_TRENDING_DECK),
         }
 
         # Extract the sorted list of Decks based on the hits created in the time lapse

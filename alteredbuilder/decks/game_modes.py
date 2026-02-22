@@ -4,7 +4,7 @@ from enum import StrEnum
 
 from django.utils.translation import gettext_lazy as _
 
-from decks.models import Deck, Card
+from decks.models import CardInDeck, Deck, Card
 
 
 class GameMode(ABC):
@@ -24,13 +24,6 @@ class GameMode(ABC):
     ENFORCE_INDIVIDUAL_UNIQUES: bool = True
     MAX_SAME_FAMILY_CARD_COUNT: int = None
     IS_HERO_MANDATORY: bool = False
-    BANNED_FAMILY_CARDS: list[str, Card.Faction] = [
-        ("AX_58_C", Card.Faction.AXIOM),  # "Bugfix" Axiom Common
-        ("AX_58_R1", Card.Faction.AXIOM),  # "Bugfix" Axiom Rare
-        ("YZ_05_U", Card.Faction.AXIOM),  # "Moonlight Jellyfish" Axiom Unique
-        ("YZ_05_U", Card.Faction.YZMIR),  # "Moonlight Jellyfish" Yzmir Unique
-        ("YZ_11_R2", Card.Faction.ORDIS),  # "Baba Yaga" Ordis Rare
-    ]
 
     @classmethod
     def validate(cls, **data) -> list:
@@ -75,9 +68,7 @@ class GameMode(ABC):
             error_list.append(cls.ErrorCode.ERR_EXCEED_SAME_FAMILY_COUNT)
         if cls.IS_HERO_MANDATORY and not data["has_hero"]:
             error_list.append(cls.ErrorCode.ERR_MISSING_HERO)
-        if len(cls.BANNED_FAMILY_CARDS) > 0 and any(
-            ban in data["card_families"] for ban in cls.BANNED_FAMILY_CARDS
-        ):
+        if data["has_banned_card"]:
             error_list.append(cls.ErrorCode.ERR_CONTAINS_BANNED_CARD)
 
         return error_list
@@ -173,14 +164,6 @@ class GameMode(ABC):
             """
             return [cls(error).to_user(game_mode) for error in error_list]
 
-    @classmethod
-    def get_banned_cards_for_faction(cls, faction: Card.Faction):
-        return [
-            card_code
-            for card_code, _faction in cls.BANNED_FAMILY_CARDS
-            if _faction == faction
-        ]
-
 
 class StandardGameMode(GameMode):
     """Class to represent the Standard game mode."""
@@ -212,7 +195,6 @@ class DraftGameMode(GameMode):
 
     MAX_FACTION_COUNT = 3
     MIN_TOTAL_COUNT = 30
-    BANNED_FAMILY_CARDS = []
 
     @classmethod
     def validate(cls, **data) -> list[GameMode.ErrorCode]:
@@ -285,6 +267,8 @@ class Singleton(GameMode):
             error_list.append(cls.ErrorCode.ERR_EXCEED_UNIQUE_COUNT)
         if not data["has_only_single_copies"]:
             error_list.append(cls.ErrorCode.ERR_CONTAINS_MORE_THAN_ONE_COPY)
+        if data["has_banned_card"]:
+            error_list.append(cls.ErrorCode.ERR_CONTAINS_BANNED_CARD)
 
         return error_list
 
@@ -306,9 +290,11 @@ def update_deck_legality(deck: Deck) -> None:
     family_count = defaultdict(int)
     card_families = []
     has_only_single_copies = True
+    has_banned_card = False
 
-    decklist = deck.cardindeck_set.select_related("card").all()
+    decklist: list[CardInDeck] = deck.cardindeck_set.select_related("card").all()
 
+    cid: CardInDeck
     for cid in decklist:
         total_count += cid.quantity
         if cid.card.rarity == Card.Rarity.RARE:
@@ -329,6 +315,7 @@ def update_deck_legality(deck: Deck) -> None:
         ):
             has_only_single_copies = False
         card_families.append(family_tuple)
+        has_banned_card |= not cid.card.is_legal
 
     data = {
         "hero": deck.hero.get_family_code() if deck.hero else None,
@@ -340,8 +327,8 @@ def update_deck_legality(deck: Deck) -> None:
         "family_count": family_count,
         "has_hero": bool(deck.hero),
         "repeats_same_unique": repeats_same_unique,
-        "card_families": card_families,
         "has_only_single_copies": has_only_single_copies,
+        "has_banned_card": has_banned_card,
     }
 
     error_list = StandardGameMode.validate(**data)

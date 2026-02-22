@@ -79,7 +79,6 @@ def get_next_card(request: HttpRequest) -> JsonResponse:
 
         # Filter cards (cards already in the deck or the max family count has been reached)
         filtered_cards = []
-        banned_cards = StandardGameMode.get_banned_cards_for_faction(faction)
         for card in recommended_cards:
             family_code = "_".join(card.split("_")[:-1])
             if (
@@ -87,8 +86,6 @@ def get_next_card(request: HttpRequest) -> JsonResponse:
                 and decklist_family_codes[family_code]
                 >= StandardGameMode.MAX_SAME_FAMILY_CARD_COUNT
             ):
-                continue
-            if card in banned_cards:
                 continue
             filtered_cards.append(card)
 

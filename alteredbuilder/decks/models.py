@@ -174,6 +174,8 @@ class Card(models.Model):
     is_promo = models.BooleanField(default=False)
     is_alt_art = models.BooleanField(default=False)
 
+    is_legal = models.BooleanField(default=True)
+
     stats = models.JSONField(blank=True, default=dict)
 
     created_at = models.DateTimeField(auto_now_add=True, null=True)
@@ -218,6 +220,12 @@ class Card(models.Model):
                 condition=Q(is_alt_art=False, is_promo=False),
             ),
         ]
+
+
+class BannedCard(models.Model):
+    name = models.CharField()
+    family_name = models.CharField()
+    faction = models.CharField(max_length=2, choices=Card.Faction)
 
 
 class Tag(models.Model):
