@@ -121,7 +121,7 @@ class DeckListView(ListView):
             "name", flat=True
         )
 
-        deck_ids = [deck.pk for deck in context["deck_list"]]
+        deck_ids = [deck.pk for deck in context["deck_list"] if deck.is_standard_legal]
         cards_in_decks = (
             CardInDeck.objects.filter(deck_id__in=deck_ids)
             .select_related("card")
