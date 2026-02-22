@@ -121,7 +121,11 @@ class DeckListView(ListView):
             "name", flat=True
         )
 
-        deck_ids = [deck.pk for deck in context["deck_list"] if deck.is_standard_legal]
+        # Build a mapping of deck ID -> list of {reference, quantity} for collection
+        # availability checking on the frontend
+        deck_ids = [
+            deck.pk for deck in context["deck_list"] if deck.is_standard_legal
+        ]
         cards_in_decks = (
             CardInDeck.objects.filter(deck_id__in=deck_ids)
             .select_related("card")
@@ -132,7 +136,10 @@ class DeckListView(ListView):
             deck_cards.setdefault(deck_id, []).append(
                 {"ref": reference, "qty": quantity}
             )
-        context["deck_cards_json"] = json.dumps(deck_cards)
+        # Pre-serialize per-deck card data for embedding on each deck element
+        context["deck_cards_map"] = {
+            deck_id: json.dumps(cards) for deck_id, cards in deck_cards.items()
+        }
 
         return context
 
