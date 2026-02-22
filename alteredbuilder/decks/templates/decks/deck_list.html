@@ -202,7 +202,6 @@
     </script>
 {% if user.is_authenticated %}
     {{ user.profile.collection|json_script:"user-collection" }}
-    {{ deck_cards_json|json_script:"deck-cards-data" }}
     <script src="{% static 'js/altered-deckfmt.umd.cjs' %}"></script>
     <script src="{% static 'js/collection-API.js' %}"></script>
     <script src="{% static 'js/deck-list-collection.js' %}"></script>
