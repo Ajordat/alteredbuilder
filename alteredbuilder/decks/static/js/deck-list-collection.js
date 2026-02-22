@@ -6,19 +6,6 @@ function markDeckAvailability() {
         return;
     }
 
-    var deckCardsRaw = document.getElementById("deck-cards-data");
-    if (!deckCardsRaw) {
-        return;
-    }
-
-    var deckCards;
-    try {
-        deckCards = JSON.parse(JSON.parse(deckCardsRaw.textContent));
-    } catch (e) {
-        console.error("Failed to parse deck cards data:", e);
-        return;
-    }
-
     var settings = fetchSettings();
 
     // Build collection lookup with mergeSets support (same logic as deck-detail.js)
@@ -40,13 +27,30 @@ function markDeckAvailability() {
         }
     }
 
-    var deckDisplays = document.querySelectorAll(".deck-display[data-deck-id]");
+    var deckDisplays = document.querySelectorAll(".deck-display[data-deck-cards]");
 
     for (var i = 0; i < deckDisplays.length; i++) {
         var deckEl = deckDisplays[i];
-        var deckId = deckEl.getAttribute("data-deck-id");
-        var cards = deckCards[deckId];
+        var badge = deckEl.querySelector(".deck-availability-badge");
 
+        // Skip if already processed
+        if (badge && !badge.classList.contains("d-none")) {
+            continue;
+        }
+
+        var cardsJson = deckEl.getAttribute("data-deck-cards");
+        if (!cardsJson) {
+            continue;
+        }
+
+        var cards;
+        try {
+            cards = JSON.parse(cardsJson);
+        } catch (e) {
+            console.error("Failed to parse deck cards data:", e);
+            continue;
+        }
+        
         if (!cards || cards.length === 0) {
             continue;
         }
@@ -73,7 +77,6 @@ function markDeckAvailability() {
             }
         }
 
-        var badge = deckEl.querySelector(".deck-availability-badge");
         if (badge) {
             badge.classList.remove("d-none");
             if (allAvailable) {
