@@ -67,7 +67,7 @@ function searchCards(e) {
     }
 
     // Retrieve the SET filters
-    let sets = parseFilter(["BTG", "BTG-KS", "TBF", "WFM", "SKY", "SOU"]);
+    let sets = parseFilter(["BTG", "BTG-KS", "TBF", "WFM", "SKY", "SOU", "ROC"]);
     if (sets.length > 0) {
         params.append("set", sets.join(","));
     }
