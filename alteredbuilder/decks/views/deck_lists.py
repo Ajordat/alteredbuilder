@@ -1,3 +1,4 @@
+import json
 from typing import Any
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -12,7 +13,7 @@ from decks.deck_utils import (
     filter_by_tags,
     filter_by_query,
 )
-from decks.models import Deck, LovePoint, Tag
+from decks.models import CardInDeck, Deck, LovePoint, Tag
 from profiles.models import Follow
 
 
@@ -119,6 +120,26 @@ class DeckListView(ListView):
         context["tags"] = Tag.objects.order_by("-type", "pk").values_list(
             "name", flat=True
         )
+
+        # Build a mapping of deck ID -> list of {reference, quantity} for collection
+        # availability checking on the frontend
+        deck_ids = [
+            deck.pk for deck in context["deck_list"] if deck.is_standard_legal
+        ]
+        cards_in_decks = (
+            CardInDeck.objects.filter(deck_id__in=deck_ids)
+            .select_related("card")
+            .values_list("deck_id", "card__reference", "quantity")
+        )
+        deck_cards = {}
+        for deck_id, reference, quantity in cards_in_decks:
+            deck_cards.setdefault(deck_id, []).append(
+                {"ref": reference, "qty": quantity}
+            )
+        # Pre-serialize per-deck card data for embedding on each deck element
+        context["deck_cards_map"] = {
+            deck_id: json.dumps(cards) for deck_id, cards in deck_cards.items()
+        }
 
         return context
 
