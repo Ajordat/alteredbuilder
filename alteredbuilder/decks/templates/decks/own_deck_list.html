@@ -174,7 +174,16 @@
                     element.addEventListener("click", openDeck);
                 });
                 enableTooltips();
+                if (typeof markDeckAvailability === "function") {
+                    markDeckAvailability();
+                }
             }
         });
     </script>
+{% if user.is_authenticated %}
+    {{ user.profile.collection|json_script:"user-collection" }}
+    <script src="{% static 'js/altered-deckfmt.umd.cjs' %}"></script>
+    <script src="{% static 'js/collection-API.js' %}"></script>
+    <script src="{% static 'js/deck-list-collection.js' %}"></script>
+{% endif %}
 {% endblock %}
